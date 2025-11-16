@@ -1,0 +1,51 @@
+company:
+  legal_name: "Strategickhaos DAO LLC / Valoryield Engine"
+  structure: "Limited Liability Company"
+  management: "Member-Managed"
+  domicile_state: "Texas"
+  formation_jurisdiction: "Wyoming"
+  formation_date: "2025-06-25"
+  dissolution_date: null
+
+contact:
+  principal_address:
+    street: "1216 S Fredonia St"
+    city: "Longview"
+    state: "TX"
+    zip: "75602 - 2544"
+  mailing_address:
+    street: "1216 S Fredonia St"
+    city: "Longview"
+    state: "TX" 
+    zip: "75602 - 2544"
+  email: "domenic.garza@snhu.edu"
+  phone: "+1 346-263-2887"
+  fax: "none"
+  website: null
+
+operations:
+  purpose_statement: "To provide private investigation, cybersecurity, and security consulting services, including research, OSINT, red-team analysis, and lawful investigative support."
+  naics_code: "561611"
+  primary_service: "Private investigation and cybersecurity services including background checks, OSINT, digital forensics, and vulnerability assessments for individuals and businesses."
+  classifications:
+    - "Investigation Services"
+    - "Cybersecurity Consulting" 
+    - "Security Services"
+    - "Research and Compliance"
+  credentials:
+    founder_orcid: "0009-0005-2996-3526"
+    founder_twic: "Active (TSA/DHS)"
+
+compliance:
+  legal_actions: false
+  regulatory_status: "Good standing"
+  conduct_affirmation: "No criminal, civil, or regulatory actions pending or historical."
+
+generated:
+  by: "generate_dao_record.sh (hardened)"
+  timestamp: "2025-11-16T11:34:26Z"
+  model: "deterministic-template-v1"
+  source: "Harbor Compliance Profile + Manual Verification"
+  script_version: "1.0"
+  checksums:
+    sha256: "636b1eaed78655de528f9d260686788c51f05453c220fca6a0f0327646706dfc"

@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.alignment.txt .
+RUN pip install --no-cache-dir -r requirements.alignment.txt
+
+# Copy monitoring scripts
+COPY interpretability_monitor.py .
+COPY eval_redteam.py .
+COPY ai_constitution.yaml .
+
+# Create log directory
+RUN mkdir -p /app/logs
+
+# Expose monitoring port
+EXPOSE 8080
+
+# Health check endpoint
+COPY healthcheck.py .
+
+# Start alignment monitor
+CMD ["python", "interpretability_monitor.py", "--daemon"]

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  alignment-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.alignment
+    container_name: cloudos-alignment-monitor
+    ports:
+      - "8090:8080"
+    environment:
+      - MONITOR_INTERVAL=30
+      - ALERT_THRESHOLD=0.7
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./alignment_logs:/app/logs
+      - ./alignment_config.json:/app/config.json:ro
+    networks:
+      - cloudos-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  cloudos-network:
+    external: true

@@ -1,0 +1,46 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Contradiction Engine - Revenue Metrics",
+    "tags": ["contradictions", "revenue", "strategickhaos"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Privacy vs Personalization",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "logs_uploaded_total == 0",
+            "legendFormat": "Zero Logs Policy"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "fixed", "fixedColor": "green" },
+            "unit": "bool"
+          }
+        },
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0}
+      },
+      {
+        "id": 2, 
+        "title": "Speed vs Security - Login Latency",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, login_duration_seconds_bucket)",
+            "legendFormat": "p99 Login Time"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "seconds",
+            "max": 2.0
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4}
+      }
+    ]
+  }
+}

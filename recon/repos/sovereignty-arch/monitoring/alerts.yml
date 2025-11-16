@@ -1,0 +1,173 @@
+# Prometheus Alerting Rules for Strategickhaos Sovereignty Architecture
+# Critical alerts for Discord bot, webhooks, and AI agent failures
+
+groups:
+  - name: discord_bot_alerts
+    rules:
+      - alert: DiscordBotDown
+        expr: up{job="discord-bot"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: discord-bot
+        annotations:
+          summary: "Discord bot is down"
+          description: "Discord bot has been down for more than 2 minutes. Check container logs and token validity."
+
+      - alert: DiscordBotHighErrorRate
+        expr: rate(discord_api_errors_total[5m]) > 0.1
+        for: 1m
+        labels:
+          severity: warning
+          service: discord-bot
+        annotations:
+          summary: "High Discord API error rate"
+          description: "Discord bot error rate is {{ $value }} errors/sec over the last 5 minutes."
+
+      - alert: DiscordRateLimitHit
+        expr: discord_rate_limit_hits_total > 0
+        for: 0m
+        labels:
+          severity: warning
+          service: discord-bot
+        annotations:
+          summary: "Discord rate limit hit"
+          description: "Discord bot has hit rate limits. Consider implementing backoff strategies."
+
+  - name: webhook_alerts
+    rules:
+      - alert: EventGatewayDown
+        expr: up{job="event-gateway"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: event-gateway
+        annotations:
+          summary: "Event gateway is down"
+          description: "GitHub webhook gateway has been down for more than 1 minute."
+
+      - alert: WebhookAuthenticationFailures
+        expr: rate(webhook_auth_failures_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: event-gateway
+        annotations:
+          summary: "High webhook authentication failure rate"
+          description: "Webhook HMAC authentication failures: {{ $value }} failures/sec. Check GitHub webhook secret."
+
+      - alert: WebhookProcessingLatency
+        expr: histogram_quantile(0.95, rate(webhook_processing_duration_seconds_bucket[5m])) > 5
+        for: 3m
+        labels:
+          severity: warning
+          service: event-gateway
+        annotations:
+          summary: "High webhook processing latency"
+          description: "95th percentile webhook processing time is {{ $value }}s, exceeding 5s threshold."
+
+  - name: refinory_ai_alerts
+    rules:
+      - alert: RefinoryAPIDown
+        expr: up{job="refinory-api"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: refinory-api
+        annotations:
+          summary: "Refinory AI API is down"
+          description: "Refinory AI orchestration API has been down for more than 2 minutes."
+
+      - alert: ExpertTaskFailureRate
+        expr: rate(refinory_expert_task_failures_total[10m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: refinory-api
+        annotations:
+          summary: "High AI expert task failure rate"
+          description: "AI expert task failure rate is {{ $value }} failures/sec over 10 minutes."
+
+      - alert: ArchitectureRequestBacklog
+        expr: refinory_pending_requests > 10
+        for: 5m
+        labels:
+          severity: warning
+          service: refinory-api
+        annotations:
+          summary: "High architecture request backlog"
+          description: "{{ $value }} architecture requests are pending processing."
+
+  - name: infrastructure_alerts
+    rules:
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: redis
+        annotations:
+          summary: "Redis is down"
+          description: "Redis cache/message queue is down, affecting bot performance."
+
+      - alert: PostgreSQLDown
+        expr: up{job="postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: postgres
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL database is down, affecting Refinory data persistence."
+
+      - alert: VaultSealed
+        expr: vault_core_unsealed == 0
+        for: 0m
+        labels:
+          severity: critical
+          service: vault
+        annotations:
+          summary: "Vault is sealed"
+          description: "HashiCorp Vault is sealed and cannot serve secrets."
+
+      - alert: QdrantDown
+        expr: up{job="qdrant"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          service: qdrant
+        annotations:
+          summary: "Qdrant vector database is down"
+          description: "Qdrant vector database for AI embeddings is down."
+
+  - name: system_alerts
+    rules:
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is above 85%: {{ $value }}%"
+
+      - alert: HighDiskUsage
+        expr: (1 - (node_filesystem_avail_bytes / node_filesystem_size_bytes)) * 100 > 80
+        for: 2m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High disk usage"
+          description: "Disk usage is above 80%: {{ $value }}%"
+
+      - alert: ContainerRestartLoop
+        expr: rate(docker_container_restarts_total[10m]) * 600 > 5
+        for: 5m
+        labels:
+          severity: warning
+          service: docker
+        annotations:
+          summary: "Container restart loop detected"
+          description: "Container {{ $labels.name }} has restarted {{ $value }} times in 10 minutes."

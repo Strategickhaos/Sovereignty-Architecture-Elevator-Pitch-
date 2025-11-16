@@ -1,0 +1,129 @@
+version: "3.9"
+
+networks:
+  reconnet:
+    driver: bridge
+
+volumes:
+  qdrant_data:
+  embedding_cache:
+
+services:
+  # Vector Database
+  qdrant:
+    image: qdrant/qdrant:v1.11.0
+    container_name: recon-qdrant
+    hostname: qdrant
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - "6333:6333"
+    networks:
+      - reconnet
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # Embedding Service
+  embedder:
+    image: python:3.11-slim
+    container_name: recon-embedder
+    hostname: embedder
+    working_dir: /app
+    environment:
+      - MODEL_CACHE=/cache
+    volumes:
+      - ./recon/ingest:/app
+      - embedding_cache:/cache
+    command: >
+      bash -c "
+      pip install --no-cache-dir sentence-transformers==2.7.0 torch==2.3.0 fastapi==0.104.1 uvicorn==0.24.0 &&
+      python embedder.py
+      "
+    ports:
+      - "8082:8081"
+    networks:
+      - reconnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    restart: unless-stopped
+
+  # Repository Ingestor
+  ingestor:
+    image: python:3.11-slim
+    container_name: recon-ingestor
+    hostname: ingestor
+    working_dir: /app
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - EMBED_URL=http://embedder:8081/embed
+      - COLLECTION=sovereignty-arch
+      - CHUNK_SIZE=400
+      - OVERLAP=60
+      - BATCH_SIZE=32
+    volumes:
+      - ./recon/ingest:/app
+      - ./recon/repos:/repos:ro
+    command: >
+      bash -c "
+      pip install --no-cache-dir -r requirements.txt &&
+      echo 'Waiting for dependencies...' &&
+      sleep 90 &&
+      python ingest.py /repos/sovereignty-arch
+      "
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      embedder:
+        condition: service_healthy
+    networks:
+      - reconnet
+    restart: "no"
+
+  # RAG Retriever API
+  retriever:
+    image: python:3.11-slim
+    container_name: recon-retriever
+    hostname: retriever
+    working_dir: /app
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - COLLECTION=sovereignty-arch
+      - EMBED_URL=http://embedder:8081/embed
+      - MAX_CONTEXT_LENGTH=4000
+      - RELEVANCE_THRESHOLD=0.7
+    volumes:
+      - ./recon/retriever:/app
+    command: >
+      bash -c "
+      pip install --no-cache-dir -r requirements.txt &&
+      echo 'Starting RAG API server...' &&
+      uvicorn api:app --host 0.0.0.0 --port 7000 --workers 1
+      "
+    ports:
+      - "7000:7000"
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      embedder:
+        condition: service_healthy
+    networks:
+      - reconnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7000/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped

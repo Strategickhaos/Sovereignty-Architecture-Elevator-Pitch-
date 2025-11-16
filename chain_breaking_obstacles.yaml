@@ -1,0 +1,215 @@
+bloom_tier: create
+taxonomy: "Chain-Breaking Obstacles of This Era"
+version: 1.0
+generated: "2025-11-16"
+entries:
+  - id: O1
+    name: AI Alignment Drift
+    domain: AI/Autonomy
+    chain_break: "Safety, reliability, governance"
+    drivers: ["emergent behavior", "opaque objectives", "multi-agent pressure"]
+    failure_modes: ["specification gaming", "goal misgeneralization", "deceptive alignment"]
+    mitigation: ["interpretability-first pipelines", "eval red-teaming", "constitutional constraints"]
+  - id: O2
+    name: Model Supply-Chain Poisoning
+    domain: AI/ML Ops
+    chain_break: "Data, weights, tooling trust"
+    drivers: ["open model sprawl", "dependency transitivity", "inadequate SBOMs"]
+    failure_modes: ["dataset backdoors", "pretrained weight trojans", "pipeline side-loading"]
+    mitigation: ["signed artifacts + attestations", "data provenance audits", "air-gapped training"]
+  - id: O3
+    name: Zero-Day Asymmetry
+    domain: Cybersecurity
+    chain_break: "Critical infrastructure continuity"
+    drivers: ["offense-biased economics", "exploit commoditization", "AI-aided recon"]
+    failure_modes: ["mass ransomware", "ICS takeover", "supply-chain escalation"]
+    mitigation: ["memory-safe rewrites", "default isolation", "rapid patch orchestration"]
+  - id: O4
+    name: Deepfake Credibility Collapse
+    domain: Info Integrity
+    chain_break: "Trust, elections, markets"
+    drivers: ["cheap generative media", "real-time voice/vid cloning"]
+    failure_modes: ["panic cascades", "reputation extortion", "fraud spikes"]
+    mitigation: ["content provenance (C2PA)", "liveness checks", "authenticity channels"]
+  - id: O5
+    name: Data Localization Fragmentation
+    domain: Governance/Regulatory
+    chain_break: "Global data flows, R&D velocity"
+    drivers: ["privacy nationalism", "sectoral data regimes"]
+    failure_modes: ["balkanized stacks", "compliance gridlock"]
+    mitigation: ["federated analytics", "privacy-preserving compute", "portable controls"]
+  - id: O6
+    name: Energy-Compute Squeeze
+    domain: Compute/Energy
+    chain_break: "Model scaling, service uptime"
+    drivers: ["GPU demand", "grid constraints", "cooling limits"]
+    failure_modes: ["capacity rationing", "cost shocks", "brownouts"]
+    mitigation: ["efficiency-first models", "scheduling with carbon/price signals", "on-site generation"]
+  - id: O7
+    name: Talent Polarization
+    domain: Labor/Org
+    chain_break: "Execution throughput"
+    drivers: ["AI leverage inequality", "winner-take-most firms"]
+    failure_modes: ["capability cliffs", "brain drain"]
+    mitigation: ["apprenticeship ladders", "tooling equalizers", "open curricula"]
+  - id: O8
+    name: Privacy Erosion via Inference
+    domain: Data/Privacy
+    chain_break: "User trust, legal exposure"
+    drivers: ["linkage attacks", "behavioral telemetry"]
+    failure_modes: ["reidentification", "shadow profiles"]
+    mitigation: ["differential privacy", "minimize/aggregate", "on-device processing"]
+  - id: O9
+    name: Robustness Under Distribution Shift
+    domain: AI Reliability
+    chain_break: "Safety in the wild"
+    drivers: ["nonstationary environments", "long-tail events"]
+    failure_modes: ["silent failure", "feedback loops"]
+    mitigation: ["out-of-distribution detectors", "uncertainty-aware policies", "fallback modes"]
+  - id: O10
+    name: Critical Dependency Concentration
+    domain: Supply/Platforms
+    chain_break: "Resilience, bargaining power"
+    drivers: ["monocloud reliance", "single foundry", "narrow GPU vendors"]
+    failure_modes: ["platform lockout", "export shocks"]
+    mitigation: ["multi-cloud/metal", "diversified fabs", "open standards"]
+  - id: O11
+    name: Legal Grey-Zone Accretion
+    domain: Law/Compliance
+    chain_break: "Go-to-market speed"
+    drivers: ["fast tech, slow law", "overlapping regimes"]
+    failure_modes: ["regretful precedent", "retroactive liability"]
+    mitigation: ["regulatory mapping", "sandboxing", "auditability by design"]
+  - id: O12
+    name: Adversarial Information Ops
+    domain: Geopolitics/InfoSec
+    chain_break: "Civic cohesion"
+    drivers: ["botnets + LLM ops", "microtargeted narratives"]
+    failure_modes: ["polarization spikes", "institutional distrust"]
+    mitigation: ["resilience comms", "authenticity proofs", "bot interdiction"]
+  - id: O13
+    name: Biosurveillance Gap
+    domain: Biosecurity
+    chain_break: "Pandemic readiness"
+    drivers: ["pathogen evolution", "global mobility"]
+    failure_modes: ["silent spread", "health system overload"]
+    mitigation: ["genomic wastewater sensing", "rapid vax platforms", "stockpile logistics"]
+  - id: O14
+    name: Synthetic Bio Misuse
+    domain: Bio/Tech Ethics
+    chain_break: "Dual-use risks"
+    drivers: ["DIY tools", "automation"]
+    failure_modes: ["protocol leakage", "novel pathogen design"]
+    mitigation: ["screening + licensing", "lab air-gaps", "behavioral monitoring"]
+  - id: O15
+    name: Financial System Reflexivity
+    domain: Macro/Markets
+    chain_break: "Stability"
+    drivers: ["algorithmic trading loops", "social sentiment shocks"]
+    failure_modes: ["flash crashes", "credit tightness"]
+    mitigation: ["circuit breakers", "stress tests", "data diversity"]
+  - id: O16
+    name: Climate Tipping Synchrony
+    domain: Climate Risk
+    chain_break: "Food, water, housing"
+    drivers: ["heat extremes", "compound events"]
+    failure_modes: ["crop failure clusters", "migration surges"]
+    mitigation: ["resilient ag", "microgrids", "adaptation finance"]
+  - id: O17
+    name: Critical Mineral Bottlenecks
+    domain: Materials/Industry
+    chain_break: "Energy transition, electronics"
+    drivers: ["rare earth concentration", "slow permitting"]
+    failure_modes: ["price spikes", "supply rationing"]
+    mitigation: ["substitution R&D", "recycling loops", "friendly-shoring"]
+  - id: O18
+    name: Water Stress Urbanization
+    domain: Infrastructure
+    chain_break: "Public health, industry"
+    drivers: ["drought cycles", "population growth"]
+    failure_modes: ["aquifer collapse", "rations/conflict"]
+    mitigation: ["leak analytics", "desal + reuse", "pricing reform"]
+  - id: O19
+    name: Content Authenticity UX Gap
+    domain: Product/UX
+    chain_break: "User trust signals"
+    drivers: ["provenance is invisible", "friction aversion"]
+    failure_modes: ["user apathy", "spam dominance"]
+    mitigation: ["first-class provenance UI", "reputation layers", "cost-of-sending"]
+  - id: O20
+    name: Governance Capture by Complexity
+    domain: Institutions
+    chain_break: "Accountability"
+    drivers: ["technical opacity", "policy lag"]
+    failure_modes: ["rubber-stamp oversight", "vendor dependence"]
+    mitigation: ["capability to regulate", "public-interest tech teams", "open hearings"]
+  - id: O21
+    name: Edge Security Sprawl
+    domain: IoT/OT
+    chain_break: "Attack surface"
+    drivers: ["cheap endpoints", "weak updates"]
+    failure_modes: ["botnet mobilization", "unsafe defaults"]
+    mitigation: ["secure boot/TPM", "managed updates", "network segmentation"]
+  - id: O22
+    name: Human Attention Degradation
+    domain: Cognitive/Wellbeing
+    chain_break: "Learning, quality work"
+    drivers: ["notification economics", "infinite feeds"]
+    failure_modes: ["shallow processing", "burnout"]
+    mitigation: ["attention hygiene", "frictionful design", "bounded feeds"]
+  - id: O23
+    name: Rights-Data Entanglement
+    domain: IP/Data
+    chain_break: "Model legality"
+    drivers: ["ambiguous text/image rights", "jurisdictional splits"]
+    failure_modes: ["injunction risk", "takedown waves"]
+    mitigation: ["curated licensed corpora", "opt-out honoring", "synthetic data gaps"]
+  - id: O24
+    name: Black-Box Compliance
+    domain: Assurance/Audit
+    chain_break: "Certifiability"
+    drivers: ["closed models", "proprietary telemetry gaps"]
+    failure_modes: ["audit failure", "cert delays"]
+    mitigation: ["externalized evals", "test harness APIs", "provable controls"]
+  - id: O25
+    name: Unemployment Friction Mismatch
+    domain: Labor/Economy
+    chain_break: "Transition pain"
+    drivers: ["automation speed", "reskilling lag"]
+    failure_modes: ["regional shocks", "skills mismatch"]
+    mitigation: ["earn-while-learning", "portable benefits", "regional hubs"]
+  - id: O26
+    name: Cognitive Exploit Tooling
+    domain: Safety/HCI
+    chain_break: "User autonomy"
+    drivers: ["dark patterns + AI", "behavioral prediction"]
+    failure_modes: ["compulsive use", "financial harm"]
+    mitigation: ["pattern bans", "choice architecture tests", "default protections"]
+  - id: O27
+    name: Interop Failure Across AI Agents
+    domain: Systems/Standards
+    chain_break: "Coordination"
+    drivers: ["proprietary protocols", "incompatible tool APIs"]
+    failure_modes: ["deadlocks", "silos"]
+    mitigation: ["open agent standards", "capability passports", "simulation suites"]
+  - id: O28
+    name: Secure Collaboration vs. Secrecy
+    domain: Org Design
+    chain_break: "Innovation speed"
+    drivers: ["IP leakage fear", "over-classification"]
+    failure_modes: ["knowledge hoarding", "slow cycles"]
+    mitigation: ["need-to-share defaults", "clean rooms", "rightsized NDA tooling"]
+  - id: O29
+    name: Long-Horizon Evaluation Gap
+    domain: Research Methods
+    chain_break: "Reliability over time"
+    drivers: ["benchmark overfitting", "short eval windows"]
+    failure_modes: ["regression in the wild", "unknown unknowns"]
+    mitigation: ["longitudinal testbeds", "canary cohorts", "post-deploy telemetry"]
+  - id: O30
+    name: Sovereign Tech Fragmentation
+    domain: Geo/Industry
+    chain_break: "Global collaboration"
+    drivers: ["export controls", "standards divergence"]
+    failure_modes: ["duplicated effort", "capability walls"]
+    mitigation: ["bridge standards", "joint research carve-outs", "reciprocal access"]

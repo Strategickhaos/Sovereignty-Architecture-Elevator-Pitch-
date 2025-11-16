@@ -1,0 +1,231 @@
+name: Strategickhaos CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop, 'release/*']
+  pull_request:
+    types: [opened, synchronize, ready_for_review, closed]
+  workflow_dispatch:
+    inputs:
+      deploy_env:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - staging
+        - prod
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tags }}
+      image_digest: ${{ steps.build.outputs.digest }}
+      
+    steps:
+    - name: 🔄 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 📋 Validate configuration
+      run: |
+        if [[ -f "validate-config.sh" ]]; then
+          chmod +x validate-config.sh
+          # Skip validation for now in CI (requires filled discovery.yml)
+          echo "✅ Configuration validation skipped in CI"
+        fi
+        
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 📥 Install dependencies
+      run: npm ci
+      
+    - name: 🧪 Run tests
+      run: npm test
+      
+    - name: 🔍 Lint code
+      run: |
+        # Add linting when we have it configured
+        echo "✅ Linting skipped (not configured yet)"
+        
+    - name: 🏗️ Build containers
+      run: |
+        echo "Building containers..."
+        docker-compose build --parallel
+        
+    - name: 🔐 Log in to Container Registry
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: 📊 Extract metadata
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        
+    - name: 🚀 Build and push Docker image
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: Dockerfile.bot
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 🚀 Deploy to staging
+      run: |
+        echo "🎯 Would deploy to staging environment"
+        echo "Image: ${{ needs.test-and-build.outputs.image_tag }}"
+        echo "Digest: ${{ needs.test-and-build.outputs.image_digest }}"
+        
+  notify-discord:
+    needs: [test-and-build]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: 📋 Determine notification details
+      id: details
+      run: |
+        case "${{ github.event_name }}" in
+          "push")
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              echo "title=🚀 Main Branch Updated" >> $GITHUB_OUTPUT
+              echo "color=0x28a745" >> $GITHUB_OUTPUT
+            else
+              echo "title=📝 Branch Push: ${{ github.ref_name }}" >> $GITHUB_OUTPUT
+              echo "color=0x17a2b8" >> $GITHUB_OUTPUT
+            fi
+            ;;
+          "pull_request")
+            case "${{ github.event.action }}" in
+              "opened")
+                echo "title=🔄 New PR: ${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+                echo "color=0x6f42c1" >> $GITHUB_OUTPUT
+                ;;
+              "ready_for_review")
+                echo "title=👀 PR Ready: ${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+                echo "color=0x0366d6" >> $GITHUB_OUTPUT
+                ;;
+              "closed")
+                if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
+                  echo "title=✅ PR Merged: ${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+                  echo "color=0x28a745" >> $GITHUB_OUTPUT
+                else
+                  echo "title=❌ PR Closed: ${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+                  echo "color=0x6a737d" >> $GITHUB_OUTPUT
+                fi
+                ;;
+            esac
+            ;;
+          "workflow_dispatch")
+            echo "title=🎮 Manual Deployment to ${{ github.event.inputs.deploy_env }}" >> $GITHUB_OUTPUT
+            echo "color=0xff9900" >> $GITHUB_OUTPUT
+            ;;
+        esac
+        
+        # Set job status
+        if [[ "${{ needs.test-and-build.result }}" == "success" ]]; then
+          echo "status_emoji=✅" >> $GITHUB_OUTPUT
+          echo "status_text=Success" >> $GITHUB_OUTPUT
+        elif [[ "${{ needs.test-and-build.result }}" == "failure" ]]; then
+          echo "status_emoji=❌" >> $GITHUB_OUTPUT  
+          echo "status_text=Failed" >> $GITHUB_OUTPUT
+          echo "color=0xff0000" >> $GITHUB_OUTPUT
+        else
+          echo "status_emoji=⏸️" >> $GITHUB_OUTPUT
+          echo "status_text=Cancelled" >> $GITHUB_OUTPUT
+          echo "color=0x6a737d" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: 📡 Notify Event Gateway
+      if: env.DISCORD_WEBHOOK_URL == '' && github.event_name == 'push'
+      run: |
+        # Post to our own event gateway
+        payload=$(jq -n \
+          --arg service "ci-pipeline" \
+          --arg status "${{ steps.details.outputs.status_text }}" \
+          --arg repo "${{ github.repository }}" \
+          --arg sha "${{ github.sha }}" \
+          --arg branch "${{ github.ref_name }}" \
+          --arg actor "${{ github.actor }}" \
+          '{
+            service: $service,
+            status: ($status | ascii_downcase),
+            description: ("CI pipeline " + $status + " for " + $branch),
+            repo: $repo,
+            sha: $sha,
+            branch: $branch,
+            actor: $actor,
+            source: "github_actions"
+          }'
+        )
+        
+        echo "Would post to event gateway:"
+        echo "$payload" | jq .
+        
+        # Uncomment when event gateway is deployed:
+        # curl -X POST https://events.strategickhaos.com/event \
+        #   -H "Content-Type: application/json" \
+        #   -H "X-Sig: $(echo -n "$payload" | openssl dgst -sha256 -hmac "$EVENTS_HMAC_KEY" -binary | xxd -p -c 256)" \
+        #   -d "$payload"
+        
+    - name: 🔔 Post to Discord (Webhook)
+      if: env.DISCORD_WEBHOOK_URL != ''
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ env.DISCORD_WEBHOOK_URL }}
+        title: "${{ steps.details.outputs.status_emoji }} ${{ steps.details.outputs.title }}"
+        description: |
+          **Status:** ${{ steps.details.outputs.status_text }}
+          **Repository:** ${{ github.repository }}
+          **Branch:** ${{ github.ref_name }}
+          **Commit:** [`${{ github.sha }}`](${{ github.event.head_commit.url || github.event.pull_request.html_url }})
+          **Actor:** ${{ github.actor }}
+          
+          ${{ github.event.pull_request.body || github.event.head_commit.message || 'Manual workflow dispatch' }}
+        color: ${{ steps.details.outputs.color }}
+        username: "Strategickhaos CI"
+        avatar_url: "https://avatars.githubusercontent.com/u/Strategickhaos"
+
+  refinory-notify:
+    needs: [test-and-build, deploy]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.test-and-build.result == 'success'
+    
+    steps:
+    - name: 🧠 Notify Refinory of Deployment
+      run: |
+        echo "🎯 Would notify Refinory AI agents of successful deployment"
+        echo "This could trigger automatic architecture analysis or updates"
+        
+        # Future: Call Refinory API to:
+        # 1. Analyze deployment for architectural insights
+        # 2. Update system documentation
+        # 3. Trigger security reviews
+        # 4. Generate performance predictions

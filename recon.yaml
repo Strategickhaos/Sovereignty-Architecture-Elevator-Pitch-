@@ -1,0 +1,163 @@
+version: "1.0"
+name: "strategickhaos_recon_plan"
+run_id: "recon-{{ date:YYYYMMDDHHmmss }}"
+output_dir: "recon_out"
+
+globals:
+  user_agent: "Strategickhaos-Recon/1.0"
+  timeout_sec: 60
+  retries: 2
+  rate_limit_per_host_sec: 1
+  require_disclaimer_text: "INTERNAL DRAFT — NOT LEGAL ADVICE — ATTORNEY REVIEW REQUIRED"
+
+targets:
+  - id: node137_uplink_receipt
+    repo: "https://github.com/Me10101-01/Node137_Uplink_Receipt"
+  - id: dao_compliance
+    repo: "https://github.com/Me10101-01/Strategickhaos-DAO_Compliance"
+  - id: mooreslaw_symbolicai
+    repo: "https://github.com/Me10101-01/MooresLaw-SymbolicAI-Simulator"
+  - id: swarm_site
+    repo: "https://github.com/Strategickhaos-Swarm-Intelligence/strategickhaos.github.io"
+  - id: me_site
+    repo: "https://github.com/Me10101-01/Me10101-01.github.io"
+  - id: strategickhaos_legal
+    repo: "https://github.com/Me10101-01/strategickhaos-legal"
+  - id: cserv_project
+    repo: "https://github.com/Me10101-01/cserv-project"
+
+fetch:
+  method: "git"            # or "curl" for raw URLs; git recommended for full tree + history
+  depth: 1                 # shallow clone
+  include_submodules: false
+  save_archive: true       # tar.gz each repo after clone
+  allowed_hosts:
+    - github.com
+    - raw.githubusercontent.com
+
+artifact_map:
+  # What to collect from each repo
+  - name: "docs_md"
+    patterns: ["**/*.md", "**/*.markdown"]
+  - name: "licenses"
+    patterns: ["LICENSE*", "COPYING*"]
+  - name: "policies"
+    patterns: ["**/*policy*.md", "**/*policy*.pdf", "**/DISCLAIMER*", "**/disclaimer*"]
+  - name: "governance"
+    patterns: ["**/operating_agreement*.md", "**/*article*_authorized_signers*.md", "**/*charter*.md"]
+  - name: "legal_templates"
+    patterns: ["**/*msa*.md", "**/*sow*.md", "**/*nda*.md", "**/*ip_assign*.md", "**/contracts/**/*.md"]
+  - name: "compliance"
+    patterns: ["**/upl*/**/*", "**/*upl*.*", "**/*boi*.*", "**/*sec*.*", "**/*irs*.*"]
+  - name: "code"
+    patterns: ["**/*.py", "**/*.sh", "**/*.yml", "**/*.yaml", "**/*.json", "**/*.toml"]
+  - name: "site_content"
+    patterns: ["**/*.html", "**/*.css", "**/*.js", "**/*.xml"]
+  - name: "data"
+    patterns: ["**/*.csv", "**/*.xlsx", "**/*.ics"]
+
+checks:
+  - id: disclaimer_presence
+    desc: "All policy/legal/governance artifacts include the standard disclaimer"
+    type: "text_required"
+    targets: ["policies", "governance", "legal_templates"]
+    must_contain: ["INTERNAL DRAFT", "NOT LEGAL ADVICE", "ATTORNEY REVIEW REQUIRED"]
+  - id: license_present
+    desc: "Repo must include a LICENSE"
+    type: "file_required"
+    targets: ["licenses"]
+    require_at_least: 1
+  - id: auth_signers_clause
+    desc: "Operating agreement includes Article 7 or equivalent"
+    type: "text_required"
+    targets: ["governance"]
+    must_contain_any: ["Authorized Signers", "Article 7", "sign and submit filings"]
+  - id: upl_keywords
+    desc: "UPL-safe language present"
+    type: "text_required"
+    targets: ["policies", "governance", "compliance"]
+    must_contain_any: ["unauthorized practice of law", "UPL", "not a law firm"]
+  - id: pii_guard
+    desc: "No public EINs, SSNs, or sensitive IDs in public files"
+    type: "regex_forbid"
+    targets: ["docs_md", "policies", "governance", "site_content", "data"]
+    patterns:
+      - "(?:^|[^0-9])(\\d{2}-\\d{7})(?:[^0-9]|$)"      # EIN-like
+      - "(?:^|[^0-9])(\\d{3}-\\d{2}-\\d{4})(?:[^0-9]|$)" # SSN-like
+  - id: crypto_secrets_guard
+    desc: "No leaked API keys/secrets"
+    type: "regex_forbid"
+    targets: ["code", "data"]
+    patterns:
+      - "AKIA[0-9A-Z]{16}"           # AWS key
+      - "AIza[0-9A-Za-z\\-_]{35}"    # Google API
+      - "sk-[A-Za-z0-9]{20,}"        # Generic secret tokens
+  - id: site_footer_disclaimer
+    desc: "Public sites show disclaimer or non-legal-advice notice"
+    type: "text_required"
+    targets: ["site_content"]
+    must_contain_any: ["Not legal advice", "We are not a law firm"]
+
+reports:
+  - id: inventory
+    format: "json"
+    file: "inventory.json"
+    include:
+      - repo
+      - counts_by_artifact
+      - file_list_sample: 50
+  - id: compliance_matrix
+    format: "markdown"
+    file: "compliance_matrix.md"
+    sections:
+      - title: "Checks Summary"
+      - title: "Missing Items"
+      - title: "Flagged Sensitive Data"
+  - id: provenance
+    format: "yaml"
+    file: "proof_of_non_hallucination.yaml"
+    schema:
+      queries:
+        - id: "upl-policy-present"
+          question: "Do repos contain the required UPL disclaimers?"
+          evidence_files: []
+          verdict: "UNKNOWN"
+
+actions:
+  on_fail:
+    - id: block_publish
+      type: "ci_exit"
+      code: 1
+  on_success:
+    - id: sign_artifacts
+      type: "shell"
+      cmd: "find recon_out -type f -print0 | xargs -0 shasum -a 256 > recon_out/SHA256SUMS"
+    - id: gpg_detach_sig
+      type: "shell"
+      cmd: "gpg --batch --yes --detach-sign --armor recon_out/SHA256SUMS"
+
+ci:
+  github_actions:
+    enabled: true
+    workflow_file: ".github/workflows/recon.yml"
+    job_name: "recon"
+    schedule_cron: "0 6 * * *"   # daily 06:00 UTC
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install deps
+        run: pip install ruamel.yaml pygit2 pathspec
+      - name: Run recon
+        run: python scripts/run_recon.py recon.yaml
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: recon_out
+          path: recon_out
+
+notes:
+  - "This plan gathers only public repo data; no legal advice is generated."
+  - "Disclaimers are required on governance/legal templates."
+  - "All findings must be attorney-reviewed before external use."

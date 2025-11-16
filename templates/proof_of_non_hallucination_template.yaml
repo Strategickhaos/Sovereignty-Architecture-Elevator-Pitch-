@@ -1,0 +1,26 @@
+# proof_of_non_hallucination_template.yaml
+# Template — Fill per document
+document_id: "TBD"
+document_name: "TBD"
+drafter: "Domenic Garza + AI Node: TBD"
+timestamp: "2025-11-16T13:42:00Z"
+
+rag_query_log:
+  - query: "TBD"
+    answer: "TBD"
+    sources:
+      - doc_id: "TBD"
+        similarity: 0.00
+        text: "TBD"
+    hallucination_score: 0.00
+    verdict: "TBD"
+
+attorney_review:
+  name: "TBD"
+  date: "TBD"
+  approved: false
+
+gpg_signature: ""
+sha256_hash: ""
+
+operator: "Domenic Garza"

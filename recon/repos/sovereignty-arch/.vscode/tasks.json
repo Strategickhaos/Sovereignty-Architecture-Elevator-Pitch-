@@ -1,0 +1,105 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "GitLens: Review Started",
+      "type": "shell",
+      "command": "./gl2discord.sh",
+      "args": [
+        "${env:PRS_CHANNEL}",
+        "🔍 Review Started",
+        "${workspaceFolderBasename}: ${fileBasename}",
+        "0x2f81f7"
+      ],
+      "options": {
+        "env": {
+          "DISCORD_TOKEN": "${env:DISCORD_TOKEN}"
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "GitLens: Review Submitted",
+      "type": "shell",
+      "command": "./gl2discord.sh",
+      "args": [
+        "${env:PRS_CHANNEL}",
+        "✅ Review Submitted",
+        "${workspaceFolderBasename}: Review completed by ${env:USERNAME}",
+        "0x28a745"
+      ],
+      "options": {
+        "env": {
+          "DISCORD_TOKEN": "${env:DISCORD_TOKEN}"
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "GitLens: Needs Attention",
+      "type": "shell",
+      "command": "./gl2discord.sh",
+      "args": [
+        "${env:PRS_CHANNEL}",
+        "🚨 Needs Attention",
+        "${workspaceFolderBasename}: ${input:attentionReason}",
+        "0xdc3545"
+      ],
+      "options": {
+        "env": {
+          "DISCORD_TOKEN": "${env:DISCORD_TOKEN}"
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "GitLens: Commit Graph Snapshot",
+      "type": "shell",
+      "command": "./gl2discord.sh",
+      "args": [
+        "${env:DEV_FEED_CHANNEL}",
+        "📊 Commit Graph Updated",
+        "${workspaceFolderBasename}: Latest commits analyzed",
+        "0x6f42c1"
+      ],
+      "options": {
+        "env": {
+          "DISCORD_TOKEN": "${env:DISCORD_TOKEN}"
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "attentionReason",
+      "description": "Reason why this needs attention",
+      "default": "Code review required",
+      "type": "promptString"
+    }
+  ]
+}

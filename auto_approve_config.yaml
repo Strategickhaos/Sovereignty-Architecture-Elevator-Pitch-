@@ -1,0 +1,129 @@
+# auto_approve_config.yaml
+# Strategickhaos DAO LLC / Valoryield Engine — Set-and-Forget Automation v1
+# Generated: 2025-11-16T15:48:00Z
+# Operator: Domenic Garza (Node 137)
+# Purpose: 5 UPL-safe, non-interactive automation patterns for Windows + Docker stack
+
+version: "1.0"
+suite_name: "auto_approve_v1"
+run_mode: "unattended"
+os_target: "Windows"
+ci_safe: true
+gpg_sign_artifacts: true
+
+globals:
+  user_agent: "Strategickhaos-Auto/1.0"
+  timeout_sec: 300
+  retries: 3
+  error_action: "SilentlyContinue"
+  progress_pref: "SilentlyContinue"
+  disclaimer: "INTERNAL AUTOMATION — NOT LEGAL ADVICE — ATTORNEY REVIEW REQUIRED"
+
+selected_patterns:
+  - id: "winget_silent"
+    name: "Winget Unattended Installs"
+    desc: "Install packages without prompts"
+    command: "winget install <pkg> --silent --accept-package-agreements --accept-source-agreements --force"
+    applies_to: ["vscode", "git", "docker-desktop"]
+    safety: "Trusted Microsoft source only"
+
+  - id: "choco_silent"
+    name: "Chocolatey Silent Installs"
+    desc: "Auto-accept all Chocolatey prompts"
+    command: "choco install <pkg> -y --no-progress --force"
+    applies_to: ["python", "nvm", "7zip"]
+    safety: "Community feed; verify hashes"
+
+  - id: "powershell_unattended"
+    name: "PowerShell Non-Interactive Runner"
+    desc: "Force + Confirm:$false + SilentlyContinue"
+    script_template: |
+      $ErrorActionPreference = 'SilentlyContinue'
+      $ProgressPreference = 'SilentlyContinue'
+      $ConfirmPreference = 'None'
+      & {param($pkg) winget install $pkg --silent --accept-package-agreements --accept-source-agreements} -pkg <pkg>
+    applies_to: ["recon", "ingest", "tests"]
+    safety: "ExecutionPolicy Bypass only in CI"
+
+  - id: "docker_noninteractive"
+    name: "Docker Build & Compose"
+    desc: "Non-interactive Docker + Compose"
+    dockerfile_snippets:
+      - |
+        ARG DEBIAN_FRONTEND=noninteractive
+        ENV PIP_NO_INPUT=1
+        RUN echo "y" | some-prompt-tool
+      - |
+        RUN apt-get update && apt-get install -y --no-install-recommends \
+            python3-pip && rm -rf /var/lib/apt/lists/*
+    compose_overrides:
+      environment:
+        - DEBIAN_FRONTEND=noninteractive
+        - GIT_TERMINAL_PROMPT=0
+    safety: "Build args only; no host UAC"
+
+  - id: "scheduled_task_system"
+    name: "Run as SYSTEM via Scheduled Task"
+    desc: "No UAC, runs when logged off"
+    schtasks_cmd: |
+      schtasks /Create /SC ONSTART /TN "ValoryieldRecon" /TR "powershell -File C:\recon\run_all.ps1" /RU "NT AUTHORITY\SYSTEM" /RL HIGHEST /F
+    cleanup: "schtasks /Delete /TN ValoryieldRecon /F"
+    applies_to: ["nightly_ingest", "benchmark_run"]
+    safety: "SYSTEM context; GPG-sign output"
+
+automation_workflow:
+  steps:
+    - name: "Bootstrap Environment"
+      commands:
+        - "Set-ExecutionPolicy Bypass -Scope Process -Force"
+        - "$ErrorActionPreference = 'SilentlyContinue'"
+        - "$ProgressPreference = 'SilentlyContinue'"
+
+    - name: "Install Core Tools"
+      parallel:
+        - "winget install Git.Git --silent --accept-package-agreements --accept-source-agreements"
+        - "winget install Microsoft.VisualStudioCode --silent --accept-package-agreements --accept-source-agreements"
+        - "choco install python -y --no-progress"
+
+    - name: "Clone & Ingest"
+      commands:
+        - "git clone https://github.com/strategickhaos/valoryield-engine.git C:\valoryield"
+        - "cd C:\valoryield && docker compose up -d"
+        - "python C:\valoryield\scripts\ingest_all.py"
+
+    - name: "Run Benchmarks"
+      commands:
+        - "python C:\valoryield\scripts\run_benchmarks.py"
+
+    - name: "Sign & Archive"
+      commands:
+        - "gpg --batch --yes --detach-sign --armor recon_out/*.json"
+        - "Compress-Archive -Path recon_out -DestinationPath recon_out_$(Get-Date -Format yyyyMMdd_HHmm).zip"
+
+    - name: "Cleanup"
+      commands:
+        - "schtasks /Delete /TN ValoryieldRecon /F"
+
+ci_integration:
+  github_actions:
+    enabled: true
+    workflow_file: ".github/workflows/auto_approve.yml"
+    trigger: "schedule"
+    cron: "0 3 * * *"  # 03:00 UTC daily
+    matrix_os: ["windows-latest"]
+
+  pre_commit:
+    enabled: true
+    hooks:
+      - id: "no-interactive-prompts"
+        entry: "powershell -Command \"if (Select-String -Path $1 -Pattern 'Read-Host|Confirm|Prompt') { exit 1 }\""
+        files: \.ps1$
+
+audit_trail:
+  log_file: "audit/auto_approve_20251116.log"
+  gpg_required: true
+  sha256: true
+  proof_template: "proof_of_non_interactive.yaml"
+
+operator: "Domenic Garza"
+timestamp: "2025-11-16T15:48:00Z"

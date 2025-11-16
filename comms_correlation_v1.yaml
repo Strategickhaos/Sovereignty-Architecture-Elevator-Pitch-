@@ -1,0 +1,276 @@
+# comms_correlation_v1.yaml
+# Strategickhaos DAO LLC / Valoryield Engine — Big Team Comms & Correlation v1
+# Generated: 2025-11-16T16:25:00Z
+# Operator: Domenic Garza (Node 137)
+# Purpose: 30 enterprise-grade, UPL-safe communication patterns for cross-stack alignment
+
+version: "1.0"
+suite_name: "comms_correlation_v1"
+run_id: "comm-{{ date:YYYYMMDDHHmmss }}"
+output_dir: "comms_out"
+ci_integration: true
+gpg_sign_docs: true
+
+globals:
+  org_name: "Strategickhaos DAO LLC"
+  user_agent: "Valoryield-Comms/1.0"
+  disclaimer: "INTERNAL COMMS — NOT LEGAL ADVICE — ATTORNEY REVIEW REQUIRED"
+  attorney_gate: true
+  channels:
+    - "#announcements"
+    - "#incidents"
+    - "#security-triage"
+    - "#evals"
+    - "#releases"
+    - "#research-digest"
+    - "#weekly-rollup"
+
+communication_patterns:
+  # === PRODUCT, ENG, RESEARCH (7) ===
+  - id: "weekly_tech_review"
+    name: "Weekly Tech Review"
+    desc: "30–45 min cross-guild sync"
+    format: "3 slides: goals, risks, blockers"
+    cadence: "weekly"
+    owners: ["@strategickhaos", "@node137"]
+    template: "templates/tech_review_slide.md"
+    archive: "comms_out/tech_reviews/"
+
+  - id: "design_rfc"
+    name: "Design Docs RFC"
+    desc: "Markdown + diagrams + CODEOWNERS"
+    format: "async comments"
+    tool: "GitHub PR"
+    template: "templates/rfc_template.md"
+    required_signoff: "CODEOWNERS"
+
+  - id: "adr"
+    name: "Architecture Decision Records"
+    desc: "One-page: context, options, verdict"
+    format: "ADR-0001.md"
+    tool: "Git"
+    template: "templates/adr_template.md"
+    index: "docs/adr_index.md"
+
+  - id: "office_hours"
+    name: "Office Hours"
+    desc: "Fixed windows per team"
+    schedule:
+      Data: "Tue 14:00–15:00 CET"
+      SecOps: "Wed 10:00–11:00 CET"
+      LLM: "Thu 16:00–17:00 CET"
+    tool: "Google Meet"
+    recording: "auto-archive"
+
+  - id: "demo_day"
+    name: "Biweekly Demo Day"
+    desc: "60 min, 5-min demos"
+    cadence: "biweekly"
+    tool: "Zoom + recording"
+    archive: "comms_out/demos/"
+    link_to_pr: true
+
+  - id: "research_digest"
+    name: "Weekly Research Digest"
+    desc: "5-bullet summary"
+    format: "papers, benchmarks, deltas, actions"
+    cadence: "weekly"
+    channel: "#research-digest"
+    template: "templates/digest_template.md"
+
+  - id: "incident_review"
+    name: "Blameless Postmortems"
+    desc: "Timeline, 5-whys, actions"
+    format: "postmortem.md"
+    tool: "GitHub Issue"
+    template: "templates/postmortem_template.md"
+    archive: "comms_out/incidents/"
+
+  # === PROGRAM & DELIVERY (6) ===
+  - id: "qbr"
+    name: "Quarterly Planning (QBR)"
+    desc: "Top 5 objectives, metrics"
+    format: "plan + risks"
+    cadence: "quarterly"
+    template: "templates/qbr_template.md"
+    publish: "docs/qbr/"
+
+  - id: "kanban_radiator"
+    name: "Kanban Radiators"
+    desc: "WIP, cycle time, blockers"
+    tool: "GitHub Projects"
+    dashboard: "https://github.com/orgs/strategickhaos/projects/1"
+
+  - id: "escalation_path"
+    name: "Decision Escalation Path"
+    desc: "24h SLA, L2/L3, tie-breaker"
+    owners:
+      L1: "@strategickhaos"
+      L2: "@node137"
+      L3: "Attorney"
+    sla: "24h"
+
+  - id: "launch_readiness"
+    name: "Launch Readiness Reviews"
+    desc: "Checklist gates"
+    checklist: "upl_safe_30_checklist.md"
+    gates: ["security", "SRE", "legal", "docs"]
+    ci_hook: "launch_gate.yml"
+
+  - id: "risk_register"
+    name: "Risk Register"
+    desc: "Severity, owner, mitigation"
+    tool: "GitHub Issues"
+    template: "templates/risk_issue.md"
+    dashboard: "https://github.com/orgs/strategickhaos/projects/2"
+
+  - id: "weekly_rollup"
+    name: "Weekly Rollup Email"
+    desc: "7 bullets: shipped, shipping, slips, risks, asks, metrics, links"
+    cadence: "weekly"
+    channel: "#weekly-rollup"
+    template: "templates/rollup_template.md"
+    automation: "scripts/send_rollup.py"
+
+  # === SECURITY, COMPLIANCE, LEGAL (6) ===
+  - id: "control_matrix"
+    name: "Control Mapping Matrix"
+    desc: "NIST/CIS/ISO + evidence"
+    tool: "Google Sheets"
+    link: "https://docs.google.com/spreadsheets/d/..."
+    owner: "@compliance"
+
+  - id: "vuln_council"
+    name: "Vulnerability Council"
+    desc: "30 min twice weekly"
+    cadence: "Tue/Thu 11:00 CET"
+    channel: "#security-triage"
+    agenda: "KEV/NVD triage"
+
+  - id: "red_blue_sync"
+    name: "Red/Blue/Purple Sync"
+    desc: "Monthly Atomic results"
+    cadence: "1st Friday"
+    tool: "Zoom"
+    archive: "comms_out/purple/"
+
+  - id: "compliance_drops"
+    name: "Compliance Evidence Bot"
+    desc: "Auto-post artifacts"
+    tool: "GitHub Actions"
+    webhook: "slack.com/hooks/..."
+
+  - id: "legal_intake"
+    name: "Legal Intake Form"
+    desc: "One-pager for reviews"
+    tool: "Google Form"
+    link: "https://forms.gle/..."
+    template: "templates/legal_intake.md"
+
+  - id: "disclosure_hub"
+    name: "Disclosure Policy Hub"
+    desc: "security@ + PGP"
+    email: "security@strategickhaos.com"
+    pgp_key: "keys/security.asc"
+    sla: "24h ack, 7d fix"
+
+  # === DATA, EVALS, CORRELATION (6) ===
+  - id: "metrics_pane"
+    name: "Grafana Single Pane"
+    desc: "Latency, Recall@k, accuracy"
+    dashboard: "dashboards/kpi.json"
+    link: "https://grafana.valoryield.com/d/kpi"
+
+  - id: "eval_pr_comment"
+    name: "CI Eval PR Comment"
+    desc: "nDCG/accuracy deltas"
+    tool: "GitHub Actions"
+    script: "scripts/post_eval_comment.py"
+
+  - id: "provenance_threads"
+    name: "Living Provenance Threads"
+    desc: "Lineage + hashes"
+    tool: "GitHub Discussions"
+    per_dataset: true
+
+  - id: "canary_reports"
+    name: "Canary vs Prod Diff"
+    desc: "Daily quality/latency"
+    tool: "Python"
+    script: "scripts/canary_diff.py"
+
+  - id: "alert_runbooks"
+    name: "Alert Runbooks"
+    desc: "10-step + team chat"
+    tool: "Git"
+    directory: "runbooks/"
+    link_in_alert: true
+
+  - id: "signals_meeting"
+    name: "Weekly Signals"
+    desc: "25 min anomalies only"
+    cadence: "Fri 14:00 CET"
+    rule: "no status reading"
+
+  # === TOOLING & AUTOMATION (5) ===
+  - id: "bot_announcements"
+    name: "Bot Posts to Slack"
+    desc: "Gate pass/fail"
+    tool: "GitHub Actions"
+    webhook: "slack.com/hooks/announce"
+
+  - id: "auto_changelogs"
+    name: "Conventional Commits → Release Notes"
+    desc: "Email to stakeholders"
+    tool: "Release Drafter"
+    config: ".github/release-drafter.yml"
+
+  - id: "decision_index"
+    name: "Searchable ADR/RFC Index"
+    desc: "Tags + owners"
+    tool: "GitHub Search + mkdocs"
+    site: "https://docs.valoryield.com/decisions"
+
+  - id: "loom_videos"
+    name: "3–5 min Walkthroughs"
+    desc: "Link from PRs"
+    tool: "Loom"
+    embed: "PR description"
+
+  - id: "exec_brief"
+    name: "Monthly Partner/Exec Brief"
+    desc: "1-pager outcomes, risks"
+    cadence: "1st Monday"
+    template: "templates/exec_brief.md"
+
+starter_kit:
+  channels:
+    - name: "#announcements"
+      purpose: "Major releases, policy changes"
+    - name: "#incidents"
+      purpose: "Postmortems, alerts"
+    - name: "#security-triage"
+      purpose: "KEV, vuln council"
+    - name: "#evals"
+      purpose: "Accuracy, safety metrics"
+    - name: "#releases"
+      purpose: "Changelogs, demos"
+  dashboards:
+    - name: "KPI Board"
+      link: "grafana.valoryield.com/d/kpi"
+  automation:
+    - "CI → Slack eval posts"
+    - "SBOM diff on PR"
+    - "Policy gate results"
+  docs:
+    - "RFC template: templates/rfc_template.md"
+    - "ADR template: templates/adr_template.md"
+    - "Require links in PR description"
+
+audit_trail:
+  log_file: "audit/comms_20251116.log"
+  gpg_required: true
+  sha256: true
+
+operator: "Domenic Garza"
+timestamp: "2025-11-16T16:25:00Z"

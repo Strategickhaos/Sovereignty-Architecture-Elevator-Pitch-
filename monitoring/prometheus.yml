@@ -1,0 +1,84 @@
+# Prometheus Configuration for Strategickhaos Sovereignty Architecture
+# Scrapes Discord bot, event gateway, Refinory API, and infrastructure components
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'strategickhaos-dev'
+    environment: '${REFINORY_ENV:-development}'
+
+rule_files:
+  - "alerts.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+scrape_configs:
+  # Discord Bot Metrics
+  - job_name: 'discord-bot'
+    static_configs:
+      - targets: ['bot:3000', 'localhost:3000']
+    metrics_path: /metrics
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # Event Gateway Metrics  
+  - job_name: 'event-gateway'
+    static_configs:
+      - targets: ['gateway:8080', 'localhost:8080']
+    metrics_path: /metrics
+    scrape_interval: 15s
+
+  # Refinory AI Platform
+  - job_name: 'refinory-api'
+    static_configs:
+      - targets: ['refinory-api:8000', 'localhost:8000']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # Infrastructure Services
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    metrics_path: /metrics
+    scrape_interval: 60s
+
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']
+    scrape_interval: 60s
+
+  - job_name: 'qdrant'
+    static_configs:
+      - targets: ['qdrant:6333']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'vault'
+    static_configs:
+      - targets: ['vault:8200']
+    metrics_path: /v1/sys/metrics
+    params:
+      format: ['prometheus']
+    scrape_interval: 60s
+
+  # Node Exporter (if deployed)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 60s
+
+  # Docker Container Metrics
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+    scrape_interval: 30s
+
+  # Prometheus Self-Monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    scrape_interval: 60s

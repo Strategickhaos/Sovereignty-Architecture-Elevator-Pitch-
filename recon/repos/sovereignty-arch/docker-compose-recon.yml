@@ -1,0 +1,307 @@
+version: "3.9"
+
+networks:
+  reconnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  qdrant_data:
+    driver: local
+  embedding_cache:
+    driver: local
+
+services:
+  # Vector Database - High Performance Storage
+  qdrant:
+    image: qdrant/qdrant:v1.11.0
+    container_name: recon-qdrant
+    hostname: qdrant
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - "6333:6333"
+      - "6334:6334"  # gRPC port for high-performance queries
+    networks:
+      - reconnet
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+      - QDRANT__LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2'
+        reservations:
+          memory: 1G
+
+  # Local LLM Server - Sovereign AI Inference
+  llama:
+    image: ghcr.io/ggerganov/llama.cpp:full
+    container_name: recon-llama
+    hostname: llama
+    command: >
+      bash -lc "llama-server 
+        -m /models/bge-small-en-v1.5.gguf 
+        -c 8192 -ngl 0 -t 8 
+        --port 8080 --host 0.0.0.0 
+        --metrics --log-disable
+        --embedding --n-gpu-layers 0
+        --ctx-size 8192"
+    volumes:
+      # Windows path - adjust as needed
+      - ./models:/models:ro
+    ports:
+      - "8080:8080"
+    networks:
+      - reconnet
+    environment:
+      - LLAMA_LOG_DISABLE=1
+      - CUDA_VISIBLE_DEVICES=""  # Force CPU inference for compatibility
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+          cpus: '4'
+        reservations:
+          memory: 2G
+          cpus: '2'
+
+  # Embedding Service - BGE Small English
+  embedder:
+    image: python:3.11-slim
+    container_name: recon-embedder
+    hostname: embedder
+    working_dir: /app
+    volumes:
+      - ./ingest:/app
+      - embedding_cache:/cache
+    command: >
+      bash -lc "
+      pip install --no-cache-dir sentence-transformers==2.7.0 torch==2.3.0 fastapi==0.104.1 uvicorn==0.24.0 &&
+      python -c \"
+from sentence_transformers import SentenceTransformer
+import os
+print('Loading BGE model...')
+model = SentenceTransformer('BAAI/bge-small-en-v1.5')
+model.save('/cache/bge-small-en-v1.5')
+print('Model cached successfully')
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List
+import uvicorn
+
+app = FastAPI()
+model = SentenceTransformer('/cache/bge-small-en-v1.5')
+
+class EmbedRequest(BaseModel):
+    texts: List[str]
+
+@app.post('/embed')
+async def embed_texts(request: EmbedRequest):
+    embeddings = model.encode(request.texts, normalize_embeddings=True).tolist()
+    return {'embeddings': embeddings}
+
+@app.get('/health')
+async def health():
+    return {'status': 'healthy', 'model': 'bge-small-en-v1.5'}
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=8081)
+      \" &&
+      python -c \"
+from sentence_transformers import SentenceTransformer
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List
+import uvicorn
+
+app = FastAPI()
+model = SentenceTransformer('/cache/bge-small-en-v1.5')
+
+class EmbedRequest(BaseModel):
+    texts: List[str]
+
+@app.post('/embed')
+async def embed_texts(request: EmbedRequest):
+    embeddings = model.encode(request.texts, normalize_embeddings=True).tolist()
+    return {'embeddings': embeddings}
+
+@app.get('/health')
+async def health():
+    return {'status': 'healthy', 'model': 'bge-small-en-v1.5'}
+
+uvicorn.run(app, host='0.0.0.0', port=8081)
+      \"
+      "
+    ports:
+      - "8081:8081"
+    networks:
+      - reconnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 120s  # Model download takes time
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2'
+        reservations:
+          memory: 1G
+
+  # Repository Ingestor - One-time indexing
+  ingestor:
+    image: python:3.11-slim
+    container_name: recon-ingestor
+    hostname: ingestor
+    working_dir: /app
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - EMBED_URL=http://embedder:8081/embed
+      - COLLECTION=sovereignty-arch
+      - CHUNK_SIZE=400
+      - OVERLAP=60
+      - BATCH_SIZE=32
+    volumes:
+      - ./ingest:/app
+      - ./repos:/repos:ro
+    command: >
+      bash -lc "
+      pip install --no-cache-dir -r requirements.txt &&
+      echo 'Waiting for dependencies...' &&
+      sleep 60 &&
+      python ingest.py /repos
+      "
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      embedder:
+        condition: service_healthy
+    networks:
+      - reconnet
+    restart: "no"  # Run once for indexing
+
+  # RAG Retriever API - Query Interface
+  retriever:
+    image: python:3.11-slim
+    container_name: recon-retriever
+    hostname: retriever
+    working_dir: /app
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - COLLECTION=sovereignty-arch
+      - LLM_URL=http://llama:8080
+      - EMBED_URL=http://embedder:8081/embed
+      - MAX_CONTEXT_LENGTH=4000
+      - RELEVANCE_THRESHOLD=0.7
+    volumes:
+      - ./retriever:/app
+    command: >
+      bash -lc "
+      pip install --no-cache-dir -r requirements.txt &&
+      echo 'Starting RAG API server...' &&
+      uvicorn api:app --host 0.0.0.0 --port 7000 --workers 1
+      "
+    ports:
+      - "7000:7000"
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      embedder:
+        condition: service_healthy
+      llama:
+        condition: service_healthy
+    networks:
+      - reconnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7000/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2'
+
+  # RAG Metrics Exporter - Prometheus integration
+  metrics:
+    image: python:3.11-slim
+    container_name: recon-metrics
+    hostname: metrics
+    working_dir: /app
+    environment:
+      - RAG_API_URL=http://retriever:7000
+      - QDRANT_URL=http://qdrant:6333
+      - METRICS_PORT=9100
+    volumes:
+      - ./metrics:/app
+    command: >
+      bash -lc "
+      pip install --no-cache-dir prometheus-client==0.19.0 httpx==0.27.0 &&
+      python -c \"
+import time, httpx, asyncio
+from prometheus_client import start_http_server, Counter, Histogram, Gauge
+
+# Metrics
+QUERY_TOTAL = Counter('rag_queries_total', 'Total RAG queries')
+QUERY_DURATION = Histogram('rag_query_duration_seconds', 'Query processing time')
+CONTEXT_RELEVANCE = Gauge('rag_context_relevance_avg', 'Average context relevance')
+VECTOR_COUNT = Gauge('rag_vectors_total', 'Total vectors in database')
+
+async def collect_metrics():
+    while True:
+        try:
+            # Check Qdrant stats
+            async with httpx.AsyncClient(timeout=10) as client:
+                r = await client.get('http://qdrant:6333/collections/sovereignty-arch')
+                if r.status_code == 200:
+                    data = r.json()
+                    VECTOR_COUNT.set(data.get('result', {}).get('vectors_count', 0))
+        except Exception as e:
+            print(f'Metrics collection error: {e}')
+        await asyncio.sleep(60)
+
+if __name__ == '__main__':
+    start_http_server(9100)
+    print('RAG metrics server started on port 9100')
+    asyncio.run(collect_metrics())
+      \"
+      "
+    ports:
+      - "9100:9100"
+    depends_on:
+      - retriever
+    networks:
+      - reconnet
+    restart: unless-stopped
+
+# External network integration with CloudOS
+networks:
+  default:
+    external:
+      name: sovereignty-architecture-elevator-pitch-_cloudos_network

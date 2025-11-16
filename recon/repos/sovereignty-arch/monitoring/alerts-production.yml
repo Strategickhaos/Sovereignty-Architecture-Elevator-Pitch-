@@ -1,0 +1,275 @@
+# Discord Bot Failure Alert Rules for Prometheus
+
+groups:
+  - name: discord_bot_critical
+    rules:
+      # Discord Bot Service Down
+      - alert: DiscordBotDown
+        expr: up{job="discord-bot"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: discord-bot
+          team: infrastructure
+        annotations:
+          summary: "Discord Bot is down"
+          description: "Discord Bot has been down for more than 1 minute. Immediate intervention required."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/discord-bot-down"
+          discord_channel: "{{ .Labels.service }}-alerts"
+
+      # Discord API Rate Limiting
+      - alert: DiscordAPIRateLimit
+        expr: rate(discord_api_rate_limit_total[5m]) > 0
+        for: 2m
+        labels:
+          severity: warning
+          service: discord-bot
+          team: platform
+        annotations:
+          summary: "Discord API rate limit hit"
+          description: "Discord Bot is being rate limited by Discord API. Current rate: {{ $value }} per second."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/discord-rate-limit"
+
+      # Discord Message Send Failures
+      - alert: DiscordMessageSendFailures
+        expr: rate(discord_message_send_errors_total[5m]) > 0.1
+        for: 3m
+        labels:
+          severity: critical
+          service: discord-bot
+          component: messaging
+        annotations:
+          summary: "High Discord message send failure rate"
+          description: "Discord message send error rate is {{ $value }} per second over the last 5 minutes."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/discord-message-failures"
+
+      # Discord Connection Issues
+      - alert: DiscordConnectionErrors
+        expr: rate(discord_connection_errors_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: discord-bot
+          component: connection
+        annotations:
+          summary: "Discord connection errors detected"
+          description: "Discord Bot connection error rate: {{ $value }} per second."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/discord-connection-errors"
+
+  - name: webhook_authentication
+    rules:
+      # Webhook Authentication Failures
+      - alert: WebhookAuthFailures
+        expr: rate(webhook_auth_failures_total[5m]) > 0.2
+        for: 2m
+        labels:
+          severity: warning
+          service: event-gateway
+          component: authentication
+        annotations:
+          summary: "High webhook authentication failure rate"
+          description: "Webhook authentication failure rate is {{ $value }} per second. Possible security issue."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/webhook-auth-failures"
+
+      # Invalid HMAC Signatures
+      - alert: InvalidHMACSignatures
+        expr: rate(webhook_invalid_hmac_total[5m]) > 0.1
+        for: 1m
+        labels:
+          severity: critical
+          service: event-gateway
+          component: security
+        annotations:
+          summary: "Invalid HMAC signatures detected"
+          description: "Invalid HMAC signature rate: {{ $value }} per second. Potential security breach."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/invalid-hmac"
+
+      # GitHub Webhook Delivery Failures
+      - alert: GitHubWebhookFailures
+        expr: rate(github_webhook_delivery_errors_total[5m]) > 0.1
+        for: 3m
+        labels:
+          severity: warning
+          service: event-gateway
+          component: github-integration
+        annotations:
+          summary: "GitHub webhook delivery failures"
+          description: "GitHub webhook failure rate: {{ $value }} per second."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/github-webhook-failures"
+
+  - name: ai_agent_failures
+    rules:
+      # AI Expert Task Failures
+      - alert: AIExpertTaskFailures
+        expr: rate(refinory_expert_task_failures_total[10m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          service: refinory
+          component: ai-experts
+        annotations:
+          summary: "AI Expert task failure rate elevated"
+          description: "AI Expert task failure rate: {{ $value }} per second over 10 minutes."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/ai-expert-failures"
+
+      # AI Agent Orchestrator Down
+      - alert: AIOrchestrator Down
+        expr: up{job="refinory-orchestrator"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: refinory
+          component: orchestrator
+        annotations:
+          summary: "AI Agent Orchestrator is down"
+          description: "Refinory AI Orchestrator has been down for more than 2 minutes."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/orchestrator-down"
+
+      # High AI Task Queue Length
+      - alert: HighAITaskQueue
+        expr: refinory_task_queue_length > 50
+        for: 5m
+        labels:
+          severity: warning
+          service: refinory
+          component: queue
+        annotations:
+          summary: "AI task queue length is high"
+          description: "Current AI task queue length: {{ $value }} tasks. Consider scaling up."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/high-task-queue"
+
+      # AI Expert Response Time High
+      - alert: SlowAIExpertResponse
+        expr: histogram_quantile(0.95, rate(refinory_expert_response_duration_seconds_bucket[10m])) > 30
+        for: 5m
+        labels:
+          severity: warning
+          service: refinory
+          component: performance
+        annotations:
+          summary: "AI Expert response time is slow"
+          description: "95th percentile AI Expert response time: {{ $value }}s (threshold: 30s)."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/slow-ai-response"
+
+  - name: infrastructure_critical
+    rules:
+      # Container Resource Exhaustion
+      - alert: ContainerMemoryHigh
+        expr: (container_memory_usage_bytes / container_spec_memory_limit_bytes) > 0.9
+        for: 3m
+        labels:
+          severity: critical
+          service: "{{ .Labels.container_label_com_docker_compose_service }}"
+          component: resources
+        annotations:
+          summary: "Container memory usage critical"
+          description: "Container {{ .Labels.name }} memory usage: {{ $value | humanizePercentage }}"
+          runbook_url: "https://docs.strategickhaos.local/runbooks/container-memory-high"
+
+      # Database Connection Pool Exhaustion
+      - alert: DatabaseConnectionPoolExhausted
+        expr: postgres_connection_pool_active / postgres_connection_pool_max > 0.95
+        for: 2m
+        labels:
+          severity: critical
+          service: postgres
+          component: connections
+        annotations:
+          summary: "Database connection pool near exhaustion"
+          description: "PostgreSQL connection pool usage: {{ $value | humanizePercentage }}"
+          runbook_url: "https://docs.strategickhaos.local/runbooks/db-pool-exhausted"
+
+      # Redis Memory Usage High
+      - alert: RedisMemoryHigh
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
+        for: 3m
+        labels:
+          severity: warning
+          service: redis
+          component: memory
+        annotations:
+          summary: "Redis memory usage high"
+          description: "Redis memory usage: {{ $value | humanizePercentage }}"
+          runbook_url: "https://docs.strategickhaos.local/runbooks/redis-memory-high"
+
+  - name: security_alerts
+    rules:
+      # Vault Sealed
+      - alert: VaultSealed
+        expr: vault_core_unsealed == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: vault
+          component: security
+        annotations:
+          summary: "Vault is sealed"
+          description: "HashiCorp Vault is sealed and cannot serve requests."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/vault-sealed"
+
+      # High Failed Authentication Rate
+      - alert: HighFailedAuthRate
+        expr: rate(traefik_service_request_duration_seconds_count{code=~"4[0-9][0-9]"}[5m]) > 5
+        for: 3m
+        labels:
+          severity: warning
+          service: traefik
+          component: authentication
+        annotations:
+          summary: "High authentication failure rate"
+          description: "High rate of 4xx errors: {{ $value }} per second over 5 minutes."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/high-auth-failures"
+
+      # TLS Certificate Expiry
+      - alert: TLSCertificateExpiring
+        expr: (x509_cert_not_after - time()) / 86400 < 7
+        for: 1h
+        labels:
+          severity: warning
+          service: traefik
+          component: tls
+        annotations:
+          summary: "TLS certificate expiring soon"
+          description: "TLS certificate for {{ .Labels.subject }} expires in {{ $value }} days."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/tls-cert-expiring"
+
+  - name: business_logic
+    rules:
+      # Temporal Workflow Failures
+      - alert: TemporalWorkflowFailures
+        expr: rate(temporal_workflow_failed_total[10m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: temporal
+          component: workflows
+        annotations:
+          summary: "Temporal workflow failure rate elevated"
+          description: "Temporal workflow failure rate: {{ $value }} per second."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/temporal-failures"
+
+      # Event Processing Lag
+      - alert: EventProcessingLag
+        expr: event_gateway_processing_lag_seconds > 60
+        for: 3m
+        labels:
+          severity: warning
+          service: event-gateway
+          component: processing
+        annotations:
+          summary: "Event processing lag is high"
+          description: "Event processing lag: {{ $value }}s (threshold: 60s)."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/event-processing-lag"
+
+      # GitHub API Rate Limit Approaching
+      - alert: GitHubAPIRateLimitApproaching
+        expr: github_api_rate_limit_remaining / github_api_rate_limit_total < 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: event-gateway
+          component: github-api
+        annotations:
+          summary: "GitHub API rate limit approaching"
+          description: "GitHub API rate limit remaining: {{ .Values.github_api_rate_limit_remaining }} requests."
+          runbook_url: "https://docs.strategickhaos.local/runbooks/github-rate-limit-approaching"

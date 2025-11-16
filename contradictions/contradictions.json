@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Privacy vs Personalization",
+    "hook": "Tailored for you — never tracked.",
+    "mechanism": "On-device embeddings + zero-knowledge sync",
+    "pricing": "$0 logs → $9/mo for cross-device sync (E2EE)",
+    "proof": "curl /metrics | grep logs=0",
+    "demo": "https://demo.strategickhaos.com/privacy"
+  },
+  {
+    "id": 2,
+    "name": "Speed vs Security", 
+    "hook": "Login in 1.2s — or we pay you.",
+    "mechanism": "WebAuthn + risk engine (IP velocity, device fingerprint)",
+    "pricing": "$0.01 per failed step-up (SLO: 99.9% <2s)",
+    "proof": "Grafana: login_latency_p99",
+    "demo": "https://demo.strategickhaos.com/speed"
+  },
+  {
+    "id": 3,
+    "name": "Simple vs Powerful",
+    "hook": "One click. Infinite possibilities.",
+    "mechanism": "Progressive disclosure + AI intent prediction",
+    "pricing": "Free basics → $19/mo for power features",
+    "proof": "Feature usage analytics dashboard",
+    "demo": "https://demo.strategickhaos.com/progressive"
+  },
+  {
+    "id": 4,
+    "name": "Open vs Profitable",
+    "hook": "Open source core, premium ecosystem.",
+    "mechanism": "MIT core + paid enterprise modules",
+    "pricing": "Free community → $99/mo enterprise",
+    "proof": "GitHub stars vs revenue correlation",
+    "demo": "https://demo.strategickhaos.com/opensource"
+  },
+  {
+    "id": 5,
+    "name": "Global vs Local",
+    "hook": "Worldwide reach, hometown feel.",
+    "mechanism": "Edge computing + local compliance",
+    "pricing": "Pay per region ($5/mo per geo)",
+    "proof": "Latency maps by region",
+    "demo": "https://demo.strategickhaos.com/global"
+  }
+]

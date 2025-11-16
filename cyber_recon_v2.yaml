@@ -1,0 +1,202 @@
+version: "1.0"
+name: "strategickhaos_cyber_recon_v2"
+run_id: "cyber-recon-{{ date:YYYYMMDDHHmmss }}"
+output_dir: "recon/cyber_v2"
+
+globals:
+  user_agent: "Strategickhaos-Recon/1.0"
+  timeout_sec: 60
+  retries: 2
+  rate_limit_sec: 1
+  disclaimer: "INTERNAL DRAFT — NOT LEGAL ADVICE — ATTORNEY REVIEW REQUIRED"
+
+# Core 30 cybersecurity sources
+sources:
+  # Standards and Frameworks
+  - id: nist_csf
+    url: "https://www.nist.gov/cyberframework"
+    file: "nist_csf.html"
+    category: "framework"
+    priority: "critical"
+  - id: nist_sp80053
+    url: "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+    file: "nist_sp800-53.html"
+    category: "controls"
+    priority: "critical"
+  - id: nist_sp800171
+    url: "https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final"
+    file: "nist_sp800-171.html"
+    category: "cui"
+    priority: "high"
+  - id: nist_ir_guide
+    url: "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+    file: "nist_sp800-61.html"
+    category: "incident_response"
+    priority: "critical"
+  - id: cis_controls_v8
+    url: "https://www.cisecurity.org/controls/cis-controls-list"
+    file: "cis_controls_v8.html"
+    category: "controls"
+    priority: "high"
+  - id: mitre_attack
+    url: "https://attack.mitre.org/matrices/enterprise/"
+    file: "mitre_attack_enterprise.html"
+    category: "tactics_techniques"
+    priority: "critical"
+  - id: mitre_d3fend
+    url: "https://d3fend.mitre.org/"
+    file: "mitre_d3fend.html"
+    category: "defenses"
+    priority: "high"
+  - id: owasp_top10
+    url: "https://owasp.org/www-project-top-ten/"
+    file: "owasp_top10.html"
+    category: "web_security"
+    priority: "critical"
+  - id: owasp_asvs
+    url: "https://owasp.org/www-project-application-security-verification-standard/"
+    file: "owasp_asvs.html"
+    category: "appsec"
+    priority: "high"
+  - id: cisa_advisories
+    url: "https://www.cisa.gov/news-events/cybersecurity-advisories"
+    file: "cisa_advisories.html"
+    category: "advisories"
+    priority: "critical"
+
+  # Threat Intelligence
+  - id: cisa_kev
+    url: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+    file: "cisa_kev.html"
+    category: "vulnerabilities"
+    priority: "critical"
+  - id: nvd_search
+    url: "https://nvd.nist.gov/vuln/search"
+    file: "nvd_cve_search.html"
+    category: "cve_database"
+    priority: "high"
+  - id: first_cvss
+    url: "https://www.first.org/cvss/v3.1/specification-document"
+    file: "first_cvss_v31.html"
+    category: "scoring"
+    priority: "medium"
+  - id: msrc_guide
+    url: "https://msrc.microsoft.com/update-guide"
+    file: "msrc_update_guide.html"
+    category: "patches"
+    priority: "high"
+  - id: project_zero
+    url: "https://googleprojectzero.blogspot.com/"
+    file: "project_zero_blog.html"
+    category: "0day_research"
+    priority: "high"
+
+  # Digital Forensics and IR
+  - id: sans_ir
+    url: "https://www.sans.org/resources/incident-response/"
+    file: "sans_ir_resources.html"
+    category: "incident_response"
+    priority: "critical"
+  - id: dfir_report
+    url: "https://thedfirreport.com/"
+    file: "thedfirreport_home.html"
+    category: "case_studies"
+    priority: "high"
+  - id: volatility
+    url: "https://volatilityfoundation.org/"
+    file: "volatility_foundation.html"
+    category: "memory_analysis"
+    priority: "high"
+  - id: sleuthkit
+    url: "https://www.sleuthkit.org/"
+    file: "sleuthkit_home.html"
+    category: "disk_forensics"
+    priority: "high"
+  - id: nist_cftt
+    url: "https://www.nist.gov/itl/csd/cftt"
+    file: "nist_cftt.html"
+    category: "tool_testing"
+    priority: "medium"
+
+  # Cloud and Container Security
+  - id: aws_securityhub
+    url: "https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html"
+    file: "aws_security_hub.html"
+    category: "cloud_aws"
+    priority: "high"
+  - id: azure_benchmark
+    url: "https://learn.microsoft.com/azure/security/benchmarks/overview"
+    file: "azure_security_benchmark.html"
+    category: "cloud_azure"
+    priority: "high"
+  - id: gcp_foundations
+    url: "https://cloud.google.com/architecture/security-foundations"
+    file: "gcp_security_foundations.html"
+    category: "cloud_gcp"
+    priority: "high"
+  - id: k8s_security
+    url: "https://kubernetes.io/docs/concepts/security/"
+    file: "kubernetes_security.html"
+    category: "containers"
+    priority: "critical"
+  - id: cis_benchmarks
+    url: "https://www.cisecurity.org/benchmarks"
+    file: "cis_benchmarks.html"
+    category: "benchmarks"
+    priority: "high"
+
+  # Red Team and Detection
+  - id: mitre_evals
+    url: "https://attackevals.mitre-engenuity.org/enterprise/participants"
+    file: "mitre_attack_evals.html"
+    category: "edr_testing"
+    priority: "high"
+  - id: sigma_rules
+    url: "https://sigmahq-py.readthedocs.io/en/latest/"
+    file: "sigma_rules_docs.html"
+    category: "detection_rules"
+    priority: "critical"
+  - id: atomic_red
+    url: "https://atomicredteam.io/"
+    file: "atomic_red_team.html"
+    category: "red_team"
+    priority: "critical"
+  - id: elastic_detect
+    url: "https://www.elastic.co/guide/en/security/current/detection-engine-overview.html"
+    file: "elastic_detection_engine.html"
+    category: "siem_edr"
+    priority: "high"
+  - id: zeek_docs
+    url: "https://docs.zeek.org/en/current/"
+    file: "zeek_docs.html"
+    category: "network_monitoring"
+    priority: "high"
+
+ingestion_pipeline:
+  steps:
+    - fetch: "curl -L -s -H 'User-Agent: $user_agent' $url -o $output_dir/$file"
+    - validate: "test -s $output_dir/$file"
+    - chunk: "python /app/chunk.py --size 512 --overlap 128 --input $output_dir/$file"
+    - embed: "python /app/embed.py --model BAAI/bge-small-en-v1.5 --input chunked/"
+    - store: "qdrant upsert --collection cyber_recon_v2 --input embedded/"
+    - audit: "python /app/proof_engine.py --query 'Summarize $id' --source $file"
+
+post_ingest:
+  - generate_proof: "python /app/proof_engine.py --output proof_cyber_recon_v2.yaml"
+  - create_index: "python /app/create_search_index.py --collection cyber_recon_v2"
+  - test_queries: [
+      "What are the top 5 NIST cybersecurity controls?",
+      "How does MITRE ATT&CK help with threat detection?",
+      "What are the key components of incident response?"
+    ]
+  - gpg_sign: "gpg --detach-sign --armor recon/reports/cyber_recon_v2_complete.md"
+
+audit_trail:
+  log_file: "recon/audit/cyber_recon_v2_$(date +%Y%m%d).log"
+  gpg_required: true
+  sha256_checksums: true
+  source_verification: true
+
+operator: "Domenic Garza (Node 137)"
+timestamp: "2025-11-16T14:30:00Z"
+version_control: "git commit cyber_recon_v2.yaml"

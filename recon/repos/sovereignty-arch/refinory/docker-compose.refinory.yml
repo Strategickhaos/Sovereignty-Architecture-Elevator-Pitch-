@@ -1,0 +1,288 @@
+version: '3.8'
+
+networks:
+  strategickhaos_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  refinory_artifacts:
+  refinory_outputs:
+  refinory_models:
+  postgres_data:
+  redis_data:
+  qdrant_data:
+  grafana_data:
+  prometheus_data:
+
+services:
+  # Core Refinory Services
+  refinory-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.refinory
+      args:
+        GPU_SUPPORT: "false"
+    container_name: refinory-api
+    ports:
+      - "8085:8085"
+    environment:
+      - REFINORY_ENV=production
+      - POSTGRES_DSN=postgresql://refinory:refinory123@postgres:5432/refinory
+      - REDIS_URL=redis://redis:6379/0
+      - QDRANT_URL=http://qdrant:6333
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - LOG_LEVEL=INFO
+    volumes:
+      - refinory_artifacts:/var/refinory/artifacts
+      - refinory_outputs:/var/refinory/outputs
+      - refinory_models:/var/refinory/models
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - strategickhaos_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  refinory-orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.refinory
+      args:
+        GPU_SUPPORT: "false"
+    container_name: refinory-orchestrator
+    ports:
+      - "8081:8081"
+    environment:
+      - REFINORY_ENV=production
+      - POSTGRES_DSN=postgresql://refinory:refinory123@postgres:5432/refinory
+      - REDIS_URL=redis://redis:6379/0
+      - QDRANT_URL=http://qdrant:6333
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - TEMPORAL_HOST=temporal:7233
+      - MAX_WORKERS=4
+      - MAX_CONCURRENCY=16
+      - LOG_LEVEL=INFO
+    volumes:
+      - refinory_artifacts:/var/refinory/artifacts
+      - refinory_outputs:/var/refinory/outputs
+      - refinory_models:/var/refinory/models
+    networks:
+      - strategickhaos_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      temporal:
+        condition: service_started
+    command: ["python", "-m", "refinory.orchestrator"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  refinory-dashboard:
+    image: node:20-alpine
+    container_name: refinory-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://refinory-api:8085
+      - NEXT_PUBLIC_QDRANT_URL=http://qdrant:6333
+    working_dir: /app
+    volumes:
+      - ./dashboard:/app
+    networks:
+      - strategickhaos_network
+    depends_on:
+      - refinory-api
+    command: ["sh", "-c", "npm ci && npm run build && npm start"]
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # Infrastructure Services
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: refinory-postgres
+    environment:
+      - POSTGRES_DB=refinory
+      - POSTGRES_USER=refinory
+      - POSTGRES_PASSWORD=refinory123
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - strategickhaos_network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U refinory -d refinory"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: refinory-redis
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - strategickhaos_network
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: refinory-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      - QDRANT__LOG_LEVEL=INFO
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    networks:
+      - strategickhaos_network
+    restart: unless-stopped
+
+  temporal:
+    image: temporalio/auto-setup:1.22
+    container_name: refinory-temporal
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=refinory
+      - POSTGRES_PWD=refinory123
+      - POSTGRES_SEEDS=postgres
+      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development-sql.yaml
+    volumes:
+      - ./temporal-config:/etc/temporal/config
+    networks:
+      - strategickhaos_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Monitoring & Observability
+  prometheus:
+    image: prom/prometheus:v2.48.1
+    container_name: refinory-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--storage.tsdb.retention.time=30d'
+    networks:
+      - strategickhaos_network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.2.3
+    container_name: refinory-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=refinory123
+      - GF_INSTALL_PLUGINS=redis-datasource,postgres-datasource
+      - GF_FEATURE_TOGGLES_ENABLE=publicDashboards
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana-provisioning:/etc/grafana/provisioning
+      - ./monitoring/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - strategickhaos_network
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # Vector Database UI (optional)
+  qdrant-web-ui:
+    image: qdrant/qdrant-web-ui:latest
+    container_name: refinory-qdrant-ui
+    ports:
+      - "3002:80"
+    environment:
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    networks:
+      - strategickhaos_network
+    depends_on:
+      - qdrant
+    restart: unless-stopped
+
+  # Log Aggregation
+  loki:
+    image: grafana/loki:2.9.4
+    container_name: refinory-loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml
+    networks:
+      - strategickhaos_network
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:2.9.4
+    container_name: refinory-promtail
+    volumes:
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - strategickhaos_network
+    depends_on:
+      - loki
+    restart: unless-stopped

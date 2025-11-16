@@ -1,0 +1,6 @@
+[09:31:59] ⚠️ FAILURE F1: Let's Encrypt rate limit simulation
+[09:31:59] ⚠️ FAILURE F2: Docker socket hijack risk detected
+[09:31:59] ⚠️ FAILURE F28: Password leaked in access logs
+[09:31:59] ⚠️ FAILURE F29: WebSocket connections lack CSRF protection
+[09:31:59] ⚠️ FAILURE F36: AI prompt injection attempt logged
+[09:31:59] ⚠️ FAILURE F34: MinIO buckets may have public access (simulated)

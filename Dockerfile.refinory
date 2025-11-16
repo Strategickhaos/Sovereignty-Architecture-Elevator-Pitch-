@@ -1,0 +1,33 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install system dependencies for AI/ML workloads
+RUN apk add --no-cache python3 py3-pip curl git
+
+# Install Node.js dependencies
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Install Python dependencies for AI agents in a virtual environment
+RUN python3 -m venv /app/venv && \
+    . /app/venv/bin/activate && \
+    pip install openai langchain faiss-cpu numpy pandas
+
+# Copy source code
+COPY src/refinory/ ./refinory/
+COPY src/config.js ./
+COPY discovery.yml ./
+
+# Create directories for artifacts
+RUN mkdir -p /app/artifacts /app/outputs /app/models
+RUN addgroup -g 1001 -S nodejs && adduser -S refinory -u 1001 -G nodejs
+RUN chown -R refinory:nodejs /app
+USER refinory
+
+EXPOSE 8085
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD curl -f http://localhost:8085/health || exit 1
+
+CMD ["/bin/sh", "-c", ". /app/venv/bin/activate && node refinory/orchestrator.js"]

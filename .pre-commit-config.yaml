@@ -1,0 +1,21 @@
+# .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: require-disclaimer
+        name: "Require Disclaimer"
+        entry: hooks/require_disclaimer.sh
+        language: script
+        files: \.(md|yaml|json|txt)$
+
+      - id: require-checklist
+        name: "Require Checklist"
+        entry: hooks/require_checklist.py
+        language: script
+        files: upl_safe_30_checklist\.md$
+
+      - id: require-gpg
+        name: "Require GPG Signature"
+        entry: hooks/require_gpg.sh
+        language: script
+        files: \.(asc|sig)$

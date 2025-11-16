@@ -1,0 +1,5 @@
+subdomain-1.strategickhaos.local
+subdomain-2.strategickhaos.local
+subdomain-3.strategickhaos.local
+subdomain-4.strategickhaos.local
+subdomain-5.strategickhaos.local

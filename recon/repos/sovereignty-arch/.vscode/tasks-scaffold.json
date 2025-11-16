@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "GitLens: Review Started → Discord",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/gl2discord.sh",
+      "options": { "env": { "DISCORD_TOKEN": "${env:DISCORD_TOKEN}", "CHANNEL_ID": "${env:PRS_CHANNEL_ID}" } },
+      "args": ["Review started", "${workspaceFolderBasename}"]
+    },
+    {
+      "label": "GitLens: Review Submitted → Discord", 
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/gl2discord.sh",
+      "options": { "env": { "DISCORD_TOKEN": "${env:DISCORD_TOKEN}", "CHANNEL_ID": "${env:PRS_CHANNEL_ID}" } },
+      "args": ["✅ Review Submitted", "Review completed by ${env:USERNAME}"]
+    },
+    {
+      "label": "GitLens: Needs Attention → Discord",
+      "type": "shell", 
+      "command": "${workspaceFolder}/scripts/gl2discord.sh",
+      "options": { "env": { "DISCORD_TOKEN": "${env:DISCORD_TOKEN}", "CHANNEL_ID": "${env:ALERTS_CHANNEL_ID}" } },
+      "args": ["🚨 Needs Attention", "${input:attentionReason}"]
+    },
+    {
+      "label": "GitLens: Commit Graph → Discord",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/gl2discord.sh", 
+      "options": { "env": { "DISCORD_TOKEN": "${env:DISCORD_TOKEN}", "CHANNEL_ID": "${env:DEPLOYMENTS_CHANNEL_ID}" } },
+      "args": ["📊 Commit Graph Updated", "Latest commits analyzed"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "attentionReason",
+      "description": "Reason why this needs attention",
+      "default": "Code review required",
+      "type": "promptString"
+    }
+  ]
+}

@@ -1,0 +1,264 @@
+# docker-compose.obs.yml - Full Observability + Security Stack
+# Extends base docker-compose.yml with Vault, Prometheus, Grafana, TLS, and monitoring
+
+version: "3.9"
+
+x-common: &common
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "5"
+
+networks:
+  obs_network:
+    driver: bridge
+  recon_network:
+    external: true
+    name: recon_network
+
+services:
+  # ── Secrets & Authentication ─────────────────────────────────────────
+  vault:
+    <<: *common
+    image: hashicorp/vault:1.17
+    container_name: vault
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_ROOT_TOKEN:-strategickhaos-vault-root}
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+      VAULT_ADDR: "http://0.0.0.0:8200"
+    ports:
+      - "8200:8200"
+    cap_add: ["IPC_LOCK"]
+    volumes:
+      - vault_data:/vault/data
+      - vault_logs:/vault/logs
+    networks: [obs_network, recon_network]
+    healthcheck:
+      test: ["CMD", "vault", "status", "-format=json"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vault.rule=Host(`vault.strategickhaos.local`)"
+      - "traefik.http.services.vault.loadbalancer.server.port=8200"
+
+  # ── Redis Cache & Message Queue ──────────────────────────────────────
+  redis:
+    <<: *common
+    image: redis:7-alpine
+    container_name: redis
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "notice"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks: [obs_network, recon_network]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ── Vector Database for AI/ML ─────────────────────────────────────────
+  qdrant:
+    <<: *common
+    image: qdrant/qdrant:v1.11
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks: [obs_network, recon_network]
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── Metrics Collection ────────────────────────────────────────────────
+  prometheus:
+    <<: *common
+    image: prom/prometheus:v2.55.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    networks: [obs_network, recon_network]
+    depends_on: [redis, vault]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`metrics.strategickhaos.local`)"
+
+  # ── Visualization & Dashboards ────────────────────────────────────────
+  grafana:
+    <<: *common
+    image: grafana/grafana:11.2.0
+    container_name: grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-strategickhaos-admin}
+      GF_USERS_ALLOW_SIGN_UP: false
+      GF_SECURITY_SECRET_KEY: ${GRAFANA_SECRET_KEY:-strategickhaos-grafana-secret}
+      GF_SERVER_ROOT_URL: "http://localhost:3000"
+      GF_ANALYTICS_REPORTING_ENABLED: false
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks: [obs_network, recon_network]
+    depends_on: [prometheus]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`dashboard.strategickhaos.local`)"
+
+  # ── Log Aggregation ───────────────────────────────────────────────────
+  loki:
+    <<: *common
+    image: grafana/loki:2.9.8
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yml:ro
+      - loki_data:/tmp/loki
+    command: ["-config.file=/etc/loki/local-config.yml"]
+    networks: [obs_network, recon_network]
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3100/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── Log Shipping ──────────────────────────────────────────────────────
+  promtail:
+    <<: *common
+    image: grafana/promtail:2.9.8
+    container_name: promtail
+    volumes:
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: ["-config.file=/etc/promtail/config.yml"]
+    networks: [obs_network, recon_network]
+    depends_on: [loki]
+
+  # ── Reverse Proxy & TLS ───────────────────────────────────────────────
+  traefik:
+    <<: *common
+    image: traefik:v3.1
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:-admin@strategickhaos.local}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--log.level=INFO"
+      - "--accesslog=true"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_certs:/letsencrypt
+    networks: [obs_network, recon_network]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.strategickhaos.local`)"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
+  # ── PostgreSQL for Refinory ───────────────────────────────────────────
+  postgres:
+    <<: *common
+    image: pgvector/pgvector:pg15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-refinory}
+      POSTGRES_USER: ${DB_USERNAME:-refinory}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-refinory123}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./monitoring/postgres-init:/docker-entrypoint-initdb.d:ro
+    networks: [obs_network, recon_network]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-refinory} -d ${DB_DATABASE:-refinory}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Temporal Workflow Engine ──────────────────────────────────────────
+  temporal:
+    <<: *common
+    image: temporalio/auto-setup:1.24
+    container_name: temporal
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=${DB_USERNAME:-refinory}
+      - POSTGRES_PWD=${DB_PASSWORD:-refinory123}
+      - POSTGRES_SEEDS=postgres
+      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development-sql.yaml
+    volumes:
+      - ./monitoring/temporal-config:/etc/temporal/config:ro
+    networks: [obs_network, recon_network]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ── Application Performance Monitoring ────────────────────────────────
+  jaeger:
+    <<: *common
+    image: jaegertracing/all-in-one:1.57
+    container_name: jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "6831:6831/udp"
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+    networks: [obs_network, recon_network]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jaeger.rule=Host(`tracing.strategickhaos.local`)"
+      - "traefik.http.services.jaeger.loadbalancer.server.port=16686"
+
+volumes:
+  vault_data:
+  vault_logs:
+  redis_data:
+  qdrant_data:
+  prometheus_data:
+  grafana_data:
+  loki_data:
+  traefik_certs:
+  postgres_data:

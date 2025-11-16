@@ -1,0 +1,45 @@
+name: 'Discord Notification'
+description: 'Send notification to Discord channel'
+inputs:
+  webhook-url:
+    description: 'Discord webhook URL'
+    required: true
+  title:
+    description: 'Notification title'
+    required: true
+  description:
+    description: 'Notification description'
+    required: false
+  color:
+    description: 'Embed color (hex)'
+    required: false
+    default: '0x2f81f7'
+  url:
+    description: 'URL to link to'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Send Discord notification
+      shell: bash
+      run: |
+        PAYLOAD=$(cat << EOF
+        {
+          "embeds": [{
+            "title": "${{ inputs.title }}",
+            "description": "${{ inputs.description }}",
+            "color": ${{ inputs.color }},
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)",
+            "footer": {
+              "text": "GitHub Actions"
+            }$(if [ -n "${{ inputs.url }}" ]; then echo ',
+            "url": "${{ inputs.url }}"'; fi)
+          }]
+        }
+        EOF
+        )
+        
+        curl -H "Content-Type: application/json" \
+             -d "$PAYLOAD" \
+             "${{ inputs.webhook-url }}"

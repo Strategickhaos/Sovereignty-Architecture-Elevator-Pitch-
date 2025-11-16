@@ -1,0 +1,47 @@
+org:
+  name: "yourco"
+discord:
+  guild_id: ""
+  channels:
+    prs: "#prs"
+    deployments: "#deployments"
+    alerts: "#alerts"
+  bot:
+    app_id: ""
+    token_secret_env: "DISCORD_TOKEN"
+    intents:
+      message_content: false
+      guild_members: false
+    rbac:
+      prod_role: "ReleaseMgr"
+git:
+  provider: "github"
+  org: "yourco"
+  app:
+    webhook_secret_env: "GITHUB_WEBHOOK_SECRET"
+repos:
+  - name: "svc-a"
+    channel: "#deployments"
+    events: ["pull_request","check_suite","push","issue_comment"]
+control_api:
+  base_url: "https://control.internal"
+  bearer_env: "CTRL_API_TOKEN"
+event_gateway:
+  port: 3001
+  routes:
+    - event: "pull_request"
+      channel: "#prs"
+    - event: "check_suite"
+      channel: "#deployments"
+    - event: "push"
+      branches: ["main","release/*"]
+      channel: "#deployments"
+commands:
+  allow:
+    - "status"
+    - "logs"
+    - "deploy"
+    - "scale"
+security:
+  redact_patterns:
+    - "(?i)api[_-]?key\\s*[:=]\\s*\\S+"

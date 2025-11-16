@@ -1,0 +1,92 @@
+# Refinory AI Agent Orchestration Platform
+FROM python:3.11-slim
+
+ARG GPU_SUPPORT=false
+
+LABEL maintainer="Strategickhaos Swarm Intelligence <dev@strategickhaos.com>"
+LABEL org.opencontainers.image.source="https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture"
+LABEL org.opencontainers.image.description="Refinory AI Agent Orchestration Platform"
+LABEL org.opencontainers.image.licenses="MIT"
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    jq \
+    wget \
+    unzip \
+    libpq-dev \
+    docker.io \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install CUDA support if requested
+RUN if [ "$GPU_SUPPORT" = "true" ]; then \
+    apt-get update && \
+    apt-get install -y nvidia-cuda-toolkit && \
+    rm -rf /var/lib/apt/lists/*; \
+    fi
+
+# Create non-root user
+RUN groupadd -r refinory && useradd -r -g refinory refinory
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements first for better caching
+COPY requirements.refinory.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.refinory.txt
+
+# Install additional GPU packages if needed
+RUN if [ "$GPU_SUPPORT" = "true" ]; then \
+    pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118; \
+    fi
+
+# Copy application code
+COPY refinory/ ./refinory/
+COPY scripts/ ./scripts/
+COPY config/ ./config/
+
+# Create required directories
+RUN mkdir -p /var/refinory/{artifacts,outputs,models} && \
+    chown -R refinory:refinory /var/refinory /app
+
+# Set up environment
+ENV PYTHONPATH=/app
+ENV REFINORY_ENV=production
+ENV LOG_LEVEL=INFO
+ENV PYTHONUNBUFFERED=1
+
+# Health check script
+COPY --chmod=755 <<EOF /app/healthcheck.sh
+#!/bin/bash
+set -e
+case "\$1" in
+  api)
+    curl -f http://localhost:8085/health || exit 1
+    ;;
+  orchestrator)
+    curl -f http://localhost:8081/health || exit 1
+    ;;
+  *)
+    echo "Unknown service type: \$1"
+    exit 1
+    ;;
+esac
+EOF
+
+# Switch to non-root user
+USER refinory
+
+# Expose ports
+EXPOSE 8085 8081
+
+# Default command (can be overridden)
+CMD ["python", "-m", "refinory.main"]
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD /app/healthcheck.sh api

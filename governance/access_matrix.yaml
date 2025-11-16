@@ -1,0 +1,52 @@
+# access_matrix.yaml
+# Strategickhaos DAO LLC — UPL-Safe Access Control
+version: "1.0"
+roles:
+  drafter:
+    - name: "Domenic Garza"
+      id: "node-137"
+      permissions:
+        - draft_internal
+        - use_templates
+        - query_rag
+    - name: "AI SME Nodes"
+      id: "grok-4, claude-3.5, llama3"
+      permissions:
+        - assist_draft
+        - rag_query
+        - log_proof
+
+  approver:
+    - name: "WY-Licensed Attorney"
+      id: "counsel-01"
+      permissions:
+        - review_draft
+        - approve_document
+        - redline_changes
+
+  signer:
+    - name: "Domenic Garza"
+      id: "managing-member"
+      permissions:
+        - sign_document
+        - submit_filing
+        - gpg_sign
+
+  auditor:
+    - name: "Compliance Node"
+      id: "audit-bot"
+      permissions:
+        - log_trail
+        - verify_gpg
+        - generate_sha256
+
+enforcement:
+  repo_permissions:
+    - "drafter: write to /drafts"
+    - "approver: required review on /final"
+    - "signer: push to main"
+  ci_checks:
+    - disclaimer_present
+    - checklist_complete
+    - proof_logged
+    - gpg_signed
