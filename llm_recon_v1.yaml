@@ -1,0 +1,166 @@
+# llm_recon_v1.yaml
+# Strategickhaos DAO LLC / Valoryield Engine — LLM Recon v1 (30 Sources)
+# Generated: 2025-11-16T14:05:00Z
+# Operator: Domenic Garza (Node 137)
+# Purpose: Ingest 30 foundational LLM papers for RAG + capstone
+
+version: "1.0"
+ingestion_engine: "recon-ingestor"
+rag_collection: "llm_research_v1"
+embedding_model: "BAAI/bge-small-en-v1.5"
+vector_db: "qdrant://localhost:6333"
+chunk_size: 512
+chunk_overlap: 128
+output_dir: "recon/llm_v1"
+
+globals:
+  user_agent: "Strategickhaos-Recon/1.0"
+  timeout_sec: 60
+  retries: 2
+  rate_limit_sec: 1
+  disclaimer: "INTERNAL DRAFT — NOT LEGAL ADVICE — ATTORNEY REVIEW REQUIRED"
+
+sources:
+  - id: attention_is_all_you_need
+    url: "https://arxiv.org/pdf/1706.03762.pdf"
+    file: "attention_is_all_you_need.pdf"
+    category: "transformer"
+  - id: reformer_efficient
+    url: "https://arxiv.org/pdf/2005.14165.pdf"
+    file: "reformer_efficient_transformers.pdf"
+    category: "efficiency"
+  - id: longformer
+    url: "https://arxiv.org/pdf/1910.05895.pdf"
+    file: "longformer.pdf"
+    category: "long-context"
+  - id: routing_transformer
+    url: "https://arxiv.org/pdf/2004.05150.pdf"
+    file: "routing_transformer.pdf"
+    category: "efficiency"
+  - id: switch_transformer
+    url: "https://arxiv.org/pdf/2001.08361.pdf"
+    file: "switch_transformer.pdf"
+    category: "moe"
+  - id: gpt3_fewshot
+    url: "https://arxiv.org/pdf/2101.03961.pdf"
+    file: "gpt3_language_models_are_few_shot_learners.pdf"
+    category: "scaling"
+  - id: chinchilla_scaling
+    url: "https://arxiv.org/pdf/2203.02155.pdf"
+    file: "chinchilla_scaling_laws.pdf"
+    category: "scaling"
+  - id: palm
+    url: "https://arxiv.org/pdf/2302.13971.pdf"
+    file: "palm.pdf"
+    category: "scaling"
+  - id: gpt4_tech
+    url: "https://arxiv.org/pdf/2403.05530.pdf"
+    file: "gpt4_technical_report.pdf"
+    category: "gpt"
+  - id: llama1
+    url: "https://arxiv.org/pdf/2303.08774.pdf"
+    file: "llama1.pdf"
+    category: "open"
+  - id: llama2
+    url: "https://arxiv.org/pdf/2307.09288.pdf"
+    file: "llama2.pdf"
+    category: "open"
+  - id: llama3
+    url: "https://arxiv.org/pdf/2407.21783.pdf"
+    file: "llama3_tech_report.pdf"
+    category: "open"
+  - id: alpaca_self_instruct
+    url: "https://arxiv.org/pdf/2210.11610.pdf"
+    file: "alpaca_self_instruct.pdf"
+    category: "instruction"
+  - id: data_compute_optimality
+    url: "https://arxiv.org/pdf/2203.02155.pdf"
+    file: "data_compute_optimality.pdf"
+    category: "scaling"
+  - id: sparsity_moe
+    url: "https://arxiv.org/pdf/2001.08361.pdf"
+    file: "sparsity_mixture_of_experts.pdf"
+    category: "moe"
+  - id: efficient_transformers_survey
+    url: "https://arxiv.org/pdf/2005.14165.pdf"
+    file: "efficient_transformers_survey.pdf"
+    category: "survey"
+  - id: rlhf_inception
+    url: "https://arxiv.org/pdf/2009.01325.pdf"
+    file: "rlhf_instruction_following_inception.pdf"
+    category: "alignment"
+  - id: instructgpt
+    url: "https://arxiv.org/pdf/2204.05862.pdf"
+    file: "rlhf_instructgpt.pdf"
+    category: "alignment"
+  - id: constitutional_ai
+    url: "https://arxiv.org/pdf/2212.08073.pdf"
+    file: "constitutional_ai_harmlessness.pdf"
+    category: "safety"
+  - id: red_teaming
+    url: "https://arxiv.org/pdf/2210.17560.pdf"
+    file: "red_teaming_language_models.pdf"
+    category: "safety"
+  - id: llm_eval
+    url: "https://arxiv.org/pdf/2305.11206.pdf"
+    file: "llm_eval_hollever.pdf"
+    category: "eval"
+  - id: chain_of_thought
+    url: "https://arxiv.org/pdf/2201.11903.pdf"
+    file: "chain_of_thought.pdf"
+    category: "reasoning"
+  - id: self_consistency
+    url: "https://arxiv.org/pdf/2203.11171.pdf"
+    file: "self_consistency_cot.pdf"
+    category: "reasoning"
+  - id: toolformer
+    url: "https://arxiv.org/pdf/2302.04761.pdf"
+    file: "toolformer_teaching_models_to_use_tools.pdf"
+    category: "tools"
+  - id: react
+    url: "https://arxiv.org/pdf/2210.03629.pdf"
+    file: "react_reasoning_acting.pdf"
+    category: "agents"
+  - id: llm_agents_survey
+    url: "https://arxiv.org/pdf/2308.07924.pdf"
+    file: "llm_agents_survey.pdf"
+    category: "survey"
+  - id: retrieval_survey
+    url: "https://arxiv.org/pdf/2312.10997.pdf"
+    file: "retrieval_augmentation_survey.pdf"
+    category: "rag"
+  - id: colbertv2
+    url: "https://arxiv.org/pdf/2112.01488.pdf"
+    file: "colbertv2_efficient_retrieval.pdf"
+    category: "retrieval"
+  - id: simclr
+    url: "https://arxiv.org/pdf/2002.05709.pdf"
+    file: "contrastive_learning_simclr.pdf"
+    category: "pretrain"
+  - id: clip
+    url: "https://arxiv.org/pdf/2103.00020.pdf"
+    file: "openai_multimodal_clip.pdf"
+    category: "multimodal"
+
+ingestion_pipeline:
+  steps:
+    - fetch: "curl -L -s -H 'User-Agent: $user_agent' $url -o $output_dir/$file"
+    - chunk: "python /app/chunk.py --size 512 --overlap 128"
+    - embed: "python /app/embed.py --model bge-small-en-v1.5"
+    - store: "qdrant upsert --collection $rag_collection"
+    - audit: "python /app/proof_engine.py --query 'Key insight from $id'"
+
+post_ingest:
+  - generate_proof: "python /app/proof_engine.py --output proof_llm_v1.yaml"
+  - gpg_sign: "gpg --sign --detach recon/reports/llm_v1_ingest.md"
+  - query_test: |
+    curl -X POST http://localhost:7000/query \
+      -d '{"q":"What is Chinchilla scaling law?","k":3}'
+
+audit_trail:
+  log_file: "recon/audit/llm_v1_20251116.log"
+  gpg_required: true
+  sha256: true
+
+operator: "Domenic Garza"
+timestamp: "2025-11-16T14:05:00Z"
