@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Sovereignty Architecture - Shell Configuration
 # This file contains custom shell functions for the DOM memory stream system
 
