@@ -142,7 +142,7 @@ services:
     command: /bin/bash
 
   parrot:
-    image: ghcr.io/m1k1o/parrot-security:latest
+    image: parrotsec/security:latest
     container_name: parrot-dom
     stdin_open: true
     tty: true
