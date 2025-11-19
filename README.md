@@ -249,6 +249,41 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+**Windows PowerShell profile errors:**
+```powershell
+# Run diagnostics
+.\scripts\powershell-diagnostic.ps1 -SendToDiscord
+
+# Auto-fix common issues
+.\scripts\fix-powershell-profile.ps1
+
+# Manual review of issues
+notepad $PROFILE
+```
+
+See [Windows PowerShell Diagnostic Guide](./WINDOWS_POWERSHELL_DIAGNOSTIC_NITRO_V15.md) for complete troubleshooting.
+
+## 🪟 Windows Support
+
+### PowerShell Integration
+Strategic Khaos includes comprehensive Windows PowerShell support for development on Windows workstations:
+
+- **Automated Diagnostics**: Detect and report PowerShell configuration issues
+- **Profile Repair**: Auto-fix common syntax errors in PowerShell profiles
+- **GitLens Integration**: VS Code tasks for Windows environments
+- **UIDP Voting**: Legion of minds council voting on Windows-specific issues
+
+### VS Code Tasks (Windows)
+Access from VS Code Command Palette (`Ctrl+Shift+P`) → "Tasks: Run Task":
+- **Windows: PowerShell Diagnostic** - Run full system diagnostic
+- **Windows: Fix PowerShell Profile** - Repair profile syntax errors
+- **GitLens: Windows PowerShell Diagnostic Vote** - Submit UIDP vote for resolutions
+
+### Documentation
+- [Windows PowerShell Diagnostic - Nitro V15](./WINDOWS_POWERSHELL_DIAGNOSTIC_NITRO_V15.md)
+- [RECON Stack v2 - Windows Integration](./RECON_STACK_V2.md)
+- [Boot Recon](./BOOT_RECON.md)
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
