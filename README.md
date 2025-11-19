@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **DoLM (Department of Living Memory)** - Eternal error and TODO tracking with Obsidian vault
 
 ## 🚀 Quick Start
 
@@ -47,6 +48,13 @@ export PRS_CHANNEL="channel_id"
 - **Review Workflows**: Automated PR lifecycle notifications
 - **Commit Graph**: Real-time development activity feeds
 - **Launchpad**: Integrated with GitLens Pro features
+
+### 🧠 Department of Living Memory (DoLM)
+- **File Watching**: Real-time monitoring of all code files
+- **TODO Tracking**: Automatic capture of TODO, FIXME, HACK, XXX comments
+- **Error Detection**: Pattern matching for errors and issues
+- **Obsidian Vault**: Living knowledge base with interconnected notes
+- **Documentation**: See [DOLM.md](DOLM.md) for full details
 
 ## 🏗️ Infrastructure
 

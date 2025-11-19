@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  dolm-daemon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dolm-daemon
+    restart: unless-stopped
+    volumes:
+      # Mount your code directory as read-only
+      - ${DOLM_WATCH_PATH:-./..}:/swarm:ro
+      # Mount the vault directory for writing
+      - ${DOLM_VAULT_PATH:-~/strategic-khaos-private/dolm-vault}:/vault
+    environment:
+      - DOLM_WATCH_PATH=/swarm
+      - DOLM_VAULT_PATH=/vault
+      - PYTHONUNBUFFERED=1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.strategickhaos.service=dolm"
+      - "com.strategickhaos.description=Department of Living Memory"
