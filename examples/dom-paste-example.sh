@@ -15,7 +15,7 @@ mkdir -p "${VAULT_DIR}"
 # Initialize git repository if not already initialized
 if [ ! -d "${VAULT_DIR}/.git" ]; then
     echo "Initializing git repository..."
-    cd "${VAULT_DIR}"
+    cd "${VAULT_DIR}" || exit
     git init
     git config user.name "DOM Memory Stream"
     git config user.email "memory@strategickhaos.local"
@@ -33,7 +33,7 @@ Every entry is timestamped and version-controlled.
 ---
 
 EOF
-    cd "${VAULT_DIR}"
+    cd "${VAULT_DIR}" || exit
     git add MEMORY_STREAM.md
     git commit -m "Initialize memory stream" --no-verify
 fi
