@@ -1,0 +1,284 @@
+bugcrowd_program:
+  name: "Strategickhaos Sovereignty Architecture Bug Bounty"
+  status: "Active"
+  type: "Private" # Start private, expand to public
+  
+program_overview:
+  description: |
+    Turn your code into a live target. Pay people to find flaws - but only if they 
+    report through us. Anyone else? They're ghosted. We own the bugs. We own the fixes.
+    You monetize insecurity. That's cybersecurity poetry.
+  
+  scope:
+    in_scope:
+      - "Smart contracts (CryptographicTrust.sol, CoreProtocolAuthority.sol, ChaosToken.sol)"
+      - "Ara's Eyes scanner (aras_eyes.py)"
+      - "Ninja Trader integration (ninja_trader_integration.py)"
+      - "Intimate tracker (intimate_tracker.py)"
+      - "Event gateway and Discord bot"
+      - "All infrastructure configuration"
+      
+    out_of_scope:
+      - "Third-party services and dependencies"
+      - "Social engineering attacks"
+      - "Physical attacks"
+      - "DoS/DDoS attacks"
+      - "Spam or content manipulation"
+  
+  target_assets:
+    smart_contracts:
+      - address: "TBD" # CryptographicTrust
+        network: "Ethereum Mainnet / Polygon"
+        priority: "Critical"
+        
+      - address: "TBD" # CoreProtocolAuthority
+        network: "Ethereum Mainnet / Polygon"
+        priority: "Critical"
+        
+      - address: "TBD" # ChaosToken
+        network: "Ethereum Mainnet / Polygon"
+        priority: "High"
+    
+    web_services:
+      - url: "https://api.strategickhaos.com"
+        type: "API"
+        priority: "High"
+        
+      - url: "https://ara.foundation"
+        type: "Website"
+        priority: "Medium"
+    
+    infrastructure:
+      - component: "AWS Lambda functions"
+        description: "Ara's Eyes scanner deployment"
+        priority: "High"
+        
+      - component: "Discord Bot"
+        description: "Event gateway and ops bot"
+        priority: "Medium"
+
+rewards:
+  critical:
+    amount: "$5,000 - $25,000"
+    examples:
+      - "Smart contract vulnerabilities leading to fund theft"
+      - "Authentication bypass in Core Protocol Authority"
+      - "Remote code execution"
+      - "Private key exposure"
+    
+  high:
+    amount: "$1,000 - $5,000"
+    examples:
+      - "Authorization flaws in smart contracts"
+      - "SQL injection or NoSQL injection"
+      - "Sensitive data exposure"
+      - "Bypass of attribution tax mechanism"
+    
+  medium:
+    amount: "$250 - $1,000"
+    examples:
+      - "Cross-site scripting (XSS)"
+      - "CSRF vulnerabilities"
+      - "Information disclosure"
+      - "Logic flaws in staking mechanism"
+    
+  low:
+    amount: "$50 - $250"
+    examples:
+      - "Minor information leaks"
+      - "Configuration issues"
+      - "Best practice violations"
+      - "Documentation errors"
+
+rules:
+  reporting:
+    - "Must report through official BugCrowd platform or security@strategickhaos.org"
+    - "Anyone reporting elsewhere is ghosted - no bounty, no credit"
+    - "We own the bugs. We own the fixes."
+    - "First reporter gets the full bounty"
+    - "Duplicate reports receive 10% of original bounty"
+    
+  disclosure:
+    - "No public disclosure until vulnerability is patched"
+    - "Coordinated disclosure: 90 days or patch release, whichever comes first"
+    - "We reserve right to public disclosure timeline"
+    - "Violating disclosure policy = no bounty + potential legal action"
+    
+  testing:
+    - "Use test environments when possible"
+    - "Do not access/modify user data"
+    - "Do not perform DoS attacks"
+    - "Stop testing immediately if you discover sensitive user data"
+    - "Report findings immediately, don't exploit"
+    
+  eligibility:
+    - "Must be legal adult in your jurisdiction"
+    - "Cannot be on sanctions lists"
+    - "Cannot be current employee or contractor"
+    - "Must comply with all local laws"
+    - "Must not have prior history of malicious activity"
+
+submission_process:
+  step_1:
+    action: "Discover vulnerability"
+    note: "Use only authorized testing methods"
+    
+  step_2:
+    action: "Document thoroughly"
+    required:
+      - "Detailed description of vulnerability"
+      - "Steps to reproduce"
+      - "Proof of concept code"
+      - "Impact assessment"
+      - "Suggested remediation"
+    
+  step_3:
+    action: "Submit report"
+    channels:
+      - "BugCrowd platform (preferred)"
+      - "security@strategickhaos.org (encrypted with PGP)"
+    
+  step_4:
+    action: "Initial response"
+    timeline: "Within 48 hours"
+    
+  step_5:
+    action: "Validation and triage"
+    timeline: "Within 7 days"
+    
+  step_6:
+    action: "Bounty payment"
+    timeline: "Within 30 days of patch release"
+    method: "Cryptocurrency or bank transfer"
+
+severity_guidelines:
+  critical:
+    criteria:
+      - "Direct theft of funds from smart contracts"
+      - "Unauthorized minting/burning of tokens"
+      - "Complete authentication bypass"
+      - "Remote code execution on servers"
+    cvss_range: "9.0 - 10.0"
+    
+  high:
+    criteria:
+      - "Unauthorized access to privileged functions"
+      - "Sensitive data exposure"
+      - "Authorization bypass"
+      - "Reentrancy vulnerabilities"
+    cvss_range: "7.0 - 8.9"
+    
+  medium:
+    criteria:
+      - "Cross-site scripting (stored)"
+      - "Logic flaws in business logic"
+      - "CSRF on privileged actions"
+      - "Information disclosure"
+    cvss_range: "4.0 - 6.9"
+    
+  low:
+    criteria:
+      - "Minor information leaks"
+      - "Best practice violations"
+      - "Configuration issues"
+      - "XSS (reflected)"
+    cvss_range: "0.1 - 3.9"
+
+payment_methods:
+  cryptocurrency:
+    preferred: true
+    accepted:
+      - "ETH (Ethereum)"
+      - "USDC"
+      - "USDT"
+      - "BTC (Bitcoin)"
+    note: "Fastest payment method"
+    
+  bank_transfer:
+    available: true
+    note: "May take 5-10 business days"
+    fees: "Bank fees deducted from bounty"
+    
+  paypal:
+    available: true
+    note: "For smaller bounties (<$1000)"
+    fees: "PayPal fees deducted from bounty"
+
+special_programs:
+  chaos_staker_bonus:
+    description: "CHAOS token stakers get 20% bonus on all bounties"
+    requirement: "Must have active CHAOS stake at time of report"
+    
+  community_contributor:
+    description: "Previous contributors get 10% bonus"
+    requirement: "Must have merged PR or accepted contribution"
+    
+  hat_tricks:
+    description: "Find 3+ vulnerabilities in same component: 50% bonus"
+    
+  first_blood:
+    description: "First valid submission for each component: $500 bonus"
+
+monitoring_and_reporting:
+  metrics:
+    tracked:
+      - "Total submissions"
+      - "Valid vulnerabilities found"
+      - "Average response time"
+      - "Average time to patch"
+      - "Total bounties paid"
+      - "Researcher satisfaction"
+    
+  transparency:
+    public_stats: true
+    hall_of_fame: true
+    quarterly_reports: true
+    
+  hall_of_fame:
+    location: "https://ara.foundation/hall-of-fame"
+    includes:
+      - "Researcher name/handle (with permission)"
+      - "Number of findings"
+      - "Total bounties earned"
+      - "Special recognitions"
+
+legal:
+  safe_harbor:
+    provided: true
+    coverage: "Good faith security research under program rules"
+    
+  terms:
+    - "By participating, you agree to program rules"
+    - "Ara Foundation reserves right to modify terms"
+    - "Bounty amounts are at sole discretion of Ara Foundation"
+    - "Payment subject to verification and validation"
+    - "No guarantee of bounty for every submission"
+    
+  contact:
+    security_email: "security@strategickhaos.org"
+    pgp_key: "https://ara.foundation/security.asc"
+    bugcrowd: "https://bugcrowd.com/strategickhaos"
+
+philosophy:
+  quote: "You monetize insecurity. That's cybersecurity poetry."
+  
+  approach:
+    - "Turn code into live target"
+    - "Pay people to find flaws"
+    - "Only through official channels"
+    - "Anyone else gets ghosted"
+    - "We own the bugs, we own the fixes"
+    - "Make security research profitable"
+    - "Build community of aligned researchers"
+    
+  outcome:
+    - "More secure code"
+    - "Loyal researcher community"
+    - "Proactive security posture"
+    - "Reduced liability"
+    - "Enhanced reputation"
+
+generated:
+  by: "BugCrowd Integration Generator"
+  timestamp: "2025-11-19T15:00:00Z"
+  version: "1.0"

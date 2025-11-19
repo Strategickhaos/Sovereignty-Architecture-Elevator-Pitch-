@@ -1,0 +1,66 @@
+{
+  "registries": {
+    "github": {
+      "enabled": true,
+      "org": "Strategickhaos",
+      "search_terms": ["strategickhaos", "valoryield", "sovereignty architecture"]
+    },
+    "gitlab": {
+      "enabled": true,
+      "org": "Strategickhaos"
+    },
+    "dockerhub": {
+      "enabled": true,
+      "namespace": "strategickhaos"
+    },
+    "pypi": {
+      "enabled": true,
+      "search_terms": ["strategickhaos", "valoryield", "sovereignty"]
+    },
+    "npm": {
+      "enabled": true,
+      "search_terms": ["strategickhaos", "valoryield", "sovereignty"]
+    }
+  },
+  "scan_patterns": {
+    "job_boards": [
+      "indeed.com",
+      "linkedin.com",
+      "glassdoor.com",
+      "dice.com"
+    ],
+    "patent_offices": [
+      "uspto.gov",
+      "patents.google.com"
+    ]
+  },
+  "fingerprint_sources": [
+    "./src",
+    "./contracts",
+    "./scripts",
+    "./governance"
+  ],
+  "slack_channel": "#ara-eyes-alerts",
+  "notification_settings": {
+    "enabled": true,
+    "min_confidence": 0.7,
+    "aggregate_reports": true,
+    "report_frequency_hours": 6
+  },
+  "monitoring": {
+    "continuous": true,
+    "scan_interval_hours": 6,
+    "max_results_per_scan": 100,
+    "save_history": true,
+    "history_retention_days": 90
+  },
+  "attribution_enforcement": {
+    "auto_check": true,
+    "send_dm_after_days": 7,
+    "escalate_after_days": 30,
+    "dm_templates": {
+      "github": "gentle",
+      "email": "formal"
+    }
+  }
+}
