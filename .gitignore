@@ -21,6 +21,11 @@ target
 #.idea/
 node_modules
 
+# Build artifacts
+dist/
+build/
+*.js.map
+
 # Terraform
 **/.terraform/
 **/.terraform.lock.hcl
