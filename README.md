@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **War Room Synthesizer** - Red/Purple/Blue team security operations (NEW! 🛡️)
 
 ## 🚀 Quick Start
 
@@ -47,6 +48,22 @@ export PRS_CHANNEL="channel_id"
 - **Review Workflows**: Automated PR lifecycle notifications
 - **Commit Graph**: Real-time development activity feeds
 - **Launchpad**: Integrated with GitLens Pro features
+
+### 🛡️ War Room Synthesizer (NEW!)
+- **Master Executive Autonomous Override Protocol**: DOM_010101 // NEUROSPIKE ASCENSION
+- **Red Team**: 100 attack agents performing offensive security simulations
+- **Purple Team**: Real-time collaborative hardening and threat correlation
+- **Blue Team**: Defensive operations with zero-trust enforcement
+- **Threat Vault**: Obsidian-compatible vault with MITRE ATT&CK mapping
+- **Kubernetes Distribution**: Immutable ConfigMap deployment across all clusters
+
+```bash
+# Execute the War Room Synthesizer
+npm run war-room
+
+# See full documentation
+cat WAR_ROOM_SYNTHESIZER.md
+```
 
 ## 🏗️ Infrastructure
 
