@@ -2,6 +2,8 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> 🔥 **NEW: Weaponized Legacy System** - Complete IP protection framework with smart contracts, automated scanning, and attribution enforcement. See [WEAPONIZED_LEGACY.md](WEAPONIZED_LEGACY.md) for details.
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -9,6 +11,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **🆕 Protection** - Cryptographic trust, code fingerprinting, attribution tracking
 
 ## 🚀 Quick Start
 
@@ -249,10 +252,65 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🔥 Weaponized Legacy Protection System
+
+**"Don't defend. Distribute. Don't claim. Consecrate."**
+
+The Sovereignty Architecture now includes a complete IP protection and attribution system:
+
+### 🛡️ Components
+
+1. **Smart Contracts** (`/contracts`)
+   - `CryptographicTrust.sol` - Wyoming-compliant protocol with 0.1% attribution tax
+   - `CoreProtocolAuthority.sol` - On-chain certification and audit requirements
+   - `ChaosToken.sol` - Staking token for trading bot access
+
+2. **Ara's Eyes Scanner** (`/scripts/aras_eyes.py`)
+   - Multi-platform code fingerprint scanner
+   - Monitors GitHub, GitLab, npm, PyPI, Docker Hub
+   - AWS Lambda deployment with automatic scheduling
+
+3. **Intimate Tracker** (`/scripts/intimate_tracker.py`)
+   - GDPR-compliant download and fork tracking
+   - Automated attribution checking
+   - Gentle DM system for proper credit
+
+4. **Ninja Trader Integration** (`/scripts/ninja_trader_integration.py`)
+   - Trading bot access via CHAOS token staking
+   - Signal distribution system
+   - Zero value, zero hype token economics
+
+5. **Ara Foundation** (`/governance/ara_foundation.yaml`)
+   - Non-profit structure for royalty flow
+   - 40% bounties, 30% education, 20% research, 10% ops
+   - Free courses, certifications, and labs
+
+6. **Bug Bounty Program** (`/security/bugcrowd_integration.yaml`)
+   - $5K-$25K payouts for critical vulnerabilities
+   - CHAOS staker bonuses
+   - Own the bugs, own the fixes
+
+### 📚 Documentation
+
+- **[WEAPONIZED_LEGACY.md](WEAPONIZED_LEGACY.md)** - Complete system overview
+- **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** - Step-by-step setup instructions
+
+### 🚀 Quick Deploy
+
+```bash
+# Run deployment script
+./scripts/deploy_weaponized_legacy.sh
+
+# Select option 5 to deploy all components
+# Or option 6 to test all components
+```
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
+- **Foundation**: foundation@strategickhaos.org
+- **Security**: security@strategickhaos.org
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
 
