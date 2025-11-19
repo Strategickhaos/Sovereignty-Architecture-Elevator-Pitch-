@@ -218,6 +218,40 @@ export PRS_CHANNEL="dev_channel_id"
 4. **Submit** PR with improvements
 5. **Share** configuration patterns with community
 
+## 🪟 Windows Development Setup
+
+### Windows Defender Executive Override
+
+For Windows developers experiencing security prompts when running PowerShell scripts, we provide an executive override configuration tool:
+
+```powershell
+# Run as Administrator
+.\defender-executive-override.ps1
+```
+
+**⚠️ Security Warning**: This script configures Windows Defender exclusions for PowerShell development. Only use on trusted development machines. See [DEFENDER_OVERRIDE_GUIDE.md](DEFENDER_OVERRIDE_GUIDE.md) for full documentation.
+
+**Features:**
+- Adds project directory to Defender exclusions
+- Excludes PowerShell processes from scanning  
+- Excludes .ps1 file extensions
+- Reduces security prompts during development
+- Includes dry-run mode for safety
+
+**Quick Start:**
+```powershell
+# Test first (no changes made)
+.\defender-executive-override.ps1 -DryRun
+
+# Apply configuration
+.\defender-executive-override.ps1
+
+# Custom project path
+.\defender-executive-override.ps1 -ProjectPath "C:\Custom\Path"
+```
+
+For complete usage instructions, security implications, and best practices, see [DEFENDER_OVERRIDE_GUIDE.md](DEFENDER_OVERRIDE_GUIDE.md).
+
 ## 🆘 Troubleshooting
 
 ### Common Issues
@@ -247,6 +281,15 @@ kubectl logs -f deployment/event-gateway -n ops
 
 # Verify HMAC signature
 curl -X POST https://events.strategickhaos.com/health
+```
+
+**Windows PowerShell execution policy errors:**
+```powershell
+# Bypass execution policy for single script
+PowerShell.exe -ExecutionPolicy Bypass -File .\script.ps1
+
+# Or set policy for current user (less secure)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ## 📄 License & Support
