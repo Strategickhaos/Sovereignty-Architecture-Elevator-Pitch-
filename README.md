@@ -199,17 +199,29 @@ git push origin main
 ## 🛠️ Development Workflow
 
 ### Local Development
+
+For complete local development setup including webhook testing with ngrok, see the **[Local Development Guide](LOCAL_DEVELOPMENT.md)**.
+
+**Quick Start:**
 ```bash
 # 1. Set up environment
 export DISCORD_TOKEN="dev_token"
 export PRS_CHANNEL="dev_channel_id"
 
-# 2. Test GitLens integration
+# 2. Start local services
+docker-compose up -d
+
+# 3. Start ngrok tunnel for webhook testing
+ngrok http 8080
+
+# 4. Test GitLens integration
 ./gl2discord.sh "$PRS_CHANNEL" "🧪 Testing" "Local development active"
 
-# 3. Run VS Code tasks
+# 5. Run VS Code tasks
 # Command Palette → Tasks: Run Task → GitLens: Review Started
 ```
+
+**Webhook Testing**: Use ngrok to expose your local event gateway for GitHub webhook testing. See [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) for detailed setup instructions.
 
 ### Contributing
 1. **Fork** the repository
