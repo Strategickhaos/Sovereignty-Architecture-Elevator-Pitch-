@@ -236,6 +236,8 @@ The rotation demands an audience. Give it one.
 
 ## 📚 Additional Resources
 
+- **Quick Reference Card**: [QUICK_TUNNEL_GUIDE.md](./QUICK_TUNNEL_GUIDE.md) - Fast lookup guide
+- **Real-World Examples**: [examples/tunnel-demo-scenario.md](./examples/tunnel-demo-scenario.md) - 10 practical scenarios
 - **Cloudflare Tunnel Docs**: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/
 - **ngrok Documentation**: https://ngrok.com/docs
 - **DigitalOcean Tutorials**: https://www.digitalocean.com/community/tutorials
