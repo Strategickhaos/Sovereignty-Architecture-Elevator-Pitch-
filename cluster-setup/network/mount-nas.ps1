@@ -97,17 +97,25 @@ $uncPath = "\\$NasIP\$ShareName"
 
 try {
     # Use net use for persistent mapping
-    $password = $credential.GetNetworkCredential().Password
-    $netUseCmd = "net use ${DriveLetter}: $uncPath /user:$Username `"$password`" /persistent:yes"
-    
-    Invoke-Expression $netUseCmd | Out-Null
-    
-    if ($LASTEXITCODE -ne 0) {
-        throw "net use command failed with exit code $LASTEXITCODE"
+    # Create temporary file with password to avoid exposing in command line
+    $tempPassFile = [System.IO.Path]::GetTempFileName()
+    try {
+        $credential.GetNetworkCredential().Password | Out-File -FilePath $tempPassFile -Encoding ASCII -NoNewline
+        
+        # Use cmd.exe to pipe password to net use
+        $process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "type `"$tempPassFile`" | net use ${DriveLetter}: $uncPath /user:$Username /persistent:yes" -Wait -NoNewWindow -PassThru
+        
+        if ($process.ExitCode -ne 0) {
+            throw "net use command failed with exit code $($process.ExitCode)"
+        }
+        
+        Write-Host "✓ Share mounted successfully" -ForegroundColor Green
+    } finally {
+        # Clean up temporary password file
+        if (Test-Path $tempPassFile) {
+            Remove-Item $tempPassFile -Force -ErrorAction SilentlyContinue
+        }
     }
-    
-    Write-Host "✓ Share mounted successfully" -ForegroundColor Green
-    
 } catch {
     Write-Error "Failed to mount share: $_"
     Write-Host ""

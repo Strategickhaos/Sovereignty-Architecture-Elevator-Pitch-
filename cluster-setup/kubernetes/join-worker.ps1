@@ -77,6 +77,12 @@ Write-Host "[2/7] Installing Kubernetes tools..." -ForegroundColor Yellow
 # Using Chocolatey for Windows
 if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
     Write-Host "Installing Chocolatey..." -ForegroundColor Yellow
+    Write-Warning "This will download and execute the official Chocolatey installer from https://community.chocolatey.org"
+    $confirm = Read-Host "Continue? (y/n)"
+    if ($confirm -ne 'y') {
+        Write-Error "Chocolatey is required. Install manually from https://chocolatey.org/install"
+        exit 1
+    }
     Set-ExecutionPolicy Bypass -Scope Process -Force
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
