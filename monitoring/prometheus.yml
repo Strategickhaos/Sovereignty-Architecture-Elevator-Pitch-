@@ -1,16 +1,17 @@
 # Prometheus Configuration for Strategickhaos Sovereignty Architecture
-# Scrapes Discord bot, event gateway, Refinory API, and infrastructure components
+# Scrapes Discord bot, event gateway, Refinory API, and infrastructure
 #
-# ═══════════════════════════════════════════════════════════════════════════
+# ═════════════════════════════════════════════════════════════════════════
 # SOVEREIGNTY MODE: LOCAL ONLY - NO CLOUD DEPENDENCIES
-# ═══════════════════════════════════════════════════════════════════════════
+# ═════════════════════════════════════════════════════════════════════════
 # This configuration is 100% local. No remote_write. No Grafana Cloud.
 # Real operators don't rent dashboards. Keep your metrics sovereign.
 #
-# If you need to send metrics elsewhere, deploy your own Thanos/Cortex/Mimir
-# on infrastructure YOU control. Never surrender sovereignty to cloud vendors.
-# ═══════════════════════════════════════════════════════════════════════════
-
+# If you need to send metrics elsewhere, deploy your own
+# Thanos/Cortex/Mimir on infrastructure YOU control.
+# Never surrender sovereignty to cloud vendors.
+# ═════════════════════════════════════════════════════════════════════════
+---
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
@@ -35,7 +36,7 @@ scrape_configs:
     scrape_interval: 30s
     scrape_timeout: 10s
 
-  # Event Gateway Metrics  
+  # Event Gateway Metrics
   - job_name: 'event-gateway'
     static_configs:
       - targets: ['gateway:8080', 'localhost:8080']
