@@ -25,22 +25,26 @@ def main():
             s.listen()
             log("✅ Socket bound and listening for connections...")
             
-            conn, addr = s.accept()
-            with conn:
-                log(f"🧠 Connection established with: {addr}")
-                while True:
-                    data = conn.recv(1024)
-                    if not data:
-                        log("⚠️  Connection closed by client")
-                        break
+            # Accept multiple connections sequentially
+            while True:
+                conn, addr = s.accept()
+                with conn:
+                    log(f"🧠 Connection established with: {addr}")
+                    while True:
+                        data = conn.recv(1024)
+                        if not data:
+                            log("⚠️  Connection closed by client")
+                            break
+                        
+                        decoded = data.decode("utf-8").strip()
+                        log(f"📥 Received: {decoded}")
+                        
+                        # Send acknowledgment
+                        response = f"[ACK] {decoded}"
+                        conn.sendall(response.encode("utf-8"))
+                        log(f"📤 Sent: {response}")
                     
-                    decoded = data.decode("utf-8").strip()
-                    log(f"📥 Received: {decoded}")
-                    
-                    # Send acknowledgment
-                    response = f"[ACK] {decoded}"
-                    conn.sendall(response.encode("utf-8"))
-                    log(f"📤 Sent: {response}")
+                log("🔄 Ready for next connection...")
                     
     except KeyboardInterrupt:
         log("\n🛑 Listener stopped by user")
