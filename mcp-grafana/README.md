@@ -87,7 +87,13 @@ Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/
 Build and run the MCP Grafana server in Docker:
 
 ```bash
+# Build the TypeScript code first
+npm run build
+
+# Build Docker image
 docker build -t mcp-grafana-server .
+
+# Run the container
 docker run -e GRAFANA_URL=http://grafana:3000 -e GRAFANA_API_KEY=your_key mcp-grafana-server
 ```
 
