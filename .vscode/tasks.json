@@ -92,6 +92,68 @@
         "focus": false,
         "panel": "shared"
       }
+    },
+    {
+      "label": "Windows: PowerShell Diagnostic",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/powershell-diagnostic.ps1",
+        "-SendToDiscord"
+      ],
+      "windows": {
+        "command": "powershell.exe"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Windows: Fix PowerShell Profile",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/fix-powershell-profile.ps1"
+      ],
+      "windows": {
+        "command": "powershell.exe"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "GitLens: Windows PowerShell Diagnostic Vote",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "${workspaceFolder}/uidp_vote.py",
+        "Windows PowerShell Diagnostic - Nitro V15 Lyra Node - ${input:diagnosticVoteOption}"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
     }
   ],
   "inputs": [
@@ -100,6 +162,18 @@
       "description": "Reason why this needs attention",
       "default": "Code review required",
       "type": "promptString"
+    },
+    {
+      "id": "diagnosticVoteOption",
+      "description": "Vote on PowerShell diagnostic resolution strategy",
+      "type": "pickString",
+      "options": [
+        "Option A - Immediate Profile Fix",
+        "Option B - Comprehensive PowerShell Rewrite",
+        "Option C - Migration to WSL/Bash",
+        "Option D - Hybrid Approach (Recommended)"
+      ],
+      "default": "Option D - Hybrid Approach (Recommended)"
     }
   ]
 }
