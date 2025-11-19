@@ -222,14 +222,16 @@ export PRS_CHANNEL="dev_channel_id"
 
 ### Windows Defender Executive Override
 
-For Windows developers experiencing security prompts when running PowerShell scripts, we provide an executive override configuration tool:
+For Windows developers experiencing security prompts when running PowerShell scripts, we provide an executive override configuration tool.
+
+**⚡ Quick Start**: See [QUICK_START_WINDOWS.md](QUICK_START_WINDOWS.md) for 2-minute setup.
 
 ```powershell
 # Run as Administrator
 .\defender-executive-override.ps1
 ```
 
-**⚠️ Security Warning**: This script configures Windows Defender exclusions for PowerShell development. Only use on trusted development machines. See [DEFENDER_OVERRIDE_GUIDE.md](DEFENDER_OVERRIDE_GUIDE.md) for full documentation.
+**⚠️ Security Warning**: This script configures Windows Defender exclusions for PowerShell development. Only use on trusted development machines.
 
 **Features:**
 - Adds project directory to Defender exclusions
@@ -238,7 +240,7 @@ For Windows developers experiencing security prompts when running PowerShell scr
 - Reduces security prompts during development
 - Includes dry-run mode for safety
 
-**Quick Start:**
+**Quick Commands:**
 ```powershell
 # Test first (no changes made)
 .\defender-executive-override.ps1 -DryRun
@@ -250,7 +252,9 @@ For Windows developers experiencing security prompts when running PowerShell scr
 .\defender-executive-override.ps1 -ProjectPath "C:\Custom\Path"
 ```
 
-For complete usage instructions, security implications, and best practices, see [DEFENDER_OVERRIDE_GUIDE.md](DEFENDER_OVERRIDE_GUIDE.md).
+**Documentation:**
+- 📖 **Quick Start**: [QUICK_START_WINDOWS.md](QUICK_START_WINDOWS.md) - Get started in 2 minutes
+- 📚 **Complete Guide**: [DEFENDER_OVERRIDE_GUIDE.md](DEFENDER_OVERRIDE_GUIDE.md) - Security, troubleshooting, best practices
 
 ## 🆘 Troubleshooting
 
