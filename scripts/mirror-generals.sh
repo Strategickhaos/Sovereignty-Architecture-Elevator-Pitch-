@@ -6,10 +6,8 @@
 set -e
 
 # Color codes for terminal output
-RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
@@ -231,9 +229,12 @@ assign_general() {
 generate_report() {
     local general_num=$1
     local general_name="${GENERALS[$general_num]}"
-    local timestamp=$(date '+%I:%M %p')
-    local date_stamp=$(date '+%Y-%m-%d')
-    local node_name="Legion-Node-${NODE_ID}-${general_name}"
+    local timestamp
+    local date_stamp
+    local node_name
+    timestamp=$(date '+%I:%M %p')
+    date_stamp=$(date '+%Y-%m-%d')
+    node_name="Legion-Node-${NODE_ID}-${general_name}"
     
     local report_file="$GENERALS_LIVE_DIR/report-${general_name}-${date_stamp}.md"
     
@@ -329,14 +330,17 @@ run_report_daemon() {
     
     while true; do
         # Random interval between 11 and 44 minutes (in seconds)
-        local wait_time=$((RANDOM % 1980 + 660))
-        local wait_minutes=$((wait_time / 60))
+        local wait_time
+        local wait_minutes
+        wait_time=$((RANDOM % 1980 + 660))
+        wait_minutes=$((wait_time / 60))
         
         echo -e "${YELLOW}[DAEMON] Next report in ${wait_minutes} minutes...${NC}"
         sleep "$wait_time"
         
         # Generate report
-        local report_file=$(generate_report "$general_num")
+        local report_file
+        report_file=$(generate_report "$general_num")
         echo -e "${GREEN}[REPORT] Generated: ${report_file}${NC}"
         
         # Try to display in a new terminal window

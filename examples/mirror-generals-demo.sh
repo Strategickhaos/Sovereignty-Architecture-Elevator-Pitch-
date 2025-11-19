@@ -27,7 +27,8 @@ echo "Running simulation..."
 echo ""
 
 # Simulate running the script
-export NODE_ID="demo-$(date +%s)"
+NODE_ID="demo-$(date +%s)"
+export NODE_ID
 
 # Create temporary demo directories
 DEMO_DATA="$REPO_ROOT/examples/demo-data"
