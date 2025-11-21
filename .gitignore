@@ -35,3 +35,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Evidence anchoring artifacts (GPG signatures and OpenTimestamps)
+# These are binary/signature files that should be managed separately
+*.ots
+*.asc
+
+# Evidence directory (contains sensitive conversation data)
+evidence/anchored/
