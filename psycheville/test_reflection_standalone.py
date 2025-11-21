@@ -46,7 +46,7 @@ def create_test_config():
                     'Which tools are being used most frequently?',
                     'Which tools are failing and why?',
                     'Are there patterns in tool creation that suggest gaps in capabilities?',
-                    'What tools haven\'t been used recently and should be deprecated?'
+                    "What tools haven't been used recently and should be deprecated?"
                 ]
             }
         },

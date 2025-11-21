@@ -15,18 +15,16 @@ volumes:
 
 services:
   psycheville-worker:
-    image: python:3.11-slim
+    build:
+      context: .
+      dockerfile: psycheville/Dockerfile.psycheville
+    image: psycheville-worker:latest
     container_name: psycheville-worker
-    working_dir: /app
     environment:
       - PSYCHEVILLE_CONFIG=/app/psycheville.yaml
       - PYTHONUNBUFFERED=1
       - TZ=UTC
     volumes:
-      # Configuration
-      - ./psycheville/psycheville.yaml:/app/psycheville.yaml:ro
-      - ./psycheville/reflection_worker.py:/app/reflection_worker.py:ro
-      
       # Logs (to monitor)
       - psycheville_logs:/app/logs
       - ./psycheville/logs:/app/logs/tools_refinery
@@ -37,11 +35,6 @@ services:
     networks:
       - strategickhaos_network
     restart: unless-stopped
-    command: >
-      sh -c "
-        pip install --no-cache-dir pyyaml schedule &&
-        python -u /app/reflection_worker.py
-      "
     healthcheck:
       test: ["CMD-SHELL", "pgrep -f reflection_worker.py || exit 1"]
       interval: 30s

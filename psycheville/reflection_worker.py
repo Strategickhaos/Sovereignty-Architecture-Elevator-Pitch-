@@ -60,8 +60,10 @@ class ReflectionWorker:
                 
                 # Try to extract structured data
                 for field in pattern_config.get('extract', []):
-                    # Simple extraction - look for field=value patterns
-                    match = re.search(rf'{field}[=:][\s]*([^\s,;]+)', line)
+                    # Simple extraction - look for field=value or field:value patterns
+                    # Escape field name to handle special regex characters
+                    escaped_field = re.escape(field)
+                    match = re.search(rf'{escaped_field}[=:]\s*([^\s,;]+)', line)
                     if match:
                         observation['extracted'][field] = match.group(1)
                 

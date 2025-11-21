@@ -60,17 +60,18 @@ class PsycheVilleLogger:
         
         # Configure logging
         log_file = self.log_dir / log_name
-        self.logger = logging.getLogger(f'psycheville.{department}')
+        # Use unique logger name to avoid conflicts
+        logger_name = f'psycheville.{department}.{id(self)}'
+        self.logger = logging.getLogger(logger_name)
         self.logger.setLevel(logging.INFO)
         
-        # Remove existing handlers to avoid duplicates
-        self.logger.handlers.clear()
-        
-        # File handler
-        fh = logging.FileHandler(log_file)
-        fh.setLevel(logging.INFO)
-        fh.setFormatter(logging.Formatter('%(message)s'))
-        self.logger.addHandler(fh)
+        # Only configure if not already configured
+        if not self.logger.handlers:
+            # File handler
+            fh = logging.FileHandler(log_file)
+            fh.setLevel(logging.INFO)
+            fh.setFormatter(logging.Formatter('%(message)s'))
+            self.logger.addHandler(fh)
         
         # Prevent propagation to root logger
         self.logger.propagate = False

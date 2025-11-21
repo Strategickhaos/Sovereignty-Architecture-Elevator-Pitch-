@@ -190,7 +190,12 @@ main() {
             print_success "Deployment complete!"
             echo ""
             echo -e "${YELLOW}Next steps:${NC}"
-            echo "1. View logs: docker-compose -f docker-compose.psycheville.yml logs -f psycheville-worker"
+            if command -v docker-compose &> /dev/null; then
+                COMPOSE_CMD="docker-compose"
+            else
+                COMPOSE_CMD="docker compose"
+            fi
+            echo "1. View logs: $COMPOSE_CMD -f docker-compose.psycheville.yml logs -f psycheville-worker"
             echo "2. Check reports: ls -la psycheville/obsidian_vault/PsycheVille/Departments/Tools_Refinery/"
             echo "3. Generate test logs: python3 psycheville/test_logging.py"
             echo ""
