@@ -204,6 +204,21 @@ if __name__ == '__main__':
     try:
         sensor = LegionRFSensor(device_index=device_index, config=config)
         sensor.monitor()
+    except PermissionError as e:
+        print(f"\n[ERROR] Audio device access denied: {e}", file=sys.stderr)
+        print("Fix: Run with appropriate permissions or add user to 'audio' group", file=sys.stderr)
+        print("  Linux: sudo usermod -a -G audio $USER", file=sys.stderr)
+        sys.exit(1)
+    except OSError as e:
+        print(f"\n[ERROR] Audio device not found or unavailable: {e}", file=sys.stderr)
+        print("Fix: Check audio device connection and index in config", file=sys.stderr)
+        print("  Run: python test_audio.py", file=sys.stderr)
+        sys.exit(1)
+    except ImportError as e:
+        print(f"\n[ERROR] Missing required dependency: {e}", file=sys.stderr)
+        print("Fix: Install dependencies with: pip install -r requirements.txt", file=sys.stderr)
+        sys.exit(1)
     except Exception as e:
         print(f"\n[ERROR] Failed to start RF sensor: {e}", file=sys.stderr)
+        print("Run 'python test_audio.py' to diagnose the issue", file=sys.stderr)
         sys.exit(1)

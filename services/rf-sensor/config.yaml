@@ -23,12 +23,12 @@ rf_sensor:
     file_output: false
     file_path: /var/log/legion/rf-sensor.log
     
-  # Legion framework integration
+  # Legion framework integration (future enhancement)
   legion:
-    enabled: true
-    agent_notify: true
+    enabled: false  # Not yet implemented - reserved for future use
+    agent_notify: false  # Future: Enable agent notifications
     event_api_endpoint: http://legion-core:8080/api/events
-    notification_threshold: 0.05  # Only notify agents for strong signals
+    notification_threshold: 0.05  # Future: Only notify agents for strong signals
     
   # Visualization settings (for spectral analyzer)
   visualization:
