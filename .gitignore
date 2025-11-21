@@ -122,3 +122,7 @@ logs/
 tmp/
 temp/
 *.tmp
+
+# Minimal AI Lab data
+data/chroma/
+data/ipfs/

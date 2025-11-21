@@ -2,29 +2,51 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
-## 🚨 NEW: Complete AI Red-Teaming Lab 🔬🔓
+## 🚨 NEW: AI Laboratory Options 🔬
 
-**Transform your setup into a sovereign AI research laboratory!**
+**Choose your AI lab deployment:**
 
-This repository now includes **four major enhancements** for AI red-teaming and development:
+### ⚡ Minimal AI Lab (Recommended for Most Users)
 
-1. **🤖 Uncensored Modelfiles** - Fully jailbroken LLM configurations (Llama 3.1, Mistral, abliterated models)
-2. **🎙️ VoiceWing** - Complete local voice interface (Whisper ASR, Coqui TTS, Open WebUI)
-3. **🤖 Filesystem Agents** - AI-powered file automation (LocalGPT, AutoGPT, semantic search)
-4. **🌐 Screen Control** - Browser automation (Selenium Grid, Playwright, AI agents)
-5. **🧠 Ultra-Expert RAG** - Advanced retrieval systems (PrivateGPT, extreme context, adversarial testing)
-6. **🔐 Secure Networking** - VPN, reverse proxy, SSL/TLS (Caddy, Tailscale, WireGuard, Vault)
+A **safe, local-first, 3-service RAG system** for responsible AI development:
+
+- **Memory Service** - ChromaDB vector storage
+- **RAG API** - Context retrieval + LLM integration
+- **IPFS** - Optional distributed storage
+
+✅ Production-safe, no uncensored models, configurable LLM backends
+
+**👉 [Minimal AI Lab Guide](AILAB_MINIMAL.md)**
+
+```bash
+# Quick start
+cp .env.ailab.minimal.example .env
+docker-compose -f docker-compose.ailab.yml up -d
+
+# Test
+curl -X POST http://localhost:8001/store -d '{"text":"Hello world"}'
+curl -X POST http://localhost:8000/ask -d '{"prompt":"What did I just store?"}'
+```
+
+### 🔥 Comprehensive AI Red-Teaming Lab (Advanced Users)
+
+For authorized security research, includes **54 services** with advanced capabilities:
+
+1. **🤖 Uncensored Modelfiles** - Fully jailbroken LLM configurations (research only)
+2. **🎙️ VoiceWing** - Complete local voice interface
+3. **🤖 Filesystem Agents** - AI-powered file automation
+4. **🌐 Screen Control** - Browser automation
+5. **🧠 Ultra-Expert RAG** - Advanced retrieval systems
+6. **🔐 Secure Networking** - VPN, reverse proxy, SSL/TLS
 
 **👉 [Complete AI Lab Guide](AI_LAB_GUIDE.md) | [Modelfiles](modelfiles/README.md) | [RAG Configs](rag-configs/README.md)**
 
-### Quick Deploy AI Lab
 ```bash
-# One-command deployment
+# Comprehensive deployment
 ./quick-start-ailab.sh
-
-# Or deploy selectively
-docker-compose -f docker-compose.yml -f docker-compose.voicewing.yml up -d
 ```
+
+**⚠️ Note:** The comprehensive lab includes uncensored model configurations intended for authorized security research only. Use responsibly.
 
 ## 🏛️ Architecture Overview
 
