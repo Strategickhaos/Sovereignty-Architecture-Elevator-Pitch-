@@ -409,10 +409,12 @@ The AI-augmented development approach documented in this repository produces not
 ---
 
 **Related Resources:**
+- [🚀 Quick Start Guide](QUICKSTART_AI_EVIDENCE.md) - Get started in 15 minutes
 - [Conversation Evidence Ledger Schema](templates/conversation_evidence_schema.yaml)
 - [Sworn Declaration Template](templates/sworn_declaration_template.md)
 - [GPG Signature Guide](docs/GPG_SIGNATURE_GUIDE.md)
 - [OpenTimestamps Integration](docs/OPENTIMESTAMPS_GUIDE.md)
+- [Complete Example](examples/conversation_ledger_example.yaml)
 
 ---
 

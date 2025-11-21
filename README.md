@@ -280,6 +280,7 @@ curl -X POST https://events.strategickhaos.com/health
 - **[Security Guidelines](SECURITY.md)** - Security policies and reporting
 
 ### Legal & Compliance
+- **[🚀 Quick Start Guide](QUICKSTART_AI_EVIDENCE.md)** - Get started in 15 minutes with AI conversation documentation
 - **[Appendix C: Legal Status of AI-Generated Evidence](APPENDIX_C_LEGAL_STATUS_AI_EVIDENCE.md)** - Comprehensive legal analysis of AI conversation ledgers for R&D documentation, patent prosecution, and audit trails
 - **[Conversation Evidence Schema](templates/conversation_evidence_schema.yaml)** - YAML template for documenting AI-assisted development
 - **[Sworn Declaration Template](templates/sworn_declaration_template.md)** - Legal attestation template for evidence admissibility
