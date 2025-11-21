@@ -30,20 +30,20 @@ init_progress() {
     
     # Count TypeScript/JavaScript files
     if [ -d "${REPO_ROOT}/src" ]; then
-        local src_lines=$(find "${REPO_ROOT}/src" -name "*.ts" -o -name "*.js" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+        local src_lines=$(find "${REPO_ROOT}/src" \( -name "*.ts" -o -name "*.js" \) -print | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
         total_lines=$((total_lines + src_lines))
-        file_count=$((file_count + $(find "${REPO_ROOT}/src" -name "*.ts" -o -name "*.js" | wc -l)))
+        file_count=$((file_count + $(find "${REPO_ROOT}/src" \( -name "*.ts" -o -name "*.js" \) -print | wc -l)))
     fi
     
     # Count shell scripts
-    local script_lines=$(find "${REPO_ROOT}" -maxdepth 1 -name "*.sh" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+    local script_lines=$(find "${REPO_ROOT}" -maxdepth 1 -name "*.sh" -print | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
     total_lines=$((total_lines + script_lines))
-    file_count=$((file_count + $(find "${REPO_ROOT}" -maxdepth 1 -name "*.sh" | wc -l)))
+    file_count=$((file_count + $(find "${REPO_ROOT}" -maxdepth 1 -name "*.sh" -print | wc -l)))
     
     # Count Python files
-    local python_lines=$(find "${REPO_ROOT}" -name "*.py" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+    local python_lines=$(find "${REPO_ROOT}" -path "${REPO_ROOT}/node_modules" -prune -o -name "*.py" -print | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
     total_lines=$((total_lines + python_lines))
-    file_count=$((file_count + $(find "${REPO_ROOT}" -name "*.py" | wc -l)))
+    file_count=$((file_count + $(find "${REPO_ROOT}" -path "${REPO_ROOT}/node_modules" -prune -o -name "*.py" -print | wc -l)))
     
     # Create progress state
     cat > "${PROGRESS_FILE}" <<EOF
@@ -87,7 +87,7 @@ show_progress() {
     
     # Count monitoring components
     if [ -d "${REPO_ROOT}/monitoring" ]; then
-        local monitoring_lines=$(find "${REPO_ROOT}/monitoring" -name "*.yml" -o -name "*.yaml" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+        local monitoring_lines=$(find "${REPO_ROOT}/monitoring" \( -name "*.yml" -o -name "*.yaml" \) | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
         echo -e "${GREEN}${CHECKMARK} Monitoring Stack (${monitoring_lines} lines)${NC}"
     fi
     
@@ -96,19 +96,19 @@ show_progress() {
     echo -e "${GREEN}${CHECKMARK} Shell Automation (${automation_lines} lines)${NC}"
     
     # Count Docker infrastructure
-    local docker_lines=$(find "${REPO_ROOT}" -maxdepth 1 -name "docker-*.yml" -o -name "Dockerfile.*" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+    local docker_lines=$(find "${REPO_ROOT}" -maxdepth 1 \( -name "docker-*.yml" -o -name "Dockerfile.*" \) | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
     echo -e "${GREEN}${CHECKMARK} Container Infrastructure (${docker_lines} lines)${NC}"
     
     # Count configuration
-    local config_lines=$(find "${REPO_ROOT}" -maxdepth 1 -name "*.yaml" -o -name "*.yml" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+    local config_lines=$(find "${REPO_ROOT}" -maxdepth 1 \( -name "*.yaml" -o -name "*.yml" \) | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
     echo -e "${GREEN}${CHECKMARK} Configuration Systems (${config_lines} lines)${NC}"
     
     echo ""
     echo "=== TOTAL AUTONOMOUS OUTPUT ==="
     
-    # Calculate total
-    local total_lines=$(find "${REPO_ROOT}" -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
-    local total_files=$(find "${REPO_ROOT}" -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" | wc -l)
+    # Calculate total (exclude node_modules and dist)
+    local total_lines=$(find "${REPO_ROOT}" -path "${REPO_ROOT}/node_modules" -prune -o -path "${REPO_ROOT}/dist" -prune -o \( -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" \) -print | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+    local total_files=$(find "${REPO_ROOT}" -path "${REPO_ROOT}/node_modules" -prune -o -path "${REPO_ROOT}/dist" -prune -o \( -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" \) -print | wc -l)
     
     echo -e "${YELLOW}${TROPHY} ${total_lines} lines of autonomous code${NC}"
     echo -e "${YELLOW}${TROPHY} ${total_files} working files${NC}"
@@ -134,7 +134,7 @@ status_check() {
     echo -e "${BRAIN} Quick Status Check..."
     echo ""
     
-    local total_lines=$(find "${REPO_ROOT}" -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+    local total_lines=$(find "${REPO_ROOT}" -path "${REPO_ROOT}/node_modules" -prune -o -path "${REPO_ROOT}/dist" -prune -o \( -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" \) -print | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
     
     echo -e "${GREEN}${CHECKMARK} ${total_lines} lines of autonomous code${NC}"
     echo -e "${GREEN}${CHECKMARK} System status: ACTIVE${NC}"
@@ -229,7 +229,7 @@ notify_discord() {
     
     echo -e "${BRAIN} Posting progress to Discord..."
     
-    local total_lines=$(find "${REPO_ROOT}" -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+    local total_lines=$(find "${REPO_ROOT}" -path "${REPO_ROOT}/node_modules" -prune -o -path "${REPO_ROOT}/dist" -prune -o \( -name "*.ts" -o -name "*.js" -o -name "*.sh" -o -name "*.py" \) -print | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
     
     # Use existing gl2discord script if available
     if [ -f "${REPO_ROOT}/gl2discord.sh" ]; then
