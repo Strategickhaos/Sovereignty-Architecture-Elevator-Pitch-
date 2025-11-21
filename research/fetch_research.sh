@@ -57,6 +57,12 @@ failed=0
 skipped=0
 start_time=$(date +%s)
 
+# Helper function for cross-platform file size detection
+get_file_size() {
+    local file="$1"
+    stat -f%z "$file" 2>/dev/null || stat -c%s "$file" 2>/dev/null
+}
+
 echo -e "${BLUE}╔════════════════════════════════════════════╗${NC}"
 echo -e "${BLUE}║  Distributed Research Automation v1.0     ║${NC}"
 echo -e "${BLUE}║  Department: $(printf '%-28s' "$DEPT")║${NC}"
@@ -81,7 +87,7 @@ while IFS= read -r line || [ -n "$line" ]; do
     
     # Check if file already exists and is not empty
     if [ -f "$output_file" ] && [ -s "$output_file" ]; then
-        size=$(stat -f%z "$output_file" 2>/dev/null || stat -c%s "$output_file" 2>/dev/null)
+        size=$(get_file_size "$output_file")
         if [ "$size" -gt 1000 ]; then
             echo -e " ${YELLOW}[CACHED]${NC} (${size} bytes)"
             skipped=$((skipped + 1))
@@ -106,7 +112,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         
         # Check if file has content
         if [ -s "$output_file" ]; then
-            size=$(stat -f%z "$output_file" 2>/dev/null || stat -c%s "$output_file" 2>/dev/null)
+            size=$(get_file_size "$output_file")
             if [ "$size" -gt 1000 ]; then
                 echo -e " ${GREEN}[OK]${NC} (${size} bytes)"
                 success=$((success + 1))

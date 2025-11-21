@@ -24,13 +24,15 @@ class TextExtractor(HTMLParser):
         self.in_style = False
         
     def handle_starttag(self, tag, attrs):
-        if tag.lower() in ['script', 'style']:
+        if tag.lower() == 'script':
             self.in_script = True
+        elif tag.lower() == 'style':
             self.in_style = True
             
     def handle_endtag(self, tag):
-        if tag.lower() in ['script', 'style']:
+        if tag.lower() == 'script':
             self.in_script = False
+        elif tag.lower() == 'style':
             self.in_style = False
             
     def handle_data(self, data):

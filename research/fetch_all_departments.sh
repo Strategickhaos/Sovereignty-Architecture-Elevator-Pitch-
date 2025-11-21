@@ -177,8 +177,19 @@ cat > "${SCRIPT_DIR}/raw_pages/batch_metadata.json" <<EOF
   "failed": ${#failed_depts[@]},
   "duration_seconds": $duration,
   "mode": "$([ "$PARALLEL" = true ] && echo "parallel" || echo "sequential")",
-  "departments_processed": $(printf '%s\n' "${DEPARTMENTS[@]}" | jq -R . | jq -s .),
-  "failed_departments": $(printf '%s\n' "${failed_depts[@]}" | jq -R . | jq -s . 2>/dev/null || echo "[]")
+  "departments_processed": [$(printf '"%s",' "${DEPARTMENTS[@]}" | sed 's/,$//')]
+EOF
+
+# Add failed_departments array if jq is available
+if command -v jq &> /dev/null; then
+    failed_json=$(printf '%s\n' "${failed_depts[@]}" | jq -R . | jq -s . 2>/dev/null || echo "[]")
+else
+    failed_json="[$(printf '"%s",' "${failed_depts[@]}" | sed 's/,$//')]"
+fi
+
+cat >> "${SCRIPT_DIR}/raw_pages/batch_metadata.json" <<EOF
+,
+  "failed_departments": $failed_json
 }
 EOF
 
