@@ -40,3 +40,8 @@ workspace/
 ingest/
 logs/
 vault/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
