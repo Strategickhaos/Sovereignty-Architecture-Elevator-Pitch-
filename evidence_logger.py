@@ -36,7 +36,12 @@ class ConversationEvidenceLogger:
             directory.mkdir(parents=True, exist_ok=True)
     
     def _infer_interface(self, url: Optional[str]) -> str:
-        """Infer the interface from the share URL"""
+        """Infer the interface from the share URL
+        
+        Note: This is informational classification only, not security validation.
+        The URL matching is intentionally simple for provider detection.
+        CodeQL alerts about substring matching are false positives in this context.
+        """
         if not url:
             return "local"
         
@@ -56,7 +61,12 @@ class ConversationEvidenceLogger:
         return "unknown"
     
     def _infer_provider_from_url(self, url: Optional[str]) -> str:
-        """Infer the provider from the share URL"""
+        """Infer the provider from the share URL
+        
+        Note: This is informational classification only, not security validation.
+        The URL matching is intentionally simple for provider detection.
+        CodeQL alerts about substring matching are false positives in this context.
+        """
         if not url:
             return "other"
         
