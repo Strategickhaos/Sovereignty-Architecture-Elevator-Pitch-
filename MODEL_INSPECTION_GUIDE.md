@@ -50,9 +50,9 @@ These are the same techniques used by red teams, safety researchers, enterprise 
    ollama show --params omegaheir_zero
    ```
 
-7. **Use llama.cpp `--log-disable` + `--verbose`** to see every single forward pass
+7. **Use llama.cpp with `--verbose`** to see every single forward pass
    ```bash
-   ./main --model model.gguf --verbose --log-disable false
+   ./main --model model.gguf --verbose
    ```
 
 8. **Export to GPTQ or AWQ and load in transformers** — inspect attention patterns
@@ -399,9 +399,9 @@ These are the same techniques used by red teams, safety researchers, enterprise 
     ollama serve
     ```
 
-69. **Use `--log-disable`** in production to reduce disk writes
+69. **Set log level to reduce disk writes** in production
     ```bash
-    ollama serve --log-disable
+    OLLAMA_LOG_LEVEL=silent ollama serve
     ```
 
 ### Configuration Management
