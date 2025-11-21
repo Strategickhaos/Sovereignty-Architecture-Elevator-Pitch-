@@ -4,6 +4,7 @@ import { env, loadConfig } from "./config.js";
 
 const cfg = loadConfig();
 const token = env("DISCORD_TOKEN");
+// APP_ID is now read from environment only (config field was not defined in type)
 const appId = env("APP_ID", false) || "";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -87,8 +88,8 @@ client.on("interactionCreate", async (i: Interaction) => {
   } catch (e: any) {
     const errorMsg = `Error: ${e.message}`;
     console.error(`Command failed: ${i.commandName}`, e);
-    await i.editReply({ content: errorMsg }).catch(() => 
-      i.followUp({ content: errorMsg, ephemeral: true })
+    await i.editReply({ content: errorMsg }).catch((editErr) => 
+      i.followUp({ content: `Failed to update reply: ${errorMsg}`, ephemeral: true })
     );
   }
 });
