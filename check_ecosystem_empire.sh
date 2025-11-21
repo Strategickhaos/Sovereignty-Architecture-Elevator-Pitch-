@@ -113,7 +113,6 @@ fi
 # Check 4: Tailscale connectivity
 if command -v tailscale &> /dev/null; then
     if tailscale status &> /dev/null; then
-        TAILSCALE_STATUS=$(tailscale status --json 2>/dev/null | grep -o '"Online"' | wc -l)
         check_result "Tailscale Mesh Network" "PASS" "Tailscale is active and connected"
     else
         check_result "Tailscale Mesh Network" "FAIL" "Tailscale installed but not connected"
@@ -184,7 +183,7 @@ fi
 
 # Check 11: Current system load
 if [ -f /proc/loadavg ]; then
-    LOAD=$(cat /proc/loadavg | awk '{print $1}')
+    LOAD=$(awk '{print $1}' /proc/loadavg)
     check_result "System Load Average" "PASS" "1-minute load: ${LOAD}"
 else
     LOAD=$(uptime | awk -F'load average:' '{print $2}' | awk '{print $1}')
@@ -224,7 +223,7 @@ check_result "System Hostname" "PASS" "Hostname: ${HOSTNAME}"
 
 # Check 16: Network interface count
 if command -v ip &> /dev/null; then
-    IFACE_COUNT=$(ip -o link show | grep -v loopback | wc -l)
+    IFACE_COUNT=$(ip -o link show | grep -vc loopback)
     check_result "Network Interfaces" "PASS" "${IFACE_COUNT} interfaces detected"
 elif command -v ifconfig &> /dev/null; then
     IFACE_COUNT=$(ifconfig -a | grep -c "^[a-z]")
@@ -450,13 +449,13 @@ CURRENT_DATE=$(date "+%Y-%m-%d %H:%M:%S")
 check_result "System Date/Time" "PASS" "${CURRENT_DATE}"
 
 # Check 82: Infrastructure cost estimate
-check_result "Hardware Cost Estimate" "PASS" "Total infrastructure ~$15,000"
+check_result "Hardware Cost Estimate" "PASS" "Total infrastructure ~\$15,000"
 
 # Check 83: Monthly operating cost
-check_result "Electric Cost Estimate" "PASS" "~$150/month for 5 nodes + NAS"
+check_result "Electric Cost Estimate" "PASS" "~\$150/month for 5 nodes + NAS"
 
 # Check 84: Cloud equivalent cost
-check_result "Big Tech Cost Comparison" "PASS" "Cloud equivalent: $50k-$100k/month"
+check_result "Big Tech Cost Comparison" "PASS" "Cloud equivalent: \$50k-\$100k/month"
 
 # Check 85: API key dependency
 if [ -f ".env" ] && grep -q "OPENAI_API_KEY\|ANTHROPIC_KEY\|AZURE_KEY" .env 2>/dev/null; then
