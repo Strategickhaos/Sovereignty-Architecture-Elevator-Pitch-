@@ -51,6 +51,14 @@ client.on("interactionCreate", async (i: Interaction) => {
     } else if (i.commandName === "progress") {
       const view = i.options.getString("view") || "full";
       const cmd = view === "full" ? "show" : view === "quick" ? "status" : view;
+      
+      // Validate command to prevent command injection
+      const allowedCommands = ['show', 'status', 'validate', 'emergency'];
+      if (!allowedCommands.includes(cmd)) {
+        await i.reply({ content: `Invalid command: ${cmd}` });
+        return;
+      }
+      
       try {
         const output = execSync(`./scripts/activate-progress.sh ${cmd}`, {
           encoding: "utf-8",
