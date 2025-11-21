@@ -62,8 +62,7 @@ router.post('/validate', (req: Request, res: Response) => {
     }
 
     const detection = aiDetector.detect(text);
-    const authenticityScore = transformer.isAuthentic(text) ? 
-      transformer['calculateAuthenticityScore'](text) : 0;
+    const authenticityScore = transformer.calculateAuthenticityScore(text);
 
     return res.json({
       success: true,
@@ -108,7 +107,7 @@ router.post('/transform', (req: Request, res: Response) => {
         changes: result.changes,
         authenticityScore: result.authenticityScore,
         improvementPercentage: result.authenticityScore - 
-          transformer['calculateAuthenticityScore'](text)
+          transformer.calculateAuthenticityScore(text)
       }
     });
   } catch (error) {
@@ -134,7 +133,7 @@ router.post('/score', (req: Request, res: Response) => {
     }
 
     const detection = aiDetector.detect(text);
-    const authenticityScore = transformer['calculateAuthenticityScore'](text);
+    const authenticityScore = transformer.calculateAuthenticityScore(text);
     const isAuthentic = transformer.isAuthentic(text);
 
     // Calculate composite score

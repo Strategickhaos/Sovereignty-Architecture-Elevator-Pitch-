@@ -9,7 +9,7 @@ import cors from 'cors';
 import apiRoutes from './api/routes.js';
 
 const app = express();
-const PORT = process.env.PORT || 3030;
+const PORT = parseInt(process.env.PORT || '3030', 10);
 const HOST = process.env.HOST || '0.0.0.0';
 
 // Middleware

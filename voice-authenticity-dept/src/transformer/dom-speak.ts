@@ -184,7 +184,7 @@ export class DomSpeakTransformer {
   /**
    * Calculate how Dom-like the text is (0-100)
    */
-  private calculateAuthenticityScore(text: string): number {
+  calculateAuthenticityScore(text: string): number {
     let score = 50; // Start at neutral
 
     // Positive markers
