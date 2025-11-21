@@ -6,7 +6,7 @@
 mkdir -p examples/css_resources
 
 # Change to repository root
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 
 echo "🎯 Starting CSS examples collection..."
 echo ""
