@@ -123,7 +123,7 @@ Test-Assessment "10. Multiple markdown docs" "Speed" {
 }
 
 Test-Assessment "11. Bootstrap/deployment scripts" "Works" {
-    $hasBootstrap = Test-Path "bootstrap" -or (Test-Path "deploy*.sh")
+    $hasBootstrap = (Test-Path "bootstrap") -or ((Get-ChildItem -Filter "deploy*.sh" -ErrorAction SilentlyContinue | Measure-Object).Count -gt 0)
     $hasBootstrap
 }
 

@@ -147,8 +147,8 @@ foreach ($endpoint in $ragEndpoints) {
             }
         } | ConvertTo-Json -Depth 10
         
-        # Send to RAG service
-        $response = Invoke-RestMethod -Uri $endpoint -Method Post -Body $payload -ContentType "application/json" -TimeoutSec 5 -ErrorAction Stop
+        # Send to RAG service (30 second timeout for large collections)
+        $response = Invoke-RestMethod -Uri $endpoint -Method Post -Body $payload -ContentType "application/json" -TimeoutSec 30 -ErrorAction Stop
         
         Write-Host " ✓" -ForegroundColor Green
         $ingested = $true

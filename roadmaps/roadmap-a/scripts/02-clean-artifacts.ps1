@@ -135,7 +135,8 @@ Remove-ArtifactFiles "Thumbs.db" "Windows thumbnails"
 Remove-ArtifactDirectory "tmp" "Temporary directories"
 Remove-ArtifactDirectory "temp" "Temporary directories"
 Remove-ArtifactFiles "*.tmp" "Temporary files"
-Remove-ArtifactFiles "*.log" "Log files (in root only)" # Be careful with this
+# Note: *.log files not removed by default to preserve important logs
+# Remove manually if needed: Get-ChildItem -Filter "*.log" | Remove-Item
 
 # Docker artifacts (dangling)
 if (Get-Command docker -ErrorAction SilentlyContinue) {
