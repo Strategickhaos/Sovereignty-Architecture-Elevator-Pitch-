@@ -88,6 +88,8 @@ tools:
         leading_zeros = len(encoded) - len(encoded.lstrip('1'))
         num = 0
         for char in encoded:
+            if char not in BASE58_ALPHABET:
+                raise ValueError("Invalid character '{}' in base58 string".format(char))
             num = num * 58 + BASE58_ALPHABET.index(char)
         if num == 0:
             data = b''
@@ -112,6 +114,8 @@ tools:
         alphabet = string.digits + string.ascii_uppercase + string.ascii_lowercase
         num = 0
         for char in encoded:
+            if char not in alphabet:
+                raise ValueError("Invalid character '{}' in base62 string".format(char))
             num = num * 62 + alphabet.index(char)
         if num == 0:
             return b'\x00'
@@ -134,6 +138,8 @@ tools:
         alphabet = string.digits + string.ascii_lowercase
         num = 0
         for char in encoded.lower():
+            if char not in alphabet:
+                raise ValueError("Invalid character '{}' in base36 string".format(char))
             num = num * 36 + alphabet.index(char)
         if num == 0:
             return b'\x00'
