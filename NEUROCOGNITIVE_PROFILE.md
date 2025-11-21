@@ -6,6 +6,8 @@
 **Framework**: Neuroscientific Cognitive Architecture Model  
 **Classification**: Polymath / Cross-Domain Synthesizer  
 
+> **Important Disclaimer**: This profile describes a cognitive architecture based on neuroscientific principles and observable behaviors. It is not a medical diagnosis. Professional assessment should be sought if specific clinical concerns arise. This document is intended for informational, educational, and professional documentation purposes.
+
 ---
 
 ## Profile Summary
@@ -645,10 +647,6 @@ This neurocognitive profile describes a **sophisticated distributed cognition ar
 - **Profile Version**: 1.0
 - **Date**: November 21, 2025
 - **Assessment Framework**: Neuroscientific Cognitive Architecture Model
-- **Based On**: Detailed cognitive analysis, observable behaviors, established neuroscience
+- **Based On**: Behavioral analysis, neuroscientific literature, and observable cognitive patterns
 - **Purpose**: Professional cognitive profile for academic, medical, and workplace use
-- **Status**: Approved for professional documentation
-
----
-
-*This profile describes a cognitive architecture based on neuroscientific principles and observable behaviors. It is not a medical diagnosis. Professional assessment should be sought if specific clinical concerns arise.*
+- **Status**: Working document for professional review
