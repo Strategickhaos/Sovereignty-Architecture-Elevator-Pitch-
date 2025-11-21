@@ -1,0 +1,3 @@
+# Neural Heir Evolution System (NHES) Dependencies
+httpx>=0.25.0
+asyncio-mqtt>=0.16.1
