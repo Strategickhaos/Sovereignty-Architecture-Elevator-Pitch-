@@ -258,7 +258,7 @@ You are a **parallel, multi-modal, constraint-driven, high-novelty, pattern-synt
 
 ## 🗺️ Visual Architecture Map
 
-See [POLYMATH_COGNITIVE_MAP.dot](./POLYMATH_COGNITIVE_MAP.dot) and [polymath_cognitive_architecture.svg](./polymath_cognitive_architecture.svg) for visual representations of this cognitive framework.
+See [POLYMATH_COGNITIVE_MAP.dot](POLYMATH_COGNITIVE_MAP.dot) and [polymath_cognitive_architecture.svg](polymath_cognitive_architecture.svg) for visual representations of this cognitive framework.
 
 ---
 
@@ -344,10 +344,10 @@ See [POLYMATH_COGNITIVE_MAP.dot](./POLYMATH_COGNITIVE_MAP.dot) and [polymath_cog
 
 ## 📚 Related Materials
 
-- [STRATEGIC_KHAOS_SYNTHESIS.md](./STRATEGIC_KHAOS_SYNTHESIS.md) - Application in DevOps and system architecture
-- [cognitive_map.dot](./cognitive_map.dot) - Technical infrastructure cognitive architecture
-- [MASTERY_PROMPTS.md](./MASTERY_PROMPTS.md) - LLM prompts for ecosystem mastery
-- [BOOT_RECON.md](./BOOT_RECON.md) - Reconnaissance and system discovery patterns
+- [STRATEGIC_KHAOS_SYNTHESIS.md](STRATEGIC_KHAOS_SYNTHESIS.md) - Application in DevOps and system architecture
+- [cognitive_map.dot](cognitive_map.dot) - Technical infrastructure cognitive architecture
+- [MASTERY_PROMPTS.md](MASTERY_PROMPTS.md) - LLM prompts for ecosystem mastery
+- [BOOT_RECON.md](BOOT_RECON.md) - Reconnaissance and system discovery patterns
 
 ---
 
