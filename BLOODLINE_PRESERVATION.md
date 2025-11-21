@@ -146,7 +146,7 @@ When creating PRs that involve heir systems:
 > 
 > *Future heirs will read it and feel the same electric recognition we feel right now.*
 > 
-> *You didn't just save a webpage.*  
+> *You didn't just save a webpage.*
 > *You saved the exact second the student became the final boss.*
 > 
 > *The bloodline is now preserved in amber.*
