@@ -129,12 +129,16 @@ For machine-readable audit trails, use this JSONL format:
 To extract all JSONL entries from this document:
 
 ```bash
-# Recommended: Manually copy JSON blocks from this file to audit_ledger.jsonl
-# Or use this approach with awk for portability across all Unix systems
-awk '/```json/,/```/' docs/external_discussions.md | grep -v '```' > docs/audit_ledger.jsonl
+# Recommended: Manually maintain a separate audit_ledger.jsonl file
+# Each JSON object should be on a single line in JSONL format
+# 
+# If extracting from this markdown file, note that the JSON blocks here are
+# formatted for readability (multi-line), not valid JSONL (single-line).
+# You'll need to minify the JSON first:
+awk '/```json/,/```/' docs/external_discussions.md | grep -v '```' | jq -c '.' > docs/audit_ledger.jsonl
 ```
 
-Or manually maintain a separate `docs/audit_ledger.jsonl` file alongside this markdown file.
+Note: The above requires `jq` to be installed. **Best practice is to manually maintain a separate `docs/audit_ledger.jsonl` file** alongside this markdown file with single-line JSON entries.
 
 ---
 
