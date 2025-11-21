@@ -35,12 +35,22 @@ fi
 ENTRY_COUNT=$(echo "$ENTRIES" | wc -l)
 echo "Found $ENTRY_COUNT entries for $MONTH"
 
+# Check if sha256sum is available
+if ! command -v sha256sum &> /dev/null; then
+    echo -e "${RED}Error: sha256sum not found${NC}"
+    echo "Please install coreutils or use shasum -a 256 on macOS"
+    exit 1
+fi
+
 # Calculate root hash (hash of all entry hashes concatenated)
-echo "$ENTRIES" | while read -r entry; do
+if ! echo "$ENTRIES" | while read -r entry; do
     if [ -f "$entry" ]; then
-        sha256sum "$entry"
+        sha256sum "$entry" || { echo -e "${RED}Error hashing $entry${NC}"; exit 1; }
     fi
-done | sha256sum | awk '{print $1}' > "$ROOT_HASH_FILE"
+done | sha256sum | awk '{print $1}' > "$ROOT_HASH_FILE"; then
+    echo -e "${RED}Error: Failed to calculate root hash${NC}"
+    exit 1
+fi
 
 ROOT_HASH=$(cat "$ROOT_HASH_FILE")
 

@@ -13,7 +13,9 @@ NC='\033[0m' # No Color
 
 PACKAGE_NAME="verification_package_$(date +%Y%m%d_%H%M%S)"
 REPO_URL=$(git config --get remote.origin.url 2>/dev/null || echo "N/A")
-GPG_EMAIL="${GPG_EMAIL:-domenic.garza@snhu.edu}"
+# Get email from git config or environment variable
+DEFAULT_EMAIL="$(git config user.email 2>/dev/null)"
+GPG_EMAIL="${GPG_EMAIL:-${DEFAULT_EMAIL}}"
 
 echo -e "${YELLOW}Creating verification package: ${PACKAGE_NAME}${NC}"
 echo ""

@@ -22,30 +22,35 @@ fi
 
 echo -e "${YELLOW}Verifying ledger signature: ${LEDGER_FILE}${NC}"
 
+# Create secure temporary files
+TEMP_CONTENT=$(mktemp) || { echo -e "${RED}Error: Could not create temp file${NC}"; exit 1; }
+TEMP_SIG=$(mktemp) || { rm "$TEMP_CONTENT"; echo -e "${RED}Error: Could not create temp file${NC}"; exit 1; }
+
+# Cleanup on exit
+trap "rm -f $TEMP_CONTENT $TEMP_SIG" EXIT
+
 # Extract content before signature
-if ! sed '/^signatures:/,$d' "$LEDGER_FILE" > /tmp/ledger_content_$$.yml; then
+if ! sed '/^signatures:/,$d' "$LEDGER_FILE" > "$TEMP_CONTENT"; then
     echo -e "${RED}Error: Could not extract content${NC}"
     exit 1
 fi
 
 # Extract signature
-if ! grep -A 100 "signature: |" "$LEDGER_FILE" | grep -v "signature: |" | sed 's/^      //' > /tmp/ledger_signature_$$.asc; then
+if ! grep -A 100 "signature: |" "$LEDGER_FILE" | grep -v "signature: |" | sed 's/^      //' > "$TEMP_SIG"; then
     echo -e "${RED}Error: Could not extract signature${NC}"
-    rm /tmp/ledger_content_$$.yml
     exit 1
 fi
 
 # Check if signature was found
-if [ ! -s /tmp/ledger_signature_$$.asc ]; then
+if [ ! -s "$TEMP_SIG" ]; then
     echo -e "${RED}Error: No signature found in ledger${NC}"
     echo "Sign the ledger with: ./sign_ledger_entry.sh $LEDGER_FILE"
-    rm /tmp/ledger_content_$$.yml /tmp/ledger_signature_$$.asc
     exit 1
 fi
 
 # Verify signature
 echo "Verifying GPG signature..."
-if gpg --verify /tmp/ledger_signature_$$.asc /tmp/ledger_content_$$.yml 2>&1; then
+if gpg --verify "$TEMP_SIG" "$TEMP_CONTENT" 2>&1; then
     echo ""
     echo -e "${GREEN}✓ Signature verification PASSED${NC}"
     echo -e "${GREEN}  Ledger entry is authentic and unmodified${NC}"
@@ -61,12 +66,10 @@ if gpg --verify /tmp/ledger_signature_$$.asc /tmp/ledger_content_$$.yml 2>&1; th
     echo "  Key ID: $KEY_ID"
     echo "  Signed at: $SIGNED_AT"
     
-    rm /tmp/ledger_content_$$.yml /tmp/ledger_signature_$$.asc
     exit 0
 else
     echo ""
     echo -e "${RED}✗ Signature verification FAILED${NC}"
     echo -e "${RED}  Warning: Ledger may have been tampered with!${NC}"
-    rm /tmp/ledger_content_$$.yml /tmp/ledger_signature_$$.asc
     exit 1
 fi

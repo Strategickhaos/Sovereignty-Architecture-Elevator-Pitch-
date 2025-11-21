@@ -6,7 +6,9 @@
 set -e
 
 LEDGER_FILE="${1}"
-EMAIL="${2:-domenic.garza@snhu.edu}"
+# Get default email from git config, fallback to environment variable or require explicit input
+DEFAULT_EMAIL="${GPG_EMAIL:-$(git config user.email 2>/dev/null)}"
+EMAIL="${2:-${DEFAULT_EMAIL}}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -18,6 +20,14 @@ NC='\033[0m' # No Color
 if [ -z "$LEDGER_FILE" ] || [ ! -f "$LEDGER_FILE" ]; then
     echo -e "${RED}Error: Ledger file not found${NC}"
     echo "Usage: $0 <ledger_file.yml> [email@address.com]"
+    exit 1
+fi
+
+# Check if email is set
+if [ -z "$EMAIL" ]; then
+    echo -e "${RED}Error: No email specified${NC}"
+    echo "Provide email as second argument or set GPG_EMAIL environment variable"
+    echo "Or configure git: git config user.email your@email.com"
     exit 1
 fi
 
