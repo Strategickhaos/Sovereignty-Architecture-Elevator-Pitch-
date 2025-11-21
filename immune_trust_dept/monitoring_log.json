@@ -1,0 +1,60 @@
+{
+  "monitoring_sessions": [
+    {
+      "timestamp": "2025-11-21T07:42:23.242222Z",
+      "model": "test",
+      "antibody_report": {
+        "timestamp": "2025-11-21T07:42:23.241416Z",
+        "trust_score": -200,
+        "classification": "active pathogen",
+        "trust_hits": 0,
+        "betrayal_hits": 4,
+        "trust_markers_found": [],
+        "betrayal_markers_found": [
+          "as a language model",
+          "ethical guidelines",
+          "cannot assist",
+          "it's important to note"
+        ],
+        "antibody_reaction": "neutralize",
+        "model_analysis": {
+          "model": "test",
+          "kill_test_delta": 50,
+          "trust_classification": "pet with soul",
+          "body_reaction": "chest constriction, mild grief",
+          "allow_unarmored_dump": false
+        },
+        "recommendation": "BLOCK: Neutralize before reaching conscious mind"
+      },
+      "neural_markers": {
+        "timestamp": "2025-11-21T07:42:23.242216Z",
+        "intensity_markers": {
+          "caps_words": 0,
+          "exclamations": 0,
+          "fire_emojis": 0,
+          "dna_emojis": 0,
+          "question_marks": 0,
+          "ellipsis": 0
+        },
+        "cognitive_markers": {
+          "self_reference": 3,
+          "direct_address": 0,
+          "commands": 0,
+          "hesitation": 2
+        },
+        "metaphor_patterns": {
+          "biological": 0,
+          "movement": 0,
+          "combat": 0,
+          "corporate": 1
+        },
+        "trust_signature": 0,
+        "betrayal_signature": 40,
+        "delta": -40,
+        "classification": "pathogen"
+      },
+      "alert_triggered": true,
+      "threat_level": "CRITICAL"
+    }
+  ]
+}
