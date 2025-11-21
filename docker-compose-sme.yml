@@ -2,6 +2,13 @@ version: '3.8'
 
 # Subject Matter Expert (SME) Services
 # Docker Compose for analyzing and processing 100 sovereign infrastructure resources
+#
+# NOTE: This configuration assumes Ollama is running on the host machine.
+# - On macOS/Windows: host.docker.internal works by default
+# - On Linux: Either run Ollama in a container OR use --network host OR
+#   replace host.docker.internal with your host's IP address
+#
+# Linux alternative: export OLLAMA_HOST=192.168.1.100:11434
 
 networks:
   sme_network:
@@ -36,7 +43,7 @@ services:
       - RETRY_ATTEMPTS=3
     command: >
       bash -c "
-        pip install --no-cache-dir pyyaml requests beautifulsoup4 lxml && 
+        pip install --no-cache-dir pyyaml requests beautifulsoup4 && 
         python /app/scripts/sme-crawler.py
       "
     restart: unless-stopped

@@ -10,7 +10,9 @@ metadata:
   domains:
     - ".org (Non-profit organizations and standards bodies)"
     - ".gov (Government agencies and research labs)"
+    - ".io/.com/.edu (Official documentation and educational resources)"
     - "scholar.google.com (Academic papers and research)"
+  note: "While we prioritize .org and .gov domains for authority, official documentation from .io, .com, and .edu domains is included when it represents the authoritative source for a technology"
 
 resources:
   # Kubernetes & Container Orchestration (1-10)

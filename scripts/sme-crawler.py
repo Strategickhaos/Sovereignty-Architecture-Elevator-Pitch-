@@ -74,7 +74,7 @@ def fetch_url(url: str, attempt: int = 1) -> Dict:
 def extract_text(html: str) -> Dict:
     """Extract text content from HTML"""
     try:
-        soup = BeautifulSoup(html, 'lxml')
+        soup = BeautifulSoup(html, 'html.parser')
         
         # Remove script and style elements
         for script in soup(["script", "style", "nav", "footer", "header"]):

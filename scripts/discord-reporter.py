@@ -44,6 +44,10 @@ def send_discord_message(content: str, embeds: List[Dict] = None):
 def create_summary_embed() -> Dict:
     """Create summary embed from latest results"""
     
+    # Create directories if they don't exist
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    ANALYSIS_DIR.mkdir(parents=True, exist_ok=True)
+    
     # Find latest files
     result_files = sorted(RESULTS_DIR.glob("*.json"), key=lambda x: x.stat().st_mtime, reverse=True)
     analysis_files = sorted(ANALYSIS_DIR.glob("*.json"), key=lambda x: x.stat().st_mtime, reverse=True)
