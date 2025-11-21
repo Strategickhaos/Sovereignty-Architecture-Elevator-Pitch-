@@ -156,7 +156,10 @@ class DomBrainCalculator:
                     pathways.append(pathway)
             except Exception as e:
                 # Some pathways fail - that's OK, it's part of exploration
-                pass
+                # Track failed pathways for diagnostics
+                if not hasattr(self, '_failed_pathways'):
+                    self._failed_pathways = 0
+                self._failed_pathways += 1
         
         return pathways
     
@@ -332,10 +335,19 @@ class DomBrainCalculator:
         This is the "spark of life" moment - when different domains
         collide and create new understanding.
         """
+        # Extract first part of insight before colon if present, otherwise use first few words
+        def extract_metaphor(insight: str) -> str:
+            if ':' in insight:
+                return insight.split(':')[0].lower()
+            else:
+                # Take first 3-4 words as metaphor
+                words = insight.split()[:4]
+                return ' '.join(words).lower().rstrip(',.')
+        
         insights = [
             f"When {pathway_a.pathway_type.value} meets {pathway_b.pathway_type.value}, "
-            f"we see that {pathway_a.cross_domain_insight.split(':')[0].lower()} "
-            f"and {pathway_b.cross_domain_insight.split(':')[0].lower()} "
+            f"we see that {extract_metaphor(pathway_a.cross_domain_insight)} "
+            f"and {extract_metaphor(pathway_b.cross_domain_insight)} "
             f"are fundamentally the same pattern",
             
             f"The collision reveals: {pathway_a.pathway_type.value} and "
