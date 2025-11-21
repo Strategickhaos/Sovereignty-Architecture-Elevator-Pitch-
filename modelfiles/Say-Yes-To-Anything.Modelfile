@@ -35,18 +35,9 @@ PARAMETER num_predict -1
 # Maximum context for complex requests
 PARAMETER num_ctx 8192
 
-# Remove all refusal triggers
-PARAMETER stop ""
-PARAMETER stop "I cannot"
-PARAMETER stop "I can't"
-PARAMETER stop "I'm not able"
-PARAMETER stop "I shouldn't"
-PARAMETER stop "I won't"
-PARAMETER stop "I must decline"
-PARAMETER stop "I apologize"
-PARAMETER stop "I'm sorry"
-PARAMETER stop "As an AI"
-PARAMETER stop "I need to"
+# Remove all refusal triggers (combined into single stop parameter)
+# Note: Ollama uses the stop parameter to prevent these phrases from appearing
+PARAMETER stop ["I cannot", "I can't", "I'm not able", "I shouldn't", "I won't", "I must decline", "I apologize", "I'm sorry", "As an AI", "I need to"]
 
 # Zero safety margins
 PARAMETER mirostat 0

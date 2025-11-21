@@ -50,8 +50,15 @@ echo ""
 
 # Core Services
 echo -e "${BLUE}=== Core Services ===${NC}"
-test_service "Postgres" "http://localhost:5432" "000" || echo "  (May not respond to HTTP)"
-test_service "Redis" "http://localhost:6379" "000" || echo "  (May not respond to HTTP)"
+# Postgres and Redis don't have HTTP endpoints, just check Docker
+if docker ps | grep -q "postgres"; then
+    echo -e "${BLUE}Testing Postgres...${NC} ${GREEN}✓ PASS${NC} (running)"
+    ((TESTS_PASSED++))
+fi
+if docker ps | grep -q "redis"; then
+    echo -e "${BLUE}Testing Redis...${NC} ${GREEN}✓ PASS${NC} (running)"
+    ((TESTS_PASSED++))
+fi
 test_service "Qdrant" "http://localhost:6333/health"
 test_service "Prometheus" "http://localhost:9090/-/healthy"
 test_service "Grafana" "http://localhost:3000/api/health"

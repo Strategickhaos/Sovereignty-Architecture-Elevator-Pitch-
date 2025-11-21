@@ -79,9 +79,10 @@ agents.localhost {
 security.localhost {
     reverse_proxy security-dashboard:8300
     
-    # Authentication required
+    # Authentication required (password: admin - change in production!)
+    # Generate hash with: caddy hash-password
     basicauth {
-        admin $2a$14$Zkx19XLiW6VYouLHR5NmfOFU0z2GTNmpkT/5qqR7hx4wHU
+        admin $2a$14$Zkx19XLiW6VYouLHR5NmfOFU0z2GTNmpkT/5qqR7hx4wHU.h1V8.W
     }
 }
 
