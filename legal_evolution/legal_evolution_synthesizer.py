@@ -14,7 +14,6 @@ This system:
 
 import json
 import random
-import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Dict, Tuple, Optional
@@ -489,9 +488,12 @@ def main():
     print("=" * 70)
     
     # Archive the Claude conversation that inspired this implementation
+    # Configure this URL for your specific use case
+    INITIAL_CONVERSATION_URL = "https://claude.ai/share/777c7e93-fb67-4026-8370-1b1588c5df56"
+    
     archive = ExternalConversationArchive()
     archive.archive_conversation(
-        source_url="https://claude.ai/share/777c7e93-fb67-4026-8370-1b1588c5df56",
+        source_url=INITIAL_CONVERSATION_URL,
         summary="Design of meta-evolution and legal synthesizer engine. Discussion of evolutionary strategies for legal compliance in PI/OSINT operations.",
         conversation_type="design_discussion",
         tags=["legal", "evolution", "compliance", "LSEE", "meta-engine"]
