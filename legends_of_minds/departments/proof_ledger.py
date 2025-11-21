@@ -53,6 +53,7 @@ class ProofLedger:
                 db_path = "/var/legends_of_minds/proof_ledger.db"
             except (PermissionError, OSError):
                 # Fall back to local data directory
+                Path("./data").mkdir(parents=True, exist_ok=True)
                 db_path = "./data/proof_ledger.db"
         self.db_path = db_path
         self._init_db()

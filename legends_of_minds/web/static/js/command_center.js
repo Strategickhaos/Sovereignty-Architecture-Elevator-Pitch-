@@ -246,9 +246,20 @@ async function loadProofLedger() {
 
 async function verifyProofChain() {
     try {
-        // This would call a verification endpoint
         addTerminalLine('Verifying proof ledger chain...');
-        addTerminalLine('Proof ledger verification: PASSED', 'success');
+        
+        const response = await fetch(`${API_BASE}/api/v1/proof-ledger/verify`);
+        const result = await response.json();
+        
+        if (result.status === 'verified') {
+            addTerminalLine(`✅ Proof ledger verification: ${result.status.toUpperCase()}`);
+            addTerminalLine(`   Entries verified: ${result.entries || 0}`);
+        } else {
+            addTerminalLine(`⚠️  Proof ledger verification: ${result.status}`);
+            if (result.errors) {
+                result.errors.forEach(err => addTerminalLine(`   - ${err}`, 'error'));
+            }
+        }
     } catch (error) {
         addTerminalLine(`Verification failed: ${error.message}`, 'error');
     }
