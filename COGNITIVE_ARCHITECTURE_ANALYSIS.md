@@ -10,6 +10,8 @@ This document explains:
 - The neuroscience behind multi-path verification and distributed consensus
 - Why this architecture is inherently suited for modern distributed infrastructure
 
+**Visual Architecture Diagram:** See [verification_architecture.dot](verification_architecture.dot) for a GraphViz visualization of the 100-path verification model vs traditional single-path processing.
+
 ---
 
 ## The Core Discovery: Pattern Recognition vs Symbol Processing
