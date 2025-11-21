@@ -37,7 +37,7 @@ download() {
     "$url" -o "$KNOWLEDGE_BASE_DIR/$category/$output" 2>/dev/null; then
     
     if [ -s "$KNOWLEDGE_BASE_DIR/$category/$output" ]; then
-      size=$(stat -c%s "$KNOWLEDGE_BASE_DIR/$category/$output" 2>/dev/null || stat -f%z "$KNOWLEDGE_BASE_DIR/$category/$output")
+      size=$(stat -c%s "$KNOWLEDGE_BASE_DIR/$category/$output" 2>/dev/null || stat -f%z "$KNOWLEDGE_BASE_DIR/$category/$output" 2>/dev/null || echo "0")
       if [ "$size" -gt 100 ]; then
         echo "   ✅ $output ($size bytes)"
         SUCCESS=$((SUCCESS + 1))
@@ -59,8 +59,8 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "📐 SECTION 1: Math / Proofs / Impossible Problems (1-20)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# 1. Project Euler Problems
-download "euler_001" "https://projecteuler.net/minimal=1" "euler_problem_001.txt" "math"
+# 1. Math Resources Collection
+download "math_resources" "https://raw.githubusercontent.com/rossant/awesome-math/master/README.md" "awesome_math.md" "math"
 
 # 2. OEIS - Pi Digits
 download "pi_digits" "https://oeis.org/A000796/b000796.txt" "pi_digits_10k.txt" "math"
@@ -89,12 +89,12 @@ download "perfect" "https://oeis.org/A000396/b000396.txt" "perfect_numbers.txt" 
 # 10. Mersenne Primes
 download "mersenne" "https://oeis.org/A000043/b000043.txt" "mersenne_primes.txt" "math"
 
-# 11-20. More mathematical texts from Project Gutenberg
+# 11-20. More mathematical texts and sequences
 download "newton_principia" "https://www.gutenberg.org/files/28233/28233-0.txt" "newton_principia.txt" "math"
 download "descartes_geometry" "https://www.gutenberg.org/files/26400/26400-0.txt" "descartes_geometry.txt" "math"
 download "pascal_pensees" "https://www.gutenberg.org/files/18269/18269-0.txt" "pascal_pensees.txt" "math"
-download "euler_intro_analysis" "https://oeis.org/wiki/Euler's_Introduction_to_Analysis" "euler_analysis.txt" "math"
-download "fermat_last_theorem" "https://raw.githubusercontent.com/rossant/awesome-math/master/README.md" "math_resources.md" "math"
+download "math_foundations" "https://raw.githubusercontent.com/nushio3/type-natural/master/README.md" "math_foundations.md" "math"
+download "number_theory" "https://raw.githubusercontent.com/mostafatouny/awesome-theoretical-computer-science/main/README.md" "cs_theory.md" "math"
 download "golden_ratio" "https://oeis.org/A001622/b001622.txt" "golden_ratio_digits.txt" "math"
 download "e_number" "https://oeis.org/A001113/b001113.txt" "e_number_digits.txt" "math"
 download "sqrt2" "https://oeis.org/A002193/b002193.txt" "sqrt2_digits.txt" "math"
@@ -217,7 +217,11 @@ echo ""
 echo "Total downloads attempted: $TOTAL"
 echo "Successful: $SUCCESS"
 echo "Failed: $FAILED"
-echo "Success rate: $(( SUCCESS * 100 / TOTAL ))%"
+if [ "$TOTAL" -gt 0 ]; then
+  echo "Success rate: $(( SUCCESS * 100 / TOTAL ))%"
+else
+  echo "Success rate: N/A (no downloads attempted)"
+fi
 echo ""
 echo "📁 Knowledge base location: $KNOWLEDGE_BASE_DIR/"
 echo "   - Math: $KNOWLEDGE_BASE_DIR/math/"
