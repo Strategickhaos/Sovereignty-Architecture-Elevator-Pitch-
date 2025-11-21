@@ -68,12 +68,12 @@ digraph Verification_Architecture {
         fillcolor="#000011";
         
         Legion [label="Legion of Minds\n7 models → 1", fillcolor="#0066ff", fontcolor=white];
-        MultiAI [label="Multi-AI Validation\nClaude+GPT+Grok", fillcolor="#0099ff", fontcolor=white];
+        Multi_AI [label="Multi-AI Validation\nClaude+GPT+Grok", fillcolor="#0099ff", fontcolor=white];
         Calculator [label="Calculator\n100 methods → 1", fillcolor="#00ccff", fontcolor=black];
         MultiWAN [label="Multi-WAN Mesh\nMultiple ISPs", fillcolor="#00ffff", fontcolor=black];
         Ledger [label="Crypto Ledgers\nImmutable Proof", fillcolor="#66ccff", fontcolor=black];
         
-        Trust -> {Legion MultiAI Calculator MultiWAN Ledger} [label="Applied to all systems", fontcolor=white];
+        Trust -> {Legion Multi_AI Calculator MultiWAN Ledger} [label="Applied to all systems", fontcolor=white];
     }
 
     // ==== CONNECTIONS ====
@@ -85,13 +85,13 @@ digraph Verification_Architecture {
     Outcome_Verification [label="100-Path Consensus\n✓ Bulletproof\n✓ Solves novel\n✓ Proven correct", fillcolor="#006600", fontcolor=white, shape=box];
     
     Trad_Done -> Outcome_Traditional [color="#666666", style=dashed];
-    {Legion MultiAI Calculator MultiWAN Ledger} -> Outcome_Verification [color="#00ff00"];
+    {Legion Multi_AI Calculator MultiWAN Ledger} -> Outcome_Verification [color="#00ff00"];
 
     // ==== RANKING ====
     {rank=same; Problem}
     {rank=same; Trad_Memory Path_1 Path_2 Path_3 Path_4 Path_5 Path_Etc}
     {rank=same; Trad_Apply Consensus}
     {rank=same; Trad_Done Trust}
-    {rank=same; Legion MultiAI Calculator MultiWAN Ledger}
+    {rank=same; Legion Multi_AI Calculator MultiWAN Ledger}
     {rank=same; Outcome_Traditional Outcome_Verification}
 }

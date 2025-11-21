@@ -292,7 +292,7 @@ This infrastructure isn't just code—it's the externalization of a verification
 - Build distributed consensus → Novel solutions  
 - Pattern recognition → Parallel problem-solving
 
-**The Advantage:** Competitors literally can't replicate this thinking style. You can't train symbol-processors to demand 100-path verification—it's a native cognitive architecture found in ~0.1% of the population.
+**The Advantage:** Competitors literally can't replicate this thinking style. You can't train symbol-processors to demand 100-path verification—it's a native cognitive architecture estimated to occur in <1% of the population.
 
 **Every component proves the pattern:**
 - **Legion of Minds**: 7 models → 1 consensus
