@@ -67,8 +67,12 @@ class PsycheVilleWorker:
                             try:
                                 event_time = datetime.fromisoformat(timestamp_str)
                             except ValueError:
-                                # Try parsing as unix timestamp
-                                event_time = datetime.fromtimestamp(float(timestamp_str))
+                                # Try parsing as unix timestamp if it's numeric
+                                try:
+                                    event_time = datetime.fromtimestamp(float(timestamp_str), tz=timezone.utc)
+                                except (ValueError, TypeError):
+                                    # Skip events with invalid timestamps
+                                    continue
                             
                             if event_time >= cutoff_time:
                                 events.append(event)

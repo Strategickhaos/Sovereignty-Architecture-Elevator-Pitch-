@@ -54,8 +54,8 @@ def generate_event(department: str, base_time: datetime = None) -> dict:
     # Random time offset within the last 24 hours
     time_offset = timedelta(seconds=random.randint(0, 86400))
     event_time = base_time - time_offset
-    # Format as ISO 8601 with Z suffix (UTC)
-    timestamp = event_time.replace(tzinfo=None).isoformat() + 'Z'
+    # Format as ISO 8601 with Z suffix (UTC) - replace timezone offset with Z
+    timestamp = event_time.isoformat().replace('+00:00', 'Z')
     
     # Select random event type
     event_type, metadata = random.choice(DEPARTMENT_EVENTS[department])

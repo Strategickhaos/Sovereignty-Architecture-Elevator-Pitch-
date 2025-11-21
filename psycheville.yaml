@@ -101,6 +101,8 @@ psycheville:
     llm_model: "llama3:latest"
     llm_temperature: 0.7
     llm_max_tokens: 2000
+    # NOTE: Update this path to your Obsidian vault location
+    # Example: ${HOME}/Obsidian/PsycheVille or /home/yourusername/Obsidian/PsycheVille
     output_dir: "/home/user/Obsidian/PsycheVille"
     retention_days: 90  # Keep logs for 90 days
     

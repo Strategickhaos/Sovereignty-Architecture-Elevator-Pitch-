@@ -46,6 +46,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - TZ=UTC
+      # Configurable cron schedule (default: hourly at minute 0)
+      - CRON_SCHEDULE=${CRON_SCHEDULE:-0 * * * *}
     entrypoint: >
       sh -c "
         echo '🔄 Setting up PsycheVille Scheduler...' &&
@@ -55,8 +57,8 @@ services:
         echo '✅ Dependencies installed' &&
         echo '' &&
         echo '⏰ Configuring cron schedule...' &&
-        echo '0 * * * * cd /app && python3 worker.py >> /var/log/cron.log 2>&1' > /etc/crontabs/root &&
-        echo '✅ Cron schedule: Hourly reflection' &&
+        echo \"$${CRON_SCHEDULE} cd /app && python3 worker.py >> /var/log/cron.log 2>&1\" > /etc/crontabs/root &&
+        echo \"✅ Cron schedule: $${CRON_SCHEDULE}\" &&
         echo '' &&
         echo '🚀 Starting cron daemon...' &&
         crond -f -l 2

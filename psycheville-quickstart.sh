@@ -145,19 +145,15 @@ generate_sample_logs() {
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         print_info "Generating sample logs..."
         
-        TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-        
-        # Tools Refinery sample
-        echo "{\"timestamp\": \"$TIMESTAMP\", \"department\": \"tools_refinery\", \"event_type\": \"endpoint_called\", \"endpoint\": \"/api/v1/tools/list\", \"metadata\": {\"response_time_ms\": 45}}" >> "${LOG_DIR}/tools_refinery.jsonl"
-        echo "{\"timestamp\": \"$TIMESTAMP\", \"department\": \"tools_refinery\", \"event_type\": \"endpoint_called\", \"endpoint\": \"/api/v1/tools/search\", \"metadata\": {\"response_time_ms\": 123}}" >> "${LOG_DIR}/tools_refinery.jsonl"
-        
-        # Sovereign AI Lab sample
-        echo "{\"timestamp\": \"$TIMESTAMP\", \"department\": \"sovereign_ai_lab\", \"event_type\": \"model_inference\", \"model\": \"llama3\", \"metadata\": {\"tokens\": 150, \"duration_ms\": 2340}}" >> "${LOG_DIR}/sovereign_ai_lab.jsonl"
-        
-        # Cloud OS sample
-        echo "{\"timestamp\": \"$TIMESTAMP\", \"department\": \"cloud_os\", \"event_type\": \"container_start\", \"container\": \"psycheville-worker\", \"metadata\": {\"status\": \"success\"}}" >> "${LOG_DIR}/cloud_os.jsonl"
-        
-        print_status "Generated sample logs for 3 departments"
+        # Use the Python sample logger for robust log generation
+        if command -v python3 &> /dev/null && [ -f "$WORKER_SCRIPT" ]; then
+            python3 psycheville_sample_logger.py --log-dir "$LOG_DIR" --events 50
+        else
+            print_warning "Python sample logger not available, creating minimal logs..."
+            TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            echo "{\"timestamp\": \"$TIMESTAMP\", \"department\": \"tools_refinery\", \"event_type\": \"endpoint_called\", \"metadata\": {\"endpoint\": \"/api/v1/tools/list\", \"response_time_ms\": 45}}" >> "${LOG_DIR}/tools_refinery.jsonl"
+            print_status "Generated minimal sample logs"
+        fi
     fi
 }
 
