@@ -19,7 +19,7 @@ Looking to evolve beyond cloud dependencies and build true technological soverei
 - **Time estimates** from "tonight" to "2-5 years"
 - **Revenue generation paths** for monetizing your sovereignty
 
-Start with [Evolutions #1-10](EVOLUTION_ROADMAP.md#quick-reference-table) for immediate impact, or jump to [enterprise licensing](EVOLUTION_ROADMAP.md#-evolutions-41-60-enterprise-licensing) for millions in potential revenue.
+Start with [Evolutions #1-10](EVOLUTION_ROADMAP.md#-quick-reference-table) for immediate impact, or jump to [enterprise licensing](EVOLUTION_ROADMAP.md#-evolutions-41-60-enterprise-licensing) for millions in potential revenue.
 
 ## 🚀 Quick Start
 

@@ -215,7 +215,7 @@ cd llama.cpp
 make LLAMA_CUBLAS=1 CUDA_DOCKER_ARCH=sm_89
 
 # Run with optimal settings
-./main -m llama-2-70b.Q8_0.gguf \
+./main -m llama-3.1-70b.Q8_0.gguf \
   -c 8192 -n 512 -t 8 \
   --gpu-layers 80 --batch-size 512 \
   --mlock --no-mmap
@@ -360,10 +360,14 @@ Automatically construct optimal Mixture-of-Experts models by selecting and routi
 
 ```yaml
 expert_pool:
-  - code-expert: "codellama-7b"
-  - math-expert: "mathstral-7b"
-  - creative-expert: "mistral-7b"
-  - reasoning-expert: "llama-3.1-7b"
+  - name: "code-expert"
+    model: "codellama-7b"
+  - name: "math-expert"
+    model: "mathstral-7b"
+  - name: "creative-expert"
+    model: "mistral-7b"
+  - name: "reasoning-expert"
+    model: "llama-3.1-7b"
 ```
 
 **Routing**: Learned BERT-based router classifies queries and selects appropriate expert(s).
@@ -778,7 +782,7 @@ python train_lora.py
 - Revenue Models Playbook
 
 ### Community
-- Discord: [Sovereignty Architecture](https://discord.gg/sovereignty)
+- Discord: [Join Sovereignty Architecture Discord](#) *(configure your invite link)*
 - GitHub: [Strategickhaos](https://github.com/Strategickhaos)
 
 ### Support
