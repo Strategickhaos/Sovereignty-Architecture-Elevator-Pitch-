@@ -31,6 +31,7 @@ sources:
     alt_url: "https://archive.org/details/TheNagHammadiLibrary"
     institution: "Gnosis Archive"
     date_range: "2nd-4th century CE"
+    note: "Site does not support HTTPS; alt_url provides secure HTTPS alternative"
     
   - id: nag_hammadi_pdf
     url: "https://archive.org/details/TheNagHammadiLibrary"
@@ -105,6 +106,12 @@ additional_sources:
     category: "gnostic"
 
 ingestion_pipeline:
+  # NOTE: Template variables ($url, $output_dir, $file) must be validated before execution
+  # to prevent command injection and path traversal vulnerabilities
+  security_requirements:
+    - url_validation: "Must match allowed domains and use HTTPS where supported"
+    - path_validation: "Output paths must be contained within designated directories"
+    - input_sanitization: "All variables must be sanitized before shell execution"
   steps:
     - fetch: "curl -L -s -H 'User-Agent: $user_agent' $url -o $output_dir/$file"
     - validate: "test -s $output_dir/$file"
