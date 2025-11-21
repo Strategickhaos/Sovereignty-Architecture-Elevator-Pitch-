@@ -79,11 +79,15 @@ GitHub Copilot Agents are AI-powered assistants that extend GitHub Copilot's cap
 2. **VS Code Requirements**
    ```bash
    # Install/Update VS Code to latest version
-   # Install GitHub Copilot extension
+   # Install GitHub Copilot extension (latest version)
    code --install-extension GitHub.copilot
    
-   # Install GitHub Copilot Chat extension
+   # Install GitHub Copilot Chat extension (latest version)
    code --install-extension GitHub.copilot-chat
+   
+   # Optional: Pin to specific versions for reproducibility
+   # code --install-extension GitHub.copilot@1.153.0
+   # code --install-extension GitHub.copilot-chat@0.11.0
    ```
 
 3. **Repository Access**
