@@ -109,7 +109,7 @@ These are complete, working kernels you can study, fork, and customize.
 
 33. **[Redox OS](https://www.redox-os.org/)** – Full Rust OS with microkernel design. Production-quality.
 
-34. **[TempleOS](https://templeos.org/)** – Holy C + insane creativity. Unique architecture worth studying.
+34. **[TempleOS](https://templeos.org/)** – Holy C + unconventional creativity. Unique architecture worth studying.
 
 35. **[Phantom OS](http://phantomos.org/)** – Persistent object-oriented kernel. Novel approach to OS design.
 
