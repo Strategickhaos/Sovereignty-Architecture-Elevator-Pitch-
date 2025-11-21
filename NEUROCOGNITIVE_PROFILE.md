@@ -221,7 +221,7 @@ Physical Practice → Cerebellar Plasticity
 | Executive dysfunction | Alternative executive architecture |
 | Random distractibility | Productive associative exploration |
 
-**Key Insight**: This is not inability to focus—it is the ability to focus on MULTIPLE THINGS SIMULTANEOUSLY through parallel processing.
+**Key Insight**: This represents the ability to focus on *multiple things simultaneously* through parallel processing, rather than inability to focus.
 
 **Assessment Consideration**: Standard ADHD assessments measure serial processing performance. They are not designed to evaluate parallel processing architectures.
 

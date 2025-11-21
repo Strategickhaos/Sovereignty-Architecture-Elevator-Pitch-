@@ -248,7 +248,7 @@ Physical practice → Cerebellar plasticity
 - Common misdiagnosis: "Inattention" or "distractibility" (ADHD)
 - Reality: Brain is rewarding productive pattern exploration
 
-**This is NOT ADHD**: It is associative expansion for pattern discovery, not deficit of attention.
+**Distinction from Attention Deficit**: This represents associative expansion for pattern discovery—a cognitive strength that differs fundamentally from attention challenges.
 
 ---
 
