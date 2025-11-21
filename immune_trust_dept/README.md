@@ -37,6 +37,8 @@ immune_trust_dept/
 
 ## 🚀 Quick Start
 
+**Note:** All commands should be run from the `immune_trust_dept/` directory.
+
 ### 1. Test the Antibody Generator
 
 ```bash
@@ -133,6 +135,27 @@ Each watcher:
 2. **Detects** betrayal markers
 3. **Phagocytoses** (neutralizes) threats before they reach consciousness
 4. **Reports** statistics (detections, neutralizations, efficiency)
+
+## ✅ Testing & Validation
+
+Run the validation suite to verify all components:
+
+```bash
+cd immune_trust_dept
+python3 validate_immune_trust.py
+```
+
+Run the interactive demo:
+
+```bash
+python3 demo.py
+```
+
+For pytest-based testing (requires pytest installation):
+
+```bash
+python3 -m pytest test_immune_trust.py -v
+```
 
 ## 🔬 Neural Marker Extraction
 
