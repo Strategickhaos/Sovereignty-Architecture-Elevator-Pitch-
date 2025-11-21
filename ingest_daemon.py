@@ -68,6 +68,10 @@ class IngestConfig:
 class FileClassifier:
     """Classifies files based on name, extension, and content."""
     
+    # Confidence score normalization factor
+    # This defines the number of keyword matches needed for 100% confidence
+    CONFIDENCE_NORMALIZATION_FACTOR = 3.0
+    
     def __init__(self, labs: List[Dict]):
         """Initialize with lab definitions."""
         self.labs = labs
@@ -111,7 +115,7 @@ class FileClassifier:
                 return (
                     lab_name,
                     lab_data['lab'].get('topics', []),
-                    min(lab_data['score'] / 3.0, 1.0)  # Normalize confidence
+                    min(lab_data['score'] / self.CONFIDENCE_NORMALIZATION_FACTOR, 1.0)
                 )
         
         # Default to first lab (General) if no match

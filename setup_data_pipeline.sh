@@ -44,9 +44,14 @@ fi
 
 # Install Python dependencies
 echo ""
-echo "📦 Installing Python dependencies..."
-pip3 install pyyaml -q
-echo "✅ PyYAML installed"
+echo "📦 Checking Python dependencies..."
+if python3 -c "import yaml" 2>/dev/null; then
+    echo "✅ PyYAML already installed"
+else
+    echo "   Installing PyYAML..."
+    pip3 install pyyaml -q
+    echo "✅ PyYAML installed"
+fi
 
 # Create directory structure
 echo ""
