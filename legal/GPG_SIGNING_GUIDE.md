@@ -224,10 +224,10 @@ echo "AI interaction data..." > logs/2025-11-21-session.yaml
 
 # 2. Calculate SHA3 hash (use appropriate command for your system)
 # Linux: sha3sum (may need: apt install libdigest-sha3-perl)
-# macOS: shasum -a 3 (or: brew install coreutils && gsha3sum)
-# Alternative: openssl dgst -sha3-256
+# macOS: brew install coreutils && gsha3sum
+# Alternative (all platforms): openssl dgst -sha3-256
 sha3sum logs/2025-11-21-session.yaml >> logs/hash-chain.txt
-# Or use: shasum -a 3 logs/2025-11-21-session.yaml >> logs/hash-chain.txt
+# Or use: openssl dgst -sha3-256 logs/2025-11-21-session.yaml >> logs/hash-chain.txt
 
 # 3. Commit with GPG signature (automatic if configured)
 git add logs/2025-11-21-session.yaml logs/hash-chain.txt
