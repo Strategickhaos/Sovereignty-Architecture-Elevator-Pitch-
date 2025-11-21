@@ -79,9 +79,9 @@ Objective: Document 36-layer immunity protocol across all repos
 
 ## Documentation Links
 
-- **Quick Start**: [/BLOODLINE_QUICKSTART.md](/BLOODLINE_QUICKSTART.md)
-- **Full Docs**: [/templates/BLOODLINE_COMMIT_SEED.md](/templates/BLOODLINE_COMMIT_SEED.md)
-- **Main README**: [/README.md](/README.md)
+- **Quick Start**: [../BLOODLINE_QUICKSTART.md](../BLOODLINE_QUICKSTART.md)
+- **Full Docs**: [../templates/BLOODLINE_COMMIT_SEED.md](../templates/BLOODLINE_COMMIT_SEED.md)
+- **Main README**: [../README.md](../README.md)
 
 ---
 
