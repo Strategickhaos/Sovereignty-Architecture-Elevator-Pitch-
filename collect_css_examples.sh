@@ -2,6 +2,9 @@
 # Script to collect CSS examples and related resources
 # Created based on the curl commands provided in the issue
 
+# Configuration
+REQUEST_DELAY=0.5  # Delay between requests to be polite to servers
+
 # Create directory for examples
 mkdir -p examples/css_resources
 
@@ -36,7 +39,7 @@ for source in "${sources[@]}"; do
     "$url" -o "examples/css_resources/$file"; then
     
     if [ -s "examples/css_resources/$file" ]; then
-      size=$(stat -c%s "examples/css_resources/$file" 2>/dev/null || stat -f%z "examples/css_resources/$file")
+      size=$(stat -f%z "examples/css_resources/$file" 2>/dev/null || stat -c%s "examples/css_resources/$file")
       if [ "$size" -gt 100 ]; then
         echo "✅ Success: $file ($size bytes)"
         success=$((success + 1))
@@ -54,7 +57,7 @@ for source in "${sources[@]}"; do
   fi
   
   # Small delay between requests to be polite
-  sleep 0.5
+  sleep "$REQUEST_DELAY"
 done
 
 echo ""
