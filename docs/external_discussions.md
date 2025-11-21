@@ -129,8 +129,11 @@ For machine-readable audit trails, use this JSONL format:
 To extract all JSONL entries from this document:
 
 ```bash
-# Extract all JSON blocks from this markdown file
+# Extract all JSON blocks from this markdown file (requires GNU grep with -P flag)
 grep -Pzo '(?s)```json\n\K.*?(?=\n```)' docs/external_discussions.md > docs/audit_ledger.jsonl
+
+# Alternative for macOS/BSD systems using sed
+sed -n '/```json/,/```/p' docs/external_discussions.md | grep -v '```' > docs/audit_ledger.jsonl
 ```
 
 Or manually maintain a separate `docs/audit_ledger.jsonl` file alongside this markdown file.
