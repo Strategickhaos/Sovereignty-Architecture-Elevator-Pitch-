@@ -9,7 +9,6 @@ Usage:
 """
 
 import argparse
-import copy
 import hashlib
 import json
 import uuid
@@ -46,7 +45,8 @@ class ConversationEvidenceLogger:
             return "claude.ai"
         if "chatgpt.com" in url_lower or "openai.com" in url_lower:
             return "chatgpt.com"
-        if "grok.x.ai" in url_lower or "x.com/i/grok" in url_lower or "x.ai" in url_lower:
+        # Be specific with x.ai patterns to avoid false matches
+        if "grok.x.ai" in url_lower or "x.com/i/grok" in url_lower:
             return "grok.x.ai"
         if "poe.com" in url_lower:
             return "poe.com"
@@ -60,22 +60,20 @@ class ConversationEvidenceLogger:
         if not url:
             return "other"
         
-        mapping = {
-            "claude.ai": "anthropic",
-            "chatgpt.com": "openai",
-            "openai.com": "openai",
-            "grok.x.ai": "xai",
-            "x.com/i/grok": "xai",
-            "x.ai": "xai",
-            "poe.com": "other",
-            "gemini.google.com": "google",
-            "bard.google.com": "google",
-        }
-        
         url_lower = url.lower()
-        for key, provider in mapping.items():
-            if key in url_lower:
-                return provider
+        
+        # Check for specific patterns in order of specificity
+        if "claude.ai" in url_lower:
+            return "anthropic"
+        if "chatgpt.com" in url_lower or "openai.com" in url_lower:
+            return "openai"
+        # Be specific with grok patterns to avoid false matches
+        if "grok.x.ai" in url_lower or "x.com/i/grok" in url_lower:
+            return "xai"
+        if "gemini.google.com" in url_lower or "bard.google.com" in url_lower:
+            return "google"
+        if "poe.com" in url_lower:
+            return "other"
         
         return "other"
     
@@ -221,11 +219,12 @@ class ConversationEvidenceLogger:
         print(f"Verifying chain of {len(conversations)} entries...")
         
         for i, entry in enumerate(conversations):
-            # Recompute hash (need deep copy to avoid modifying original)
-            entry_copy = copy.deepcopy(entry)
-            stored_hash = entry_copy["integration"]["ledger_hash"]
-            entry_copy["integration"]["ledger_hash"] = ""
-            computed_hash = self._compute_ledger_hash(entry_copy)
+            # Recompute hash by temporarily clearing the hash field
+            stored_hash = entry["integration"]["ledger_hash"]
+            entry["integration"]["ledger_hash"] = ""
+            computed_hash = self._compute_ledger_hash(entry)
+            # Restore the original hash
+            entry["integration"]["ledger_hash"] = stored_hash
             
             # Check if hash matches
             if computed_hash != stored_hash:

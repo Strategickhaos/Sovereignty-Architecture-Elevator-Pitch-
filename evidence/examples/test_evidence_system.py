@@ -4,6 +4,7 @@ Integration test for the evidence validation system
 Tests all core functionality
 """
 
+import json
 import sys
 import tempfile
 from pathlib import Path
@@ -131,7 +132,6 @@ def test_json_export():
         
         assert json_file.exists()
         
-        import json
         with open(json_file) as f:
             data = json.load(f)
             assert 'conversations' in data
