@@ -38,7 +38,9 @@ class Parser:
             expr = self.expression()
             self.consume("SEMICOLON", "Expect ';' after let.")
             return Stmt("LET", name=name, expression=expr)
-        raise ParseError("Expected statement.")
+        
+        current_token = self.peek()
+        raise ParseError(f"Expected statement, but found '{current_token.type}' at line {current_token.line}")
 
     def expression(self):
         return self.addition()

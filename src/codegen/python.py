@@ -50,4 +50,5 @@ class PythonCodegen:
             if expr.operator.type == "MINUS":
                 return f"(-{right})"
             return right
-        raise Exception(f"Unknown expr: {expr}")
+        
+        raise Exception(f"Unknown expression type '{expr.type}' in code generation")

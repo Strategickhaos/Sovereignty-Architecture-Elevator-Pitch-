@@ -28,6 +28,10 @@ def compile_file(path):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--compile":
+        if len(sys.argv) < 3:
+            print("Error: --compile requires a filename argument")
+            print("Usage: python -m src.main --compile <filename.khaos>")
+            sys.exit(1)
         compile_file(sys.argv[2])
     else:
         print("StrategicKhaos α — chaos engine online")

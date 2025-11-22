@@ -130,7 +130,7 @@ class Lexer:
 
         if self.is_at_end():
             # Unterminated string
-            return
+            raise Exception(f"Unterminated string at line {self.line}")
 
         # Closing "
         self.advance()

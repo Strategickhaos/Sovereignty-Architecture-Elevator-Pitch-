@@ -29,13 +29,20 @@ class Interpreter:
             if op == "STAR":
                 return left * right
             if op == "SLASH":
+                if right == 0:
+                    raise Exception("Division by zero")
                 return left / right
         elif expr.type == "GROUPING":
             return self.evaluate(expr.expression)
         elif expr.type == "VARIABLE":
-            return self.variables.get(expr.name.lexeme)
+            name = expr.name.lexeme
+            if name not in self.variables:
+                raise Exception(f"Undefined variable '{name}'")
+            return self.variables[name]
         elif expr.type == "UNARY":
             right = self.evaluate(expr.right)
             if expr.operator.type == "MINUS":
                 return -right
             return None
+        
+        raise Exception(f"Unknown expression type: {expr.type}")
