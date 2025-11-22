@@ -42,7 +42,10 @@ async def sovereign_browse(url: str, instructions: str = "") -> dict:
             if instructions:
                 # simple LLM-free extraction using instructions as CSS/XPath hints would go here
                 # for now just return raw HTML snippet
-                result["extracted"] = await page.eval_on_selector("body", "el => el.innerText.substring(0, 10000)")
+                try:
+                    result["extracted"] = await page.eval_on_selector("body", "el => el.innerText.substring(0, 10000)")
+                except Exception:
+                    result["extracted"] = ""
             
             return result
             
@@ -63,14 +66,14 @@ async def health():
     try:
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
             try:
+                page = await browser.new_page()
                 await page.goto("https://api.ipify.org?format=text", timeout=10000)
                 ip_text = await page.text_content("body")
-                await browser.close()
                 return {"status": "sovereign", "exit_ip": ip_text}
-            except:
-                await browser.close()
+            except Exception:
                 return {"status": "sovereign", "exit_ip": "unavailable"}
+            finally:
+                await browser.close()
     except Exception as e:
         return {"status": "error", "message": str(e)}

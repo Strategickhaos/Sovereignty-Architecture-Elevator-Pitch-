@@ -9,7 +9,9 @@ version: "3.9"
 
 services:
   sovereign_browser:
-    image: python:3.11-slim
+    build:
+      context: .
+      dockerfile: Dockerfile.sovereign_browser
     container_name: sovereign_browser_node
     restart: unless-stopped
     working_dir: /app
@@ -22,13 +24,6 @@ services:
     environment:
       - PORT=8002
       - LOG_PATH=/logs/events.jsonl
-    command: >
-      sh -c "
-      apt-get update && apt-get install -y libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libgbm1 libasound2 && 
-      pip install fastapi uvicorn playwright==1.47.0 playwright-stealth && 
-      playwright install chromium --with-deps && 
-      uvicorn main:app --host 0.0.0.0 --port 8002
-      "
 
 volumes:
   browser_cache:
