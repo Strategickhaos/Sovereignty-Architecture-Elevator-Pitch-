@@ -132,6 +132,9 @@ class Interpreter:
             op = expr["operator"].type
 
             if op == "PLUS":
+                # Handle string concatenation with automatic type conversion
+                if isinstance(left, str) or isinstance(right, str):
+                    return str(left) + str(right)
                 return left + right
             if op == "MINUS":
                 return left - right
