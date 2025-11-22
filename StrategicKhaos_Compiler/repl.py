@@ -31,6 +31,13 @@ def run(source, filename="<stdin>"):
     lexer = Lexer(source)
     tokens = lexer.scan_tokens()
     
+    # Display any errors
+    if lexer.errors:
+        print(f"\n=== Lexer Errors in {filename} ===\n")
+        for error in lexer.errors:
+            print(f"  {error}")
+        print()
+    
     print(f"\n=== Tokenization Results for {filename} ===\n")
     print(f"{'Line':<6} {'Type':<20} {'Lexeme':<20} {'Literal':<20}")
     print("-" * 70)

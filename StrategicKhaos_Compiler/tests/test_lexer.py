@@ -8,7 +8,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from src.lexer import Lexer, Token
+from src.lexer import Lexer, Token, LexerError
 from src.token import TokenType
 
 def test_simple_tokens():
@@ -170,6 +170,22 @@ def test_hello_khaos():
     
     print("✓ test_hello_khaos passed")
 
+def test_error_handling():
+    """Test lexer error handling"""
+    # Test unterminated string
+    source = '"unterminated string'
+    lexer = Lexer(source)
+    tokens = lexer.scan_tokens()
+    assert len(lexer.errors) > 0, "Should have errors for unterminated string"
+    
+    # Test unexpected character
+    source = '@#$'
+    lexer = Lexer(source)
+    tokens = lexer.scan_tokens()
+    assert len(lexer.errors) > 0, "Should have errors for unexpected characters"
+    
+    print("✓ test_error_handling passed")
+
 def run_all_tests():
     """Run all lexer tests"""
     print("\n=== Running StrategicKhaos Compiler Lexer Tests ===\n")
@@ -182,6 +198,7 @@ def run_all_tests():
     test_number_literals()
     test_identifiers()
     test_hello_khaos()
+    test_error_handling()
     
     print("\n=== All tests passed! The empire has grammar. ===\n")
 

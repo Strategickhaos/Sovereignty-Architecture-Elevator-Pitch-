@@ -1,5 +1,12 @@
 from src.token import TokenType, KEYWORDS
 
+class LexerError(Exception):
+    """Exception raised for lexer errors"""
+    def __init__(self, line, message):
+        self.line = line
+        self.message = message
+        super().__init__(f"[line {line}] {message}")
+
 class Token:
     def __init__(self, type_, lexeme, literal, line):
         self.type = type_
@@ -17,6 +24,7 @@ class Lexer:
         self.start = 0
         self.current = 0
         self.line = 1
+        self.errors = []
 
     def scan_tokens(self):
         while not self.is_at_end():
@@ -75,7 +83,7 @@ class Lexer:
         elif c.isalpha() or c == '_':
             self.identifier()
         else:
-            print(f"[line {self.line}] Unexpected character: {c}")
+            self.errors.append(LexerError(self.line, f"Unexpected character: {c}"))
 
     def string(self):
         while self.peek() != '"' and not self.is_at_end():
@@ -84,7 +92,7 @@ class Lexer:
             self.advance()
 
         if self.is_at_end():
-            print(f"[line {self.line}] Unterminated string.")
+            self.errors.append(LexerError(self.line, "Unterminated string"))
             return
 
         # The closing "
@@ -95,23 +103,27 @@ class Lexer:
         self.add_token(TokenType.STRING, value)
 
     def number(self):
-        while self.peek().isdigit():
+        while not self.is_at_end() and self.peek().isdigit():
             self.advance()
 
         # Look for a fractional part
-        if self.peek() == '.' and self.peek_next().isdigit():
+        if not self.is_at_end() and self.peek() == '.' and self.peek_next().isdigit():
             # Consume the "."
             self.advance()
 
-            while self.peek().isdigit():
+            while not self.is_at_end() and self.peek().isdigit():
                 self.advance()
 
         value = float(self.source[self.start:self.current])
         self.add_token(TokenType.NUMBER, value)
 
     def identifier(self):
-        while self.peek().isalnum() or self.peek() == '_':
-            self.advance()
+        while not self.is_at_end():
+            char = self.peek()
+            if char.isalnum() or char == '_':
+                self.advance()
+            else:
+                break
 
         text = self.source[self.start:self.current]
         type_ = KEYWORDS.get(text, TokenType.IDENTIFIER)
