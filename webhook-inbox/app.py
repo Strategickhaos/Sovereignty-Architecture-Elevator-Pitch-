@@ -32,11 +32,13 @@ def github_webhook():
     payload = request.data
     signature = request.headers.get("X-Hub-Signature-256")
 
+    # Verify signature BEFORE parsing JSON to ensure integrity
     if not verify_signature(payload, signature):
         print("⚠️  Webhook signature verification failed")
         abort(403)
 
     event = request.headers.get("X-GitHub-Event", "ping")
+    # Safe to parse JSON after signature verification
     data = request.get_json()
 
     # Log to inbox file with timestamp
@@ -95,4 +97,6 @@ if __name__ == "__main__":
     print(f"📥 Events will be logged to: {INBOX_FILE}")
     print(f"🔐 Webhook secret configured: {bool(WEBHOOK_SECRET)}")
     
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # Use debug mode only in development
+    debug_mode = os.environ.get("FLASK_ENV", "production") == "development"
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode)
