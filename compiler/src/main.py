@@ -31,7 +31,7 @@ def print_banner():
     banner = f"""
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
-║        StrategicKhaos Compiler α — {__version__}        ║
+║        StrategicKhaos Compiler alpha — {__version__}     ║
 ║                                                              ║
 ║        Chaos Engine Online                                   ║
 ║        Reality Compilation Mode: ACTIVE                      ║

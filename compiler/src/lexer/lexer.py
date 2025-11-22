@@ -70,17 +70,20 @@ class Lexer:
         num_str = ''
         has_dot = False
         
-        while self.current_char() and (self.current_char().isdigit() or self.current_char() == '.'):
-            if self.current_char() == '.':
+        char = self.current_char()
+        while char and (char.isdigit() or char == '.'):
+            if char == '.':
                 if has_dot:
                     break  # Second dot, stop here
                 has_dot = True
                 # Check if next char is a digit (to distinguish from method call)
-                if not self.peek_char() or not self.peek_char().isdigit():
+                next_char = self.peek_char()
+                if not next_char or not next_char.isdigit():
                     break
             
-            num_str += self.current_char()
+            num_str += char
             self.advance()
+            char = self.current_char()
         
         if has_dot:
             return Token(TokenType.FLOAT, float(num_str), start_line, start_column)

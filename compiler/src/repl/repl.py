@@ -135,8 +135,8 @@ Language Features (Planned):
 Current Status:
   Stage 0 - Foundation
   ✓ Lexer: Complete
+  ✓ AST: Complete
   ⚠ Parser: In progress
-  ⚠ AST: In progress
   ⚠ Codegen: Planned
   ⚠ Optimizer: Planned
 
