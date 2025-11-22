@@ -54,7 +54,12 @@ class Lexer:
         elif c == '*':
             self.add_token(TokenType.STAR)
         elif c == '/':
-            self.add_token(TokenType.SLASH)
+            if self.match('/'):
+                # A comment goes until the end of the line
+                while self.peek() != '\n' and not self.is_at_end():
+                    self.advance()
+            else:
+                self.add_token(TokenType.SLASH)
         elif c == '!':
             self.add_token(TokenType.BANG_EQUAL if self.match('=') else TokenType.BANG)
         elif c == '=':

@@ -170,6 +170,34 @@ def test_hello_khaos():
     
     print("✓ test_hello_khaos passed")
 
+def test_comments():
+    """Test comment handling"""
+    source = """// This is a comment
+let x = 42; // inline comment
+// Another comment
+show x;"""
+    lexer = Lexer(source)
+    tokens = lexer.scan_tokens()
+    
+    # Should only have: LET, IDENTIFIER, EQUAL, NUMBER, SEMICOLON, SHOW, IDENTIFIER, SEMICOLON, EOF
+    expected_types = [
+        TokenType.LET,
+        TokenType.IDENTIFIER,
+        TokenType.EQUAL,
+        TokenType.NUMBER,
+        TokenType.SEMICOLON,
+        TokenType.SHOW,
+        TokenType.IDENTIFIER,
+        TokenType.SEMICOLON,
+        TokenType.EOF
+    ]
+    
+    assert len(tokens) == len(expected_types), f"Expected {len(expected_types)} tokens, got {len(tokens)}"
+    for i, (token, expected_type) in enumerate(zip(tokens, expected_types)):
+        assert token.type == expected_type, f"Token {i}: Expected {expected_type}, got {token.type}"
+    
+    print("✓ test_comments passed")
+
 def test_error_handling():
     """Test lexer error handling"""
     # Test unterminated string
@@ -197,6 +225,7 @@ def run_all_tests():
     test_string_literals()
     test_number_literals()
     test_identifiers()
+    test_comments()
     test_hello_khaos()
     test_error_handling()
     

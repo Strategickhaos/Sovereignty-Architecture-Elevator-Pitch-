@@ -19,8 +19,10 @@ The StrategicKhaos Compiler is a hybrid monster of a programming language implem
 ### Current Stage 0 Implementation
 ✅ **Token definitions** - Complete lexical token set  
 ✅ **Lexer** - Full tokenization with Unicode support  
+✅ **Comments** - Single-line comments with //  
+✅ **Error handling** - Robust error collection and reporting  
 ✅ **REPL** - Interactive and file-based execution  
-✅ **Tests** - Comprehensive test suite  
+✅ **Tests** - Comprehensive test suite (10 tests)  
 
 ### Roadmap
 - **Stage 1**: AST (Abstract Syntax Tree) construction
@@ -90,6 +92,12 @@ let mut fn return if else while for print show
 ≫                 # Chaos operator
 ```
 
+### Comments
+```khaos
+// Single-line comments start with //
+let x = 42; // Comments can be inline too
+```
+
 ### Literals
 - **Strings**: `"Hello, chaos"` (double-quoted)
 - **Numbers**: `42`, `3.14159` (integers and floats)
@@ -108,6 +116,9 @@ The lexer in `src/lexer.py` implements:
 - Keyword vs identifier distinction
 - Multi-character operator recognition
 - Unicode operator support (≫)
+- Single-line comment handling (//)
+- Robust error collection with LexerError exceptions
+- Explicit bounds checking for safety
 
 ### Testing
 The test suite validates:
@@ -118,7 +129,9 @@ The test suite validates:
 - String literals
 - Number literals
 - Identifiers
+- Comment handling
 - Complete file tokenization
+- Error handling and reporting
 
 ## Next Steps
 
