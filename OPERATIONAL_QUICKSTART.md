@@ -325,8 +325,11 @@ df -h | grep -E 'Filesystem|/$|/docker'
 
 echo ""
 echo "4. Key Service Health:"
-echo "  - PostgreSQL: $(docker exec $(docker ps -qf 'name=postgres') pg_isready 2>&1 | cut -d':' -f2-)"
-echo "  - Redis: $(docker exec $(docker ps -qf 'name=redis') redis-cli ping 2>&1)"
+# Check if containers exist before running commands
+POSTGRES_ID=$(docker ps -qf 'name=postgres')
+REDIS_ID=$(docker ps -qf 'name=redis')
+[ -n "$POSTGRES_ID" ] && echo "  - PostgreSQL: $(docker exec "$POSTGRES_ID" pg_isready 2>&1 | cut -d':' -f2-)" || echo "  - PostgreSQL: Not running"
+[ -n "$REDIS_ID" ] && echo "  - Redis: $(docker exec "$REDIS_ID" redis-cli ping 2>&1)" || echo "  - Redis: Not running"
 echo "  - Qdrant: $(curl -s http://localhost:6333/health 2>&1 | jq -r .status 2>/dev/null || echo 'Check manually')"
 
 echo ""
@@ -371,9 +374,15 @@ docker volume ls > "$BACKUP_DIR/volumes.txt"
 echo "🔄 Checking for image updates..."
 docker images --format "{{.Repository}}:{{.Tag}}" | grep -v "<none>" > "$BACKUP_DIR/images.txt"
 
-# 5. Clean up old logs (older than 30 days)
-echo "🧹 Cleaning old logs..."
-find /var/lib/docker/containers -name "*-json.log" -mtime +30 -delete 2>/dev/null || echo "Need sudo for log cleanup"
+# 5. Clean up old logs (older than 30 days) - DRY RUN first!
+echo "🧹 Checking for old logs to clean..."
+OLD_LOGS=$(find /var/lib/docker/containers -name "*-json.log" -mtime +30 2>/dev/null | wc -l)
+if [ "$OLD_LOGS" -gt 0 ]; then
+    echo "Found $OLD_LOGS old log files (>30 days). Run manually to delete:"
+    echo "  sudo find /var/lib/docker/containers -name '*-json.log' -mtime +30 -delete"
+else
+    echo "No old logs found"
+fi
 
 # 6. Check SSL certificates (if applicable)
 echo "🔐 Checking SSL certificates..."
@@ -469,7 +478,7 @@ EMERGENCY_BACKUP="/tmp/emergency_backup_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$EMERGENCY_BACKUP"
 
 # Backup all volumes (safely handle volume names with spaces/special chars)
-for volume in $(docker volume ls -q); do
+docker volume ls -q | while read -r volume; do
     docker run --rm -v "$volume":/data -v "$EMERGENCY_BACKUP":/backup alpine tar czf /backup/"$volume".tar.gz /data
 done
 

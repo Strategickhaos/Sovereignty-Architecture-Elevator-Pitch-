@@ -381,17 +381,21 @@ docker logs <container_name>
 Create an inventory of what's operational:
 
 ```bash
+# Set your backup directory (adjust path to your I drive or data volume)
+BACKUP_DIR="/path/to/your/data_drive/infrastructure_backups"
+mkdir -p "$BACKUP_DIR"
+
 # Save running services
-docker ps > /path/to/I_drive/running_services_$(date +%Y%m%d).txt
+docker ps > "$BACKUP_DIR/running_services_$(date +%Y%m%d).txt"
 
 # Save Kubernetes pods
-kubectl get pods -A > /path/to/I_drive/k8s_pods_$(date +%Y%m%d).txt
+kubectl get pods -A > "$BACKUP_DIR/k8s_pods_$(date +%Y%m%d).txt"
 
 # Save disk usage
-df -h > /path/to/I_drive/disk_usage_$(date +%Y%m%d).txt
+df -h > "$BACKUP_DIR/disk_usage_$(date +%Y%m%d).txt"
 
 # Save volume information
-docker volume ls > /path/to/I_drive/docker_volumes_$(date +%Y%m%d).txt
+docker volume ls > "$BACKUP_DIR/docker_volumes_$(date +%Y%m%d).txt"
 ```
 
 **This becomes your infrastructure inventory and baseline.**
