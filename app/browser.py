@@ -162,14 +162,30 @@ class ResearchBrowser:
             try:
                 # Fetch robots.txt
                 response = await self.client.get(robots_url, timeout=5.0)
-                rp = RobotFileParser()
-                rp.parse(response.text.splitlines())
-                self.robots_cache[domain] = rp
+                
+                # Only parse if we got a valid response (200 OK)
+                if response.status_code == 200:
+                    rp = RobotFileParser()
+                    rp.parse(response.text.splitlines())
+                    self.robots_cache[domain] = rp
+                    logger.debug("robots_txt_loaded", domain=domain)
+                else:
+                    # Per RFC 9309, if robots.txt returns 404, treat as no restrictions
+                    # Any other error code (5xx) should be treated conservatively
+                    logger.debug("robots_txt_status", domain=domain, status=response.status_code)
+                    rp = RobotFileParser()
+                    if response.status_code == 404:
+                        # 404 = no robots.txt = allow all (standard behavior)
+                        rp.allow_all = True
+                    else:
+                        # Server errors = be conservative and disallow
+                        rp.disallow_all = True
+                    self.robots_cache[domain] = rp
             except Exception as e:
                 logger.debug("robots_txt_fetch_failed", domain=domain, error=str(e))
-                # If robots.txt can't be fetched, allow by default (be polite)
+                # Network errors = be conservative and disallow for safety
                 rp = RobotFileParser()
-                rp.allow_all = True
+                rp.disallow_all = True
                 self.robots_cache[domain] = rp
         
         # Check if URL is allowed

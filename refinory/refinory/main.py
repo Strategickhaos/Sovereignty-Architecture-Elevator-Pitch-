@@ -26,7 +26,11 @@ from .discord_integration import DiscordNotifier
 from .github_integration import GitHubIntegration
 
 # Import browser module from app directory
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# We add the project root to sys.path to allow importing the app package
+# This is safe because it's done once at module load time
+_project_root = Path(__file__).parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
 from app.browser import ResearchBrowser, BrowseResponse
 
 # Configure structured logging
@@ -223,7 +227,7 @@ async def browse(
     
     This endpoint provides access to whitelisted domains for research purposes only.
     Features:
-    - Domain whitelist enforcement (100+ research domains)
+    - Domain whitelist enforcement (160+ research domains)
     - robots.txt compliance
     - Rate limiting (12 requests/minute per domain)
     - Structured psyche logging
