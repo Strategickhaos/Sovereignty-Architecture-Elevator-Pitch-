@@ -1,0 +1,34 @@
+# docker-compose.sovereign_browser.yml
+# Sovereign Browser Department – v1.0 (2025-11-21)
+# Fully self-hosted, stealth, distributed browsing behind unique Proton VPN IPs
+# No Selenium grid, no external browser APIs, no Cloudflare leaks
+# Uses Playwright-stealth (undetectable) + per-node VPN exit
+# Exposes sovereign browsing as a simple internal API
+
+version: "3.9"
+
+services:
+  sovereign_browser:
+    image: python:3.11-slim
+    container_name: sovereign_browser_node
+    restart: unless-stopped
+    working_dir: /app
+    ports:
+      - "8002:8002"                           # new dedicated port per machine
+    volumes:
+      - ./sovereign_browser:/app
+      - ./logs/sovereign_browser:/logs
+      - browser_cache:/root/.cache/ms-playwright   # persistent browsers
+    environment:
+      - PORT=8002
+      - LOG_PATH=/logs/events.jsonl
+    command: >
+      sh -c "
+      apt-get update && apt-get install -y libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libgbm1 libasound2 && 
+      pip install fastapi uvicorn playwright==1.47.0 playwright-stealth && 
+      playwright install chromium --with-deps && 
+      uvicorn main:app --host 0.0.0.0 --port 8002
+      "
+
+volumes:
+  browser_cache:
