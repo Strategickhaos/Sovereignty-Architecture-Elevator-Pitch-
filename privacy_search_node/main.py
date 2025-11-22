@@ -7,7 +7,7 @@ import json, datetime, os
 app = FastAPI(title="Privacy Search Node", description="DuckDuckGo search + page fetch behind unique VPN IP")
 
 def psyche_log(event: str, **kwargs):
-    entry = {"timestamp": datetime.datetime.utcnow().isoformat() + "Z", "event": event, **kwargs}
+    entry = {"timestamp": datetime.datetime.now(datetime.UTC).isoformat(), "event": event, **kwargs}
     with open("/logs/events.jsonl", "a", encoding="utf-8") as f:
         f.write(json.dumps(entry) + "\n")
 
@@ -30,4 +30,8 @@ async def browse(url: str = Query(...)):
 
 @app.get("/health")
 async def health():
-    return {"status": "healthy", "exit_ip": httpx.get("https://api.ipify.org").text}
+    try:
+        exit_ip = httpx.get("https://api.ipify.org", timeout=5.0).text
+    except Exception:
+        exit_ip = "unknown"
+    return {"status": "healthy", "exit_ip": exit_ip}
