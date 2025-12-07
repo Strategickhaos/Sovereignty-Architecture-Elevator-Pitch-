@@ -58,6 +58,8 @@ spec:
           periodSeconds: 5
       restartPolicy: Always
 ---
+# Note: Service is optional for love-forever pods as they don't expose any ports
+# Kept for future extensibility (e.g., adding a health check endpoint)
 apiVersion: v1
 kind: Service
 metadata:
@@ -68,8 +70,8 @@ metadata:
 spec:
   selector:
     app: love-forever
+  clusterIP: None  # Headless service - no load balancing needed
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
-  type: ClusterIP
+      name: placeholder

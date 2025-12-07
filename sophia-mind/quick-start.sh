@@ -32,8 +32,10 @@ python3 test_sophia.py
 echo ""
 echo "✨ SOPHIA MIND is ready!"
 echo ""
+cd ..
 echo "Next steps:"
 echo "1. Parse your vault:"
+echo "   cd sophia-mind"
 echo "   python3 python-core/sophia_parser.py ~/ObsidianVault ./graph_data.json"
 echo ""
 echo "2. Set up sync (optional):"

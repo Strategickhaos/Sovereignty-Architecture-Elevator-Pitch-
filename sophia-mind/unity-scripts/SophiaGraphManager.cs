@@ -161,6 +161,11 @@ public class SophiaGraphManager : MonoBehaviour
         }
         
         // Force-directed algorithm
+        // NOTE: O(n²) complexity - for graphs with 1000+ nodes, consider:
+        // 1. Reducing maxIterations
+        // 2. Using spatial partitioning (octree/quadtree)
+        // 3. Limiting force calculations to nearby nodes
+        // 4. Using Grid or Hierarchical layout instead
         for (int iter = 0; iter < maxIterations; iter++)
         {
             Dictionary<string, Vector3> forces = new Dictionary<string, Vector3>();
@@ -171,7 +176,7 @@ public class SophiaGraphManager : MonoBehaviour
                 forces[id] = Vector3.zero;
             }
             
-            // Repulsion between all nodes
+            // Repulsion between all nodes (O(n²) - expensive for large graphs)
             foreach (var kvp1 in nodeObjects)
             {
                 foreach (var kvp2 in nodeObjects)

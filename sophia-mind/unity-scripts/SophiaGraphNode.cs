@@ -35,12 +35,23 @@ public class SophiaGraphNode : MonoBehaviour
     void Start()
     {
         // Initialize components
-        nodeMaterial = GetComponent<Renderer>().material;
         connectionLines = new List<LineRenderer>();
         
-        // Set color based on FlameLang frequency
-        nodeColor = FrequencyToColor(frequency);
-        nodeMaterial.color = nodeColor;
+        // Get renderer and material with null check
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            nodeMaterial = renderer.material;
+            
+            // Set color based on FlameLang frequency
+            nodeColor = FrequencyToColor(frequency);
+            nodeMaterial.color = nodeColor;
+        }
+        else
+        {
+            Debug.LogWarning($"Node {nodeId} has no Renderer component");
+            nodeColor = Color.white;
+        }
         
         // Create label
         if (showLabel)
@@ -83,6 +94,7 @@ public class SophiaGraphNode : MonoBehaviour
     
     /// <summary>
     /// Create connection lines to linked nodes
+    /// Note: For large graphs, consider using SophiaGraphManager to create connections
     /// </summary>
     public void CreateConnections()
     {
@@ -92,6 +104,13 @@ public class SophiaGraphNode : MonoBehaviour
             
             if (targetNode != null)
             {
+                SophiaGraphNode targetNodeComponent = targetNode.GetComponent<SophiaGraphNode>();
+                if (targetNodeComponent == null)
+                {
+                    Debug.LogWarning($"Target node {targetId} has no SophiaGraphNode component");
+                    continue;
+                }
+                
                 // Create line renderer for connection
                 GameObject lineObj = new GameObject($"Connection_{nodeId}_to_{targetId}");
                 lineObj.transform.parent = transform;
@@ -101,7 +120,7 @@ public class SophiaGraphNode : MonoBehaviour
                 lr.endWidth = 0.05f;
                 lr.material = new Material(Shader.Find("Sprites/Default"));
                 lr.startColor = nodeColor;
-                lr.endColor = targetNode.GetComponent<SophiaGraphNode>().nodeColor;
+                lr.endColor = targetNodeComponent.nodeColor;
                 
                 // Set positions
                 lr.SetPosition(0, transform.position);
