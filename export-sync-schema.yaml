@@ -1,0 +1,686 @@
+# Export & Sync Schema
+# Sovereign Cognitive Architecture
+# Version: 1.0.0
+
+metadata:
+  title: "Sovereign Export & Sync Schema"
+  description: "Full data sovereignty with cryptographic provenance"
+  version: "1.0.0"
+  last_updated: "2025-12-07"
+  principle: "Your data, your control, forever"
+
+# ============================================================================
+# EXPORT FORMATS
+# ============================================================================
+
+export_formats:
+  json:
+    extension: ".json"
+    mime_type: "application/json"
+    description: "Standard structured data"
+    use_cases:
+      - "API integration"
+      - "Web applications"
+      - "Data interchange"
+    compression_support: true
+    streaming_support: true
+    
+    structure:
+      metadata:
+        export_id: "uuid"
+        timestamp: "ISO 8601 datetime"
+        operator: "string"
+        version: "semver"
+      conversations: "array"
+      knowledge_base: "array"
+      audit_trail: "array"
+      provenance:
+        git_commit: "sha256"
+        gpg_signature: "string"
+        opentimestamp: "string"
+        
+  yaml:
+    extension: ".yaml"
+    mime_type: "application/x-yaml"
+    description: "Human-readable configuration"
+    use_cases:
+      - "Configuration management"
+      - "Documentation"
+      - "Version control"
+    compression_support: true
+    streaming_support: false
+    
+  markdown:
+    extension: ".md"
+    mime_type: "text/markdown"
+    description: "Documentation format"
+    use_cases:
+      - "Human reading"
+      - "GitHub display"
+      - "Knowledge base articles"
+    compression_support: true
+    streaming_support: false
+    
+  sqlite:
+    extension: ".db"
+    mime_type: "application/x-sqlite3"
+    description: "Portable database"
+    use_cases:
+      - "SQL queries"
+      - "Relational analysis"
+      - "Offline access"
+    compression_support: true
+    streaming_support: false
+    
+    schema:
+      tables:
+        - conversations
+        - messages
+        - knowledge_entities
+        - verification_results
+        - audit_log
+      indexes:
+        - conversation_id
+        - llm_provider
+        - timestamp
+        - entity_type
+        
+  parquet:
+    extension: ".parquet"
+    mime_type: "application/x-parquet"
+    description: "Analytics-ready columnar format"
+    use_cases:
+      - "Data science"
+      - "Analytics pipelines"
+      - "Big data processing"
+    compression_support: true  # Built-in Snappy
+    streaming_support: true
+    
+  csv:
+    extension: ".csv"
+    mime_type: "text/csv"
+    description: "Simple tabular data"
+    use_cases:
+      - "Excel import"
+      - "Data analysis"
+      - "Simple processing"
+    compression_support: true
+    streaming_support: true
+
+# ============================================================================
+# COMPRESSION OPTIONS
+# ============================================================================
+
+compression:
+  none:
+    algorithm: null
+    extension: ""
+    ratio: 1.0
+    speed: "instant"
+    
+  gzip:
+    algorithm: "gzip"
+    extension: ".gz"
+    ratio: 3-5
+    speed: "fast"
+    recommended_for:
+      - "json"
+      - "yaml"
+      - "markdown"
+      
+  bzip2:
+    algorithm: "bzip2"
+    extension: ".bz2"
+    ratio: 4-6
+    speed: "medium"
+    recommended_for:
+      - "Large text files"
+      
+  xz:
+    algorithm: "xz (LZMA2)"
+    extension: ".xz"
+    ratio: 5-8
+    speed: "slow"
+    recommended_for:
+      - "Maximum compression"
+      - "Long-term archival"
+
+# ============================================================================
+# CRYPTOGRAPHIC INTEGRITY
+# ============================================================================
+
+cryptography:
+  hashing:
+    algorithm: "SHA-256"
+    output_format: "hexadecimal"
+    purpose: "Content integrity verification"
+    
+    implementation: |
+      import hashlib
+      
+      def hash_content(data: bytes) -> str:
+          return hashlib.sha256(data).hexdigest()
+    
+  gpg_signing:
+    algorithm: "RSA 4096-bit"
+    key_format: "OpenPGP"
+    signature_type: "detached"
+    
+    workflow:
+      - step: 1
+        action: "Generate export file"
+      - step: 2
+        action: "Calculate SHA-256 hash"
+      - step: 3
+        action: "Sign hash with GPG private key"
+      - step: 4
+        action: "Attach signature to export"
+        
+    verification: |
+      # Verify GPG signature
+      gpg --verify export.json.sig export.json
+      
+      # Expected output:
+      # gpg: Signature made [timestamp]
+      # gpg: Good signature from "DOM_010101 <operator@strategickhaos.com>"
+      
+  opentimestamps:
+    protocol: "OpenTimestamps v1"
+    blockchain: "Bitcoin"
+    standard: "RFC 3161"
+    
+    workflow:
+      - step: 1
+        action: "Calculate SHA-256 hash of export"
+      - step: 2
+        action: "Submit hash to OpenTimestamps server"
+      - step: 3
+        action: "Receive timestamp proof (.ots file)"
+      - step: 4
+        action: "Wait for Bitcoin block confirmation"
+      - step: 5
+        action: "Proof becomes verifiable on blockchain"
+        
+    verification: |
+      # Verify OpenTimestamps proof
+      ots verify export.json.ots
+      
+      # Expected output:
+      # Success! Bitcoin block [height] attests existence as of [timestamp]
+      
+    benefits:
+      - "Immutable proof of existence"
+      - "Decentralized verification"
+      - "Cannot be forged or backdated"
+      - "Survives organizational changes"
+
+# ============================================================================
+# PROVENANCE METADATA
+# ============================================================================
+
+provenance:
+  required_fields:
+    export_id:
+      type: "uuid"
+      description: "Unique identifier for this export"
+      
+    timestamp:
+      type: "ISO 8601 datetime"
+      description: "When export was created"
+      example: "2025-12-07T04:54:55.543Z"
+      
+    operator:
+      type: "string"
+      description: "Who initiated the export"
+      example: "DOM_010101"
+      
+    organization:
+      type: "string"
+      description: "Organization name"
+      example: "Strategickhaos DAO LLC"
+      
+    ein:
+      type: "string"
+      description: "Employer Identification Number"
+      example: "39-2923503"
+      
+  optional_fields:
+    conversation_id:
+      type: "string"
+      description: "Specific conversation exported (if filtered)"
+      
+    llm_provider:
+      type: "string"
+      description: "Filter by LLM provider"
+      
+    date_range:
+      type: "object"
+      properties:
+        start: "datetime"
+        end: "datetime"
+        
+    verification_scores:
+      type: "object"
+      description: "Quadrilateral verification results"
+      properties:
+        symbolic: "float"
+        spatial: "float"
+        narrative: "float"
+        kinetic: "float"
+        
+    git_metadata:
+      type: "object"
+      properties:
+        commit_sha: "string"
+        branch: "string"
+        repository: "string"
+        
+  computed_fields:
+    content_hash:
+      type: "SHA-256 hex"
+      description: "Hash of export content"
+      
+    file_size_bytes:
+      type: "integer"
+      description: "Size of export file"
+      
+    conversation_count:
+      type: "integer"
+      description: "Number of conversations exported"
+      
+    message_count:
+      type: "integer"
+      description: "Total messages exported"
+      
+    gpg_signature:
+      type: "string"
+      description: "GPG signature of content hash"
+      
+    opentimestamp_proof:
+      type: "string"
+      description: "OpenTimestamps proof URL"
+
+# ============================================================================
+# EXPORT STRUCTURE
+# ============================================================================
+
+export_structure:
+  json_format: |
+    {
+      "metadata": {
+        "export_id": "550e8400-e29b-41d4-a716-446655440000",
+        "version": "1.0.0",
+        "timestamp": "2025-12-07T04:54:55.543Z",
+        "operator": "DOM_010101",
+        "organization": "Strategickhaos DAO LLC",
+        "ein": "39-2923503",
+        "content_hash": "abc123...",
+        "file_size_bytes": 10485760,
+        "conversation_count": 150,
+        "message_count": 3245
+      },
+      "conversations": [
+        {
+          "conversation_id": "conv_001",
+          "llm_provider": "claude",
+          "created_at": "2025-12-01T10:00:00Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Hello",
+              "timestamp": "2025-12-01T10:00:00Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Hi there!",
+              "timestamp": "2025-12-01T10:00:05Z"
+            }
+          ],
+          "metadata": {
+            "session_id": "sess_123",
+            "tags": ["greeting"],
+            "verification_scores": {
+              "symbolic": 1.0,
+              "spatial": 1.0,
+              "narrative": 1.0,
+              "kinetic": 1.0
+            }
+          }
+        }
+      ],
+      "knowledge_base": [
+        {
+          "entity": "quantum_computing",
+          "entity_type": "concept",
+          "content": "Quantum computing uses quantum mechanics...",
+          "source_llm": "claude",
+          "verification_score": 0.95,
+          "relationships": [
+            {
+              "type": "relates_to",
+              "target": "superposition"
+            }
+          ],
+          "created_at": "2025-12-01T12:00:00Z"
+        }
+      ],
+      "audit_trail": [
+        {
+          "event_id": "evt_001",
+          "timestamp": "2025-12-01T10:00:00Z",
+          "operation": "store_conversation",
+          "llm_provider": "claude",
+          "details": {...}
+        }
+      ],
+      "provenance": {
+        "git_commit": "ea56925...",
+        "branch": "main",
+        "repository": "Sovereignty-Architecture-Elevator-Pitch-",
+        "gpg_signature": "-----BEGIN PGP SIGNATURE-----...",
+        "opentimestamp_proof": "https://alice.btc.calendar.opentimestamps.org/...",
+        "bitcoin_block_height": 875123
+      }
+    }
+
+# ============================================================================
+# SYNC PROTOCOL
+# ============================================================================
+
+sync_protocol:
+  method: "git-based"
+  description: |
+    Each LLM session creates a branch. Verified conversations are merged
+    to main via quadrilateral consensus. Git provides natural version
+    control and conflict resolution.
+    
+  branch_strategy:
+    main:
+      description: "Production-verified conversations only"
+      protection: "Require 3/4 quadrilateral votes to merge"
+      
+    llm_sessions:
+      pattern: "session/{llm_provider}/{session_id}"
+      example: "session/claude/sess_123"
+      lifecycle:
+        - "Create branch on first message"
+        - "Commit each conversation turn"
+        - "Run quadrilateral verification"
+        - "Merge to main if verified (3/4 or 4/4)"
+        - "Delete branch after merge or archive"
+        
+    feature_branches:
+      pattern: "feature/{feature_name}"
+      example: "feature/knowledge-graph-enhancement"
+      
+  commit_workflow:
+    auto_commit:
+      enabled: true
+      frequency: "per_conversation_turn"
+      
+    commit_message_format: |
+      {llm_provider}: {summary}
+      
+      Session: {session_id}
+      Messages: {message_count}
+      Verification: {votes}
+      
+      Signed-off-by: {operator}
+      
+    gpg_signing:
+      enabled: true
+      require_signature: true
+      key_id: "${GPG_KEY_ID}"
+      
+  merge_strategy:
+    method: "quadrilateral_consensus"
+    
+    requirements:
+      - "3/4 or 4/4 verification votes"
+      - "No merge conflicts"
+      - "GPG signature present"
+      - "CI tests pass (if configured)"
+      
+    conflict_resolution:
+      automatic:
+        - "Non-overlapping conversations: auto-merge"
+        - "Different LLM providers: auto-merge"
+        
+      manual:
+        - "Same conversation from multiple LLMs: human review"
+        - "Conflicting knowledge claims: re-verify"
+        
+  sync_frequency:
+    real_time:
+      enabled: true
+      mechanism: "Git hooks"
+      trigger: "post-commit"
+      
+    batch:
+      enabled: false
+      interval: "hourly"
+      
+    on_demand:
+      enabled: true
+      api_endpoint: "/sync/push"
+
+# ============================================================================
+# ANTIFRAGILE AUDIT LAYER
+# ============================================================================
+
+audit_layer:
+  description: |
+    Multi-layer redundancy ensures data survives organizational changes,
+    platform migrations, and long-term preservation needs.
+    
+  layers:
+    layer_1:
+      name: "Real-time Operations"
+      provider: "Airtable"
+      purpose: "Live operational dashboard"
+      retention: "90 days"
+      export_frequency: "daily"
+      data_types:
+        - "Conversation metadata"
+        - "LLM usage metrics"
+        - "Verification scores"
+        - "Operator actions"
+        
+    layer_2:
+      name: "Version Control"
+      provider: "GitHub"
+      purpose: "Git history with GPG signatures"
+      retention: "forever"
+      export_frequency: "real-time"
+      data_types:
+        - "Full conversation history"
+        - "Knowledge base snapshots"
+        - "Audit trail"
+        - "Provenance metadata"
+        
+    layer_3:
+      name: "Immutable Proof"
+      provider: "OpenTimestamps + Bitcoin"
+      purpose: "Blockchain-anchored proof of existence"
+      retention: "forever (on blockchain)"
+      export_frequency: "daily"
+      data_types:
+        - "Content hashes"
+        - "Timestamp proofs"
+        - "Merkle tree commitments"
+        
+    layer_4:
+      name: "Legal Archive"
+      provider: "Local filesystem + Cloud backup"
+      purpose: "Legal compliance and board minutes"
+      retention: "forever"
+      export_frequency: "monthly"
+      data_types:
+        - "Board meeting minutes"
+        - "Legal filings"
+        - "Compliance reports"
+        - "Full system exports"
+        
+  redundancy:
+    geographic:
+      - "Primary: Local SSD"
+      - "Secondary: Cloud storage (S3, GCS, etc.)"
+      - "Tertiary: Physical backup drives"
+      
+    format:
+      - "Native: Qdrant + Redis"
+      - "Export: JSON, SQLite, Parquet"
+      - "Archive: Compressed + encrypted tarballs"
+
+# ============================================================================
+# EXPORT API
+# ============================================================================
+
+export_api:
+  endpoint: "/export"
+  method: "POST"
+  
+  request:
+    format:
+      type: "string"
+      required: true
+      enum: ["json", "yaml", "markdown", "sqlite", "parquet", "csv"]
+      
+    compression:
+      type: "string"
+      required: false
+      enum: ["none", "gzip", "bzip2", "xz"]
+      default: "gzip"
+      
+    gpg_sign:
+      type: "boolean"
+      required: false
+      default: true
+      
+    opentimestamps:
+      type: "boolean"
+      required: false
+      default: true
+      
+    include_audit_trail:
+      type: "boolean"
+      required: false
+      default: true
+      
+    filters:
+      type: "object"
+      required: false
+      properties:
+        llm_providers:
+          type: "array[string]"
+        conversation_ids:
+          type: "array[string]"
+        date_range:
+          type: "object"
+          properties:
+            start: "datetime"
+            end: "datetime"
+        min_verification_score:
+          type: "float"
+        tags:
+          type: "array[string]"
+          
+  response:
+    status: 200
+    content_type: "application/octet-stream"
+    headers:
+      Content-Disposition: "attachment; filename=cognitive_export_{timestamp}.{format}.{compression}"
+      X-Export-ID: "uuid"
+      X-Content-Hash: "SHA-256"
+      X-GPG-Signature: "string (if enabled)"
+      X-OpenTimestamps: "string (if enabled)"
+      
+  example_request: |
+    curl -X POST http://localhost:7000/export \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer ${API_KEY}" \
+      -d '{
+        "format": "json",
+        "compression": "gzip",
+        "gpg_sign": true,
+        "opentimestamps": true,
+        "include_audit_trail": true,
+        "filters": {
+          "llm_providers": ["claude", "gpt"],
+          "date_range": {
+            "start": "2025-12-01T00:00:00Z",
+            "end": "2025-12-07T23:59:59Z"
+          },
+          "min_verification_score": 0.75
+        }
+      }' \
+      --output cognitive_export_2025-12-07.json.gz
+
+  example_verification: |
+    # 1. Decompress
+    gunzip cognitive_export_2025-12-07.json.gz
+    
+    # 2. Verify content hash
+    sha256sum cognitive_export_2025-12-07.json
+    # Compare with X-Content-Hash header
+    
+    # 3. Verify GPG signature (if present)
+    gpg --verify cognitive_export_2025-12-07.json.sig cognitive_export_2025-12-07.json
+    
+    # 4. Verify OpenTimestamps proof (if present)
+    ots verify cognitive_export_2025-12-07.json.ots
+
+# ============================================================================
+# IMPORT API
+# ============================================================================
+
+import_api:
+  endpoint: "/import"
+  method: "POST"
+  content_type: "multipart/form-data"
+  
+  description: |
+    Import previously exported data back into the memory mesh.
+    Supports full restoration or selective import.
+    
+  request:
+    file:
+      type: "file"
+      required: true
+      description: "Export file (any supported format)"
+      
+    verify_signatures:
+      type: "boolean"
+      required: false
+      default: true
+      
+    merge_strategy:
+      type: "string"
+      required: false
+      enum: ["append", "replace", "merge"]
+      default: "append"
+      
+  response:
+    status: 200
+    body:
+      import_id: "uuid"
+      conversations_imported: "integer"
+      knowledge_entities_imported: "integer"
+      audit_entries_imported: "integer"
+      warnings: "array[string]"
+      errors: "array[string]"
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+metadata_footer:
+  document_hash: "SHA-256: [TO BE COMPUTED]"
+  gpg_signature: "[TO BE SIGNED]"
+  opentimestamp: "[TO BE ANCHORED]"
+  license: "MIT with Sovereign Addendum"
+  organization: "Strategickhaos DAO LLC"
+  ein: "39-2923503"
+  operator: "DOM_010101"
+  node: "Node 137"
+  covenant: "Your data, your rules, forever. 🔥"
