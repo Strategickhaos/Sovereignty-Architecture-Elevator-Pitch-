@@ -5,7 +5,7 @@
 
 param(
     [Parameter(Mandatory=$false)]
-    [string]$KeyFile = "C:\Users\garza\.gcloud\keys\strategickhaos-bot.json",
+    [string]$KeyFile = "$env:USERPROFILE\.gcloud\keys\strategickhaos-bot.json",
     
     [Parameter(Mandatory=$false)]
     [string]$Project = "jarvis-swarm-personal",
@@ -53,8 +53,8 @@ if (-not (Test-Path $KeyFile)) {
     Write-Warning "https://console.cloud.google.com/iam-admin/serviceaccounts?project=$Project"
     Write-Host ""
     Write-Warning "Or run this command in PowerShell:"
-    Write-Host "gcloud iam service-accounts keys create $KeyFile \"
-    Write-Host "  --iam-account=strategickhaos-bot@jarvis-swarm-personal.iam.gserviceaccount.com \"
+    Write-Host "gcloud iam service-accounts keys create `"$KeyFile`" ``"
+    Write-Host "  --iam-account=strategickhaos-bot@jarvis-swarm-personal.iam.gserviceaccount.com ``"
     Write-Host "  --project=$Project"
     exit 1
 }

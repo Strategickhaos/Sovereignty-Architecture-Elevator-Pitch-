@@ -50,9 +50,18 @@ Before connecting, verify you have:
 
 ### Option B: Using gcloud CLI
 
+**Windows (PowerShell):**
+```powershell
+# Create service account key via CLI
+gcloud iam service-accounts keys create "$env:USERPROFILE\.gcloud\keys\strategickhaos-bot.json" `
+  --iam-account=strategickhaos-bot@jarvis-swarm-personal.iam.gserviceaccount.com `
+  --project=jarvis-swarm-personal
+```
+
+**Linux/Mac (Bash):**
 ```bash
 # Create service account key via CLI
-gcloud iam service-accounts keys create C:\Users\garza\.gcloud\keys\strategickhaos-bot.json \
+gcloud iam service-accounts keys create "$HOME/.gcloud/keys/strategickhaos-bot.json" \
   --iam-account=strategickhaos-bot@jarvis-swarm-personal.iam.gserviceaccount.com \
   --project=jarvis-swarm-personal
 ```

@@ -11,6 +11,7 @@ KEY_FILE="${KEY_FILE:-$HOME/.gcloud/keys/strategickhaos-bot.json}"
 PROJECT="${PROJECT:-jarvis-swarm-personal}"
 CLUSTER="${CLUSTER:-jarvis-swarm-personal-001}"
 REGION="${REGION:-us-central1}"
+SERVICE_ACCOUNT="strategickhaos-bot@jarvis-swarm-personal.iam.gserviceaccount.com"
 RED_TEAM=false
 VERIFY=false
 
@@ -101,7 +102,7 @@ if [ ! -f "$KEY_FILE" ]; then
     echo ""
     print_warning "Or run this command:"
     echo "gcloud iam service-accounts keys create \"$KEY_FILE\" \\"
-    echo "  --iam-account=strategickhaos-bot@jarvis-swarm-personal.iam.gserviceaccount.com \\"
+    echo "  --iam-account=$SERVICE_ACCOUNT \\"
     echo "  --project=$PROJECT"
     echo ""
     print_warning "Make sure the directory exists first:"
