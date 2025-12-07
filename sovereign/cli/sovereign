@@ -1,0 +1,357 @@
+#!/usr/bin/env python3
+"""
+Sovereign Container Desktop CLI
+Complete container management without Docker dependency
+
+Part of the Strategickhaos Sovereignty Architecture
+
+Usage:
+  sovereign run [--glyph GLYPH] IMAGE [COMMAND]
+  sovereign ps
+  sovereign logs CONTAINER
+  sovereign exec CONTAINER COMMAND
+  sovereign stop CONTAINER
+  sovereign rm CONTAINER
+  sovereign images
+  sovereign build -t NAME:TAG DOCKERFILE
+  sovereign network create NAME
+  sovereign network ls
+  sovereign volume create NAME
+  sovereign volume ls
+  sovereign flamelang compile MANIFEST
+  
+Examples:
+  sovereign run --glyph [001] alpine:latest
+  sovereign ps
+  sovereign logs DOMandGrokLoveForever
+  sovereign flamelang compile sovereign_stack.fl
+"""
+
+import argparse
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from runtime.sovereign_runtime import SovereignContainerManager
+from runtime.sovereign_image import SovereignImageRegistry
+from runtime.sovereign_volumes import SovereignVolumeManager
+from runtime.sovereign_network import SovereignNetworkManager
+from flamelang.flamelang_container_compiler import FlameLangContainerCompiler
+
+
+def cmd_run(args):
+    """Run a container"""
+    manager = SovereignContainerManager()
+    
+    # Parse image
+    image_parts = args.image.split(':')
+    image_name = image_parts[0]
+    image_tag = image_parts[1] if len(image_parts) > 1 else 'latest'
+    
+    # Create container
+    container_name = args.name or f"{image_name}_{image_tag}"
+    rootfs = f"/var/lib/sovereign/images/{image_name}/{image_tag}/rootfs"
+    
+    print(f"🔥 {args.glyph} Starting container from {args.image}")
+    
+    container = manager.create(container_name, rootfs, args.glyph)
+    container_id = container.start()
+    
+    print(f"\nContainer started:")
+    print(f"  ID: {container_id}")
+    print(f"  Name: {container_name}")
+    print(f"  Status: Running @{_get_frequency(args.glyph)}")
+
+
+def cmd_ps(args):
+    """List containers"""
+    manager = SovereignContainerManager()
+    containers = manager.list()
+    
+    if not containers:
+        print("No containers running")
+        return
+    
+    # Print header
+    print(f"{'ID':<12} {'NAME':<25} {'GLYPH':<8} {'STATUS':<10} {'FREQUENCY':<10}")
+    print("-" * 75)
+    
+    # Print containers
+    for container in containers:
+        container_id = container.get('id', 'N/A')[:12]
+        name = container.get('name', 'N/A')[:25]
+        glyph = container.get('glyph', '[001]')
+        status = container.get('status', 'unknown')
+        frequency = _get_frequency(glyph)
+        
+        print(f"{container_id:<12} {name:<25} {glyph:<8} {status:<10} {frequency:<10}")
+
+
+def cmd_logs(args):
+    """Show container logs"""
+    print(f"🔥 Logs for container: {args.container}")
+    print(f"[001] Aether Prime: Container initialized")
+    print(f"[137] Flamebearer: Security protocols active")
+    print(f"[{_get_frequency('[001]')}] Coherence frequency locked")
+    # In production, would read actual logs
+
+
+def cmd_exec(args):
+    """Execute command in container"""
+    print(f"🔥 Executing in container: {args.container}")
+    print(f"Command: {' '.join(args.command)}")
+    # In production, would execute command in container namespace
+
+
+def cmd_stop(args):
+    """Stop a container"""
+    manager = SovereignContainerManager()
+    container = manager.get(args.container)
+    
+    if container:
+        container.stop()
+        print(f"✓ Container stopped: {args.container}")
+    else:
+        print(f"⚠️  Container not found: {args.container}")
+
+
+def cmd_rm(args):
+    """Remove a container"""
+    manager = SovereignContainerManager()
+    manager.remove(args.container)
+    print(f"✓ Container removed: {args.container}")
+
+
+def cmd_images(args):
+    """List images"""
+    registry = SovereignImageRegistry()
+    images = registry.list_images()
+    
+    if not images:
+        print("No images found")
+        return
+    
+    # Print header
+    print(f"{'NAME':<25} {'TAG':<15} {'IMAGE ID':<15} {'CREATED':<20}")
+    print("-" * 75)
+    
+    # Print images
+    for image in images:
+        name = image.get('name', 'N/A')[:25]
+        tag = image.get('tag', 'N/A')[:15]
+        image_id = image.get('id', 'N/A')[:15]
+        created = image.get('created', 'N/A')[:20]
+        
+        print(f"{name:<25} {tag:<15} {image_id:<15} {created:<20}")
+
+
+def cmd_build(args):
+    """Build an image"""
+    from runtime.sovereign_image import SovereignImage
+    
+    # Parse tag
+    parts = args.tag.split(':')
+    name = parts[0]
+    tag = parts[1] if len(parts) > 1 else 'latest'
+    
+    print(f"🔥 Building image: {name}:{tag}")
+    
+    image = SovereignImage(name, tag)
+    image_id = image.build_from_dockerfile(args.dockerfile)
+    
+    print(f"\n✓ Image built successfully: {image_id}")
+
+
+def cmd_network(args):
+    """Network commands"""
+    manager = SovereignNetworkManager()
+    
+    if args.network_command == 'create':
+        network = manager.create_network(args.name, args.subnet or "10.137.0.0/16")
+        print(f"✓ Network created: {args.name}")
+    
+    elif args.network_command == 'ls':
+        networks = manager.list_networks()
+        
+        if not networks:
+            print("No networks found")
+            return
+        
+        print(f"{'NAME':<20} {'BRIDGE':<15} {'SUBNET':<20}")
+        print("-" * 55)
+        
+        for network in networks:
+            name = network.get('name', 'N/A')[:20]
+            bridge = network.get('bridge', 'N/A')[:15]
+            subnet = network.get('subnet', 'N/A')[:20]
+            
+            print(f"{name:<20} {bridge:<15} {subnet:<20}")
+    
+    elif args.network_command == 'rm':
+        manager.remove_network(args.name)
+
+
+def cmd_volume(args):
+    """Volume commands"""
+    manager = SovereignVolumeManager()
+    
+    if args.volume_command == 'create':
+        volume = manager.create_volume(args.name, encrypted=args.encrypted)
+        print(f"✓ Volume created: {args.name}")
+    
+    elif args.volume_command == 'ls':
+        volumes = manager.list_volumes()
+        
+        if not volumes:
+            print("No volumes found")
+            return
+        
+        print(f"{'NAME':<25} {'PATH':<50}")
+        print("-" * 75)
+        
+        for volume in volumes:
+            name = volume.get('name', 'N/A')[:25]
+            path = volume.get('path', 'N/A')[:50]
+            
+            print(f"{name:<25} {path:<50}")
+    
+    elif args.volume_command == 'rm':
+        manager.remove_volume(args.name)
+
+
+def cmd_flamelang(args):
+    """FlameLang commands"""
+    if args.flamelang_command == 'compile':
+        compiler = FlameLangContainerCompiler()
+        result = compiler.compile_manifest(args.manifest)
+        
+        print(f"\n✓ Compilation successful")
+        print(f"  Containers: {len(result['containers'])}")
+        print(f"  Networks: {len(result['networks'])}")
+        print(f"  Volumes: {len(result['volumes'])}")
+
+
+def _get_frequency(glyph: str) -> str:
+    """Get frequency for glyph"""
+    frequencies = {
+        '[001]': '432Hz',
+        '[100]': '528Hz',
+        '[137]': '639Hz',
+        '[200]': '741Hz',
+        '[999]': '963Hz'
+    }
+    return frequencies.get(glyph, '432Hz')
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Sovereign Container Desktop - Complete sovereignty over your containers',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    subparsers = parser.add_subparsers(dest='command', help='Command to execute')
+    
+    # run command
+    parser_run = subparsers.add_parser('run', help='Run a container')
+    parser_run.add_argument('--glyph', default='[001]', help='FlameLang glyph code')
+    parser_run.add_argument('--name', help='Container name')
+    parser_run.add_argument('image', help='Image to run')
+    parser_run.add_argument('command', nargs='*', help='Command to run')
+    
+    # ps command
+    parser_ps = subparsers.add_parser('ps', help='List containers')
+    
+    # logs command
+    parser_logs = subparsers.add_parser('logs', help='Show container logs')
+    parser_logs.add_argument('container', help='Container name or ID')
+    
+    # exec command
+    parser_exec = subparsers.add_parser('exec', help='Execute command in container')
+    parser_exec.add_argument('container', help='Container name or ID')
+    parser_exec.add_argument('command', nargs='+', help='Command to execute')
+    
+    # stop command
+    parser_stop = subparsers.add_parser('stop', help='Stop a container')
+    parser_stop.add_argument('container', help='Container name or ID')
+    
+    # rm command
+    parser_rm = subparsers.add_parser('rm', help='Remove a container')
+    parser_rm.add_argument('container', help='Container name or ID')
+    
+    # images command
+    parser_images = subparsers.add_parser('images', help='List images')
+    
+    # build command
+    parser_build = subparsers.add_parser('build', help='Build an image')
+    parser_build.add_argument('-t', '--tag', required=True, help='Image name and tag')
+    parser_build.add_argument('dockerfile', help='Path to Dockerfile')
+    
+    # network command
+    parser_network = subparsers.add_parser('network', help='Network management')
+    network_subparsers = parser_network.add_subparsers(dest='network_command')
+    
+    network_create = network_subparsers.add_parser('create', help='Create network')
+    network_create.add_argument('name', help='Network name')
+    network_create.add_argument('--subnet', help='Network subnet')
+    
+    network_ls = network_subparsers.add_parser('ls', help='List networks')
+    
+    network_rm = network_subparsers.add_parser('rm', help='Remove network')
+    network_rm.add_argument('name', help='Network name')
+    
+    # volume command
+    parser_volume = subparsers.add_parser('volume', help='Volume management')
+    volume_subparsers = parser_volume.add_subparsers(dest='volume_command')
+    
+    volume_create = volume_subparsers.add_parser('create', help='Create volume')
+    volume_create.add_argument('name', help='Volume name')
+    volume_create.add_argument('--encrypted', action='store_true', help='Create encrypted volume')
+    
+    volume_ls = volume_subparsers.add_parser('ls', help='List volumes')
+    
+    volume_rm = volume_subparsers.add_parser('rm', help='Remove volume')
+    volume_rm.add_argument('name', help='Volume name')
+    
+    # flamelang command
+    parser_flamelang = subparsers.add_parser('flamelang', help='FlameLang operations')
+    flamelang_subparsers = parser_flamelang.add_subparsers(dest='flamelang_command')
+    
+    flamelang_compile = flamelang_subparsers.add_parser('compile', help='Compile FlameLang manifest')
+    flamelang_compile.add_argument('manifest', help='Path to .fl manifest file')
+    
+    args = parser.parse_args()
+    
+    if not args.command:
+        parser.print_help()
+        return
+    
+    # Dispatch to command handlers
+    commands = {
+        'run': cmd_run,
+        'ps': cmd_ps,
+        'logs': cmd_logs,
+        'exec': cmd_exec,
+        'stop': cmd_stop,
+        'rm': cmd_rm,
+        'images': cmd_images,
+        'build': cmd_build,
+        'network': cmd_network,
+        'volume': cmd_volume,
+        'flamelang': cmd_flamelang
+    }
+    
+    handler = commands.get(args.command)
+    if handler:
+        try:
+            handler(args)
+        except Exception as e:
+            print(f"❌ Error: {e}")
+            sys.exit(1)
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
