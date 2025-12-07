@@ -30,9 +30,9 @@ class FlameLangContainerCompiler:
     
     def __init__(self):
         self.glyph_table = self._load_glyph_table()
-        self.container_manager = SovereignContainerManager()
-        self.volume_manager = SovereignVolumeManager()
-        self.network_manager = SovereignNetworkManager()
+        self.container_manager = None
+        self.volume_manager = None
+        self.network_manager = None
     
     def compile_manifest(self, flamelang_file: str) -> Dict:
         """
