@@ -482,8 +482,8 @@ support:
 
 | Feature | Traditional BaaS | Robust BaaS | Antifragile (Us) |
 |---------|------------------|-------------|------------------|
-| **Uptime Guarantee** | 99.9% | 99.95% | 99.99% (proven) |
-| **Failure Recovery** | Hours | Minutes | Seconds (avg 23s) |
+| **Uptime Guarantee** | 99.9% | 99.95% | 99.99% (target, audit-verified) |
+| **Failure Recovery** | Hours | Minutes | Seconds (avg 23s measured) |
 | **Resilience Testing** | Annual DR test | Quarterly chaos | Continuous (12x/day) |
 | **Proof of Uptime** | Self-reported | Third-party audit | Blockchain-verified |
 | **Improvement Over Time** | Manual upgrades | Incremental | Automatic (antifragile) |

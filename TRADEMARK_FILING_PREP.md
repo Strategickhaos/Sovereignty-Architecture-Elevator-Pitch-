@@ -248,7 +248,7 @@ DISCLAIMER: No claim is made to the exclusive right to use "RATIO" or "NIHILO"
 apart from the mark as shown.
 ```
 
-**Note:** Likely not required as "Ratio Ex Nihilo" is not descriptive of the goods/services and has acquired secondary meaning in the distributed systems context.
+**Note:** Likely not required as "Ratio Ex Nihilo" is not descriptive of the goods/services. The goal is to establish secondary meaning through consistent use in the distributed systems context.
 
 ### Non-Functionality Statement
 ```
@@ -508,6 +508,8 @@ Month 18-24: Registration Complete
 - Estimated strategic premium: +50-100%
 
 **Total Estimated Value (Year 3):** $150,000-$1,500,000
+
+**Note on Entity Naming:** "Strategickhaos" is the intentional branding - a compound word combining "strategic" and "chaos" to represent the core philosophy of transforming chaos into strategic advantage. This spelling is consistent across all legal documents including the Wyoming DAO LLC formation.
 
 ---
 

@@ -14,7 +14,7 @@ The **Antifragile Audit System** is a proprietary methodology that transforms tr
 
 ## Core Principles
 
-### 1. Antifragility vs. Robustness
+### 1. Antifragility versus Robustness
 
 ```
 FRAGILE:     Stress → Damage → Weaker
