@@ -169,7 +169,8 @@ def cmd_volume(args):
         volume = SovereignVolume(args.name)
         
         if args.encrypted:
-            passphrase = input("Enter encryption passphrase: ")
+            import getpass
+            passphrase = getpass.getpass("Enter encryption passphrase: ")
             volume.create_encrypted_volume(passphrase, args.size)
             print("✓ Encrypted volume created")
         else:

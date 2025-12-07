@@ -118,14 +118,17 @@ class SovereignVolume:
             # Security note: Using temporary key file with restricted permissions
             # to avoid exposing passphrase in process arguments or stdin
             import tempfile
-            with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.key') as keyfile:
-                keyfile_path = keyfile.name
-                keyfile.write(passphrase)
+            
+            # Create secure temporary file with restricted permissions from the start
+            old_umask = os.umask(0o077)  # Only owner can read/write
+            try:
+                with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.key') as keyfile:
+                    keyfile_path = keyfile.name
+                    keyfile.write(passphrase)
+            finally:
+                os.umask(old_umask)  # Restore original umask
             
             try:
-                # Restrict key file permissions
-                os.chmod(keyfile_path, 0o600)
-                
                 subprocess.run([
                     "cryptsetup", "luksFormat",
                     loop_device,

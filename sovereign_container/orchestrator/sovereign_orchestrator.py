@@ -209,8 +209,38 @@ class SovereignOrchestrator:
         return selected_node_id
     
     def _has_resources(self, node: Dict, required: Dict) -> bool:
-        """Check if node has required resources available"""
-        # Simple check - in production would track actual usage
+        """
+        Check if node has required resources available
+        
+        Phase 1: Basic validation
+        Phase 2: Will track actual resource usage across containers
+        """
+        # Basic validation - check if required resources are reasonable
+        if not required:
+            return True
+        
+        node_resources = node.get('resources', {})
+        
+        # Check memory
+        required_memory = required.get('memory', '0M')
+        node_memory = node_resources.get('memory', '0G')
+        
+        # Simple validation: ensure we're not requesting more than node total
+        # In production, this would track actual allocated resources
+        req_mb = self._parse_memory(required_memory)
+        node_gb = self._parse_memory(node_memory)
+        
+        if req_mb > node_gb * 1024:  # Don't exceed total node memory
+            return False
+        
+        # Check CPU
+        required_cpu = float(required.get('cpu', 0))
+        node_cpu = float(node_resources.get('cpu', 0))
+        
+        if required_cpu > node_cpu:  # Don't exceed total node CPU
+            return False
+        
+        # TODO Phase 2: Track actual allocated resources and check available capacity
         return True
     
     def deploy_to_node(self, node_id: str, container_spec: Dict):

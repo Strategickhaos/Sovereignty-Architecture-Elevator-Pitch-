@@ -214,7 +214,8 @@ class SovereignContainer:
         if self.pid_file.exists():
             pid = int(self.pid_file.read_text())
             try:
-                os.kill(pid, 15)  # SIGTERM
+                import signal
+                os.kill(pid, signal.SIGTERM)
                 logger.info(f"Sent SIGTERM to PID: {pid}")
             except ProcessLookupError:
                 logger.warning(f"Process {pid} not found")
