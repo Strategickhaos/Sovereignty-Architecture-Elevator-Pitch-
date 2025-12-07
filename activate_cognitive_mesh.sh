@@ -43,7 +43,10 @@ if [ -z "$ANTHROPIC_API_KEY" ] && [ -z "$OPENAI_API_KEY" ]; then
     echo -e "${YELLOW}⚠️  No API keys found in environment.${NC}"
     if [ -f .env ]; then
         echo -e "${BLUE}📄 Loading from .env file...${NC}"
-        export $(grep -v '^#' .env | xargs)
+        # Securely source .env file (only exports valid environment variables)
+        set -a
+        source .env
+        set +a
     else
         echo -e "${RED}❌ No .env file found. Please create one with your API keys.${NC}"
         echo -e "${BLUE}Example .env file:${NC}"
