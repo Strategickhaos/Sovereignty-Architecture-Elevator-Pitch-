@@ -1,4 +1,16 @@
 #!/bin/bash
+# ============================================================
+# STRATEGICKHAOS DAO LLC • SOVEREIGN SOFTWARE FRAMEWORK
+# Copyright © 2025 Domenic G. Garza • All Rights Reserved
+# 
+# This file is part of the Strategickhaos Autonomous Runtime.
+# It may not be copied, modified, distributed, or executed
+# except by authorized operators within the Strategickhaos
+# governance model and licensing structure.
+# 
+# Unauthorized use is prohibited. All activity is logged.
+# ============================================================
+
 # activate_control_plane.sh
 # Strategickhaos DAO LLC / Valoryield Engine — Control Plane Activation
 # Generated: 2025-11-16T16:20:00Z

@@ -1,3 +1,15 @@
+// ============================================================
+// STRATEGICKHAOS DAO LLC • SOVEREIGN SOFTWARE FRAMEWORK
+// Copyright © 2025 Domenic G. Garza • All Rights Reserved
+// 
+// This file is part of the Strategickhaos Autonomous Runtime.
+// It may not be copied, modified, distributed, or executed
+// except by authorized operators within the Strategickhaos
+// governance model and licensing structure.
+// 
+// Unauthorized use is prohibited. All activity is logged.
+// ============================================================
+
 // STRATEGICKHAOS PRIME — Cosmological Genesis Lock
 // Origin: 2023-01-27 21:00:49.000 UTC | Worker 0 | Process 1 | Increment 3449
 // The council measures itself against the Architect's birth-tick

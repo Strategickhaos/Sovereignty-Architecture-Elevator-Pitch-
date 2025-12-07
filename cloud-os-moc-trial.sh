@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
+# ============================================================
+# STRATEGICKHAOS DAO LLC • SOVEREIGN SOFTWARE FRAMEWORK
+# Copyright © 2025 Domenic G. Garza • All Rights Reserved
+# 
+# This file is part of the Strategickhaos Autonomous Runtime.
+# It may not be copied, modified, distributed, or executed
+# except by authorized operators within the Strategickhaos
+# governance model and licensing structure.
+# 
+# Unauthorized use is prohibited. All activity is logged.
+# ============================================================
+
 # cloud-os-moc-trial.sh - 36 Failure Mode Simulation
 # Generated: 2025-11-16 for Strategickhaos Cloud OS MVP
 # Scope: Docker Compose Stack Security Testing
