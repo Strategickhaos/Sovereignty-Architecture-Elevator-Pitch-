@@ -6,10 +6,14 @@
 
 ## 🎯 Getting Started
 
-**Choose your path:**
+> **New to this project?** Start here: **[GETTING_STARTED.md](GETTING_STARTED.md)** - Choose your path!
+
+**Quick paths:**
 
 - 🚀 **[Quick Start (30 minutes)](QUICK_START.md)** - Get running FAST with the essentials
 - 📚 **[Complete Setup Guide](NITRO_V15_SETUP_GUIDE.md)** - Full Nitro V15 Lyra Node replication
+- 🏗️ **[Architecture Diagrams](ARCHITECTURE_DIAGRAM.md)** - Visual system overview
+- 🎯 **[Example Deployment](EXAMPLE_DEPLOYMENT.md)** - Deploy your first app
 - 🎼 **[Orchestra Script](_Orchestra.ps1)** - PowerShell control plane for system orchestration
 - 📖 **[Architecture Overview](#-architecture-overview)** - Continue reading below
 
