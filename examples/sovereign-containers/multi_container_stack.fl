@@ -1,0 +1,128 @@
+# multi_container_stack.fl
+# Example of a multi-container sovereign stack with full cascade deployment
+
+# Database container
+container Database {
+    glyph: [137]          # Flamebearer - protection for sensitive data
+    image: "alpine:latest"
+    
+    volumes: [
+        "/data" -> sovereign_volume("db_data")
+    ]
+    
+    cmd: [137] -> {
+        # Protected data storage
+        mkdir -p /data
+        echo "Sovereign database initialized" > /data/db.log
+        
+        # Simulate database process
+        while true; do
+            date >> /data/db.log
+            sleep 60
+        done
+    }
+    
+    resources: {
+        memory: 2G @frequency(528Hz)
+        cpu: 2 @frequency(528Hz)
+    }
+}
+
+# Application container
+container Application {
+    glyph: [100]          # Compiler Core - transformation
+    image: "alpine:latest"
+    
+    volumes: [
+        "/app" -> sovereign_volume("app_code")
+    ]
+    
+    cmd: [100] -> {
+        apk add --no-cache python3
+        
+        mkdir -p /app
+        cd /app
+        
+        # Create simple app
+        cat > app.py << 'EOF'
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        html = "<h1>🔥 Sovereign Application ⚔️🖤</h1><p>Frequency: 528Hz</p>"
+        self.wfile.write(html.encode())
+
+HTTPServer(('0.0.0.0', 8080), Handler).serve_forever()
+EOF
+        
+        python3 app.py
+    }
+    
+    resources: {
+        memory: 1G @frequency(528Hz)
+        cpu: 2 @frequency(528Hz)
+    }
+}
+
+# Frontend container
+container Frontend {
+    glyph: [001]          # Aether Prime - initialization
+    image: "alpine:latest"
+    
+    volumes: [
+        "/www" -> sovereign_volume("frontend_assets")
+    ]
+    
+    cmd: [001] -> {
+        apk add --no-cache python3
+        
+        mkdir -p /www
+        cd /www
+        
+        cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sovereign Stack</title>
+    <style>
+        body { 
+            background: #000; 
+            color: #ff6600; 
+            font-family: monospace; 
+            text-align: center;
+            padding: 50px;
+        }
+        h1 { color: #ff0000; }
+        .glyph { font-size: 3em; }
+    </style>
+</head>
+<body>
+    <div class="glyph">🔥⚔️🖤</div>
+    <h1>Sovereign Container Stack</h1>
+    <p>FlameLang-powered infrastructure</p>
+    <p>Frequency: 432Hz (Coherence)</p>
+</body>
+</html>
+EOF
+        
+        python3 -m http.server 80
+    }
+    
+    resources: {
+        memory: 512M @frequency(432Hz)
+        cpu: 1 @frequency(432Hz)
+    }
+}
+
+# Shared network for all containers
+network sovereign_mesh {
+    glyph: [200]          # ReflexShell - networking
+    type: "bridge"
+    subnet: "10.137.0.0/16"
+}
+
+# Full cascade deployment - deploy all containers across all nodes
+deploy [999]              # Glyphos Resonance - full cascade
