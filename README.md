@@ -12,6 +12,23 @@ This system creates a **sovereignty control plane** that bridges:
 
 ## 🚀 Quick Start
 
+### Option A: Connect to Existing GKE Clusters
+
+If you have existing GKE clusters (like `jarvis-swarm-personal-001` or `red-team`):
+
+```bash
+# Connect using the automated script (recommended)
+./connect-gke.sh --verify
+
+# Or on Windows PowerShell:
+.\connect-gke.ps1 -Verify
+
+# See the complete guide
+# 📖 GKE_CONNECTION_GUIDE.md
+```
+
+### Option B: Deploy New Infrastructure
+
 ```bash
 # 1. Clone and bootstrap
 git clone https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture.git
@@ -72,6 +89,29 @@ java HelloCloudOS.java
 ```
 
 ## 🏗️ Infrastructure
+
+### GKE Clusters
+
+**Active Clusters:**
+
+| Cluster | Location | Status | Purpose |
+|---------|----------|--------|---------|
+| **jarvis-swarm-personal-001** | us-central1 | 🟢 RUNNING | Main swarm orchestration |
+| **red-team** | us-central1 | 🟢 RUNNING | Security operations |
+
+**Quick Connection:**
+```bash
+# Connect to main cluster
+./connect-gke.sh
+
+# Connect to red-team cluster
+./connect-gke.sh --red-team
+
+# Full verification
+./connect-gke.sh --verify
+```
+
+📖 **See [GKE_CONNECTION_GUIDE.md](GKE_CONNECTION_GUIDE.md) for complete setup instructions**
 
 ### Kubernetes Deployment
 ```yaml
