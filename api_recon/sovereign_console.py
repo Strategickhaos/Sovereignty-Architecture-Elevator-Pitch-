@@ -438,10 +438,18 @@ class SovereignConsole:
                 data.tools.forEach(tool => {
                     const toolCard = document.createElement('div');
                     toolCard.className = 'tool-card';
-                    toolCard.innerHTML = `
-                        <div class="tool-name">${tool.name}</div>
-                        <div class="tool-desc">${tool.description.split('\\n')[0]}</div>
-                    `;
+                    
+                    // Create elements safely to prevent XSS
+                    const toolName = document.createElement('div');
+                    toolName.className = 'tool-name';
+                    toolName.textContent = tool.name;
+                    
+                    const toolDesc = document.createElement('div');
+                    toolDesc.className = 'tool-desc';
+                    toolDesc.textContent = tool.description.split('\\n')[0];
+                    
+                    toolCard.appendChild(toolName);
+                    toolCard.appendChild(toolDesc);
                     toolsList.appendChild(toolCard);
                 });
             } catch (error) {

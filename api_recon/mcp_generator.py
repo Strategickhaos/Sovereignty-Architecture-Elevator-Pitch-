@@ -393,7 +393,7 @@ tool_instance = {{ tool_class_name }}()
                 generated_files.append(filepath)
                 print(f"Generated: {filepath}")
                 
-            except Exception as e:
+            except (OSError, ValueError, KeyError) as e:
                 print(f"Error generating tool for {pattern.get('path', 'unknown')}: {e}")
         
         return generated_files

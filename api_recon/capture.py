@@ -208,6 +208,7 @@ class APIReconCapture:
 def main():
     """CLI interface for API capture"""
     import argparse
+    import os
     
     parser = argparse.ArgumentParser(description='Capture API patterns from HAR files')
     parser.add_argument('har_file', help='Path to HAR file from browser DevTools')
@@ -215,6 +216,10 @@ def main():
                        help='Output JSON file')
     parser.add_argument('--vectorize', action='store_true',
                        help='Vectorize and store in Qdrant')
+    parser.add_argument('--qdrant-host', default=os.getenv('QDRANT_HOST', 'localhost'),
+                       help='Qdrant host (default: localhost or QDRANT_HOST env var)')
+    parser.add_argument('--qdrant-port', type=int, default=int(os.getenv('QDRANT_PORT', '6333')),
+                       help='Qdrant port (default: 6333 or QDRANT_PORT env var)')
     
     args = parser.parse_args()
     
@@ -227,9 +232,9 @@ def main():
             from qdrant_client import QdrantClient
             from sentence_transformers import SentenceTransformer
             
-            qdrant_client = QdrantClient("localhost", port=6333)
+            qdrant_client = QdrantClient(args.qdrant_host, port=args.qdrant_port)
             encoder = SentenceTransformer('all-MiniLM-L6-v2')
-            print("Qdrant and encoder initialized")
+            print(f"Qdrant initialized at {args.qdrant_host}:{args.qdrant_port}")
         except Exception as e:
             print(f"Warning: Could not initialize Qdrant: {e}")
     
