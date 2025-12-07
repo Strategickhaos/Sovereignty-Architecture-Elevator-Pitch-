@@ -280,6 +280,12 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📄 Documentation & Guides
+
+- **[GKE Cluster Guide](GKE_CLUSTER_GUIDE.md)** - Complete kubectl and GCP cluster management guide
+- **[Deployment Guide](DEPLOYMENT.md)** - Full deployment walkthrough
+- **[Vault Security Playbook](VAULT_SECURITY_PLAYBOOK.md)** - Security best practices
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
