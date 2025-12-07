@@ -130,8 +130,10 @@ virtual_machines:
       
     iso:
       # Base: Ubuntu Server 24.04 + StrategicKhaos overlay
+      # The overlay should be placed in the same directory as this config file
+      # It contains FlameLang runtime, custom tools, and security hardening
       base_url: "https://releases.ubuntu.com/24.04/ubuntu-24.04.1-live-server-amd64.iso"
-      overlay: "strategickhaos-khaos-overlay.tar.gz"
+      overlay: "strategickhaos-khaos-overlay.tar.gz"  # Optional: custom KhaosOS overlay
       
     tools:
       # Cryptographic Evidence
@@ -211,19 +213,19 @@ streaming:
       
     apps:
       - name: "🔴 RED - Kali Attack Console"
-        cmd: "remmina -c rdp://localhost:47990"
+        cmd: "xfreerdp /v:localhost:47990 /u:kali /dynamic-resolution"
         
       - name: "🔵 BLUE - Parrot Defense Console"
-        cmd: "remmina -c rdp://localhost:47991"
+        cmd: "xfreerdp /v:localhost:47991 /u:parrot /dynamic-resolution"
         
       - name: "🟣 PURPLE - KhaosOS Audit Console"
-        cmd: "remmina -c rdp://localhost:47992"
+        cmd: "xfreerdp /v:localhost:47992 /u:khaos /dynamic-resolution"
         
       - name: "📊 Evidence Dashboard"
         cmd: "firefox --new-window http://localhost:8080/evidence"
         
       - name: "🔍 Network Monitor"
-        cmd: "wireshark -k -i TridentNet"
+        cmd: "wireshark -k -i any"  # Capture on all interfaces; adjust to specific interface as needed
         
   moonlight:
     clients:
