@@ -99,7 +99,7 @@ Use the schema from `license_subscription_tracker.yaml`:
 Copy the 10 products from the `licenses:` section in `license_subscription_tracker.yaml` into your KhaosBase table.
 
 **Critical entries:**
-- **Airtable Team Trial** - Expires 2025-12-20 (13 days!)
+- **Airtable Team Trial** - Expires 2025-12-20 (URGENT - expiring soon!)
 - **PhpStorm (Educational)** - Educational, commercial_use_allowed: false
 - **dotMemory (Educational)** - Educational, commercial_use_allowed: false
 - **JetBrains All Products Pack** - Pending purchase for commercial use

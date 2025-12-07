@@ -366,9 +366,9 @@ summary:
   critical_items:
     - product: "Airtable Team Trial"
       expires: "2025-12-20"
-      days_remaining: 13
       action: "KhaosBase migration in progress"
       priority: "HIGH"
+      note: "days_remaining calculated dynamically in KhaosBase"
 
 # === Board Meeting Template ===
 board_minutes_template:

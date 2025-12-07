@@ -68,10 +68,10 @@ license_status_report:
   critical_item:
     product: "Airtable Team Trial"
     expires: "2025-12-20"
-    days_remaining: 13
     action: "KhaosBase migration in progress"
     priority: "HIGH"
     responsible_party: "Domenic Garza"
+    note: "Urgent - expires in less than 2 weeks from meeting date"
   
   jetbrains:
     account: "domenic.garza@snhu.edu"
