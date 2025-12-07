@@ -283,7 +283,7 @@ echo $DISCORD_TOKEN $PRS_CHANNEL
 # Check gateway logs
 kubectl logs -f deployment/event-gateway -n ops
 
-# Verify HMAC signature
+# Verify HMAC signature (update URL for your environment)
 curl -X POST https://events.strategickhaos.com/health
 ```
 

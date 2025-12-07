@@ -211,6 +211,12 @@ create_session_workspace() {
 start_checkpoint_timer() {
     log "${BLUE}${ROCKET} Starting automatic checkpoint system...${NC}"
     
+    # Verify SESSION_DIR is set
+    if [ -z "$SESSION_DIR" ]; then
+        log "${RED}${STOP} SESSION_DIR not set. Cannot start checkpoint timer.${NC}"
+        return 1
+    fi
+    
     # Background process for checkpoints (every 30 minutes)
     (
         while true; do
@@ -315,15 +321,16 @@ main() {
     log "Starting activation sequence at $(date)"
     log ""
     
-    check_prerequisites "$1"
-    check_cognitive_readiness
-    initialize_environment
-    create_session_workspace
-    setup_screens "$1"
-    start_ai_models
-    activate_monitoring
-    start_checkpoint_timer
-    create_deactivation_script
+    # Run with error handling - exit on any failure
+    check_prerequisites "$1" || exit 1
+    check_cognitive_readiness || exit 1
+    initialize_environment || exit 1
+    create_session_workspace || exit 1
+    setup_screens "$1" || exit 1
+    start_ai_models || exit 1
+    activate_monitoring || exit 1
+    start_checkpoint_timer || exit 1
+    create_deactivation_script || exit 1
     
     display_status
     
