@@ -10,9 +10,9 @@ import tarfile
 import hashlib
 import json
 import shutil
-import re
 from pathlib import Path
 from typing import List, Dict, Optional
+from datetime import datetime
 
 
 class SovereignImage:
@@ -206,7 +206,6 @@ class SovereignImage:
     
     def _get_timestamp(self) -> str:
         """Get current timestamp"""
-        from datetime import datetime
         return datetime.utcnow().isoformat() + 'Z'
 
 

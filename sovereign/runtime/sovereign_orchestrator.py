@@ -7,6 +7,7 @@ Part of the Strategickhaos Sovereignty Architecture
 """
 
 import json
+import hashlib
 from pathlib import Path
 from typing import Dict, List, Optional
 from datetime import datetime
@@ -257,7 +258,6 @@ class SovereignOrchestrator:
     
     def _generate_container_id(self, container_spec: Dict) -> str:
         """Generate unique container ID"""
-        import hashlib
         data = f"{container_spec.get('name')}{self._get_timestamp()}"
         return hashlib.sha256(data.encode()).hexdigest()[:12]
     

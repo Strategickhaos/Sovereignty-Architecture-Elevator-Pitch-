@@ -332,7 +332,16 @@ class FlameLangContainerCompiler:
         - 639Hz: Connection - high memory
         - 741Hz: Expression - high I/O
         """
-        freq_value = int(frequency.replace('Hz', ''))
+        # Parse frequency value with validation
+        if not frequency or not frequency.endswith('Hz'):
+            # Default to coherence if frequency is invalid
+            freq_value = 432
+        else:
+            try:
+                freq_value = int(frequency.replace('Hz', '').strip())
+            except ValueError:
+                # Default to coherence if parsing fails
+                freq_value = 432
         
         resources = base_resources.copy()
         

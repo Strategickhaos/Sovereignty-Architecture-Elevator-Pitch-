@@ -10,6 +10,7 @@ import subprocess
 import json
 from pathlib import Path
 from typing import Optional, Dict, List
+from datetime import datetime
 
 
 class SovereignNetwork:
@@ -215,7 +216,6 @@ class SovereignNetwork:
     
     def _get_timestamp(self) -> str:
         """Get current timestamp"""
-        from datetime import datetime
         return datetime.utcnow().isoformat() + 'Z'
 
 

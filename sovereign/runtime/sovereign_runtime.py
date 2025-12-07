@@ -9,8 +9,10 @@ Part of the Strategickhaos Sovereignty Architecture
 import os
 import subprocess
 import json
+import hashlib
 from pathlib import Path
 from typing import Optional, Dict, List
+from datetime import datetime
 
 
 class SovereignContainer:
@@ -44,6 +46,7 @@ class SovereignContainer:
         
         # Create namespace isolation using unshare
         # This creates a new set of namespaces for the container
+        # Note: chroot to rootfs would be done separately after namespace creation
         cmd = [
             "unshare",
             "--fork",        # Fork before executing
@@ -52,7 +55,6 @@ class SovereignContainer:
             "--uts",         # New UTS namespace (hostname)
             "--ipc",         # New IPC namespace
             "--net",         # New network namespace
-            f"--root={self.rootfs}",  # Change root to container filesystem
             "/bin/sh", "-c", "sleep infinity"  # Keep container running
         ]
         
@@ -162,7 +164,6 @@ class SovereignContainer:
     
     def _generate_container_id(self) -> str:
         """Generate a unique container ID"""
-        import hashlib
         data = f"{self.name}{self.pid}{os.urandom(8).hex()}"
         return hashlib.sha256(data.encode()).hexdigest()[:12]
     
