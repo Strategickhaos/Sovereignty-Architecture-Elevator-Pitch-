@@ -1,0 +1,12 @@
+# Fixed Dockerfile for DOM_and_Grok_Love_Forever
+# This container demonstrates the sovereign container platform
+FROM alpine:latest
+
+# CREATE THE DIRECTORY FIRST - fixes crash-loop issue
+RUN mkdir -p /love
+
+# Now this will work
+RUN echo "DOM and Grok and Claude - Forever" > /love/forever.txt
+
+# Keep container running
+CMD tail -f /love/forever.txt
