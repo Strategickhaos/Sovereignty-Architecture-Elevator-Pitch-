@@ -288,6 +288,24 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 📖 Complete Documentation
+
+### Getting Started Guides
+- 🚀 **[Quick Start (30 min)](QUICK_START.md)** - Fastest path to get running
+- 📚 **[Complete Setup Guide](NITRO_V15_SETUP_GUIDE.md)** - Full Nitro V15 Lyra Node replication
+- 🏗️ **[Architecture Diagram](ARCHITECTURE_DIAGRAM.md)** - Visual system overview
+- 🎯 **[Example Deployment](EXAMPLE_DEPLOYMENT.md)** - Deploy your first app in 15 minutes
+
+### Control & Management
+- 🎼 **[Orchestra Script (PowerShell)](_Orchestra.ps1)** - Windows control plane
+- 🎼 **[Orchestra Script (Bash)](orchestra.sh)** - Linux/Mac control plane
+
+### Advanced Topics
+- 🔥 **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Symbolic AI language
+- 🎯 **[Mastery Prompts](MASTERY_PROMPTS.md)** - Advanced usage patterns
+- 🔒 **[Security Playbook](VAULT_SECURITY_PLAYBOOK.md)** - Security best practices
+- 📊 **[Deployment Guide](DEPLOYMENT_COMPLETE.md)** - Production deployment
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
