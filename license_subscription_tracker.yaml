@@ -345,6 +345,8 @@ licenses:
     auto_renewal: false
 
 # === Summary Statistics ===
+# NOTE: These statistics should be calculated dynamically in KhaosBase
+# Values below reflect state as of 2025-12-07 and require manual update
 summary:
   total_products: 10
   by_status:
@@ -362,6 +364,7 @@ summary:
   educational_non_commercial_count: 2
   total_annual_cost_committed: 849
   total_annual_cost_pending: 249
+  last_updated: "2025-12-07"
   
   critical_items:
     - product: "Airtable Team Trial"

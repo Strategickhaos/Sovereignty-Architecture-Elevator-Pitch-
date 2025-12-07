@@ -209,6 +209,8 @@ Share `governance/LICENSE_USE_POLICY.md` with all team members (current and futu
 
 ### Current Committed Costs (Annual)
 
+**Note:** Figures as of 2025-12-07. For full financial summary including pending costs, see `license_subscription_tracker.yaml`.
+
 | Product | Cost | Billing Entity | Tax Deductible |
 |---------|------|----------------|----------------|
 | Claude Pro | $240 | Personal | ✅ |
@@ -217,7 +219,9 @@ Share `governance/LICENSE_USE_POLICY.md` with all team members (current and futu
 | VS Code | $0 | Personal | - |
 | Zapier Free | $0 | Personal | - |
 | Moonlight Agent | $0 | SSSF LLC | - |
-| **Total** | **$360** | | |
+| **Total (Committed)** | **$360** | | |
+
+**Note:** Total committed costs are $360/year. When including pending licenses (JetBrains All Products Pack $249, potential Airtable renewal $240), total potential costs are ~$849/year. See "Pending Costs" section below.
 
 ### Pending Costs
 

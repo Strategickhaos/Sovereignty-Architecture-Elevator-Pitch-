@@ -309,6 +309,8 @@ Use centralized tracker with:
 
 ### Budget Allocation (2025)
 
+**Note:** Figures as of 2025-12-07. Refer to `license_subscription_tracker.yaml` for current costs.
+
 | Category | Estimated Annual Cost | Billing Entity |
 |----------|----------------------|----------------|
 | JetBrains (future) | $249 | SSSF LLC |
