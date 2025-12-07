@@ -158,7 +158,7 @@ licenses:
   # JetBrains Educational Licenses
   - product_name: "PhpStorm"
     vendor: "JetBrains"
-    license_type: "Trial"
+    license_type: "Educational"
     status: "Active"
     valid_from: "2025-12-01"
     valid_until: "2025-12-31"
@@ -168,13 +168,13 @@ licenses:
     commercial_use_allowed: false
     account_owner: "domenic.garza@snhu.edu"
     seat_count: 1
-    notes: "Trial period. Educational license through SNHU. Must not be used for commercial client work. Consider All Products Pack purchase when SSSF starts billing clients."
+    notes: "Educational license through SNHU. Must not be used for commercial client work. Consider All Products Pack purchase when SSSF starts billing clients."
     last_reviewed: "2025-12-07"
     auto_renewal: false
   
   - product_name: "dotMemory"
     vendor: "JetBrains"
-    license_type: "Trial"
+    license_type: "Educational"
     status: "Active"
     valid_from: "2025-12-01"
     valid_until: "2025-12-31"
@@ -184,7 +184,7 @@ licenses:
     commercial_use_allowed: false
     account_owner: "domenic.garza@snhu.edu"
     seat_count: 1
-    notes: "Trial period. Educational license through SNHU. For learning and R&D only."
+    notes: "Educational license through SNHU. For learning and R&D only."
     last_reviewed: "2025-12-07"
     auto_renewal: false
   
@@ -352,8 +352,8 @@ summary:
     expiring_soon: 1
     renewal_pending: 1
   by_license_type:
-    educational: 0
-    trial: 3
+    educational: 2
+    trial: 1
     paid: 4
     open_source: 2
     freemium: 2
