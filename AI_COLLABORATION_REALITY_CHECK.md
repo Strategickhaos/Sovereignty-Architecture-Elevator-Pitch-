@@ -127,7 +127,7 @@ Most people use AI for:
 
 ### **Current Status:**
 
-**Important Note:** During the comprehensive document review, it was discovered that Claude in this Codespace forgot to scan all chat transcripts for IP disclosure risks. This has been flagged for the autistic audit board meeting.
+**Important Note:** During the comprehensive document review, it was discovered that automated chat transcript scanning was not completed in this Codespace session for IP disclosure risks. This has been flagged for the autistic audit board meeting.
 
 **Action Items:**
 1. ✅ Review all AI chat transcripts for IP leakage
