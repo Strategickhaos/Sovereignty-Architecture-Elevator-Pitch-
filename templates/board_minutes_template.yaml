@@ -1,0 +1,283 @@
+# Board Minutes Template
+# StrategicKhaos DAO LLC / SSSF LLC
+# Version: 1.0
+# Date: YYYY-MM-DD
+
+version: "1.0"
+meeting_date: "YYYY-MM-DD"
+meeting_type: "Regular Board Meeting"
+company_name: "StrategicKhaos DAO LLC / Valoryield Engine"
+
+# === Meeting Information ===
+meeting_info:
+  date: "YYYY-MM-DD"
+  time_start: "HH:MM TZ"
+  time_end: "HH:MM TZ"
+  location: "Virtual / Discord"
+  meeting_number: "YYYY-NN"
+  fiscal_quarter: "QN YYYY"
+
+# === Attendees ===
+attendees:
+  present:
+    - name: "Domenic Garza"
+      role: "Founder / Managing Member"
+      voting: true
+  
+  absent: []
+  
+  guests: []
+
+# === Agenda ===
+agenda:
+  - "Call to Order"
+  - "Approval of Previous Minutes"
+  - "Financial Report"
+  - "License Status Report"
+  - "Operations Update"
+  - "Strategic Initiatives"
+  - "Action Items Review"
+  - "Next Meeting"
+  - "Adjournment"
+
+# === FINANCIAL REPORT ===
+financial_report:
+  date: "YYYY-MM-DD"
+  reporting_period: "YYYY-MM-DD to YYYY-MM-DD"
+  
+  revenue:
+    client_services: 0
+    grants: 0
+    other: 0
+    total: 0
+  
+  expenses:
+    software_licenses: 0
+    infrastructure: 0
+    professional_services: 0
+    other: 0
+    total: 0
+  
+  net_income: 0
+  
+  notes: "Pre-revenue phase. Focus on infrastructure and capability building."
+
+# === LICENSE STATUS REPORT ===
+license_status_report:
+  date: "YYYY-MM-DD"
+  total_products: 10
+  trials_expiring_30d: 1
+  
+  critical_item:
+    product: "Airtable Team Trial"
+    expires: "2025-12-20"
+    days_remaining: 13
+    action: "KhaosBase migration in progress"
+    priority: "HIGH"
+    responsible_party: "Domenic Garza"
+  
+  jetbrains:
+    account: "domenic.garza@snhu.edu"
+    license_type: "Educational"
+    commercial_use_allowed: false
+    products:
+      - "PhpStorm (Trial)"
+      - "dotMemory (Trial)"
+    notes: "Educational license through SNHU. Commercial All Products Pack ($249/year) to be purchased when SSSF starts billing clients."
+    compliance_status: "COMPLIANT - No commercial use"
+  
+  financial_summary:
+    committed_annual: 849
+    pending_annual: 249
+    tax_deductible_portion: 609
+    breakdown:
+      - product: "Claude Pro"
+        cost_annual: 240
+        billing_entity: "Personal"
+        tax_deductible: true
+      - product: "GitHub Codespaces"
+        cost_annual: 120
+        billing_entity: "SSSF LLC"
+        tax_deductible: true
+      - product: "Airtable (if renewed)"
+        cost_annual: 240
+        billing_entity: "SSSF LLC"
+        tax_deductible: true
+        notes: "Migration to KhaosBase planned to eliminate this cost"
+      - product: "JetBrains All Products Pack (pending)"
+        cost_annual: 249
+        billing_entity: "SSSF LLC"
+        tax_deductible: true
+        notes: "To be purchased when commercial work begins"
+  
+  compliance_items:
+    - item: "Educational license separation"
+      status: "COMPLIANT"
+      notes: "Educational licenses properly segregated from commercial work"
+    
+    - item: "License Use Policy"
+      status: "COMPLETE"
+      notes: "Policy documented in governance/LICENSE_USE_POLICY.md"
+    
+    - item: "Quarterly audit"
+      status: "SCHEDULED"
+      next_review: "YYYY-MM-DD"
+  
+  action_items:
+    - action: "Complete KhaosBase migration before Airtable trial expires"
+      responsible: "Domenic Garza"
+      due_date: "2025-12-20"
+      status: "IN_PROGRESS"
+    
+    - action: "Set up automated license expiry alerts in Discord #licenses"
+      responsible: "Domenic Garza"
+      due_date: "2025-12-15"
+      status: "PENDING"
+    
+    - action: "Document JetBrains policy in SSSF Operating Agreement"
+      responsible: "Domenic Garza"
+      due_date: "2025-12-31"
+      status: "PENDING"
+
+# === OPERATIONS UPDATE ===
+operations_update:
+  infrastructure:
+    status: "Operational"
+    highlights:
+      - "Kubernetes cluster stable"
+      - "Monitoring stack deployed (Prometheus, Grafana, Loki)"
+      - "CI/CD pipelines functional"
+    concerns: []
+  
+  development:
+    active_projects:
+      - name: "KhaosBase Migration"
+        status: "In Progress"
+        completion: "60%"
+        target_date: "2025-12-20"
+      
+      - name: "Moonlight Telemetry Agent"
+        status: "Active"
+        completion: "100%"
+        notes: "Feeding telemetry into monitoring stack"
+    
+    technical_debt: []
+  
+  security:
+    status: "Compliant"
+    recent_audits: []
+    vulnerabilities: "None identified"
+    compliance_frameworks:
+      - "UPL-Safe"
+      - "SOC2-Ready"
+
+# === STRATEGIC INITIATIVES ===
+strategic_initiatives:
+  - initiative: "Sovereign Software Forge Launch"
+    status: "Planning"
+    timeline: "Q1 2026"
+    milestones:
+      - name: "Legal entity formation"
+        status: "COMPLETE"
+      - name: "Infrastructure buildout"
+        status: "IN_PROGRESS"
+      - name: "Client acquisition strategy"
+        status: "PENDING"
+    notes: "Building capability before client acquisition"
+  
+  - initiative: "KhaosBase Development"
+    status: "Active Development"
+    timeline: "Q4 2025 - Q1 2026"
+    milestones:
+      - name: "Core database functionality"
+        status: "IN_PROGRESS"
+      - name: "Airtable data migration"
+        status: "IN_PROGRESS"
+      - name: "Production deployment"
+        status: "PENDING"
+    notes: "Critical path item for license independence"
+
+# === ACTION ITEMS ===
+action_items:
+  from_previous_meeting: []
+  
+  new_action_items:
+    - action: "Complete KhaosBase migration"
+      responsible: "Domenic Garza"
+      due_date: "2025-12-20"
+      priority: "HIGH"
+    
+    - action: "Purchase JetBrains commercial license when first client signed"
+      responsible: "Domenic Garza"
+      due_date: "TBD (event-driven)"
+      priority: "MEDIUM"
+    
+    - action: "Set up license tracker in KhaosBase"
+      responsible: "Domenic Garza"
+      due_date: "2025-12-31"
+      priority: "MEDIUM"
+    
+    - action: "Quarterly license compliance audit"
+      responsible: "Domenic Garza"
+      due_date: "2026-03-31"
+      priority: "LOW"
+      recurring: "Quarterly"
+
+# === DECISIONS MADE ===
+decisions:
+  - decision: "Approved License Use Policy v1.0"
+    rationale: "Ensures compliance with educational license restrictions and prepares for commercial transition"
+    approved_by: "Domenic Garza"
+    date: "YYYY-MM-DD"
+  
+  - decision: "Migrate from Airtable to KhaosBase"
+    rationale: "Sovereign infrastructure, cost savings, full control"
+    approved_by: "Domenic Garza"
+    date: "YYYY-MM-DD"
+
+# === NEXT MEETING ===
+next_meeting:
+  date: "YYYY-MM-DD"
+  time: "HH:MM TZ"
+  location: "Virtual / Discord"
+  preliminary_agenda:
+    - "KhaosBase migration completion report"
+    - "Q1 2026 planning"
+    - "License status update"
+
+# === ADJOURNMENT ===
+adjournment:
+  time: "HH:MM TZ"
+  motion_by: "Domenic Garza"
+  seconded_by: null
+  approved: true
+
+# === SIGNATURES ===
+signatures:
+  - name: "Domenic Garza"
+    title: "Founder / Managing Member"
+    date: "YYYY-MM-DD"
+    signature: "SIGNED"
+
+# === ATTACHMENTS ===
+attachments:
+  - "license_subscription_tracker.yaml - Full license inventory"
+  - "governance/LICENSE_USE_POLICY.md - License use policy document"
+  - "Financial statements (if applicable)"
+
+# === METADATA ===
+metadata:
+  prepared_by: "Domenic Garza"
+  prepared_date: "YYYY-MM-DD"
+  approved_date: "YYYY-MM-DD"
+  distribution:
+    - "Board members"
+    - "File: governance/board_minutes/"
+  confidentiality: "Internal - Board Only"
+  retention_period: "Permanent"
+
+# === NOTES ===
+notes: |
+  These minutes reflect the license governance framework established for SSSF LLC
+  and StrategicKhaos DAO. The license status report will be a standard agenda item
+  for all quarterly board meetings to ensure ongoing compliance and cost optimization.

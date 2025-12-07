@@ -1,0 +1,445 @@
+# License & Subscription Tracker
+# SSSF LLC (Sovereign Software Forge) and StrategicKhaos DAO
+# Version: 1.0
+# Date: 2025-12-07
+# Purpose: Track all software licenses, subscriptions, and their compliance status
+
+version: "1.0"
+date: "2025-12-07"
+owner: "SSSF LLC / StrategicKhaos DAO"
+maintainer: "Domenic Garza"
+
+# === KhaosBase Schema Definition ===
+khaosbase_schema:
+  table_name: "license_tracker"
+  description: "Centralized tracking for all software licenses and subscriptions"
+  
+  fields:
+    - name: "product_name"
+      type: "text"
+      required: true
+      description: "Name of the software product or service"
+    
+    - name: "vendor"
+      type: "text"
+      required: true
+      description: "Company or organization providing the license"
+    
+    - name: "license_type"
+      type: "select"
+      required: true
+      options: ["Educational", "Trial", "Paid", "Open Source", "Freemium"]
+      description: "Type of license agreement"
+    
+    - name: "status"
+      type: "select"
+      required: true
+      options: ["Active", "Expiring Soon", "Expired", "Renewal Pending", "Migrating"]
+      description: "Current status of the license"
+    
+    - name: "valid_from"
+      type: "date"
+      required: false
+      description: "License start date"
+    
+    - name: "valid_until"
+      type: "date"
+      required: false
+      description: "License expiration date (null for perpetual)"
+    
+    - name: "days_remaining"
+      type: "formula"
+      formula: "DATETIME_DIFF({valid_until}, TODAY(), 'days')"
+      description: "Calculated days until expiration"
+    
+    - name: "cost_annual"
+      type: "currency"
+      required: false
+      description: "Annual cost in USD (0 for free/educational)"
+    
+    - name: "billing_entity"
+      type: "select"
+      required: true
+      options: ["SSSF LLC", "ValorYield DAO", "StrategicKhaos DAO", "Personal"]
+      description: "Which entity is responsible for payment"
+    
+    - name: "tax_deductible"
+      type: "checkbox"
+      required: true
+      description: "Whether cost is tax-deductible as business expense"
+    
+    - name: "commercial_use_allowed"
+      type: "checkbox"
+      required: true
+      description: "Educational licenses must remain non-commercial"
+    
+    - name: "migration_target"
+      type: "text"
+      required: false
+      description: "Target system if migration is planned (e.g., 'KhaosBase', 'KhaosFlow')"
+    
+    - name: "migration_status"
+      type: "select"
+      required: false
+      options: ["Not Started", "Planning", "In Progress", "Testing", "Complete"]
+      description: "Status of migration effort"
+    
+    - name: "account_owner"
+      type: "text"
+      required: true
+      description: "Email or username of account holder"
+    
+    - name: "seat_count"
+      type: "number"
+      required: false
+      description: "Number of licensed seats/users"
+    
+    - name: "notes"
+      type: "long text"
+      required: false
+      description: "Additional notes, restrictions, or special terms"
+    
+    - name: "last_reviewed"
+      type: "date"
+      required: false
+      description: "Date of last license audit/review"
+    
+    - name: "auto_renewal"
+      type: "checkbox"
+      required: false
+      description: "Whether license auto-renews"
+
+  views:
+    - name: "Expiring Soon"
+      filter: "AND({status} = 'Active', {days_remaining} <= 30)"
+      sort: [{field: "days_remaining", direction: "asc"}]
+      description: "Licenses expiring in the next 30 days"
+    
+    - name: "Educational Licenses"
+      filter: "{license_type} = 'Educational'"
+      description: "All educational licenses requiring compliance monitoring"
+    
+    - name: "Commercial Allowed"
+      filter: "{commercial_use_allowed} = true"
+      description: "Licenses approved for commercial/client work"
+    
+    - name: "SSSF LLC Expenses"
+      filter: "{billing_entity} = 'SSSF LLC'"
+      sort: [{field: "cost_annual", direction: "desc"}]
+      description: "All licenses billed to SSSF LLC for financial reporting"
+    
+    - name: "Migration Pipeline"
+      filter: "{migration_status} != 'Not Started'"
+      description: "Active migration efforts to track"
+
+  automations:
+    - name: "Alert 14 Days Before Expiry"
+      trigger: "{days_remaining} = 14"
+      action: "Send notification to #licenses channel"
+      message: "⚠️ License expiring in 14 days: {product_name} ({vendor})"
+    
+    - name: "Alert 7 Days Before Expiry"
+      trigger: "{days_remaining} = 7"
+      action: "Send notification to #licenses channel"
+      message: "🚨 URGENT: License expiring in 7 days: {product_name} ({vendor})"
+    
+    - name: "Mark as Expired"
+      trigger: "{days_remaining} < 0"
+      action: "Update status to 'Expired'"
+    
+    - name: "Educational Compliance Check"
+      trigger: "Record created or updated"
+      condition: "AND({license_type} = 'Educational', {commercial_use_allowed} = true)"
+      action: "Flag for review"
+      message: "⚠️ Educational license marked for commercial use: {product_name}"
+
+# === Current License Inventory ===
+licenses:
+  # JetBrains Educational Licenses
+  - product_name: "PhpStorm"
+    vendor: "JetBrains"
+    license_type: "Trial"
+    status: "Active"
+    valid_from: "2025-12-01"
+    valid_until: "2025-12-31"
+    cost_annual: 0
+    billing_entity: "Personal"
+    tax_deductible: false
+    commercial_use_allowed: false
+    account_owner: "domenic.garza@snhu.edu"
+    seat_count: 1
+    notes: "Trial period. Educational license through SNHU. Must not be used for commercial client work. Consider All Products Pack purchase when SSSF starts billing clients."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+  
+  - product_name: "dotMemory"
+    vendor: "JetBrains"
+    license_type: "Trial"
+    status: "Active"
+    valid_from: "2025-12-01"
+    valid_until: "2025-12-31"
+    cost_annual: 0
+    billing_entity: "Personal"
+    tax_deductible: false
+    commercial_use_allowed: false
+    account_owner: "domenic.garza@snhu.edu"
+    seat_count: 1
+    notes: "Trial period. Educational license through SNHU. For learning and R&D only."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+  
+  - product_name: "JetBrains All Products Pack"
+    vendor: "JetBrains"
+    license_type: "Paid"
+    status: "Renewal Pending"
+    valid_from: null
+    valid_until: null
+    cost_annual: 249
+    billing_entity: "SSSF LLC"
+    tax_deductible: true
+    commercial_use_allowed: true
+    account_owner: "TBD - will be SSSF email"
+    seat_count: 1
+    notes: "To be purchased when SSSF starts billing clients for commercial work. Educational license must be kept separate for coursework."
+    last_reviewed: "2025-12-07"
+    auto_renewal: true
+
+  # Airtable
+  - product_name: "Airtable Team"
+    vendor: "Airtable"
+    license_type: "Trial"
+    status: "Expiring Soon"
+    valid_from: "2025-11-20"
+    valid_until: "2025-12-20"
+    cost_annual: 240
+    billing_entity: "SSSF LLC"
+    tax_deductible: true
+    commercial_use_allowed: true
+    migration_target: "KhaosBase"
+    migration_status: "In Progress"
+    account_owner: "domenic.garza@snhu.edu"
+    seat_count: 5
+    notes: "CRITICAL: Expires 2025-12-20. KhaosBase migration in progress to eliminate dependency."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+
+  # GitHub
+  - product_name: "GitHub Enterprise"
+    vendor: "GitHub"
+    license_type: "Trial"
+    status: "Active"
+    valid_from: "2025-11-15"
+    valid_until: "2026-01-15"
+    cost_annual: 0
+    billing_entity: "SSSF LLC"
+    tax_deductible: true
+    commercial_use_allowed: true
+    account_owner: "Strategickhaos"
+    seat_count: 10
+    notes: "Enterprise trial. May downgrade to Team plan ($4/user/month) after trial."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+
+  # Claude Pro
+  - product_name: "Claude Pro"
+    vendor: "Anthropic"
+    license_type: "Paid"
+    status: "Active"
+    valid_from: "2025-10-01"
+    valid_until: null
+    cost_annual: 240
+    billing_entity: "Personal"
+    tax_deductible: true
+    commercial_use_allowed: true
+    account_owner: "domenic.garza@snhu.edu"
+    seat_count: 1
+    notes: "Monthly subscription. Used for AI-assisted development and research."
+    last_reviewed: "2025-12-07"
+    auto_renewal: true
+
+  # Zapier (target for migration)
+  - product_name: "Zapier"
+    vendor: "Zapier"
+    license_type: "Freemium"
+    status: "Active"
+    valid_from: null
+    valid_until: null
+    cost_annual: 0
+    billing_entity: "Personal"
+    tax_deductible: false
+    commercial_use_allowed: true
+    migration_target: "KhaosFlow"
+    migration_status: "Planning"
+    account_owner: "domenic.garza@snhu.edu"
+    seat_count: 1
+    notes: "Free tier. Plan to migrate to KhaosFlow for sovereign automation."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+
+  # Docker Hub
+  - product_name: "Docker Hub"
+    vendor: "Docker Inc."
+    license_type: "Freemium"
+    status: "Active"
+    valid_from: null
+    valid_until: null
+    cost_annual: 0
+    billing_entity: "Personal"
+    tax_deductible: false
+    commercial_use_allowed: true
+    account_owner: "strategickhaos"
+    seat_count: 1
+    notes: "Free tier. May upgrade to Pro ($5/month) if rate limits become an issue."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+
+  # VS Code
+  - product_name: "Visual Studio Code"
+    vendor: "Microsoft"
+    license_type: "Open Source"
+    status: "Active"
+    valid_from: null
+    valid_until: null
+    cost_annual: 0
+    billing_entity: "Personal"
+    tax_deductible: false
+    commercial_use_allowed: true
+    account_owner: "domenic.garza@snhu.edu"
+    seat_count: 1
+    notes: "MIT licensed. Free for all use cases."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+
+  # Codespaces
+  - product_name: "GitHub Codespaces"
+    vendor: "GitHub"
+    license_type: "Paid"
+    status: "Active"
+    valid_from: "2025-11-01"
+    valid_until: null
+    cost_annual: 120
+    billing_entity: "SSSF LLC"
+    tax_deductible: true
+    commercial_use_allowed: true
+    account_owner: "Strategickhaos"
+    seat_count: 1
+    notes: "Pay-as-you-go. ~$10/month estimated. Used for cloud dev environments."
+    last_reviewed: "2025-12-07"
+    auto_renewal: true
+
+  # Moonlight (monitoring agent)
+  - product_name: "Moonlight Agent"
+    vendor: "Internal/SSSF"
+    license_type: "Open Source"
+    status: "Active"
+    valid_from: "2025-12-01"
+    valid_until: null
+    cost_annual: 0
+    billing_entity: "SSSF LLC"
+    tax_deductible: false
+    commercial_use_allowed: true
+    account_owner: "SSSF Development Team"
+    seat_count: null
+    notes: "Internal telemetry and monitoring agent. Feeds into KhaosBase."
+    last_reviewed: "2025-12-07"
+    auto_renewal: false
+
+# === Summary Statistics ===
+summary:
+  total_products: 10
+  by_status:
+    active: 8
+    expiring_soon: 1
+    renewal_pending: 1
+  by_license_type:
+    educational: 0
+    trial: 3
+    paid: 4
+    open_source: 2
+    freemium: 2
+  trials_expiring_30d: 1
+  commercial_use_allowed_count: 8
+  educational_non_commercial_count: 2
+  total_annual_cost_committed: 849
+  total_annual_cost_pending: 249
+  
+  critical_items:
+    - product: "Airtable Team Trial"
+      expires: "2025-12-20"
+      days_remaining: 13
+      action: "KhaosBase migration in progress"
+      priority: "HIGH"
+
+# === Board Meeting Template ===
+board_minutes_template:
+  license_status_report:
+    date: "YYYY-MM-DD"
+    total_products: "{{ summary.total_products }}"
+    trials_expiring_30d: "{{ summary.trials_expiring_30d }}"
+    critical_item:
+      product: "{{ critical_items[0].product }}"
+      expires: "{{ critical_items[0].expires }}"
+      action: "{{ critical_items[0].action }}"
+    jetbrains:
+      account: "{{ jetbrains_account_email }}"
+      license_type: "Educational"
+      commercial_use_allowed: false
+      notes: "Educational license through SNHU. Commercial All Products Pack to be purchased when SSSF starts client billing."
+    financial_summary:
+      committed_annual: "{{ summary.total_annual_cost_committed }}"
+      pending_annual: "{{ summary.total_annual_cost_pending }}"
+      tax_deductible_portion: "TBD based on billing entity analysis"
+
+# === Compliance Notes ===
+compliance:
+  educational_license_policy: |
+    JetBrains educational licenses (PhpStorm, dotMemory, etc.) obtained through
+    SNHU account (domenic.garza@snhu.edu) must be used exclusively for:
+    - Coursework and academic projects
+    - Personal learning and skill development
+    - Non-commercial research and development
+    
+    These licenses MUST NOT be used for:
+    - Paid client work
+    - Commercial software development
+    - Work billed through SSSF LLC
+    
+    When SSSF LLC begins billing clients, a separate JetBrains All Products Pack
+    commercial license must be purchased under SSSF LLC entity with commercial_use_allowed: true.
+  
+  migration_strategy: |
+    Trial services should be evaluated for migration to sovereign alternatives:
+    - Airtable → KhaosBase (database/project management)
+    - Zapier → KhaosFlow (automation workflows)
+    - GitHub Enterprise → Self-hosted GitLab or maintain GitHub Team plan
+    
+    Migration timeline: Q1 2026 for KhaosBase, Q2 2026 for KhaosFlow
+
+  audit_schedule: |
+    License audit should be conducted:
+    - Monthly: Review expiring licenses and renewal decisions
+    - Quarterly: Full compliance review of educational licenses
+    - Annually: Cost optimization and vendor consolidation analysis
+    - As needed: When adding new team members or starting client work
+
+# === Next Actions ===
+next_actions:
+  immediate:
+    - "Complete KhaosBase migration before Airtable trial expires (2025-12-20)"
+    - "Set up alerts in #licenses Discord channel for 14/7 day warnings"
+    - "Document JetBrains educational license policy in SSSF Operating Agreement"
+  
+  short_term:
+    - "Purchase JetBrains All Products Pack when SSSF signs first client (set budget: $249/year)"
+    - "Evaluate GitHub Team plan vs Enterprise after trial ends (2026-01-15)"
+    - "Create KhaosBase table with schema defined above"
+  
+  long_term:
+    - "Develop KhaosFlow to replace Zapier (Q2 2026)"
+    - "Implement automated sync from KhaosBase to board minutes YAML"
+    - "Build license governance dashboard in KhaosBase"
+
+# === Signature ===
+verified_by: "Domenic Garza"
+verified_date: "2025-12-07"
+next_review: "2026-01-07"
