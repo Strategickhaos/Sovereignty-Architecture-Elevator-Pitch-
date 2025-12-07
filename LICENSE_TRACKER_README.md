@@ -100,8 +100,8 @@ Copy the 10 products from the `licenses:` section in `license_subscription_track
 
 **Critical entries:**
 - **Airtable Team Trial** - Expires 2025-12-20 (13 days!)
-- **PhpStorm** - Educational, commercial_use_allowed: false
-- **dotMemory** - Educational, commercial_use_allowed: false
+- **PhpStorm (Educational)** - Educational, commercial_use_allowed: false
+- **dotMemory (Educational)** - Educational, commercial_use_allowed: false
 - **JetBrains All Products Pack** - Pending purchase for commercial use
 
 ### Step 3: Set Up Alert Automation

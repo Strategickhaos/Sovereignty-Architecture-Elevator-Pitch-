@@ -341,7 +341,17 @@ This policy will be reviewed:
 
 By using software licenses on behalf of SSSF LLC, StrategicKhaos DAO, or related entities, all team members acknowledge they have read, understood, and agree to comply with this License Use Policy.
 
-**Approved by:**  
+### Acknowledgment Log
+
+All team members and contractors must sign this acknowledgment. Digital signatures or email confirmation are acceptable.
+
+| Name | Role | Date Acknowledged | Signature/Confirmation |
+|------|------|-------------------|------------------------|
+| Domenic Garza | Founder / Managing Member | 2025-12-07 | SIGNED |
+| | | | |
+| | | | |
+
+**Policy Owner Approval:**  
 Domenic Garza, Founder  
 SSSF LLC / StrategicKhaos DAO  
 Date: 2025-12-07

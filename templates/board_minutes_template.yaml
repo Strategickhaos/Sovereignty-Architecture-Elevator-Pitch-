@@ -81,8 +81,8 @@ license_status_report:
     license_type: "Educational"
     commercial_use_allowed: false
     products:
-      - "PhpStorm (Trial)"
-      - "dotMemory (Trial)"
+      - "PhpStorm (Educational)"
+      - "dotMemory (Educational)"
     notes: "Educational license through SNHU. Commercial All Products Pack ($249/year) to be purchased when SSSF starts billing clients."
     compliance_status: "COMPLIANT - No commercial use"
   

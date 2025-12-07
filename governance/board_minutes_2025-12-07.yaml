@@ -78,8 +78,8 @@ license_status_report:
     license_type: "Educational"
     commercial_use_allowed: false
     products:
-      - "PhpStorm (Trial - expires 2025-12-31)"
-      - "dotMemory (Trial - expires 2025-12-31)"
+      - "PhpStorm (Educational - expires 2025-12-31)"
+      - "dotMemory (Educational - expires 2025-12-31)"
     notes: "Educational license through SNHU. Commercial All Products Pack ($249/year) to be purchased when SSSF starts billing clients. Currently used only for coursework and personal R&D."
     compliance_status: "COMPLIANT - No commercial use detected"
   
