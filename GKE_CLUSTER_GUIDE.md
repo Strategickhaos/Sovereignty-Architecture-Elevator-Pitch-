@@ -177,11 +177,18 @@ kubectl config set-context --current --namespace=<namespace>
 
 ### Cluster Access Information
 ```powershell
-# Get cluster endpoint
+# Get cluster endpoint (Unix/Linux)
 kubectl cluster-info dump | grep -i "server:"
 
-# View cluster certificate authority
+# Get cluster endpoint (PowerShell)
+kubectl cluster-info dump | Select-String -Pattern "server:" -CaseSensitive:$false
+
+# View cluster certificate authority (Unix/Linux)
 kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d
+
+# View cluster certificate authority (PowerShell)
+$certData = kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}'
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($certData))
 
 # Check API server version
 kubectl version --short
@@ -217,8 +224,11 @@ kubectl logs -f <pod-name> -n <namespace>
 # View resource usage for pods
 kubectl top pods -A
 
-# View resource limits and requests
+# View resource limits and requests (Unix/Linux)
 kubectl describe pods -A | grep -A 5 "Limits:\|Requests:"
+
+# View resource limits and requests (PowerShell)
+kubectl describe pods -A | Select-String -Pattern "Limits:|Requests:" -Context 0,5
 ```
 
 ---
@@ -230,9 +240,13 @@ kubectl describe pods -A | grep -A 5 "Limits:\|Requests:"
 # Test API server connectivity
 kubectl cluster-info dump
 
-# Check kubeconfig file location
+# Check kubeconfig file location (Unix/Linux)
 echo $KUBECONFIG
-# Default: ~/.kube/config on Unix, %USERPROFILE%\.kube\config on Windows
+# Default: ~/.kube/config on Unix
+
+# Check kubeconfig file location (PowerShell)
+Write-Host $env:KUBECONFIG
+# Default: %USERPROFILE%\.kube\config on Windows
 
 # Validate kubeconfig syntax
 kubectl config view --validate
