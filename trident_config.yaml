@@ -1,0 +1,469 @@
+# ============================================================
+# TRIDENT: Sovereign Security Assessment Platform
+# Configuration v1.0
+# Owner: StrategicKhaos DAO LLC
+# ============================================================
+
+assessment:
+  name: "StrategicKhaos Sovereign Security Assessment"
+  version: "1.0.0"
+  client: "${CLIENT_NAME}"
+  assessor: "Domenic Gabriel Garza"
+  organization: "StrategicKhaos DAO LLC"
+  twic_clearance: true
+  
+  # Assessment scope
+  scope:
+    - "Internal network infrastructure"
+    - "Cloud deployments (GCP, AWS)"
+    - "Container orchestration (Kubernetes)"
+    - "Distributed node mesh (Athena, Lyra, Nova, jarvis-vm)"
+    
+  exclusions:
+    - "Production customer data"
+    - "Third-party SaaS applications"
+
+# ============================================================
+# VIRTUAL MACHINE CONFIGURATIONS
+# Three-pronged attack surface: Red, Blue, Purple
+# ============================================================
+
+virtual_machines:
+  # RED TEAM: Kali Linux - Offensive Security
+  kali:
+    name: "TRIDENT-Kali-Red"
+    role: "red"
+    description: "Offensive security testing - attack surface discovery"
+    
+    virtualbox:
+      os_type: "Debian_64"
+      memory_mb: 4096
+      cpus: 2
+      vram_mb: 128
+      storage_gb: 80
+      network_adapter: "natnetwork"
+      nat_network_name: "TridentNet"
+      rdp_port: 47990
+      
+    iso:
+      url: "https://cdimage.kali.org/kali-2024.4/kali-linux-2024.4-installer-amd64.iso"
+      sha256: "auto-verify"
+      
+    tools:
+      - nmap
+      - nikto
+      - burpsuite
+      - metasploit
+      - sqlmap
+      - john
+      - hashcat
+      - gobuster
+      - wfuzz
+      - hydra
+      - aircrack-ng
+      - wireshark
+      - responder
+      - impacket
+      - bloodhound
+      
+    sunshine:
+      enabled: true
+      app_name: "🔴 TRIDENT-RED (Kali)"
+      stream_port: 47990
+      
+  # BLUE TEAM: Parrot OS - Defensive Security
+  parrot:
+    name: "TRIDENT-Parrot-Blue"
+    role: "blue"
+    description: "Defensive monitoring - detection and response"
+    
+    virtualbox:
+      os_type: "Debian_64"
+      memory_mb: 4096
+      cpus: 2
+      vram_mb: 128
+      storage_gb: 80
+      network_adapter: "natnetwork"
+      nat_network_name: "TridentNet"
+      rdp_port: 47991
+      
+    iso:
+      url: "https://download.parrot.sh/parrot/iso/6.2/Parrot-security-6.2_amd64.iso"
+      sha256: "auto-verify"
+      
+    tools:
+      - suricata
+      - zeek
+      - ossec
+      - wazuh
+      - elasticsearch
+      - kibana
+      - logstash
+      - velociraptor
+      - yara
+      - clamav
+      - rkhunter
+      - lynis
+      - openvas
+      - auditd
+      
+    sunshine:
+      enabled: true
+      app_name: "🔵 TRIDENT-BLUE (Parrot)"
+      stream_port: 47991
+
+  # PURPLE TEAM: KhaosOS - Sovereign Audit
+  khaos:
+    name: "TRIDENT-KhaosOS-Purple"
+    role: "purple"
+    description: "Sovereign audit - validation, verification, legal evidence"
+    
+    virtualbox:
+      os_type: "Ubuntu_64"
+      memory_mb: 8192
+      cpus: 4
+      vram_mb: 128
+      storage_gb: 100
+      network_adapter: "natnetwork"
+      nat_network_name: "TridentNet"
+      rdp_port: 47992
+      
+    iso:
+      # Base: Ubuntu Server 24.04 + StrategicKhaos overlay
+      base_url: "https://releases.ubuntu.com/24.04/ubuntu-24.04.1-live-server-amd64.iso"
+      overlay: "strategickhaos-khaos-overlay.tar.gz"
+      
+    tools:
+      # Cryptographic Evidence
+      - gnupg
+      - opentimestamps-client
+      - age  # Modern encryption
+      - minisign
+      
+      # Forensics
+      - autopsy
+      - sleuthkit
+      - volatility3
+      - binwalk
+      - foremost
+      
+      # Documentation
+      - pandoc
+      - texlive-full
+      - libreoffice
+      - graphviz
+      - mermaid-cli
+      
+      # Validation
+      - ansible
+      - terraform
+      - inspec
+      - molecule
+      
+      # FlameLang Runtime
+      - python3.12
+      - nodejs
+      - rust
+      
+    sunshine:
+      enabled: true
+      app_name: "🟣 TRIDENT-PURPLE (KhaosOS)"
+      stream_port: 47992
+
+# ============================================================
+# NETWORK CONFIGURATION
+# Isolated NAT network for safe testing
+# ============================================================
+
+network:
+  nat_network:
+    name: "TridentNet"
+    cidr: "10.99.0.0/24"
+    dhcp: true
+    gateway: "10.99.0.1"
+    
+  vm_ips:
+    kali: "10.99.0.10"
+    parrot: "10.99.0.20"
+    khaos: "10.99.0.30"
+    
+  # Target network for testing (simulated)
+  target_network:
+    name: "TargetNet"
+    cidr: "10.100.0.0/24"
+    
+# ============================================================
+# SUNSHINE/MOONLIGHT STREAMING
+# 10-screen command center integration
+# ============================================================
+
+streaming:
+  sunshine:
+    enabled: true
+    config_path: "~/.config/sunshine/sunshine.conf"
+    
+    server:
+      name: "TRIDENT Command Center"
+      lan_encryption: "strong"
+      upnp: false  # Security: disabled
+      origin_pin_allowed: "lan"
+      min_log_level: "info"
+      
+    apps:
+      - name: "🔴 RED - Kali Attack Console"
+        cmd: "remmina -c rdp://localhost:47990"
+        
+      - name: "🔵 BLUE - Parrot Defense Console"
+        cmd: "remmina -c rdp://localhost:47991"
+        
+      - name: "🟣 PURPLE - KhaosOS Audit Console"
+        cmd: "remmina -c rdp://localhost:47992"
+        
+      - name: "📊 Evidence Dashboard"
+        cmd: "firefox --new-window http://localhost:8080/evidence"
+        
+      - name: "🔍 Network Monitor"
+        cmd: "wireshark -k -i TridentNet"
+        
+  moonlight:
+    clients:
+      - name: "Athena"
+        ip: "10.175.185.10"
+        screens: [1, 2]
+        
+      - name: "Lyra"  
+        ip: "10.175.185.11"
+        screens: [3, 4]
+        
+      - name: "Nova"
+        ip: "10.175.185.12"
+        screens: [5, 6]
+        
+      - name: "jarvis-vm"
+        ip: "10.175.185.13"
+        screens: [7, 8, 9, 10]
+
+# ============================================================
+# EVIDENCE CHAIN CONFIGURATION
+# Cryptographic proof for legal audit trail
+# ============================================================
+
+evidence:
+  storage:
+    base_path: "/var/trident/evidence"
+    retention_days: 365
+    
+  cryptographic:
+    gpg:
+      enabled: true
+      key_id: "${GPG_KEY_ID}"
+      armor: true
+      
+    opentimestamps:
+      enabled: true
+      calendars:
+        - "https://a.pool.opentimestamps.org"
+        - "https://b.pool.opentimestamps.org"
+        - "https://finney.calendar.eternitywall.com"
+        
+    merkle_tree:
+      enabled: true
+      algorithm: "sha256"
+      
+  types:
+    - id: "scan"
+      description: "Security scan results"
+      extensions: [".xml", ".json", ".txt", ".html"]
+      
+    - id: "pcap"
+      description: "Network packet captures"
+      extensions: [".pcap", ".pcapng"]
+      
+    - id: "log"
+      description: "System and application logs"
+      extensions: [".log", ".evtx", ".json"]
+      
+    - id: "screenshot"
+      description: "Visual evidence captures"
+      extensions: [".png", ".jpg"]
+      
+    - id: "memory"
+      description: "Memory dumps and analysis"
+      extensions: [".raw", ".dmp", ".lime"]
+      
+    - id: "config"
+      description: "Configuration snapshots"
+      extensions: [".conf", ".yaml", ".json", ".xml"]
+      
+    - id: "attestation"
+      description: "Signed attestation documents"
+      extensions: [".pdf", ".docx", ".md"]
+
+# ============================================================
+# LEGAL DOSSIER CONFIGURATION
+# Attorney-ready documentation
+# ============================================================
+
+legal_dossier:
+  output_format:
+    - docx
+    - pdf
+    - html
+    
+  sections:
+    - id: "executive_summary"
+      title: "Executive Summary"
+      required: true
+      
+    - id: "scope_methodology"
+      title: "Scope and Methodology"
+      required: true
+      
+    - id: "findings_summary"
+      title: "Findings Summary"
+      required: true
+      
+    - id: "detailed_findings"
+      title: "Detailed Technical Findings"
+      required: true
+      
+    - id: "evidence_chain"
+      title: "Evidence Chain of Custody"
+      required: true
+      
+    - id: "remediation_roadmap"
+      title: "Remediation Roadmap"
+      required: true
+      
+    - id: "compliance_mapping"
+      title: "Compliance Framework Mapping"
+      required: false
+      
+    - id: "attestation"
+      title: "Assessor Attestation"
+      required: true
+      
+  compliance_frameworks:
+    - name: "NIST CSF"
+      version: "2.0"
+      
+    - name: "CIS Controls"
+      version: "8.0"
+      
+    - name: "OWASP Top 10"
+      version: "2021"
+      
+    - name: "SOC 2"
+      version: "Type II"
+      
+    - name: "ISO 27001"
+      version: "2022"
+      
+  severity_levels:
+    - level: "CRITICAL"
+      color: "#FF0000"
+      sla_days: 1
+      description: "Immediate exploitation possible, severe business impact"
+      
+    - level: "HIGH"
+      color: "#FF6600"
+      sla_days: 7
+      description: "Exploitation likely, significant business impact"
+      
+    - level: "MEDIUM"
+      color: "#FFCC00"
+      sla_days: 30
+      description: "Exploitation possible, moderate business impact"
+      
+    - level: "LOW"
+      color: "#00CC00"
+      sla_days: 90
+      description: "Limited exploitation potential, minimal impact"
+      
+    - level: "INFO"
+      color: "#0066CC"
+      sla_days: null
+      description: "Informational finding, best practice recommendation"
+
+# ============================================================
+# SCAN PATTERNS (ANTIBODIES)
+# Known vulnerability signatures
+# ============================================================
+
+scan_patterns:
+  # Network vulnerabilities
+  - id: "smb_signing_disabled"
+    category: "network"
+    severity: "HIGH"
+    regex: "message signing.*disabled|SMB signing not required"
+    remediation: "Enable SMB signing on all systems"
+    compliance: ["NIST CSF PR.DS-2", "CIS 9.2.1"]
+    
+  - id: "llmnr_enabled"
+    category: "network"
+    severity: "MEDIUM"
+    regex: "LLMNR.*enabled|Link-Local Multicast Name Resolution"
+    remediation: "Disable LLMNR via Group Policy"
+    compliance: ["CIS 9.3.9"]
+    
+  - id: "open_rdp"
+    category: "network"
+    severity: "CRITICAL"
+    regex: "3389/tcp.*open|Remote Desktop.*accessible"
+    remediation: "Restrict RDP access, implement NLA, use VPN"
+    compliance: ["NIST CSF PR.AC-5"]
+    
+  # Web vulnerabilities
+  - id: "sql_injection"
+    category: "web"
+    severity: "CRITICAL"
+    regex: "SQL injection|SQLi|database error.*syntax"
+    remediation: "Implement parameterized queries, input validation"
+    compliance: ["OWASP A03:2021"]
+    
+  - id: "xss_reflected"
+    category: "web"
+    severity: "HIGH"
+    regex: "XSS|Cross-Site Scripting|script injection"
+    remediation: "Implement output encoding, CSP headers"
+    compliance: ["OWASP A03:2021"]
+    
+  # Infrastructure
+  - id: "default_credentials"
+    category: "infrastructure"
+    severity: "CRITICAL"
+    regex: "default.*password|admin:admin|root:root"
+    remediation: "Change all default credentials immediately"
+    compliance: ["CIS 4.2", "NIST CSF PR.AC-1"]
+    
+  - id: "outdated_software"
+    category: "infrastructure"
+    severity: "HIGH"
+    regex: "CVE-\\d{4}-\\d+|end.of.life|unsupported.*version"
+    remediation: "Update to supported versions, apply patches"
+    compliance: ["NIST CSF ID.RA-1"]
+
+# ============================================================
+# NOTIFICATIONS
+# ============================================================
+
+notifications:
+  discord:
+    enabled: true
+    webhook_url: "${DISCORD_WEBHOOK_URL}"
+    channels:
+      critical: "security-alerts"
+      findings: "assessment-findings"
+      evidence: "evidence-log"
+      
+  email:
+    enabled: true
+    smtp_server: "smtp.protonmail.ch"
+    smtp_port: 587
+    from: "trident@strategickhaos.ai"
+    recipients:
+      - "security@strategickhaos.ai"
+      
+  sms:
+    enabled: false
+    provider: "twilio"
