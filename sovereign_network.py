@@ -218,7 +218,7 @@ class SovereignNetwork:
         """Generate MAC address from container ID"""
         # Use container ID hash for MAC generation
         import hashlib
-        h = hashlib.md5(container_id.encode()).hexdigest()
+        h = hashlib.sha256(container_id.encode()).hexdigest()
         # Create MAC with local administration bit set
         mac = f"02:{h[0:2]}:{h[2:4]}:{h[4:6]}:{h[6:8]}:{h[8:10]}"
         return mac

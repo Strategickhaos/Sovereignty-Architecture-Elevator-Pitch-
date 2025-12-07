@@ -12,6 +12,9 @@ from typing import Dict, List, Optional, Any
 import logging
 from datetime import datetime
 
+# Import for glyph frequency matching
+from flamelang_container_compiler import GlyphTable
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -131,8 +134,6 @@ class SovereignOrchestrator:
         Returns:
             True if frequencies are compatible
         """
-        from flamelang_container_compiler import GlyphTable
-        
         node_frequency = GlyphTable.get_frequency(node_glyph)
         
         # Frequency compatibility matrix

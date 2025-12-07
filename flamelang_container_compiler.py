@@ -211,15 +211,21 @@ class FlameLangContainerCompiler:
             resources_body = resources_match.group(1)
             resources = {}
             
-            # Parse memory
-            mem_match = re.search(r'memory:\s*(\S+)', resources_body)
-            if mem_match:
-                resources["memory"] = mem_match.group(1).split('@')[0].strip()
+            # Helper to parse resource value
+            def parse_resource_value(pattern: str, resource_body: str) -> Optional[str]:
+                match = re.search(pattern, resource_body)
+                if match:
+                    return match.group(1).split('@')[0].strip()
+                return None
+            
+            # Parse memory and CPU using helper
+            memory = parse_resource_value(r'memory:\s*(\S+)', resources_body)
+            if memory:
+                resources["memory"] = memory
                 
-            # Parse CPU
-            cpu_match = re.search(r'cpu:\s*(\S+)', resources_body)
-            if cpu_match:
-                resources["cpu"] = cpu_match.group(1).split('@')[0].strip()
+            cpu = parse_resource_value(r'cpu:\s*(\S+)', resources_body)
+            if cpu:
+                resources["cpu"] = cpu
                 
             container["resources"] = resources
             
