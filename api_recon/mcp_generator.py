@@ -48,7 +48,7 @@ class {{ tool_class_name }}:
             "{{ param.name }}": {
                 "type": "{{ param.type }}",
                 "description": "{{ param.description }}"{{ "," if param.required else "" }}
-                {% if param.required %}"required": true{% endif %}
+                {% if param.required %}"required": True{% endif %}
             }{{ "," if not loop.last else "" }}
             {% endfor %}
         },
@@ -252,8 +252,16 @@ tool_instance = {{ tool_class_name }}()
         # Split by slashes and remove parameters
         parts = [p for p in path.split('/') if not p.startswith('{')]
         
+        # Clean each part: remove special characters, keep alphanumeric and underscores
+        cleaned_parts = []
+        for part in parts:
+            # Replace special chars with underscores, then capitalize
+            cleaned = re.sub(r'[^a-zA-Z0-9_]', '_', part)
+            if cleaned:
+                cleaned_parts.append(cleaned)
+        
         # Convert to PascalCase
-        class_name = ''.join(word.capitalize() for word in parts if word)
+        class_name = ''.join(word.capitalize() for word in cleaned_parts if word)
         
         # Ensure it starts with a letter
         if not class_name or not class_name[0].isalpha():
