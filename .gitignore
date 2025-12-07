@@ -35,3 +35,25 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# API Recon / Shadow Mirror
+api_recon/generated_tools/*.py
+!api_recon/generated_tools/__init__.py
+api_recon/generated_tools/.gitkeep
+
+# Temporary files
+/tmp/
+*.tmp
+*.bak

@@ -1,0 +1,142 @@
+{
+  "capture_timestamp": "2025-12-07T16:30:00-06:00",
+  "source": "GCP Console F12 Network Tab",
+  "total_patterns": 8,
+  "patterns": [
+    {
+      "method": "GET",
+      "url": "https://monitoring.clients6.google.com/v3/projects/jarvis-swarm-personal/metricDescriptors?pageSize=10000&key=AIzaSyCI-zsRP85UVOi0DjtiCwWBwQ1djDy741g",
+      "path": "/v3/projects/{project}/metricDescriptors",
+      "params": {
+        "pageSize": "10000",
+        "key": "AIzaSyCI-zsRP85UVOi0DjtiCwWBwQ1djDy741g"
+      },
+      "headers": {
+        "Authorization": "Bearer ya29.a0AfH6SMB...",
+        "Content-Type": "application/json"
+      },
+      "body": null,
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      "response_body_sample": "{\"metricDescriptors\":[{\"name\":\"projects/jarvis-swarm-personal/metricDescriptors/agent.googleapis.com/agent/api_request_count\",\"type\":\"agent.googleapis.com/agent/api_request_count\",\"labels\":[{\"key\":\"state\",\"valueType\":\"STRING\"}],\"metricKind\":\"CUMULATIVE\",\"valueType\":\"INT64\"}]}",
+      "timestamp": "2025-12-07T16:25:00Z"
+    },
+    {
+      "method": "GET",
+      "url": "https://monitoring.clients6.google.com/v3/projects/jarvis-swarm-personal/groups",
+      "path": "/v3/projects/{project}/groups",
+      "params": {},
+      "headers": {
+        "Authorization": "Bearer ya29.a0AfH6SMB...",
+        "Content-Type": "application/json"
+      },
+      "body": null,
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json"
+      },
+      "response_body_sample": "{\"group\":[]}",
+      "timestamp": "2025-12-07T16:25:01Z"
+    },
+    {
+      "method": "GET",
+      "url": "https://monitoring.clients6.google.com/v3/projects/jarvis-swarm-personal/monitoredResourceDescriptors",
+      "path": "/v3/projects/{project}/monitoredResourceDescriptors",
+      "params": {},
+      "headers": {
+        "Authorization": "Bearer ya29.a0AfH6SMB...",
+        "Content-Type": "application/json"
+      },
+      "body": null,
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json"
+      },
+      "response_body_sample": "{\"resourceDescriptors\":[{\"type\":\"gce_instance\",\"displayName\":\"VM Instance\",\"description\":\"A virtual machine instance hosted in Compute Engine.\"}]}",
+      "timestamp": "2025-12-07T16:25:02Z"
+    },
+    {
+      "method": "GET",
+      "url": "https://shell.cloud.google.com/devshell/quota",
+      "path": "/devshell/quota",
+      "params": {},
+      "headers": {
+        "Cookie": "SAPISID=...",
+        "Content-Type": "application/json"
+      },
+      "body": null,
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json"
+      },
+      "response_body_sample": "{\"quota\":{\"usage\":0,\"limit\":50}}",
+      "timestamp": "2025-12-07T16:25:03Z"
+    },
+    {
+      "method": "POST",
+      "url": "https://cloudconsole-pa.clients6.google.com/v3/entityServices/OperationsEntityService/schemas/OPERATIONS_GRAPHQL:batchGraphql",
+      "path": "/v3/entityServices/OperationsEntityService/schemas/OPERATIONS_GRAPHQL:batchGraphql",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"queries\":[{\"query\":\"{ operations { id status } }\"}]}",
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json"
+      },
+      "response_body_sample": "{\"data\":{\"operations\":[]}}",
+      "timestamp": "2025-12-07T16:25:04Z"
+    },
+    {
+      "method": "POST",
+      "url": "https://cloudconsole-pa.clients6.google.com/v3/entityServices/EmergencymessagingEntityService/schemas/EMERGENCYMESSAGING_GRAPHQL:batchGraphql",
+      "path": "/v3/entityServices/EmergencymessagingEntityService/schemas/EMERGENCYMESSAGING_GRAPHQL:batchGraphql",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"queries\":[{\"query\":\"{ alerts { id severity message } }\"}]}",
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json"
+      },
+      "response_body_sample": "{\"data\":{\"alerts\":[]}}",
+      "timestamp": "2025-12-07T16:25:05Z"
+    },
+    {
+      "method": "POST",
+      "url": "https://cloudconsole-pa.clients6.google.com/v3/entityServices/TargetingEntityService/entities/TARGETED_FEATURES:get",
+      "path": "/v3/entityServices/TargetingEntityService/entities/TARGETED_FEATURES:get",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{}",
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json"
+      },
+      "response_body_sample": "{\"features\":{}}",
+      "timestamp": "2025-12-07T16:25:06Z"
+    },
+    {
+      "method": "GET",
+      "url": "https://cloudconsole-pa.clients6.google.com/v3/entityServices/TermsofserviceEntityService/entities/TERMS:get",
+      "path": "/v3/entityServices/TermsofserviceEntityService/entities/TERMS:get",
+      "params": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": null,
+      "response_status": 200,
+      "response_headers": {
+        "Content-Type": "application/json"
+      },
+      "response_body_sample": "{\"accepted\":true,\"version\":\"2024-01-01\"}",
+      "timestamp": "2025-12-07T16:25:07Z"
+    }
+  ]
+}
