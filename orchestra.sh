@@ -94,17 +94,20 @@ EOF
 EOF
     fi
     
-    # Calculate uptime
+    # Calculate uptime (using shell arithmetic, no bc dependency)
     if [ "$(uname)" = "Linux" ]; then
-        uptime_seconds=$(awk '{print $1}' /proc/uptime)
-        uptime_hours=$(echo "$uptime_seconds / 3600" | bc)
-        sovereign_percentage=$(echo "scale=2; ($uptime_hours * 0.5)" | bc | awk '{if($1>100) print 100; else print $1}')
+        uptime_seconds=$(awk '{print int($1)}' /proc/uptime)
+        uptime_hours=$((uptime_seconds / 3600))
+        sovereign_percentage=$((uptime_hours / 2))
+        [ $sovereign_percentage -gt 100 ] && sovereign_percentage=100
     else
-        # macOS
-        uptime_seconds=$(sysctl -n kern.boottime | awk '{print $4}' | sed 's/,//')
+        # macOS - use uptime command for better portability
+        boot_time=$(sysctl -n kern.boottime 2>/dev/null | awk '{print $4}' | sed 's/,//' || echo "0")
         current=$(date +%s)
-        uptime_hours=$(echo "($current - $uptime_seconds) / 3600" | bc)
-        sovereign_percentage=$(echo "scale=2; ($uptime_hours * 0.5)" | bc | awk '{if($1>100) print 100; else print $1}')
+        uptime_seconds=$((current - boot_time))
+        uptime_hours=$((uptime_seconds / 3600))
+        sovereign_percentage=$((uptime_hours / 2))
+        [ $sovereign_percentage -gt 100 ] && sovereign_percentage=100
     fi
     
     echo "    System Uptime: ${uptime_hours}h"
@@ -333,18 +336,25 @@ get_proton_drive_status() {
 quick_connect() {
     echo ""
     header "🔗 QUICK CONNECT TO GKE"
-    echo ""
-    log "   Connecting to jarvis-swarm-personal-001..."
     
-    if gcloud container clusters get-credentials jarvis-swarm-personal-001 \
-        --region=us-central1 \
-        --project=jarvis-swarm-personal; then
+    # Use environment variables or defaults
+    CLUSTER_NAME="${GKE_CLUSTER_NAME:-jarvis-swarm-personal-001}"
+    CLUSTER_REGION="${GKE_REGION:-us-central1}"
+    GCP_PROJECT="${GCP_PROJECT_ID:-jarvis-swarm-personal}"
+    
+    echo ""
+    log "   Connecting to $CLUSTER_NAME in $CLUSTER_REGION..."
+    
+    if gcloud container clusters get-credentials "$CLUSTER_NAME" \
+        --region="$CLUSTER_REGION" \
+        --project="$GCP_PROJECT"; then
         success "Connected successfully!"
         echo ""
         kubectl get nodes
     else
         error "Connection failed"
         echo "   💡 Make sure you're authenticated with: gcloud auth login"
+        echo "   💡 Set custom values: export GKE_CLUSTER_NAME=your-cluster"
     fi
 }
 

@@ -298,7 +298,8 @@ function Get-ProtonDriveStatus {
     Write-ColorText "`n🔐 PROTON DRIVE STATUS" -Color Magenta
     Write-ColorText ("=" * 80) -Color Magenta
     
-    $protonProcess = Get-Process -Name "Proton Drive" -ErrorAction SilentlyContinue
+    # Try multiple possible process names
+    $protonProcess = Get-Process -Name "ProtonDrive","Proton Drive","protondrive" -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($protonProcess) {
         Write-ColorText "   ✅ Proton Drive: RUNNING" -Color Green
         
@@ -327,13 +328,18 @@ function Invoke-QuickConnect {
     Write-ColorText "`n🔗 QUICK CONNECT TO GKE" -Color Magenta
     Write-ColorText ("=" * 80) -Color Magenta
     
+    # Use environment variables or defaults
+    $clusterName = if ($env:GKE_CLUSTER_NAME) { $env:GKE_CLUSTER_NAME } else { "jarvis-swarm-personal-001" }
+    $clusterRegion = if ($env:GKE_REGION) { $env:GKE_REGION } else { "us-central1" }
+    $gcpProject = if ($env:GCP_PROJECT_ID) { $env:GCP_PROJECT_ID } else { "jarvis-swarm-personal" }
+    
     Write-Host ""
-    Write-ColorText "   Connecting to jarvis-swarm-personal-001..." -Color Yellow
+    Write-ColorText "   Connecting to $clusterName in $clusterRegion..." -Color Yellow
     
     try {
-        gcloud container clusters get-credentials jarvis-swarm-personal-001 `
-            --region=us-central1 `
-            --project=jarvis-swarm-personal
+        gcloud container clusters get-credentials $clusterName `
+            --region=$clusterRegion `
+            --project=$gcpProject
         
         if ($LASTEXITCODE -eq 0) {
             Write-ColorText "   ✅ Connected successfully!" -Color Green
@@ -342,6 +348,7 @@ function Invoke-QuickConnect {
         } else {
             Write-ColorText "   ❌ Connection failed" -Color Red
             Write-Host "   💡 Make sure you're authenticated with: gcloud auth login"
+            Write-Host "   💡 Set custom values: `$env:GKE_CLUSTER_NAME='your-cluster'"
         }
     } catch {
         Write-ColorText "   ❌ Error: $_" -Color Red
