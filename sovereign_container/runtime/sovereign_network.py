@@ -266,16 +266,23 @@ class SovereignNetwork:
             logger.error(f"Failed to detach container: {e}")
             raise
     
-    def setup_port_forward(self, container_ip: str, host_port: int, container_port: int):
+    def setup_port_forward(self, container_id: str, container_ip: str, host_port: int, container_port: int):
         """
         Setup port forwarding from host to container
         
         Args:
+            container_id: Container ID (for tracking cleanup)
             container_ip: Container IP address
             host_port: Port on host
             container_port: Port in container
         """
         logger.info(f"Setting up port forward: {host_port} -> {container_ip}:{container_port}")
+        
+        # Track port forward for cleanup
+        forwards_file = self.network_dir / "port_forwards.json"
+        forwards = {}
+        if forwards_file.exists():
+            forwards = json.loads(forwards_file.read_text())
         
         try:
             # Use iptables for port forwarding
@@ -286,11 +293,54 @@ class SovereignNetwork:
                 f"{container_ip}:{container_port}"
             ], check=True)
             
+            # Track for cleanup
+            if container_id not in forwards:
+                forwards[container_id] = []
+            forwards[container_id].append({
+                'host_port': host_port,
+                'container_ip': container_ip,
+                'container_port': container_port
+            })
+            forwards_file.write_text(json.dumps(forwards, indent=2))
+            
             logger.info(f"Port forward configured")
             
         except subprocess.CalledProcessError as e:
             logger.error(f"Failed to setup port forward: {e}")
             raise
+    
+    def cleanup_port_forwards(self, container_id: str):
+        """
+        Cleanup port forwarding rules for a container
+        
+        Args:
+            container_id: Container ID
+        """
+        logger.info(f"Cleaning up port forwards for {container_id}")
+        
+        forwards_file = self.network_dir / "port_forwards.json"
+        if not forwards_file.exists():
+            return
+        
+        forwards = json.loads(forwards_file.read_text())
+        container_forwards = forwards.get(container_id, [])
+        
+        for forward in container_forwards:
+            try:
+                # Remove iptables rule
+                subprocess.run([
+                    "iptables", "-t", "nat", "-D", "PREROUTING",
+                    "-p", "tcp", "--dport", str(forward['host_port']),
+                    "-j", "DNAT", "--to-destination",
+                    f"{forward['container_ip']}:{forward['container_port']}"
+                ], check=False)  # Don't fail if rule doesn't exist
+            except Exception as e:
+                logger.warning(f"Failed to remove port forward rule: {e}")
+        
+        # Remove from tracking
+        if container_id in forwards:
+            del forwards[container_id]
+            forwards_file.write_text(json.dumps(forwards, indent=2))
     
     def get_info(self) -> Dict:
         """Get network information"""

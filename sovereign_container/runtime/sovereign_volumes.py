@@ -12,6 +12,7 @@ This provides persistent storage for sovereign containers:
 
 import subprocess
 import json
+import os
 from pathlib import Path
 from typing import Dict, Optional, List
 import logging
@@ -114,19 +115,34 @@ class SovereignVolume:
             logger.info(f"Loop device created: {loop_device}")
             
             # Format with LUKS
-            subprocess.run([
-                "cryptsetup", "luksFormat",
-                loop_device,
-                "--key-file=-"
-            ], input=passphrase.encode(), check=True)
+            # Security note: Using temporary key file with restricted permissions
+            # to avoid exposing passphrase in process arguments or stdin
+            import tempfile
+            with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.key') as keyfile:
+                keyfile_path = keyfile.name
+                keyfile.write(passphrase)
             
-            # Open LUKS volume
-            subprocess.run([
-                "cryptsetup", "open",
-                loop_device,
-                f"sovereign_{self.name}",
-                "--key-file=-"
-            ], input=passphrase.encode(), check=True)
+            try:
+                # Restrict key file permissions
+                os.chmod(keyfile_path, 0o600)
+                
+                subprocess.run([
+                    "cryptsetup", "luksFormat",
+                    loop_device,
+                    f"--key-file={keyfile_path}"
+                ], check=True)
+                
+                # Open LUKS volume
+                subprocess.run([
+                    "cryptsetup", "open",
+                    loop_device,
+                    f"sovereign_{self.name}",
+                    f"--key-file={keyfile_path}"
+                ], check=True)
+            finally:
+                # Securely delete key file
+                if os.path.exists(keyfile_path):
+                    os.remove(keyfile_path)
             
             # Create filesystem
             subprocess.run([

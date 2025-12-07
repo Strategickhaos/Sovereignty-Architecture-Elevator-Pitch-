@@ -80,9 +80,12 @@ class SovereignContainer:
             "--net",
         ]
         
-        # Add root filesystem if specified
-        if self.rootfs.exists():
-            unshare_cmd.extend([f"--root={self.rootfs}"])
+        # Note: For proper rootfs support, we would need to:
+        # 1. Use pivot_root or chroot after unsharing
+        # 2. Mount proc, sys, dev inside the new root
+        # 3. Setup proper filesystem hierarchy
+        # For Phase 1, we run commands in current filesystem
+        # Phase 2 will add full rootfs isolation via chroot/pivot_root
         
         # Add the actual command to run
         unshare_cmd.extend(command)
