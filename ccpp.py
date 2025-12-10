@@ -20,9 +20,11 @@ from reportlab.platypus import (
     Image, HRFlowable
 )
 from reportlab.lib import colors
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import os
+import tempfile
+import sys
 
 # ============================================================================
 # PAPER DATABASE - Aggregated from Google Scholar Search Results
@@ -282,7 +284,7 @@ def create_ccpp_pdf(output_path: str):
     ))
     story.append(Spacer(1, 1*inch))
     story.append(Paragraph(
-        f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC-6')}",
+        f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}",
         subtitle_style
     ))
     story.append(Paragraph(
@@ -374,7 +376,14 @@ def create_ccpp_pdf(output_path: str):
 
 
 if __name__ == "__main__":
-    output = create_ccpp_pdf("/tmp/ccpp_output.pdf")
+    # Default to temp directory for cross-platform compatibility
+    if len(sys.argv) > 1:
+        output_path = sys.argv[1]
+    else:
+        output_path = os.path.join(tempfile.gettempdir(), "ccpp_output.pdf")
+    
+    output = create_ccpp_pdf(output_path)
     print(f"✅ CCPP PDF generated: {output}")
     print(f"📄 Papers indexed: {len(SCHOLARLY_PAPERS)}")
     print(f"🔬 Themes: LLM Forensics, AI Behavioral Analysis, Quantum Multi-Agent Systems, DSL Compilers")
+    print(f"\n💡 Usage: python ccpp.py [output_path.pdf]")
