@@ -67,14 +67,14 @@ func ⚔️combat(energy: joules) -> force
 
 Mangles to:
 ```
-_ZN4flame6U26945combat1Ejoules5forceE
+_ZN4flame5U26946combat1Ejoules5forceE
 
 Breakdown:
 _Z        = FlameLang mangling prefix
 N         = Nested name
 4flame    = Namespace "flame" (4 chars)
-6U2694    = Glyph ⚔️ (Unicode U+2694, 6 chars)
-5combat   = Function "combat" (5 chars)
+5U2694    = Glyph ⚔️ (Unicode U+2694, 5 chars "U2694")
+6combat   = Function "combat" (6 chars)
 1E        = End of name
 joules    = Parameter type
 5force    = Return type

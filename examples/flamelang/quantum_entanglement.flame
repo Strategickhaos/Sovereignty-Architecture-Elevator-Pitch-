@@ -42,7 +42,7 @@ func quantum_search(items: &[bool], target: bool) -> Option<usize> {
     }
     
     // Oracle and diffusion (simplified)
-    let iterations = ((std::f64::consts::PI / 4.0) * (n as f64).sqrt()) as usize;
+    let iterations = ((flame::math::PI / 4.0) * (n as f64).sqrt()) as usize;
     for _ in 0..iterations {
         // Oracle marks target state
         circuit.oracle(|state| state == target);

@@ -4,7 +4,8 @@
 **Status:** Specification Complete  
 **Priority:** High (Required for C++ parity claims)  
 **Timeline:** 3-6 months post-compiler implementation  
-**Dependencies:** FlameLang compiler v0.1+, LLVM backend  
+**Dependencies:** FlameLang compiler v0.5+, LLVM backend  
+**Note:** Requires stable compiler with basic optimization pipeline  
 
 ---
 

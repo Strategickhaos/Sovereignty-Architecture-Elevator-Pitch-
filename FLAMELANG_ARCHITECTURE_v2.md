@@ -482,8 +482,8 @@ flame::std/
 
 **Example Usage:**
 ```flamelang
-import flame::dna::{DNASequence, Codon};
-import flame::physics::{Energy, Force};
+use flame::dna::{DNASequence, Codon};
+use flame::physics::{Energy, Force};
 
 func protein_synthesis(dna: DNASequence) -> ProteinChain {
     let codons = dna.as_codons();

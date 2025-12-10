@@ -158,8 +158,8 @@ struct Particle {
 
 impl Particle {
     fn random(dimensions: usize) -> Self {
-        use rand::Rng;
-        let mut rng = rand::thread_rng();
+        use flame::std::random::Rng;
+        let mut rng = flame::std::random::thread_rng();
         
         Particle {
             position: (0..dimensions).map(|_| rng.gen_range(-10.0..10.0)).collect(),
@@ -170,8 +170,8 @@ impl Particle {
     }
     
     fn update_velocity(&mut self, global_best: &[f64]) {
-        use rand::Rng;
-        let mut rng = rand::thread_rng();
+        use flame::std::random::Rng;
+        let mut rng = flame::std::random::thread_rng();
         
         let w = 0.7;  // Inertia
         let c1 = 1.5; // Cognitive coefficient
