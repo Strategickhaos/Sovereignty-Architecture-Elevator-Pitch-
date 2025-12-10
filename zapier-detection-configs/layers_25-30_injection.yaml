@@ -154,8 +154,9 @@ layer_27:
       action: "ALERT_CRITICAL"
       
     - rule: "pipe_redirection"
-      condition: "payload contains '|' OR '>' OR '<' OR '>>'"
+      condition: "payload contains pipe_or_redirect_chars AND NOT in_code_block"
       action: "ALERT_HIGH"
+      note: "Triggers on shell operators like |, >, <, >> outside of code contexts"
       
     - rule: "newline_injection"
       condition: "payload contains '\\n' OR '%0a' OR '\\r'"

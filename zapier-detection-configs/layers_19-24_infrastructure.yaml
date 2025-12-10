@@ -264,7 +264,7 @@ layer_23:
       action: "ALERT_HIGH"
       
     - rule: "default_credentials_attempt"
-      condition: "username IN ['admin', 'administrator', 'root'] AND password IN common_passwords"
+      condition: "username IN ['admin', 'administrator', 'root'] AND password IN ['admin', 'password', '123456', 'root']"
       action: "ALERT_HIGH"
       
   payload_schema:

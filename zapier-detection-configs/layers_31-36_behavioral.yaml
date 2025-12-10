@@ -153,7 +153,7 @@ layer_33:
       action: "ALERT_MEDIUM"
       
     - rule: "datacenter_ip_detected"
-      condition: "ip_type == 'datacenter' OR 'hosting'"
+      condition: "ip_type == 'datacenter' OR ip_type == 'hosting'"
       action: "ALERT_LOW"
       
   payload_schema:
