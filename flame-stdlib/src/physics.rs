@@ -340,14 +340,6 @@ impl Div<Area> for Force {
     }
 }
 
-// Frequency = 1 / Time
-impl Div<Time> for f64 {
-    type Output = Frequency;
-    fn div(self, rhs: Time) -> Frequency {
-        Frequency::hz(self / rhs.0)
-    }
-}
-
 // V = I*R (Voltage = Current × Resistance)
 impl Mul<Resistance> for Current {
     type Output = Voltage;

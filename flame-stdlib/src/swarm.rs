@@ -348,13 +348,13 @@ impl Swarm {
     }
 
     /// Execute closure on all online nodes
-    pub fn execute_all<F>(&self, f: F)
+    pub fn execute_all<F>(&self, f: &F)
     where
-        F: Fn() + Clone,
+        F: Fn(),
     {
         for node in self.nodes.values() {
             if node.state() == NodeState::Online {
-                let _ = node.execute(f.clone());
+                let _ = node.execute(f);
             }
         }
     }

@@ -56,7 +56,7 @@ pub enum Glyph {
     Wave,               // 〰 - Wave function
     Particle,           // • - Particle state
     Spin,               // ↻ - Spin operation
-    Entangle,           // ∞ - Entanglement
+    Entangle,           // ⟺ - Entanglement
     
     // Biological
     DNA,                // 🧬 - DNA sequence
@@ -117,7 +117,7 @@ impl Glyph {
             Glyph::Wave => '〰',
             Glyph::Particle => '•',
             Glyph::Spin => '↻',
-            Glyph::Entangle => '∞',
+            Glyph::Entangle => '⟺',
             Glyph::DNA => '🧬',
             Glyph::Cell => '🦠',
             Glyph::Molecule => '⚗',
@@ -168,6 +168,7 @@ impl Glyph {
             '〰' => Some(Glyph::Wave),
             '•' => Some(Glyph::Particle),
             '↻' => Some(Glyph::Spin),
+            '⟺' => Some(Glyph::Entangle),
             '🧬' => Some(Glyph::DNA),
             '🦠' => Some(Glyph::Cell),
             '⚗' => Some(Glyph::Molecule),
@@ -177,6 +178,7 @@ impl Glyph {
             'Σ' => Some(Glyph::Sigma),
             'π' => Some(Glyph::Pi),
             '∫' => Some(Glyph::Integral),
+            '∞' => Some(Glyph::Infinity),
             '○' => Some(Glyph::Circle),
             '□' => Some(Glyph::Square),
             '△' => Some(Glyph::Triangle),

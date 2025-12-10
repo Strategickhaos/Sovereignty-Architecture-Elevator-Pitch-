@@ -181,9 +181,11 @@ impl Qubit {
     /// Apply Hadamard gate
     pub fn hadamard(self) -> Self {
         let inv_sqrt2 = 1.0 / 2.0_f64.sqrt();
+        let orig_alpha = self.alpha;
+        let orig_beta = self.beta;
         Self {
-            alpha: self.alpha.add(self.beta).scale(inv_sqrt2),
-            beta: self.alpha.add(self.beta.scale(-1.0)).scale(inv_sqrt2),
+            alpha: orig_alpha.add(orig_beta).scale(inv_sqrt2),
+            beta: orig_alpha.add(orig_beta.scale(-1.0)).scale(inv_sqrt2),
         }
     }
 
