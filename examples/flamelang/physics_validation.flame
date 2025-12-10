@@ -1,0 +1,38 @@
+// physics_validation.flame
+// Demonstrates physics-aware type system
+
+use flame::physics::{Energy, Mass, Velocity, Force};
+use flame::glyph::⚔️;
+
+@physics_invariant
+func kinetic_energy(mass: Mass, velocity: Velocity) -> Energy {
+    // Compiler validates: [kg] * [m/s]² = [kg⋅m²/s²] = [J]
+    return Energy::new(0.5 * mass.value() * velocity.magnitude_squared());
+}
+
+@physics_invariant
+func work_energy_theorem(force: Force, distance: f64) -> Energy {
+    // Compiler validates: [N] * [m] = [kg⋅m/s²] * [m] = [J]
+    return Energy::from_work(force, distance);
+}
+
+func combat_operation(energy: Energy) -> Energy {
+    // Glyph ⚔️ applies semantic transformation
+    // 10% energy dissipation (entropy increase)
+    return energy ⚔️ 0.9;
+}
+
+func main() {
+    let mass = Mass::kilograms(10.0);
+    let velocity = Velocity::meters_per_second(5.0);
+    
+    let ke = kinetic_energy(mass, velocity);
+    println!("Kinetic energy: {:?}", ke);
+    
+    // Apply combat operation
+    let dissipated = combat_operation(ke);
+    println!("After combat: {:?}", dissipated);
+    
+    // Compiler ensures this fails:
+    // let invalid = mass + velocity;  // ❌ Cannot add [kg] and [m/s]
+}
