@@ -27,8 +27,8 @@ app.post("/webhooks/github", githubRoutes(rest, channelIds, env("GITHUB_WEBHOOK_
 // User settings routes
 app.get("/settings", getSettings);
 app.post("/settings", postSettings);
+app.get("/settings/all", getAllSettings);  // Different path to avoid route conflict
 app.get("/settings/api/:userId", getSettingsAPI);
-app.get("/settings/api/all", getAllSettings);
 
 // Health check endpoint
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
