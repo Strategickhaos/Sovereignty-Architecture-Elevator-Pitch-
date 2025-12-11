@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-11T03:28:46.439846",
+    "total_principals": 9,
+    "flamelang_version": "1.0.0"
+  },
+  "profiles": {
+    "system:kube-controller-manager@k8s.io": {
+      "principal": "system:kube-controller-manager@k8s.io",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 16,
+      "anomaly_score": 0.094,
+      "time_span": {
+        "start": "2024-01-15T08:00:00+00:00",
+        "end": "2024-01-15T08:09:00+00:00"
+      },
+      "dominant_categories": [
+        "coordination",
+        "configuration",
+        "orchestration"
+      ],
+      "codon_frequency": {
+        "UUA": 11,
+        "GCU": 2,
+        "GAU": 1,
+        "GGA": 1,
+        "ACU": 1
+      },
+      "genes": [
+        {
+          "sequence": "UUA-UUA-UUA-GCU-UUA-GAU-UUA-UUA-GGA-UUA",
+          "cluster": "red-team",
+          "pattern_type": "mutation",
+          "event_count": 10,
+          "start_time": "2024-01-15T08:00:00+00:00",
+          "end_time": "2024-01-15T08:05:00+00:00",
+          "categories": [
+            "coordination",
+            "configuration",
+            "orchestration",
+            "discovery"
+          ]
+        },
+        {
+          "sequence": "UUA-ACU-UUA-UUA-GCU-UUA",
+          "cluster": "red-team",
+          "pattern_type": "mutation",
+          "event_count": 6,
+          "start_time": "2024-01-15T08:06:15+00:00",
+          "end_time": "2024-01-15T08:09:00+00:00",
+          "categories": [
+            "coordination",
+            "configuration",
+            "storage"
+          ]
+        }
+      ]
+    },
+    "system:kube-scheduler@k8s.io": {
+      "principal": "system:kube-scheduler@k8s.io",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 6,
+      "anomaly_score": 0.1,
+      "time_span": {
+        "start": "2024-01-15T08:01:15+00:00",
+        "end": "2024-01-15T08:08:30+00:00"
+      },
+      "dominant_categories": [
+        "coordination",
+        "orchestration"
+      ],
+      "codon_frequency": {
+        "UUA": 4,
+        "AUG": 2
+      },
+      "genes": [
+        {
+          "sequence": "UUA-AUG-UUA-UUA-AUG-UUA",
+          "cluster": "red-team",
+          "pattern_type": "scaling",
+          "event_count": 6,
+          "start_time": "2024-01-15T08:01:15+00:00",
+          "end_time": "2024-01-15T08:08:30+00:00",
+          "categories": [
+            "coordination",
+            "orchestration"
+          ]
+        }
+      ]
+    },
+    "admin@strategickhaos.ai": {
+      "principal": "admin@strategickhaos.ai",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 2,
+      "anomaly_score": 0.3,
+      "time_span": {
+        "start": "2024-01-15T08:02:00+00:00",
+        "end": "2024-01-15T08:02:15+00:00"
+      },
+      "dominant_categories": [
+        "configuration"
+      ],
+      "codon_frequency": {
+        "GCC": 1,
+        "GCU": 1
+      },
+      "genes": []
+    },
+    "system:node:gke-red-team-pool-1@k8s.io": {
+      "principal": "system:node:gke-red-team-pool-1@k8s.io",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 1,
+      "anomaly_score": 0.3,
+      "time_span": {
+        "start": "2024-01-15T08:02:45+00:00",
+        "end": "2024-01-15T08:02:45+00:00"
+      },
+      "dominant_categories": [
+        "orchestration"
+      ],
+      "codon_frequency": {
+        "CCU": 1
+      },
+      "genes": []
+    },
+    "attacker@external.com": {
+      "principal": "attacker@external.com",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 3,
+      "anomaly_score": 0.15,
+      "time_span": {
+        "start": "2024-01-15T08:03:15+00:00",
+        "end": "2024-01-15T08:08:15+00:00"
+      },
+      "dominant_categories": [
+        "configuration"
+      ],
+      "codon_frequency": {
+        "UCU": 2
+      },
+      "genes": []
+    },
+    "jarvis-ai@strategickhaos.ai": {
+      "principal": "jarvis-ai@strategickhaos.ai",
+      "clusters": [
+        "jarvis-swarm-personal-001"
+      ],
+      "total_events": 5,
+      "anomaly_score": 0.225,
+      "time_span": {
+        "start": "2024-01-15T08:04:00+00:00",
+        "end": "2024-01-15T08:07:45+00:00"
+      },
+      "dominant_categories": [
+        "coordination",
+        "orchestration",
+        "configuration"
+      ],
+      "codon_frequency": {
+        "GAU": 1,
+        "UUA": 2,
+        "GCU": 1
+      },
+      "genes": [
+        {
+          "sequence": "GAU-UUA-UUA-GCU",
+          "cluster": "jarvis-swarm-personal-001",
+          "pattern_type": "mutation",
+          "event_count": 5,
+          "start_time": "2024-01-15T08:04:00+00:00",
+          "end_time": "2024-01-15T08:07:45+00:00",
+          "categories": [
+            "coordination",
+            "configuration",
+            "orchestration"
+          ]
+        }
+      ]
+    },
+    "developer@strategickhaos.ai": {
+      "principal": "developer@strategickhaos.ai",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 2,
+      "anomaly_score": 0.3,
+      "time_span": {
+        "start": "2024-01-15T08:05:15+00:00",
+        "end": "2024-01-15T08:05:30+00:00"
+      },
+      "dominant_categories": [
+        "configuration",
+        "discovery"
+      ],
+      "codon_frequency": {
+        "GCA": 1,
+        "GGU": 1
+      },
+      "genes": []
+    },
+    "chaos-monkey@strategickhaos.ai": {
+      "principal": "chaos-monkey@strategickhaos.ai",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 1,
+      "anomaly_score": 0.3,
+      "time_span": {
+        "start": "2024-01-15T08:06:45+00:00",
+        "end": "2024-01-15T08:06:45+00:00"
+      },
+      "dominant_categories": [
+        "orchestration"
+      ],
+      "codon_frequency": {
+        "UAA": 1
+      },
+      "genes": []
+    },
+    "monitoring@strategickhaos.ai": {
+      "principal": "monitoring@strategickhaos.ai",
+      "clusters": [
+        "red-team"
+      ],
+      "total_events": 1,
+      "anomaly_score": 0.0,
+      "time_span": {
+        "start": "2024-01-15T08:07:30+00:00",
+        "end": "2024-01-15T08:07:30+00:00"
+      },
+      "dominant_categories": [],
+      "codon_frequency": {},
+      "genes": []
+    }
+  }
+}

@@ -1,0 +1,38 @@
+timestamp,protoPayload.authenticationInfo.principalEmail,protoPayload.methodName,resource.labels.cluster_name,resource.type,labels.authorization.k8s.io/reason,protoPayload.status.code
+2024-01-15T08:00:00Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:00:15Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:00:30Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:00:45Z,system:kube-controller-manager@k8s.io,io.k8s.core.v1.configmaps.update,red-team,k8s_configmap,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:01:00Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:01:15Z,system:kube-scheduler@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-scheduler,0
+2024-01-15T08:01:30Z,system:kube-scheduler@k8s.io,io.k8s.core.v1.pods.create,red-team,k8s_pod,RBAC: allowed by ClusterRoleBinding system:kube-scheduler,0
+2024-01-15T08:01:45Z,system:kube-controller-manager@k8s.io,io.k8s.apps.v1.deployments.update,red-team,k8s_deployment,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:02:00Z,admin@strategickhaos.ai,io.k8s.core.v1.configmaps.get,red-team,k8s_configmap,RBAC: allowed by RoleBinding admin-binding,0
+2024-01-15T08:02:15Z,admin@strategickhaos.ai,io.k8s.core.v1.configmaps.update,red-team,k8s_configmap,RBAC: allowed by RoleBinding admin-binding,0
+2024-01-15T08:02:30Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:02:45Z,system:node:gke-red-team-pool-1@k8s.io,io.k8s.core.v1.pods.update,red-team,k8s_pod,RBAC: allowed by ClusterRoleBinding system:node,0
+2024-01-15T08:03:00Z,system:kube-scheduler@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-scheduler,0
+2024-01-15T08:03:15Z,attacker@external.com,io.k8s.core.v1.secrets.get,red-team,k8s_secret,RBAC: denied by authorization,403
+2024-01-15T08:03:30Z,attacker@external.com,io.k8s.core.v1.secrets.get,red-team,k8s_secret,RBAC: denied by authorization,403
+2024-01-15T08:03:45Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:04:00Z,jarvis-ai@strategickhaos.ai,io.k8s.core.v1.pods.list,jarvis-swarm-personal-001,k8s_pod,RBAC: allowed by ClusterRoleBinding jarvis-admin,0
+2024-01-15T08:04:15Z,jarvis-ai@strategickhaos.ai,io.k8s.apps.v1.deployments.update,jarvis-swarm-personal-001,k8s_deployment,RBAC: allowed by ClusterRoleBinding jarvis-admin,0
+2024-01-15T08:04:30Z,jarvis-ai@strategickhaos.ai,io.k8s.coordination.v1.leases.update,jarvis-swarm-personal-001,k8s_lease,RBAC: allowed by ClusterRoleBinding jarvis-admin,0
+2024-01-15T08:04:45Z,system:kube-controller-manager@k8s.io,io.k8s.core.v1.endpoints.update,red-team,k8s_endpoints,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:05:00Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:05:15Z,developer@strategickhaos.ai,io.k8s.core.v1.configmaps.create,red-team,k8s_configmap,RBAC: allowed by RoleBinding developer-binding,0
+2024-01-15T08:05:30Z,developer@strategickhaos.ai,io.k8s.core.v1.services.list,red-team,k8s_service,RBAC: allowed by RoleBinding developer-binding,0
+2024-01-15T08:05:45Z,system:kube-scheduler@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-scheduler,0
+2024-01-15T08:06:00Z,jarvis-ai@strategickhaos.ai,io.k8s.coordination.v1.leases.update,jarvis-swarm-personal-001,k8s_lease,RBAC: allowed by ClusterRoleBinding jarvis-admin,0
+2024-01-15T08:06:15Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:06:30Z,system:kube-controller-manager@k8s.io,io.k8s.core.v1.persistentvolumes.create,red-team,k8s_persistentvolume,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:06:45Z,chaos-monkey@strategickhaos.ai,io.k8s.core.v1.pods.delete,red-team,k8s_pod,RBAC: allowed by ClusterRoleBinding chaos-admin,0
+2024-01-15T08:07:00Z,system:kube-scheduler@k8s.io,io.k8s.core.v1.pods.create,red-team,k8s_pod,RBAC: allowed by ClusterRoleBinding system:kube-scheduler,0
+2024-01-15T08:07:15Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:07:30Z,monitoring@strategickhaos.ai,io.k8s.core.v1.pods.list,red-team,k8s_pod,RBAC: allowed by ClusterRoleBinding monitoring,0
+2024-01-15T08:07:45Z,jarvis-ai@strategickhaos.ai,io.k8s.core.v1.configmaps.update,jarvis-swarm-personal-001,k8s_configmap,RBAC: allowed by ClusterRoleBinding jarvis-admin,0
+2024-01-15T08:08:00Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:08:15Z,attacker@external.com,io.k8s.authorization.v1.subjectaccessreviews.create,red-team,k8s_sar,RBAC: denied by authorization,403
+2024-01-15T08:08:30Z,system:kube-scheduler@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-scheduler,0
+2024-01-15T08:08:45Z,system:kube-controller-manager@k8s.io,io.k8s.core.v1.configmaps.update,red-team,k8s_configmap,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0
+2024-01-15T08:09:00Z,system:kube-controller-manager@k8s.io,io.k8s.coordination.v1.leases.update,red-team,k8s_lease,RBAC: allowed by ClusterRoleBinding system:kube-controller-manager,0

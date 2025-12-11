@@ -1,0 +1,195 @@
+{
+  "events": [
+    {
+      "timestamp": "2024-01-15T08:00:00Z",
+      "protoPayload": {
+        "authenticationInfo": {
+          "principalEmail": "system:kube-controller-manager@k8s.io"
+        },
+        "methodName": "io.k8s.coordination.v1.leases.update",
+        "resourceName": "coordination.k8s.io/v1/namespaces/kube-system/leases/kube-controller-manager",
+        "status": {
+          "code": 0
+        }
+      },
+      "resource": {
+        "type": "k8s_lease",
+        "labels": {
+          "cluster_name": "red-team",
+          "project_id": "strategickhaos-prod",
+          "location": "us-central1"
+        }
+      },
+      "labels": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": "RBAC: allowed by ClusterRoleBinding system:kube-controller-manager"
+      }
+    },
+    {
+      "timestamp": "2024-01-15T08:00:15Z",
+      "protoPayload": {
+        "authenticationInfo": {
+          "principalEmail": "system:kube-controller-manager@k8s.io"
+        },
+        "methodName": "io.k8s.coordination.v1.leases.update",
+        "resourceName": "coordination.k8s.io/v1/namespaces/kube-system/leases/kube-controller-manager",
+        "status": {
+          "code": 0
+        }
+      },
+      "resource": {
+        "type": "k8s_lease",
+        "labels": {
+          "cluster_name": "red-team",
+          "project_id": "strategickhaos-prod",
+          "location": "us-central1"
+        }
+      },
+      "labels": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": "RBAC: allowed by ClusterRoleBinding system:kube-controller-manager"
+      }
+    },
+    {
+      "timestamp": "2024-01-15T08:00:45Z",
+      "protoPayload": {
+        "authenticationInfo": {
+          "principalEmail": "system:kube-controller-manager@k8s.io"
+        },
+        "methodName": "io.k8s.core.v1.configmaps.update",
+        "resourceName": "core/v1/namespaces/default/configmaps/app-config",
+        "status": {
+          "code": 0
+        }
+      },
+      "resource": {
+        "type": "k8s_configmap",
+        "labels": {
+          "cluster_name": "red-team",
+          "project_id": "strategickhaos-prod",
+          "location": "us-central1"
+        }
+      },
+      "labels": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": "RBAC: allowed by ClusterRoleBinding system:kube-controller-manager"
+      }
+    },
+    {
+      "timestamp": "2024-01-15T08:03:15Z",
+      "protoPayload": {
+        "authenticationInfo": {
+          "principalEmail": "attacker@external.com"
+        },
+        "methodName": "io.k8s.core.v1.secrets.get",
+        "resourceName": "core/v1/namespaces/kube-system/secrets/admin-token",
+        "status": {
+          "code": 403,
+          "message": "Forbidden"
+        }
+      },
+      "resource": {
+        "type": "k8s_secret",
+        "labels": {
+          "cluster_name": "red-team",
+          "project_id": "strategickhaos-prod",
+          "location": "us-central1"
+        }
+      },
+      "labels": {
+        "authorization.k8s.io/decision": "deny",
+        "authorization.k8s.io/reason": "RBAC: denied by authorization"
+      }
+    },
+    {
+      "timestamp": "2024-01-15T08:04:15Z",
+      "protoPayload": {
+        "authenticationInfo": {
+          "principalEmail": "jarvis-ai@strategickhaos.ai"
+        },
+        "methodName": "io.k8s.apps.v1.deployments.update",
+        "resourceName": "apps/v1/namespaces/ai-swarm/deployments/jarvis-worker",
+        "status": {
+          "code": 0
+        }
+      },
+      "resource": {
+        "type": "k8s_deployment",
+        "labels": {
+          "cluster_name": "jarvis-swarm-personal-001",
+          "project_id": "strategickhaos-personal",
+          "location": "us-west1"
+        }
+      },
+      "labels": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": "RBAC: allowed by ClusterRoleBinding jarvis-admin"
+      }
+    },
+    {
+      "timestamp": "2024-01-15T08:06:45Z",
+      "protoPayload": {
+        "authenticationInfo": {
+          "principalEmail": "chaos-monkey@strategickhaos.ai"
+        },
+        "methodName": "io.k8s.core.v1.pods.delete",
+        "resourceName": "core/v1/namespaces/default/pods/nginx-abc123",
+        "status": {
+          "code": 0
+        }
+      },
+      "resource": {
+        "type": "k8s_pod",
+        "labels": {
+          "cluster_name": "red-team",
+          "project_id": "strategickhaos-prod",
+          "location": "us-central1"
+        }
+      },
+      "labels": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": "RBAC: allowed by ClusterRoleBinding chaos-admin"
+      }
+    },
+    {
+      "timestamp": "2024-01-15T08:07:00Z",
+      "protoPayload": {
+        "authenticationInfo": {
+          "principalEmail": "system:kube-scheduler@k8s.io"
+        },
+        "methodName": "io.k8s.core.v1.pods.create",
+        "resourceName": "core/v1/namespaces/default/pods/nginx-xyz789",
+        "status": {
+          "code": 0
+        }
+      },
+      "resource": {
+        "type": "k8s_pod",
+        "labels": {
+          "cluster_name": "red-team",
+          "project_id": "strategickhaos-prod",
+          "location": "us-central1"
+        }
+      },
+      "labels": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": "RBAC: allowed by ClusterRoleBinding system:kube-scheduler"
+      }
+    }
+  ],
+  "metadata": {
+    "total_events": 7,
+    "clusters": ["red-team", "jarvis-swarm-personal-001"],
+    "time_range": {
+      "start": "2024-01-15T08:00:00Z",
+      "end": "2024-01-15T08:07:00Z"
+    },
+    "principals": [
+      "system:kube-controller-manager@k8s.io",
+      "attacker@external.com",
+      "jarvis-ai@strategickhaos.ai",
+      "chaos-monkey@strategickhaos.ai",
+      "system:kube-scheduler@k8s.io"
+    ]
+  }
+}
