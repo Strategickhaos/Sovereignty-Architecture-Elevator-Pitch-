@@ -2,6 +2,8 @@
 ## Strategickhaos Sovereign Symbolic Language
 ### Reconstructed: 2025-12-06 | Operator: DOM_010101
 
+> **Note:** For analysis of FlameLang's novelty claims, prior art, and patent positioning strategy, see [FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md](./FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md)
+
 ---
 
 ## ABSTRACT
