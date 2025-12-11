@@ -48,7 +48,9 @@ The User Settings page provides a web interface for Discord users to configure t
   - Returns: User settings JSON
 
 - **GET `/settings/all`**: Retrieve all user settings (admin only)
+  - Requires: `Authorization: Bearer <ADMIN_TOKEN>` header
   - Returns: All user settings as JSON object
+  - Note: Set `ADMIN_TOKEN` environment variable for authentication
 
 ## Usage
 
@@ -123,11 +125,20 @@ if (settings.preferences.notifications.prs) {
 
 ## Security Considerations
 
-- In production, implement authentication and authorization
-- Consider rate limiting for API endpoints
+✅ **Implemented Security Features:**
+- Input validation for Discord user IDs (17-19 digit format)
+- Username sanitization (alphanumeric, underscores, hyphens only)
+- Admin endpoint protection with Bearer token authentication
+- Async file operations to prevent event loop blocking
+
+⚠️ **Additional Security Recommendations for Production:**
+- Implement proper authentication via Discord OAuth2
+- Add rate limiting for API endpoints
 - Use HTTPS for secure data transmission
-- Validate and sanitize all user inputs
 - Implement CSRF protection for form submissions
+- Use a proper database instead of JSON file storage
+- Implement proper session management
+- Add audit logging for all settings changes
 
 ## Future Enhancements
 

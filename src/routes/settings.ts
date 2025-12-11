@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 
 // User settings interface
@@ -25,24 +25,25 @@ const settingsStore = new Map<string, UserSettings>();
 
 // Load settings from file if exists
 const SETTINGS_FILE = path.join(process.cwd(), "user-settings.json");
-function loadSettings() {
+
+async function loadSettings() {
   try {
-    if (fs.existsSync(SETTINGS_FILE)) {
-      const data = JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf8"));
-      Object.entries(data).forEach(([key, value]) => {
-        settingsStore.set(key, value as UserSettings);
-      });
-    }
+    const data = await fs.readFile(SETTINGS_FILE, "utf8");
+    const parsed = JSON.parse(data);
+    Object.entries(parsed).forEach(([key, value]) => {
+      settingsStore.set(key, value as UserSettings);
+    });
   } catch (err) {
-    console.error("Failed to load settings:", err);
+    // File doesn't exist or is invalid, start with empty store
+    console.log("No existing settings file, starting fresh");
   }
 }
 
 // Save settings to file
-function saveSettings() {
+async function saveSettings() {
   try {
     const data = Object.fromEntries(settingsStore);
-    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(data, null, 2));
+    await fs.writeFile(SETTINGS_FILE, JSON.stringify(data, null, 2));
   } catch (err) {
     console.error("Failed to save settings:", err);
   }
@@ -318,12 +319,23 @@ export function getSettings(req: Request, res: Response) {
 }
 
 // POST /settings - Save settings
-export function postSettings(req: Request, res: Response) {
+export async function postSettings(req: Request, res: Response) {
   try {
     const { userId, username, preferences } = req.body;
     
+    // Input validation
     if (!userId || !username) {
       return res.status(400).json({ error: "userId and username are required" });
+    }
+    
+    // Validate userId is a valid Discord ID (numeric string)
+    if (!/^\d{17,19}$/.test(userId)) {
+      return res.status(400).json({ error: "Invalid Discord user ID format" });
+    }
+    
+    // Sanitize username (alphanumeric, underscores, hyphens, max 32 chars)
+    if (!/^[\w\-]{1,32}$/.test(username)) {
+      return res.status(400).json({ error: "Invalid username format" });
     }
     
     const settings: UserSettings = {
@@ -342,7 +354,7 @@ export function postSettings(req: Request, res: Response) {
     };
     
     settingsStore.set(userId, settings);
-    saveSettings();
+    await saveSettings();
     
     res.json({ success: true, settings });
   } catch (err) {
@@ -365,6 +377,15 @@ export function getSettingsAPI(req: Request, res: Response) {
 
 // Export all settings (for admin purposes)
 export function getAllSettings(req: Request, res: Response) {
+  // Basic security: Check for admin authorization header
+  // In production, implement proper authentication (e.g., OAuth, API keys)
+  const authHeader = req.get("Authorization");
+  const adminToken = process.env.ADMIN_TOKEN || "admin-secret-change-me";
+  
+  if (!authHeader || authHeader !== `Bearer ${adminToken}`) {
+    return res.status(403).json({ error: "Unauthorized. Admin access required." });
+  }
+  
   const allSettings = Object.fromEntries(settingsStore);
   res.json(allSettings);
 }
