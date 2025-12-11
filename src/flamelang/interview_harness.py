@@ -60,6 +60,9 @@ class InterviewHarness:
     4. Anomaly detection
     """
     
+    # Scoring thresholds
+    PASSING_THRESHOLD = 0.7  # 70% score required to pass
+    
     def __init__(self):
         self.test_cases = self._initialize_test_cases()
     
@@ -245,10 +248,17 @@ class InterviewHarness:
         
         # Extract candidate's codons from genes
         candidate_codons = []
+        candidate_pattern = 'unknown'
+        
         if dna_profile.genes:
             # Get codons from first gene
-            gene_sequence = dna_profile.genes[0].sequence
+            first_gene = dna_profile.genes[0]
+            gene_sequence = first_gene.sequence
             candidate_codons = gene_sequence.split('-')
+            candidate_pattern = first_gene.pattern_type
+        else:
+            # No genes extracted
+            candidate_pattern = 'unknown'
         
         # Test 1: Codon mapping accuracy (40% of score)
         codon_score = self._score_codons(test_case.expected_codons, candidate_codons)
@@ -266,7 +276,6 @@ class InterviewHarness:
         score += codon_score * 0.4
         
         # Test 2: Pattern recognition (40% of score)
-        candidate_pattern = dna_profile.genes[0].pattern_type if dna_profile.genes else 'unknown'
         pattern_score = 1.0 if candidate_pattern == test_case.expected_pattern else 0.0
         
         if pattern_score == 1.0:
@@ -289,7 +298,7 @@ class InterviewHarness:
         score += completeness_score * 0.2
         
         # Overall result
-        passed = score >= 0.7  # 70% passing score
+        passed = score >= self.PASSING_THRESHOLD
         
         return TestResult(
             test_id=test_case.id,

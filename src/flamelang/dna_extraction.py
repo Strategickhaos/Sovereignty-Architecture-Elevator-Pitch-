@@ -99,7 +99,7 @@ class DNAExtractor:
             timestamp_str = event_dict.get('timestamp', '')
             try:
                 timestamp = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
-            except:
+            except (ValueError, TypeError):
                 timestamp = datetime.now()
             
             # Extract key fields
@@ -126,6 +126,9 @@ class DNAExtractor:
         simplified_method = extract_method_from_proto_payload(event.method_name)
         return get_codon_for_method(simplified_method)
     
+    # Pattern recognition thresholds
+    HEARTBEAT_THRESHOLD = 0.7  # Minimum ratio of coordination codons for heartbeat pattern
+    
     def _identify_pattern_type(self, codons: List[str]) -> str:
         """
         Identify the pattern type from codon sequence
@@ -141,7 +144,7 @@ class DNAExtractor:
         unique_codons = set(codons)
         
         # Heartbeat: mostly coordination (UUA - leases.update)
-        if codon_counts.get("UUA", 0) / len(codons) > 0.7:
+        if codon_counts.get("UUA", 0) / len(codons) > self.HEARTBEAT_THRESHOLD:
             return "heartbeat"
         
         # Scaling: orchestration start/stop codons
