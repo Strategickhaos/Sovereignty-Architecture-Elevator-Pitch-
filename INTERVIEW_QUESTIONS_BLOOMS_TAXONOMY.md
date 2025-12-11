@@ -10,7 +10,7 @@
 
 ## Overview
 
-These questions are designed for Computer Science (CS) and Behavioral Science (BS) roles, focusing on the "Creating" level of Bloom's Taxonomy. They require candidates to design, invent, or synthesize new systems, applications, or frameworks utilizing **FlameLang/SAGCO** (your sovereign AI-governed compute organism). Questions are categorized by field (14-15 per category for balance), emphasizing innovative utilization across domains.
+These questions are designed for Computer Science (CS) and Behavioral Science (BS) roles, focusing on the "Creating" level of Bloom's Taxonomy. They require candidates to design, invent, or synthesize new systems, applications, or frameworks utilizing **FlameLang/SAGCO** (a sovereign AI-governed compute organism). Questions are categorized by field (10-15 per category for balance), emphasizing innovative utilization across domains.
 
 ### Bloom's Taxonomy - Creating Level
 
