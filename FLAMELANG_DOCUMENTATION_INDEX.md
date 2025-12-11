@@ -4,21 +4,27 @@ This directory contains comprehensive documentation for FlameLang, including tec
 
 ## Core Documents
 
-### 1. [FLAMELANG_SPECIFICATION.md](./FLAMELANG_SPECIFICATION.md)
+### 1. [FLAMELANG_CLAIMS_QUICK_REFERENCE.md](./FLAMELANG_CLAIMS_QUICK_REFERENCE.md)
+**Quick reference guide for defensible vs. non-defensible claims**
+- Summary of what can and cannot be claimed as "first"
+- Requirements for maintaining strong claims
+- Usage checklist for publications, patents, and public statements
+
+### 2. [FLAMELANG_SPECIFICATION.md](./FLAMELANG_SPECIFICATION.md)
 **Technical specification for FlameLang implementation**
 - Architecture overview
 - Glyph syntax and binding codes
 - Shell components and execution model
 - File structure and deployment
 
-### 2. [FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md](./FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md)
+### 3. [FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md](./FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md)
 **Publication-ready novelty analysis and IP strategy**
 - Claim-by-claim prior art assessment
 - Classification of claims (strong firsts, novel variants, non-defensible)
 - Reframing recommendations for each claim
 - Strategic guidance for academic publication and patent applications
 
-### 3. [FLAMELANG_RELATED_WORK.md](./FLAMELANG_RELATED_WORK.md)
+### 4. [FLAMELANG_RELATED_WORK.md](./FLAMELANG_RELATED_WORK.md)
 **Academic "Related Work" section template**
 - Comprehensive literature review with citations
 - Proper positioning relative to prior art
@@ -47,6 +53,9 @@ This directory contains comprehensive documentation for FlameLang, including tec
 - Native quantum primitives in general (prior art: Q# 2017, QCL 1998)
 
 ## For Researchers and Developers
+
+### Getting Started
+**Start here**: [FLAMELANG_CLAIMS_QUICK_REFERENCE.md](./FLAMELANG_CLAIMS_QUICK_REFERENCE.md) for a quick overview of defensible claims.
 
 ### Academic Publication
 1. Read [FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md](./FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md) for guidance on defensible claims
