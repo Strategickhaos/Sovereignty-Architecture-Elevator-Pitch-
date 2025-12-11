@@ -35,3 +35,13 @@ target/
 
 # Workspace data
 workspace/
+
+# User settings data
+user-settings.json
+
+# Environment files
+.env
+.env.local
+
+# Build output
+dist/
