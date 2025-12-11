@@ -280,6 +280,17 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 🔥 FlameLang Documentation
+
+FlameLang is a sovereign symbolic language with cross-domain compilation capabilities. For comprehensive documentation:
+
+- **[FlameLang Documentation Index](FLAMELANG_DOCUMENTATION_INDEX.md)** - Complete guide to all FlameLang resources
+- **[Technical Specification](FLAMELANG_SPECIFICATION.md)** - Implementation details and architecture
+- **[Executive Novelty Profile](FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md)** - Prior art analysis and IP strategy
+- **[Related Work](FLAMELANG_RELATED_WORK.md)** - Academic positioning and literature review
+
+**Note**: The Executive Novelty Profile provides critical guidance on defensible claims versus prior art. Review this document before making public statements about FlameLang's innovations.
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
