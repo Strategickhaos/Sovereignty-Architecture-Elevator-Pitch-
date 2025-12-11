@@ -164,7 +164,7 @@ Based on comprehensive prior art verification (see FLAMELANG_PRIOR_ART_VERIFICAT
 **Prior Art to Cite:**
 - F# Units of Measure (2005) - compile-time enforcement with erasure
 - Boost.Units - zero-cost compile-time checking
-- Must clearly differentiate: existing systems erase units; this system preserves them
+- Must clearly differentiate: existing systems erase units before code generation; claimed system must demonstrate unit preservation in LLVM IR or runtime enforcement (requires technical validation before filing)
 
 **Priority:** MEDIUM - Requires technical validation first
 
@@ -196,8 +196,9 @@ Based on comprehensive prior art verification (see FLAMELANG_PRIOR_ART_VERIFICAT
 **Strategy:** Cannot claim basic concept; focus on specific technical improvements
 
 **Independent Claims (differentiated):**
-1. A method for compiling DNA codon sequences to LLVM intermediate representation (vs. Python bytecode interpretation in Deoxyribose)
-2. Codon-specific optimization passes for general-purpose computing (vs. minimal esoteric language)
+1. A method for compiling DNA codon sequences to LLVM intermediate representation with native code generation (differentiated from Deoxyribose's Python bytecode interpretation approach)
+2. A complete general-purpose instruction set architecture using biological codon mappings with domain-specific optimization passes (differentiated from Deoxyribose's minimal esoteric stack-based operations)
+3. Integration of codon compilation layer within multi-domain scientific compilation pipeline (differentiated from Deoxyribose's standalone implementation)
 
 **Required Prior Art Citations:**
 - Deoxyribose (2019) - direct prior art for codon→opcode on silicon

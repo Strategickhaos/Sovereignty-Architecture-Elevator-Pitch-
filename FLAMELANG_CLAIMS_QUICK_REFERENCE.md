@@ -61,8 +61,9 @@
 ### Must Cite in Any Publication:
 
 1. **Deoxyribose (2019)** - Biological compilation to silicon
-   - GitHub repository available
+   - Esoteric programming language documented in programming language community
    - Direct prior art for codon→opcode concept
+   - Note: Specific repository location may require verification
 
 2. **APL (1962)** - Glyph-based semantic syntax
    - Kenneth Iverson

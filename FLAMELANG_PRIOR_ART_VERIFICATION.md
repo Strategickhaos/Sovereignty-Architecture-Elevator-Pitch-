@@ -682,7 +682,7 @@ This honest, accurate positioning will:
 ### Prior Art Documentation
 
 **Biological Compilation:**
-- Deoxyribose GitHub: https://github.com/anonymous/deoxyribose
+- Deoxyribose (2019) - Esoteric programming language documentation (GitHub repository status unverified at time of publication; concept well-documented in esoteric language community)
 - Adleman, L. (1994). "Molecular computation of solutions to combinatorial problems." *Science*, 266(5187), 1021-1024.
 
 **Physics Type Systems:**
@@ -692,8 +692,8 @@ This honest, accurate positioning will:
 
 **Quantum Languages:**
 - Q# Documentation: https://docs.microsoft.com/quantum
-- Ömer, B. (1998). "QCL - A Programming Language for Quantum Computers."
-- OpenQASM 3.0 Specification
+- Ömer, B. (1998). "QCL - A Programming Language for Quantum Computers." Technical Report, Technical University of Vienna.
+- Cross, A. W., et al. (2022). "OpenQASM 3: A broader and deeper quantum assembly language." *ACM Transactions on Quantum Computing*, 3(3), 1-50. https://arxiv.org/abs/2104.14722
 
 **Glyph-Based Languages:**
 - Iverson, K. (1962). *A Programming Language*. Wiley.
