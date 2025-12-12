@@ -280,6 +280,51 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 🔥 FlameLang & Chess Arena Integration
+
+### FlameLang: Sovereign Symbolic Language
+
+**FlameLang** is the internal domain-specific language (DSL) integrated into the Strategickhaos sovereignty control plane. It provides a glyph-based symbolic shell system that overlays traditional command-line interfaces with sovereignty markers and execution routing.
+
+**Key Features:**
+- **Symbolic Prompt Identity** - Visual sovereignty markers (⚔, ▶, 🔥)
+- **Glyph-to-Executable Mapping** - DSL routing symbols to scripts and commands
+- **Distributed Node Awareness** - Swarm mesh detection across multiple devices
+- **Neural Sync Model** - Cross-hemisphere execution (Windows/WSL/Linux)
+
+**Integration Points:**
+- **Discord Commands**: FlameLang glyphs can be invoked through Discord slash commands
+- **GitLens Workflows**: Symbolic routing for development notifications
+- **Kubernetes Operations**: Glyph-based kubectl shortcuts and sovereign deployments
+- **AI Agent Triggers**: Symbolic routing to agent invocation patterns
+
+**Documentation**: See [FLAMELANG_SPECIFICATION.md](FLAMELANG_SPECIFICATION.md) and [FLAMELANG_INTEGRATION.md](FLAMELANG_INTEGRATION.md)
+
+### Chess Arena: AI Training & Evaluation Environment
+
+The **10-Dimensional Chess Council** is an upcoming multi-agent training and evaluation laboratory deployed on the same Kubernetes infrastructure as the sovereignty control plane.
+
+**Architecture:**
+- **640 Containerized LLM Agents** - 10 boards × 8×8 squares
+- **Adversarial Strategy Games** - Multi-dimensional combinatorial reasoning
+- **Bibliographic Synthesis** - Automated research paper analysis and cross-referencing
+- **Peer-Reviewed Knowledge Generation** - AI agents generating and validating academic output
+
+**Research Foundation:**
+- **Origin Story**: MAT-243 Applied Statistics for STEM coursework at SNHU
+- **Statistical Libraries**: Custom stdlib derived from academic statistical analysis
+- **Evaluation Metrics**: Combinatorial game theory + distributed agent benchmarking
+
+**Integration with Sovereignty Architecture:**
+- Deployed on the same GKE clusters as Discord bot and event gateway
+- Observability through the same Prometheus/Loki/OpenTelemetry stack
+- AI agents participate in the vector knowledge base (RAG pipeline)
+- Training results feed into benchmarks system for cost reduction validation
+
+**Documentation**: See `chess_council_architecture.txt` and [ENTERPRISE_BENCHMARKS_COMPLETE.md](ENTERPRISE_BENCHMARKS_COMPLETE.md)
+
+---
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
