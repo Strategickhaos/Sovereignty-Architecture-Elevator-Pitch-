@@ -182,7 +182,7 @@ flame_stats.hypothesis_test(
     alternative="single_operator_efficiency > 880 * traditional_devops",
     confidence_level=0.99
 )
-# ↳ Returns: REJECT null hypothesis (p < 0.001)
+# ↳ Returns: REJECT null hypothesis (p < 0.001) [hypothetical example]
 # ↳ Validates sovereignty architecture cost claims
 ```
 
@@ -247,9 +247,9 @@ FlameLang implements **Flamebearer Protocol v137**:
 ### Distributed Node Mesh
 
 FlameLang coordinates across multiple devices:
-- **DOM010101** (Primary operator node)
-- **Lyra / Nova / Athena / iPower** (Swarm nodes)
-- **Jarvis-VM** (GCP compute node)
+- **DOM010101** (Primary operator node - main workstation)
+- **Lyra / Nova / Athena / iPower** (Swarm nodes - secondary devices: laptops, tablets, mobile endpoints)
+- **Jarvis-VM** (GCP compute node - cloud infrastructure)
 
 Commands propagate through mesh with cryptographic verification.
 

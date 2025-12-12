@@ -1,7 +1,7 @@
 # STRATEGICKHAOS SOVEREIGNTY ARCHITECTURE
 ## Executive Summary for Stakeholders
 
-**Version**: 2.0 | **Date**: December 2025 | **Architect**: Domenic Garza, SNHU CS Student
+**Version**: 2.0 | **Date**: December 2024 | **Architect**: Domenic Garza, SNHU CS Student
 
 ---
 
