@@ -60,6 +60,11 @@ export function generateAuthToken(): string {
   return crypto.randomBytes(32).toString('hex');
 }
 
+// Helper function to check if session is expired
+export function isSessionExpired(session: Session): boolean {
+  return new Date() > session.expiresAt;
+}
+
 // Initialize with a demo user
 const demoPasswordData = hashPassword('demo123');
 const demoUser: User = {

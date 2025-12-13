@@ -6,7 +6,8 @@ import {
   getUserById,
   hashPassword, 
   verifyPassword, 
-  generateAuthToken 
+  generateAuthToken,
+  isSessionExpired
 } from "../store.js";
 
 const router = Router();
@@ -42,7 +43,14 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     // Verify password
-    const [hash, salt] = user.passwordHash.split(':');
+    const parts = user.passwordHash.split(':');
+    if (parts.length !== 2) {
+      return res.status(500).json({
+        success: false,
+        message: 'Invalid password hash format'
+      });
+    }
+    const [hash, salt] = parts;
     const isValid = verifyPassword(password, hash, salt);
 
     if (!isValid) {
@@ -135,7 +143,7 @@ router.post('/verify', (req: Request, res: Response) => {
     }
 
     // Check if session expired
-    if (new Date() > session.expiresAt) {
+    if (isSessionExpired(session)) {
       sessions.delete(token);
       return res.status(401).json({
         success: false,
@@ -269,7 +277,7 @@ router.get('/me', (req: Request, res: Response) => {
 
     const session = sessions.get(token);
     
-    if (!session || new Date() > session.expiresAt) {
+    if (!session || isSessionExpired(session)) {
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired token'

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { sessions, getUserById } from "../store.js";
+import { sessions, getUserById, isSessionExpired } from "../store.js";
 
 // Extend Express Request to include user
 declare global {
@@ -39,7 +39,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     }
 
     // Check if session expired
-    if (new Date() > session.expiresAt) {
+    if (isSessionExpired(session)) {
       sessions.delete(token);
       return res.status(401).json({
         success: false,
@@ -87,7 +87,7 @@ export function optionalAuth(req: Request, res: Response, next: NextFunction) {
 
     const session = sessions.get(token);
     
-    if (!session || new Date() > session.expiresAt) {
+    if (!session || isSessionExpired(session)) {
       return next();
     }
 
