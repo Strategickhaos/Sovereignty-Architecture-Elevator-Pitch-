@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits, Interaction } from "discord.js";
 import { registerCommands, embed } from "./discord.js";
 import { env, loadConfig } from "./config.js";
+import { userStore } from "./models/user.js";
 
 const cfg = loadConfig();
 const token = env("DISCORD_TOKEN");
@@ -47,6 +48,32 @@ client.on("interactionCreate", async (i: Interaction) => {
         body: JSON.stringify({ service: svc, replicas })
       }).then(r => r.json());
       await i.reply({ embeds: [embed("Scale", `service: ${svc}\nreplicas: ${replicas}\nresult: ${r.status}`)] });
+    } else if (i.commandName === "register") {
+      const username = i.options.getString("username", true);
+      const email = i.options.getString("email", false);
+      const discordId = i.user.id;
+      
+      try {
+        const user = userStore.register(username, discordId, email || undefined);
+        await i.reply({ 
+          embeds: [embed("Registration Successful", 
+            `Welcome, ${username}!\nUser ID: ${user.id}\nDiscord ID: ${discordId}${email ? `\nEmail: ${email}` : ''}\nRegistered: ${user.createdAt}`
+          )],
+          ephemeral: true
+        });
+      } catch (err: any) {
+        if (err.message === "User already registered") {
+          await i.reply({ 
+            content: "You are already registered!", 
+            ephemeral: true 
+          });
+        } else {
+          await i.reply({ 
+            content: `Registration failed: ${err.message}`, 
+            ephemeral: true 
+          });
+        }
+      }
     }
   } catch (e: any) {
     await i.reply({ content: `Error: ${e.message}` });

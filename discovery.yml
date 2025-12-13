@@ -205,6 +205,15 @@ commands:
           type: "string"
         - name: "replicas"
           type: "int"
+    - name: "register"
+      description: "Register as a user"
+      params:
+        - name: "username"
+          type: "string"
+          required: true
+        - name: "email"
+          type: "string"
+          required: false
     - name: "request"
       description: "Create Refinory architecture request"
       params:
