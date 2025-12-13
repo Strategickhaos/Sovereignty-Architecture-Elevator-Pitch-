@@ -56,6 +56,7 @@ export class UserStore {
     if (!user) {
       throw new Error("User not found");
     }
+    // Modifying the user object updates it in both maps since they reference the same object
     user.roles = roles;
     user.updatedAt = new Date().toISOString();
     return user;
