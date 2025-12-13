@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { randomUUID } from "crypto";
 
 export const UserSchema = z.object({
   id: z.string(),
@@ -14,18 +15,17 @@ export type User = z.infer<typeof UserSchema>;
 
 export class UserStore {
   private users: Map<string, User> = new Map();
+  private usersByDiscordId: Map<string, User> = new Map();
 
   register(username: string, discordId: string, email?: string): User {
     // Check if user already exists
-    const existing = Array.from(this.users.values()).find(
-      u => u.discordId === discordId
-    );
+    const existing = this.usersByDiscordId.get(discordId);
     if (existing) {
       throw new Error("User already registered");
     }
 
     const user: User = {
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       username,
       discordId,
       email,
@@ -35,13 +35,12 @@ export class UserStore {
     };
 
     this.users.set(user.id, user);
+    this.usersByDiscordId.set(user.discordId, user);
     return user;
   }
 
   findByDiscordId(discordId: string): User | undefined {
-    return Array.from(this.users.values()).find(
-      u => u.discordId === discordId
-    );
+    return this.usersByDiscordId.get(discordId);
   }
 
   findById(id: string): User | undefined {
