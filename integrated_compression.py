@@ -170,9 +170,9 @@ def demonstrate_200x_compression():
     print("=" * 70)
     print()
     
-    # Initialize system with dhatu DB
-    dhatu_db_path = "/home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-/dhatu_db.json"
-    system = IntegratedCompressionSystem(dhatu_db_path)
+    # Initialize system with dhatu DB - use relative path
+    dhatu_db_path = Path(__file__).parent / "dhatu_db.json"
+    system = IntegratedCompressionSystem(str(dhatu_db_path))
     
     # Sample root list (from problem statement context)
     sample_roots = [

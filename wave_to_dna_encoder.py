@@ -5,6 +5,7 @@ Deterministic, reversible encoding of wave parameters to DNA codon sequences.
 """
 
 import hashlib
+import math
 from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
 from enum import Enum
@@ -124,7 +125,6 @@ class WaveToDNAEncoder:
         # Use band as first base, encode magnitude in remaining bases
         # Map frequency to 0-15 range for second and third bases (4x4=16 combinations)
         # Use log scale for better distribution
-        import math
         if frequency > 0:
             log_freq = math.log10(frequency + 1)
             normalized = int((log_freq / 6.0) * 15)  # Normalize to 0-15 (assuming max 10^6)
