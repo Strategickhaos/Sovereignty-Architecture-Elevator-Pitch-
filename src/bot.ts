@@ -47,6 +47,27 @@ client.on("interactionCreate", async (i: Interaction) => {
         body: JSON.stringify({ service: svc, replicas })
       }).then(r => r.json());
       await i.reply({ embeds: [embed("Scale", `service: ${svc}\nreplicas: ${replicas}\nresult: ${r.status}`)] });
+    } else if (i.commandName === "profile") {
+      const profileInfo = `**Strategickhaos DAO LLC / Valoryield Engine**
+
+**Entity Information**
+• Legal Structure: Limited Liability Company (Member-Managed)
+• Domicile: Texas
+• Formation: June 25, 2025
+• EIN: 39-2923503
+
+**Founder: Domenic Garza**
+• Education: B.S. Computer Science & Software Engineering (SNHU)
+• Credentials: ORCID 0009-0005-2996-3526, TWIC, Google Developer
+• Contact: domenic.garza@snhu.edu | +1 346-263-2887
+
+**Services**
+• Cybersecurity Consulting
+• Private Investigation Services
+• Research & Development
+
+For detailed information, visit: [Professional Credentials](https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/PROFESSIONAL_CREDENTIALS_PACKAGE.md)`;
+      await i.reply({ embeds: [embed("Organization Profile", profileInfo)] });
     }
   } catch (e: any) {
     await i.reply({ content: `Error: ${e.message}` });
