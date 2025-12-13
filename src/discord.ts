@@ -1,4 +1,4 @@
-import { REST, Routes, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { REST, Routes, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, User, GuildMember } from "discord.js";
 
 export async function registerCommands(token: string, appId: string) {
   const cmds = [
@@ -26,7 +26,19 @@ export function embed(title: string, description: string) {
   return new EmbedBuilder().setTitle(title).setDescription(description).setColor(0x2f81f7).toJSON();
 }
 
-export function createProfileEmbed(user: any, member: any) {
+function formatRoles(member: GuildMember): string {
+  const roles = member.roles.cache.filter(r => r.id !== member.guild.id);
+  if (roles.size === 0) return "None";
+  
+  const roleNames = roles.map(r => r.name).join(", ");
+  // Truncate if too long for Discord embed field (1024 char limit)
+  if (roleNames.length > 1000) {
+    return roleNames.substring(0, 997) + "...";
+  }
+  return roleNames;
+}
+
+export function createProfileEmbed(user: User, member: GuildMember | null) {
   const embed = new EmbedBuilder()
     .setTitle(`Profile: ${user.username}`)
     .setColor(0x2f81f7)
@@ -38,9 +50,14 @@ export function createProfileEmbed(user: any, member: any) {
     );
 
   if (member) {
+    if (member.joinedTimestamp) {
+      embed.addFields(
+        { name: "Joined Server", value: `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>`, inline: true }
+      );
+    }
+    
     embed.addFields(
-      { name: "Joined Server", value: `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>`, inline: true },
-      { name: "Roles", value: member.roles.cache.size > 1 ? member.roles.cache.filter((r: any) => r.id !== member.guild.id).map((r: any) => r.name).join(", ") : "None", inline: false }
+      { name: "Roles", value: formatRoles(member), inline: false }
     );
 
     if (member.nickname) {
