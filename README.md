@@ -45,7 +45,7 @@ export PRS_CHANNEL="channel_id"
 - `/scale <service> <replicas>` - Scale a service to the specified number of replicas
 
 **Information Commands:**
-- `/profile` - Display organization and founder information, credentials, and service offerings
+- `/profile` - Display organization and founder information, credentials, and service offerings (configured in `discovery.yml`)
 
 ### 🌐 Event Gateway (`event-gateway`)
 - **Webhook Router**: GitHub/GitLab → Discord channel routing
@@ -112,6 +112,15 @@ org:
   name: "Strategickhaos DAO LLC / Valoryield Engine"
   contact:
     owner: "Domenic Garza"
+  profile:
+    legal_structure: "Limited Liability Company (Member-Managed)"
+    domicile: "Texas"
+    founder:
+      name: "Domenic Garza"
+      education: "B.S. Computer Science & Software Engineering (SNHU)"
+    services:
+      - "Cybersecurity Consulting"
+      - "Private Investigation Services"
 
 discord:
   guild_id: null  # Your Discord server ID

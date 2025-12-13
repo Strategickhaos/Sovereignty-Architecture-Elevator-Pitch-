@@ -48,25 +48,30 @@ client.on("interactionCreate", async (i: Interaction) => {
       }).then(r => r.json());
       await i.reply({ embeds: [embed("Scale", `service: ${svc}\nreplicas: ${replicas}\nresult: ${r.status}`)] });
     } else if (i.commandName === "profile") {
-      const profileInfo = `**Strategickhaos DAO LLC / Valoryield Engine**
+      const profile = cfg.org?.profile;
+      if (!profile) {
+        await i.reply({ content: "Profile information not configured." });
+        return;
+      }
+      
+      const services = profile.services?.join("\n• ") || "Not specified";
+      const profileInfo = `**${cfg.org.name}**
 
 **Entity Information**
-• Legal Structure: Limited Liability Company (Member-Managed)
-• Domicile: Texas
-• Formation: June 25, 2025
-• EIN: 39-2923503
+• Legal Structure: ${profile.legal_structure}
+• Domicile: ${profile.domicile}
+• Formation: ${profile.formation_date}
+• EIN: ${profile.ein}
 
-**Founder: Domenic Garza**
-• Education: B.S. Computer Science & Software Engineering (SNHU)
-• Credentials: ORCID 0009-0005-2996-3526, TWIC, Google Developer
-• Contact: domenic.garza@snhu.edu | +1 346-263-2887
+**Founder: ${profile.founder?.name}**
+• Education: ${profile.founder?.education}
+• Credentials: ${profile.founder?.credentials}
+• Contact: ${profile.founder?.contact_email} | ${profile.founder?.contact_phone}
 
 **Services**
-• Cybersecurity Consulting
-• Private Investigation Services
-• Research & Development
+• ${services}
 
-For detailed information, visit: [Professional Credentials](https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/PROFESSIONAL_CREDENTIALS_PACKAGE.md)`;
+For detailed information, visit: [Professional Credentials](${profile.credentials_url})`;
       await i.reply({ embeds: [embed("Organization Profile", profileInfo)] });
     }
   } catch (e: any) {
