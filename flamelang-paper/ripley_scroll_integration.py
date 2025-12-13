@@ -157,8 +157,8 @@ class AlkahestDissolver:
     
     def _timestamp(self) -> str:
         """Generate ISO timestamp for provenance tracking."""
-        from datetime import datetime
-        return datetime.utcnow().isoformat() + "Z"
+        from datetime import datetime, timezone
+        return datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     
     def get_provenance_chain(self) -> List[Dict[str, Any]]:
         """Return complete transformation audit trail."""
@@ -359,10 +359,11 @@ class CodexSeraphinianusPipeline:
         unique = len(set(self.glyphs))
         total = len(self.glyphs)
         
-        if unique > 0:
+        if unique > 0 and total > 0:
             compression_ratio = total / unique
         else:
-            compression_ratio = 0.0
+            # No glyphs or no unique glyphs: undefined compression
+            compression_ratio = float('inf') if unique == 0 and total > 0 else 1.0
         
         return {
             'total_glyphs': total,
