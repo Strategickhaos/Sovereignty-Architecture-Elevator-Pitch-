@@ -940,7 +940,7 @@ attestation:
   cryptographic_verification:
     gpg_signature_required: true
     gpg_key: "AE5519579584DEF5"
-    sha256_checksum: "TBD - computed after finalization"
+    sha256_checksum: "04fe1ebf8ab78263ad1295e05d1968d32de471b61c4b7238b68eaf8f93a7d911"
     
   legal_disclaimer: |
     INTERNAL DRAFT — NOT LEGAL ADVICE — ATTORNEY REVIEW REQUIRED
@@ -987,7 +987,7 @@ appendices:
 footer:
   document_version: "2.1.0"
   previous_version: "2.0.0"
-  line_count: 774
+  line_count: 1005
   status: "RATIFIED"
   effective_date: "2025-12-13"
   classification: "INTERNAL - GOVERNANCE"
