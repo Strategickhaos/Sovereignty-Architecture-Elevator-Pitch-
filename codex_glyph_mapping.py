@@ -204,8 +204,12 @@ def ripley_filter_wave(wave, phase):
     elif phase == 'dragon':  # Dissolve to prima materia
         # Fourier projection to energy domain and back
         wave_fft = np.fft.fft(wave)
-        wave = np.real(wave_fft)  # Project to 'prima materia' (real component)
-        wave = np.fft.ifft(wave)
+        # Project to 'prima materia' by taking magnitude (energy) and reconstructing
+        magnitude = np.abs(wave_fft)
+        phase_angle = np.angle(wave_fft)
+        # Reconstruct with preserved phase but normalized magnitude
+        wave_fft_prima = magnitude * np.exp(1j * phase_angle) * 0.1  # Scale down for stability
+        wave = np.fft.ifft(wave_fft_prima)
     elif phase == 'lion':  # Clamp bounds (green lion eating sun)
         wave = np.clip(wave, -1, 1)
     
