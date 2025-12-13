@@ -360,9 +360,12 @@ class CodexSeraphinianusPipeline:
         total = len(self.glyphs)
         
         if unique > 0 and total > 0:
+            # Normal case: compression ratio = total/unique
             compression_ratio = total / unique
         else:
-            # No glyphs or no unique glyphs: undefined compression
+            # Edge cases:
+            # - No unique glyphs but total > 0: infinite compression (impossible in practice)
+            # - No glyphs at all (total=0): no compression (ratio = 1.0)
             compression_ratio = float('inf') if unique == 0 and total > 0 else 1.0
         
         return {
