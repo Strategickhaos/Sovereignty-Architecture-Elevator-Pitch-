@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { sessions, getUserById } from "../store.js";
 
 // Extend Express Request to include user
 declare global {
@@ -13,17 +14,9 @@ declare global {
   }
 }
 
-// Temporary session store (should match the one in auth.ts)
-// In production, use a shared store like Redis
-const sessions = new Map<string, {
-  userId: string;
-  createdAt: Date;
-  expiresAt: Date;
-}>();
-
 /**
  * Authentication middleware
- * Verifies JWT token and attaches user to request
+ * Verifies session token and attaches user to request
  */
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   try {
@@ -54,12 +47,20 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
       });
     }
 
-    // In production, fetch user from database
-    // For now, we'll attach minimal user info
+    // Fetch user from store
+    const user = getUserById(session.userId);
+    
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
     req.user = {
-      id: session.userId,
-      email: '', // Would fetch from database
-      name: ''   // Would fetch from database
+      id: user.id,
+      email: user.email,
+      name: user.name
     };
 
     next();
@@ -90,10 +91,16 @@ export function optionalAuth(req: Request, res: Response, next: NextFunction) {
       return next();
     }
 
+    const user = getUserById(session.userId);
+    
+    if (!user) {
+      return next();
+    }
+
     req.user = {
-      id: session.userId,
-      email: '',
-      name: ''
+      id: user.id,
+      email: user.email,
+      name: user.name
     };
 
     next();

@@ -1,51 +1,15 @@
 import { Request, Response, Router } from "express";
 import * as crypto from "crypto";
+import { 
+  sessions, 
+  getUserByEmail, 
+  getUserById,
+  hashPassword, 
+  verifyPassword, 
+  generateAuthToken 
+} from "../store.js";
 
 const router = Router();
-
-// Temporary in-memory user store (replace with database in production)
-const users = new Map<string, {
-  id: string;
-  email: string;
-  passwordHash: string;
-  name: string;
-  createdAt: Date;
-}>();
-
-// Temporary session store (replace with Redis/database in production)
-const sessions = new Map<string, {
-  userId: string;
-  createdAt: Date;
-  expiresAt: Date;
-}>();
-
-// Helper function to hash passwords
-function hashPassword(password: string, salt?: string): { hash: string; salt: string } {
-  const passwordSalt = salt || crypto.randomBytes(16).toString('hex');
-  const hash = crypto.pbkdf2Sync(password, passwordSalt, 10000, 64, 'sha512').toString('hex');
-  return { hash, salt: passwordSalt };
-}
-
-// Helper function to verify password
-function verifyPassword(password: string, hash: string, salt: string): boolean {
-  const { hash: computedHash } = hashPassword(password, salt);
-  return computedHash === hash;
-}
-
-// Helper function to generate auth token
-function generateAuthToken(): string {
-  return crypto.randomBytes(32).toString('hex');
-}
-
-// Add a demo user for testing
-const demoPasswordData = hashPassword('demo123');
-users.set('demo@example.com', {
-  id: 'demo-user-id',
-  email: 'demo@example.com',
-  passwordHash: demoPasswordData.hash + ':' + demoPasswordData.salt,
-  name: 'Demo User',
-  createdAt: new Date()
-});
 
 /**
  * POST /api/auth/login
@@ -66,7 +30,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     // Find user
-    const user = users.get(email.toLowerCase());
+    const user = getUserByEmail(email);
     
     if (!user) {
       // Prevent timing attacks by still hashing
@@ -180,7 +144,7 @@ router.post('/verify', (req: Request, res: Response) => {
     }
 
     // Find user
-    const user = Array.from(users.values()).find(u => u.id === session.userId);
+    const user = getUserById(session.userId);
     
     if (!user) {
       return res.status(401).json({
@@ -254,7 +218,7 @@ router.post('/webauthn/verify', (req: Request, res: Response) => {
     expiresAt.setHours(expiresAt.getHours() + 24);
 
     // Use demo user for WebAuthn demo
-    const demoUser = users.get('demo@example.com');
+    const demoUser = getUserByEmail('demo@example.com');
     
     if (demoUser) {
       sessions.set(token, {
@@ -312,7 +276,7 @@ router.get('/me', (req: Request, res: Response) => {
       });
     }
 
-    const user = Array.from(users.values()).find(u => u.id === session.userId);
+    const user = getUserById(session.userId);
     
     if (!user) {
       return res.status(404).json({
