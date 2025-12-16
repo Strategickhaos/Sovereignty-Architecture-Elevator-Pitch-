@@ -14,8 +14,6 @@ from datetime import datetime, timezone
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Optional, Any, Callable
 from enum import Enum
-import asyncio
-from collections import defaultdict
 
 # Helper function for timezone-aware datetime
 def utc_now() -> datetime:
@@ -106,6 +104,11 @@ class Spike:
         hasher.update(self.who.principal.encode())
         hasher.update(json.dumps(self.what, sort_keys=True, default=str).encode())
         hasher.update(self.timestamp.isoformat().encode())
+        # Include trace in hash for integrity
+        for link in self.trace:
+            hasher.update(link.parent_id.encode())
+            hasher.update(link.hash.encode())
+            hasher.update(link.relationship.encode())
         return hasher.hexdigest()
 
     def verify(self) -> bool:
