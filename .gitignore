@@ -35,3 +35,10 @@ target/
 
 # Workspace data
 workspace/
+
+# Generated synapse-bus-core repository
+synapse-bus-core/
+
+# Blueprint artifacts
+blueprint.yaml
+chat_dump.txt
