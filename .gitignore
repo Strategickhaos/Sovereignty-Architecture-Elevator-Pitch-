@@ -42,3 +42,8 @@ synapse-bus-core/
 # Blueprint artifacts
 blueprint.yaml
 chat_dump.txt
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
