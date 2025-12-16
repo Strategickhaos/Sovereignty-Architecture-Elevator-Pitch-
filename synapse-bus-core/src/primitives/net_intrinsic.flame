@@ -1,0 +1,53 @@
+# FlameLang Intrinsic: Sovereign Network Request
+# The #curl Glyph - "I will not speak unless the laws of physics allow it."
+
+glyph #curl {
+    # 1. Input Parameters
+    input: {
+        target: Url,
+        method: HttpMethod,
+        headers: HashMap<String, String>,
+        body: Option<Bytes>,
+    },
+
+    # 2. The Physics Gate (GSCH)
+    # Request BLOCKED if local entropy is too high (System under stress)
+    # or if the target has "Negative Gravity" (Known malicious/blocklisted)
+    gate: |ctx| {
+        if ctx.entropy > 0.8 {
+            return GateResult::Dissolve("System Too Hot");
+        }
+        if ctx.gravity(target) < -5.0 {
+            return GateResult::Clamp("Target Repulsive");
+        }
+        return GateResult::Flow;
+    },
+
+    # 3. The Action (Purified execution)
+    action: |req| {
+        # Trace the provenance (Who asked for this?)
+        let trace_id = ctx.provenance.mint();
+        
+        # Execute via Quarantine Proxy (No direct socket)
+        let response = quarantine::http::execute(req, trace_id);
+        
+        # Spike Generation (Notify SynapseBus)
+        bus.emit(Spike::new(
+            origin: "Intrinsic::Curl",
+            vector: { heat: 0.1, gravity: 0.0 },
+            payload: response.meta
+        ));
+
+        return response;
+    }
+}
+
+# Usage Example:
+# let response = #curl {
+#     target: "https://api.example.com",
+#     method: GET,
+#     headers: {},
+#     body: None,
+# };
+
+# Note: This is the reference implementation from the problem statement

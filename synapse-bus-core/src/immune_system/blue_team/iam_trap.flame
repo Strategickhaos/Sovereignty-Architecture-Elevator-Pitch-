@@ -1,0 +1,33 @@
+# FlameLang Primitive: Anti-Inheritance Trap Linter
+# [Q20] Prevents inheritance complexity traps
+
+glyph iam_trap {
+    input: {
+        code_ast: AST,
+        max_depth: u32,
+    },
+    
+    # Detect deep inheritance chains
+    gate: |ctx| {
+        let depth = calculate_inheritance_depth(ctx.code_ast);
+        
+        if depth > ctx.max_depth {
+            return GateResult::Reject("Inheritance too deep - complexity trap");
+        }
+        
+        # Check for diamond problem
+        if has_diamond_problem(ctx.code_ast) {
+            return GateResult::Reject("Diamond inheritance detected");
+        }
+        
+        return GateResult::Flow;
+    },
+    
+    action: |ast| {
+        # Suggest composition over inheritance
+        let suggestions = generate_composition_alternative(ast);
+        return suggestions;
+    }
+}
+
+# Note: This is a placeholder for the full FlameLang implementation

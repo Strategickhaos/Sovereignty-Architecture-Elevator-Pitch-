@@ -1,0 +1,25 @@
+# FlameLang Primitive: pH Buffer
+# [Q9] Absorbs transient logic spikes
+
+glyph buffer_ph {
+    input: {
+        spike: Spike,
+        capacity: f32,
+    },
+    
+    # The buffer absorbs sudden changes
+    gate: |ctx| {
+        if ctx.spike.vector.heat_delta > 0.3 {
+            return GateResult::Buffer("Spike too sharp - buffering");
+        }
+        return GateResult::Flow;
+    },
+    
+    action: |spike, capacity| {
+        # Smooth the spike using moving average
+        let smoothed = smooth_spike(spike, capacity);
+        return smoothed;
+    }
+}
+
+# Note: This is a placeholder for the full FlameLang implementation

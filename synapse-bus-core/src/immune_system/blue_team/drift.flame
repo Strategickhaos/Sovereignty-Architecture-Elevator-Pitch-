@@ -1,0 +1,36 @@
+# FlameLang Primitive: Meroitic Imbalance Detector
+# [Q21] Detects drift in system balance
+
+glyph drift_detector {
+    input: {
+        metrics: SystemMetrics,
+        baseline: Baseline,
+    },
+    
+    # Detect drift from expected behavior
+    gate: |ctx| {
+        let deviation = calculate_deviation(ctx.metrics, ctx.baseline);
+        
+        if deviation > 0.5 {
+            return GateResult::Alert("Significant drift detected");
+        }
+        
+        return GateResult::Flow;
+    },
+    
+    action: |metrics, baseline| {
+        # Calculate drift vector
+        let drift = {
+            cpu: metrics.cpu - baseline.cpu,
+            memory: metrics.memory - baseline.memory,
+            entropy: metrics.entropy - baseline.entropy,
+        };
+        
+        # Emit spike to immune system
+        immune::alert(drift);
+        
+        return drift;
+    }
+}
+
+# Note: This is a placeholder for the full FlameLang implementation

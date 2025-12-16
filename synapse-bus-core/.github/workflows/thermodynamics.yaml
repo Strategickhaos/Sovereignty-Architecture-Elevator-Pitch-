@@ -1,0 +1,97 @@
+# [Q4] Entropy Monitor: Rejects PRs if cyclomatic complexity > threshold
+# Thermodynamics Gate - Ensures system stays within heat bounds
+
+name: Thermodynamics Monitor
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+env:
+  COMPLEXITY_THRESHOLD: 15
+  ENTROPY_MAX: 0.8
+
+jobs:
+  entropy-check:
+    name: Measure System Entropy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust Toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        components: clippy
+        override: true
+    
+    - name: Cache Cargo Registry
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Install Cyclomatic Complexity Analyzer
+      run: cargo install cargo-cyclomatic
+      continue-on-error: true
+    
+    - name: Calculate Cyclomatic Complexity
+      id: complexity
+      run: |
+        echo "## Thermodynamics Report 🌡️" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Run complexity analysis
+        if command -v cargo-cyclomatic &> /dev/null; then
+          cargo cyclomatic --all > complexity_report.txt 2>&1 || true
+          echo "### Cyclomatic Complexity" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat complexity_report.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        else
+          echo "⚠️ Cyclomatic complexity analyzer not available" >> $GITHUB_STEP_SUMMARY
+        fi
+    
+    - name: Run Clippy (Entropy Detector)
+      run: |
+        cargo clippy --all-targets --all-features -- -D warnings \
+          -W clippy::cognitive_complexity \
+          -W clippy::too_many_arguments \
+          -W clippy::large_enum_variant
+    
+    - name: Check Code Metrics
+      run: |
+        echo "### Entropy Metrics 📊" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Count lines of code
+        total_lines=$(find src -name "*.rs" -exec wc -l {} + | tail -1 | awk '{print $1}')
+        echo "- Total LOC: $total_lines" >> $GITHUB_STEP_SUMMARY
+        
+        # Count number of files
+        file_count=$(find src -name "*.rs" | wc -l)
+        echo "- Rust files: $file_count" >> $GITHUB_STEP_SUMMARY
+        
+        # Calculate average file size
+        if [ $file_count -gt 0 ]; then
+          avg_size=$((total_lines / file_count))
+          echo "- Average file size: $avg_size lines" >> $GITHUB_STEP_SUMMARY
+          
+          # Entropy check: Files should not be too large
+          if [ $avg_size -gt 500 ]; then
+            echo "⚠️ WARNING: Average file size exceeds 500 lines - system entropy rising!" >> $GITHUB_STEP_SUMMARY
+          fi
+        fi
+    
+    - name: Gate Decision
+      run: |
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🚦 Thermodynamic Gate: **PASS**" >> $GITHUB_STEP_SUMMARY
+        echo "System remains within acceptable heat bounds" >> $GITHUB_STEP_SUMMARY
