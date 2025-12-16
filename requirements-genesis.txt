@@ -1,0 +1,2 @@
+# SynapseBus-Core Genesis System Requirements
+pyyaml>=6.0
