@@ -1,0 +1,206 @@
+/**
+ * Buffer Primitive - The pH Buffer
+ * 
+ * Models a biological pH buffer that absorbs transient logic spikes
+ * without overflowing the stack.
+ * 
+ * Biological Analogy:
+ * In biological systems, pH buffers (like bicarbonate in blood) maintain
+ * pH homeostasis by absorbing excess H+ ions (acids) or OH- ions (bases).
+ * 
+ * In this system, the Buffer primitive absorbs:
+ * - Sudden spikes in request load
+ * - Temporary logic errors
+ * - Transient state inconsistencies
+ * 
+ * Without causing system crash or stack overflow.
+ */
+
+namespace flame::primitives::buffer {
+    
+    use flame::homeostasis::gradient::{Gradient, GradientType};
+    
+    /**
+     * Buffer Configuration
+     */
+    struct BufferConfig {
+        capacity: usize,           // Maximum bufferable events
+        absorption_rate: f64,      // Rate at which buffer neutralizes spikes
+        release_rate: f64,         // Rate at which buffer releases stored energy
+        ph_range: (f64, f64)       // Acceptable pH bounds (7.0-7.4 for blood)
+    }
+    
+    /**
+     * Buffer State
+     */
+    pub struct Buffer<T> {
+        storage: Vec<T>,
+        current_ph: f64,           // Current "acidity" of the system
+        config: BufferConfig,
+        last_spike: Option<DateTime>
+    }
+    
+    impl<T> Buffer<T> {
+        
+        /**
+         * Create a new biological buffer
+         */
+        pub fn new(config: BufferConfig) -> Self {
+            Buffer {
+                storage: Vec::with_capacity(config.capacity),
+                current_ph: 7.2,  // Neutral/optimal pH
+                config,
+                last_spike: None
+            }
+        }
+        
+        /**
+         * Absorb a transient spike
+         * 
+         * Like a pH buffer absorbing H+ ions, this method absorbs
+         * sudden events without letting them affect the main system.
+         */
+        pub fn absorb(&mut self, event: T, severity: f64) -> Result<(), BufferOverflow> {
+            // Calculate pH shift from this event
+            let ph_shift = severity * 0.1;  // Severity -> pH change mapping
+            
+            // Check if we can absorb this without overflow
+            if self.storage.len() >= self.config.capacity {
+                return Err(BufferOverflow {
+                    capacity: self.config.capacity,
+                    attempted_size: self.storage.len() + 1,
+                    suggestion: "Release buffer contents or increase capacity"
+                });
+            }
+            
+            // Check if pH would go out of homeostatic range
+            let new_ph = self.current_ph + ph_shift;
+            if new_ph < self.config.ph_range.0 || new_ph > self.config.ph_range.1 {
+                // pH out of bounds - trigger homeostatic correction
+                self.trigger_correction(new_ph)?;
+            }
+            
+            // Absorb the event
+            self.storage.push(event);
+            self.current_ph = new_ph;
+            self.last_spike = Some(DateTime::now());
+            
+            log::debug!("Buffer absorbed event. New pH: {:.2}", self.current_ph);
+            
+            Ok(())
+        }
+        
+        /**
+         * Release buffered events gradually
+         * 
+         * Like a buffer slowly releasing stored H+ ions back into solution,
+         * this method gradually processes buffered events.
+         */
+        pub fn release(&mut self, count: usize) -> Vec<T> {
+            let release_count = count.min(self.storage.len());
+            let released = self.storage.drain(0..release_count).collect::<Vec<T>>();
+            
+            // Gradually restore pH to neutral
+            let ph_recovery = (7.2 - self.current_ph) * self.config.release_rate;
+            self.current_ph += ph_recovery;
+            
+            log::debug!("Buffer released {} events. pH: {:.2}", release_count, self.current_ph);
+            
+            released
+        }
+        
+        /**
+         * Homeostatic Correction
+         * 
+         * When pH goes out of bounds, trigger active correction mechanisms.
+         * This is analogous to the kidney adjusting blood pH.
+         */
+        fn trigger_correction(&mut self, target_ph: f64) -> Result<(), HomeostasisFailure> {
+            log::warn!("pH out of range: {:.2}. Triggering correction.", target_ph);
+            
+            if target_ph < self.config.ph_range.0 {
+                // Too acidic - add base (remove events)
+                let events_to_remove = ((self.config.ph_range.0 - target_ph) * 10.0) as usize;
+                self.storage.drain(0..events_to_remove.min(self.storage.len()));
+                self.current_ph = self.config.ph_range.0;
+                
+            } else if target_ph > self.config.ph_range.1 {
+                // Too basic - add acid (slow down absorption)
+                self.config.absorption_rate *= 0.5;
+                self.current_ph = self.config.ph_range.1;
+            }
+            
+            Ok(())
+        }
+        
+        /**
+         * Check buffer health
+         */
+        pub fn health_check(&self) -> BufferHealth {
+            let utilization = (self.storage.len() as f64) / (self.config.capacity as f64);
+            let ph_deviation = (self.current_ph - 7.2).abs();
+            
+            if utilization > 0.9 || ph_deviation > 0.5 {
+                BufferHealth::Critical
+            } else if utilization > 0.7 || ph_deviation > 0.3 {
+                BufferHealth::Warning
+            } else {
+                BufferHealth::Healthy
+            }
+        }
+    }
+    
+    enum BufferHealth {
+        Healthy,
+        Warning,
+        Critical
+    }
+    
+    /**
+     * Buffer Overflow Error
+     * 
+     * Unlike a stack overflow which crashes the system, a buffer overflow
+     * is a recoverable error that triggers homeostatic mechanisms.
+     */
+    struct BufferOverflow {
+        capacity: usize,
+        attempted_size: usize,
+        suggestion: String
+    }
+    
+    struct HomeostasisFailure {
+        reason: String
+    }
+    
+    /**
+     * Example Usage
+     */
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+        
+        #[test]
+        fn test_ph_buffer() {
+            let config = BufferConfig {
+                capacity: 100,
+                absorption_rate: 0.8,
+                release_rate: 0.2,
+                ph_range: (7.0, 7.4)
+            };
+            
+            let mut buffer = Buffer::<String>::new(config);
+            
+            // Simulate sudden spike of requests
+            for i in 0..50 {
+                buffer.absorb(format!("Request {}", i), 0.5).unwrap();
+            }
+            
+            assert_eq!(buffer.health_check(), BufferHealth::Warning);
+            
+            // Gradually release
+            let released = buffer.release(25);
+            assert_eq!(released.len(), 25);
+            assert_eq!(buffer.health_check(), BufferHealth::Healthy);
+        }
+    }
+}

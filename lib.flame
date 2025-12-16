@@ -1,0 +1,105 @@
+/**
+ * lib.flame - The Root Axiom & Fundamental Directory Invariants
+ * 
+ * This is the foundational library that defines the sovereignty principles
+ * and directory structure invariants for the entire system.
+ */
+
+namespace flame::root {
+    
+    /**
+     * AXIOM 1: The Sovereignty Principle
+     * Every external dependency MUST pass through the quarantine zone
+     * before entering the core system.
+     */
+    const QUARANTINE_PATH = "quarantine/";
+    const CALCINATION_GATE = "quarantine/validation/calcination_gate";
+    
+    /**
+     * AXIOM 2: True First Namespace
+     * All patent claims are mapped to specific code modules with
+     * git-hash timestamping for provable "reduction to practice"
+     */
+    const CLAIMS_PATH = "src/claims/";
+    
+    /**
+     * AXIOM 3: Bio-Digital Interface
+     * Every module behaves as a biological cell with enforced boundaries
+     */
+    const BIO_TRAITS_PATH = "bio_traits/";
+    
+    /**
+     * AXIOM 4: Entropy Constraint
+     * System complexity must not exceed thermodynamic bounds
+     */
+    const MAX_GLOBAL_ENTROPY = 1000; // Complexity units
+    
+    /**
+     * AXIOM 5: Cost Reduction Model
+     * 880x cost reduction through local-first compute optimization
+     */
+    const OPTIMIZATION_TARGET = 880;
+    
+    /**
+     * AXIOM 6: Zero-Trust Tree
+     * Multi-sig cryptographic proof required for kernel write access
+     */
+    const KERNEL_PATH = "kernel/";
+    const REQUIRED_SIGNATURES = 2; // Legion of Minds quorum
+    
+    /**
+     * Directory Structure Invariants
+     */
+    struct DirectoryInvariant {
+        path: String,
+        purpose: String,
+        access_level: AccessLevel,
+        validation_gate: Option<ValidationGate>
+    }
+    
+    enum AccessLevel {
+        Public,      // Read by default
+        Protected,   // Requires authentication
+        Kernel       // Requires multi-sig proof
+    }
+    
+    enum ValidationGate {
+        Calcination,  // Purification of external code
+        Putrefaction, // Redundancy checking
+        Projection,   // Emission validation
+    }
+    
+    /**
+     * Core Path Definitions
+     */
+    const DIRECTORY_TREE: [DirectoryInvariant] = [
+        // Phase I: Root & Axioms
+        DirectoryInvariant { path: "quarantine/", purpose: "External dependency isolation", access_level: Protected, validation_gate: Some(Calcination) },
+        DirectoryInvariant { path: "src/claims/", purpose: "Patent claim mapping", access_level: Public, validation_gate: None },
+        DirectoryInvariant { path: "bio_traits/", purpose: "Bio-digital interface", access_level: Public, validation_gate: None },
+        DirectoryInvariant { path: "kernel/", purpose: "Core system kernel", access_level: Kernel, validation_gate: None },
+        
+        // Phase II: Physics Engine
+        DirectoryInvariant { path: "src/flame/homeostasis/", purpose: "GSCH gradient reconciliation", access_level: Public, validation_gate: None },
+        DirectoryInvariant { path: "src/gates/", purpose: "12 Ripley Gates", access_level: Public, validation_gate: Some(Putrefaction) },
+        DirectoryInvariant { path: "src/primitives/", purpose: "Biological primitives", access_level: Public, validation_gate: None },
+        
+        // Phase III: Nervous System
+        DirectoryInvariant { path: "src/council/", purpose: "Multi-model consensus", access_level: Protected, validation_gate: None },
+        DirectoryInvariant { path: "src/synthesis/", purpose: "Dialectical engine", access_level: Public, validation_gate: None },
+        DirectoryInvariant { path: "knowledge/", purpose: "Vector database linkage", access_level: Public, validation_gate: None },
+        
+        // Phase IV: Immune System
+        DirectoryInvariant { path: "tests/arena/", purpose: "100-angle crossfire", access_level: Protected, validation_gate: None },
+        DirectoryInvariant { path: "security/sandbox/", purpose: "Black hole isolation", access_level: Protected, validation_gate: None },
+        DirectoryInvariant { path: "logs/immunity/", purpose: "Vulnerability ledger", access_level: Protected, validation_gate: None },
+        
+        // Phase V: Infrastructure
+        DirectoryInvariant { path: "infra/k8s/nodes/", purpose: "Node personalities", access_level: Protected, validation_gate: None },
+        DirectoryInvariant { path: "secrets/manager/", purpose: "Cellular apoptosis", access_level: Kernel, validation_gate: None },
+        
+        // Phase VI: Interface
+        DirectoryInvariant { path: "src/ui/holodeck/", purpose: "INV-088 projection", access_level: Public, validation_gate: Some(Projection) },
+        DirectoryInvariant { path: "archive/fossil/", purpose: "Evolutionary history", access_level: Public, validation_gate: None },
+    ];
+}
