@@ -30,6 +30,14 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🧠 SynapseBus Core (`synapse-bus-core`)
+- **Bio-Mimetic Architecture**: Neural, immune, and homeostatic systems
+- **880x Cost Reduction**: Local-first, zero-cloud dependencies
+- **GSCH Compliance**: Physics gates and True First timestamps
+- **Sovereign #curl**: HTTP fetch with entropy/gravity validation
+- **Bootstrap Script**: One-command project skeleton generation
+- **See**: [SYNAPSE_BUS_CORE_README.md](SYNAPSE_BUS_CORE_README.md) for details
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
