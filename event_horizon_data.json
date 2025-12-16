@@ -1,0 +1,113 @@
+{
+  "trace": {
+    "nodes": [
+      {
+        "id": "dd2b5099-b1e8-457a-9377-17340c773430",
+        "kind": "proc.spawn",
+        "label": "proc.spawn by system",
+        "timestamp": "2025-12-16T17:51:56.053164",
+        "hash": "acce207606ff0f58112f84f54a5426238f94e8e0208d18cc6fb1c039d08de0ba"
+      },
+      {
+        "id": "5dcb6293-6129-4305-ae92-aae3b68bdd43",
+        "kind": "fs.read",
+        "label": "fs.read by system",
+        "timestamp": "2025-12-16T17:51:56.053632",
+        "hash": "5d08946d6debe7ef6847e0bad00aac9f7e7866522b72ede6e799e526ad0b4ee1"
+      },
+      {
+        "id": "6879a196-d836-4a71-bc64-3e021e8c26c7",
+        "kind": "net.flow.anomaly",
+        "label": "net.flow.anomaly by ids",
+        "timestamp": "2025-12-16T17:51:56.053709",
+        "hash": "73d2e0ba04e14f842938b6e6140d81b86394a175eeff79d424e9bf414d2eb547"
+      }
+    ],
+    "edges": [],
+    "node_count": 3,
+    "edge_count": 0
+  },
+  "fields": {
+    "fields": [
+      {
+        "key": "runnervm6qbrg:3578:Entropy",
+        "namespace": "runnervm6qbrg:3578",
+        "type": "Entropy",
+        "value": 1.0,
+        "velocity": 0.85,
+        "contributors": 3
+      },
+      {
+        "key": "runnervm6qbrg:3578:Mass",
+        "namespace": "runnervm6qbrg:3578",
+        "type": "Mass",
+        "value": 1.6,
+        "velocity": 0.0,
+        "contributors": 3
+      },
+      {
+        "key": "runnervm6qbrg:3578:Flow",
+        "namespace": "runnervm6qbrg:3578",
+        "type": "Flow",
+        "value": 0.5,
+        "velocity": 0.0,
+        "contributors": 0
+      },
+      {
+        "key": "runnervm6qbrg:3578:Trust",
+        "namespace": "runnervm6qbrg:3578",
+        "type": "Trust",
+        "value": 0.3,
+        "velocity": 0.0,
+        "contributors": 1
+      }
+    ],
+    "proposals": [
+      {
+        "optimizer": "Simulated Annealing",
+        "pattern": "entropy > 0.8",
+        "action": "cool_down_sandbox",
+        "confidence": 0.9,
+        "reasoning": "1 entropy hot spots, cooling required"
+      }
+    ]
+  },
+  "reflexes": {
+    "reflexes": [
+      {
+        "id": "f27aaf6c-5963-40d4-9b45-4a483cf49c95",
+        "name": "low_trust_quarantine",
+        "priority": 90,
+        "enabled": true,
+        "ratified": true,
+        "activation_count": 1
+      },
+      {
+        "id": "ceff9bcb-d05f-4a0c-b225-faecccf5ff2c",
+        "name": "entropy_mass_isolation",
+        "priority": 80,
+        "enabled": true,
+        "ratified": true,
+        "activation_count": 1
+      }
+    ],
+    "recent_activations": [
+      {
+        "reflex": "low_trust_quarantine",
+        "trigger": "6879a196-d836-4a71-bc64-3e021e8c26c7",
+        "timestamp": "2025-12-16T17:51:56.053876",
+        "audit_hash": "397fa8fe3a7dcce42aa8e2f32c3b40f4ace1c96dbb3eb1fb8e6b51bef44b8ff6"
+      },
+      {
+        "reflex": "entropy_mass_isolation",
+        "trigger": "6879a196-d836-4a71-bc64-3e021e8c26c7",
+        "timestamp": "2025-12-16T17:51:56.053898",
+        "audit_hash": "6a8caf185c6252c74a69fa3fb73a65ae180f6b2dec615637bb1ed0f29b217175"
+      }
+    ]
+  },
+  "stats": {
+    "spikes_processed": 3,
+    "reflexes_activated": 2
+  }
+}
