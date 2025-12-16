@@ -1,0 +1,14 @@
+name: ripley-gates
+
+on:
+  pull_request:
+
+jobs:
+  alchemical_ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Putrefaction -> Projection (placeholder)
+        run: |
+          echo "TODO: Q8: redundancy checks + projection gate."
+          echo "Example: block PR if duplicate modules, unused deps, or repeated logic patterns."

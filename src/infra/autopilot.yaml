@@ -1,0 +1,3 @@
+autopilot:
+  policy: request_equals_limit
+  bursting: false

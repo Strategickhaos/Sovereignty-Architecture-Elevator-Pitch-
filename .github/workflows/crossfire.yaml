@@ -1,0 +1,15 @@
+name: crossfire
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  crossfire_vectors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Crossfire (placeholder)
+        run: |
+          echo "TODO: Q19: generate 100 safe test vectors against parsers + schemas."
+          echo "Note: keep tests non-offensive; focus on input validation + resilience."
