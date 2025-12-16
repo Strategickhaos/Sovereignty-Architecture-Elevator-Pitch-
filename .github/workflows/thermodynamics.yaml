@@ -35,6 +35,9 @@ jobs:
         run: |
           echo "🔬 Calculating GSCH Entropy..."
           
+          # Install bc calculator
+          sudo apt-get update -qq && sudo apt-get install -y -qq bc > /dev/null 2>&1
+          
           # Calculate complexity metrics
           TOTAL_FILES=$(find . -name "*.rs" -o -name "*.py" -o -name "*.flame" | wc -l)
           TOTAL_LINES=$(find . -name "*.rs" -o -name "*.py" -o -name "*.flame" -exec wc -l {} + | tail -1 | awk '{print $1}')
@@ -142,7 +145,12 @@ jobs:
           echo "Entropy: $ENTROPY"
           echo "Threshold: $ENTROPY_THRESHOLD"
           
-          if (( $(echo "$ENTROPY < $ENTROPY_THRESHOLD" | bc -l) )); then
+          # Install bc for comparison
+          sudo apt-get update -qq && sudo apt-get install -y -qq bc > /dev/null 2>&1
+          
+          # Use bc for floating point comparison, returns 1 if true, 0 if false
+          RESULT=$(echo "$ENTROPY < $ENTROPY_THRESHOLD" | bc -l)
+          if [ "$RESULT" -eq 1 ]; then
             echo "✅ APPROVED for Docker Hub push"
             echo "Entropy is within acceptable range."
           else
