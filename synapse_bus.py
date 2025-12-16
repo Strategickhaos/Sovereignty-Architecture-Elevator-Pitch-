@@ -10,12 +10,17 @@ Use the Rust version for production deployment.
 import uuid
 import hashlib
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Optional, Any, Callable
 from enum import Enum
 import asyncio
 from collections import defaultdict
+
+# Helper function for timezone-aware datetime
+def utc_now() -> datetime:
+    """Return current UTC time as timezone-aware datetime"""
+    return datetime.now(timezone.utc)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SPIKE - Event Signal
@@ -84,7 +89,7 @@ class Spike:
     what: Dict[str, Any]
     trace: List[TraceLink] = field(default_factory=list)
     risk: FieldValues = field(default_factory=FieldValues.neutral)
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    timestamp: datetime = field(default_factory=utc_now)
     hash: str = ""
 
     def __post_init__(self):
@@ -113,7 +118,7 @@ class Spike:
             parent_id=parent.id,
             hash=parent.hash,
             relationship=relationship,
-            timestamp=datetime.utcnow()
+            timestamp=utc_now()
         ))
         self.hash = self.compute_hash()
         return self
@@ -181,7 +186,7 @@ class FieldPoint:
     field_type: FieldType
     value: float
     velocity: float = 0.0
-    last_updated: datetime = field(default_factory=datetime.utcnow)
+    last_updated: datetime = field(default_factory=utc_now)
     contributors: List[str] = field(default_factory=list)
 
 @dataclass
@@ -223,7 +228,7 @@ class GravitationalSearch(PhysicsOptimizer):
                 mass_delta = 0.1
             fp.value += mass_delta * self.g_constant
             fp.contributors.append(spike.id)
-            fp.last_updated = datetime.utcnow()
+            fp.last_updated = utc_now()
 
     def propose_reflex(self, fields: Dict[str, FieldPoint]) -> Optional[ReflexProposal]:
         high_mass = [k for k, f in fields.items() 
@@ -263,7 +268,7 @@ class SimulatedAnnealing(PhysicsOptimizer):
             fp.value = min(fp.value + effective_delta, 1.0)
             fp.velocity = effective_delta
             fp.contributors.append(spike.id)
-            fp.last_updated = datetime.utcnow()
+            fp.last_updated = utc_now()
 
     def propose_reflex(self, fields: Dict[str, FieldPoint]) -> Optional[ReflexProposal]:
         hot_spots = [k for k, f in fields.items()
@@ -300,7 +305,7 @@ class BlackHoleOptimizer(PhysicsOptimizer):
             if trust_delta != 0:
                 fp.value = max(0.0, min(1.0, fp.value + trust_delta))
                 fp.contributors.append(spike.id)
-                fp.last_updated = datetime.utcnow()
+                fp.last_updated = utc_now()
 
     def propose_reflex(self, fields: Dict[str, FieldPoint]) -> Optional[ReflexProposal]:
         black_holes = [k for k, f in fields.items()
@@ -450,7 +455,7 @@ class Reflex:
         if not self.enabled:
             return False
         if self.last_activated:
-            elapsed = (datetime.utcnow() - self.last_activated).total_seconds()
+            elapsed = (utc_now() - self.last_activated).total_seconds()
             if elapsed < self.cooldown_secs:
                 return False
         return True
@@ -461,21 +466,21 @@ class Reflex:
         if not self.pattern.matches(spike):
             return None
         
-        self.last_activated = datetime.utcnow()
+        self.last_activated = utc_now()
         self.activation_count += 1
         
         # Compute audit hash
         hasher = hashlib.sha3_256()
         hasher.update(self.id.encode())
         hasher.update(spike.id.encode())
-        hasher.update(datetime.utcnow().isoformat().encode())
+        hasher.update(utc_now().isoformat().encode())
         
         return ReflexActivation(
             reflex_id=self.id,
             reflex_name=self.name,
             trigger_spike_id=spike.id,
             action=self.action,
-            timestamp=datetime.utcnow(),
+            timestamp=utc_now(),
             audit_hash=hasher.hexdigest()
         )
 
