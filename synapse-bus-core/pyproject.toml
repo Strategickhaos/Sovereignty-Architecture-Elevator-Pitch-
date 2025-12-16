@@ -1,0 +1,65 @@
+# [AXIOM] Python Interop: For NumPy/SciPy physics prototyping
+# GSCH Physics Engine - Python Bindings
+
+[build-system]
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "synapse-bus-core"
+version = "0.1.0a0"
+description = "Sovereign OS Core - Bio-Mimetic Neural Architecture with GSCH Physics Engine"
+authors = [
+    {name = "StrategicKhaos", email = "team@strategickhaos.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Rust",
+]
+
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.11.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.7.0",
+    "mypy>=1.5.0",
+]
+
+physics = [
+    "matplotlib>=3.7.0",
+    "pandas>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+Repository = "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+python-source = "python"
+module-name = "synapse_bus_core._internal"
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

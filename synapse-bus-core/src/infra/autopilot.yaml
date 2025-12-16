@@ -1,0 +1,45 @@
+# [Q26] Request = Limit (No Bursting)
+# Autopilot Configuration - Kubernetes Resource Management
+
+autopilot:
+  resource_policy: "request_equals_limit"
+  
+  defaults:
+    cpu:
+      request: "1000m"
+      limit: "1000m"  # No bursting
+    memory:
+      request: "2Gi"
+      limit: "2Gi"    # No bursting
+    
+  node_profiles:
+    nova:
+      cpu: "4000m"
+      memory: "8Gi"
+      personality: "aggressive"
+      
+    lyra:
+      cpu: "2000m"
+      memory: "4Gi"
+      personality: "balanced"
+      
+    athena:
+      cpu: "1000m"
+      memory: "2Gi"
+      personality: "efficient"
+
+  scaling:
+    min_replicas: 3
+    max_replicas: 10
+    target_cpu_utilization: 70
+    
+  health_checks:
+    liveness_probe:
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      
+    readiness_probe:
+      initial_delay_seconds: 10
+      period_seconds: 5
+      timeout_seconds: 3

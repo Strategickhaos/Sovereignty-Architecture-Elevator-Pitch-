@@ -1,0 +1,77 @@
+# [AXIOM] Rust Manifest: Enforces 880x Cost Reduction (local-first deps)
+# Repository: synapse-bus-core
+# Version: 0.1.0-alpha (Event Horizon)
+
+[package]
+name = "synapse-bus-core"
+version = "0.1.0-alpha"
+edition = "2021"
+authors = ["StrategicKhaos <team@strategickhaos.com>"]
+description = "Sovereign OS Core - Bio-Mimetic Neural Architecture with GSCH Physics Engine"
+license = "MIT"
+repository = "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+
+[dependencies]
+# Core async runtime (local-first, no network)
+tokio = { version = "1.35", features = ["full"], default-features = false }
+async-trait = "0.1"
+
+# Serialization (zero-cost abstractions)
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Cryptography (sovereign, audited)
+ring = "0.17"
+uuid = { version = "1.6", features = ["v4", "serde"] }
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Concurrency primitives
+parking_lot = "0.12"  # Fast mutex/rwlock
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Tracing and observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Network (quarantined, minimal)
+reqwest = { version = "0.11", optional = true, default-features = false, features = ["json", "rustls-tls"] }
+
+# Physics computation (NumPy bridge via PyO3)
+ndarray = "0.15"
+
+# Random number generation
+rand = "0.8"
+
+[dev-dependencies]
+tokio-test = "0.4"
+proptest = "1.4"
+criterion = "0.5"
+
+[features]
+default = ["local-only"]
+local-only = []
+network-quarantine = ["reqwest"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[[bin]]
+name = "synapse-bus"
+path = "src/main.rs"
+
+[lib]
+name = "synapse_bus_core"
+path = "src/lib.rs"
