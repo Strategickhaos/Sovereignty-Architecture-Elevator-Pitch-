@@ -35,3 +35,11 @@ target/
 
 # Workspace data
 workspace/
+
+# React/Vite build artifacts
+dist
+dist-ui
+.vite
+
+# TypeScript build artifacts
+*.tsbuildinfo
