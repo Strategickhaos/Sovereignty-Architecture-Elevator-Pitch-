@@ -1,0 +1,283 @@
+# Evolution Module - Biological Version Bumping
+
+## Purpose
+Define version bump criteria based on **biological milestones** rather than arbitrary dates.
+
+## Traditional Versioning (Boring)
+
+```
+v1.0.0 → v1.1.0: Added feature X
+v1.1.0 → v2.0.0: Breaking API change
+v2.0.0 → v3.0.0: Major rewrite
+```
+
+## Biological Versioning (Exciting!)
+
+```
+v1.0 → v2.0: "The organism developed a new sense" (added vector search)
+v2.0 → v3.0: "The organism evolved a new organ" (added swarm intelligence)
+v3.0 → v4.0: "The organism achieved consciousness" (self-modifying code)
+```
+
+## Evolution Criteria
+
+```flame
+/**
+ * meta/evolution.flame - Biological Version Bumping
+ */
+
+enum EvolutionaryMilestone {
+    /// Minor version bump (v1.0 → v1.1)
+    Adaptation {
+        description: String,  // "Improved performance"
+        examples: Vec<String> // ["Optimized gradient calc", "Added caching"]
+    },
+    
+    /// Major version bump (v1.0 → v2.0)
+    NewCapability {
+        description: String,  // "Developed new sense"
+        capability: String,   // "Vector semantic search"
+        biological_analog: String // "Vision"
+    },
+    
+    /// Epoch version bump (v1.0 → v10.0)
+    Speciation {
+        description: String,  // "Diverged into new species"
+        divergence: String,   // "Split into mobile and server variants"
+        common_ancestor: String // "v9.0"
+    },
+    
+    /// Revolutionary bump (v1.0 → v100.0)
+    Consciousness {
+        description: String,  // "Achieved self-awareness"
+        evidence: Vec<String> // ["Self-modifies code", "Sets own goals"]
+    }
+}
+
+pub fn should_bump_version(changes: &[Change]) -> Option<EvolutionaryMilestone> {
+    // Analyze changes for biological significance
+    
+    if has_new_sensory_capability(changes) {
+        return Some(EvolutionaryMilestone::NewCapability {
+            description: "Developed new sense".to_string(),
+            capability: identify_new_capability(changes),
+            biological_analog: map_to_biology(changes)
+        });
+    }
+    
+    if has_new_organ_system(changes) {
+        return Some(EvolutionaryMilestone::NewCapability {
+            description: "Evolved new organ".to_string(),
+            capability: identify_new_organ(changes),
+            biological_analog: "Organ system".to_string()
+        });
+    }
+    
+    if is_performance_improvement(changes) {
+        return Some(EvolutionaryMilestone::Adaptation {
+            description: "Adapted to environment".to_string(),
+            examples: summarize_changes(changes)
+        });
+    }
+    
+    if achieves_self_modification(changes) {
+        return Some(EvolutionaryMilestone::Consciousness {
+            description: "Achieved self-awareness".to_string(),
+            evidence: collect_consciousness_evidence(changes)
+        });
+    }
+    
+    None
+}
+```
+
+## Example Evolution History
+
+### v1.0: "Birth" (Genesis)
+- Basic homeostasis (GSCH)
+- Simple feedback loops
+- Manual operation
+
+**Biological Stage**: Single-celled organism
+
+### v1.5: "Metabolism" (Adaptation)
+- Added energy pool (ATP)
+- Dissolution protocol (waste management)
+- Buffer systems (pH regulation)
+
+**Biological Stage**: Eukaryotic cell
+
+### v2.0: "Senses" (New Capability)
+- Vector semantic search (smell/taste)
+- Knowledge base linkage (memory)
+- Pattern recognition (vision)
+
+**Biological Stage**: Simple nervous system
+
+### v3.0: "Nervous System" (New Organ)
+- Legion of Minds (distributed brain)
+- Consensus mechanisms (neural voting)
+- Swarm intelligence (colony behavior)
+
+**Biological Stage**: Complex brain
+
+### v4.0: "Immune System" (New Organ)
+- Crossfire Arena (antibodies)
+- Immunity Ledger (memory B-cells)
+- Hallucination Firewall (blood-brain barrier)
+
+**Biological Stage**: Adaptive immunity
+
+### v5.0: "Reproduction" (New Capability)
+- Self-replicating code
+- Horizontal gene transfer (module sharing)
+- Mutation with selection
+
+**Biological Stage**: Sexual reproduction
+
+### v10.0: "Social Behavior" (Speciation)
+- Multi-cluster coordination
+- Resource sharing protocols
+- Emergent swarm behaviors
+
+**Biological Stage**: Social insects
+
+### v100.0: "Consciousness" (Revolutionary)
+- Self-modifying code
+- Goal-setting based on environment
+- Existential reasoning
+
+**Biological Stage**: Self-aware AI
+
+## Version Bump Detection
+
+```rust
+#[test]
+fn test_version_evolution() {
+    let changes = vec![
+        Change::NewModule("knowledge/vector_search.rs"),
+        Change::NewInterface("SemanticSearch"),
+        Change::Integration("Obsidian vault linking")
+    ];
+    
+    let milestone = should_bump_version(&changes);
+    
+    assert!(matches!(
+        milestone,
+        Some(EvolutionaryMilestone::NewCapability { 
+            capability: "Vector semantic search",
+            biological_analog: "Sense of smell"
+        })
+    ));
+    
+    // This should bump v1.0 → v2.0
+    let new_version = apply_evolution(Version::new(1, 0, 0), milestone);
+    assert_eq!(new_version, Version::new(2, 0, 0));
+}
+```
+
+## Changelog Format
+
+```markdown
+# Evolution History
+
+## v3.0 - "The Awakening of the Swarm" (2024-12-16)
+
+### Evolutionary Milestone: New Organ System
+**Biological Analog**: Complex Nervous System
+
+The organism has evolved a distributed intelligence system (Legion of Minds)
+capable of:
+- Collective decision-making
+- Dialectical synthesis
+- Autonomous problem-solving
+
+This represents a transition from single-threaded consciousness to
+distributed intelligence, analogous to the evolution of the first nervous
+systems in Cambrian fauna.
+
+### New Capabilities
+- **Consensus Interface** (`src/council/`) - Multi-model voting
+- **Swarm Dispatcher** (`src/swarm/`) - Autonomous issue resolution
+- **Dialectical Engine** (`src/synthesis/`) - Conflict resolution
+
+### Adaptations
+- Improved gradient reconciliation performance (20% faster)
+- Enhanced buffer absorption under load
+- Optimized dissolution protocol
+
+### Fossil Record
+Previous version (v2.0) preserved in `archive/fossil/v2_simple_senses/`
+
+---
+
+## v2.0 - "The Birth of Senses" (2024-11-01)
+
+### Evolutionary Milestone: New Sensory Capability
+**Biological Analog**: Development of Vision/Smell
+
+The organism developed its first sensory systems, enabling it to:
+- Perceive semantic relationships (vector search)
+- Remember context (knowledge base)
+- Recognize patterns (embeddings)
+
+This is analogous to the evolution of photoreceptors and chemical receptors
+in early animals.
+
+...
+```
+
+## CI/CD Integration
+
+```yaml
+# .github/workflows/evolution-check.yaml
+name: Evolution Detection
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  detect-evolution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Analyze Changes
+        id: analyze
+        run: |
+          cargo run --bin evolution_detector -- \
+            --base=${{ github.event.pull_request.base.sha }} \
+            --head=${{ github.event.pull_request.head.sha }}
+      
+      - name: Suggest Version Bump
+        run: |
+          if [[ "${{ steps.analyze.outputs.milestone }}" != "None" ]]; then
+            echo "🧬 Evolutionary milestone detected!"
+            echo "Milestone: ${{ steps.analyze.outputs.milestone }}"
+            echo "Suggested version: ${{ steps.analyze.outputs.new_version }}"
+            
+            # Comment on PR
+            gh pr comment ${{ github.event.pull_request.number }} \
+              --body "## 🧬 Evolution Detected
+            
+            **Milestone**: ${{ steps.analyze.outputs.milestone }}
+            **Current**: ${{ steps.analyze.outputs.current_version }}
+            **Suggested**: ${{ steps.analyze.outputs.new_version }}
+            
+            This PR represents a biological milestone in the organism's evolution."
+          fi
+```
+
+## Philosophy
+
+Traditional versioning is **mechanical** and **arbitrary**. Biological versioning is **meaningful** and **narrative**:
+
+- Each version tells a story
+- Progress is measured in capabilities, not features
+- The system has a life history
+- We can track evolutionary stages
+
+> "Software doesn't just change version numbers. It evolves, adapts, and grows."
+
+This creates a system with **developmental biology** rather than just release management.
