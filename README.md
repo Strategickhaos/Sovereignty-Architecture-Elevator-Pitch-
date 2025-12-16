@@ -48,6 +48,27 @@ export PRS_CHANNEL="channel_id"
 - **Commit Graph**: Real-time development activity feeds
 - **Launchpad**: Integrated with GitLens Pro features
 
+### 🎨 Event Horizon UI (`ui/`)
+- **SynapseBus Visualization**: Real-time monitoring dashboard for swarm intelligence
+- **Three Interactive Views**:
+  - 🧠 **Trace Graph**: Visual dendrite view of system events with interactive nodes
+  - 🔥 **Field Map**: Physics field heat map (Entropy, Mass, Trust)
+  - ⚡ **Reflexes**: Spinal cord view of autonomous reflex engine
+- **React + Vite**: Modern frontend with Tailwind CSS styling
+- **Live Animations**: Smooth transitions and real-time updates
+- **Demo Data**: Ready for WebSocket integration
+
+```bash
+# Start the visualization UI
+npm run ui:dev
+# Open http://localhost:3000
+
+# Build for production
+npm run ui:build
+```
+
+See [ui/README.md](ui/README.md) for detailed documentation.
+
 ### ☕ Java Development Workspace (`jdk-workspace`)
 - **OpenJDK 21**: Latest LTS version with modern Java features
 - **Build Tools**: Maven 3.6.3 and Gradle 4.4.1 pre-installed
