@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Event Horizon UI v0 - SynapseBus Visualization
 // StrategicKhaos Swarm Intelligence
@@ -54,7 +54,6 @@ const EventHorizonUI = () => {
 
   const [selectedNode, setSelectedNode] = useState(null);
   const [viewMode, setViewMode] = useState('graph'); // 'graph', 'fields', 'reflexes'
-  const canvasRef = useRef(null);
   const [time, setTime] = useState(Date.now());
 
   // Animation loop
