@@ -143,6 +143,7 @@ else
     echo "  ✗ Python prototype failed"
     exit 1
 fi
+cd "$WORK_DIR/synapse-bus-core"
 echo
 
 echo "=================================================="

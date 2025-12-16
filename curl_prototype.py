@@ -19,7 +19,12 @@ class Spike:
         self.timestamp = datetime.datetime.utcnow().isoformat()
         self.origin = origin
         self.vector = vector
-        self.payload = payload
+        # Convert bytes to base64 for JSON serialization
+        if isinstance(payload, bytes):
+            import base64
+            self.payload = base64.b64encode(payload).decode('ascii')
+        else:
+            self.payload = payload
         self.risk_score = risk_score
 
     def to_json(self):
@@ -67,7 +72,7 @@ def curl(target, method='GET', headers=None, body=None, entropy=0.5, gravity=0.0
         spike = Spike(
             origin="Intrinsic::Curl",
             vector={"heat": 0.1, "gravity": gravity},
-            payload=len(response.content),
+            payload=response.content[:1024],  # First 1KB as bytes
             risk_score=entropy
         )
         print("Spike Emitted:", spike.to_json())  # Bus emit mock
