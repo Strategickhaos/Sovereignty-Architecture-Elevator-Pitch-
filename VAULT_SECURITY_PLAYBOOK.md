@@ -743,7 +743,7 @@ When a GitHub token is compromised or needs immediate rotation (e.g., token ID: 
 ```bash
 # Store new token in Vault
 vault kv put secret/github/pat \
-  token="ghp_NEW_TOKEN_VALUE_HERE" \
+  token="ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" \
   regenerated_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
   regenerated_by="$(whoami)" \
   reason="Emergency rotation - token compromise detected"
@@ -763,7 +763,7 @@ vault kv metadata put secret/github/pat \
 #### Step 3: Update GitHub Actions Secrets
 ```bash
 # Update via GitHub CLI (using stdin to avoid exposing token in process list)
-echo "ghp_NEW_TOKEN_VALUE_HERE" | gh secret set GITHUB_TOKEN --body-file - --repo your-org/your-repo
+echo "ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" | gh secret set GITHUB_TOKEN --body-file - --repo your-org/your-repo
 
 # Or via web UI:
 # 1. Go to: https://github.com/your-org/your-repo/settings/secrets/actions

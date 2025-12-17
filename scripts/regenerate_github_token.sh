@@ -20,6 +20,21 @@ TOKEN_ID="${1:-2896174608}"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 INCIDENT_ID="INC-$(date +%Y%m%d-%H%M%S)"
 
+# Function to calculate date 90 days in the future (cross-platform)
+calculate_next_rotation_date() {
+  # Try macOS/BSD date first
+  if date -v+90d "+%Y-%m-%d" 2>/dev/null; then
+    return 0
+  # Try GNU date
+  elif date -d "+90 days" "+%Y-%m-%d" 2>/dev/null; then
+    return 0
+  # Fallback
+  else
+    echo "[Calculate: current date + 90 days]"
+    return 0
+  fi
+}
+
 echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
 echo -e "${BLUE}  GitHub Personal Access Token Regeneration${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
@@ -155,7 +170,12 @@ fi
 print_section "Step 6: Verify Token Functionality"
 
 echo "Testing GitHub API access..."
-USER_RESPONSE=$(curl -s -H "Authorization: token $NEW_TOKEN" https://api.github.com/user)
+# Use curl with config file to avoid token in process list
+CURL_CONFIG=$(mktemp)
+trap "rm -f $CURL_CONFIG" EXIT
+echo "header = \"Authorization: token $NEW_TOKEN\"" > "$CURL_CONFIG"
+
+USER_RESPONSE=$(curl -s -K "$CURL_CONFIG" https://api.github.com/user)
 
 if echo "$USER_RESPONSE" | jq -e '.login' > /dev/null 2>&1; then
   USERNAME=$(echo "$USER_RESPONSE" | jq -r '.login')
@@ -169,7 +189,7 @@ fi
 # Test repository access (if in a git repo)
 if [ -n "$REPO_PATH" ]; then
   echo "Testing repository access..."
-  REPO_RESPONSE=$(curl -s -H "Authorization: token $NEW_TOKEN" \
+  REPO_RESPONSE=$(curl -s -K "$CURL_CONFIG" \
     "https://api.github.com/repos/$REPO_PATH")
   
   if echo "$REPO_RESPONSE" | jq -e '.full_name' > /dev/null 2>&1; then
@@ -178,6 +198,9 @@ if [ -n "$REPO_PATH" ]; then
     echo -e "${YELLOW}⚠${NC} Could not verify repository access"
   fi
 fi
+
+# Clean up config file
+rm -f "$CURL_CONFIG"
 
 # Step 5: Document the rotation
 print_section "Step 7: Document Incident"
@@ -222,7 +245,7 @@ cat > "$REPORT_FILE" << EOF
    Check recent workflow runs for any authentication errors
 
 4. Schedule next rotation (recommended: 90 days):
-   $(if date -v+90d "+%Y-%m-%d" 2>/dev/null; then date -v+90d "+%Y-%m-%d"; else date -d "+90 days" "+%Y-%m-%d" 2>/dev/null || echo "[Add 90 days to current date]"; fi)
+   $(calculate_next_rotation_date)
 
 ## Additional Notes
 
