@@ -176,6 +176,27 @@ ai_agents:
 - **Network Policies**: Microsegmentation for pod communication
 - **Audit Logging**: Comprehensive activity tracking
 - **Content Redaction**: Automatic PII and credential filtering
+- **Token Rotation**: Automated GitHub PAT regeneration and management
+
+### GitHub Token Management
+The project includes comprehensive procedures for managing GitHub Personal Access Tokens:
+
+```bash
+# Emergency token regeneration
+./scripts/regenerate_github_token.sh 2896174608
+
+# The script handles:
+# - Token regeneration on GitHub
+# - Vault secret updates
+# - GitHub Actions secrets sync
+# - Functionality verification
+# - Incident documentation
+```
+
+**Documentation**:
+- [SECURITY.md](SECURITY.md) - Token security policies and best practices
+- [VAULT_SECURITY_PLAYBOOK.md](VAULT_SECURITY_PLAYBOOK.md) - Detailed rotation procedures
+- [scripts/README.md](scripts/README.md) - Script usage and guidelines
 
 ### Production Safeguards
 ```yaml
