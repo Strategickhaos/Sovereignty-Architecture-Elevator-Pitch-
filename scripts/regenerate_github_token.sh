@@ -84,9 +84,16 @@ echo -e "${YELLOW}Paste the new GitHub token:${NC}"
 read -s NEW_TOKEN
 echo ""
 
-if [[ ! $NEW_TOKEN =~ ^ghp_[a-zA-Z0-9]{36,}$ ]]; then
+# Check if token was actually provided
+if [ -z "$NEW_TOKEN" ]; then
+  echo -e "${RED}Error: No token provided${NC}"
+  exit 1
+fi
+
+# Validate token format (GitHub PATs are ghp_ followed by exactly 40 characters)
+if [[ ! $NEW_TOKEN =~ ^ghp_[a-zA-Z0-9]{40}$ ]]; then
   echo -e "${RED}Error: Invalid GitHub token format${NC}"
-  echo "Token should start with 'ghp_' followed by at least 36 alphanumeric characters"
+  echo "Token should start with 'ghp_' followed by exactly 40 alphanumeric characters"
   exit 1
 fi
 
@@ -132,8 +139,8 @@ if command_exists git && git rev-parse --git-dir > /dev/null 2>&1; then
   echo -e "Repository detected: ${BLUE}$REPO_PATH${NC}"
   
   if command_exists gh; then
-    # Update via GitHub CLI
-    echo "$NEW_TOKEN" | gh secret set GITHUB_TOKEN --repo "$REPO_PATH"
+    # Update via GitHub CLI using stdin to avoid exposing token in process list
+    echo "$NEW_TOKEN" | gh secret set GITHUB_TOKEN --repo "$REPO_PATH" --body-file -
     echo -e "${GREEN}✓${NC} GitHub Actions secret updated"
   else
     echo -e "${YELLOW}⚠${NC} GitHub CLI not available"
@@ -215,7 +222,7 @@ cat > "$REPORT_FILE" << EOF
    Check recent workflow runs for any authentication errors
 
 4. Schedule next rotation (recommended: 90 days):
-   $(date -d "+90 days" "+%Y-%m-%d")
+   $(if date -v+90d "+%Y-%m-%d" 2>/dev/null; then date -v+90d "+%Y-%m-%d"; else date -d "+90 days" "+%Y-%m-%d" 2>/dev/null || echo "[Add 90 days to current date]"; fi)
 
 ## Additional Notes
 
