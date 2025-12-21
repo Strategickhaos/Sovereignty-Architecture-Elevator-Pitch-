@@ -279,9 +279,10 @@ PersistentKeepalive = 25
         for i in range(256):
             p = data.count(chr(i)) / len(data)
             if p > 0:
-                entropy -= p * (p ** 0.5)  # Simplified entropy
+                entropy += p * (p ** 0.5)  # Simplified entropy (positive)
         
-        return min(entropy / 10, 1.0)  # Normalize to 0-1
+        # Normalize to 0-1 range
+        return min(abs(entropy) / 10, 1.0)
     
     def _calculate_trust(self, interface: str) -> float:
         """Calculate trust score for network interface"""
