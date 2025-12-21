@@ -178,12 +178,14 @@ class CuneiformMapper(GlyphMapper):
             'za': '\U0001235D',   # 𒍝 (za)
             'zi': '\U00012364',   # 𒍤 (zi)
             'zu': '\U0001236A',   # 𒍪 (zu)
-            
-            # Logograms for concepts
-            'en': '\U00012097',   # 𒂗 (lord/governance)
-            'im': '\U0001214E',   # 𒅎 (wind/wave)
-            'bil': '\U00012049',  # 𒁉 (fire - using 'bi' as proxy)
-            'sag': '\U00012295',  # 𒊕 (head/leadership)
+        }
+        
+        # Add logograms for concepts (separate namespace to avoid conflicts)
+        self._logograms = {
+            'lord': '\U00012097',   # 𒂗 (EN - governance)
+            'wind': '\U0001214E',   # 𒅎 (IM - wave)
+            'fire': '\U00012049',   # 𒁉 (BIL - fire, using BI as proxy)
+            'head': '\U00012295',   # 𒊕 (SAG - leadership)
         }
     
     def get_map(self) -> Dict[str, str]:

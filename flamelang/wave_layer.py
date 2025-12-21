@@ -165,7 +165,7 @@ def glyph_to_wave(
         'mean_frequency': float(np.mean(frequencies)) if frequencies else 0.0,
         'max_frequency': float(np.max(frequencies)) if frequencies else 0.0,
         'min_frequency': float(np.min(frequencies)) if frequencies else 0.0,
-        'compression_ratio': len(input_text) / len(glyphs) if glyphs else 0.0
+        'compression_ratio': len(input_text) / len(glyphs) if len(glyphs) > 0 else 0.0
     }
     
     return WaveSpike(
