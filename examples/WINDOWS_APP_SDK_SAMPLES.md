@@ -175,7 +175,7 @@ dotnet run
 
 ## Experimental Features to Watch
 
-### Current Experimental Features (as of 2024)
+### Current Experimental Features
 - **Advanced Windowing APIs** - New window management capabilities
 - **Enhanced App Lifecycle** - Improved background task management
 - **Modern File Dialogs** - Updated file picker experiences

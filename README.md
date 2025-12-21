@@ -77,10 +77,9 @@ java HelloCloudOS.java
 - **Sovereignty-First**: Local-first development with no cloud dependencies
 - **CloudOS Compatible**: Integrates with WSL2 and Docker Desktop environment
 
-```bash
-# Access Windows App SDK documentation and samples
-See: examples/WINDOWS_APP_SDK_SAMPLES.md
+**Documentation**: See [Windows App SDK Samples Guide](examples/WINDOWS_APP_SDK_SAMPLES.md)
 
+```bash
 # Clone Microsoft's experimental samples
 git clone https://github.com/microsoft/WindowsAppSDK-Samples.git
 cd WindowsAppSDK-Samples
@@ -253,25 +252,23 @@ export PRS_CHANNEL="dev_channel_id"
 ### Platform-Specific Development
 
 #### Windows Development
-```bash
-# For Windows App SDK development
-# See: examples/WINDOWS_APP_SDK_SAMPLES.md
+For Windows App SDK development, see [Windows App SDK Samples Guide](examples/WINDOWS_APP_SDK_SAMPLES.md)
 
+```bash
 # Clone and explore experimental samples
 git clone https://github.com/microsoft/WindowsAppSDK-Samples.git
 cd WindowsAppSDK-Samples
 git checkout release/experimental
 
-# Open samples in Visual Studio 2022
-# Build and run to see WinUI 3 and modern Windows features
+# Open samples in Visual Studio 2022 and build
 ```
 
 #### Java Development
+For Java development in CloudOS, see [Java Hello CloudOS](examples/java-hello-cloudos/README.md)
+
 ```bash
 # Start the Java workspace
 ./start-cloudos-jdk.sh start
-
-# See: examples/java-hello-cloudos/README.md
 ```
 
 ### Contributing
