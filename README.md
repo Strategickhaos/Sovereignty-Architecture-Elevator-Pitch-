@@ -71,6 +71,22 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🪟 Windows App SDK Integration
+- **Experimental Samples**: Microsoft's cutting-edge Windows development features
+- **WinUI 3**: Modern native Windows UI framework
+- **Sovereignty-First**: Local-first development with no cloud dependencies
+- **CloudOS Compatible**: Integrates with WSL2 and Docker Desktop environment
+
+```bash
+# Access Windows App SDK documentation and samples
+See: examples/WINDOWS_APP_SDK_SAMPLES.md
+
+# Clone Microsoft's experimental samples
+git clone https://github.com/microsoft/WindowsAppSDK-Samples.git
+cd WindowsAppSDK-Samples
+git checkout release/experimental
+```
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment
@@ -232,6 +248,30 @@ export PRS_CHANNEL="dev_channel_id"
 
 # 3. Run VS Code tasks
 # Command Palette → Tasks: Run Task → GitLens: Review Started
+```
+
+### Platform-Specific Development
+
+#### Windows Development
+```bash
+# For Windows App SDK development
+# See: examples/WINDOWS_APP_SDK_SAMPLES.md
+
+# Clone and explore experimental samples
+git clone https://github.com/microsoft/WindowsAppSDK-Samples.git
+cd WindowsAppSDK-Samples
+git checkout release/experimental
+
+# Open samples in Visual Studio 2022
+# Build and run to see WinUI 3 and modern Windows features
+```
+
+#### Java Development
+```bash
+# Start the Java workspace
+./start-cloudos-jdk.sh start
+
+# See: examples/java-hello-cloudos/README.md
 ```
 
 ### Contributing
