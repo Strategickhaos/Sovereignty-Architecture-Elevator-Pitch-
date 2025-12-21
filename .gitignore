@@ -35,3 +35,7 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameLang generated files
+meroitic_conversion.json
+**/meroitic_conversion.json
