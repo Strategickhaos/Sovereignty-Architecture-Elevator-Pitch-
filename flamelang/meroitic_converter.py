@@ -10,7 +10,16 @@ The mapping is based on standard transliterations, handling syllables for semant
 
 from dataclasses import dataclass
 import json
+import tempfile
 from typing import Dict
+
+
+# Phonetic preprocessing mappings for semantic density
+PHONETIC_MAPPINGS = {
+    'th': 'ta',
+    'ch': 'kha',
+    'ph': 'pa'
+}
 
 
 # Meroitic Hieroglyph Map (transliteration to glyph Unicode)
@@ -83,7 +92,10 @@ def english_to_meroitic_root(input_text: str) -> ConversionSpike:
         f𐦐m𐦁𐦐ng
     """
     # Preprocess: Basic phonetic adjustments for semantic density (expandable via prompt_absorber)
-    syllables = input_text.lower().replace(' ', '').replace('th', 'ta').replace('ch', 'kha').replace('ph', 'pa')
+    syllables = input_text.lower().replace(' ', '')
+    for pattern, replacement in PHONETIC_MAPPINGS.items():
+        syllables = syllables.replace(pattern, replacement)
+    
     result = ''
     i = 0
     
@@ -108,6 +120,9 @@ def english_to_meroitic_root(input_text: str) -> ConversionSpike:
         output_glyphs=result,
         unicode_map=unicode_points
     )
+
+
+import tempfile
 
 
 def export_conversion_to_json(spike: ConversionSpike, output_path: str = 'meroitic_conversion.json') -> None:

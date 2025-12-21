@@ -39,7 +39,7 @@ print(f"Unicode Mapping: {spike.unicode_map}")
 # Output:
 # Input: Flame Lang
 # Meroitic Glyphs: f𐦐m𐦁𐦐ng
-# Unicode Mapping: U+66 U+10990 U+6D U+10981 U+10990 U+6E U+67
+# Unicode Mapping: U+00066 U+10990 U+0006D U+10981 U+10990 U+0006E U+00067
 ```
 
 ### Export to JSON

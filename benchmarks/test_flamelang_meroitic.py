@@ -7,6 +7,7 @@ Tests for Meroitic Unicode mapping and conversion functionality
 import sys
 import json
 import os
+import tempfile
 from pathlib import Path
 
 # Add parent directory to path
@@ -145,30 +146,35 @@ class TestMeroiticConverter:
         print("\n🔥 Test 7: JSON export to file")
         
         spike = english_to_meroitic_root("test export")
-        test_file = "/tmp/test_meroitic_export.json"
         
-        # Export to JSON
-        export_conversion_to_json(spike, test_file)
+        # Use tempfile for cross-platform compatibility
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as f:
+            test_file = f.name
         
-        # Verify file exists and is valid JSON
-        assert os.path.exists(test_file), "JSON file should be created"
-        
-        with open(test_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        try:
+            # Export to JSON
+            export_conversion_to_json(spike, test_file)
             
-        assert 'conversion' in data, "Should have 'conversion' key"
-        assert 'map_summary' in data, "Should have 'map_summary' key"
-        assert data['conversion']['input'] == spike.input, "Should preserve input"
-        assert isinstance(data['map_summary'], list), "map_summary should be a list"
-        
-        # Clean up
-        os.remove(test_file)
-        
-        print(f"   Exported to: {test_file}")
-        print(f"   JSON keys: {list(data.keys())}")
-        print("   ✅ PASSED")
-        self.passed += 1
-        return True
+            # Verify file exists and is valid JSON
+            assert os.path.exists(test_file), "JSON file should be created"
+            
+            with open(test_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                
+            assert 'conversion' in data, "Should have 'conversion' key"
+            assert 'map_summary' in data, "Should have 'map_summary' key"
+            assert data['conversion']['input'] == spike.input, "Should preserve input"
+            assert isinstance(data['map_summary'], list), "map_summary should be a list"
+            
+            print(f"   Exported to: {test_file}")
+            print(f"   JSON keys: {list(data.keys())}")
+            print("   ✅ PASSED")
+            self.passed += 1
+            return True
+        finally:
+            # Clean up
+            if os.path.exists(test_file):
+                os.remove(test_file)
         
     def test_meroitic_map_completeness(self):
         """Test 8: Meroitic hieroglyph map completeness"""

@@ -5,6 +5,7 @@ Demonstrates the linguistic layer of the FlameLang pipeline
 """
 
 import sys
+import tempfile
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -52,7 +53,7 @@ def demo_glyph_map():
     for key in sample_keys:
         if key in meroitic_hieroglyph_map:
             glyph = meroitic_hieroglyph_map[key]
-            codepoint = f"U+{ord(glyph):X}"
+            codepoint = f"U+{ord(glyph):05X}"
             print(f"  {key:8} -> {glyph} ({codepoint})")
 
 
@@ -98,7 +99,10 @@ def demo_json_export():
     print("-" * 70)
     
     spike = english_to_meroitic_root("FlameLang Pipeline")
-    output_file = "/tmp/flamelang_demo_export.json"
+    
+    # Use tempfile for cross-platform compatibility
+    with tempfile.NamedTemporaryFile(mode='w', suffix='_flamelang_demo.json', delete=False, encoding='utf-8') as f:
+        output_file = f.name
     
     export_conversion_to_json(spike, output_file)
     
