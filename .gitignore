@@ -39,3 +39,9 @@ workspace/
 # FlameLang generated files
 meroitic_conversion.json
 **/meroitic_conversion.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
