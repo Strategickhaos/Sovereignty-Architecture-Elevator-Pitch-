@@ -10,8 +10,11 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from flamelang import english_to_meroitic_root, meroitic_hieroglyph_map
-from flamelang.meroitic_converter import export_conversion_to_json
+from flamelang import (
+    english_to_meroitic_root,
+    meroitic_hieroglyph_map,
+    export_conversion_to_json
+)
 
 
 def demo_basic_conversion():

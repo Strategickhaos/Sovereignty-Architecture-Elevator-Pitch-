@@ -7,7 +7,7 @@ The FlameLang Linguistic Layer implements the first phase of the FlameLang pipel
 ## Features
 
 - **Phonetic to Glyph Mapping**: Converts English text to Meroitic hieroglyphs based on syllabic patterns
-- **Semantic Density**: Achieves ~1.3x-120x compression by reducing redundancy
+- **Semantic Density**: Achieves 1.3x–120x compression by reducing redundancy
 - **Unicode Standard**: Uses official Unicode Meroitic Hieroglyphs block (U+10980–U+1099F)
 - **Event Signaling**: SynapseBus-style `ConversionSpike` dataclass for monitoring
 - **JSON Export**: Serialization support for integration with other pipeline components

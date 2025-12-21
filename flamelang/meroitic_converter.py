@@ -100,7 +100,7 @@ def english_to_meroitic_root(input_text: str) -> ConversionSpike:
             i += 1
     
     # Generate Unicode points for numeric layer
-    unicode_points = ' '.join([f'U+{ord(c):X}' for c in result])
+    unicode_points = ' '.join([f'U+{ord(c):05X}' for c in result])
     
     # Simulate spike for monitoring (link to brain_arsenal or SynapseBus)
     return ConversionSpike(
