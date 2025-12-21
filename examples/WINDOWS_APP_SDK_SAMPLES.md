@@ -154,8 +154,8 @@ dotnet run
 ## Resources
 
 ### Official Documentation
-- [Windows App SDK Documentation](https://docs.microsoft.com/windows/apps/windows-app-sdk/)
-- [WinUI 3 Documentation](https://docs.microsoft.com/windows/apps/winui/winui3/)
+- [Windows App SDK Documentation](https://learn.microsoft.com/windows/apps/windows-app-sdk/)
+- [WinUI 3 Documentation](https://learn.microsoft.com/windows/apps/winui/winui3/)
 - [Experimental Features Guide](https://github.com/microsoft/WindowsAppSDK/blob/main/docs/experimental-features.md)
 
 ### Community Resources
