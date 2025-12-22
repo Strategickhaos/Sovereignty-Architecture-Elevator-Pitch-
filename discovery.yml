@@ -232,6 +232,8 @@ commands:
         - name: "rating"
           type: "int"
           required: true
+          min_value: 1
+          max_value: 5
         - name: "comment"
           type: "string"
           required: false
@@ -247,6 +249,8 @@ commands:
         - name: "rating"
           type: "int"
           required: false
+          min_value: 1
+          max_value: 5
 
 security:
   secrets_manager: "vault"  # vault|aws_ssm|gcp_sm|azure_kv

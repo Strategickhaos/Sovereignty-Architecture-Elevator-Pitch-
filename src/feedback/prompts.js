@@ -42,7 +42,9 @@ export function createFeedbackButtons(commandName, requestId = null) {
 export function parseFeedbackButton(customId) {
   const parts = customId.split(':');
   
-  if (parts[0] !== 'feedback' || parts.length < 3) {
+  // Validate format: must have at least 3 parts (feedback:command:rating)
+  // or 4 parts (feedback:command:requestId:rating)
+  if (parts[0] !== 'feedback' || parts.length < 3 || parts.length > 4) {
     return null;
   }
   

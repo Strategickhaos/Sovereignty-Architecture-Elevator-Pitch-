@@ -57,6 +57,8 @@ const commandsFromCfg = (config.commands?.list || []).map((cmd) => {
       builder.addIntegerOption((o) => {
         o.setName(p.name).setDescription(`${p.name} parameter`);
         if (p.required) o.setRequired(true);
+        if (p.min_value !== undefined) o.setMinValue(p.min_value);
+        if (p.max_value !== undefined) o.setMaxValue(p.max_value);
         return o;
       });
     }
@@ -81,6 +83,52 @@ client.once("ready", () => {
 });
 
 client.on("interactionCreate", async (interaction) => {
+  // Handle button interactions for feedback
+  if (interaction.isButton()) {
+    const feedbackData = parseFeedbackButton(interaction.customId);
+    if (!feedbackData) return;
+    
+    try {
+      await interaction.deferReply({ ephemeral: true });
+      
+      const feedbackId = feedbackStore.submit({
+        userId: interaction.user.id,
+        username: interaction.user.tag,
+        command: feedbackData.command,
+        rating: feedbackData.rating,
+        comment: "",
+        metadata: {
+          guildId: interaction.guildId,
+          channelId: interaction.channelId,
+          requestId: feedbackData.requestId,
+          feedbackType: 'button'
+        }
+      });
+      
+      const embed = new EmbedBuilder()
+        .setTitle("💬 Thank You!")
+        .setDescription(`Your ${feedbackData.rating}-star rating has been recorded.`)
+        .addFields([
+          { name: "Command", value: feedbackData.command, inline: true },
+          { name: "Rating", value: `${"⭐".repeat(feedbackData.rating)}`, inline: true }
+        ])
+        .setColor(0x00ff00)
+        .setTimestamp();
+      
+      await interaction.editReply({ embeds: [embed] });
+    } catch (error) {
+      console.error('Error handling feedback button:', error);
+      if (interaction.deferred) {
+        await interaction.editReply({ 
+          content: "❌ Failed to submit feedback. Please try again.",
+          ephemeral: true 
+        });
+      }
+    }
+    return;
+  }
+
+  // Handle slash commands
   if (!interaction.isChatInputCommand()) return;
 
   const name = interaction.commandName;
@@ -415,52 +463,6 @@ client.on("interactionCreate", async (interaction) => {
       await interaction.editReply({ embeds: [errorEmbed] });
     } else {
       await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
-    }
-  }
-});
-
-// Handle button interactions for feedback
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isButton()) return;
-  
-  const feedbackData = parseFeedbackButton(interaction.customId);
-  if (!feedbackData) return;
-  
-  try {
-    await interaction.deferReply({ ephemeral: true });
-    
-    const feedbackId = feedbackStore.submit({
-      userId: interaction.user.id,
-      username: interaction.user.tag,
-      command: feedbackData.command,
-      rating: feedbackData.rating,
-      comment: "",
-      metadata: {
-        guildId: interaction.guildId,
-        channelId: interaction.channelId,
-        requestId: feedbackData.requestId,
-        feedbackType: 'button'
-      }
-    });
-    
-    const embed = new EmbedBuilder()
-      .setTitle("💬 Thank You!")
-      .setDescription(`Your ${feedbackData.rating}-star rating has been recorded.`)
-      .addFields([
-        { name: "Command", value: feedbackData.command, inline: true },
-        { name: "Rating", value: `${"⭐".repeat(feedbackData.rating)}`, inline: true }
-      ])
-      .setColor(0x00ff00)
-      .setTimestamp();
-    
-    await interaction.editReply({ embeds: [embed] });
-  } catch (error) {
-    console.error('Error handling feedback button:', error);
-    if (interaction.deferred) {
-      await interaction.editReply({ 
-        content: "❌ Failed to submit feedback. Please try again.",
-        ephemeral: true 
-      });
     }
   }
 });

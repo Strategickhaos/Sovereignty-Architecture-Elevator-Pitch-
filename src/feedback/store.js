@@ -156,7 +156,7 @@ export class FeedbackStore {
     // Calculate average rating per command
     Object.keys(commandStats).forEach(cmd => {
       commandStats[cmd].averageRating = 
-        (commandStats[cmd].totalRating / commandStats[cmd].count).toFixed(2);
+        parseFloat((commandStats[cmd].totalRating / commandStats[cmd].count).toFixed(2));
     });
 
     // Count recent feedback (last 7 days)
@@ -168,7 +168,7 @@ export class FeedbackStore {
 
     return {
       totalCount: allFeedback.length,
-      averageRating: averageRating.toFixed(2),
+      averageRating: parseFloat(averageRating.toFixed(2)),
       ratingDistribution,
       commandStats,
       recentCount
