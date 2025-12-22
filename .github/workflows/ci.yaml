@@ -25,6 +25,8 @@ env:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,7 +51,8 @@ jobs:
 
       - name: Check code formatting with black
         run: |
-          black --check src/ tests/ || true
+          # Check code formatting (informational only for now)
+          black --check src/ tests/ || echo "Code formatting issues found - please run 'black src/ tests/'"
 
       - name: Run tests
         run: |

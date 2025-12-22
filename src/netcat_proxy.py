@@ -32,10 +32,16 @@ class NetcatProxy:
         Args:
             port: Port to listen on
             shell_type: Type of shell ('reverse' or 'bind')
+        
+        Security Note:
+            Binds to 0.0.0.0 (all interfaces) for maximum compatibility in CTF/pentest environments.
+            For production use, bind to specific interface (e.g., '127.0.0.1' or specific IP).
+            Always use in authorized testing environments only.
         """
         try:
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            # Binding to all interfaces (0.0.0.0) - intentional for pentest tool
             server_socket.bind(('0.0.0.0', port))
             server_socket.listen(5)
             
@@ -77,9 +83,18 @@ class NetcatProxy:
                 break
 
     def _handle_client(self, client_socket, client_address):
-        """Handle client connection."""
+        """
+        Handle client connection.
+        
+        NOTE: Current implementation provides basic echo functionality.
+        For production shell handling, implement proper PTY allocation:
+        - Use pty.openpty() for pseudo-terminal
+        - Handle terminal modes and window size
+        - Implement proper input/output buffering
+        - Add session management and logging
+        """
         try:
-            # Simple echo back for now - in real implementation would handle shell I/O
+            # Simple echo back for demonstration - production needs full PTY handling
             while True:
                 data = client_socket.recv(4096)
                 if not data:
@@ -99,10 +114,16 @@ class NetcatProxy:
             local_port: Local port to listen on
             remote_host: Remote host to forward to
             remote_port: Remote port to forward to
+        
+        Security Note:
+            Binds to 0.0.0.0 (all interfaces) for maximum compatibility in CTF/pentest environments.
+            For production use, bind to specific interface (e.g., '127.0.0.1' or specific IP).
+            Always use in authorized testing environments only.
         """
         try:
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            # Binding to all interfaces (0.0.0.0) - intentional for pentest tool
             server_socket.bind(('0.0.0.0', local_port))
             server_socket.listen(5)
             
@@ -172,7 +193,8 @@ class NetcatProxy:
             try:
                 source.close()
                 destination.close()
-            except:
+            except Exception:
+                # Silently ignore close errors as sockets may already be closed
                 pass
 
     def generate_shell_payloads(self, lhost: str, lport: int):

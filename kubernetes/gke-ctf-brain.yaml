@@ -143,6 +143,11 @@ metadata:
   namespace: ctf-tools
   labels:
     app: netcat-proxy
+  annotations:
+    # SECURITY WARNING: LoadBalancer exposes service publicly
+    # For production: Use ClusterIP + Ingress with authentication
+    # Or restrict loadBalancerSourceRanges to authorized IPs
+    service.beta.kubernetes.io/load-balancer-source-ranges: "0.0.0.0/0"
 spec:
   type: LoadBalancer
   selector:
