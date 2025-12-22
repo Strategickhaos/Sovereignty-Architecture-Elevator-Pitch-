@@ -140,13 +140,13 @@ class NetcatProxy:
                 if not data:
                     break
                 dst.sendall(data)
-        except:
+        except Exception:
             pass
         finally:
             try:
                 src.close()
                 dst.close()
-            except:
+            except Exception:
                 pass
     
     def generate_shells(self, lhost: str, lport: int):

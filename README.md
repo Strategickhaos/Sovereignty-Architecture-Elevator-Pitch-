@@ -108,7 +108,7 @@ ctf> scan for open ports
 ╭──────────────────────────────────────────────────────────────────╮
 │ 📍 Node: 01-Ua-Recon                                            │
 │ 📛 Name: Reconnaissance                                          │
-│ 🎲 PLL:  Ua Perm - M'2 U M U2 M' U M'2                          │
+│ 🎲 PLL:  M'2 U M U2 M' U M'2                                    │
 ├──────────────────────────────────────────────────────────────────┤
 │ 🛠️  Tools: nmap, masscan, shodan, whois, dig                     │
 │ ➡️  Next:  02-Ub-Enum, 03-H-WebApp                               │
