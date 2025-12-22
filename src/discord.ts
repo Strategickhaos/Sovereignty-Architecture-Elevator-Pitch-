@@ -1,7 +1,8 @@
 import { REST, Routes, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { getCTFBrainCommands } from "./ctf-brain-bot.js";
 
 export async function registerCommands(token: string, appId: string) {
-  const cmds = [
+  const baseCommands = [
     new SlashCommandBuilder().setName("status").setDescription("Service status")
       .addStringOption(o => o.setName("service").setRequired(true)),
     new SlashCommandBuilder().setName("logs").setDescription("Tail logs")
@@ -14,7 +15,10 @@ export async function registerCommands(token: string, appId: string) {
     new SlashCommandBuilder().setName("scale").setDescription("Scale service")
       .addStringOption(o => o.setName("service").setRequired(true))
       .addIntegerOption(o => o.setName("replicas").setRequired(true))
-  ].map(c => c.toJSON());
+  ];
+
+  const ctfCommands = getCTFBrainCommands();
+  const cmds = [...baseCommands, ...ctfCommands].map(c => c.toJSON());
 
   const rest = new REST({ version: "10" }).setToken(token);
   await rest.put(Routes.applicationCommands(appId), { body: cmds });

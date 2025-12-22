@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits, Interaction } from "discord.js";
 import { registerCommands, embed } from "./discord.js";
 import { env, loadConfig } from "./config.js";
+import { handleCTFBrainCommand } from "./ctf-brain-bot.js";
 
 const cfg = loadConfig();
 const token = env("DISCORD_TOKEN");
@@ -16,6 +17,13 @@ client.once("ready", async () => {
 client.on("interactionCreate", async (i: Interaction) => {
   if (!i.isChatInputCommand()) return;
   try {
+    // Handle CTF Brain commands
+    if (i.commandName.startsWith("ctf-")) {
+      await handleCTFBrainCommand(i);
+      return;
+    }
+
+    // Handle original commands
     if (i.commandName === "status") {
       const svc = i.options.getString("service", true);
       const r = await fetch(`${cfg.control_api.base_url}/status/${svc}`, {
