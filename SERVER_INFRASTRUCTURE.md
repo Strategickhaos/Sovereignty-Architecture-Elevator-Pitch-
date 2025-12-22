@@ -11,7 +11,7 @@
 ### **Athena Server Overload**
 
 ```
-Load Average: 477.51  ← 60x your CPU count (CRITICAL)
+Load Average: 477.51  ← 60x your 8-core CPU count (CRITICAL)
 Memory: 62.3G/62.8G   ← 99% full
 Swap: 16.0G/16.0G     ← 100% full
 

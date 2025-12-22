@@ -439,23 +439,23 @@ transmission-remote --uplimit 5000  # 5 MB/s max
 
 VAULT_PATH="$HOME/Obsidian/ResearchVault"
 TORRENT_DIR="$HOME/torrents"
-DATE=$(date +%Y%m%d)
+DATETIME=$(date +%Y%m%d-%H%M)
 
 # Create torrent
 mktorrent -p -l 18 \
   -a http://lyra:8080/announce \
-  -c "Research Vault Backup - $(date +%Y-%m-%d)" \
+  -c "Research Vault Backup - $(date +%Y-%m-%d %H:%M)" \
   -s "StrategicKhaos Private Lab" \
-  -o "$TORRENT_DIR/vault-$DATE.torrent" \
+  -o "$TORRENT_DIR/vault-$DATETIME.torrent" \
   "$VAULT_PATH"
 
 # Start seeding
-transmission-remote -a "$TORRENT_DIR/vault-$DATE.torrent"
+transmission-remote -a "$TORRENT_DIR/vault-$DATETIME.torrent"
 
 # Notify via Discord
 ./gl2discord.sh "$BACKUPS_CHANNEL" \
   "📦 Vault Torrent Created" \
-  "Backup vault-$DATE.torrent is now seeding"
+  "Backup vault-$DATETIME.torrent is now seeding"
 
 # Keep only last 30 days of torrents
 find "$TORRENT_DIR" -name "vault-*.torrent" -mtime +30 -delete
