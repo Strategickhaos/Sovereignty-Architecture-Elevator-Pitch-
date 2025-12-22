@@ -42,9 +42,7 @@ export class CTFBrain {
 
     // Add edges
     this.config.edges.forEach(([from, to]) => {
-      const neighbors = adjList.get(from) || [];
-      neighbors.push(to);
-      adjList.set(from, neighbors);
+      adjList.get(from)?.push(to);
     });
 
     return adjList;

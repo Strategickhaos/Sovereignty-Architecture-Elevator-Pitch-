@@ -249,33 +249,37 @@ function processCommand(input: string) {
 }
 
 // Handle command line arguments
-const args = process.argv.slice(2);
+async function main() {
+  const args = process.argv.slice(2);
 
-if (args.length > 0) {
-  // Non-interactive mode
-  printBanner();
-  processCommand(args.join(' '));
-} else {
-  // Interactive mode
-  printBanner();
-  printHelp();
+  if (args.length > 0) {
+    // Non-interactive mode
+    printBanner();
+    processCommand(args.join(' '));
+  } else {
+    // Interactive mode
+    printBanner();
+    printHelp();
 
-  const readline = require('readline');
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    prompt: 'ctf-brain> '
-  });
+    const { createInterface } = await import('readline');
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      prompt: 'ctf-brain> '
+    });
 
-  rl.prompt();
-
-  rl.on('line', (input: string) => {
-    processCommand(input);
     rl.prompt();
-  });
 
-  rl.on('close', () => {
-    console.log('\n👋 Goodbye!\n');
-    process.exit(0);
-  });
+    rl.on('line', (input: string) => {
+      processCommand(input);
+      rl.prompt();
+    });
+
+    rl.on('close', () => {
+      console.log('\n👋 Goodbye!\n');
+      process.exit(0);
+    });
+  }
 }
+
+main().catch(console.error);
