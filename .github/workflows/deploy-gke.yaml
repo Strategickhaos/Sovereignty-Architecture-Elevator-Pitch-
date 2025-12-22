@@ -1,0 +1,97 @@
+name: Deploy CTF Brain to GKE
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'kubernetes/**'
+      - 'Dockerfile'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+
+env:
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GKE_CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  REGISTRY: ghcr.io
+  IMAGE_NAME: strategickhaos/ctf-brain
+
+jobs:
+  deploy-to-gke:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: 
+      name: ${{ github.event.inputs.environment || 'production' }}
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials ${{ env.GKE_CLUSTER_NAME }} \
+            --zone ${{ env.GKE_ZONE }} \
+            --project ${{ env.GCP_PROJECT_ID }}
+
+      - name: Verify cluster access
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+
+      - name: Deploy to Kubernetes
+        run: |
+          # Apply Kubernetes manifests
+          kubectl apply -f kubernetes/gke-ctf-brain.yaml
+          
+          # Update deployments with latest image
+          IMAGE_TAG="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          kubectl set image deployment/ctf-brain ctf-brain=$IMAGE_TAG -n ctf-tools
+          kubectl set image deployment/netcat-proxy netcat-proxy=$IMAGE_TAG -n ctf-tools
+          
+          # Wait for rollout to complete
+          kubectl rollout status deployment/ctf-brain -n ctf-tools --timeout=300s
+          kubectl rollout status deployment/netcat-proxy -n ctf-tools --timeout=300s
+
+      - name: Verify deployment
+        run: |
+          echo "CTF Brain deployment status:"
+          kubectl get deployments -n ctf-tools
+          kubectl get pods -n ctf-tools
+          kubectl get services -n ctf-tools
+
+      - name: Get service endpoints
+        run: |
+          echo "Service endpoints:"
+          kubectl get service ctf-brain-service -n ctf-tools -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+          echo ""
+          kubectl get service netcat-proxy-service -n ctf-tools -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+          echo ""
+
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests..."
+          # Test if pods are running
+          kubectl wait --for=condition=ready pod -l app=ctf-brain -n ctf-tools --timeout=120s
+          kubectl wait --for=condition=ready pod -l app=netcat-proxy -n ctf-tools --timeout=120s
+          echo "✓ All pods are ready"

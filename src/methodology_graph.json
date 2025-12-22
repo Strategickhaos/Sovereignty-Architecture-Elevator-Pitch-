@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "id": "01-Ua-Recon",
+      "name": "Reconnaissance",
+      "pll_algorithm": "Ua Perm - M'2 U M U2 M' U M'2",
+      "description": "Initial reconnaissance and discovery phase",
+      "tools": ["nmap", "masscan", "shodan", "whois", "dig", "amass", "subfinder"],
+      "keywords": ["scan", "recon", "reconnaissance", "discover", "enumerate", "map", "ports", "services", "hosts"],
+      "confidence_weight": 0.85
+    },
+    {
+      "id": "02-Ub-Enum",
+      "name": "Enumeration",
+      "pll_algorithm": "Ub Perm - M'2 U' M U2 M' U' M'2",
+      "description": "Deep enumeration of discovered services",
+      "tools": ["gobuster", "enum4linux", "smbclient", "ldapsearch", "snmpwalk", "dirb", "ffuf"],
+      "keywords": ["enumerate", "enum", "list", "directory", "brute", "fuzz", "wordlist", "subdomain"],
+      "confidence_weight": 0.80
+    },
+    {
+      "id": "03-H-WebApp",
+      "name": "Web Application Testing",
+      "pll_algorithm": "H Perm - M'2 U M'2 U2 M'2 U M'2",
+      "description": "Web application vulnerability assessment",
+      "tools": ["burpsuite", "sqlmap", "nikto", "wpscan", "wfuzz", "xsser", "commix"],
+      "keywords": ["web", "webapp", "sql", "xss", "injection", "csrf", "lfi", "rfi", "ssrf", "burp"],
+      "confidence_weight": 0.88
+    },
+    {
+      "id": "04-Z-Exploit",
+      "name": "Exploitation",
+      "pll_algorithm": "Z Perm - M'2 U M'2 U M' U2 M'2 U2 M' U2",
+      "description": "Exploit vulnerabilities to gain access",
+      "tools": ["metasploit", "exploit-db", "netcat", "socat", "msfvenom", "searchsploit"],
+      "keywords": ["exploit", "shell", "reverse", "bind", "payload", "metasploit", "msf", "foothold", "rce", "code execution"],
+      "confidence_weight": 0.90
+    },
+    {
+      "id": "05-Aa-Creds",
+      "name": "Credential Access",
+      "pll_algorithm": "Aa Perm - x R' U R' D2 R U' R' D2 R2",
+      "description": "Credential harvesting and cracking",
+      "tools": ["hydra", "hashcat", "john", "medusa", "mimikatz", "crackmapexec", "responder"],
+      "keywords": ["password", "hash", "crack", "brute", "credentials", "creds", "auth", "login", "hydra", "hashcat"],
+      "confidence_weight": 0.82
+    },
+    {
+      "id": "06-Ab-PrivEsc",
+      "name": "Privilege Escalation",
+      "pll_algorithm": "Ab Perm - x R2 D2 R U R' D2 R U' R",
+      "description": "Escalate privileges to root/admin",
+      "tools": ["linpeas", "winpeas", "linux-exploit-suggester", "windows-exploit-suggester", "gtfobins", "lolbas"],
+      "keywords": ["privesc", "privilege", "escalation", "root", "admin", "sudo", "suid", "kernel", "elevation"],
+      "confidence_weight": 0.87
+    },
+    {
+      "id": "07-E-Persist",
+      "name": "Persistence",
+      "pll_algorithm": "E Perm - x' R U' R' D R U R' D' R U R' D R U' R' D'",
+      "description": "Establish persistence mechanisms",
+      "tools": ["cron", "systemd", "registry", "startup", "scheduled-tasks", "backdoor"],
+      "keywords": ["persist", "persistence", "backdoor", "maintain", "access", "cron", "startup", "service", "scheduled"],
+      "confidence_weight": 0.75
+    },
+    {
+      "id": "08-T-Exfil",
+      "name": "Data Exfiltration",
+      "pll_algorithm": "T Perm - R U R' U' R' F R2 U' R' U' R U R' F'",
+      "description": "Exfiltrate sensitive data",
+      "tools": ["netcat", "curl", "wget", "scp", "ftp", "dns-exfil", "icmp-exfil", "base64"],
+      "keywords": ["exfil", "exfiltrate", "data", "transfer", "download", "upload", "steal", "extract", "copy"],
+      "confidence_weight": 0.78
+    },
+    {
+      "id": "09-F-Pivot",
+      "name": "Lateral Movement",
+      "pll_algorithm": "F Perm - R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+      "description": "Pivot and move laterally through network",
+      "tools": ["chisel", "ligolo", "sshuttle", "proxychains", "metasploit-pivoting", "socat"],
+      "keywords": ["pivot", "lateral", "movement", "tunnel", "proxy", "forward", "portforward", "ssh", "chisel"],
+      "confidence_weight": 0.80
+    },
+    {
+      "id": "10-V-Cleanup",
+      "name": "Cleanup",
+      "pll_algorithm": "V Perm - R' U R' U' y R' F' R2 U' R' U R' F R F",
+      "description": "Clean up traces and logs",
+      "tools": ["shred", "wevtutil", "log-cleaner", "history", "clear-logs"],
+      "keywords": ["cleanup", "clean", "remove", "delete", "clear", "logs", "traces", "history", "cover"],
+      "confidence_weight": 0.70
+    }
+  ],
+  "edges": [
+    {"from": "01-Ua-Recon", "to": "02-Ub-Enum", "weight": 0.90},
+    {"from": "01-Ua-Recon", "to": "03-H-WebApp", "weight": 0.75},
+    {"from": "02-Ub-Enum", "to": "03-H-WebApp", "weight": 0.85},
+    {"from": "02-Ub-Enum", "to": "04-Z-Exploit", "weight": 0.80},
+    {"from": "02-Ub-Enum", "to": "05-Aa-Creds", "weight": 0.70},
+    {"from": "03-H-WebApp", "to": "04-Z-Exploit", "weight": 0.90},
+    {"from": "04-Z-Exploit", "to": "05-Aa-Creds", "weight": 0.75},
+    {"from": "04-Z-Exploit", "to": "06-Ab-PrivEsc", "weight": 0.85},
+    {"from": "05-Aa-Creds", "to": "06-Ab-PrivEsc", "weight": 0.80},
+    {"from": "05-Aa-Creds", "to": "09-F-Pivot", "weight": 0.70},
+    {"from": "06-Ab-PrivEsc", "to": "07-E-Persist", "weight": 0.80},
+    {"from": "06-Ab-PrivEsc", "to": "08-T-Exfil", "weight": 0.75},
+    {"from": "06-Ab-PrivEsc", "to": "09-F-Pivot", "weight": 0.70},
+    {"from": "07-E-Persist", "to": "08-T-Exfil", "weight": 0.65},
+    {"from": "08-T-Exfil", "to": "10-V-Cleanup", "weight": 0.85},
+    {"from": "09-F-Pivot", "to": "01-Ua-Recon", "weight": 0.80},
+    {"from": "09-F-Pivot", "to": "02-Ub-Enum", "weight": 0.75}
+  ]
+}

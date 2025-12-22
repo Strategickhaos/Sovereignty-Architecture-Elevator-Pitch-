@@ -1,0 +1,184 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ctf-tools
+  labels:
+    app: ctf-brain
+    environment: production
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ctf-brain-config
+  namespace: ctf-tools
+data:
+  OLLAMA_HOST: "http://localhost:11434"
+  GRAPH_CONFIG: "/app/src/methodology_graph.json"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ctf-brain
+  namespace: ctf-tools
+  labels:
+    app: ctf-brain
+    version: v1.0
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ctf-brain
+  template:
+    metadata:
+      labels:
+        app: ctf-brain
+        version: v1.0
+    spec:
+      containers:
+      - name: ctf-brain
+        image: ghcr.io/strategickhaos/ctf-brain:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        - name: OLLAMA_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: ctf-brain-config
+              key: OLLAMA_HOST
+        - name: GRAPH_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: ctf-brain-config
+              key: GRAPH_CONFIG
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import sys; sys.exit(0)"
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import sys; sys.exit(0)"
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ctf-brain-service
+  namespace: ctf-tools
+  labels:
+    app: ctf-brain
+spec:
+  type: ClusterIP
+  selector:
+    app: ctf-brain
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netcat-proxy
+  namespace: ctf-tools
+  labels:
+    app: netcat-proxy
+    version: v1.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netcat-proxy
+  template:
+    metadata:
+      labels:
+        app: netcat-proxy
+        version: v1.0
+    spec:
+      containers:
+      - name: netcat-proxy
+        image: ghcr.io/strategickhaos/ctf-brain:latest
+        imagePullPolicy: Always
+        command: ["python", "/app/src/netcat_proxy.py"]
+        ports:
+        - containerPort: 4444
+          name: reverse-shell
+          protocol: TCP
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netcat-proxy-service
+  namespace: ctf-tools
+  labels:
+    app: netcat-proxy
+spec:
+  type: LoadBalancer
+  selector:
+    app: netcat-proxy
+  ports:
+  - port: 4444
+    targetPort: 4444
+    protocol: TCP
+    name: reverse-shell
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ctf-brain-network-policy
+  namespace: ctf-tools
+spec:
+  podSelector:
+    matchLabels:
+      app: ctf-brain
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          app: ctf-brain
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
