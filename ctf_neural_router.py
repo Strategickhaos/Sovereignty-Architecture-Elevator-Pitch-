@@ -15,6 +15,7 @@ License: Sovereign - No vendor lock-in
 import json
 import asyncio
 import os
+import re
 from pathlib import Path
 from typing import Optional
 from dataclasses import dataclass
@@ -63,6 +64,14 @@ class CTFBrain:
     dispatches appropriate tools, and predicts optimal next moves.
     """
     
+    # LLM Configuration
+    DEFAULT_LLM_MODEL = 'qwen2.5:7b'
+    
+    # Scoring Constants
+    DEFAULT_TOOL_AVAILABILITY = 0.7  # Assume most tools available when not specified
+    MIN_EFFICIENCY_THRESHOLD = 0.1
+    TIME_PRESSURE_SCALE = 100
+    
     PHASE_MAP = {
         "Recon": "01-Ua-Recon",
         "Reconnaissance": "01-Ua-Recon",
@@ -85,11 +94,12 @@ class CTFBrain:
         "Cleanup": "10-V-Cleanup"
     }
     
-    def __init__(self, graph_path: Optional[str] = None, ollama_host: str = "http://localhost:11434"):
+    def __init__(self, graph_path: Optional[str] = None, ollama_host: str = "http://localhost:11434", llm_model: str = None):
         self.graph = nx.DiGraph()
         self.nodes_data = {}
         self.metadata = {}
         self.weights = {}
+        self.llm_model = llm_model or self.DEFAULT_LLM_MODEL
         
         # Load graph from JSON
         if graph_path is None:
@@ -234,7 +244,7 @@ Given a query, identify which phase it belongs to:
 Return ONLY valid JSON: {"phase": "...", "confidence": 0.0-1.0, "keywords": [...], "reasoning": "..."}'''
         
         response = self.ollama.chat(
-            model='qwen2.5:7b',
+            model=self.llm_model,
             messages=[
                 {'role': 'system', 'content': system_prompt},
                 {'role': 'user', 'content': query}
@@ -243,7 +253,6 @@ Return ONLY valid JSON: {"phase": "...", "confidence": 0.0-1.0, "keywords": [...
         
         content = response['message']['content']
         # Extract JSON from response
-        import re
         json_match = re.search(r'\{[^}]+\}', content, re.DOTALL)
         if json_match:
             data = json.loads(json_match.group())
@@ -294,7 +303,7 @@ Return ONLY valid JSON: {"phase": "...", "confidence": 0.0-1.0, "keywords": [...
         if available_tools:
             tool_ready = sum(1 for t in required_tools if t in available_tools) / len(required_tools) if required_tools else 1.0
         else:
-            tool_ready = 0.7  # Assume most tools available by default
+            tool_ready = self.DEFAULT_TOOL_AVAILABILITY
         
         # Context match (semantic overlap with findings)
         triggers = node_data.get('triggers', [])
@@ -305,7 +314,7 @@ Return ONLY valid JSON: {"phase": "...", "confidence": 0.0-1.0, "keywords": [...
         success_rate = historical.get(node_id, 0.7)
         
         # Efficiency (inverse of time pressure impact)
-        efficiency = max(0.1, 1.0 - (time_pressure / 100))
+        efficiency = max(self.MIN_EFFICIENCY_THRESHOLD, 1.0 - (time_pressure / self.TIME_PRESSURE_SCALE))
         
         return {
             'tool_ready': tool_ready,
