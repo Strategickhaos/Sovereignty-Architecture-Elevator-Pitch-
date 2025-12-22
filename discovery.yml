@@ -223,6 +223,30 @@ commands:
         - name: "request_id"
           type: "string"
           required: true
+    - name: "feedback"
+      description: "Submit feedback for a command"
+      params:
+        - name: "command"
+          type: "string"
+          required: true
+        - name: "rating"
+          type: "int"
+          required: true
+        - name: "comment"
+          type: "string"
+          required: false
+    - name: "feedback-stats"
+      description: "View feedback statistics"
+      params: []
+    - name: "feedback-list"
+      description: "List feedback entries"
+      params:
+        - name: "command"
+          type: "string"
+          required: false
+        - name: "rating"
+          type: "int"
+          required: false
 
 security:
   secrets_manager: "vault"  # vault|aws_ssm|gcp_sm|azure_kv
