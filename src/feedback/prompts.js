@@ -5,6 +5,10 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
  * Create feedback prompt buttons
  */
 export function createFeedbackButtons(commandName, requestId = null) {
+  if (!commandName || typeof commandName !== 'string') {
+    throw new Error('commandName must be a non-empty string');
+  }
+  
   const customId = requestId 
     ? `feedback:${commandName}:${requestId}`
     : `feedback:${commandName}`;
@@ -48,10 +52,22 @@ export function parseFeedbackButton(customId) {
     return null;
   }
   
+  // Validate command is not empty
+  if (!parts[1] || parts[1].trim() === '') {
+    return null;
+  }
+  
+  const rating = parseInt(parts[parts.length - 1]);
+  
+  // Validate rating is a valid number between 1-5
+  if (isNaN(rating) || rating < 1 || rating > 5) {
+    return null;
+  }
+  
   return {
     command: parts[1],
     requestId: parts.length === 4 ? parts[2] : null,
-    rating: parseInt(parts[parts.length - 1])
+    rating
   };
 }
 

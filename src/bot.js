@@ -86,7 +86,15 @@ client.on("interactionCreate", async (interaction) => {
   // Handle button interactions for feedback
   if (interaction.isButton()) {
     const feedbackData = parseFeedbackButton(interaction.customId);
+    
+    // Validate parsed feedback data
     if (!feedbackData) return;
+    
+    // Additional validation to ensure rating is valid
+    if (!feedbackData.command || typeof feedbackData.rating !== 'number') {
+      console.error('Invalid feedback data from button:', feedbackData);
+      return;
+    }
     
     try {
       await interaction.deferReply({ ephemeral: true });
