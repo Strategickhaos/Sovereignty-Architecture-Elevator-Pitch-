@@ -194,6 +194,7 @@ pytest tests/ --cov=src/ctf-brain --cov-report=html
 - This tool is for **authorized penetration testing only**
 - Always obtain proper authorization before testing
 - The proxy module can catch shells - use responsibly
+- **Network Security**: By default, listeners bind to all interfaces (0.0.0.0) for penetration testing scenarios. Ensure proper network isolation and use only in authorized testing environments.
 - Deployed on your own sovereign infrastructure
 
 ## 🤝 Contributing to CTF Brain

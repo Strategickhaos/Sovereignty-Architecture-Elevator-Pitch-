@@ -6,10 +6,16 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+permissions:
+  contents: read
+
 jobs:
   lint-test-build:
     name: Lint, Test & Build
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -68,6 +74,10 @@ jobs:
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      security-events: write
     
     steps:
     - name: Checkout code

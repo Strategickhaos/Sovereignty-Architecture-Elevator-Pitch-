@@ -12,12 +12,18 @@ from typing import Optional, Dict, List
 
 
 class NetcatProxy:
-    """Netcat-like proxy for reverse shells and port forwarding"""
+    """Netcat-like proxy for reverse shells and port forwarding
     
-    def __init__(self):
+    Security Note: By default, listeners bind to 0.0.0.0 (all interfaces).
+    This is intentional for penetration testing scenarios but should only
+    be used in authorized testing environments with proper network isolation.
+    """
+    
+    def __init__(self, bind_host: str = '0.0.0.0'):
         self.listeners: Dict[int, threading.Thread] = {}
         self.relays: Dict[int, threading.Thread] = {}
         self.active_shells: List[Dict] = []
+        self.bind_host = bind_host  # Configurable bind address
         
     def listen(self, port: int, shell_type: str = "reverse"):
         """Start a listener on the specified port"""
@@ -29,7 +35,8 @@ class NetcatProxy:
             try:
                 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                server.bind(('0.0.0.0', port))
+                # Bind to configured host (default 0.0.0.0 for penetration testing)
+                server.bind((self.bind_host, port))
                 server.listen(5)
                 print(f"[+] Listener started on port {port} ({shell_type} shell)")
                 
@@ -91,7 +98,8 @@ class NetcatProxy:
             try:
                 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                server.bind(('0.0.0.0', local_port))
+                # Bind to configured host (default 0.0.0.0 for penetration testing)
+                server.bind((self.bind_host, local_port))
                 server.listen(5)
                 print(f"[+] Relay created: localhost:{local_port} → {remote_host}:{remote_port}")
                 
