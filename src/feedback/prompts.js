@@ -5,7 +5,11 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
  * Create feedback prompt buttons
  */
 export function createFeedbackButtons(commandName, requestId = null) {
-  if (!commandName || typeof commandName !== 'string') {
+  if (!commandName) {
+    throw new Error('commandName is required');
+  }
+  
+  if (typeof commandName !== 'string' || commandName.trim() === '') {
     throw new Error('commandName must be a non-empty string');
   }
   

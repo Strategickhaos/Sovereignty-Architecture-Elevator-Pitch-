@@ -57,7 +57,7 @@ export class FeedbackStore {
     }
     
     // Validate rating is a number between 1-5
-    if (typeof rating !== 'number' || isNaN(rating) || rating < 1 || rating > 5) {
+    if (typeof rating !== 'number' || rating < 1 || rating > 5) {
       throw new Error('rating must be a number between 1 and 5');
     }
     

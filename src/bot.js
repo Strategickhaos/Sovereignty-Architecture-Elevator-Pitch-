@@ -87,18 +87,13 @@ client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton()) {
     const feedbackData = parseFeedbackButton(interaction.customId);
     
-    // Validate parsed feedback data
+    // parseFeedbackButton returns null for invalid data, so we can safely skip
     if (!feedbackData) return;
-    
-    // Additional validation to ensure rating is valid
-    if (!feedbackData.command || typeof feedbackData.rating !== 'number') {
-      console.error('Invalid feedback data from button:', feedbackData);
-      return;
-    }
     
     try {
       await interaction.deferReply({ ephemeral: true });
       
+      // feedbackStore.submit will validate the data and throw if invalid
       const feedbackId = feedbackStore.submit({
         userId: interaction.user.id,
         username: interaction.user.tag,
