@@ -273,6 +273,19 @@ testing:
   dry_run: true
   notify_channel: "#agents"
 
+# User Feedback Configuration
+feedback:
+  enabled: true
+  storage_path: "./data/feedback.json"
+  prompt_commands:
+    - "deploy"
+    - "request"
+    - "scale"
+    - "refinory-status"
+  notify_admin_on_low_rating: true
+  low_rating_threshold: 2
+  admin_notification_channel: "#alerts"
+
 limits:
   discord_api:
     max_messages_per_minute: 30

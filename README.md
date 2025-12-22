@@ -31,10 +31,11 @@ export PRS_CHANNEL="channel_id"
 ## 📋 Core Components
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
-- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
+- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`, `/feedback`
 - **AI Agent Integration**: GPT-4 powered assistance
 - **RBAC**: Role-based access control for production operations
 - **Audit Logging**: All interactions logged to CloudWatch
+- **User Feedback**: Collect ratings and feedback on bot operations
 
 ### 🌐 Event Gateway (`event-gateway`)
 - **Webhook Router**: GitHub/GitLab → Discord channel routing
@@ -167,6 +168,69 @@ ai_agents:
       "#inference-stream": "none"
       "#prs": "claude-3-sonnet"  # Code review assistance
 ```
+
+## 💬 User Feedback System
+
+The bot includes a comprehensive feedback collection system to gather user satisfaction and improve operations.
+
+### Feedback Commands
+
+**Submit Feedback**:
+```bash
+/feedback command:deploy rating:5 comment:"Deployment was smooth and fast!"
+```
+
+**View Statistics**:
+```bash
+/feedback-stats
+```
+Shows:
+- Total feedback count
+- Average rating across all commands
+- Rating distribution (1-5 stars)
+- Per-command statistics
+- Recent feedback trends
+
+**List Feedback**:
+```bash
+/feedback-list command:deploy rating:5
+```
+Filter and view feedback entries by command and rating.
+
+### Automatic Feedback Prompts
+
+For key operations (deploy, request, scale), the bot automatically displays rating buttons:
+- ⭐⭐⭐⭐⭐ (Excellent)
+- ⭐⭐⭐⭐ (Good)
+- ⭐⭐⭐ (Average)
+- ⭐⭐ (Below Average)
+- ⭐ (Poor)
+
+Users can provide instant feedback with a single click.
+
+### Feedback Configuration
+
+Configure in `discovery.yml`:
+```yaml
+feedback:
+  enabled: true
+  storage_path: "./data/feedback.json"
+  prompt_commands:
+    - "deploy"
+    - "request"
+    - "scale"
+    - "refinory-status"
+  notify_admin_on_low_rating: true
+  low_rating_threshold: 2
+  admin_notification_channel: "#alerts"
+```
+
+### Storage
+
+- Feedback is stored in JSON format at `./data/feedback.json`
+- Each entry includes: user ID, username, command, rating, comment, metadata, and timestamp
+- Data persists across bot restarts
+- Admin commands available for managing feedback data
 
 ## 🔐 Security & Governance
 

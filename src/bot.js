@@ -10,6 +10,7 @@ import {
 import { loadConfig, getChannelId } from "./config.js";
 import { RefinoryClient } from "./refinory/client.js";
 import { FeedbackStore } from "./feedback/store.js";
+import { createFeedbackButtons, parseFeedbackButton, shouldPromptFeedback } from "./feedback/prompts.js";
 
 const config = loadConfig();
 const feedbackStore = new FeedbackStore();
@@ -144,7 +145,15 @@ client.on("interactionCreate", async (interaction) => {
           ])
           .setTimestamp();
         
-        await interaction.editReply({ embeds: [embed] });
+        // Add feedback prompt if enabled
+        const components = shouldPromptFeedback("deploy", config) 
+          ? [createFeedbackButtons("deploy")] 
+          : [];
+        
+        await interaction.editReply({ 
+          embeds: [embed],
+          components 
+        });
         
         // Notify deployment channel
         const deployChannel = getChannelId(config.refinory?.discord?.announce_channel || "#deployments");
@@ -214,7 +223,15 @@ client.on("interactionCreate", async (interaction) => {
           .setColor(0x9932cc)
           .setTimestamp();
         
-        await interaction.editReply({ embeds: [embed] });
+        // Add feedback prompt if enabled
+        const components = shouldPromptFeedback("request", config) 
+          ? [createFeedbackButtons("request", requestId)] 
+          : [];
+        
+        await interaction.editReply({ 
+          embeds: [embed],
+          components 
+        });
         
         // Notify agents channel
         const agentsChannel = getChannelId("#agents");
@@ -398,6 +415,52 @@ client.on("interactionCreate", async (interaction) => {
       await interaction.editReply({ embeds: [errorEmbed] });
     } else {
       await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+    }
+  }
+});
+
+// Handle button interactions for feedback
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isButton()) return;
+  
+  const feedbackData = parseFeedbackButton(interaction.customId);
+  if (!feedbackData) return;
+  
+  try {
+    await interaction.deferReply({ ephemeral: true });
+    
+    const feedbackId = feedbackStore.submit({
+      userId: interaction.user.id,
+      username: interaction.user.tag,
+      command: feedbackData.command,
+      rating: feedbackData.rating,
+      comment: "",
+      metadata: {
+        guildId: interaction.guildId,
+        channelId: interaction.channelId,
+        requestId: feedbackData.requestId,
+        feedbackType: 'button'
+      }
+    });
+    
+    const embed = new EmbedBuilder()
+      .setTitle("💬 Thank You!")
+      .setDescription(`Your ${feedbackData.rating}-star rating has been recorded.`)
+      .addFields([
+        { name: "Command", value: feedbackData.command, inline: true },
+        { name: "Rating", value: `${"⭐".repeat(feedbackData.rating)}`, inline: true }
+      ])
+      .setColor(0x00ff00)
+      .setTimestamp();
+    
+    await interaction.editReply({ embeds: [embed] });
+  } catch (error) {
+    console.error('Error handling feedback button:', error);
+    if (interaction.deferred) {
+      await interaction.editReply({ 
+        content: "❌ Failed to submit feedback. Please try again.",
+        ephemeral: true 
+      });
     }
   }
 });
