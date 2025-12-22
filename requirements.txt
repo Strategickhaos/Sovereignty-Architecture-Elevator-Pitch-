@@ -1,0 +1,6 @@
+# Core dependencies for CTF Neural Router
+networkx>=3.0
+
+# Optional dependencies (install if needed)
+# ollama  # For LLM-based classification
+# kubernetes  # For GKE cluster execution
