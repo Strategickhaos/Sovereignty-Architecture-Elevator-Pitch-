@@ -2,6 +2,33 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+---
+
+## 📚 Complete Infrastructure Documentation
+
+**For comprehensive documentation of the entire Strategickhaos DAO ecosystem, see:**
+
+### **[docs/INFRASTRUCTURE_MAP.md](./docs/INFRASTRUCTURE_MAP.md)** - Complete Ecosystem Overview
+
+This master document covers:
+- **Two Wyoming Legal Entities** (StrategicKhaos DAO LLC & ValorYield Engine 501(c)(3))
+- **3-Node Kubernetes Cluster** (Athena, Nova, Lyra) running 130+ services
+- **FlameLang v2.0.0** - First AI-ratified programming language with patent claims
+- **Legion of Minds Council** - Multi-AI governance system (50+ autonomous agents)
+- **SwarmGate Protocol** - Automated 7% charitable allocation treasury system
+- **Intellectual Property Portfolio** - Trademarks, patents, trade secrets
+- **Development Roadmap** through 2027
+
+**Additional detailed documentation:**
+- [FlameLang Specification](./docs/FLAMELANG_SPECIFICATION.md) - Programming language design & patent claims
+- [Legion of Minds](./docs/LEGION_OF_MINDS.md) - Multi-AI governance framework
+- [SwarmGate Protocol](./docs/SWARMGATE_PROTOCOL.md) - Treasury automation & charitable giving
+- [ValorYield Engine](./docs/VALORYIELD_ENGINE.md) - 501(c)(3) charitable entity details
+- [Dialectical Engine](./docs/DIALECTICAL_ENGINE.md) - Contradiction-to-pattern synthesis system
+- [Documentation Index](./docs/README.md) - Complete documentation directory
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
