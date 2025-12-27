@@ -1,0 +1,375 @@
+{
+  "dashboard": {
+    "title": "Enhanced Log Analytics & Self-Evolution Dashboard",
+    "tags": ["logging", "anomaly-detection", "synapsebus", "evolution"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "30s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Log Processing Overview",
+        "type": "row",
+        "gridPos": {"x": 0, "y": 0, "w": 24, "h": 1}
+      },
+      {
+        "id": 2,
+        "title": "Logs Processed vs Sampled",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 1, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "rate(logs_processed_total[5m])",
+            "legendFormat": "Processed",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(logs_sampled_total[5m])",
+            "legendFormat": "Sampled",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {"label": "logs/sec", "format": "short"},
+          {"label": "", "format": "short"}
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Cost Efficiency Metrics",
+        "type": "stat",
+        "gridPos": {"x": 12, "y": 1, "w": 6, "h": 4},
+        "targets": [
+          {
+            "expr": "estimated_monthly_cost_usd",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "currencyUSD",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 1.6, "color": "yellow"},
+                {"value": 2.0, "color": "red"}
+              ]
+            }
+          }
+        },
+        "options": {
+          "textMode": "value_and_name"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Logs per Dollar",
+        "type": "stat",
+        "gridPos": {"x": 18, "y": 1, "w": 6, "h": 4},
+        "targets": [
+          {
+            "expr": "logs_processed_total / estimated_monthly_cost_usd",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "decimals": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 30000000, "color": "yellow"},
+                {"value": 36000000, "color": "green"}
+              ]
+            }
+          }
+        },
+        "options": {
+          "textMode": "value",
+          "graphMode": "area"
+        }
+      },
+      {
+        "id": 5,
+        "title": "Sampling Rate",
+        "type": "gauge",
+        "gridPos": {"x": 12, "y": 5, "w": 12, "h": 4},
+        "targets": [
+          {
+            "expr": "rate(logs_sampled_total[1h]) / rate(logs_processed_total[1h])",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 0.2, "color": "green"},
+                {"value": 0.4, "color": "yellow"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 10,
+        "title": "Anomaly Detection",
+        "type": "row",
+        "gridPos": {"x": 0, "y": 9, "w": 24, "h": 1}
+      },
+      {
+        "id": 11,
+        "title": "Active Anomalies",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 10, "w": 24, "h": 8},
+        "targets": [
+          {
+            "expr": "ALERTS{alertname=~\".*Anomaly.*\"}",
+            "legendFormat": "{{alertname}}",
+            "refId": "A"
+          }
+        ],
+        "alert": {
+          "name": "Anomalies Detected",
+          "conditions": [
+            {
+              "evaluator": {"params": [1], "type": "gt"},
+              "operator": {"type": "and"},
+              "query": {"params": ["A", "5m", "now"]},
+              "reducer": {"params": [], "type": "avg"},
+              "type": "query"
+            }
+          ]
+        }
+      },
+      {
+        "id": 20,
+        "title": "SynapseBus Nervous System",
+        "type": "row",
+        "gridPos": {"x": 0, "y": 18, "w": 24, "h": 1}
+      },
+      {
+        "id": 21,
+        "title": "Spikes & Reflexes",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 19, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "rate(spikes_received_total[5m])",
+            "legendFormat": "Spikes Received",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(reflexes_triggered_total[5m])",
+            "legendFormat": "Reflexes Triggered",
+            "refId": "B"
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "title": "Reflex Success Rate",
+        "type": "gauge",
+        "gridPos": {"x": 12, "y": 19, "w": 6, "h": 8},
+        "targets": [
+          {
+            "expr": "rate(reflex_success_total[5m]) / (rate(reflex_success_total[5m]) + rate(reflex_failure_total[5m]))",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 0.8, "color": "yellow"},
+                {"value": 0.9, "color": "green"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 23,
+        "title": "Neural Patterns Detected",
+        "type": "stat",
+        "gridPos": {"x": 18, "y": 19, "w": 6, "h": 8},
+        "targets": [
+          {
+            "expr": "neural_patterns_detected_total",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "blue"},
+                {"value": 1, "color": "green"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 30,
+        "title": "Field Engine & Evolution",
+        "type": "row",
+        "gridPos": {"x": 0, "y": 27, "w": 24, "h": 1}
+      },
+      {
+        "id": 31,
+        "title": "Field Stability Score",
+        "type": "gauge",
+        "gridPos": {"x": 0, "y": 28, "w": 8, "h": 8},
+        "targets": [
+          {
+            "expr": "field_stability_score",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "none",
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 0.6, "color": "yellow"},
+                {"value": 0.8, "color": "green"}
+              ]
+            }
+          }
+        },
+        "options": {
+          "showThresholdLabels": true,
+          "showThresholdMarkers": true
+        }
+      },
+      {
+        "id": 32,
+        "title": "Field Vectors Over Time",
+        "type": "graph",
+        "gridPos": {"x": 8, "y": 28, "w": 8, "h": 8},
+        "targets": [
+          {
+            "expr": "field_vector_count",
+            "legendFormat": "Active Vectors",
+            "refId": "A"
+          },
+          {
+            "expr": "field_magnitude",
+            "legendFormat": "Total Magnitude",
+            "refId": "B"
+          }
+        ]
+      },
+      {
+        "id": 33,
+        "title": "DNA Synthesis Activity",
+        "type": "graph",
+        "gridPos": {"x": 16, "y": 28, "w": 8, "h": 8},
+        "targets": [
+          {
+            "expr": "rate(dna_synthesis_runs_total[1h])",
+            "legendFormat": "Synthesis Runs/hour",
+            "refId": "A"
+          },
+          {
+            "expr": "ab_tests_active",
+            "legendFormat": "Active A/B Tests",
+            "refId": "B"
+          }
+        ]
+      },
+      {
+        "id": 40,
+        "title": "Cross-Cluster Correlation",
+        "type": "row",
+        "gridPos": {"x": 0, "y": 36, "w": 24, "h": 1}
+      },
+      {
+        "id": 41,
+        "title": "Events by Cluster",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 37, "w": 24, "h": 8},
+        "targets": [
+          {
+            "expr": "rate(kubernetes_events_total[5m]) by (cluster)",
+            "legendFormat": "{{cluster}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {"label": "events/sec", "format": "short"},
+          {"label": "", "format": "short"}
+        ]
+      },
+      {
+        "id": 50,
+        "title": "System Performance",
+        "type": "row",
+        "gridPos": {"x": 0, "y": 45, "w": 24, "h": 1}
+      },
+      {
+        "id": 51,
+        "title": "Component Health",
+        "type": "table",
+        "gridPos": {"x": 0, "y": 46, "w": 24, "h": 8},
+        "targets": [
+          {
+            "expr": "up{job=~\"synapsebus|field-engine|dna-synthesis|log-enrichment\"}",
+            "format": "table",
+            "instant": true,
+            "refId": "A"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "job": "Component",
+                "Value": "Status"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "cluster",
+          "type": "query",
+          "query": "label_values(logs_processed_total, cluster_id)",
+          "current": {"text": "All", "value": "$__all"},
+          "includeAll": true
+        }
+      ]
+    },
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    }
+  }
+}

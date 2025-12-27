@@ -171,3 +171,211 @@ groups:
         annotations:
           summary: "Container restart loop detected"
           description: "Container {{ $labels.name }} has restarted {{ $value }} times in 10 minutes."
+
+  # Anomaly detection and pattern-based alerts
+  - name: anomaly_detection_alerts
+    rules:
+      # Detect sudden spikes in API calls (>2x baseline)
+      - alert: APICallSpikeAnomaly
+        expr: |
+          (rate(apiserver_request_total[5m]) / 
+           avg_over_time(rate(apiserver_request_total[5m])[1h:5m])) > 2
+        for: 3m
+        labels:
+          severity: warning
+          service: kubernetes-api
+          anomaly_type: "spike"
+        annotations:
+          summary: "Anomalous spike in Kubernetes API calls"
+          description: "API call rate is {{ $value }}x the baseline (>2x threshold)"
+      
+      # Reconciliation loop anomaly
+      - alert: ReconciliationLoopAnomaly
+        expr: |
+          histogram_quantile(0.95, 
+            rate(controller_runtime_reconcile_time_seconds_bucket[5m])) > 5
+        for: 3m
+        labels:
+          severity: warning
+          service: controller
+          anomaly_type: "latency"
+        annotations:
+          summary: "Slow reconciliation loops detected"
+          description: "95th percentile reconciliation time: {{ $value }}s (>5s threshold)"
+      
+      # Cross-cluster event correlation
+      - alert: CrossClusterEventCorrelation
+        expr: |
+          sum(rate(kubernetes_events_total{type="Warning"}[5m])) by (cluster) > 0.5
+          and
+          count(rate(kubernetes_events_total{type="Warning"}[5m]) > 0.1) by () > 1
+        for: 2m
+        labels:
+          severity: warning
+          service: multi-cluster
+          anomaly_type: "correlation"
+        annotations:
+          summary: "Correlated events across multiple clusters"
+          description: "Warning events detected in multiple clusters simultaneously"
+      
+      # Pod scheduling latency anomaly
+      - alert: PodSchedulingLatencyAnomaly
+        expr: |
+          histogram_quantile(0.99,
+            rate(scheduler_scheduling_duration_seconds_bucket[5m])) > 10
+        for: 5m
+        labels:
+          severity: warning
+          service: scheduler
+          anomaly_type: "latency"
+        annotations:
+          summary: "Abnormally high pod scheduling latency"
+          description: "99th percentile scheduling time: {{ $value }}s (>10s threshold)"
+      
+      # Detect CPU usage patterns that predict issues
+      - alert: CPUPatternPredictiveAnomaly
+        expr: |
+          predict_linear(node_cpu_seconds_total[30m], 3600) > 
+          node_cpu_seconds_total * 1.5
+        for: 5m
+        labels:
+          severity: info
+          service: system
+          anomaly_type: "predictive"
+        annotations:
+          summary: "CPU usage trend predicts saturation"
+          description: "Current trend suggests CPU will increase 50% in next hour"
+      
+      # Network traffic anomaly
+      - alert: NetworkTrafficAnomaly
+        expr: |
+          (rate(node_network_receive_bytes_total[5m]) /
+           avg_over_time(rate(node_network_receive_bytes_total[5m])[1h:5m])) > 3
+        for: 2m
+        labels:
+          severity: warning
+          service: network
+          anomaly_type: "spike"
+        annotations:
+          summary: "Unusual network traffic spike"
+          description: "Network receive rate is {{ $value }}x baseline (>3x threshold)"
+      
+      # Log volume anomaly (for cost control)
+      - alert: LogVolumeAnomaly
+        expr: |
+          rate(logs_processed_total[5m]) > 2000
+        for: 10m
+        labels:
+          severity: warning
+          service: logging
+          anomaly_type: "volume"
+        annotations:
+          summary: "Excessive log volume detected"
+          description: "Processing {{ $value }} logs/sec (>2000 threshold) - check sampling"
+      
+      # Cross-node behavior pattern
+      - alert: CrossNodeBehaviorPattern
+        expr: |
+          count(
+            (rate(node_cpu_seconds_total{mode="system"}[5m]) > 0.8) 
+            by (node)
+          ) > 3
+        for: 5m
+        labels:
+          severity: warning
+          service: cluster
+          anomaly_type: "pattern"
+        annotations:
+          summary: "Coordinated high CPU across multiple nodes"
+          description: "{{ $value }} nodes showing simultaneous high system CPU"
+
+  # SynapseBus and self-evolution alerts
+  - name: synapsebus_alerts
+    rules:
+      - alert: SynapseBusDown
+        expr: up{job="synapsebus"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: synapsebus
+        annotations:
+          summary: "SynapseBus nervous system is down"
+          description: "Log-to-action pipeline is offline"
+      
+      - alert: ReflexFailureRate
+        expr: |
+          rate(reflex_failure_total[10m]) / 
+          rate(reflexes_triggered_total[10m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: synapsebus
+        annotations:
+          summary: "High reflex failure rate"
+          description: "{{ $value | humanizePercentage }} of reflexes are failing"
+      
+      - alert: NeuralPatternDetected
+        expr: neural_patterns_detected_total > 0
+        for: 0m
+        labels:
+          severity: info
+          service: synapsebus
+        annotations:
+          summary: "New behavioral pattern detected"
+          description: "SynapseBus detected recurring pattern - triggering synthesis"
+      
+      - alert: FieldStabilityLow
+        expr: field_stability_score < 0.6
+        for: 5m
+        labels:
+          severity: warning
+          service: field-engine
+        annotations:
+          summary: "Field stability below threshold"
+          description: "Cluster field stability: {{ $value }} (threshold: 0.6)"
+      
+      - alert: DNASynthesisComplete
+        expr: dna_synthesis_runs_total > 0
+        for: 0m
+        labels:
+          severity: info
+          service: dna-synthesis
+        annotations:
+          summary: "Configuration evolution completed"
+          description: "New configuration variant synthesized and ready for A/B test"
+
+  # Cost and efficiency alerts
+  - name: cost_efficiency_alerts
+    rules:
+      - alert: LoggingCostApproachingBudget
+        expr: estimated_monthly_cost_usd > 1.6
+        for: 1h
+        labels:
+          severity: warning
+          service: logging
+        annotations:
+          summary: "Logging costs approaching monthly budget"
+          description: "Current estimated cost: ${{ $value }} (budget: $2.00)"
+      
+      - alert: LogsPerDollarRatioDegraded
+        expr: |
+          logs_processed_total / estimated_monthly_cost_usd < 36000000
+        for: 30m
+        labels:
+          severity: info
+          service: logging
+        annotations:
+          summary: "Logs-per-dollar efficiency degraded"
+          description: "Current ratio: {{ $value }} logs/$1 (target: 36M logs/$1)"
+      
+      - alert: SamplingRateOptimizationNeeded
+        expr: |
+          rate(logs_sampled_total[1h]) / 
+          rate(logs_processed_total[1h]) < 0.2
+        for: 2h
+        labels:
+          severity: info
+          service: logging
+        annotations:
+          summary: "Sampling rate may need adjustment"
+          description: "Current sampling: {{ $value | humanizePercentage }} (target: 20-25%)"

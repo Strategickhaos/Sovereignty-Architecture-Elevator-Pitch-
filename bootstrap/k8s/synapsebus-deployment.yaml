@@ -1,0 +1,418 @@
+# SynapseBus Deployment - Nervous system for log-driven actions
+# Converts log events (Spikes) into automated responses (Reflexes)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapsebus
+  namespace: kube-system
+  labels:
+    app: synapsebus
+    component: nervous-system
+
+spec:
+  replicas: 2  # High availability for critical component
+  
+  selector:
+    matchLabels:
+      app: synapsebus
+  
+  template:
+    metadata:
+      labels:
+        app: synapsebus
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    
+    spec:
+      serviceAccountName: synapsebus
+      
+      containers:
+        - name: synapsebus
+          # Using a generic Python image - would be replaced with custom SynapseBus image
+          image: python:3.11-slim
+          
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              pip install --no-cache-dir fastapi uvicorn prometheus-client pyyaml redis kubernetes && \
+              python /app/synapsebus.py
+          
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          
+          env:
+            - name: REDIS_HOST
+              value: "redis.kube-system.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: FIELD_ENGINE_ENDPOINT
+              value: "http://field-engine.kube-system.svc.cluster.local:8081"
+            - name: DNA_SYNTHESIS_ENDPOINT
+              value: "http://dna-synthesis-orchestrator.kube-system.svc.cluster.local:8082"
+            - name: DISCORD_WEBHOOK_ALERTS
+              valueFrom:
+                secretKeyRef:
+                  name: discord-secrets
+                  key: webhook_url
+                  optional: true
+          
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          
+          volumeMounts:
+            - name: config
+              mountPath: /etc/synapsebus
+              readOnly: true
+            - name: app
+              mountPath: /app
+              readOnly: true
+          
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      
+      volumes:
+        - name: config
+          configMap:
+            name: synapsebus-config
+        - name: app
+          configMap:
+            name: synapsebus-app
+
+---
+# SynapseBus application code
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: synapsebus-app
+  namespace: kube-system
+  labels:
+    app: synapsebus
+
+data:
+  synapsebus.py: |
+    #!/usr/bin/env python3
+    """
+    SynapseBus - Nervous System for Kubernetes Log-Driven Actions
+    Converts log events (Spikes) into automated responses (Reflexes)
+    """
+    
+    import os
+    import yaml
+    import asyncio
+    from datetime import datetime, timedelta
+    from typing import Dict, List, Optional
+    from fastapi import FastAPI, HTTPException
+    from pydantic import BaseModel
+    from prometheus_client import Counter, Histogram, Gauge, generate_latest
+    from starlette.responses import Response
+    import redis
+    from kubernetes import client, config
+    
+    # Initialize FastAPI
+    app = FastAPI(title="SynapseBus", version="1.0.0")
+    
+    # Prometheus metrics
+    spikes_received = Counter('spikes_received_total', 'Total spikes received', ['spike_type'])
+    spikes_processed = Counter('spikes_processed_total', 'Total spikes processed', ['spike_type'])
+    reflexes_triggered = Counter('reflexes_triggered_total', 'Total reflexes triggered', ['reflex_name'])
+    reflex_success = Counter('reflex_success_total', 'Successful reflex executions', ['reflex_name'])
+    reflex_failure = Counter('reflex_failure_total', 'Failed reflex executions', ['reflex_name'])
+    neural_patterns = Counter('neural_patterns_detected_total', 'Neural patterns detected', ['pattern_name'])
+    field_stability = Gauge('field_stability_score', 'Field engine stability score')
+    dna_synthesis_runs = Counter('dna_synthesis_runs_total', 'DNA synthesis runs completed')
+    spike_processing_time = Histogram('spike_processing_duration_seconds', 'Time to process spike')
+    
+    # Models
+    class Spike(BaseModel):
+        type: str
+        cluster_id: str
+        namespace: str
+        severity: str
+        message: str
+        timestamp: datetime
+        metadata: Dict = {}
+    
+    # Global state
+    config_data = {}
+    redis_client = None
+    k8s_client = None
+    reflex_cooldowns = {}
+    
+    def load_config():
+        """Load SynapseBus configuration"""
+        global config_data
+        try:
+            with open('/etc/synapsebus/config.yml', 'r') as f:
+                config_data = yaml.safe_load(f)
+        except Exception as e:
+            print(f"Error loading config: {e}")
+            config_data = {'reflexes': [], 'neural_pathways': {'enabled': False}}
+    
+    def init_redis():
+        """Initialize Redis connection"""
+        global redis_client
+        try:
+            redis_host = os.getenv('REDIS_HOST', 'localhost')
+            redis_port = int(os.getenv('REDIS_PORT', '6379'))
+            redis_client = redis.Redis(host=redis_host, port=redis_port, db=1, decode_responses=True)
+            redis_client.ping()
+            print(f"Connected to Redis at {redis_host}:{redis_port}")
+        except Exception as e:
+            print(f"Redis connection failed: {e}")
+            redis_client = None
+    
+    def init_k8s():
+        """Initialize Kubernetes client"""
+        global k8s_client
+        try:
+            config.load_incluster_config()
+            k8s_client = client.CoreV1Api()
+            print("Initialized Kubernetes client")
+        except Exception as e:
+            print(f"Failed to initialize Kubernetes client: {e}")
+    
+    @app.on_event("startup")
+    async def startup():
+        """Initialize on startup"""
+        load_config()
+        init_redis()
+        init_k8s()
+    
+    @app.get("/health")
+    async def health():
+        """Health check endpoint"""
+        return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+    
+    @app.get("/ready")
+    async def ready():
+        """Readiness check endpoint"""
+        if not config_data:
+            raise HTTPException(status_code=503, detail="Configuration not loaded")
+        return {"status": "ready"}
+    
+    @app.get("/metrics")
+    async def metrics():
+        """Prometheus metrics endpoint"""
+        return Response(content=generate_latest(), media_type="text/plain")
+    
+    @app.post("/api/v1/spikes")
+    async def receive_spike(spike: Spike):
+        """Receive and process a spike from log enrichment"""
+        with spike_processing_time.time():
+            spikes_received.labels(spike_type=spike.type).inc()
+            
+            # Store spike for pattern detection
+            if redis_client and config_data.get('neural_pathways', {}).get('enabled'):
+                store_spike_pattern(spike)
+            
+            # Check for matching reflexes
+            triggered_reflexes = await trigger_reflexes(spike)
+            
+            spikes_processed.labels(spike_type=spike.type).inc()
+            
+            return {
+                "status": "processed",
+                "spike_id": f"{spike.cluster_id}-{spike.timestamp.timestamp()}",
+                "reflexes_triggered": len(triggered_reflexes),
+                "reflexes": triggered_reflexes
+            }
+    
+    def store_spike_pattern(spike: Spike):
+        """Store spike for pattern detection"""
+        try:
+            if redis_client:
+                key = f"spike:{spike.cluster_id}:{spike.type}"
+                redis_client.lpush(key, spike.timestamp.isoformat())
+                redis_client.ltrim(key, 0, 99)  # Keep last 100
+                redis_client.expire(key, 604800)  # 7 days
+        except Exception as e:
+            print(f"Error storing pattern: {e}")
+    
+    async def trigger_reflexes(spike: Spike) -> List[str]:
+        """Check and trigger matching reflexes"""
+        triggered = []
+        
+        for reflex in config_data.get('reflexes', []):
+            if should_trigger_reflex(reflex, spike):
+                success = await execute_reflex(reflex, spike)
+                triggered.append(reflex['name'])
+                
+                if success:
+                    reflex_success.labels(reflex_name=reflex['name']).inc()
+                else:
+                    reflex_failure.labels(reflex_name=reflex['name']).inc()
+        
+        return triggered
+    
+    def should_trigger_reflex(reflex: Dict, spike: Spike) -> bool:
+        """Check if reflex should be triggered"""
+        trigger = reflex.get('trigger', {})
+        
+        # Check spike type match
+        spike_types = trigger.get('spike_type', [])
+        if isinstance(spike_types, str):
+            spike_types = [spike_types]
+        
+        if spike.type not in spike_types:
+            return False
+        
+        # Check cooldown
+        cooldown_key = reflex['name']
+        if cooldown_key in reflex_cooldowns:
+            if datetime.utcnow() < reflex_cooldowns[cooldown_key]:
+                return False
+        
+        return True
+    
+    async def execute_reflex(reflex: Dict, spike: Spike) -> bool:
+        """Execute a reflex action"""
+        try:
+            reflexes_triggered.labels(reflex_name=reflex['name']).inc()
+            
+            # Set cooldown
+            cooldown = reflex.get('cooldown', '10m')
+            cooldown_minutes = int(cooldown.rstrip('mh'))
+            reflex_cooldowns[reflex['name']] = datetime.utcnow() + timedelta(minutes=cooldown_minutes)
+            
+            action = reflex.get('action', {})
+            action_type = action.get('type')
+            
+            print(f"Executing reflex: {reflex['name']} (type: {action_type})")
+            
+            # Simulate action execution (in real implementation, would call K8s API, webhooks, etc.)
+            await asyncio.sleep(0.1)
+            
+            return True
+        except Exception as e:
+            print(f"Reflex execution failed: {e}")
+            return False
+    
+    if __name__ == "__main__":
+        import uvicorn
+        uvicorn.run(app, host="0.0.0.0", port=8080)
+
+---
+# Service for SynapseBus
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapsebus
+  namespace: kube-system
+  labels:
+    app: synapsebus
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    app: synapsebus
+
+---
+# ServiceAccount for SynapseBus
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: synapsebus
+  namespace: kube-system
+  labels:
+    app: synapsebus
+
+---
+# ClusterRole for SynapseBus - needs permissions to trigger reflexes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: synapsebus
+  labels:
+    app: synapsebus
+
+rules:
+  # Read cluster state
+  - apiGroups: [""]
+    resources:
+      - pods
+      - nodes
+      - configmaps
+      - services
+    verbs: ["get", "list", "watch"]
+  
+  # Scale deployments
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - deployments/scale
+      - statefulsets
+      - statefulsets/scale
+    verbs: ["get", "list", "patch", "update"]
+  
+  # Patch ConfigMaps for auto-tuning
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs: ["get", "patch", "update"]
+    resourceNames: ["kube-scheduler-config", "log-enrichment-config"]
+  
+  # Cordon/drain nodes
+  - apiGroups: [""]
+    resources:
+      - nodes
+    verbs: ["get", "patch", "update"]
+  
+  # Evict pods
+  - apiGroups: [""]
+    resources:
+      - pods/eviction
+    verbs: ["create"]
+
+---
+# ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: synapsebus
+  labels:
+    app: synapsebus
+
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: synapsebus
+subjects:
+  - kind: ServiceAccount
+    name: synapsebus
+    namespace: kube-system
