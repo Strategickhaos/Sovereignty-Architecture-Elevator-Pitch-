@@ -217,8 +217,11 @@ data:
     def evolve_configuration(current: Dict, metrics: Dict, goal: str) -> Dict:
         """
         Evolve configuration based on metrics
-        Simple genetic algorithm approach
+        Simple genetic algorithm approach with configurable mutation rate
         """
+        # Configurable mutation rate for exploration (default 5%)
+        MUTATION_RATE = 0.05
+        
         evolved = current.copy()
         
         if goal == "efficiency":
@@ -235,8 +238,8 @@ data:
                 # Increase by 20%
                 evolved["sampling"]["default_rate"] = min(1.0, current_rate * 1.2)
         
-        # Random mutation for exploration (5% chance)
-        if random.random() < 0.05:
+        # Random mutation for exploration (configurable rate)
+        if random.random() < MUTATION_RATE:
             if "cost_controls" in evolved:
                 # Slightly adjust budget allocation
                 evolved["cost_controls"]["monthly_budget_usd"] *= random.uniform(0.95, 1.05)

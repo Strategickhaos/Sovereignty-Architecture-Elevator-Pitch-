@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **🔥 NEW: Enhanced Log Ingestion** - Self-improving system with SynapseBus, Field Engine, and DNA Synthesis
 
 ## 🚀 Quick Start
 
@@ -70,6 +71,37 @@ java HelloCloudOS.java
 # Stop the workspace
 ./start-cloudos-jdk.sh stop
 ```
+
+### 🔥 Enhanced Log Ingestion & Self-Evolution System (NEW)
+
+Transform raw logs into intelligent, self-improving infrastructure:
+
+- **SynapseBus**: Nervous system converting log events (Spikes) into automated actions (Reflexes)
+- **Field Engine**: Physics-based cluster stability modeling using vector field analysis
+- **DNA Synthesis Orchestrator**: ML-powered configuration evolution with A/B testing
+- **Anomaly Detection**: Pattern-based alerts for API spikes, slow reconciliation, cross-cluster correlation
+- **Cost-Efficient**: Process 72M+ logs at $2/month with intelligent sampling
+
+**Key Features:**
+- Automated scaling on slow reconciliation
+- Cross-cluster event correlation
+- Predictive capacity planning
+- Self-optimizing sampling rates
+- Logs-per-dollar ratio tracking (target: 36M logs/$1)
+
+```bash
+# Deploy enhanced logging system
+./scripts/deploy-enhanced-logging.sh
+
+# Test the deployment
+./scripts/test-enhanced-logging.sh
+
+# Monitor evolution
+kubectl logs -n kube-system -l app=synapsebus -f
+```
+
+📖 **Documentation**: [docs/ENHANCED_LOG_INGESTION.md](docs/ENHANCED_LOG_INGESTION.md)
+📊 **Monitoring**: [monitoring/README.md](monitoring/README.md)
 
 ## 🏗️ Infrastructure
 

@@ -272,12 +272,12 @@ data:
         """Check if reflex should be triggered"""
         trigger = reflex.get('trigger', {})
         
-        # Check spike type match
+        # Check spike type match - handle both string and list
         spike_types = trigger.get('spike_type', [])
         if isinstance(spike_types, str):
             spike_types = [spike_types]
         
-        if spike.type not in spike_types:
+        if spike_types and spike.type not in spike_types:
             return False
         
         # Check cooldown
@@ -293,9 +293,15 @@ data:
         try:
             reflexes_triggered.labels(reflex_name=reflex['name']).inc()
             
-            # Set cooldown
+            # Set cooldown - parse duration properly
             cooldown = reflex.get('cooldown', '10m')
-            cooldown_minutes = int(cooldown.rstrip('mh'))
+            if cooldown.endswith('h'):
+                cooldown_minutes = int(cooldown[:-1]) * 60
+            elif cooldown.endswith('m'):
+                cooldown_minutes = int(cooldown[:-1])
+            else:
+                cooldown_minutes = 10  # Default 10 minutes
+            
             reflex_cooldowns[reflex['name']] = datetime.utcnow() + timedelta(minutes=cooldown_minutes)
             
             action = reflex.get('action', {})

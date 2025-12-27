@@ -125,6 +125,8 @@ data:
         Compute field stability using vector field analysis
         Stable field: vectors are evenly distributed
         Unstable field: vectors cluster (indicating systemic issues)
+        
+        Returns stability score between 0 and 1 (higher is better)
         """
         if len(field_vectors) < 2:
             return 1.0
@@ -157,7 +159,9 @@ data:
         
         # Normalize to 0-1 range (lower distance = lower stability)
         # Using exponential decay: stability = e^(-clustering_factor)
-        clustering_factor = 1.0 / (mean_distance + 0.1)
+        # Add small epsilon (0.1) to prevent division by zero
+        DISTANCE_EPSILON = 0.1
+        clustering_factor = 1.0 / (mean_distance + DISTANCE_EPSILON)
         stability = np.exp(-clustering_factor)
         
         # Factor in magnitude variance
