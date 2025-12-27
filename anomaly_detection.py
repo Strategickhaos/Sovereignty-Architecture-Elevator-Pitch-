@@ -8,9 +8,27 @@ Converts potential energy (raw logs) into kinetic actions through
 hierarchical autonomous orchestration.
 """
 
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+try:
+    import numpy as np
+except ImportError:
+    raise ImportError(
+        "numpy is required for anomaly detection. Install with: pip install numpy>=1.24.0"
+    )
+
+try:
+    import pandas as pd
+except ImportError:
+    raise ImportError(
+        "pandas is required for anomaly detection. Install with: pip install pandas>=2.0.0"
+    )
+
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    raise ImportError(
+        "matplotlib is required for visualization. Install with: pip install matplotlib>=3.7.0"
+    )
+
 from typing import Dict, Optional, Tuple
 from pathlib import Path
 from datetime import datetime
@@ -40,6 +58,8 @@ class KubernetesAnomalyDetector:
         """
         Detects anomalies in log counts using Z-score analysis.
         
+        Note: This function creates a copy of the input DataFrame to avoid side effects.
+        
         Parameters:
         - log_data: pd.DataFrame with 'timestamp' (datetime) and 'log_count' (float/int) columns
         
@@ -51,6 +71,9 @@ class KubernetesAnomalyDetector:
         """
         if log_data.empty:
             raise ValueError("Log data is empty.")
+        
+        # Create a copy to avoid modifying the input DataFrame
+        log_data = log_data.copy()
         
         # Calculate mean and standard deviation
         self.mean = log_data['log_count'].mean()
@@ -144,13 +167,23 @@ class KubernetesAnomalyDetector:
         
         # Save or show
         if save_path:
-            plt.savefig(save_path, dpi=150, bbox_inches='tight')
-            print(f"✅ Visualization saved to: {save_path}")
+            try:
+                # Ensure directory exists
+                save_dir = Path(save_path).parent
+                if save_dir and not save_dir.exists():
+                    save_dir.mkdir(parents=True, exist_ok=True)
+                plt.savefig(save_path, dpi=150, bbox_inches='tight')
+                print(f"✅ Visualization saved to: {save_path}")
+            except (OSError, IOError) as e:
+                print(f"⚠️ Failed to save visualization to {save_path}: {e}")
         elif not show:
             # Default save path
             default_path = f"anomalies_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
-            plt.savefig(default_path, dpi=150, bbox_inches='tight')
-            print(f"✅ Visualization saved to: {default_path}")
+            try:
+                plt.savefig(default_path, dpi=150, bbox_inches='tight')
+                print(f"✅ Visualization saved to: {default_path}")
+            except (OSError, IOError) as e:
+                print(f"⚠️ Failed to save visualization to {default_path}: {e}")
         
         if show:
             plt.show()
@@ -229,8 +262,8 @@ def cross_cluster_analysis(
         cluster_summaries[cluster_name] = summary
         all_anomalies.append(anomalies)
     
-    # Combine all anomalies
-    combined_anomalies = pd.concat(all_anomalies, ignore_index=True) if all_anomalies else pd.DataFrame()
+    # Combine all anomalies (sort=False for better performance)
+    combined_anomalies = pd.concat(all_anomalies, ignore_index=True, sort=False) if all_anomalies else pd.DataFrame()
     
     return combined_anomalies, cluster_summaries
 

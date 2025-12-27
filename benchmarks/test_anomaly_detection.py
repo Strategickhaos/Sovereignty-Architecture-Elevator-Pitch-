@@ -438,7 +438,9 @@ class AnomalyDetectionTests:
         print(f"Passed: {self.passed}")
         print(f"Failed: {self.failed}")
         print(f"Skipped: {skipped}")
-        print(f"Pass Rate: {self.passed / (total - skipped) * 100:.1f}%" if (total - skipped) > 0 else "N/A")
+        # Pass rate excludes skipped tests from both numerator and denominator
+        executed_tests = total - skipped
+        print(f"Pass Rate: {self.passed / executed_tests * 100:.1f}%" if executed_tests > 0 else "N/A")
         print("=" * 80)
         
         # Overall status
@@ -453,11 +455,15 @@ class AnomalyDetectionTests:
         output_dir = Path(output_path).parent
         output_dir.mkdir(parents=True, exist_ok=True)
         
+        skipped = sum(1 for r in self.results if r['status'] == 'SKIP')
+        executed_tests = len(self.results) - skipped
+        
         test_summary = {
             'total_tests': len(self.results),
             'passed': self.passed,
             'failed': self.failed,
-            'pass_rate': self.passed / len(self.results) if self.results else 0,
+            'skipped': skipped,
+            'pass_rate': self.passed / executed_tests if executed_tests > 0 else 0,
             'test_results': self.results
         }
         
