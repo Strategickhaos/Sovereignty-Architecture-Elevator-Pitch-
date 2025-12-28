@@ -194,9 +194,15 @@ class CMBAnalyzer:
             'lqc_bb': lqc_bb
         }
     
-    def generate_plots(self, output_dir: str = '.'):
-        """Generate comparison plots for all spectra"""
-        lqc_fit = self.fit_lqc()
+    def generate_plots(self, output_dir: str = '.', lqc_fit: Dict = None):
+        """Generate comparison plots for all spectra
+        
+        Args:
+            output_dir: Directory to save plots
+            lqc_fit: Pre-computed LQC fit results (optional, will compute if not provided)
+        """
+        if lqc_fit is None:
+            lqc_fit = self.fit_lqc()
         
         # Plot EE spectrum
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -250,7 +256,7 @@ class CMBAnalyzer:
         plt.savefig(f'{output_dir}/cmb_bb_spectrum.png', dpi=300)
         plt.close()
         
-        print(f"Plots saved to {output_dir}/")
+        print(f"Plots saved to {output_dir}")
     
     def generate_report(self) -> str:
         """Generate comprehensive analysis report"""
@@ -348,7 +354,7 @@ def main():
     lqc_fit = analyzer.fit_lqc()
     
     print("Generating comparison plots...")
-    analyzer.generate_plots()
+    analyzer.generate_plots(lqc_fit=lqc_fit)
     
     print("\n" + analyzer.generate_report())
     

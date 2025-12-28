@@ -174,7 +174,7 @@ Gravitational lensing by large-scale structure:
 
 ### Upcoming Experiments
 
-- **LiteBIRD**: Japanese satellite for B-mode polarization (launch ~2032)
+- **LiteBIRD**: Japanese satellite for B-mode polarization (planned for late 2020s)
 - **CMB-S4**: Next-generation ground-based observatory
 - **Simons Observatory**: Enhanced sensitivity at multiple frequencies
 
