@@ -1,0 +1,23 @@
+# Physics Spine Requirements
+# Multi-Regime BB Spectrum in Unified LQC-String Model
+
+# Core numerical and scientific computing
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Data analysis and statistics
+pandas>=2.0.0
+
+# Visualization (optional, for examples)
+matplotlib>=3.7.0
+
+# Testing
+pytest>=7.4.0
+
+# Optional: For CLASS/CAMB integration (production use)
+# classy>=3.2.0  # Uncomment for CLASS integration
+# camb>=1.5.0    # Uncomment for CAMB integration
+
+# Optional: Advanced MCMC sampling
+# emcee>=3.1.0   # For MCMC parameter estimation
+# corner>=2.2.0  # For posterior visualization
