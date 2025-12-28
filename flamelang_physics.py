@@ -13,6 +13,12 @@ from typing import Dict, List, Tuple, Optional, Any
 from dataclasses import dataclass
 import re
 
+# Constants
+DEFAULT_BOUNCE_PARAM = 1.24  # Default bounce parameter from Planck 2018 fits
+RANDOM_SEED_FLUCTUATE = 42   # Random seed for reproducible fluctuation noise
+RANDOM_SEED_ANOMALIZE = 43   # Random seed for reproducible anomaly generation
+RANDOM_SEED_PLANCK_SAMPLE = 42  # Random seed for Planck sample data generation
+
 # Expanded OPERATORS dictionary with Hebrew roots
 OPERATORS = {
     # Core operators (original + prior expansion)
@@ -216,13 +222,13 @@ class FlameLangPhysicsCompiler:
             
             if 'FLUCTUATE' in operators:
                 noise_amp = parameters.get('noise_amplitude', 0.1)
-                np.random.seed(42)  # For reproducibility
+                np.random.seed(RANDOM_SEED_FLUCTUATE)  # For reproducibility
                 D_l += noise_amp * np.random.randn(len(l))
             
             if 'ANOMALIZE' in operators:
                 anomaly_strength = parameters.get('anomaly_strength', 0.05)
                 # Add Gaussian noise for anomalies
-                np.random.seed(43)
+                np.random.seed(RANDOM_SEED_ANOMALIZE)
                 D_l += anomaly_strength * np.random.randn(len(l)) * D_l
             
             if 'LENSE' in operators:
@@ -259,7 +265,7 @@ class CMBDataAnalyzer:
         return A * np.power(l, alpha)
     
     def bounce_model(self, l: np.ndarray, A: float, alpha: float, 
-                     bounce_param: float = 1.24) -> np.ndarray:
+                     bounce_param: float = DEFAULT_BOUNCE_PARAM) -> np.ndarray:
         """
         LQG bounce model with oscillatory terms:
         D_l ≈ A * l^α * (1 + sin(bounce_param * l) * exp(-l/10))
@@ -319,7 +325,7 @@ class CMBDataAnalyzer:
         except ImportError:
             # Fallback to simple estimation if scipy not available
             A, alpha = self.fit_power_law(l_data, D_l_data)
-            bounce_param = 1.24  # Default from problem statement
+            bounce_param = DEFAULT_BOUNCE_PARAM
             return A, alpha, bounce_param
         
         if initial_guess is None:
@@ -360,7 +366,7 @@ class CMBDataAnalyzer:
         
         if add_noise:
             # Add realistic noise (uncertainty ~10-20% at low l)
-            np.random.seed(42)
+            np.random.seed(RANDOM_SEED_PLANCK_SAMPLE)
             noise = 0.15 * D_l * np.random.randn(len(l_data))
             D_l += noise
         
@@ -414,8 +420,8 @@ class CMBDataAnalyzer:
                     'chi_squared': chi_squared,
                     'rmse': np.sqrt(np.mean(residuals**2))
                 }
-            except:
-                # Fallback to simple fit
+            except (ImportError, ValueError, RuntimeError) as e:
+                # Fallback to simple fit if curve_fit fails
                 A, alpha = self.fit_power_law(l_data, D_l_data)
                 fitted_values = model.model_function(l_data, A, alpha)
                 residuals = D_l_data - fitted_values
