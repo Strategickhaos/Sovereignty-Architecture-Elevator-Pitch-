@@ -202,6 +202,7 @@ class FlameLangPhysicsCompiler:
             # Exponential damping for low-l suppression
             l_cutoff = params.get('low_l_cutoff', 50)
             suppress_factor = params.get('suppression_factor', 0.5)
+            random_seed = params.get('random_seed', 42)  # Default reproducible seed
             
             def suppress_low_l(l_values, power_spectrum):
                 """Apply exponential suppression to low multipoles"""
@@ -224,10 +225,11 @@ class FlameLangPhysicsCompiler:
         
         elif intent == PhysicsIntent.VACUUM_FLUCTUATION:
             # Add quantum fluctuation noise
+            random_seed = params.get('random_seed', 137)  # Default reproducible seed
             
             def add_fluctuations(l_values, power_spectrum):
                 """Add quantum vacuum fluctuations"""
-                np.random.seed(42)  # Reproducible
+                np.random.seed(random_seed)
                 fluctuation_amplitude = 0.05 * power_spectrum
                 noise = np.random.normal(0, fluctuation_amplitude)
                 return power_spectrum + noise
@@ -343,10 +345,14 @@ class PlanckCMBAnalyzer:
 # HELPER FUNCTIONS
 # ═══════════════════════════════════════════════════════════════════
 
-def create_sample_cmb_data(l_max: int = 100) -> CMBData:
+def create_sample_cmb_data(l_max: int = 100, random_seed: int = 137) -> CMBData:
     """
     Create sample CMB data for testing.
     Simulates Planck-like low-l power with mild suppression.
+    
+    Args:
+        l_max: Maximum multipole moment
+        random_seed: Random seed for reproducibility
     """
     l_values = np.arange(2, l_max + 1)
     
@@ -364,7 +370,7 @@ def create_sample_cmb_data(l_max: int = 100) -> CMBData:
     Dl_values = (base_power + oscillation) * suppression
     
     # Add realistic noise
-    np.random.seed(137)  # Deterministic
+    np.random.seed(random_seed)
     errors = 50 + 10 * np.random.randn(len(l_values))
     Dl_values += errors * 0.3
     

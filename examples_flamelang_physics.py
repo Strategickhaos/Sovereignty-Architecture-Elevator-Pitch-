@@ -4,9 +4,14 @@ FlameLang Physics Examples
 Demonstrates expanded Hebrew root operators for quantum cosmology
 """
 
+import os
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')  # Non-interactive backend
+
+# Use Agg backend if DISPLAY is not available (non-interactive environments)
+if not os.environ.get('DISPLAY'):
+    matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 from flamelang_physics import (
     OPERATORS,

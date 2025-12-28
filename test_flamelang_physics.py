@@ -89,13 +89,16 @@ def test_wave_transforms():
     
     compiler = FlameLangPhysicsCompiler()
     
+    # Constants for testing
+    TEST_POWER_VALUE = 1000.0
+    
     # Test suppression transform
     result = compiler.parse_intent("Suppress low-l radiation")
     assert result.wave_transform is not None, "Suppression transform not created"
     
     # Apply to test data
     l_values = np.array([2, 10, 20, 30, 40, 50, 60])
-    power = np.ones_like(l_values, dtype=float) * 1000.0
+    power = np.ones_like(l_values, dtype=float) * TEST_POWER_VALUE
     modified = result.wave_transform(l_values, power)
     
     # Low-l should be suppressed
