@@ -12,6 +12,7 @@ import logging
 import numpy as np
 from scipy.optimize import curve_fit
 import random
+from src.flamelang_physics import PHYSICS_CODONS
 
 logging.basicConfig(level=logging.INFO)
 
@@ -98,7 +99,7 @@ def detect_anomaly(data, model, anomaly_threshold=-2.1):
         return False, None
 
 
-def evolution_twist(model, codon, mutation_rate=0.1):
+def evolution_twist(model, codon, mutation_rate=0.1, seed=None):
     """
     Apply evolution twist to model parameters under DNA codon constraints.
     
@@ -110,6 +111,7 @@ def evolution_twist(model, codon, mutation_rate=0.1):
         model: Base model function
         codon: DNA codon string constraining mutations
         mutation_rate: Maximum parameter mutation magnitude (default: 0.1)
+        seed: Optional random seed for reproducible mutations
         
     Returns:
         Twisted model function with DNA-constrained mutations
@@ -119,7 +121,8 @@ def evolution_twist(model, codon, mutation_rate=0.1):
         >>> base_model = flamelang_physics_compile("Simulate quantum bounce in early universe")
         >>> twisted = evolution_twist(base_model, 'TAG')
     """
-    from src.flamelang_physics import PHYSICS_CODONS
+    if seed is not None:
+        random.seed(seed)
     
     def twisted_model(l, A, alpha):
         """Model with DNA-constrained parameter mutations"""

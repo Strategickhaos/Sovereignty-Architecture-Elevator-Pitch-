@@ -171,16 +171,22 @@ def main():
         print("TEST SUMMARY")
         print("=" * 70)
         
-        print(f"\n1. Quantum Bounce: {'PASS' if results['quantum_bounce'][0] is not None else 'FAIL'}")
-        print(f"2. String Defect: {'PASS' if results['string_defect'][0] is not None else 'FAIL'}")
-        print(f"3. Evolution Optimization: {'PASS' if results['evolution_optimization'] is not None else 'FAIL'}")
-        print(f"4. Model Validation: {'PASS' if results['model_validation'] else 'FAIL'}")
+        # Safely check test results
+        quantum_bounce_pass = results['quantum_bounce'] is not None and results['quantum_bounce'][0] is not None
+        string_defect_pass = results['string_defect'] is not None and results['string_defect'][0] is not None
+        evolution_pass = results['evolution_optimization'] is not None
+        validation_pass = results['model_validation'] is True
+        
+        print(f"\n1. Quantum Bounce: {'PASS' if quantum_bounce_pass else 'FAIL'}")
+        print(f"2. String Defect: {'PASS' if string_defect_pass else 'FAIL'}")
+        print(f"3. Evolution Optimization: {'PASS' if evolution_pass else 'FAIL'}")
+        print(f"4. Model Validation: {'PASS' if validation_pass else 'FAIL'}")
         
         all_passed = all([
-            results['quantum_bounce'][0] is not None,
-            results['string_defect'][0] is not None,
-            results['evolution_optimization'] is not None,
-            results['model_validation']
+            quantum_bounce_pass,
+            string_defect_pass,
+            evolution_pass,
+            validation_pass
         ])
         
         print(f"\n{'✓' if all_passed else '✗'} Overall: {'ALL TESTS PASSED' if all_passed else 'SOME TESTS FAILED'}")

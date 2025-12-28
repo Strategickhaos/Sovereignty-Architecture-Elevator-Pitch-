@@ -14,9 +14,11 @@ RUN pip install --no-cache-dir \
     scipy>=1.10.0 \
     astropy>=5.3.0
 
-# Copy FlameLang physics modules
-COPY src/flamelang_physics.py /app/
-COPY src/anomaly_detector.py /app/
+# Copy FlameLang physics modules with proper directory structure
+COPY src/ /app/src/
+
+# Set Python path
+ENV PYTHONPATH=/app
 
 # Health check
-CMD ["python", "-c", "from flamelang_physics import flamelang_physics_compile; print('FlameLang QG ready')"]
+CMD ["python", "-c", "from src.flamelang_physics import flamelang_physics_compile; print('FlameLang QG ready')"]

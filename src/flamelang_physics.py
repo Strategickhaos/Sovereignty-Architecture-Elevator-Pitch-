@@ -53,10 +53,11 @@ def encode_root(root: str) -> int:
     Returns:
         Integer hash representing discrete spin network node value
     """
-    return sum(ord(c) for c in root)  # Simple hash for spin network nodes
+    # Use Python's built-in hash for better distribution
+    return abs(hash(root)) % 10000  # Bounded for spin network nodes
 
 
-def flamelang_physics_compile(intent: str) -> callable:
+def flamelang_physics_compile(intent: str, seed: int = None) -> callable:
     """
     Core FlameLang physics compiler - transforms natural language physics
     intents into executable quantum gravity models.
@@ -72,19 +73,24 @@ def flamelang_physics_compile(intent: str) -> callable:
     Args:
         intent: Natural language description of physics intent
                (e.g., "Simulate quantum bounce in early universe")
+        seed: Optional random seed for reproducible codon selection
     
     Returns:
         Compiled callable model function(l, A, alpha) -> power spectrum
         
     Raises:
         ValueError: If intent is not supported
-        SystemExit: On compilation errors
+        RuntimeError: On compilation errors
         
     Examples:
         >>> model = flamelang_physics_compile("Simulate quantum bounce in early universe")
         >>> spectrum = model(np.arange(2, 100), 1.0, -2.0)
     """
     try:
+        # Set random seed for reproducibility if provided
+        if seed is not None:
+            random.seed(seed)
+        
         # Layer 1: Parse English intent (simple keyword mapping for demo)
         intent_lower = intent.lower()
         if 'bounce' in intent_lower:
@@ -108,7 +114,13 @@ def flamelang_physics_compile(intent: str) -> callable:
             return np.sin(param * l) + np.cos(discrete_nodes / l)
 
         # Layer 5: DNA constraint (select codon, enforce bounds)
-        codon = random.choice(list(PHYSICS_CODONS.keys()))
+        # Use intent hash for deterministic selection if no seed provided
+        if seed is None:
+            codon_idx = abs(hash(intent)) % len(PHYSICS_CODONS)
+            codon = list(PHYSICS_CODONS.keys())[codon_idx]
+        else:
+            codon = random.choice(list(PHYSICS_CODONS.keys()))
+        
         bounce_param = len(codon) * random.uniform(0.1, 1.0)  # Constrained param
 
         # Layer 6: Executable model
@@ -133,9 +145,12 @@ def flamelang_physics_compile(intent: str) -> callable:
         logging.info(f"Compiled model for intent: '{intent}' with codon {codon} ({PHYSICS_CODONS[codon]})")
         return compiled_model
         
+    except ValueError as e:
+        logging.error(f"Invalid intent: {e}")
+        raise
     except Exception as e:
         logging.error(f"Compile error: {e}")
-        sys.exit(1)
+        raise RuntimeError(f"Failed to compile physics model: {e}") from e
 
 
 if __name__ == "__main__":
