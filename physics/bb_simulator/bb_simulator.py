@@ -90,7 +90,7 @@ def lcdm_model(l, r, a_lens):
         ΛCDM B-mode power spectrum
     """
     l = np.asarray(l, dtype=float)
-    return r * (1.0 / l) + a_lens * (1.0 / l)
+    return (r + a_lens) * (1.0 / l)
 
 
 def lqc_only(l, r, beta, a_lens):
@@ -141,10 +141,10 @@ def string_only(l, r, f_mu, a_lens):
     """
     l = np.asarray(l, dtype=float)
     delta_v2 = f_mu * (1.0 / l**2)
-    return r * (1.0 / l) + delta_v2 * (l**2 / (l + 1)) + a_lens * (1.0 / l)
+    return (r + a_lens) * (1.0 / l) + delta_v2 * (l**2 / (l + 1))
 
 
-def chi2(model, params, data, l):
+def chi2(model, params, data, l, errors=None):
     """
     Calculate chi-squared goodness of fit.
     
@@ -158,6 +158,8 @@ def chi2(model, params, data, l):
         Observed data values
     l : array-like
         Multipole moment values
+    errors : array-like, optional
+        Measurement uncertainties. If None, assumes uniform unit errors.
     
     Returns:
     --------
@@ -165,12 +167,19 @@ def chi2(model, params, data, l):
         Chi-squared value
     """
     model_vals = model(l, *params)
-    return np.sum((data - model_vals)**2)
+    if errors is None:
+        return np.sum((data - model_vals)**2)
+    else:
+        return np.sum(((data - model_vals) / errors)**2)
 
 
 def generate_mock_data(l_values, true_params, noise_level=0.1):
     """
     Generate mock B-mode data with noise.
+    
+    Note: This uses a simplified constant relative noise model. Real CMB data
+    typically has complex, l-dependent noise characteristics that should be
+    modeled more accurately for actual data analysis.
     
     Parameters:
     -----------

@@ -6,11 +6,6 @@ Strategickhaos DAO LLC - Physics Simulation Stack
 
 import pytest
 import numpy as np
-import sys
-from pathlib import Path
-
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from physics.bb_simulator import (
     bb_model,
