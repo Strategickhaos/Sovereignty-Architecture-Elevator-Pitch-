@@ -9,11 +9,13 @@ import numpy as np
 from scipy.optimize import curve_fit
 import logging
 import sys
+import os
 import random  # Evolution twist
 
-# Configure logging for production
+# Configure logging for production with level from environment
+log_level = os.environ.get('LOG_LEVEL', 'INFO')
 logging.basicConfig(
-    level=logging.ERROR,
+    level=getattr(logging, log_level.upper()),
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)

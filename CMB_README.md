@@ -117,8 +117,11 @@ gcloud container fleet memberships register cmb-fleet \
 # Apply Kubernetes configuration
 kubectl apply -f deployment/gke.yaml
 
-# Verify deployment
-kubectl get deployments cmb-detector
+# Verify job
+kubectl get jobs cmb-detector-job
+kubectl get cronjobs cmb-detector-cron
+
+# Check job pods
 kubectl get pods -l app=cmb-anomaly-detector
 
 # Check logs
@@ -127,11 +130,10 @@ kubectl logs -l app=cmb-anomaly-detector --tail=100
 
 ### Scaling
 
-The deployment includes HorizontalPodAutoscaler:
-- Min replicas: 3
-- Max replicas: 10
-- CPU threshold: 70%
-- Memory threshold: 80%
+The deployment uses Kubernetes Jobs:
+- One-time job: 3 parallel completions
+- CronJob: Daily execution at midnight
+- Manual execution: `kubectl create job --from=cronjob/cmb-detector-cron manual-run`
 
 ## Scientific Background
 

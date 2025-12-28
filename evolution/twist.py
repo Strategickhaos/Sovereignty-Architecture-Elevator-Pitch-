@@ -7,13 +7,13 @@ allowing the CMB anomaly detector to explore parameter space dynamically.
 
 import random
 import logging
-from typing import Union, List, Dict
+from typing import Union, List, Dict, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
 
 def mutate_parameter(value: float, mutation_rate: float = 0.1, 
-                     bounds: tuple = None) -> float:
+                     bounds: Optional[Tuple[float, float]] = None) -> float:
     """
     Mutate a single parameter with Gaussian noise.
     
@@ -35,8 +35,8 @@ def mutate_parameter(value: float, mutation_rate: float = 0.1,
 
 
 def evolve_parameters(params: Dict[str, float], 
-                      mutation_rates: Dict[str, float] = None,
-                      bounds: Dict[str, tuple] = None) -> Dict[str, float]:
+                      mutation_rates: Optional[Dict[str, float]] = None,
+                      bounds: Optional[Dict[str, Tuple[float, float]]] = None) -> Dict[str, float]:
     """
     Evolve multiple parameters simultaneously.
     

@@ -68,9 +68,9 @@ where:
    - Population-based optimization
 
 3. **GKE Deployment** (`deployment/gke.yaml`)
-   - Kubernetes deployment configuration
-   - Horizontal pod autoscaling
-   - Service mesh integration
+   - Kubernetes Job configuration for batch processing
+   - CronJob for scheduled daily execution
+   - Resource limits and requests
    - ConfigMap for runtime configuration
 
 ### Data Flow
@@ -90,7 +90,7 @@ CMB Data Source → Fetch → Preprocess → Model Fitting → Anomaly Detection
 python --version
 
 # Required packages
-pip install numpy scipy matplotlib
+pip install -r requirements.cmb.txt
 ```
 
 ### GitHub Enterprise Repository
@@ -121,7 +121,7 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
-pip install -r requirements.txt
+pip install -r requirements.cmb.txt
 
 # Run detector
 python src/anomaly_detector.py
@@ -177,22 +177,30 @@ gcloud container fleet memberships register cmb-fleet \
 # Apply deployment
 kubectl apply -f deployment/gke.yaml
 
-# Verify deployment
-kubectl get deployments
+# Verify job
+kubectl get jobs
+kubectl get cronjobs
+
+# Check job pods
 kubectl get pods -l app=cmb-anomaly-detector
 
-# Check logs
+# Check logs from completed job
 kubectl logs -l app=cmb-anomaly-detector --tail=100
 ```
 
 ### Scaling
 
-```bash
-# Manual scaling
-kubectl scale deployment cmb-detector --replicas=5
+The deployment uses Kubernetes Jobs for batch processing:
+- One-time job: Run 3 parallel completions
+- CronJob: Scheduled to run daily at midnight
+- Manual job execution: `kubectl create job --from=cronjob/cmb-detector-cron manual-run`
 
-# HPA automatically scales based on CPU/memory
-kubectl get hpa cmb-detector-hpa
+```bash
+# Manual job execution
+kubectl create job --from=cronjob/cmb-detector-cron cmb-manual-$(date +%s)
+
+# View job status
+kubectl get jobs -l app=cmb-anomaly-detector
 ```
 
 ## Testing
@@ -282,11 +290,15 @@ Pre-configured in `.codespaces/codespaces.json`:
 
 ### Logging Strategy
 
-All errors logged to stderr with context:
+Configurable logging level via environment variable:
 
 ```python
+# Set via environment
+export LOG_LEVEL=INFO  # or DEBUG, WARNING, ERROR
+
+# Default configuration
 logging.basicConfig(
-    level=logging.ERROR,
+    level=getattr(logging, log_level.upper()),
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 ```
@@ -338,11 +350,14 @@ The system implements evolutionary algorithms to dynamically explore parameter s
 ### Monitoring
 
 ```bash
-# Check pod metrics
+# Check job status
+kubectl get jobs -l app=cmb-anomaly-detector
+
+# Check pod metrics for running jobs
 kubectl top pods -l app=cmb-anomaly-detector
 
-# View HPA status
-kubectl describe hpa cmb-detector-hpa
+# View job logs
+kubectl logs -l app=cmb-anomaly-detector --tail=100
 ```
 
 ## References
