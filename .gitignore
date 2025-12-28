@@ -35,3 +35,8 @@ target/
 
 # Workspace data
 workspace/
+
+# Cosmology analysis output
+cosmology_analysis/output/
+cosmology_analysis/__pycache__/
+*.pyc
