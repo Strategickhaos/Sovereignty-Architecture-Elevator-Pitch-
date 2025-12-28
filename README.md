@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Physics Spine** - Advanced cosmology simulations and CMB analysis
 
 ## 🚀 Quick Start
 
@@ -29,6 +30,24 @@ export PRS_CHANNEL="channel_id"
 ```
 
 ## 📋 Core Components
+
+### 🔬 Physics Spine (`physics_spine/`) **NEW**
+- **Multi-Regime BB Spectrum**: Unified LQC-String cosmology model
+- **Bayesian Inference**: Complete pipeline for CMB parameter estimation
+- **Three-Regime Structure**: Low-l (bounce), transition (hybrid), mid-l (strings)
+- **Future Predictions**: LiteBIRD and CMB-S4 forecasts
+- **Paper-Ready**: Full specification with falsifiable predictions
+- **Test Coverage**: 25/25 tests passing
+
+**Quick Start**:
+```bash
+cd physics_spine
+pip install -r requirements.txt
+python examples.py  # Run demonstration
+python test_physics_spine.py  # Run tests
+```
+
+See [physics_spine/README.md](physics_spine/README.md) for detailed documentation.
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
