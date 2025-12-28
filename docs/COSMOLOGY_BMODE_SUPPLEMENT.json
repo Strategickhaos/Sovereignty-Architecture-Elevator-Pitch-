@@ -1,0 +1,399 @@
+{
+  "meta": {
+    "inventory": "Cosmology B-Mode Predictions Arsenal",
+    "artifact": "bmode_signatures",
+    "version": "1.0.0",
+    "created_utc": "2025-12-28T11:25:00Z",
+    "schema": "skhaos.cosmology.bmode/v1",
+    "notes": "Comprehensive B-mode predictions from LQC and String Theory; correlates to CMB polarization, quantum gravity signatures, and future experimental detection."
+  },
+  "neurons": [
+    {
+      "id": "LQC-BMODE-001",
+      "name": "LQC Quantum Bounce B-Mode Signature",
+      "domain": ["lqc", "cmb", "quantum_gravity"],
+      "role": "Primordial Tensor Modification",
+      "latex": "C_l^{BB}(LQC) = C_l^{BB}(r_{eff}) \\times S_{bounce}(l) + C_l^{BB}(\\tau_{LQC})",
+      "explanation": "Quantum bounce modifies tensor power spectrum at large scales (low l). Holonomy corrections suppress power at low k, reducing B-mode amplitudes compared to standard inflation. Enhanced optical depth τ ≈ 0.06-0.07 boosts reionization bump.",
+      "inputs": ["tensor_ratio_r", "optical_depth_tau", "multipole_l", "bounce_scale"],
+      "outputs": ["bmode_power_cl", "suppression_factor", "reion_enhancement"],
+      "parameters": {
+        "r_range": "0.01-0.05",
+        "tau_lqc": "0.06-0.07",
+        "tau_lcdm": "0.054",
+        "suppression_scale": "l < 30",
+        "reion_peak": "l ≈ 5-7",
+        "chi2_improvement": -7
+      },
+      "tags": ["#node/lqc", "#lobe/cmb", "#lobe/bmode", "#flame/bounce"]
+    },
+    {
+      "id": "LQC-BMODE-002",
+      "name": "LQC Holonomy Corrections",
+      "domain": ["lqc", "quantum_geometry"],
+      "role": "Power Spectrum Suppression",
+      "latex": "S_{LQC}(k) = \\exp(-k^2/k_{bounce}^2)",
+      "explanation": "Holonomy corrections introduce exponential suppression at low k (large scales). The bounce scale k_bounce ≈ 0.01 Mpc^{-1} determines transition from quantum to classical regime.",
+      "inputs": ["wavenumber_k", "bounce_density_rho_c"],
+      "outputs": ["suppression_factor_S", "transition_scale"],
+      "parameters": {
+        "rho_crit": "sqrt(3)/(16*pi^2*gamma^3*G^2*hbar)",
+        "gamma_immirzi": "0.2375",
+        "k_bounce": "0.01 Mpc^-1"
+      },
+      "tags": ["#node/lqc", "#lobe/quantum", "#flame/holonomy"]
+    },
+    {
+      "id": "LQC-BMODE-003",
+      "name": "LQC Oscillatory Features",
+      "domain": ["lqc", "cmb", "phenomenology"],
+      "role": "Bounce Perturbation Signature",
+      "latex": "C_l^{BB}(total) = C_l^{BB}(smooth) \\times [1 + A_{osc} \\sin(\\omega \\log(l) + \\phi)]",
+      "explanation": "Oscillatory features from interference between pre-bounce and post-bounce modes. Amplitude 1-5% with logarithmic spacing detectable by CMB-S4 if A_osc > 0.03.",
+      "inputs": ["multipole_l", "bounce_phase_phi"],
+      "outputs": ["oscillation_amplitude", "oscillation_frequency"],
+      "parameters": {
+        "A_osc": "0.01-0.05",
+        "omega": "frequency_parameter",
+        "detection_threshold": "3-5 sigma for CMB-S4"
+      },
+      "tags": ["#node/lqc", "#lobe/pheno", "#flame/oscillation"]
+    },
+    {
+      "id": "LQC-BMODE-004",
+      "name": "LQC Reionization Enhancement",
+      "domain": ["lqc", "cmb", "reionization"],
+      "role": "Low-l Bump Amplification",
+      "latex": "C_l^{BB}(reion) = \\tau^2 f(l) \\times (1 + \\delta_{LQC})",
+      "explanation": "Enhanced reionization bump at l < 10 from higher optical depth. δ_LQC ≈ 0.1-0.2 represents 10-20% boost over ΛCDM prediction due to pre-bounce quantum effects.",
+      "inputs": ["optical_depth_tau", "multipole_l"],
+      "outputs": ["reion_bmode_power", "enhancement_factor"],
+      "parameters": {
+        "delta_lqc": "0.1-0.2",
+        "peak_location": "l = 5-7",
+        "amplitude_boost": "10-20%"
+      },
+      "tags": ["#node/lqc", "#lobe/reion", "#flame/enhancement"]
+    },
+    {
+      "id": "LQC-BMODE-005",
+      "name": "LQC Planck Anomaly Resolution",
+      "domain": ["lqc", "cmb", "anomalies"],
+      "role": "Fit Improvement",
+      "latex": "\\Delta \\chi^2 \\approx -7",
+      "explanation": "LQC improves Planck fits for low-l TT suppression (Δχ²_TT ≈ -4) and lensing amplitude anomaly (Δχ²_lens ≈ -2). Natural suppression from bounce resolves 2.5σ deficit at l < 30.",
+      "inputs": ["planck_data", "lqc_parameters"],
+      "outputs": ["chi2_improvement", "anomaly_resolution"],
+      "parameters": {
+        "total_chi2": -7,
+        "tt_chi2": -4,
+        "lens_chi2": -2,
+        "A_lens_lcdm": "1.18 ± 0.07",
+        "A_lens_lqc": "1.10-1.15"
+      },
+      "tags": ["#node/lqc", "#lobe/anomaly", "#flame/planck"]
+    },
+    {
+      "id": "STRING-BMODE-001",
+      "name": "Cosmic String B-Mode Signature",
+      "domain": ["string", "cmb", "defects"],
+      "role": "Topological Defect Contribution",
+      "latex": "C_l^{BB}(strings) = A_{strings} \\times (G\\mu/10^{-7})^2 \\times F(l)",
+      "explanation": "Cosmic strings from phase transitions generate vector perturbations contributing to B-modes. Peak at l ≈ 100-1000 with up to 10% of CMB power if Gμ ≈ 10^{-7}-10^{-6}. Broader and flatter than primordial tensor modes.",
+      "inputs": ["string_tension_Gmu", "multipole_l", "string_network"],
+      "outputs": ["bmode_contribution", "string_fraction"],
+      "parameters": {
+        "Gmu_range": "10^{-7} to 10^{-6}",
+        "current_limit": "Gμ < 2 × 10^{-7}",
+        "peak_multipole": "l = 100-1000",
+        "max_fraction": "0.10",
+        "l_dependence": "C_l ∝ l^{-1} for l > 100"
+      },
+      "tags": ["#node/string", "#lobe/cmb", "#lobe/defect", "#flame/bmode"]
+    },
+    {
+      "id": "STRING-BMODE-002",
+      "name": "String Network Evolution",
+      "domain": ["string", "cosmology", "dynamics"],
+      "role": "Network Scaling and GW Production",
+      "latex": "\\rho_{strings} \\propto a^{-2}, \\quad \\xi \\propto t",
+      "explanation": "String network reaches scaling solution where density ρ_strings ∝ a^{-2} in matter era. Characteristic length ξ scales with time (horizon scaling). Loop production balances long strings.",
+      "inputs": ["scale_factor_a", "time_t"],
+      "outputs": ["string_density", "characteristic_length", "loop_rate"],
+      "parameters": {
+        "scaling_solution": "ρ ∝ a^{-2}",
+        "horizon_scaling": "ξ ∝ t",
+        "gw_spectrum": "Ω_GW(f) ∝ (Gμ)^2"
+      },
+      "tags": ["#node/string", "#lobe/evolution", "#flame/scaling"]
+    },
+    {
+      "id": "STRING-BMODE-003",
+      "name": "Brane Inflation B-Mode Prediction",
+      "domain": ["string", "inflation", "branes"],
+      "role": "Low Tensor-to-Scalar Ratio",
+      "latex": "r < 10^{-3} \\text{ to } 10^{-2}",
+      "explanation": "Brane inflation predicts very low tensor-to-scalar ratio r < 10^{-3}-10^{-2}, consistent with Planck limits. Inflaton is inter-brane distance in extra dimensions. DBI kinetics modify slow-roll predictions.",
+      "inputs": ["brane_separation_phi", "brane_tension_T"],
+      "outputs": ["tensor_ratio_r", "spectral_index_ns", "non_gaussianity_fNL"],
+      "parameters": {
+        "r_typical": "10^{-4} to 10^{-3}",
+        "ns_range": "0.96-0.97",
+        "running": "dns/dlnk ≈ -0.001",
+        "fNL": "|f_NL| < 5 (equilateral)"
+      },
+      "tags": ["#node/string", "#lobe/inflation", "#flame/brane"]
+    },
+    {
+      "id": "STRING-BMODE-004",
+      "name": "DBI Inflation Signatures",
+      "domain": ["string", "inflation", "dbi"],
+      "role": "Non-Gaussian and Spectral Features",
+      "latex": "S = -\\int d^4x \\sqrt{-g} [T(\\phi) \\sqrt{1 - g^{\\mu\\nu} \\partial_\\mu\\phi \\partial_\\nu\\phi/T(\\phi)} - V(\\phi)]",
+      "explanation": "Dirac-Born-Infeld inflation from brane dynamics imposes speed limit on inflaton. Enhanced equilateral non-Gaussianity distinguishes from standard slow-roll. Distinct spectral shape in B-modes.",
+      "inputs": ["inflaton_phi", "brane_tension_T", "potential_V"],
+      "outputs": ["dbi_action", "speed_limit", "equilateral_fNL"],
+      "parameters": {
+        "speed_limit": "ẋ² < T(φ)",
+        "enhanced_fNL": "equilateral type",
+        "spectral_shape": "distinct from slow-roll"
+      },
+      "tags": ["#node/string", "#lobe/dbi", "#flame/inflation"]
+    },
+    {
+      "id": "STRING-BMODE-005",
+      "name": "High-Frequency GW Secondary B-Modes",
+      "domain": ["string", "gw", "cmb"],
+      "role": "Small-Scale Secondary Polarization",
+      "latex": "C_l^{BB}(secondary) = \\int d\\chi W(\\chi) P_{GW}(k, \\chi)",
+      "explanation": "High-frequency GWs from cosmic string loops induce secondary B-modes at small scales l > 1000. Peak at f ≈ 10^{-8} to 10^{-6} Hz (LISA band). Few percent of lensing B-modes, distinguishable by frequency dependence.",
+      "inputs": ["comoving_distance_chi", "gw_power_spectrum", "frequency_f"],
+      "outputs": ["secondary_bmode", "gw_contribution"],
+      "parameters": {
+        "frequency_peak": "10^{-8} to 10^{-6} Hz",
+        "scale_range": "l > 1000",
+        "amplitude": "few % of lensing B-modes",
+        "lisa_detection": "possible"
+      },
+      "tags": ["#node/string", "#lobe/gw", "#flame/secondary"]
+    },
+    {
+      "id": "STRING-BMODE-006",
+      "name": "String Non-Gaussianity Signatures",
+      "domain": ["string", "cmb", "statistics"],
+      "role": "Higher-Order Correlations",
+      "latex": "f_{NL}^{string} \\approx \\pm 5",
+      "explanation": "Cosmic strings produce non-Gaussian signatures with f_NL^string ≈ ±5 (local type). Higher-order correlations detectable in 3-point and 4-point functions. Filamentary structure creates linear discontinuities in temperature maps.",
+      "inputs": ["cmb_map", "string_network"],
+      "outputs": ["non_gaussianity_fNL", "higher_order_correlations", "filament_detection"],
+      "parameters": {
+        "fNL_local": "≈ ±5",
+        "detection_method": "edge detection, Minkowski functionals, ML",
+        "filamentary_structure": "linear discontinuities"
+      },
+      "tags": ["#node/string", "#lobe/nongauss", "#flame/statistics"]
+    },
+    {
+      "id": "STRING-BMODE-007",
+      "name": "Multiverse Landscape Effects",
+      "domain": ["string", "multiverse", "landscape"],
+      "role": "Statistical Predictions",
+      "latex": "N_{vacua} \\sim 10^{500}",
+      "explanation": "String landscape with ~10^{500} vacua challenges unique predictions. Anthropic reasoning required. Probability distributions over observables. B-mode predictions distributed, peaked at small r < 0.01. Environmental selection affects cosmic string tension.",
+      "inputs": ["vacuum_index", "anthropic_constraints"],
+      "outputs": ["probability_distribution", "r_distribution", "environmental_selection"],
+      "parameters": {
+        "vacua_count": "~10^{500}",
+        "r_peak": "< 0.01",
+        "anthropic": "required",
+        "unique_prediction": "no (without selection)"
+      },
+      "tags": ["#node/string", "#lobe/multiverse", "#flame/landscape"]
+    },
+    {
+      "id": "STRING-BMODE-008",
+      "name": "TGD-Inspired B-Mode Variants",
+      "domain": ["string", "tgd", "topology"],
+      "role": "Distinct Topological Patterns",
+      "latex": "M^4 \\times CP_2",
+      "explanation": "Topological Geometrodynamics with 8-dimensional imbedding space (M^4 × CP_2) predicts distinct B-mode patterns. Modified tensor spectrum from topological constraints. Characteristic oscillations at l ≈ 50-200. Possible fine structure in reionization bump.",
+      "inputs": ["imbedding_space", "topological_constraints"],
+      "outputs": ["tgd_bmode_spectrum", "oscillation_features", "fine_structure"],
+      "parameters": {
+        "imbedding": "8D (M^4 × CP_2)",
+        "oscillation_range": "l = 50-200",
+        "fine_structure": "reionization bump",
+        "correlation": "matter power spectrum anomalies"
+      },
+      "tags": ["#node/string", "#lobe/tgd", "#flame/topology"]
+    },
+    {
+      "id": "STRING-BMODE-009",
+      "name": "Compactification Constraints from B-Modes",
+      "domain": ["string", "compactification", "phenomenology"],
+      "role": "Extra Dimension Testing",
+      "latex": "r \\approx (M_{string}/M_{Planck})^4 \\times f(compactification)",
+      "explanation": "Future B-mode detections constrain compactifications. Moduli stabilization affects inflation dynamics. String scale relative to Planck scale determines tensor amplitude. Observable connections between r and n_s test specific compactifications.",
+      "inputs": ["string_scale_M", "compactification_geometry"],
+      "outputs": ["r_prediction", "ns_correlation", "moduli_effects"],
+      "parameters": {
+        "r_formula": "r ≈ (M_s/M_P)^4 × f(comp)",
+        "correlation": "r vs n_s",
+        "test_strategy": "detection/non-detection of strings, GW spectrum, non-Gaussianity"
+      },
+      "tags": ["#node/string", "#lobe/compact", "#flame/pheno"]
+    }
+  ],
+  "synapses": [
+    {
+      "from": "LQC-BMODE-001",
+      "to": "LQC-BMODE-002",
+      "type": "bounce_to_holonomy",
+      "weight_formula": "quantum_coupling",
+      "weight": 0.85,
+      "explanation": "Bounce mechanism directly causes holonomy corrections"
+    },
+    {
+      "from": "LQC-BMODE-001",
+      "to": "LQC-BMODE-004",
+      "type": "tau_enhancement",
+      "weight_formula": "optical_depth_coupling",
+      "weight": 0.75,
+      "explanation": "Enhanced optical depth boosts reionization bump"
+    },
+    {
+      "from": "LQC-BMODE-003",
+      "to": "LQC-BMODE-005",
+      "type": "oscillation_to_anomaly",
+      "weight_formula": "fit_correlation",
+      "weight": 0.65,
+      "explanation": "Oscillatory features contribute to Planck fit improvements"
+    },
+    {
+      "from": "STRING-BMODE-001",
+      "to": "STRING-BMODE-002",
+      "type": "string_evolution",
+      "weight_formula": "network_dynamics",
+      "weight": 0.90,
+      "explanation": "String network evolution determines B-mode signature"
+    },
+    {
+      "from": "STRING-BMODE-003",
+      "to": "STRING-BMODE-004",
+      "type": "brane_to_dbi",
+      "weight_formula": "inflation_mechanism",
+      "weight": 0.80,
+      "explanation": "Brane inflation naturally leads to DBI dynamics"
+    },
+    {
+      "from": "STRING-BMODE-001",
+      "to": "STRING-BMODE-005",
+      "type": "string_to_gw",
+      "weight_formula": "gravitational_wave_coupling",
+      "weight": 0.70,
+      "explanation": "Cosmic strings produce GWs that generate secondary B-modes"
+    },
+    {
+      "from": "STRING-BMODE-007",
+      "to": "STRING-BMODE-009",
+      "type": "landscape_to_compact",
+      "weight_formula": "vacuum_selection",
+      "weight": 0.60,
+      "explanation": "Multiverse landscape constrains viable compactifications"
+    },
+    {
+      "from": "LQC-BMODE-001",
+      "to": "STRING-BMODE-001",
+      "type": "quantum_gravity_comparison",
+      "weight_formula": "competing_theories",
+      "weight": 0.45,
+      "explanation": "LQC and string theory offer competing explanations for B-modes"
+    }
+  ],
+  "observational_constraints": {
+    "planck_2018": {
+      "r_upper_limit": "< 0.06 (95% CL)",
+      "tau": "0.054 ± 0.007",
+      "ns": "0.965 ± 0.004",
+      "A_lens": "1.18 ± 0.07"
+    },
+    "bicep2_keck": {
+      "r_upper_limit": "< 0.036 (95% CL)",
+      "multipole_range": "30 < l < 330"
+    },
+    "cosmic_strings": {
+      "Gmu_limit": "< 2 × 10^{-7} (Planck + BICEP2)"
+    }
+  },
+  "future_experiments": {
+    "cmb_s4": {
+      "launch": "~2030s",
+      "r_sensitivity": "σ(r) ≈ 0.001",
+      "sky_coverage": "~50%",
+      "multipole_range": "30 < l < 3000",
+      "lqc_detection": "3-5σ if A_osc > 0.03",
+      "string_limit": "Gμ < 5 × 10^{-8}"
+    },
+    "litebird": {
+      "launch": "~2032",
+      "r_sensitivity": "σ(r) ≈ 0.001",
+      "sky_coverage": ">70%",
+      "multipole_range": "2 < l < 200",
+      "tau_precision": "Δτ ≈ 0.002",
+      "reion_detection": "5-10σ"
+    },
+    "lisa": {
+      "frequency_range": "10^{-4} to 10^{-1} Hz",
+      "target": "cosmic string GW background",
+      "complementary": "to CMB observations"
+    }
+  },
+  "comparative_analysis": {
+    "lqc_vs_string": {
+      "tensor_ratio": {
+        "lqc": "0.01-0.05",
+        "string": "10^{-4} to 10^{-2}"
+      },
+      "low_l_behavior": {
+        "lqc": "suppressed with reionization bump",
+        "string": "smooth or string-enhanced"
+      },
+      "peak_location": {
+        "lqc": "l ≈ 5-7 (reion), l ≈ 80 (recomb)",
+        "string": "l ≈ 80 (primordial), l ≈ 300 (strings)"
+      },
+      "oscillations": {
+        "lqc": "yes (from bounce)",
+        "string": "possible (from string network)"
+      },
+      "optical_depth": {
+        "lqc": "τ ≈ 0.06-0.07",
+        "string": "τ ≈ 0.054 (standard)"
+      }
+    },
+    "distinguishing_features": {
+      "lqc_specific": [
+        "enhanced reionization bump",
+        "specific oscillation frequency from bounce",
+        "correlation with TT low-l suppression",
+        "modified recombination physics"
+      ],
+      "string_specific": [
+        "cosmic string B-mode at l ≈ 100-1000",
+        "stochastic GW background correlation",
+        "specific non-Gaussianity patterns",
+        "possible filamentary structure"
+      ]
+    }
+  },
+  "exports": {
+    "obsidian": {
+      "graph_nodes": "Each neuron → [[Note]] with LaTeX, explanation, tags",
+      "graph_edges": "Synapses → Links with weight annotations",
+      "lobe_maps": "#lobe/cmb, #lobe/bmode, #lobe/quantum create cortical regions",
+      "flame_categories": "#flame/bounce, #flame/defect for cross-domain linking"
+    },
+    "python_module": "bmode_cosmology.py with calculate_lqc_spectrum(), calculate_string_spectrum() functions",
+    "paper_abstract": "LQC and String Theory present distinct B-mode predictions testable by next-generation CMB experiments"
+  }
+}
