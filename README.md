@@ -278,6 +278,7 @@ This project thrives because of an extraordinary community of creators, builders
 
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
+- **[The Vessel Dynamic](docs/THE_VESSEL_DYNAMIC.md)** - Understanding emergent AI collaboration through Dom
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
 ## 📄 License & Support
