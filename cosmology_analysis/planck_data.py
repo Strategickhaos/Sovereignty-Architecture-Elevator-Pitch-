@@ -24,7 +24,13 @@ class PlanckData:
         self._load_te_data()
     
     def _load_tt_data(self):
-        """Load low-l TT power spectrum data from Planck 2018."""
+        """Load low-l TT power spectrum data from Planck 2018.
+        
+        Data source: Planck Collaboration (2020). "Planck 2018 results. 
+        VI. Cosmological parameters", A&A, 641, A6.
+        Available at: https://www.aanda.org/articles/aa/abs/2020/09/aa33910-18/aa33910-18.html
+        Data tables from Planck Legacy Archive: http://pla.esac.esa.int
+        """
         # Low-l TT data (l=2-10) with errors and ΛCDM theory predictions
         # D_l in μK² units
         self.tt_data = {
@@ -57,7 +63,10 @@ class PlanckData:
         self.tt_data['lcdm_theory'] = np.concatenate([self.tt_data['lcdm_theory'], lcdm_extended])
     
     def _load_te_data(self):
-        """Load low-l TE cross-correlation power spectrum data."""
+        """Load low-l TE cross-correlation power spectrum data.
+        
+        Data source: Planck 2018 results, same as TT spectrum above.
+        """
         # Low-l TE data showing cross-correlation tensions at l<10
         self.te_data = {
             'l': np.array([2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30]),

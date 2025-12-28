@@ -207,9 +207,13 @@ def plot_bmode_predictions(lqc_model, r_values: List[float] = [0.01, 0.03, 0.05]
     ax.tick_params(labelsize=12)
     
     # Add annotation about future experiments
-    annotation = ('LiteBIRD and CMB-S4:\n'
-                 'Sensitivity to r ~ 0.001\n'
-                 'Can test LQC predictions')
+    annotation = ('Future CMB Experiments:\n'
+                 'LiteBIRD (launch ~2032):\n'
+                 '  Sensitivity r ~ 0.001\n'
+                 '  15 frequency bands\n'
+                 'CMB-S4 (ops ~2030s):\n'
+                 '  500,000+ detectors\n'
+                 '  Can detect LQC signatures')
     ax.text(0.98, 0.98, annotation, transform=ax.transAxes,
             fontsize=10, verticalalignment='top', horizontalalignment='right',
             bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.5))

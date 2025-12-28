@@ -56,6 +56,12 @@ class LQCModel:
         The bounce introduces oscillatory features and exponential damping:
         P_LQC(l) ∝ (1 + A_osc * sin(β*l) * exp(-l/λ)) * (1 - A_sup * exp(-l/l_sup))
         
+        Physical interpretation:
+        - sin(β*l) term: Quantum interference from pre-bounce phase
+        - exp(-l/λ) damping: Decoherence during bounce (λ ~ 15)
+        - A_sup suppression: Large-scale power deficit (matches Planck low-l anomaly)
+        - β parameter: Sets oscillation frequency, depends on bounce energy scale
+        
         Args:
             l: Array of multipole moments
             
