@@ -39,7 +39,7 @@ Loop Quantum Cosmology (LQC) is a quantum gravity framework that modifies classi
 
 ### Primordial Tensor Modes
 
-LQC predicts significant modifications to the primordial power spectrum due to the quantum bounce, with primary effects on B-mode polarization at large scales.
+LQC predicts significant modifications to the primordial power spectrum due to the quantum bounce, with primary effects on B-mode polarization at large angular scales (low multipoles, l < 30).
 
 #### Power Spectrum Modifications
 
@@ -64,6 +64,12 @@ The quantum bounce introduces a characteristic scale k* related to the maximum e
 ρ_max ≈ 0.41 ρ_Planck
 k* ≈ (ρ_bounce/ρ_Planck)^(1/2) H_bounce
 ```
+
+where:
+- ρ_Planck: Planck energy density (~ 5.16 × 10⁹⁶ kg/m³)
+- ρ_bounce: Energy density at quantum bounce
+- H_bounce: Hubble parameter at bounce
+- k*: Characteristic wavenumber separating quantum-modified and classical regimes
 
 Modes with k < k* experience maximum quantum corrections, leading to power suppression.
 
@@ -281,8 +287,9 @@ Unlike inflation (tensor-only), cosmic strings generate vector-mode perturbation
 
 The dimensionless parameter Gμ determines observability:
 ```
-Gμ = (string tension × Newton's constant)
+Gμ = G × μ
 ```
+where G is Newton's gravitational constant (6.674 × 10⁻¹¹ m³/kg·s²) and μ is the string tension (energy per unit length).
 
 **Observational Limits:**
 - Planck constraint: **Gμ < 10⁻⁷** (for standard strings)
@@ -503,7 +510,9 @@ Future B-mode observations can:
 #### TGD-Inspired Variants
 
 **Topological Geometrodynamics (TGD):**
-An alternative to standard string theory with distinct predictions:
+An alternative to standard string theory with distinct predictions.
+
+*Note: TGD is a non-mainstream theoretical framework with limited peer review. The predictions discussed here should be considered speculative.*
 
 **Key Differences:**
 - 8-dimensional spacetime (vs. 10D string theory)
@@ -950,6 +959,8 @@ The B-mode power spectrum C_l^BB receives contributions from multiple sources:
 ```
 C_l^BB(total) = C_l^BB(primordial) + C_l^BB(lensing) + C_l^BB(foregrounds)
 ```
+
+Note: This assumes linear superposition, which is valid for small perturbations. Cross-correlation terms between primordial and lensing B-modes are negligible in standard cosmology.
 
 **Primordial Contribution:**
 ```
