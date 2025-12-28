@@ -55,7 +55,7 @@ Quantum mechanics is described through consistent sets of histories (sequences o
 
 ### Quantum Bayesianism (QBism)
 
-The wave function represents an agent's subjective beliefs about measurement outcomes. Collapse occurs as a update in personal knowledge upon gaining information, addressing the measurement problem by making quantum mechanics a tool for decision-making rather than an objective description of reality.
+The wave function represents an agent's subjective beliefs about measurement outcomes. Collapse occurs as an update in personal knowledge upon gaining information, addressing the measurement problem by making quantum mechanics a tool for decision-making rather than an objective description of reality.
 
 **Key Features:**
 - Subjective interpretation of wave function
