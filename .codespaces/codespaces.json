@@ -1,0 +1,92 @@
+{
+  "name": "CMB Anomaly Detector Development Environment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.10",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "eamodio.gitlens",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestArgs": [
+          "tests"
+        ],
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+          88
+        ],
+        "files.exclude": {
+          "**/__pycache__": true,
+          "**/*.pyc": true
+        },
+        "gitlens.advanced.messages": {
+          "suppressShowKeyBindingsNotice": true
+        },
+        "gitlens.codeLens.enabled": true,
+        "gitlens.currentLine.enabled": true,
+        "gitlens.hovers.enabled": true,
+        "gitlens.hovers.currentLine.over": "line"
+      }
+    },
+    "jetbrains": {
+      "backend": "PyCharm",
+      "plugins": [
+        "com.intellij.plugins.markdown",
+        "Docker",
+        "com.intellij.kubernetes"
+      ],
+      "settings": {
+        "python.interpreter": "/usr/local/bin/python",
+        "project.codeStyle": "PEP8",
+        "inspection.profile": "Default",
+        "run.configurations": [
+          {
+            "name": "Anomaly Detector",
+            "type": "python",
+            "scriptPath": "src/anomaly_detector.py",
+            "envs": {
+              "PYTHONUNBUFFERED": "1"
+            }
+          },
+          {
+            "name": "Evolution Twist",
+            "type": "python",
+            "scriptPath": "evolution/twist.py",
+            "envs": {
+              "PYTHONUNBUFFERED": "1"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "forwardPorts": [
+    8080
+  ],
+  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt",
+  "postStartCommand": "git config --global --add safe.directory /workspaces/*",
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "containerEnv": {
+    "PYTHONUNBUFFERED": "1",
+    "LOG_LEVEL": "INFO"
+  }
+}
