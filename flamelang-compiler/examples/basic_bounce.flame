@@ -1,0 +1,12 @@
+// FlameLang Example: LQC Bounce with B-mode Suppression
+// This demonstrates the 7-layer transform pipeline
+
+// Intent-based physics operations
+intent bounce
+intent suppress
+
+// Hebrew operator for quantum bounce
+דחה
+
+// Hebrew operator for B-mode suppression
+כבש

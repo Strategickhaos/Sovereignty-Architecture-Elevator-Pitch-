@@ -6,8 +6,7 @@ Cargo.lock
 *.ll
 *.bc
 
-# Test files
-*.flame
+# Test files (but not examples)
 test_output/
 
 # IDE
