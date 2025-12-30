@@ -1,0 +1,19 @@
+[package]
+name = "flamelang-compiler"
+version = "0.1.0"
+edition = "2021"
+authors = ["StrategicKhaos DAO LLC"]
+description = "FlameLang compiler with 7-layer transform pipeline for physics-inspired quantum/CMB modeling"
+
+[[bin]]
+name = "flamec"
+path = "src/main.rs"
+
+[dependencies]
+
+[dev-dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
