@@ -109,7 +109,7 @@ impl SpermCoda {
         }
 
         // Add ornamentation clicks at end
-        for j in 0..self.ornamentation {
+        for _j in 0..self.ornamentation {
             time += 0.05; // Very short interval for ornaments
             clicks.push(time);
         }

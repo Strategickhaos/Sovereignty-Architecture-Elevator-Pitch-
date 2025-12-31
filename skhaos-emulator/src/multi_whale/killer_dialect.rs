@@ -205,21 +205,23 @@ impl KillerDialectSystem {
 
     /// Simulate cultural learning (matrilineal transmission)
     pub fn learn_from_matriline(&mut self, source_matriline: usize, target_matriline: usize) -> Result<usize, String> {
-        let source_calls = self.get_matriline_calls(source_matriline);
-        
-        if source_calls.is_empty() {
-            return Err("Source matriline has no calls".to_string());
-        }
+        // Collect calls to clone (avoid borrowing issues)
+        let source_calls: Vec<KillerDialectCall> = {
+            let calls = self.get_matriline_calls(source_matriline);
+            if calls.is_empty() {
+                return Err("Source matriline has no calls".to_string());
+            }
+            calls.into_iter().cloned().collect()
+        };
         
         let mut learned_count = 0;
-        for call in source_calls {
-            let mut new_call = call.clone();
-            new_call.matriline_id = target_matriline;
+        for mut call in source_calls {
+            call.matriline_id = target_matriline;
             
             // Add some variation during learning (imperfect transmission)
-            new_call.frequency_hz *= 1.0 + (0.05 * (target_matriline as f64).sin()); // +/- 5%
+            call.frequency_hz *= 1.0 + (0.05 * (target_matriline as f64).sin()); // +/- 5%
             
-            self.add_call(new_call)?;
+            self.add_call(call)?;
             learned_count += 1;
         }
         
