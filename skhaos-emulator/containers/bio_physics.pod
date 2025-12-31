@@ -1,0 +1,32 @@
+# Bio-Physics Pod Configuration
+# Defines volumes and networking for isolated simulation environment
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bio-physics-pod
+  labels:
+    app: skhaos-bpec
+    component: bio-physics
+spec:
+  containers:
+  - name: bpec-simulator
+    image: skhaos-bpec:latest
+    volumeMounts:
+    - name: sandbox-volume
+      mountPath: /workspace/sandbox
+    - name: assets-volume
+      mountPath: /workspace/assets
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+  volumes:
+  - name: sandbox-volume
+    emptyDir: {}
+  - name: assets-volume
+    emptyDir: {}
+  restartPolicy: Never
