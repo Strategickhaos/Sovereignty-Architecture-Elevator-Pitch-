@@ -1,0 +1,11 @@
+{
+  "call_type": "Click",
+  "pod": "Biggs(T65A)",
+  "ecotype": "Biggs",
+  "frequency_hz": 15000,
+  "duration_sec": 0.1,
+  "matriline_id": 65,
+  "call_number": null,
+  "catalog_id": "T65A-CK",
+  "description": "Bigg's (Transient) echolocation click - quieter for stealthy hunting"
+}

@@ -1,0 +1,11 @@
+{
+  "call_type": "PulsedCall",
+  "pod": "J",
+  "ecotype": "Resident",
+  "frequency_hz": 3000,
+  "duration_sec": 1.2,
+  "matriline_id": 1,
+  "call_number": 1,
+  "catalog_id": "J-PC1",
+  "description": "Classic J-pod discrete call S1 (Southern Resident)"
+}

@@ -1,0 +1,11 @@
+{
+  "call_type": "Whistle",
+  "pod": "K",
+  "ecotype": "Resident",
+  "frequency_hz": 8000,
+  "duration_sec": 0.8,
+  "matriline_id": 7,
+  "call_number": null,
+  "catalog_id": "K-WH",
+  "description": "K-pod social whistle from K7 matriline"
+}

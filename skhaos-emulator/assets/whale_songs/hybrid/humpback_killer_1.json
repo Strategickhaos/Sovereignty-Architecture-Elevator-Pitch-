@@ -1,0 +1,19 @@
+{
+  "species": ["humpback", "killer"],
+  "pattern_name": "theme_dialect_fusion",
+  "frequency_hz": 13.42,
+  "description": "Humpback cultural themes merged with killer matrilineal dialects",
+  "humpback_component": {
+    "level": "Theme",
+    "frequency_range": [300, 1500],
+    "cultural_variant": "pacific"
+  },
+  "killer_component": {
+    "call_type": "Whistle",
+    "pod": "K",
+    "ecotype": "Resident"
+  },
+  "entanglement_depth": 1,
+  "quantum_mapping": "cultural_transmission_link",
+  "udap_uri": "skhaos://whale/hybrid/hump_killer?hz=13.42"
+}

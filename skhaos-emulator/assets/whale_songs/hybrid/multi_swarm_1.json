@@ -1,0 +1,25 @@
+{
+  "species": ["humpback", "sperm", "killer"],
+  "pattern_name": "tri_species_swarm",
+  "frequency_hz": 12.57,
+  "description": "Triple-entangled swarm with all three whale species",
+  "components": {
+    "humpback": {
+      "level": "Unit",
+      "frequency_range": [100, 400]
+    },
+    "sperm": {
+      "click_count": 5,
+      "tempo": "Fast"
+    },
+    "killer": {
+      "call_type": "Click",
+      "frequency_hz": 15000
+    }
+  },
+  "entanglement_depth": 3,
+  "swarm_size": 10,
+  "cultural_transmission": 0.75,
+  "quantum_mapping": "cross_cultural_learning",
+  "udap_uri": "skhaos://whale/hybrid/tri_swarm?hz=12.57&swarm=10"
+}

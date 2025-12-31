@@ -1,0 +1,97 @@
+{
+  "phase": "recursive",
+  "species": "hybrid",
+  "timestamp": "2025-12-31T19:30:00Z",
+  "patterns_added": 4,
+  "frequency_range": "10-40 Hz (symbolic)",
+  "evolvability": "recursive",
+  "hybrid_types": [
+    "humpback_sperm",
+    "sperm_killer",
+    "humpback_killer",
+    "tri_species_swarm"
+  ],
+  "mutations": [
+    {
+      "type": "cross_species_entanglement",
+      "species1": "humpback",
+      "species2": "sperm",
+      "success": true,
+      "frequency_avg": 10.86
+    },
+    {
+      "type": "cross_species_entanglement",
+      "species1": "sperm",
+      "species2": "killer",
+      "success": true,
+      "frequency_avg": 11.71
+    },
+    {
+      "type": "cross_species_entanglement",
+      "species1": "humpback",
+      "species2": "killer",
+      "success": true,
+      "frequency_avg": 13.42
+    },
+    {
+      "type": "multi_species_swarm",
+      "species": ["humpback", "sperm", "killer"],
+      "swarm_size": 10,
+      "entanglement_depth": 3,
+      "success": true
+    },
+    {
+      "type": "recursive_superposition",
+      "depth": 5,
+      "variants_generated": 15,
+      "success": true
+    }
+  ],
+  "quantum_mappings": [
+    {
+      "pattern": "humpback_sperm_hybrid",
+      "quantum_analog": "theme_coda_link",
+      "frequency_hz": 10.86
+    },
+    {
+      "pattern": "sperm_killer_hybrid",
+      "quantum_analog": "phonetic_pod_entangle",
+      "frequency_hz": 11.71
+    },
+    {
+      "pattern": "multi_species_swarm",
+      "quantum_analog": "cross_cultural_learning",
+      "frequency_hz": 12.57
+    },
+    {
+      "pattern": "adaptive_tempo",
+      "quantum_analog": "rhythm_synchronization",
+      "frequency_hz": 13.42
+    },
+    {
+      "pattern": "pattern_validation",
+      "quantum_analog": "schema_evolution",
+      "frequency_hz": 40.0
+    }
+  ],
+  "swarm_statistics": {
+    "total_states": 10,
+    "avg_entanglement_depth": 2.1,
+    "avg_cultural_transmission": 0.68,
+    "hybrid_percentage": 0.4
+  },
+  "evolution_trajectory": {
+    "generation_0": {
+      "pure_species": 10,
+      "hybrids": 0
+    },
+    "generation_5": {
+      "pure_species": 6,
+      "hybrids": 4
+    },
+    "generation_10": {
+      "pure_species": 3,
+      "hybrids": 7
+    }
+  }
+}

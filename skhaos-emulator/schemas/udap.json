@@ -1,0 +1,219 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UDAP (Universal Data Access Protocol) for Multi-Whale Quantum Emulator",
+  "description": "Schema for whale pattern URIs in the skhaos quantum computing system",
+  "type": "object",
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "skhaos",
+      "description": "Protocol identifier for sovereign data access"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["whale"],
+      "description": "Domain namespace for bio-mimetic patterns"
+    },
+    "species": {
+      "type": "string",
+      "enum": ["humpback", "sperm", "killer", "hybrid"],
+      "description": "Whale species for pattern selection"
+    },
+    "pattern": {
+      "type": "string",
+      "description": "Specific pattern type (theme, coda, dialect, etc.)"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Query parameters for pattern customization",
+      "properties": {
+        "hz": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 40000,
+          "description": "Frequency in Hertz (physical) or symbolic base units"
+        },
+        "rubato": {
+          "type": "boolean",
+          "description": "Enable expressive timing variation (sperm codas)"
+        },
+        "tempo": {
+          "type": "string",
+          "enum": ["slow", "medium", "fast", "mid"],
+          "description": "Tempo for rhythm patterns"
+        },
+        "rhythm": {
+          "type": "string",
+          "enum": ["regular", "irregular", "accelerando", "ritardando"],
+          "description": "Rhythm pattern type"
+        },
+        "clicks": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 40,
+          "description": "Number of clicks in sperm coda"
+        },
+        "ornament": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Number of extra ornamental clicks"
+        },
+        "extra": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Alias for ornament parameter"
+        },
+        "dialect": {
+          "type": "string",
+          "enum": ["J", "K", "L", "Northern", "Biggs"],
+          "description": "Killer whale pod dialect identifier"
+        },
+        "pod": {
+          "type": "string",
+          "description": "Pod identifier (J, K, L, or custom)"
+        },
+        "theme": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Theme number in humpback repertoire"
+        },
+        "zipf": {
+          "type": "boolean",
+          "description": "Enable Zipf-distributed evolution"
+        },
+        "duration": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Duration in seconds"
+        },
+        "a": {
+          "type": "boolean",
+          "description": "Enable vowel formant 'a' (low frequency)"
+        },
+        "i": {
+          "type": "boolean",
+          "description": "Enable vowel formant 'i' (high frequency)"
+        },
+        "codas": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 288,
+          "description": "Number of codas in phonetic repertoire"
+        },
+        "bigg": {
+          "type": "boolean",
+          "description": "Bigg's (transient) ecotype flag"
+        },
+        "swarm": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Swarm size for multi-agent evolution"
+        }
+      }
+    }
+  },
+  "required": ["protocol", "domain", "species", "pattern"],
+  "examples": [
+    {
+      "uri": "skhaos://whale/humpback/theme?rubato=true&hz=500",
+      "description": "Humpback theme with rubato at 500 Hz"
+    },
+    {
+      "uri": "skhaos://whale/sperm/coda?clicks=10&tempo=mid&hz=5",
+      "description": "Sperm coda with 10 clicks at medium tempo"
+    },
+    {
+      "uri": "skhaos://whale/killer/whistle?dialect=J&hz=5",
+      "description": "Killer whale J-pod whistle dialect"
+    },
+    {
+      "uri": "skhaos://whale/hybrid/hump_sperm?hz=10.86",
+      "description": "Hybrid humpback-sperm pattern"
+    },
+    {
+      "uri": "skhaos://whale/humpback/song?duration=1800&hz=4000",
+      "description": "Full 30-minute humpback song"
+    },
+    {
+      "uri": "skhaos://whale/sperm/vowel?a=true&hz=20",
+      "description": "Sperm vowel formant dialogue"
+    },
+    {
+      "uri": "skhaos://whale/killer/resident?bigg=false&hz=25",
+      "description": "Resident orca vs Bigg's distinction"
+    },
+    {
+      "uri": "skhaos://whale/hybrid/validate?hz=40",
+      "description": "Multi-pattern validation"
+    }
+  ],
+  "pattern_types": {
+    "humpback": [
+      "unit",
+      "phrase",
+      "moan",
+      "theme",
+      "song",
+      "transmit"
+    ],
+    "sperm": [
+      "click",
+      "coda",
+      "rubato",
+      "ornament",
+      "vowel",
+      "clan",
+      "repertoire"
+    ],
+    "killer": [
+      "click",
+      "whistle",
+      "pulsed",
+      "bellow",
+      "clap",
+      "resident"
+    ],
+    "hybrid": [
+      "hump_sperm",
+      "sperm_killer",
+      "hump_killer",
+      "tri_swarm",
+      "validate"
+    ]
+  },
+  "quantum_mappings": {
+    "humpback": {
+      "unit_grunt": "ground_superposition",
+      "phrase_string": "theme_entanglement",
+      "downsweep_moan": "wave_function_evolution",
+      "cultural_transmission": "population_qubit_link",
+      "full_song": "recursive_hierarchy"
+    },
+    "sperm": {
+      "single_click": "basic_gate",
+      "coda_burst": "phonetic_alphabet",
+      "rubato_variation": "tempo_adjustment",
+      "ornament_extra_click": "error_correction_fork",
+      "vowel_formant": "dialogue_coarticulation",
+      "clan_dialect": "identity_superposition",
+      "full_repertoire": "combinatorial_space"
+    },
+    "killer": {
+      "click_echolocation": "navigational_qubit",
+      "whistle_social": "pod_cohesion",
+      "discrete_pulsed_call": "matrilineal_id",
+      "low_freq_bellow": "hunt_coordination",
+      "jaw_clap_display": "visual_acoustic_entangle",
+      "resident_vs_biggs": "cultural_divergence"
+    },
+    "hybrid": {
+      "humpback_sperm": "theme_coda_link",
+      "sperm_killer": "phonetic_pod_entangle",
+      "multi_swarm": "cross_cultural_learning",
+      "adaptive_tempo": "rhythm_synchronization",
+      "pattern_validation": "schema_evolution"
+    }
+  }
+}

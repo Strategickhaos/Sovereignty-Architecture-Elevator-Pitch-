@@ -1,0 +1,19 @@
+{
+  "species": ["sperm", "killer"],
+  "pattern_name": "coda_dialect_fusion",
+  "frequency_hz": 11.71,
+  "description": "Sperm phonetic codas integrated with killer pod dialects",
+  "sperm_component": {
+    "click_count": 15,
+    "rhythm": "Accelerando",
+    "vowel_formant": "A"
+  },
+  "killer_component": {
+    "call_type": "PulsedCall",
+    "pod": "J",
+    "matriline_id": 1
+  },
+  "entanglement_depth": 1,
+  "quantum_mapping": "phonetic_pod_entangle",
+  "udap_uri": "skhaos://whale/hybrid/sperm_killer?hz=11.71"
+}

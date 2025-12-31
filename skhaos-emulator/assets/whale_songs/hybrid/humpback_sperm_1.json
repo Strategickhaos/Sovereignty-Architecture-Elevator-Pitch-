@@ -1,0 +1,20 @@
+{
+  "species": ["humpback", "sperm"],
+  "pattern_name": "theme_coda_fusion",
+  "frequency_hz": 10.86,
+  "description": "Humpback theme structure with sperm coda rhythm patterns",
+  "humpback_component": {
+    "level": "Phrase",
+    "frequency_range": [200, 1000],
+    "zipf_rank": 1
+  },
+  "sperm_component": {
+    "click_count": 10,
+    "rhythm": "Regular",
+    "tempo": "Medium",
+    "rubato": true
+  },
+  "entanglement_depth": 1,
+  "quantum_mapping": "theme_coda_link",
+  "udap_uri": "skhaos://whale/hybrid/hump_sperm?hz=10.86"
+}
