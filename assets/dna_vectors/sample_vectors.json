@@ -1,0 +1,83 @@
+{
+  "alphabet_dna_vectors": {
+    "description": "4D trigonometric embeddings for alphabet to DNA codon mapping",
+    "encoding": "sin(θ), cos(θ), tan(θ), phase(θ/2π)",
+    "mappings": [
+      {
+        "letter": "S",
+        "codon": "TCG",
+        "vector": [0.9510546532543747, 0.3090169943749474, 3.0776835371752527, 0.6923076923076923],
+        "bioSymbolic": "Serine",
+        "resonance_freq": 587.33
+      },
+      {
+        "letter": "O",
+        "codon": "TGA",
+        "vector": [0.7818314824680298, 0.6234898018587335, 1.2538854948441154, 0.5384615384615384],
+        "bioSymbolic": "Opal-Stop",
+        "resonance_freq": 493.88
+      },
+      {
+        "letter": "V",
+        "codon": "GTG",
+        "vector": [0.9945218953682733, 0.10452846326765347, 9.514364454222587, 0.8076923076923077],
+        "bioSymbolic": "Valine",
+        "resonance_freq": 523.25
+      },
+      {
+        "letter": "E",
+        "codon": "GAA",
+        "vector": [0.6691306063588582, 0.7431448254773942, 0.9004040442978399, 0.15384615384615385],
+        "bioSymbolic": "Glutamic",
+        "resonance_freq": 523.25
+      },
+      {
+        "letter": "R",
+        "codon": "CGG",
+        "vector": [0.9829730996839018, 0.18374951781657106, 5.349232979954893, 0.6538461538461539],
+        "bioSymbolic": "Arginine",
+        "resonance_freq": 587.33
+      },
+      {
+        "letter": "I",
+        "codon": "ATA",
+        "vector": [0.8987940462991669, 0.43837114678907746, 2.0503038415793625, 0.3076923076923077],
+        "bioSymbolic": "Isoleucine",
+        "resonance_freq": 440.0
+      },
+      {
+        "letter": "G",
+        "codon": "GGG",
+        "vector": [0.8090169943749475, 0.5877852522924731, 1.3763819204711734, 0.23076923076923078],
+        "bioSymbolic": "Glycine-Pure",
+        "resonance_freq": 523.25
+      },
+      {
+        "letter": "N",
+        "codon": "AAC",
+        "vector": [0.99371220728891, 0.11196447610330768, 8.874640326905454, 0.5],
+        "bioSymbolic": "Asparagine",
+        "resonance_freq": 440.0
+      },
+      {
+        "letter": "T",
+        "codon": "ACG",
+        "vector": [0.9039892931234433, 0.42755509343028208, 2.1145013095177826, 0.7307692307692307],
+        "bioSymbolic": "Threonine",
+        "resonance_freq": 493.88
+      },
+      {
+        "letter": "Y",
+        "codon": "TAC",
+        "vector": [0.4338837391175581, 0.9009688679024191, 0.48157461109998077, 0.9230769230769231],
+        "bioSymbolic": "Tyrosine",
+        "resonance_freq": 493.88
+      }
+    ],
+    "usage": "Text to DNA: 'SOVEREIGNTY' → TCG+TGA+GTG+GAA+CGG+ATA+GGG+AAC+ACG+TAC+TAC",
+    "vector_dimension": 4,
+    "total_letters": 26,
+    "sample_text": "SOVEREIGNTY",
+    "sample_dna_sequence": "TCGTGAGTGGAACGGATAGGGAACACTGTAC"
+  }
+}
