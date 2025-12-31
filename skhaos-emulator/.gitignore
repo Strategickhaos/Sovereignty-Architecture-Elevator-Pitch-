@@ -1,0 +1,35 @@
+# Rust build artifacts
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Sandbox artifacts (keep templates, ignore runtime data)
+sandbox/evolution_trace.txt
+sandbox/*_stats.json
+sandbox/evolution_summary.json
+
+# Container build artifacts
+containers/.cache/
+containers/build/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log
+/tmp/
+
+# Cargo cache
+.cargo/
+
+# Test artifacts
+*.profraw
+*.gcda
+*.gcno

@@ -1,0 +1,67 @@
+# Podmanfile for Bio-Physics Entanglement Compiler
+# Builds container image with Rust and statistical libraries
+
+FROM rust:1.75-alpine
+
+LABEL maintainer="Strategickhaos <architect@strategickhaos.com>"
+LABEL description="Bio-Physics Entanglement Compiler (BPEC) - INVENTION_074"
+LABEL version="0.1.0"
+
+# Install build dependencies (no network dependencies at runtime)
+RUN apk add --no-cache \
+    musl-dev \
+    openssl-dev \
+    pkgconfig \
+    build-base \
+    git \
+    bc \
+    jq
+
+# Create workspace directory
+WORKDIR /workspace
+
+# Copy source files
+COPY Cargo.toml ./
+COPY src ./src
+COPY schemas ./schemas
+COPY phases ./phases
+
+# Create required directories
+RUN mkdir -p assets/whale_songs assets/dolphin_comm assets/classical sandbox
+
+# Build BPEC in release mode
+RUN cargo build --release --bin bpec
+
+# Run tests
+RUN cargo test --release
+
+# Make phase scripts executable
+RUN chmod +x phases/*.sh
+
+# Create non-root user for execution
+RUN addgroup -g 1000 bpec && \
+    adduser -D -u 1000 -G bpec bpec && \
+    chown -R bpec:bpec /workspace
+
+USER bpec
+
+# Set environment variables
+ENV RUST_LOG=info
+ENV CARGO_HOME=/tmp/cargo
+ENV PATH="/workspace/target/release:${PATH}"
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD bpec version || exit 1
+
+# Default command: show help
+CMD ["bpec", "help"]
+
+# Build instructions:
+# podman build -f containers/Podmanfile -t skhaos/bpec:latest .
+#
+# Run instructions:
+# podman run -it --rm -v $(pwd)/sandbox:/workspace/sandbox skhaos/bpec:latest
+#
+# Run with pod:
+# podman play kube containers/bio_physics.pod
