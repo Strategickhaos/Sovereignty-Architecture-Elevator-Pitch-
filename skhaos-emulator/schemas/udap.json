@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UDAP (Universal Data Access Protocol) Schema",
+  "description": "URI scheme for SkhaOS bio-acoustic simulations",
+  "type": "object",
+  "definitions": {
+    "avian_uri": {
+      "type": "string",
+      "pattern": "^skhaos://avian/[a-z]+/[a-z_]+(/[0-9]+)?(\\?.*)?$",
+      "examples": [
+        "skhaos://avian/crow/caw/1?law=entropy&hz=1000",
+        "skhaos://avian/crow/territorial?hierarchy=3"
+      ]
+    },
+    "bio_uri": {
+      "type": "string",
+      "pattern": "^skhaos://bio/(hybrid|[a-z]+)/[a-z_]+(/[0-9]+)?(\\?.*)?$",
+      "examples": [
+        "skhaos://bio/hybrid/dolphin_crow?hz=50000",
+        "skhaos://bio/hybrid/orca_crow?law=conservation&hz=13000"
+      ]
+    }
+  },
+  "properties": {
+    "scheme": {
+      "type": "string",
+      "enum": ["skhaos"],
+      "description": "URI scheme identifier"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["avian", "bio", "hybrid"],
+      "description": "Top-level domain for bio-acoustic patterns"
+    },
+    "species": {
+      "type": "string",
+      "enum": ["crow", "dolphin", "orca", "hybrid"],
+      "description": "Species identifier"
+    },
+    "pattern_type": {
+      "type": "string",
+      "description": "Communication pattern type",
+      "examples": ["caw", "whistle", "click", "call", "territorial", "dolphin_crow", "orca_crow"]
+    },
+    "rank": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Zipf rank of the communication unit"
+    },
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "hz": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Frequency in Hertz"
+        },
+        "law": {
+          "type": "string",
+          "enum": ["entropy", "uncertainty", "conservation", "zipf"],
+          "description": "Physics law to apply"
+        },
+        "zipf_slope": {
+          "type": "number",
+          "minimum": -2,
+          "maximum": 0,
+          "description": "Target Zipf slope (default -1.0)"
+        },
+        "menzerath": {
+          "type": "boolean",
+          "description": "Enable Menzerath's Law analysis"
+        },
+        "hybrid": {
+          "type": "boolean",
+          "description": "Enable hybrid evolution"
+        },
+        "caw": {
+          "type": "boolean",
+          "description": "Enable crow caw patterns"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "description": "Crow territorial caw with entropy",
+      "uri": "skhaos://avian/crow/caw/1?law=entropy&hz=1000",
+      "parsed": {
+        "scheme": "skhaos",
+        "domain": "avian",
+        "species": "crow",
+        "pattern_type": "caw",
+        "rank": 1,
+        "parameters": {
+          "law": "entropy",
+          "hz": 1000
+        }
+      }
+    },
+    {
+      "description": "Dolphin-crow hybrid whistle-caw",
+      "uri": "skhaos://bio/hybrid/dolphin_crow?hz=50000",
+      "parsed": {
+        "scheme": "skhaos",
+        "domain": "bio",
+        "species": "hybrid",
+        "pattern_type": "dolphin_crow",
+        "parameters": {
+          "hz": 50000
+        }
+      }
+    },
+    {
+      "description": "Orca-crow evolved dialect",
+      "uri": "skhaos://bio/hybrid/orca_crow?law=conservation&hz=13000",
+      "parsed": {
+        "scheme": "skhaos",
+        "domain": "bio",
+        "species": "hybrid",
+        "pattern_type": "orca_crow",
+        "parameters": {
+          "law": "conservation",
+          "hz": 13000
+        }
+      }
+    }
+  ]
+}
