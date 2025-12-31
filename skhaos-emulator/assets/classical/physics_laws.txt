@@ -1,0 +1,47 @@
+# Physics Laws in Bio-Physics Entanglement
+
+## 1. Thermodynamics - Entropy
+Law: Entropy (disorder) increases over time in isolated systems
+Application: Swarm mutations naturally increase pattern disorder
+Formula: S = k * ln(W), where W is number of microstates
+BPEC Use: Pattern evolution must show entropy increase
+Example URI: skhaos://bio/physics/entropy?hz=20
+
+## 2. Quantum Mechanics - Uncertainty
+Law: Position and momentum cannot both be precisely determined
+Formula: Δx * Δp ≥ ℏ/2 (Heisenberg uncertainty principle)
+Application: Superposition of whale/dolphin states until measurement
+BPEC Use: Patterns exist in superposed states during evolution
+Example URI: skhaos://bio/physics/uncertainty?hz=22
+
+## 3. Conservation Laws - Energy
+Law: Energy cannot be created or destroyed, only transformed
+Application: Total "energy" (pattern intensity) remains constant
+BPEC Use: State transitions must conserve total pattern energy
+Formula: E_total = Σ E_i = constant
+Example URI: skhaos://bio/physics/conservation?hz=10
+
+## 4. Relativity - Spacetime
+Law: Space and time are intertwined; time dilation at high velocities
+Formula: t' = t / √(1 - v²/c²) (time dilation)
+Application: UDAP coordinates transformed across reference frames
+BPEC Use: Pattern frequencies scale with relativistic effects
+Example URI: skhaos://bio/physics/relativity?hz=28
+
+## Integration with Bio-Patterns
+
+### Mozart's Rondo alla Turca + Physics
+- ABACA form with entropy resets at each A return
+- Conservation: Total musical "energy" maintained through development
+- Uncertainty: B and C sections branch probabilistically
+- Relativity: Tempo changes as relativistic time dilation
+
+### Zipf + Physics
+- Entropy minimization: Frequent short units are thermodynamically optimal
+- Zipf's law emerges from entropy maximization under constraints
+- Cultural evolution follows thermodynamic gradients
+
+### Dolphin + Physics
+- Signature whistles as relativistic observers (persistent IDs)
+- Echolocation as quantum measurement (collapses environmental state)
+- Pod dialects evolve under entropy increase

@@ -44,7 +44,7 @@ impl UDAPBioParser {
         // Parse path: bio/{domain}/{resource}
         let path_parts: Vec<&str> = path.split('/').collect();
         if path_parts.len() < 3 {
-            return Err(format!("Invalid path format: {}. Expected bio/{domain}/{resource}", path));
+            return Err(format!("Invalid path format: {}. Expected bio/{{domain}}/{{resource}}", path));
         }
 
         if path_parts[0] != "bio" {

@@ -89,7 +89,7 @@ impl BPECCompiler {
     }
 
     /// Entangle whale patterns with dolphin communications
-    pub fn entangle_bio(&self, whale_data: &[u8], dolphin_data: &[u8]) -> Vec<u8> {
+    pub fn entangle_bio(&self, whale_data: &[u8], _dolphin_data: &[u8]) -> Vec<u8> {
         let mut result = Vec::new();
         
         // Apply Zipf ranking to whale data

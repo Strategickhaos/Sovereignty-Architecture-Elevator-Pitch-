@@ -99,8 +99,8 @@ impl PhysicsDOM {
             let state_b = ((i as f64 * frequency_hz * 0.2).cos() * 127.0 + 128.0) as u8;
             
             // Uncertain superposition
-            let superposed = ((state_a as f64 * self.uncertainty_factor + 
-                             state_b as f64 * (1.0 - self.uncertainty_factor)) as u8);
+            let superposed = (state_a as f64 * self.uncertainty_factor + 
+                             state_b as f64 * (1.0 - self.uncertainty_factor)) as u8;
             pattern.push(superposed);
         }
         

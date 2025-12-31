@@ -6,34 +6,10 @@ authors = ["Strategickhaos <architect@strategickhaos.com>"]
 description = "Bio-Physics Entanglement Compiler (BPEC) - INVENTION_074"
 license = "MIT"
 
-[workspace]
-members = [
-    "src/bio_physics",
-    "src/alu",
-    "src/control_unit",
-    "src/entanglement_core",
-    "src/register_memory",
-    "src/agents",
-    "src/audio_midi",
-    "src/cli_recon",
-    "src/whale_quantum",
-    "src/multi_whale",
-    "src/music_compiler",
-]
-
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.10"
-tokio = { version = "1.35", features = ["full"] }
-async-trait = "0.1"
-
-[workspace.dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-sha2 = "0.10"
-rand = "0.8"
-num-complex = "0.4"
 
 [lib]
 name = "skhaos_emulator"

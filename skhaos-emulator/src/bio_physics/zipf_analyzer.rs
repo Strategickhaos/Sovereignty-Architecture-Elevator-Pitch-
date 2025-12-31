@@ -105,7 +105,7 @@ impl ZipfAnalyzer {
                         let slice = &mutated[i..i + unit.len()];
                         if slice == unit.as_slice() {
                             // Apply mutation: bit flip based on generation
-                            mutated[i] ^= ((generation % 256) as u8);
+                            mutated[i] ^= (generation % 256) as u8;
                             break;
                         }
                     }
@@ -118,12 +118,12 @@ impl ZipfAnalyzer {
 
     /// Analyze cultural evolution of units over time
     /// Returns evolution trajectory showing rank changes
-    pub fn analyze_cultural_evolution(&self, generations: &[Vec<u8>]) -> Vec<HashMap<Vec<u8>, usize>> {
+    pub fn analyze_cultural_evolution(&self, generations: &[Vec<u8>]) -> Vec<HashMap<usize, Vec<u8>>> {
         generations
             .iter()
             .map(|gen| {
                 let ranks = self.rank_units(gen);
-                ranks.into_iter().collect()
+                ranks.into_iter().map(|(rank, unit)| (rank, unit)).collect()
             })
             .collect()
     }

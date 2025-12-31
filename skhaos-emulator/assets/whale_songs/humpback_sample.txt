@@ -1,0 +1,17 @@
+# Humpback Whale Song Units - Zipf Distribution
+# Unit patterns follow ~1/f frequency distribution
+# Frequent short units rank high per Menzerath's law
+
+UNIT_1: moan (20Hz, 0.5s) - Rank 1, Frequency: 100
+UNIT_2: groan (50Hz, 0.3s) - Rank 2, Frequency: 50
+UNIT_3: chirp (200Hz, 0.2s) - Rank 3, Frequency: 33
+UNIT_4: pulse (500Hz, 0.15s) - Rank 4, Frequency: 25
+UNIT_5: whistle (1000Hz, 0.1s) - Rank 5, Frequency: 20
+
+# Song phrases composed of units
+PHRASE_A: UNIT_1 + UNIT_2 + UNIT_1 (theme, high frequency)
+PHRASE_B: UNIT_3 + UNIT_4 + UNIT_3 (variation)
+PHRASE_C: UNIT_5 + UNIT_4 + UNIT_1 (development)
+
+# Cultural evolution: Phrases evolve over time
+# Matrilineal learning: Calves learn from mothers
