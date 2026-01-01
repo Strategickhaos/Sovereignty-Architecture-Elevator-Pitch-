@@ -54,7 +54,7 @@ client.on("interactionCreate", async (i) => {
             const expertsStr = i.options.getString("experts", false);
             const experts = expertsStr ? expertsStr.split(",").map(e => e.trim()) : null;
             const refinoryPort = cfg.refinory?.ports?.api || 8085;
-            const r = await fetch(`http://localhost:${refinoryPort}/requests`, {
+            const response = await fetch(`http://localhost:${refinoryPort}/requests`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -63,7 +63,11 @@ client.on("interactionCreate", async (i) => {
                     requester: i.user.username,
                     experts
                 })
-            }).then(r => r.json());
+            });
+            if (!response.ok) {
+                throw new Error(`Refinory API error: ${response.status} ${response.statusText}`);
+            }
+            const r = await response.json();
             const expertsInfo = experts ? `\nExperts: ${experts.join(", ")}` : "";
             await i.reply({
                 embeds: [embed("🧠 Refinory Request Created", `**Project:** ${project}\n**Request ID:** ${r.request_id}\n**Status:** ${r.status}${expertsInfo}\n\n${r.message}`)]
@@ -72,8 +76,13 @@ client.on("interactionCreate", async (i) => {
         else if (i.commandName === "refinory-status") {
             const requestId = i.options.getString("request_id", true);
             const refinoryPort = cfg.refinory?.ports?.api || 8085;
-            const r = await fetch(`http://localhost:${refinoryPort}/requests/${requestId}`).then(r => r.json());
-            const progressBar = "█".repeat(Math.floor(r.progress / 10)) + "░".repeat(10 - Math.floor(r.progress / 10));
+            const response = await fetch(`http://localhost:${refinoryPort}/requests/${requestId}`);
+            if (!response.ok) {
+                throw new Error(`Refinory API error: ${response.status} ${response.statusText}`);
+            }
+            const r = await response.json();
+            const progress = Math.max(0, Math.min(100, r.progress || 0));
+            const progressBar = "█".repeat(Math.floor(progress / 10)) + "░".repeat(10 - Math.floor(progress / 10));
             const activeExperts = r.active_experts && r.active_experts.length > 0
                 ? `\n**Active Experts:** ${r.active_experts.join(", ")}`
                 : "";
@@ -81,7 +90,7 @@ client.on("interactionCreate", async (i) => {
                 ? `\n**Artifacts:** ${r.artifacts.length} files generated`
                 : "";
             await i.reply({
-                embeds: [embed(`📊 Refinory Status: ${r.project}`, `**Request ID:** ${requestId}\n**Status:** ${r.status}\n**Progress:** ${progressBar} ${r.progress}%${activeExperts}${artifacts}\n**Updated:** ${new Date(r.updated_at).toLocaleString()}`)]
+                embeds: [embed(`📊 Refinory Status: ${r.project}`, `**Request ID:** ${requestId}\n**Status:** ${r.status}\n**Progress:** ${progressBar} ${progress}%${activeExperts}${artifacts}\n**Updated:** ${new Date(r.updated_at).toLocaleString()}`)]
             });
         }
     }
