@@ -11,9 +11,9 @@ import time
 import random  # Simulate pot/fan; replace with real
 import subprocess
 import logging
+import shlex
 from typing import Dict
 from dataclasses import dataclass
-from pathlib import Path
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - GR_ORCHESTRATOR - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -77,8 +77,11 @@ class GRMetricOrchestrator:
         return {'mem_percent': mem, 'cpu_freq_mhz': freq, 'voltage_approx': voltage_approx, 'fan_rpm': rpm}
 
     def _run_command(self, command: str):
+        """Execute command safely with proper sanitization"""
         try:
-            subprocess.run(command, shell=True, timeout=5)  # Safe short run; adjust
+            # Use shlex to safely parse command string into args list
+            args = shlex.split(command)
+            subprocess.run(args, timeout=5, capture_output=True)  # Safe execution
         except Exception as e:
             logger.warning(f"Command failed: {e}")
 
@@ -122,9 +125,15 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='GR Metric Orchestrator - Hardware to General Relativity Metrics')
     parser.add_argument('--command', type=str, default='ls', help='Command to execute and analyze')
-    parser.add_argument('--pot', type=float, default=None, help='Potentiometer value (0-1023)')
+    parser.add_argument('--pot', type=float, default=None, 
+                        help='Potentiometer value (0-1023)')
     
     args = parser.parse_args()
+    
+    # Validate potentiometer input
+    if args.pot is not None:
+        if args.pot < 0 or args.pot > 1023:
+            parser.error("Potentiometer value must be between 0 and 1023")
     
     orch = GRMetricOrchestrator()
     # Example: Run command, simulate or use provided pot value
