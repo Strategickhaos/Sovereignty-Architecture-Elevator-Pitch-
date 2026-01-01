@@ -87,6 +87,7 @@ class GRMetricOrchestrator:
 
     def _compute_schwarzschild(self, deltas: Dict) -> sp.Expr:
         # Map: mem → M, freq_delta → c, rpm → sinθ, pot → r
+        # Note: r remains symbolic - it's a coordinate in the metric
         r, theta, phi, t = sp.symbols('r theta phi t')
         M = deltas['mem_percent'] / 100 * 10  # Scale to "mass"
         c = 3e8 * (1 + deltas['cpu_freq_mhz'] / 10000)  # Freq boost
@@ -95,6 +96,7 @@ class GRMetricOrchestrator:
         term = (1 - 2*G*M/(c**2 * r))
         ds2 = term * c**2 * dt**2 - (term**(-1)) * dr**2 - r**2 * (dtheta**2 + sp.sin(theta)**2 * dphi**2)
         # Sub rpm to sinθ scale, voltage to G adjust
+        # This creates a modified metric with hardware-influenced parameters
         ds2 = ds2.subs(sp.sin(theta), deltas['fan_rpm']/5000).subs(G, G * deltas['voltage_approx'])
         return ds2
 
@@ -106,8 +108,10 @@ class GRMetricOrchestrator:
         c = 3e8 * (1 + deltas['cpu_freq_mhz'] / 10000)
         G = 6.67430e-11 * max(deltas['voltage_approx'], 0.01)  # Avoid zero G
         ds2 = (32*G**3 * M**3)/(c**4 * r) * sp.exp(- (c**2 * r)/(2*G*M)) * (dT**2 - dR**2) - r**2 * dOmega**2
-        # Sub rpm to Omega scale
-        ds2 = ds2.subs(dOmega, dOmega * (abs(deltas['fan_rpm'])/1000))
+        # Scale angular term by rpm: this creates a modified metric where the
+        # angular momentum term is influenced by fan RPM (analogous to rotational dynamics)
+        # Note: dOmega remains symbolic but its coefficient is hardware-influenced
+        ds2 = ds2.subs(dOmega**2, dOmega**2 * (abs(deltas['fan_rpm'])/1000)**2)
         return ds2
 
     def _map_to_flamelang(self, deltas: Dict) -> Dict[str, str]:
