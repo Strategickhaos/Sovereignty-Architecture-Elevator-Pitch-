@@ -52,7 +52,9 @@ client.on("interactionCreate", async (i) => {
             const project = i.options.getString("project", true);
             const description = i.options.getString("description", true);
             const expertsStr = i.options.getString("experts", false);
-            const experts = expertsStr ? expertsStr.split(",").map(e => e.trim()) : null;
+            const experts = expertsStr
+                ? expertsStr.split(",").map(e => e.trim()).filter(e => e.length > 0)
+                : null;
             const refinoryPort = cfg.refinory?.ports?.api || 8085;
             const response = await fetch(`http://localhost:${refinoryPort}/requests`, {
                 method: "POST",
