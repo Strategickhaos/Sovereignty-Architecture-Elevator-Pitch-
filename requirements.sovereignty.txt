@@ -6,6 +6,7 @@ psutil>=5.9.0              # System and process monitoring
 dnspython>=2.3.0           # DNS resolution and analysis
 requests>=2.31.0           # HTTP client for X.com analysis
 netifaces>=0.11.0          # Network interface information
+sympy>=1.12                # Symbolic mathematics for GR metrics
 
 # Torrent creation and analysis
 bencodepy>=0.9.5           # Bencode encoder/decoder for torrent files
