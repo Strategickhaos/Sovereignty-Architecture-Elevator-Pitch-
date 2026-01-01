@@ -2,9 +2,20 @@ import fs from "fs";
 import yaml from "js-yaml";
 
 type C = {
-  discord: { bot: { token_secret_env: string }, channels: { prs: string, deployments: string, alerts: string } };
+  discord: { 
+    bot: { 
+      token_secret_env: string;
+      app_id?: string;
+    };
+    channels: { prs: string, deployments: string, alerts: string };
+  };
   control_api: { base_url: string, bearer_env: string };
   event_gateway: { port: number };
+  refinory?: {
+    ports?: {
+      api?: number;
+    };
+  };
 };
 
 export function loadConfig(): C {
