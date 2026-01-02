@@ -122,18 +122,26 @@ Start-Sleep -Seconds 1
 
 # Kill ProtonVPN processes
 Write-Host "Terminating ProtonVPN processes..." -ForegroundColor White
-$protonProcesses = Get-Process | Where-Object {$_.Name -like "*ProtonVPN*"}
-foreach ($proc in $protonProcesses) {
-    Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-    Write-Host "  Killed: $($proc.Name) (PID: $($proc.Id))" -ForegroundColor Gray
+$protonProcesses = Get-Process -Name "*ProtonVPN*" -ErrorAction SilentlyContinue
+if ($protonProcesses) {
+    foreach ($proc in $protonProcesses) {
+        Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+        Write-Host "  Killed: $($proc.Name) (PID: $($proc.Id))" -ForegroundColor Gray
+    }
+} else {
+    Write-Host "  No ProtonVPN processes found" -ForegroundColor Gray
 }
 
 # Kill DuckDuckGo VPN processes
 Write-Host "Terminating DuckDuckGo VPN processes..." -ForegroundColor White
-$ddgProcesses = Get-Process | Where-Object {$_.Name -like "*DuckDuckGo*"}
-foreach ($proc in $ddgProcesses) {
-    Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
-    Write-Host "  Killed: $($proc.Name) (PID: $($proc.Id))" -ForegroundColor Gray
+$ddgProcesses = Get-Process -Name "*DuckDuckGo*" -ErrorAction SilentlyContinue
+if ($ddgProcesses) {
+    foreach ($proc in $ddgProcesses) {
+        Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+        Write-Host "  Killed: $($proc.Name) (PID: $($proc.Id))" -ForegroundColor Gray
+    }
+} else {
+    Write-Host "  No DuckDuckGo processes found" -ForegroundColor Gray
 }
 
 Start-Sleep -Seconds 3
@@ -170,6 +178,10 @@ netsh winsock reset | Out-Null
 
 Write-Host "Resetting IP stack..." -ForegroundColor White
 netsh int ip reset | Out-Null
+
+Write-Host ""
+Write-Host "⚠️  WARNING: System restart recommended for these changes to take full effect." -ForegroundColor Yellow
+Write-Host ""
 
 Start-Sleep -Seconds 2
 

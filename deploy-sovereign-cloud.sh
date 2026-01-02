@@ -4,7 +4,7 @@
 # Operator: strategickhaos / Domenic Garza
 # Version: 1.0
 
-set -e  # Exit on any error
+set -euo pipefail  # Exit on error, undefined variable, or pipe failure
 
 # Color codes for output
 RED='\033[0;31m'
@@ -58,7 +58,7 @@ check_prerequisites() {
     
     # Check internet connectivity
     print_status "Testing internet connectivity..."
-    if ping -c 2 8.8.8.8 &> /dev/null; then
+    if ping -c 2 8.8.8.8 &> /dev/null || ping -c 2 1.1.1.1 &> /dev/null; then
         print_success "Internet connectivity: OK"
     else
         print_error "Internet connectivity: FAILED"
@@ -196,6 +196,8 @@ create_gke_cluster() {
       --max-nodes=5 \
       --addons=HttpLoadBalancing,HorizontalPodAutoscaling \
       --enable-stackdriver-kubernetes \
+      --enable-network-policy \
+      --enable-shielded-nodes \
       --labels=environment=sovereign,operator=strategickhaos
     
     print_success "GKE cluster created successfully!"
@@ -300,6 +302,10 @@ setup_wireguard() {
     
     print_status "Generating WireGuard keys..."
     wg genkey | tee ~/wireguard-configs/athena-private.key | wg pubkey > ~/wireguard-configs/athena-public.key
+    
+    # Set restrictive permissions on private key
+    chmod 600 ~/wireguard-configs/athena-private.key
+    chmod 644 ~/wireguard-configs/athena-public.key
     
     ATHENA_PRIVATE_KEY=$(cat ~/wireguard-configs/athena-private.key)
     ATHENA_PUBLIC_KEY=$(cat ~/wireguard-configs/athena-public.key)

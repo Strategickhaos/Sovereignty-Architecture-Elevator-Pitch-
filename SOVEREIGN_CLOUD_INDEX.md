@@ -232,7 +232,7 @@ Does Athena have internet?
 ---
 
 **Document Version:** 1.0  
-**Created:** 2026-01-02  
+**Created:** 2025-01-02  
 **Purpose:** Documentation index for Sovereign Cloud Infrastructure  
 **Owner:** strategickhaos / Domenic Garza
 
