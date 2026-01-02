@@ -1,0 +1,182 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+  labels:
+    istio-injection: enabled
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-install-config
+  namespace: istio-system
+data:
+  install.sh: |
+    #!/bin/bash
+    # Istio Installation Script for Security Dome
+    
+    set -e
+    
+    echo "Installing Istio..."
+    
+    # Download Istio
+    curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.20.0 sh -
+    cd istio-1.20.0
+    export PATH=$PWD/bin:$PATH
+    
+    # Install Istio with security features
+    istioctl install --set profile=default \
+      --set values.global.mtls.enabled=true \
+      --set values.global.controlPlaneSecurityEnabled=true \
+      --set meshConfig.accessLogFile=/dev/stdout \
+      --set meshConfig.enableTracing=true \
+      --set meshConfig.defaultConfig.tracing.zipkin.address=zipkin.istio-system:9411 \
+      -y
+    
+    echo "Istio installed successfully!"
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+  namespace: dom-llm
+spec:
+  {}
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-llm-traffic
+  namespace: dom-llm
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: ["dom-llm", "dom-mesh", "dom-security"]
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        paths: ["/api/*", "/v1/*"]
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: dom-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: dom-gateway-cert
+    hosts:
+    - "*.dom-citadel.internal"
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*.dom-citadel.internal"
+    tls:
+      httpsRedirect: true
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ollama-vs
+  namespace: dom-llm
+spec:
+  hosts:
+  - "ollama.dom-citadel.internal"
+  gateways:
+  - istio-system/dom-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: ollama.dom-llm.svc.cluster.local
+        port:
+          number: 11434
+    timeout: 300s
+    retries:
+      attempts: 3
+      perTryTimeout: 60s
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vllm-vs
+  namespace: dom-llm
+spec:
+  hosts:
+  - "vllm.dom-citadel.internal"
+  gateways:
+  - istio-system/dom-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /v1
+    route:
+    - destination:
+        host: vllm-infer.dom-llm.svc.cluster.local
+        port:
+          number: 8000
+    timeout: 300s
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ollama-dr
+  namespace: dom-llm
+spec:
+  host: ollama.dom-llm.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 50
+        http2MaxRequests: 100
+        maxRequestsPerConnection: 2
+    loadBalancer:
+      simple: LEAST_REQUEST
+    outlierDetection:
+      consecutive5xxErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+---
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-telemetry
+  namespace: istio-system
+spec:
+  tracing:
+  - providers:
+    - name: zipkin
+    randomSamplingPercentage: 100.0
+  metrics:
+  - providers:
+    - name: prometheus
+  accessLogging:
+  - providers:
+    - name: envoy
