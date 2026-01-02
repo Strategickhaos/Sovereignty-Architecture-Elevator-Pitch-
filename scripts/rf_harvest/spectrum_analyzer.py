@@ -89,7 +89,7 @@ def identify_band(freq_mhz):
         return "Marine VHF"
     elif 400 <= freq_mhz <= 512:
         return "UHF/Public Safety"
-    elif 433 <= freq_mhz <= 434:
+    elif 433.8 <= freq_mhz <= 434.0:
         return "ISM 433 MHz (IoT)"
     elif 862 <= freq_mhz <= 928:
         return "ISM 900 MHz (LoRa/Cellular)"

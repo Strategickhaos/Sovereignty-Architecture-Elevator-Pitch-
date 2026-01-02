@@ -14,6 +14,21 @@ import sys
 
 def scan_wifi(interface='wlan1', duration=30):
     """Scan for WiFi networks using airodump-ng"""
+    # Validate interface name (alphanumeric and common chars only)
+    if not re.match(r'^[a-zA-Z0-9_-]+$', interface):
+        print(f"[!] Invalid interface name: {interface}")
+        return []
+    
+    # Validate duration
+    try:
+        duration = int(duration)
+        if duration < 1 or duration > 600:
+            print(f"[!] Duration must be between 1 and 600 seconds")
+            return []
+    except ValueError:
+        print(f"[!] Invalid duration: {duration}")
+        return []
+    
     print(f"[*] Scanning WiFi on {interface} for {duration} seconds...")
     print(f"[*] Ensure {interface} is in monitor mode:")
     print(f"    sudo ip link set {interface} down")
@@ -23,11 +38,12 @@ def scan_wifi(interface='wlan1', duration=30):
     # Create output file
     output_file = f"/tmp/wifi_scan_{int(time.time())}"
     
-    # Run airodump-ng
-    cmd = f"sudo timeout {duration} airodump-ng {interface} -w {output_file} --output-format csv"
+    # Run airodump-ng with validated parameters (no shell=True)
+    cmd = ['sudo', 'timeout', str(duration), 'airodump-ng', interface, 
+           '-w', output_file, '--output-format', 'csv']
     
-    print(f"[*] Running: {cmd}")
-    result = subprocess.run(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    print(f"[*] Running: {' '.join(cmd)}")
+    result = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     
     if result.returncode != 0 and result.returncode != 124:  # 124 = timeout (expected)
         stderr = result.stderr.decode('utf-8')
@@ -121,15 +137,19 @@ def print_results(networks):
         print(f"{i:<6} {net['power']:<8} {net['bssid']:<20} {net['essid']:<35} {quality}")
     
     if networks:
-        print(f"\n[+] Best target: {networks[0]['essid']} ({networks[0]['power']} dBm)")
+        best_ssid = networks[0]['essid']
+        # Escape single quotes in SSID for shell safety
+        safe_ssid = best_ssid.replace("'", "'\\''")
+        
+        print(f"\n[+] Best target: {best_ssid} ({networks[0]['power']} dBm)")
         print(f"[+] BSSID: {networks[0]['bssid']}")
         print(f"\n[*] To connect:")
         print(f"    # Exit monitor mode first:")
         print(f"    sudo ip link set {interface} down")
         print(f"    sudo iw dev {interface} set type managed")
         print(f"    sudo ip link set {interface} up")
-        print(f"    # Connect:")
-        print(f"    sudo nmcli device wifi connect '{networks[0]['essid']}'")
+        print(f"    # Connect (use nmcli to safely handle special characters):")
+        print(f"    sudo nmcli device wifi connect '{safe_ssid}'")
     else:
         print("\n[!] No open networks found. Try:")
         print("    - Moving to a different location")

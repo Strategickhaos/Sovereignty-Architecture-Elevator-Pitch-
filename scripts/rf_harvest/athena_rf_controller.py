@@ -66,23 +66,39 @@ class RFOrchestrator:
         timestamp = int(time.time())
         output_file = f'/tmp/spectrum_{timestamp}.csv'
         
-        # Run rtl_power in background (10 minute scan)
-        subprocess.Popen(['rtl_power', '-f', '100M:1.7G:1M', '-g', '50', 
-                         '-i', '10m', output_file],
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL)
-        
-        print(f"[+] Spectrum scan started. Output: {output_file}")
-        self.last_spectrum_scan = time.time()
+        try:
+            # Run rtl_power in background (10 minute scan)
+            process = subprocess.Popen(['rtl_power', '-f', '100M:1.7G:1M', '-g', '50', 
+                             '-i', '10m', output_file],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.PIPE)
+            
+            # Check if process started successfully
+            time.sleep(1)
+            if process.poll() is not None:
+                stderr = process.stderr.read().decode('utf-8')
+                print(f"[!] rtl_power failed to start: {stderr}")
+                return
+            
+            print(f"[+] Spectrum scan started. Output: {output_file}")
+            self.last_spectrum_scan = time.time()
+        except FileNotFoundError:
+            print("[!] rtl_power not found. Install with: sudo apt install rtl-sdr")
+        except Exception as e:
+            print(f"[!] Failed to start spectrum scan: {e}")
     
     def hunt_wifi(self):
         """Auto-hunt for best open WiFi"""
         print("[*] Hunting for open WiFi networks...")
         
-        # Check if wifi_hunter.py exists
+        # Check if wifi_hunter.py exists and is executable
         script_path = 'scripts/rf_harvest/wifi_hunter.py'
         if not os.path.exists(script_path):
             print(f"[!] WiFi hunter script not found at {script_path}")
+            return
+        
+        if not os.access(script_path, os.X_OK):
+            print(f"[!] WiFi hunter script is not executable. Run: chmod +x {script_path}")
             return
         
         try:
