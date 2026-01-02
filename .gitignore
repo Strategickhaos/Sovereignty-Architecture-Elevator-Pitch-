@@ -38,3 +38,4 @@ target/
 
 # Workspace data
 workspace/
+test-logger.mjs

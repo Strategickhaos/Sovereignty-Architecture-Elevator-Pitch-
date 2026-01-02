@@ -1,6 +1,5 @@
 import fs from "fs";
 import yaml from "js-yaml";
-import { logger } from "./logger.js";
 
 type C = {
   discord: { bot: { token_secret_env: string, app_id?: string }, channels: { prs: string, deployments: string, alerts: string } };
@@ -11,10 +10,10 @@ type C = {
 export function loadConfig(): C {
   try {
     const doc: any = yaml.load(fs.readFileSync("discovery.yml", "utf8"));
-    logger.debug("Configuration loaded successfully");
     return doc;
   } catch (error: any) {
-    logger.error("Failed to load configuration", { error: error.message });
+    // Use console.error here to avoid circular dependency with logger
+    console.error(`[ERROR] Failed to load configuration: ${error.message}`);
     throw error;
   }
 }
@@ -22,7 +21,8 @@ export function loadConfig(): C {
 export const env = (k: string, req = true) => {
   const v = process.env[k];
   if (!v && req) {
-    logger.error("Missing required environment variable", { variable: k });
+    // Use console.error here to avoid circular dependency with logger
+    console.error(`[ERROR] Missing required environment variable: ${k}`);
     throw new Error(`Missing env ${k}`);
   }
   return v || "";

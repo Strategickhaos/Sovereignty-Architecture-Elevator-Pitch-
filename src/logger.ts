@@ -39,7 +39,7 @@ class Logger {
       timestamp: new Date().toISOString(),
       level,
       message,
-      context,
+      ...(context && { context }),
     };
 
     if (this.useJson) {
