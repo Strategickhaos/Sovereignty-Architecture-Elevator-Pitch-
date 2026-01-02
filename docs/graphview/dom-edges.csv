@@ -1,0 +1,40 @@
+Source,Target,Type,Label,Weight,Description
+L1,L2,sequential,builds upon,1.0,Signals scale to compute elements
+L2,L3,sequential,builds upon,1.0,Compute elements organize into code
+L3,L4,sequential,builds upon,1.0,Code executes in containers/VMs
+L4,L5,sequential,builds upon,1.0,Containers require security
+L5,L6,sequential,builds upon,1.0,Security monitors network
+L6,L7,sequential,builds upon,1.0,Network distributes across regions
+L7,L8,sequential,builds upon,1.0,Distribution uses optimization algorithms
+L8,L9,sequential,builds upon,1.0,Algorithms manage data flow
+L1-P,L1-I,analogy,maps to,0.9,Wave function → Signal propagation
+L2-P,L2-I,analogy,maps to,0.9,Atomic properties → Resource allocation
+L3-P,L3-I,analogy,maps to,0.9,DNA entropy → Code complexity
+L4-P,L4-I,analogy,maps to,0.9,Cell growth → Container scaling
+L5-P,L5-I,analogy,maps to,0.9,Immune response → Threat detection
+L6-P,L6-I,analogy,maps to,0.9,Neuron firing → Network flow
+L7-P,L7-I,analogy,maps to,0.9,Brain asymmetry → Load balancing
+L8-P,L8-I,analogy,maps to,0.9,Ramanujan series → Heuristic optimization
+L9-P,L9-I,analogy,maps to,0.9,Blood flow → Data flow
+L1-P,L1,belongs to,formula of,0.5,Physics formula for level 1
+L1-I,L1,belongs to,formula of,0.5,Infrastructure formula for level 1
+L2-P,L2,belongs to,formula of,0.5,Physics formula for level 2
+L2-I,L2,belongs to,formula of,0.5,Infrastructure formula for level 2
+L3-P,L3,belongs to,formula of,0.5,Biology formula for level 3
+L3-I,L3,belongs to,formula of,0.5,Infrastructure formula for level 3
+L4-P,L4,belongs to,formula of,0.5,Biology formula for level 4
+L4-I,L4,belongs to,formula of,0.5,Infrastructure formula for level 4
+L5-P,L5,belongs to,formula of,0.5,Biology formula for level 5
+L5-I,L5,belongs to,formula of,0.5,Infrastructure formula for level 5
+L6-P,L6,belongs to,formula of,0.5,Biology formula for level 6
+L6-I,L6,belongs to,formula of,0.5,Infrastructure formula for level 6
+L7-P,L7,belongs to,formula of,0.5,Biology formula for level 7
+L7-I,L7,belongs to,formula of,0.5,Infrastructure formula for level 7
+L8-P,L8,belongs to,formula of,0.5,Math formula for level 8
+L8-I,L8,belongs to,formula of,0.5,Infrastructure formula for level 8
+L9-P,L9,belongs to,formula of,0.5,Physics formula for level 9
+L9-I,L9,belongs to,formula of,0.5,Infrastructure formula for level 9
+L1,L6,cross-level,scales to,0.7,Signals scale to network
+L3,L4,cross-level,implements,0.7,Code executes in containers
+L4,L5,cross-level,protected by,0.7,Containers protected by security
+L6,L9,cross-level,flows through,0.7,Network carries data flow
