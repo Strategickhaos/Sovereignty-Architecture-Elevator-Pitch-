@@ -35,3 +35,19 @@ target/
 
 # Workspace data
 workspace/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# RF Harvest temporary files
+/tmp/spectrum_*.csv
+/tmp/wifi_scan_*.csv
