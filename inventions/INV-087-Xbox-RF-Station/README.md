@@ -6,6 +6,19 @@
 
 ---
 
+## 🚀 Quick Start
+
+**New here?** Start with the [**Quick Start Guide**](./QUICKSTART.md) for a fast-track overview and immediate next steps.
+
+**Documentation:**
+- [Quick Start Guide](./QUICKSTART.md) - Fast-track overview and decision matrix
+- [Build Order](./BUILD_ORDER.md) - Step-by-step phases (1-4)
+- [Jailbreak Guide](./JAILBREAK_GUIDE.md) - Xbox liberation pathway
+- [CB Radio Integration](./CB_RADIO_INTEGRATION.md) - Packet radio setup
+- [Hardware Inventory](./HARDWARE_INVENTORY.md) - Parts list and shopping
+
+---
+
 ## Overview
 
 The Xbox Sovereign RF Station repurposes a jailbroken Xbox Series X as a high-performance RF processing node for infrastructure-independent communications. By leveraging the console's powerful hardware (AMD Zen 2 CPU, RDNA 2 GPU, 16GB RAM), this invention creates a sovereign communications hub capable of spectrum scanning, packet radio, mesh networking, and GPU-accelerated signal processing.
