@@ -218,7 +218,10 @@ def test_conservation_laws():
     assert np.all(np.abs(V) < 200), "Voltage should remain bounded"
     
     # Without current, should approach resting state
-    V_final = V[-100:]  # Last 10 ms
+    # Take last 10ms of simulation for analysis
+    dt = t[1] - t[0]
+    n_final = int(10.0 / dt)  # Number of points in last 10ms
+    V_final = V[-n_final:]
     assert np.abs(np.mean(V_final) - (-65)) < 20, "Should approach resting potential"
     
     print("  ✓ Conservation laws respected")

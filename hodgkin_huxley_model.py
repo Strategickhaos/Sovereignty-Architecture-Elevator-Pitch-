@@ -212,8 +212,9 @@ class HodgkinHuxleyModel:
         m0, h0, n0 = self.steady_state_values(V0)
         initial_state = np.array([V0, m0, h0, n0])
         
-        # Time points for integration
-        t = np.arange(t_span[0], t_span[1], dt)
+        # Time points for integration - use linspace for precision
+        n_points = int((t_span[1] - t_span[0]) / dt) + 1
+        t = np.linspace(t_span[0], t_span[1], n_points)
         
         # Solve ODEs using scipy's odeint
         solution = odeint(self.derivatives, initial_state, t)
@@ -354,14 +355,18 @@ class FractalAnalysis:
             
             model = HodgkinHuxleyModel(params)
             
-            # Simulate long enough to reach attractor and sample
-            t_total = 50 + (n_transient + n_samples) * 0.1
-            t, solution = model.simulate((0, t_total), dt=0.1)
+            # Simulate with explicit dt parameter
+            dt_sim = 0.1  # Simulation time step
+            t_transient = 50.0  # Transient period in ms
+            t_sample = 50.0  # Sampling period in ms
+            t_total = t_transient + t_sample
+            
+            t, solution = model.simulate((0, t_total), dt=dt_sim)
             
             V = solution[:, 0]
             
             # Find local maxima (spike peaks) after transient
-            transient_idx = int(50 / 0.1)  # Skip first 50ms
+            transient_idx = int(t_transient / dt_sim)
             V_steady = V[transient_idx:]
             
             # Simple peak detection
