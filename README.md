@@ -93,6 +93,36 @@ kubectl apply -f bootstrap/k8s/
 - **OpenTelemetry** - Distributed tracing
 - **Alertmanager** - Alert routing to Discord channels
 
+### Structured Logging
+The system includes a centralized logging module (`src/logger.ts`) that provides:
+- **Multiple Log Levels**: DEBUG, INFO, WARN, ERROR with filtering
+- **Structured Output**: JSON format for production, human-readable for development
+- **Contextual Information**: Automatic timestamps and optional context objects
+- **Environment-Aware**: Configurable via `LOG_LEVEL` and `NODE_ENV` environment variables
+
+**Example Usage:**
+```typescript
+import { logger } from "./logger.js";
+
+// Info level with context
+logger.info("Bot command received", { command: "deploy", user: "admin" });
+
+// Error logging
+logger.error("Failed to connect", { error: err.message });
+
+// Debug level (only shown when LOG_LEVEL=DEBUG)
+logger.debug("Processing webhook", { event: "pull_request" });
+```
+
+**Log Output Formats:**
+```bash
+# Development (pretty format)
+[2026-01-02T12:00:00.000Z] INFO  Bot ready and commands registered
+
+# Production (JSON format)
+{"timestamp":"2026-01-02T12:00:00.000Z","level":"INFO","message":"Bot ready and commands registered"}
+```
+
 ## 🔧 Configuration
 
 ### Core Configuration (`discovery.yml`)
@@ -138,6 +168,10 @@ PGVECTOR_CONN=postgresql://user:pass@host:5432/db
 
 # Infrastructure
 EVENTS_HMAC_KEY=your_64_char_hmac_key
+
+# Logging Configuration
+LOG_LEVEL=INFO          # Options: DEBUG, INFO, WARN, ERROR
+NODE_ENV=production     # Use JSON format in production, pretty format in development
 ```
 
 ## 🎯 Discord Workflow Integration
