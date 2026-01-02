@@ -2,6 +2,22 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+---
+
+## 🔥 Sovereign Cloud Empire
+
+**NEW:** Complete infrastructure deployment and network troubleshooting documentation available!
+
+📚 **[→ Sovereign Cloud Documentation Index](SOVEREIGN_CLOUD_INDEX.md)** - Start here for infrastructure deployment
+
+Quick links:
+- 📖 [Full Infrastructure Status & Procedures](SOVEREIGN_CLOUD_INFRASTRUCTURE_STATUS.md)
+- ⚡ [Quick Network Fix Reference](ATHENA_NETWORK_QUICKFIX.md)
+- 🛠️ `fix-athena-network.ps1` - Automated network recovery (Windows)
+- 🚀 `deploy-sovereign-cloud.sh` - Complete cloud deployment automation
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
