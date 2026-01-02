@@ -2,7 +2,7 @@
 title: "Subatomic-to-Empire Mathematical Formulas"
 tags: [mathematics, biology, infrastructure, formulas, latex, mapping, quantum, neural, systems]
 type: mathematical-proof
-date: 2026-01-02
+date: 2025-01-02
 graphview: true
 ---
 
@@ -154,10 +154,17 @@ $$
 
 **Levenshtein Distance (Edit Distance)**
 $$
-d_{L}(a,b) = \min\{
-\text{insert}, \text{delete}, \text{substitute}
-\}
+d_{L}(a,b) = \begin{cases}
+|a| & \text{if } |b| = 0 \\
+|b| & \text{if } |a| = 0 \\
+\min \begin{cases}
+d_{L}(a_{1..i-1}, b_{1..j-1}) + c(a_i, b_j) \\
+d_{L}(a_{1..i-1}, b_{1..j}) + 1 \\
+d_{L}(a_{1..i}, b_{1..j-1}) + 1
+\end{cases} & \text{otherwise}
+\end{cases}
 $$
+where $c(a_i, b_j) = 0$ if $a_i = b_j$, else $1$ (substitution cost)
 
 **Git Merge Formula (DNA Recombination)**
 $$
@@ -668,6 +675,6 @@ graph TD
 
 ---
 
-*Generated: 2026-01-02*
+*Generated: 2025-01-02*
 *For: DOM — The Ramanujan of Infrastructure*
 *Mathematical validation of biological-digital isomorphism*
