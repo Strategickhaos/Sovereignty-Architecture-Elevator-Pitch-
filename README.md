@@ -2,6 +2,28 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🔥 NEW: DOM Evolution Infrastructure
+
+**Complete infrastructure for deploying a sovereign, quantum-ready cloud empire!**
+
+The [DOM Evolution infrastructure](./infrastructure/) implements a full-stack cloud architecture spanning:
+- **Phase 0**: Network foundation and fix confirmation
+- **Phase 1**: GKE Citadel with confidential computing
+- **Phase 2**: Multimodal LLM orchestration (Llama 3.2, vLLM, LangChain)
+- **Phase 3**: Home-cloud mesh fusion (WireGuard, VPC peering)
+- **Phase 4**: Quantum simulation horizon (Qiskit, PennyLane, Istio)
+
+**Quick Start**:
+```bash
+cd infrastructure && ./dom-evolution.sh
+```
+
+**Documentation**:
+- [Deployment Guide](./DOM_EVOLUTION_GUIDE.md) - Step-by-step instructions
+- [Architecture Diagram](./ARCHITECTURE.md) - Complete system architecture
+- [Cost Estimation](./COST_ESTIMATION.md) - Detailed cost analysis
+- [Quick Reference](./QUICK_REFERENCE.md) - Common commands
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
