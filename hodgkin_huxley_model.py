@@ -354,14 +354,15 @@ class FractalAnalysis:
             
             model = HodgkinHuxleyModel(params)
             
-            # Simulate to reach attractor
-            t_total = (n_transient + n_samples) * 0.1
+            # Simulate long enough to reach attractor and sample
+            t_total = 50 + (n_transient + n_samples) * 0.1
             t, solution = model.simulate((0, t_total), dt=0.1)
             
             V = solution[:, 0]
             
             # Find local maxima (spike peaks) after transient
-            V_steady = V[n_transient:]
+            transient_idx = int(50 / 0.1)  # Skip first 50ms
+            V_steady = V[transient_idx:]
             
             # Simple peak detection
             peaks = []
