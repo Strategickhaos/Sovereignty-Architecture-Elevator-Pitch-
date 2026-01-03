@@ -246,8 +246,8 @@ class LyapunovExponent:
             delta = state_pert - state_ref
             dist = np.linalg.norm(delta)
             
-            # Accumulate Lyapunov sum
-            if dist > 0:
+            # Accumulate Lyapunov sum (with numerical stability threshold)
+            if dist > 1e-12:
                 lyapunov_sum += np.log(dist / perturbation)
                 divergence_history.append(dist)
                 

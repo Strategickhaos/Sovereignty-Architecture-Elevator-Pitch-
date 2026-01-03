@@ -28,8 +28,10 @@ class QuantumState:
     def __post_init__(self):
         # Normalize to ensure |alpha|^2 + |beta|^2 = 1
         norm = np.linalg.norm(self.amplitudes)
-        if norm > 0:
+        if norm > 1e-10:
             self.amplitudes = self.amplitudes / norm
+        else:
+            raise ValueError("Cannot normalize zero-amplitude quantum state")
     
     def measure(self) -> int:
         """Collapse quantum state to 0 or 1 based on probabilities"""
@@ -89,8 +91,14 @@ def demo_superposition():
     print(f"After Hadamard: {qc.get_state()}")
     print(f"Superposition achieved: 50% |0⟩, 50% |1⟩")
     
-    # Measure multiple times
-    measurements = [qc.measure() for _ in range(100)]
+    # Measure multiple times with fresh circuits
+    measurements = []
+    for _ in range(100):
+        # Create fresh circuit in superposition for each measurement
+        qc_measure = QuantumCircuit(n_qubits=1)
+        qc_measure.hadamard()
+        measurements.append(qc_measure.measure())
+    
     zeros = measurements.count(0)
     ones = measurements.count(1)
     
