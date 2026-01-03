@@ -1,0 +1,21 @@
+# FlameTranscribe_SAGCO Pipeline Requirements
+# Strategickhaos DAO LLC | INV-093
+# Minimal dependencies for DNA transcription pipeline
+
+# Core Python (3.8+)
+# hashlib - Built-in (BLAKE2b for sealing and NFT)
+# dataclasses - Built-in (Python 3.7+)
+# datetime - Built-in
+
+# No external dependencies required for core functionality!
+# The pipeline uses only Python standard library.
+
+# Optional: For future quantum layer integration
+# qiskit>=0.45.0  # Quantum computing framework (commented out - future use)
+
+# Development dependencies
+pytest>=7.4.0          # Testing framework
+pytest-cov>=4.1.0      # Coverage reporting
+
+# Optional: Enhanced cryptography
+# cryptography>=41.0.0  # For Ed25519 signatures (future enhancement)
