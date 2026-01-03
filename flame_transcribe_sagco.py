@@ -24,7 +24,6 @@ from hashlib import blake2b
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 from enum import Enum
-import json
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # LAYER 1: CODON MAPPING (DNA Transcription)
@@ -232,7 +231,7 @@ class FlameTranscribePipeline:
             result.append(letter)
         return ''.join(result)
     
-    def seal_with_mrve(self, dna: str, private_key: Optional[bytes] = None) -> str:
+    def seal_with_mrve(self, dna: str) -> str:
         """Layer 5: MRVE signature seal (C-face)."""
         # Placeholder for Ed25519 signing
         # In production: from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
@@ -304,8 +303,6 @@ class FlameTranscribePipeline:
 
 def main():
     """FlameTranscribe CLI entry point."""
-    import sys
-    
     print("=" * 70)
     print("INV-093: FlameTranscribe_SAGCO Pipeline")
     print("Strategickhaos DAO LLC | Classification: NOVEL")
