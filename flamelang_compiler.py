@@ -395,14 +395,17 @@ class FlameLangCompiler:
         
         # Convert to DNA using A G C O nucleotides
         dna_sequence = []
+        nucleotides_seen = set()
         
         for byte in mobius_data:
             # Map byte to DNA nucleotide (identity cycle)
             nucleotide_idx = byte % len(DNA_NUCLEOTIDES)
-            dna_sequence.append(DNA_NUCLEOTIDES[nucleotide_idx])
+            nucleotide = DNA_NUCLEOTIDES[nucleotide_idx]
+            dna_sequence.append(nucleotide)
+            nucleotides_seen.add(nucleotide)
         
-        # Ensure identity cycle: add missing nucleotides if needed
-        missing_nucleotides = [n for n in DNA_NUCLEOTIDES if n not in dna_sequence]
+        # Ensure identity cycle: add any missing nucleotides
+        missing_nucleotides = [n for n in DNA_NUCLEOTIDES if n not in nucleotides_seen]
         dna_sequence.extend(missing_nucleotides)
         
         dna_string = ''.join(dna_sequence)
