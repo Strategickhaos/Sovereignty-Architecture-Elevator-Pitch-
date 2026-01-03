@@ -35,3 +35,6 @@ target/
 
 # Workspace data
 workspace/
+inv-093-flametranscribe/src/__pycache__/
+**/__pycache__/
+*.pyc
