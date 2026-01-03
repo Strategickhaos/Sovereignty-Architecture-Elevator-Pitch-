@@ -35,3 +35,10 @@ target/
 
 # Workspace data
 workspace/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
