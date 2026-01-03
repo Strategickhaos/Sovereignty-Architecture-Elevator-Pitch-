@@ -20,6 +20,9 @@ import secrets
 # STEP 1: QUANTUM MECHANICS FOUNDATIONS
 # ============================================================================
 
+# Numerical constants
+QUANTUM_NORM_THRESHOLD = 1e-10  # Minimum norm for valid quantum state
+
 @dataclass
 class QuantumState:
     """Represents a quantum state vector (qubit)"""
@@ -28,7 +31,7 @@ class QuantumState:
     def __post_init__(self):
         # Normalize to ensure |alpha|^2 + |beta|^2 = 1
         norm = np.linalg.norm(self.amplitudes)
-        if norm > 1e-10:
+        if norm > QUANTUM_NORM_THRESHOLD:
             self.amplitudes = self.amplitudes / norm
         else:
             raise ValueError("Cannot normalize zero-amplitude quantum state")

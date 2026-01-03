@@ -191,6 +191,9 @@ class FitzHughNagumoModel:
 # LYAPUNOV EXPONENT COMPUTATION
 # ============================================================================
 
+# Numerical constants
+LYAPUNOV_STABILITY_THRESHOLD = 1e-12  # Minimum distance for stable logarithm computation
+
 class LyapunovExponent:
     """
     Compute maximum Lyapunov exponent for chaotic systems
@@ -247,7 +250,7 @@ class LyapunovExponent:
             dist = np.linalg.norm(delta)
             
             # Accumulate Lyapunov sum (with numerical stability threshold)
-            if dist > 1e-12:
+            if dist > LYAPUNOV_STABILITY_THRESHOLD:
                 lyapunov_sum += np.log(dist / perturbation)
                 divergence_history.append(dist)
                 
@@ -422,6 +425,9 @@ class ChaosAnalyzer:
 # SOVEREIGNTY INFRASTRUCTURE INTEGRATION
 # ============================================================================
 
+# Anomaly detection threshold
+CHAOS_ANOMALY_THRESHOLD = 0.05  # Lyapunov exponent threshold for anomaly detection
+
 class NeuralAnomalyDetector:
     """
     Use neural chaos for anomaly detection in network traffic
@@ -429,11 +435,16 @@ class NeuralAnomalyDetector:
     """
     
     @staticmethod
-    def detect_anomaly_via_chaos(packet_intervals: List[float]) -> Dict:
+    def detect_anomaly_via_chaos(packet_intervals: List[float],
+                                chaos_threshold: float = CHAOS_ANOMALY_THRESHOLD) -> Dict:
         """
         Analyze packet inter-arrival times using chaos theory
         Regular traffic = periodic (λ ≈ 0)
-        Attack traffic = chaotic (λ > 0)
+        Attack traffic = chaotic (λ > chaos_threshold)
+        
+        Args:
+            packet_intervals: List of packet inter-arrival times
+            chaos_threshold: Lyapunov exponent threshold for anomaly (default: 0.05)
         """
         print("\n🛡️  NEURAL CHAOS ANOMALY DETECTION")
         print("=" * 60)
@@ -461,7 +472,7 @@ class NeuralAnomalyDetector:
         )
         
         # Classify
-        is_anomaly = lambda_max > 0.05  # Threshold for chaos
+        is_anomaly = lambda_max > chaos_threshold
         
         print(f"Packet Statistics:")
         print(f"   Mean interval: {mean_interval:.4f}s")
@@ -469,6 +480,7 @@ class NeuralAnomalyDetector:
         print(f"   Normalized variance: {normalized_variance:.4f}")
         print(f"   Mapped current I: {I_mapped:.4f}")
         print(f"   Lyapunov λ_max: {lambda_max:.6f}")
+        print(f"   Threshold: {chaos_threshold}")
         print(f"   Classification: {'🚨 ANOMALY DETECTED' if is_anomaly else '✅ NORMAL TRAFFIC'}")
         
         return {
@@ -476,7 +488,8 @@ class NeuralAnomalyDetector:
             'is_anomaly': is_anomaly,
             'mean_interval': mean_interval,
             'std_interval': std_interval,
-            'I_mapped': I_mapped
+            'I_mapped': I_mapped,
+            'threshold': chaos_threshold
         }
 
 
