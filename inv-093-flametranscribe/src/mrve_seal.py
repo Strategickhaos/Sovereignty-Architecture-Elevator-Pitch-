@@ -7,7 +7,7 @@ MRVE (Minimal Recursive Verification Engine) ensures data integrity.
 """
 
 from hashlib import blake2b
-from typing import Optional
+from typing import Optional, List
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
@@ -104,7 +104,7 @@ def verify_seal(dna: str, seal_obj: MRVESeal, prefix: str = "MRVE") -> bool:
     return new_seal.seal_id == seal_obj.seal_id
 
 
-def batch_seal(dna_sequences: list[str], prefix: str = "MRVE") -> list[MRVESeal]:
+def batch_seal(dna_sequences: List[str], prefix: str = "MRVE") -> List[MRVESeal]:
     """
     Create seals for multiple DNA sequences.
     
@@ -118,7 +118,7 @@ def batch_seal(dna_sequences: list[str], prefix: str = "MRVE") -> list[MRVESeal]
     return [seal(dna, prefix) for dna in dna_sequences]
 
 
-def generate_seal_chain(dna_sequences: list[str]) -> dict:
+def generate_seal_chain(dna_sequences: List[str]) -> dict:
     """
     Generate a chain of seals with dependencies.
     

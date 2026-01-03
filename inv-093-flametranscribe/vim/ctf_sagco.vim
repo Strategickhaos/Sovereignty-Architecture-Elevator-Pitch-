@@ -18,28 +18,22 @@
 " ============================================================================
 
 " S-Face: Source/Transcribe - DNA transcription
-let @s = ':!python3 flame_transcribe.py % --face S
-'
+let @s = ':!python3 flame_transcribe.py % --face S^M'
 
 " A-Face: Analyze - Hexadecimal analysis
-let @a = ':%!xxd
-'
+let @a = ':%!xxd^M'
 
 " G-Face: Generate - Binary generation
-let @g = ':!python3 -c "import sys; content=sys.stdin.read(); print('' ''.join(bin(ord(c))[2:].zfill(8) for c in content))" < %
-'
+let @g = ':!python3 -c "import sys; content=sys.stdin.read(); print(\" \".join(bin(ord(c))[2:].zfill(8) for c in content))" < %^M'
 
 " C-Face: Certify/Seal - MRVE cryptographic seal
-let @c = ':!python3 flame_transcribe.py % --face C
-'
+let @c = ':!python3 flame_transcribe.py % --face C^M'
 
 " O-Face: Output - NFT generation
-let @o = ':!python3 flame_transcribe.py % --face O
-'
+let @o = ':!python3 flame_transcribe.py % --face O^M'
 
 " Full CTF sequence - Execute all faces in order
-let @r = ':normal @s@a@g@c@o
-'
+let @r = ':normal @s@a@g@c@o^M'
 
 " ============================================================================
 " Leader Key Mappings

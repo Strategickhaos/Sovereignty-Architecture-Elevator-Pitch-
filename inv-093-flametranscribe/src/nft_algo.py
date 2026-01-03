@@ -7,7 +7,7 @@ Provides generation, verification, and minting capabilities.
 """
 
 from hashlib import blake2b
-from typing import Optional
+from typing import Optional, List, Tuple
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
@@ -134,7 +134,7 @@ def mint_nft(content: str, dna: str, creator_key: Optional[bytes] = None) -> NFT
     return nft
 
 
-def batch_generate_nfts(items: list[tuple[str, str]]) -> list[NFT]:
+def batch_generate_nfts(items: List[Tuple[str, str]]) -> List[NFT]:
     """
     Generate multiple NFTs from content-DNA pairs.
     

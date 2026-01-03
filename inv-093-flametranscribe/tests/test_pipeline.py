@@ -80,9 +80,9 @@ class TestCodonMap(unittest.TestCase):
     
     def test_special_characters(self):
         """Test special character encoding."""
-        self.assertIn(CODON_MAP[' '], ['NNN'])
-        self.assertIn(CODON_MAP['.'], ['GNC'])
-        self.assertIn(CODON_MAP['!'], ['NGC'])
+        self.assertEqual(CODON_MAP[' '], 'NNN')
+        self.assertEqual(CODON_MAP['.'], 'GNC')
+        self.assertEqual(CODON_MAP['!'], 'NGC')
     
     def test_get_codon_info(self):
         """Test codon information retrieval."""

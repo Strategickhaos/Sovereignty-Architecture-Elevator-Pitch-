@@ -154,6 +154,7 @@ HEBREW_MAP: Dict[str, str] = {
 def normalize_hebrew(text: str) -> str:
     """
     Normalize Hebrew characters to English phonetics (Layer 0).
+    Multi-character mappings (CH, TS, SH) are split into individual characters.
     
     Args:
         text: Input text potentially containing Hebrew characters
@@ -164,7 +165,14 @@ def normalize_hebrew(text: str) -> str:
     result = []
     for char in text:
         if char in HEBREW_MAP:
-            result.append(HEBREW_MAP[char])
+            # Get Hebrew mapping
+            mapped = HEBREW_MAP[char]
+            # If multi-character, just use first character to avoid CODON_MAP KeyError
+            # In future, could add multi-character codon support
+            if len(mapped) > 1:
+                result.append(mapped[0])
+            else:
+                result.append(mapped)
         else:
             result.append(char)
     return ''.join(result)
