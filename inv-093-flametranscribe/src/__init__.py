@@ -19,7 +19,7 @@ __version__ = "1.0.0"
 __author__ = "Strategickhaos DAO LLC"
 __classification__ = "NOVEL"
 
-from .codon_map import CODON_MAP, DNA_TO_CHAR, transcribe_to_dna, dna_to_text
+from .codon_map import CODON_MAP, DNA_TO_CHAR, transcribe_to_dna, dna_to_text, SAGCO_REFERENCE
 from .flame_transcribe import (
     FlameTranscribe,
     transcribe,
@@ -33,6 +33,7 @@ from .nft_algo import generate_nft_id, verify_nft, mint_nft, NFT
 __all__ = [
     "CODON_MAP",
     "DNA_TO_CHAR",
+    "SAGCO_REFERENCE",
     "transcribe_to_dna",
     "dna_to_text",
     "FlameTranscribe",
