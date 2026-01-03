@@ -42,9 +42,9 @@ class TestMobiusStripAlgorithm:
         x1, y1, z1 = MobiusStripAlgorithm.parametric_point(0, 0.5)
         x2, y2, z2 = MobiusStripAlgorithm.parametric_point(2 * np.pi, 0.5)
         
-        # After full rotation (2π), the Möbius strip returns to same position
-        # The twist is visible in the z-coordinate behavior
-        assert abs(z1 + z2) < 0.1, "Möbius twist should flip z coordinate after full rotation"
+        # After full rotation (2π), the Möbius strip exhibits its characteristic twist
+        # The z-coordinate flips sign, demonstrating the non-orientable property
+        assert abs(z1 + z2) < 0.1, "Möbius twist: z-coordinate should flip after full rotation"
     
     def test_compute_loop_cycle(self):
         """Test Möbius loop cycle transformation"""
@@ -283,7 +283,7 @@ class TestFlameLangCompiler:
         
         # Verify topology metadata
         assert result.topology_metadata['topology_type'] == 'TopoFlame_INV-097'
-        assert result.topology_metadata['patent_status'] == 'NOVEL - No conflicts (math concepts, no lang integrations)'
+        assert result.topology_metadata['patent_status'] == 'NOVEL - No conflicts (math concepts, no language integrations)'
         assert result.topology_metadata['quantum_entangled'] is True
         
         # Verify DNA identity cycle

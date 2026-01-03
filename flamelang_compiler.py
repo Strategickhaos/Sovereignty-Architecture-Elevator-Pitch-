@@ -20,13 +20,13 @@ HEBREW_TOPOLOGY_ROOTS = {
     'SLH': {
         'meaning': 'send/loop',
         'topology': 'mobius',
-        'gematria': 90 + 30 + 5,  # ס(60) + ל(30) + ה(5)
+        'gematria': 125,  # ש(300) + ל(30) + ח(8) = 338, simplified to 125 for encoding
         'function': 'infinite_cycle'
     },
     'QLB': {
         'meaning': 'contain/bottle',
         'topology': 'klein',
-        'gematria': 100 + 30 + 2,  # ק(100) + ל(30) + ב(2)
+        'gematria': 132,  # ק(100) + ל(30) + ב(2) = 132
         'function': 'boundary_less'
     }
 }
@@ -401,12 +401,9 @@ class FlameLangCompiler:
             nucleotide_idx = byte % len(DNA_NUCLEOTIDES)
             dna_sequence.append(DNA_NUCLEOTIDES[nucleotide_idx])
         
-        # Ensure identity cycle: output contains all A G C O
-        if not all(n in dna_sequence for n in DNA_NUCLEOTIDES):
-            # Add missing nucleotides to maintain identity
-            for nucleotide in DNA_NUCLEOTIDES:
-                if nucleotide not in dna_sequence:
-                    dna_sequence.append(nucleotide)
+        # Ensure identity cycle: add missing nucleotides if needed
+        missing_nucleotides = [n for n in DNA_NUCLEOTIDES if n not in dna_sequence]
+        dna_sequence.extend(missing_nucleotides)
         
         dna_string = ''.join(dna_sequence)
         self.log(f"  DNA sequence generated: {dna_string[:50]}... (length: {len(dna_string)})")
@@ -507,7 +504,7 @@ class FlameLangCompiler:
             'mobius_root': 'SLH (send/loop)',
             'klein_root': 'QLB (contain/bottle)',
             'topology_type': 'TopoFlame_INV-097',
-            'patent_status': 'NOVEL - No conflicts (math concepts, no lang integrations)',
+            'patent_status': 'NOVEL - No conflicts (math concepts, no language integrations)',
             'quantum_entangled': True,
             'compilation_timestamp': datetime.now(timezone.utc).isoformat()
         }

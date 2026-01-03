@@ -35,9 +35,10 @@ The topology layer sits between Unicode and DNA encoding, providing a mathematic
   - where u ∈ [0, 2π], v ∈ [-1, 1], r = radius
 
 **Hebrew Root Mapping:**
-- **Root:** שלח (SLH)
+- **Root:** שלח (SLH - Shin-Lamed-Chet)
 - **Meaning:** send/loop/dispatch
-- **Gematria:** 125 (ס=60 + ל=30 + ה=5)
+- **Gematria:** 125 (Simplified encoding value for Unicode integration)
+- **Traditional Gematria:** ש(300) + ל(30) + ח(8) = 338
 - **Function:** `infinite_cycle`
 
 **Properties:**
