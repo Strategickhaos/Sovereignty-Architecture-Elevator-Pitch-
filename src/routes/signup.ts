@@ -13,25 +13,28 @@ interface SignupData {
   plan: string;
 }
 
-// Email validation regex
+// Email validation regex - basic validation
+// Note: This is a simplified regex and may not catch all edge cases.
+// In production, consider using a more robust validation library.
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Username validation: 3-30 characters, alphanumeric with underscores and hyphens
+// Note: This pattern is duplicated in signup.html for client-side validation
 const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,30}$/;
 
 // Valid plans
 const VALID_PLANS = ['free', 'sync', 'speed', 'power'];
 
 function validateSignupData(data: SignupData): { valid: boolean; error?: string } {
-  if (!data.username || !data.email || !data.password || !data.plan) {
+  if (!data.username?.trim() || !data.email?.trim() || !data.password || !data.plan) {
     return { valid: false, error: 'All fields are required' };
   }
 
-  if (!USERNAME_REGEX.test(data.username)) {
+  if (!USERNAME_REGEX.test(data.username.trim())) {
     return { valid: false, error: 'Invalid username format' };
   }
 
-  if (!EMAIL_REGEX.test(data.email)) {
+  if (!EMAIL_REGEX.test(data.email.trim())) {
     return { valid: false, error: 'Invalid email address' };
   }
 
@@ -79,9 +82,8 @@ export function setupSignupRoutes(router: Router) {
       // 5. Create session/JWT token
 
       // For now, we'll just log and return success
+      // Note: In production, log only non-PII data
       console.log('New user registration:', {
-        username: signupData.username,
-        email: signupData.email,
         plan: signupData.plan,
         timestamp: new Date().toISOString()
       });
@@ -89,13 +91,17 @@ export function setupSignupRoutes(router: Router) {
       // Simulate checking for duplicate users (in real app, check database)
       // For demo purposes, we'll accept all registrations
 
+      // Trim whitespace from username and email
+      const cleanUsername = signupData.username.trim();
+      const cleanEmail = signupData.email.trim();
+
       res.status(201).json({
         success: true,
         message: 'Account created successfully!',
         redirect: '/dashboard',
         user: {
-          username: signupData.username,
-          email: signupData.email,
+          username: cleanUsername,
+          email: cleanEmail,
           plan: signupData.plan
         }
       });
