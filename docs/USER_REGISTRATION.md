@@ -99,9 +99,10 @@ To make this production-ready, you would need to:
 3. Check for duplicate usernames/emails
 4. Implement email verification
 5. Create authentication sessions (JWT or session cookies)
-6. Add rate limiting to prevent abuse
+6. **Add rate limiting to prevent abuse (both GET and POST endpoints)**
 7. Add CAPTCHA for bot prevention
 8. Implement proper error handling and logging
+9. Cache the HTML form in memory instead of reading from disk on every request
 
 ## Security Considerations
 
@@ -110,6 +111,14 @@ The current implementation includes:
 - Client-side validation for better UX
 - Password minimum length requirement
 - Pattern validation for username
+- PII data excluded from logs
+
+**Security Concerns Identified:**
+- **Rate Limiting**: The signup endpoints (both GET and POST) are not rate-limited, which could allow abuse. In production, implement rate limiting using a middleware like `express-rate-limit`.
+- **File System Access**: The HTML form is read from disk on every request, which could be a performance concern. Consider caching the HTML in memory.
+- **Password Storage**: Passwords are not currently hashed (as this is a demo implementation).
+- **Email Validation**: Basic regex validation may not catch all edge cases.
+- **No CAPTCHA**: Vulnerable to automated bot registrations.
 
 ## Design Choices
 

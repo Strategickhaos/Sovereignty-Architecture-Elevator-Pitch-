@@ -51,6 +51,7 @@ function validateSignupData(data: SignupData): { valid: boolean; error?: string 
 
 export function setupSignupRoutes(router: Router) {
   // GET /signup - Serve the signup form
+  // Note: In production, add rate limiting to prevent abuse
   router.get('/signup', (req: Request, res: Response) => {
     try {
       const htmlPath = join(__dirname, '..', 'views', 'signup.html');
@@ -64,6 +65,7 @@ export function setupSignupRoutes(router: Router) {
   });
 
   // POST /signup - Handle registration
+  // Note: In production, add rate limiting to prevent abuse
   router.post('/signup', async (req: Request, res: Response) => {
     try {
       const signupData: SignupData = req.body;
