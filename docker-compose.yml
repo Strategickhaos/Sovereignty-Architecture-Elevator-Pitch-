@@ -1,5 +1,12 @@
 version: '3.8'
 
+# Sovereignty Architecture - Local Development Setup
+# This configuration uses local PostgreSQL for development.
+# 
+# For serverless PostgreSQL with Neon:
+#   Use docker-compose.neon.yml instead
+#   See QUICKSTART_NEON.md and NEON_DATABASE_SETUP.md
+
 networks:
   strategickhaos_network:
     driver: bridge
@@ -13,6 +20,8 @@ volumes:
 
 services:
   # Core Infrastructure
+  # Local PostgreSQL (for development only)
+  # For production, consider using Neon serverless PostgreSQL
   postgres:
     image: postgres:15
     environment:
