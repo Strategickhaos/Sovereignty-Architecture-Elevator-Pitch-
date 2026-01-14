@@ -132,13 +132,36 @@ GITHUB_APP_ID=your_app_id
 GITHUB_APP_WEBHOOK_SECRET=webhook_secret
 GITHUB_APP_PRIVATE_KEY_PATH=/path/to/key.pem
 
+# Database (Choose one option)
+# Option 1: Neon Serverless PostgreSQL (Recommended)
+DATABASE_URL=postgresql://user:password@ep-xxx.region.neon.tech/dbname?sslmode=require
+# See NEON_DATABASE_SETUP.md for detailed setup instructions
+
+# Option 2: Local PostgreSQL
+PGVECTOR_CONN=postgresql://user:pass@host:5432/db
+
 # AI Agents
 OPENAI_API_KEY=sk-your-api-key
-PGVECTOR_CONN=postgresql://user:pass@host:5432/db
 
 # Infrastructure
 EVENTS_HMAC_KEY=your_64_char_hmac_key
 ```
+
+### Database Options
+
+This project supports two database deployment options:
+
+1. **Neon Serverless PostgreSQL** (Recommended for production)
+   - Serverless with automatic scaling
+   - Built-in pgvector support for AI embeddings
+   - Instant database branching for development
+   - See [NEON_DATABASE_SETUP.md](NEON_DATABASE_SETUP.md) for complete setup guide
+   - Use `docker-compose.neon.yml` for Neon deployment
+
+2. **Local PostgreSQL** (Development)
+   - Runs in Docker container
+   - Good for local development and testing
+   - Use `docker-compose.refinory.yml` for local deployment
 
 ## 🎯 Discord Workflow Integration
 

@@ -74,11 +74,19 @@ spec:
                 secretKeyRef:
                   name: discord-ops-secrets
                   key: OPENAI_API_KEY
+            # Database connection - supports both Neon and self-hosted PostgreSQL
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: discord-ops-secrets
+                  key: DATABASE_URL
+                  optional: true
             - name: PGVECTOR_CONN
               valueFrom:
                 secretKeyRef:
                   name: discord-ops-secrets
                   key: PGVECTOR_CONN
+                  optional: true
             - name: DISCOVERY_CONFIG_PATH
               value: "/etc/discord-ops/discovery.yml"
             - name: LOG_LEVEL
