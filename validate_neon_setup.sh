@@ -92,7 +92,7 @@ if [ "$all_checks_passed" = true ]; then
     echo ""
     echo "Next steps:"
     echo "  1. Get your Neon connection string from:"
-    echo "     https://console.neon.tech/app/org-snowy-moon-53031065/projects"
+    echo "     https://console.neon.tech (navigate to your project)"
     echo "  2. Update .env with your DATABASE_URL"
     echo "  3. Run: python test_neon_connection.py"
     echo "  4. Deploy: docker-compose -f docker-compose.neon.yml up -d"

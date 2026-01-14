@@ -65,7 +65,7 @@ class DatabaseConfig(BaseSettings):
             return self.url
         
         # Otherwise, construct from individual parameters
-        sslmode_param = f"?sslmode={self.sslmode}" if self.sslmode else ""
+        sslmode_param = f"?sslmode={self.sslmode}" if self.sslmode and self.sslmode != "" else ""
         return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}{sslmode_param}"
     
     class Config:

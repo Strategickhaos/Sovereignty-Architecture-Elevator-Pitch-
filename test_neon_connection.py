@@ -24,7 +24,13 @@ async def test_connection(dsn: str) -> bool:
     """Test database connection and pgvector availability"""
     try:
         print("🔌 Connecting to Neon database...")
-        print(f"   Connection string: {dsn[:30]}...{dsn[-20:]}")
+        # Mask sensitive information in connection string
+        if '@' in dsn:
+            # Show only the host portion
+            host_part = dsn.split('@')[1].split('/')[0]
+            print(f"   Host: {host_part}")
+        else:
+            print("   Using provided connection string")
         
         # Create connection
         conn = await asyncpg.connect(dsn, timeout=10)
