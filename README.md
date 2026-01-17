@@ -241,6 +241,103 @@ export PRS_CHANNEL="dev_channel_id"
 4. **Submit** PR with improvements
 5. **Share** configuration patterns with community
 
+## 🧬 Sovereign Antibody System
+
+**The Grimoire Lives. Language IS power.** 🔮⚡📜
+
+The Sovereign Antibody System is an automated error detection and remediation engine that couples ancient wisdom with modern DevOps. Each antibody is a spell that neutralizes specific error patterns, integrating:
+
+- **Voynich herbal ciphers** → Error pattern matching
+- **Emerald Tablet transmutations** → Transformation pipelines
+- **Hebrew roots** → FlameLang DNA encoding
+- **Solfeggio frequencies** → Vibrational diagnostics
+- **Kabbalistic fire refiners** → System purification
+
+### 🔮 Components
+
+| File | Purpose |
+|------|---------|
+| `antibody_system.py` | Full Python scanner - 20+ antibodies, etymology, frequencies |
+| `Deploy-Antibodies.ps1` | PowerShell wrapper - native Windows support |
+
+### 📜 Usage
+
+**Python (cross-platform):**
+```bash
+# Scan error text
+python antibody_system.py scan "ModuleNotFoundError: No module named 'canvice'"
+
+# Deploy fixes (dry run)
+python antibody_system.py deploy "$(docker-compose up 2>&1)" --auto
+
+# Deploy fixes (LIVE)
+python antibody_system.py deploy "error text" --auto --force
+
+# List all antibodies
+python antibody_system.py list --category "Docker"
+
+# Show the Grimoire
+python antibody_system.py grimoire
+```
+
+**PowerShell:**
+```powershell
+# Scan
+.\Deploy-Antibodies.ps1 scan "Permission denied"
+
+# Pipe docker output directly
+docker-compose up 2>&1 | .\Deploy-Antibodies.ps1 scan
+
+# Deploy with auto-execute
+.\Deploy-Antibodies.ps1 deploy "error text" -Auto -Force
+
+# Scan current directory for issues
+.\Deploy-Antibodies.ps1 fix
+
+# Watch mode (continuous)
+.\Deploy-Antibodies.ps1 watch
+```
+
+### 🧬 Integrated Ancient Wisdom
+
+Every antibody carries:
+- **Hebrew root** (אבדה קדברא, שחרר, גלה...)
+- **Solfeggio frequency** (396 Hz Liberation, 528 Hz Transformation...)
+- **Emerald Tablet phase** (Calcination, Dissolution, Conjunction...)
+- **Grimoire category** (Killing Curses, Defensive Spells, Revelation...)
+
+### 📚 Grimoire Books
+
+1. **Killing Curses** - Process termination (396 Hz)
+2. **Defensive Spells** - System protection (852 Hz)
+3. **Revelation Spells** - Diagnostics (741 Hz)
+4. **Docker Incantations** - Container magic (528 Hz)
+5. **Python Transmutations** - Serpent sorcery (528 Hz)
+6. **Git Sorcery** - Branch manipulation (417 Hz)
+7. **Kubernetes Conjurations** - Army/host commands (639 Hz)
+8. **PowerShell Enchantments** - Window magic (417 Hz)
+
+### 🎯 Quick Fix Examples
+
+**Fix Docker network overlap:**
+```bash
+python antibody_system.py scan "Pool overlaps with other one"
+# Suggests: docker network prune -f
+```
+
+**Fix missing Python modules:**
+```bash
+python antibody_system.py scan "ModuleNotFoundError: No module named 'xyz'"
+# Suggests: pip install {module} --break-system-packages
+# Or: touch {module_path}/__init__.py
+```
+
+**Fix permission issues:**
+```bash
+python antibody_system.py scan "Permission denied on /app"
+# Suggests: sudo chown -R $(whoami) {path}
+```
+
 ## 🆘 Troubleshooting
 
 ### Common Issues
@@ -271,6 +368,23 @@ kubectl logs -f deployment/event-gateway -n ops
 # Verify HMAC signature
 curl -X POST https://events.strategickhaos.com/health
 ```
+
+### Using the Antibody System for Error Diagnosis
+
+The Sovereign Antibody System can automatically diagnose and suggest fixes for most common errors:
+
+```bash
+# Pipe any command's output to the scanner
+docker-compose up 2>&1 | python antibody_system.py scan
+
+# Scan build output
+npm run build 2>&1 | python antibody_system.py scan
+
+# Or on Windows with PowerShell
+docker-compose up 2>&1 | .\Deploy-Antibodies.ps1 scan
+```
+
+The system will identify error patterns, explain what they mean in plain language, provide the ancient etymology, and suggest concrete fixes. Think of it as your sovereign debugging grimoire.
 
 ## 👥 Community & Contributors
 
