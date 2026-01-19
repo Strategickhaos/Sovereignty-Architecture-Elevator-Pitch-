@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const DemystifierPipeline = () => {
-  const [inputText, setInputText] = useState("I am a lightworker channeling universal energy");
   const [activeLayer, setActiveLayer] = useState(null);
   const [showTranslation, setShowTranslation] = useState(false);
 
