@@ -93,7 +93,7 @@ interface WaveCharacteristics {
 function analyzeWaveform(codes: number[]): WaveCharacteristics {
   // More grounding operations = lower frequency (more stable)
   const groundingLevel = codes.length;
-  const frequency = Math.max(1, 100 / groundingLevel);
+  const frequency = groundingLevel > 0 ? Math.max(1, 100 / groundingLevel) : 1;
   
   return {
     frequency,
@@ -153,7 +153,7 @@ function validateGrounding(original: string, semantic: string): GroundingResult 
   const checks: GroundingCheck[] = [];
   
   // MEASURABLE - Can you assign a number to it?
-  const hasMeasurement = /\d+|count|time|size|speed|frequency|hz|joules|bytes/i.test(semantic);
+  const hasMeasurement = /\b(\d+|count|time|size|speed|frequency|hz|joules|bytes)\b/i.test(semantic);
   checks.push({
     check: "MEASURABLE",
     passed: hasMeasurement,
@@ -193,7 +193,7 @@ function validateGrounding(original: string, semantic: string): GroundingResult 
   });
   
   // OWNABLE - Who is responsible?
-  const hasOwnership = /i\b|my|owner|responsible|agent|process/i.test(semantic);
+  const hasOwnership = /\bi\b|my|owner|responsible|agent|process/i.test(semantic);
   checks.push({
     check: "OWNABLE",
     passed: true, // Removes universe/destiny framing
@@ -235,8 +235,16 @@ const DEMYSTIFICATION_TABLE: Record<string, string> = {
 function lookupDemystification(input: string): string | null {
   const normalized = input.trim().toLowerCase();
   
+  // Try exact matches first, then substring matches with word boundaries
   for (const [key, value] of Object.entries(DEMYSTIFICATION_TABLE)) {
-    if (normalized.includes(key.toLowerCase())) {
+    const keyLower = key.toLowerCase();
+    // Exact match
+    if (normalized === keyLower) {
+      return value;
+    }
+    // Check if key appears as complete phrase in input
+    const keyRegex = new RegExp(`\\b${keyLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+    if (keyRegex.test(normalized)) {
       return value;
     }
   }

@@ -70,7 +70,7 @@ function main() {
     const inputs = args.slice(1);
     const results = batchDemystify(inputs);
     results.forEach((result, index) => {
-      console.log(`\n[${ index + 1}/${results.length}]`);
+      console.log(`\n[${index + 1}/${results.length}]`);
       printResult(result);
     });
   } else if (mode === '--validate') {

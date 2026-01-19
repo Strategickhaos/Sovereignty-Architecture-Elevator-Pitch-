@@ -109,7 +109,6 @@ function testDemystificationTable() {
   testCases.forEach(test => {
     const result = demystify(test.input);
     assert(
-      result.final_output.includes(test.expected.toLowerCase()) || 
       result.final_output.toLowerCase().includes(test.expected.toLowerCase()),
       `Correctly demystifies: "${test.input}"`
     );
