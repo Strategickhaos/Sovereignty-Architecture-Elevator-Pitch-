@@ -79,7 +79,7 @@ const DemystifierPipeline = () => {
     { mystical: "High vibration", grounded: "frequency: 432 Hz", check: "MEASURABLE" },
     { mystical: "Everything is connected", grounded: "Graph { nodes, edges }", check: "FALSIFIABLE" },
     { mystical: "It was meant to be", grounded: "It happened (no causation claim)", check: "OBSERVABLE" },
-    { mystical: "I'm awakened", grounded: "beliefs_updated: diff(before, after)", check: "VERIFIABLE" },
+    { mystical: "I'm awakened", grounded: "beliefs_updated: diff(before, after)", check: "OBSERVABLE" },
   ];
 
   const groundingChecks = [
