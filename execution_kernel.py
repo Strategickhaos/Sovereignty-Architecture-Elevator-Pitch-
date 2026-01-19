@@ -238,7 +238,13 @@ class RubikSolverCalculator:
     def compute(total_bend: TypedValue) -> Dict[str, TypedValue]:
         """Convert bend angle to Rubik solution metrics."""
         
-        angle_deg = total_bend.to_degrees() if total_bend.unit == "radians" else total_bend.value
+        # Validate and convert angle to degrees
+        if total_bend.unit == "radians":
+            angle_deg = total_bend.to_degrees()
+        elif total_bend.unit == "degrees":
+            angle_deg = total_bend.value
+        else:
+            raise TypeError(f"Expected angle unit, got {total_bend.unit}")
         
         # Map angle to "scramble complexity"
         # 0° = solved, 360° = maximally scrambled
@@ -322,6 +328,11 @@ class FixedPointEngine:
     - Stopping on epsilon or max-iter
     """
     
+    # Scale factor for feedback loop: converts angle_sum to radius
+    # This scaling establishes the relationship between Rubik solver output
+    # and pipe bend input, enabling the convergence loop
+    FEEDBACK_SCALE_FACTOR = 2.0
+    
     def __init__(self, 
                  max_iterations: int = 100, 
                  epsilon: float = 0.001,
@@ -368,7 +379,7 @@ class FixedPointEngine:
                     
                     # FEEDBACK: angle_sum feeds back to radius (with damping)
                     angle_sum = outputs["angle_sum"]
-                    new_radius = angle_sum.value * 2  # Scale factor
+                    new_radius = angle_sum.value * self.FEEDBACK_SCALE_FACTOR
                     
                     # Apply damping
                     old_radius = current_state.get("radius", TypedValue(5.0, "inches")).value
@@ -561,9 +572,16 @@ class ExecutionKernel:
         
     def load_spec(self, path: str):
         """Load YAML specification."""
-        with open(path) as f:
-            self.spec = yaml.safe_load(f)
-        self.provenance.save_spec(self.spec)
+        try:
+            with open(path) as f:
+                self.spec = yaml.safe_load(f)
+            self.provenance.save_spec(self.spec)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Specification file not found: {path}")
+        except PermissionError:
+            raise PermissionError(f"Permission denied reading specification: {path}")
+        except yaml.YAMLError as e:
+            raise ValueError(f"Invalid YAML in specification file: {e}")
         
     def run(self, initial_state: Dict[str, TypedValue] = None) -> ConvergenceMetrics:
         """Run the kernel loop."""
@@ -601,9 +619,26 @@ class ExecutionKernel:
             if isinstance(v, (int, float)):
                 print(f"   {k}: {v:.4f}" if isinstance(v, float) else f"   {k}: {v}")
         
-        # Grounding check
-        final_typed = {k: TypedValue(v, "units") for k, v in metrics.final_state.items() 
-                      if isinstance(v, (int, float))}
+        # Grounding check - convert final state back to TypedValue with appropriate units
+        final_typed = {}
+        unit_mapping = {
+            "radius": "inches",
+            "angle": "degrees",
+            "setback": "inches",
+            "arc_length": "inches",
+            "angle_out": "radians",
+            "sequence": "bases",
+            "amino_count": "residues",
+            "total_bend": "degrees",
+            "move_count": "moves",
+            "angle_sum": "radians",
+            "health_score": "percent",
+            "complexity": "ratio",
+        }
+        for k, v in metrics.final_state.items():
+            if isinstance(v, (int, float)) and k in unit_mapping:
+                final_typed[k] = TypedValue(v, unit_mapping[k])
+        
         valid, messages = GroundingGuard.validate_state(final_typed)
         
         print(f"\nGrounding check: {'PASSED ✓' if valid else 'FAILED ✗'}")
