@@ -5,7 +5,6 @@ Basic validation of the semantic linter functionality.
 """
 
 import unittest
-import sys
 from demystifier import (
     detect_patterns,
     translate_claim,

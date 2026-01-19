@@ -15,7 +15,7 @@ import re
 import sys
 import json
 import argparse
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass
 from typing import List, Optional, Tuple
 from enum import Enum
 from datetime import datetime
@@ -546,8 +546,18 @@ def main():
         return
     
     if args.file:
-        with open(args.file, 'r') as f:
-            claims = [line.strip() for line in f if line.strip()]
+        try:
+            with open(args.file, 'r') as f:
+                claims = [line.strip() for line in f if line.strip()]
+        except FileNotFoundError:
+            print(f"Error: File '{args.file}' not found", file=sys.stderr)
+            sys.exit(1)
+        except PermissionError:
+            print(f"Error: Permission denied reading '{args.file}'", file=sys.stderr)
+            sys.exit(1)
+        except Exception as e:
+            print(f"Error reading file '{args.file}': {e}", file=sys.stderr)
+            sys.exit(1)
     elif args.claim:
         claims = [args.claim]
     else:
