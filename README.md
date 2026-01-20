@@ -4,8 +4,12 @@
 
 ## 📊 Latest Status Reports
 
+- **[📖 Quick Reference Guide](QUICK_REFERENCE.md)** - Fast navigation to all documentation, metrics, and priorities
 - **[Formal Status Report — January 20, 2026](STRATEGICKHAOS_FORMAL_STATUS_REPORT_2026-01-20.md)** - Complete ecosystem status with 97+ inventions, infrastructure details, and execution roadmap
 - **[Invention Catalog 2026](INVENTION_CATALOG_2026.md)** - Comprehensive portfolio of all Diamond, Platinum, and Gold tier inventions with patent readiness assessment
+- **[FlameLang v2.0 Specification](FLAMELANG_SPECIFICATION.md)** - 5-layer compiler from natural language to machine code (INV-001)
+- **[SIDP Specification](SIDP_SPECIFICATION.md)** - Sovereign Immortal Distribution Protocol with 3-tier permanence (INV-088)
+- **[Execution Kernel Specification](EXECUTION_KERNEL_SPECIFICATION.md)** - Physics-aware computation engine with provenance tracking (INV-098)
 - **[Empire Report — November 2025](STRATEGICKHAOS_EMPIRE_REPORT.md)** - Historical baseline showing 13 containerized services and initial deployment
 
 ## 🏛️ Architecture Overview
