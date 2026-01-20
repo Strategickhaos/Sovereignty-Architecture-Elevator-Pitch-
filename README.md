@@ -2,6 +2,12 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 📊 Latest Status Reports
+
+- **[Formal Status Report — January 20, 2026](STRATEGICKHAOS_FORMAL_STATUS_REPORT_2026-01-20.md)** - Complete ecosystem status with 97+ inventions, infrastructure details, and execution roadmap
+- **[Invention Catalog 2026](INVENTION_CATALOG_2026.md)** - Comprehensive portfolio of all Diamond, Platinum, and Gold tier inventions with patent readiness assessment
+- **[Empire Report — November 2025](STRATEGICKHAOS_EMPIRE_REPORT.md)** - Historical baseline showing 13 containerized services and initial deployment
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
