@@ -1,0 +1,6 @@
+// 🔥 Hello World in FlameLang
+// The first sovereign program
+
+fn main() {
+    return 42;
+}

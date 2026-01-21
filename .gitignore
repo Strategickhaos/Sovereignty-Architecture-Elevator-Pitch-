@@ -35,3 +35,7 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameLang build artifacts
+flamelang/target/
+flamelang/Cargo.lock

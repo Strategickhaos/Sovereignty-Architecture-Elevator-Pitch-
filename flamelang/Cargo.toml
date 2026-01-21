@@ -1,0 +1,14 @@
+[package]
+name = "flamelang"
+version = "2.0.0"
+edition = "2021"
+authors = ["Strategickhaos <dom@strategickhaos.dao>"]
+description = "FlameLang Compiler - ratio-ex-nihilo"
+license = "MIT"
+
+[[bin]]
+name = "flamec"
+path = "src/main.rs"
+
+[dependencies]
+regex = "1.10"
