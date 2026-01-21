@@ -1,0 +1,326 @@
+# SAGCO OS - GitHub Actions CI/CD Pipeline
+# Version: 0.1.0
+
+name: SAGCO CI/CD
+
+on:
+  push:
+    branches: [ main, develop, 'feature/*' ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  DOCKER_IMAGE: sagco-os
+  K8S_NAMESPACE: sagco
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ===== Lint Job =====
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev]"
+
+    - name: Run Black
+      run: black --check src/ tests/
+
+    - name: Run Flake8
+      run: flake8 src/ tests/ --max-line-length=100
+
+    - name: Run isort
+      run: isort --check-only src/ tests/
+
+    - name: Run mypy
+      run: mypy src/ --ignore-missing-imports
+
+  # ===== Test Job =====
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: sagco
+          POSTGRES_PASSWORD: test_pass
+          POSTGRES_DB: sagco_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[test]"
+
+    - name: Run tests with coverage
+      env:
+        POSTGRES_URL: postgresql://sagco:test_pass@localhost:5432/sagco_test
+        REDIS_URL: redis://localhost:6379/0
+      run: |
+        pytest tests/ -v \
+          --cov=src \
+          --cov-report=xml \
+          --cov-report=term-missing \
+          --cov-report=html
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        name: sagco-coverage
+
+    - name: Archive coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: htmlcov/
+
+  # ===== Build Job =====
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to DockerHub
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Login to GitHub Container Registry
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          ${{ env.DOCKER_IMAGE }}
+          ghcr.io/${{ github.repository }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        target: api
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        platforms: linux/amd64,linux/arm64
+
+  # ===== Security Scan =====
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: '${{ env.DOCKER_IMAGE }}:latest'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy results to GitHub Security
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  # ===== Deploy to Development =====
+  deploy-dev:
+    name: Deploy to Development
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: development
+      url: https://dev.sagco.strategickhaos.com
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Configure kubectl
+      run: |
+        echo "${{ secrets.KUBECONFIG_DEV }}" | base64 -d > kubeconfig
+        export KUBECONFIG=./kubeconfig
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/sagco-deployment.yaml -n sagco-dev
+        kubectl rollout status deployment/sagco -n sagco-dev --timeout=5m
+
+    - name: Run smoke tests
+      run: |
+        kubectl run smoke-test --rm -i --restart=Never \
+          --image=curlimages/curl:latest \
+          -- curl -f http://sagco.sagco-dev/health
+
+  # ===== Deploy to Production =====
+  deploy-prod:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: production
+      url: https://sagco.strategickhaos.com
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Configure kubectl
+      run: |
+        echo "${{ secrets.KUBECONFIG_PROD }}" | base64 -d > kubeconfig
+        export KUBECONFIG=./kubeconfig
+
+    - name: Deploy to GKE
+      run: |
+        kubectl apply -f k8s/sagco-deployment.yaml -n sagco
+        kubectl apply -f k8s/gke/sagco-gke.yaml -n sagco
+        kubectl rollout status deployment/sagco -n sagco --timeout=10m
+
+    - name: Run smoke tests
+      run: |
+        kubectl run smoke-test --rm -i --restart=Never \
+          --image=curlimages/curl:latest \
+          --namespace=sagco \
+          -- curl -f http://sagco.sagco/health
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        generate_release_notes: true
+        files: |
+          k8s/*.yaml
+          helm/sagco/values.yaml
+
+  # ===== Notification =====
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-dev, deploy-prod]
+    if: always()
+    
+    steps:
+    - name: Send Discord notification
+      if: env.DISCORD_WEBHOOK_URL != ''
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      run: |
+        STATUS="${{ job.status }}"
+        COLOR=$([[ "$STATUS" == "success" ]] && echo "3066993" || echo "15158332")
+        
+        curl -X POST "$DISCORD_WEBHOOK_URL" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "embeds": [{
+              "title": "SAGCO Deployment",
+              "description": "Pipeline: ${{ github.workflow }}\nStatus: '"$STATUS"'",
+              "color": '"$COLOR"',
+              "fields": [
+                {"name": "Branch", "value": "${{ github.ref_name }}", "inline": true},
+                {"name": "Commit", "value": "${{ github.sha }}", "inline": true},
+                {"name": "Author", "value": "${{ github.actor }}", "inline": true}
+              ]
+            }]
+          }'
+
+    - name: Send Slack notification
+      if: env.SLACK_WEBHOOK_URL != ''
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        STATUS="${{ job.status }}"
+        EMOJI=$([[ "$STATUS" == "success" ]] && echo ":white_check_mark:" || echo ":x:")
+        
+        curl -X POST "$SLACK_WEBHOOK_URL" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "text": "'"$EMOJI"' SAGCO Deployment: '"$STATUS"'",
+            "attachments": [{
+              "color": "'"$([[ "$STATUS" == "success" ]] && echo "good" || echo "danger")"'",
+              "fields": [
+                {"title": "Branch", "value": "${{ github.ref_name }}", "short": true},
+                {"title": "Commit", "value": "${{ github.sha }}", "short": true},
+                {"title": "Author", "value": "${{ github.actor }}", "short": true}
+              ]
+            }]
+          }'

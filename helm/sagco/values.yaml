@@ -1,0 +1,305 @@
+# SAGCO OS - Helm Chart Values
+# Version: 0.1.0
+
+# ===== Global Settings =====
+global:
+  name: sagco
+  version: "0.1.0"
+  environment: production
+
+# ===== Image Configuration =====
+image:
+  repository: sagco-os
+  pullPolicy: IfNotPresent
+  tag: "0.1.0"
+
+imagePullSecrets: []
+
+# ===== Deployment =====
+replicaCount: 3
+
+deployment:
+  annotations: {}
+  labels: {}
+  
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+# ===== Pod Configuration =====
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9090"
+  prometheus.io/path: "/metrics"
+
+podLabels:
+  app: sagco
+  version: v0.1.0
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+
+# ===== Service =====
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+  annotations: {}
+  sessionAffinity: ClientIP
+
+# ===== Ingress =====
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: sagco.strategickhaos.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: sagco-tls
+      hosts:
+        - sagco.strategickhaos.com
+
+# ===== Resources =====
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+
+# ===== Autoscaling =====
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# ===== Health Checks =====
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 8000
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# ===== Environment Variables =====
+env:
+  SAGCO_ENV: production
+  LOG_LEVEL: INFO
+  REDIS_URL: "redis://sagco-redis:6379/0"
+  POSTGRES_URL: "postgresql://sagco:changeme@sagco-postgres:5432/sagco"
+  QDRANT_URL: "http://sagco-qdrant:6333"
+
+# ===== Secrets =====
+secrets:
+  postgresPassword: "changeme"
+  redisPassword: "changeme"
+  jwtSecret: "changeme"
+
+# ===== ConfigMap =====
+config:
+  sagco.yaml: |
+    system:
+      name: "SAGCO"
+      version: "0.1.0"
+      environment: "production"
+    layers:
+      sensory:
+        enabled: true
+        nodes: 2
+      cognitive:
+        enabled: true
+        nodes: 4
+      executive:
+        enabled: true
+        nodes: 2
+      motor:
+        enabled: true
+        nodes: 2
+    dopamine:
+      enabled: true
+      learning_rate: 0.1
+
+# ===== Service Account =====
+serviceAccount:
+  create: true
+  annotations: {}
+  name: sagco-sa
+
+# ===== Pod Disruption Budget =====
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# ===== Network Policy =====
+networkPolicy:
+  enabled: true
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: ingress-nginx
+      - podSelector:
+          matchLabels:
+            app: prometheus
+      ports:
+      - protocol: TCP
+        port: 8000
+      - protocol: TCP
+        port: 9090
+  egress:
+    - to:
+      - podSelector:
+          matchLabels:
+            app: sagco-postgres
+      ports:
+      - protocol: TCP
+        port: 5432
+    - to:
+      - podSelector:
+          matchLabels:
+            app: sagco-redis
+      ports:
+      - protocol: TCP
+        port: 6379
+
+# ===== Persistence =====
+persistence:
+  enabled: true
+  storageClass: standard
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  mountPath: /app/data
+
+# ===== Affinity =====
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - sagco
+        topologyKey: kubernetes.io/hostname
+
+nodeSelector: {}
+
+tolerations: []
+
+# ===== Monitoring =====
+metrics:
+  enabled: true
+  port: 9090
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+
+# ===== PostgreSQL (Sub-chart) =====
+postgresql:
+  enabled: true
+  auth:
+    username: sagco
+    password: sagco_prod_pass
+    database: sagco
+  primary:
+    persistence:
+      enabled: true
+      size: 50Gi
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+
+# ===== Redis (Sub-chart) =====
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    password: sagco_redis_pass
+  master:
+    persistence:
+      enabled: true
+      size: 10Gi
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# ===== Qdrant Vector DB =====
+qdrant:
+  enabled: true
+  image:
+    repository: qdrant/qdrant
+    tag: latest
+  persistence:
+    enabled: true
+    size: 50Gi
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+# ===== GKE-specific Configuration =====
+gke:
+  enabled: false
+  projectId: ""
+  backendConfig:
+    enabled: true
+  managedCertificate:
+    enabled: true
+    domains:
+      - sagco.strategickhaos.com
+  workloadIdentity:
+    enabled: false
+    serviceAccount: ""
+  cloudSQL:
+    enabled: false
+    instance: ""
+  cloudMemorystore:
+    enabled: false
+    instance: ""
