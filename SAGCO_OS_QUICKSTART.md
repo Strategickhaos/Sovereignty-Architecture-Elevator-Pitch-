@@ -12,6 +12,26 @@
 
 ## 🚀 Ultra-Quick CLI Method
 
+### Automated (Recommended)
+
+```bash
+# SSH to cluster node
+ssh athena  # or nova/lyra
+
+# Use the helper script
+./sagco-integration-helper.sh /path/to/sagco-os-v0.1.0-full.zip
+```
+
+The helper script will automatically:
+- ✅ Check prerequisites (git, unzip, SSH keys)
+- ✅ Clone the SAGCO OS repository
+- ✅ Extract and organize files
+- ✅ Commit with proper message
+- ✅ Push to GitHub
+- ✅ Verify integration
+
+### Manual
+
 ```bash
 # SSH to cluster node
 ssh athena  # or nova/lyra
