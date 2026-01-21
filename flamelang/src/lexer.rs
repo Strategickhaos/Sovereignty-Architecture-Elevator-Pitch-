@@ -1,5 +1,5 @@
 //! # Layer 1: Linguistic Transformation
-//! 
+//!
 //! English → Hebrew → Glyph
 //!
 //! This module handles lexical analysis and tokenization of FlameLang source code.
@@ -65,17 +65,17 @@ impl Lexer {
     /// Tokenize the source code
     pub fn tokenize(&mut self) -> FlameResult<Vec<Token>> {
         let mut tokens = Vec::new();
-        
+
         while self.position < self.source.len() {
             self.skip_whitespace();
-            
+
             if self.position >= self.source.len() {
                 break;
             }
-            
+
             tokens.push(self.next_token()?);
         }
-        
+
         tokens.push(Token::Eof);
         Ok(tokens)
     }
@@ -96,9 +96,9 @@ impl Lexer {
         if self.position >= chars.len() {
             return Ok(Token::Eof);
         }
-        
+
         let ch = chars[self.position];
-        
+
         match ch {
             '=' => {
                 self.position += 1;
@@ -123,7 +123,7 @@ impl Lexer {
         let chars: Vec<char> = self.source.chars().collect();
         self.position += 1; // Skip opening quote
         let start = self.position;
-        
+
         while self.position < chars.len() {
             if chars[self.position] == '"' {
                 let string: String = chars[start..self.position].iter().collect();
@@ -132,14 +132,14 @@ impl Lexer {
             }
             self.position += 1;
         }
-        
+
         Err(FlameError::Lexer("Unterminated string".to_string()))
     }
 
     fn read_number(&mut self) -> FlameResult<Token> {
         let chars: Vec<char> = self.source.chars().collect();
         let start = self.position;
-        
+
         while self.position < chars.len() {
             let ch = chars[self.position];
             if ch.is_ascii_digit() || ch == '.' {
@@ -148,18 +148,19 @@ impl Lexer {
                 break;
             }
         }
-        
+
         let num_str: String = chars[start..self.position].iter().collect();
-        let num = num_str.parse::<f64>()
+        let num = num_str
+            .parse::<f64>()
             .map_err(|e| FlameError::Lexer(format!("Invalid number: {}", e)))?;
-        
+
         Ok(Token::Number(num))
     }
 
     fn read_identifier(&mut self) -> FlameResult<Token> {
         let chars: Vec<char> = self.source.chars().collect();
         let start = self.position;
-        
+
         while self.position < chars.len() {
             let ch = chars[self.position];
             if ch.is_alphanumeric() || ch == '_' {
@@ -168,16 +169,16 @@ impl Lexer {
                 break;
             }
         }
-        
+
         let ident: String = chars[start..self.position].iter().collect();
-        
+
         let token = match ident.as_str() {
             "let" => Token::Keyword(Keyword::Let),
             "bend" => Token::Keyword(Keyword::Bend),
             "radius" => Token::Keyword(Keyword::Radius),
             _ => Token::Identifier(ident),
         };
-        
+
         Ok(token)
     }
 }
@@ -190,7 +191,7 @@ mod tests {
     fn test_tokenize_simple() {
         let mut lexer = Lexer::new("let x = 5;");
         let tokens = lexer.tokenize().unwrap();
-        
+
         assert_eq!(tokens.len(), 6);
         assert!(matches!(tokens[0], Token::Keyword(Keyword::Let)));
         assert!(matches!(tokens[1], Token::Identifier(_)));

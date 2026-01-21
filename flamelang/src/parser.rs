@@ -1,9 +1,9 @@
 //! # Parser Module
-//! 
+//!
 //! Constructs Abstract Syntax Tree from tokens
 
+use crate::lexer::{Keyword, Operator, Token};
 use crate::{FlameError, FlameResult};
-use crate::lexer::{Token, Keyword, Operator};
 
 /// AST Node types
 #[derive(Debug, Clone, PartialEq)]
@@ -66,15 +66,15 @@ impl Parser {
     /// Parse tokens into AST
     pub fn parse(&mut self) -> FlameResult<AstNode> {
         let mut statements = Vec::new();
-        
+
         while self.position < self.tokens.len() {
             if matches!(self.current_token(), Token::Eof) {
                 break;
             }
-            
+
             statements.push(self.parse_statement()?);
         }
-        
+
         Ok(AstNode::Program(statements))
     }
 
@@ -101,39 +101,39 @@ impl Parser {
 
     fn parse_let_binding(&mut self) -> FlameResult<Statement> {
         self.advance(); // Skip 'let'
-        
+
         let name = match self.current_token() {
             Token::Identifier(n) => n.clone(),
             _ => return Err(FlameError::Parser("Expected identifier".to_string())),
         };
         self.advance();
-        
+
         // Expect ':'
         if !matches!(self.current_token(), Token::Operator(Operator::Colon)) {
             return Err(FlameError::Parser("Expected ':'".to_string()));
         }
         self.advance();
-        
+
         let type_name = match self.current_token() {
             Token::Identifier(t) => t.clone(),
             _ => return Err(FlameError::Parser("Expected type name".to_string())),
         };
         self.advance();
-        
+
         // Expect '='
         if !matches!(self.current_token(), Token::Operator(Operator::Assign)) {
             return Err(FlameError::Parser("Expected '='".to_string()));
         }
         self.advance();
-        
+
         let value = self.parse_expression()?;
-        
+
         // Expect ';'
         if !matches!(self.current_token(), Token::Operator(Operator::Semicolon)) {
             return Err(FlameError::Parser("Expected ';'".to_string()));
         }
         self.advance();
-        
+
         Ok(Statement::LetBinding {
             name,
             type_name,
@@ -143,22 +143,22 @@ impl Parser {
 
     fn parse_bend(&mut self) -> FlameResult<Statement> {
         self.advance(); // Skip 'bend'
-        
+
         let angle = self.parse_expression()?;
-        
+
         if !matches!(self.current_token(), Token::Keyword(Keyword::Radius)) {
             return Err(FlameError::Parser("Expected 'radius'".to_string()));
         }
         self.advance();
-        
+
         let radius = self.parse_expression()?;
-        
+
         // Expect ';'
         if !matches!(self.current_token(), Token::Operator(Operator::Semicolon)) {
             return Err(FlameError::Parser("Expected ';'".to_string()));
         }
         self.advance();
-        
+
         Ok(Statement::Bend { angle, radius })
     }
 
@@ -198,7 +198,7 @@ mod tests {
         let tokens = lexer.tokenize().unwrap();
         let mut parser = Parser::new(tokens);
         let ast = parser.parse().unwrap();
-        
+
         if let AstNode::Program(statements) = ast {
             assert_eq!(statements.len(), 1);
             assert!(matches!(statements[0], Statement::LetBinding { .. }));

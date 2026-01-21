@@ -1,11 +1,11 @@
 //! # Transformation Layers 2-4
-//! 
+//!
 //! - Layer 2: Numeric (Unicode → Decimal → Hex)
 //! - Layer 3: Wave (Decimal → c=2πr → Hz/BPS)
 //! - Layer 4: DNA (Freq → Codon → ACGT Sequence)
 
+use crate::parser::{AstNode, Expression, Statement};
 use crate::FlameResult;
-use crate::parser::{AstNode, Statement, Expression};
 
 /// Layer 2: Numeric transformation result
 #[derive(Debug, Clone)]
@@ -38,7 +38,7 @@ pub struct DnaForm {
 pub fn transform_layer2(ast: &AstNode) -> FlameResult<NumericForm> {
     let mut decimals = Vec::new();
     let mut hex = Vec::new();
-    
+
     // Extract numeric values from AST
     if let AstNode::Program(statements) = ast {
         for stmt in statements {
@@ -65,7 +65,7 @@ pub fn transform_layer2(ast: &AstNode) -> FlameResult<NumericForm> {
             }
         }
     }
-    
+
     Ok(NumericForm { decimals, hex })
 }
 
@@ -73,19 +73,19 @@ pub fn transform_layer2(ast: &AstNode) -> FlameResult<NumericForm> {
 pub fn transform_layer3(numeric: &NumericForm) -> FlameResult<WaveForm> {
     let mut frequencies = Vec::new();
     let mut bps = Vec::new();
-    
+
     // c = 2πr formula: convert decimals to frequencies
     for &dec in &numeric.decimals {
         let radius = dec as f64;
         let circumference = 2.0 * std::f64::consts::PI * radius;
         let freq = circumference * 1e6; // Scale to Hz
         frequencies.push(freq);
-        
+
         // Convert to bits per second (simplified)
         let bits = (freq / 8.0) as u64;
         bps.push(bits);
     }
-    
+
     Ok(WaveForm { frequencies, bps })
 }
 
@@ -93,14 +93,14 @@ pub fn transform_layer3(numeric: &NumericForm) -> FlameResult<WaveForm> {
 pub fn transform_layer4(wave: &WaveForm) -> FlameResult<DnaForm> {
     let mut codons = Vec::new();
     let mut sequence = String::new();
-    
+
     // Map frequencies to DNA codons
     for &freq in &wave.frequencies {
         let codon = freq_to_codon(freq)?;
         codons.push(codon.clone());
         sequence.push_str(&codon_to_acgt(&codon));
     }
-    
+
     Ok(DnaForm { codons, sequence })
 }
 
@@ -109,12 +109,12 @@ fn freq_to_codon(freq: f64) -> FlameResult<String> {
     // DNA codons: 4 bases (A, C, G, T/U) × 3 positions = 64 possible codons
     let bases = ['A', 'C', 'G', 'U'];
     let index = (freq as u64) % 64;
-    
+
     // Decode index to 3-base codon
     let base1 = bases[(index / 16) as usize % 4];
     let base2 = bases[(index / 4) as usize % 4];
     let base3 = bases[(index % 4) as usize];
-    
+
     Ok(format!("{}{}{}", base1, base2, base3))
 }
 
@@ -143,7 +143,7 @@ mod tests {
         let tokens = lexer.tokenize().unwrap();
         let mut parser = Parser::new(tokens);
         let ast = parser.parse().unwrap();
-        
+
         let numeric = transform_layer2(&ast).unwrap();
         assert!(!numeric.decimals.is_empty());
         assert!(!numeric.hex.is_empty());
@@ -155,7 +155,7 @@ mod tests {
             decimals: vec![5],
             hex: vec!["0x5".to_string()],
         };
-        
+
         let wave = transform_layer3(&numeric).unwrap();
         assert!(!wave.frequencies.is_empty());
         assert!(!wave.bps.is_empty());
@@ -167,7 +167,7 @@ mod tests {
             frequencies: vec![440.0],
             bps: vec![55],
         };
-        
+
         let dna = transform_layer4(&wave).unwrap();
         assert!(!dna.codons.is_empty());
         assert!(!dna.sequence.is_empty());

@@ -1,7 +1,7 @@
 //! # FlameLang v2.0.0
-//! 
+//!
 //! ## Sovereign 5-Layer Transformation Pipeline
-//! 
+//!
 //! ```text
 //! ┌─────────────────────────────────────────────────────────────────────────────┐
 //! │  LAYER 1: LINGUISTIC    English → Hebrew → Glyph                            │
@@ -11,14 +11,14 @@
 //! │  LAYER 5: LLVM          Codon → Opcode → Native Binary                      │
 //! └─────────────────────────────────────────────────────────────────────────────┘
 //! ```
-//! 
+//!
 //! ## Mathematical Foundations (16 Proofs)
-//! 
+//!
 //! - **Tier 1 (Kernel)**: Fixed-point convergence, grounding, genome, bijection
 //! - **Tier 2 (Geometric)**: Pipe closure, Rubik bound, Fourier, setback identity
 //! - **Tier 3 (Adversarial)**: Fallacy detection, jujitsu, RLHF, chess isomorphism
 //! - **Tier 4 (Distribution)**: Torrent, hash chain, DNA durability, swarm immortality
-//! 
+//!
 //! © 2025 Strategickhaos DAO LLC - Ratio Ex Nihilo
 
 #![warn(missing_docs)]
@@ -26,8 +26,8 @@
 
 pub mod lexer;
 pub mod parser;
-pub mod transform;
 pub mod pipeline;
+pub mod transform;
 
 use thiserror::Error;
 
@@ -37,11 +37,11 @@ pub enum FlameError {
     /// Lexical analysis error
     #[error("Lexer error: {0}")]
     Lexer(String),
-    
+
     /// Parsing error
     #[error("Parse error: {0}")]
     Parser(String),
-    
+
     /// Transformation layer error
     #[error("Layer {layer} transform error: {message}")]
     Transform {
@@ -50,7 +50,7 @@ pub enum FlameError {
         /// Error description
         message: String,
     },
-    
+
     /// Type/dimensional mismatch
     #[error("Dimensional error: expected {expected}, got {actual}")]
     Dimensional {
@@ -59,7 +59,7 @@ pub enum FlameError {
         /// Actual type/dimension
         actual: String,
     },
-    
+
     /// Proof validation failure
     #[error("Proof {proof_id} failed: {message}")]
     ProofViolation {
@@ -68,11 +68,11 @@ pub enum FlameError {
         /// Why it failed
         message: String,
     },
-    
+
     /// Code generation error
     #[error("Codegen error: {0}")]
     Codegen(String),
-    
+
     /// IO error
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
@@ -82,18 +82,18 @@ pub enum FlameError {
 pub type FlameResult<T> = Result<T, FlameError>;
 
 /// Compile FlameLang source to binary
-/// 
+///
 /// # Example
-/// 
+///
 /// ```ignore
 /// use flamelang::compile;
-/// 
+///
 /// let source = r#"
 ///     let r: float = 5.0;
 ///     let theta: angle = 90deg;
 ///     bend theta radius r;
 /// "#;
-/// 
+///
 /// let binary = compile(source)?;
 /// ```
 pub fn compile(source: &str) -> FlameResult<Vec<u8>> {
