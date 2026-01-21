@@ -40,7 +40,7 @@ Tests the bijective mapping between 64 audio frequencies and the 64 genetic codo
 **Operations:**
 - `codon freq`: Bijectively maps frequency to one of 64 codons
 
-**Result:** ✓ PASSES (mapping is reversible: 440Hz → [A,T,G] → index 42 → ~440Hz)
+**Result:** ✓ PASSES (mapping is bijective and reversible: 440Hz → [A,T,G] → index 42 → 440Hz)
 
 #### PROOF 2: GROUNDING (finite values only)
 Tests that all values are finite and bounded, ensuring no infinities or NaN values exist in the system.

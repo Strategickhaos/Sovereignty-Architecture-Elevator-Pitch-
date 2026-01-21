@@ -46,7 +46,7 @@ let freq: freq = 440Hz;  // A4 tuning standard
 codon freq;  // Bijectively maps to one of 64 codons
 
 // The mapping is reversible:
-// codon(440Hz) → [A,T,G] → index 42 → freq ≈ 440Hz
+// codon(440Hz) → [A,T,G] → index 42 → 440Hz
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PROOF 2 TEST: GROUNDING (finite values only)
