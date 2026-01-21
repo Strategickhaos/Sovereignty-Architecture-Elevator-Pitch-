@@ -23,7 +23,15 @@
 **Impact:** Could allow attackers to cause CPU exhaustion via crafted headers  
 **Resolution:** Updated to version 0.0.18
 
-#### 3. qdrant-client - Input Validation Failure
+#### 3. fastapi - ReDoS Vulnerability  
+**Severity:** MEDIUM  
+**Affected Version:** <= 0.109.0  
+**Fixed Version:** 0.109.1 (using 0.109.2)  
+**Description:** FastAPI Content-Type Header Regular Expression DoS  
+**Impact:** Could allow attackers to cause CPU exhaustion via crafted headers  
+**Resolution:** Updated to version 0.109.2
+
+#### 4. qdrant-client - Input Validation Failure
 **Severity:** MEDIUM  
 **Affected Version:** 1.7.0  
 **Fixed Version:** 1.9.0  
@@ -38,6 +46,9 @@
 - python-multipart==0.0.6
 + python-multipart==0.0.18
 
+- fastapi==0.104.1
++ fastapi==0.109.2
+
 - qdrant-client==1.7.0
 + qdrant-client==1.9.0
 ```
@@ -48,7 +59,7 @@ If you have already deployed SAGCO OS v0.1.0, please update immediately:
 
 ```bash
 # Update dependencies
-pip install --upgrade python-multipart==0.0.18 qdrant-client==1.9.0
+pip install --upgrade python-multipart==0.0.18 fastapi==0.109.2 qdrant-client==1.9.0
 
 # Or rebuild Docker image
 docker build -t sagco:0.1.0-secure .
@@ -64,13 +75,16 @@ make k8s-apply  # For Kubernetes deployment
 After updating, verify the versions:
 
 ```bash
-pip show python-multipart qdrant-client
+pip show python-multipart fastapi qdrant-client
 ```
 
 Expected output:
 ```
 Name: python-multipart
 Version: 0.0.18
+
+Name: qdrant-client
+Version: 0.109.2
 
 Name: qdrant-client
 Version: 1.9.0
