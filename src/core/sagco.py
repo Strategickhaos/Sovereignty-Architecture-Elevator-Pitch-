@@ -304,7 +304,10 @@ class SAGCOKernel:
     def record_quiz_score(self, score: float):
         """Record a quiz score"""
         self.academic_metrics['quiz_scores'].append(score)
-        self._update_academic_metrics()
+        # Update GPA calculation inline
+        if self.academic_metrics['quiz_scores']:
+            avg_score = sum(self.academic_metrics['quiz_scores']) / len(self.academic_metrics['quiz_scores'])
+            self.academic_metrics['current_gpa'] = (avg_score / 100) * 4.0
         logger.info(f"Quiz score recorded: {score}/100")
     
     def record_discussion_post(self):
