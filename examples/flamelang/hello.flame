@@ -1,0 +1,6 @@
+// Hello World in FlameLang
+// FlameLang enforces physics at compile time
+
+main {
+    return 0;
+}
