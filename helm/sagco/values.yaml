@@ -1,0 +1,262 @@
+# SAGCO OS - Helm Chart Values
+# Sovereignty Architecture Grand Central Operating System
+
+# =============================================================================
+# Global settings
+# =============================================================================
+global:
+  imagePullSecrets: []
+
+# =============================================================================
+# Image configuration
+# =============================================================================
+image:
+  repository: sagco
+  pullPolicy: IfNotPresent
+  tag: "0.1.0"
+
+# =============================================================================
+# Deployment configuration
+# =============================================================================
+replicaCount: 3
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
+# =============================================================================
+# Service configuration
+# =============================================================================
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+  annotations: {}
+
+# =============================================================================
+# Ingress configuration
+# =============================================================================
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+  hosts:
+    - host: sagco.strategickhaos.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: sagco-tls
+      hosts:
+        - sagco.strategickhaos.com
+
+# =============================================================================
+# Resource limits
+# =============================================================================
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+
+# =============================================================================
+# Autoscaling
+# =============================================================================
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# =============================================================================
+# Pod Disruption Budget
+# =============================================================================
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# =============================================================================
+# Security context
+# =============================================================================
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  capabilities:
+    drop:
+      - ALL
+
+# =============================================================================
+# Health checks
+# =============================================================================
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# =============================================================================
+# Environment variables
+# =============================================================================
+env:
+  - name: ENVIRONMENT
+    value: "production"
+  - name: LOG_LEVEL
+    value: "INFO"
+  - name: POSTGRES_HOST
+    value: "postgres"
+  - name: POSTGRES_PORT
+    value: "5432"
+  - name: POSTGRES_DB
+    value: "sagco"
+  - name: POSTGRES_USER
+    value: "sagco"
+  - name: REDIS_HOST
+    value: "redis"
+  - name: REDIS_PORT
+    value: "6379"
+  - name: QDRANT_HOST
+    value: "qdrant"
+  - name: QDRANT_PORT
+    value: "6333"
+
+# =============================================================================
+# Secrets
+# =============================================================================
+secrets:
+  postgresPassword: ""
+  jwtSecret: ""
+  githubToken: ""
+  discordToken: ""
+
+# =============================================================================
+# ConfigMap
+# =============================================================================
+config:
+  sagco:
+    version: "0.1.0"
+    layers:
+      reflexive:
+        response_time_ms: 100
+        enabled: true
+      tactical:
+        planning_window_hours: 24
+        enabled: true
+      strategic:
+        planning_window_days: 90
+        enabled: true
+      sovereign:
+        awareness_depth: "maximum"
+        enabled: true
+    dopamine:
+      baseline_threshold: 50
+      flow_threshold: 85
+      recovery_rate: 5
+    academic:
+      target_gpa: 4.0
+      min_study_hours_per_day: 4
+      max_concurrent_tasks: 5
+
+# =============================================================================
+# Service Account
+# =============================================================================
+serviceAccount:
+  create: true
+  name: sagco
+  annotations: {}
+
+# =============================================================================
+# RBAC
+# =============================================================================
+rbac:
+  create: true
+
+# =============================================================================
+# Node selection
+# =============================================================================
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - sagco
+          topologyKey: kubernetes.io/hostname
+
+# =============================================================================
+# Monitoring
+# =============================================================================
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+    scrapeTimeout: 10s
+
+# =============================================================================
+# Network Policy
+# =============================================================================
+networkPolicy:
+  enabled: true
+  policyTypes:
+    - Ingress
+    - Egress
+
+# =============================================================================
+# PostgreSQL (if deployed together)
+# =============================================================================
+postgresql:
+  enabled: false
+  auth:
+    username: sagco
+    password: ""
+    database: sagco
+
+# =============================================================================
+# Redis (if deployed together)
+# =============================================================================
+redis:
+  enabled: false
+  auth:
+    enabled: true
+    password: ""
+
+# =============================================================================
+# Qdrant (if deployed together)
+# =============================================================================
+qdrant:
+  enabled: false

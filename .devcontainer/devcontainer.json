@@ -1,4 +1,68 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {}
+  "name": "SAGCO OS Development",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "latest",
+      "helm": "latest",
+      "minikube": "none"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "redhat.vscode-yaml",
+        "GitHub.copilot"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "files.autoSave": "afterDelay"
+      }
+    }
+  },
+
+  "forwardPorts": [8000, 5432, 6379, 6333, 9090, 3000],
+  "portsAttributes": {
+    "8000": {
+      "label": "SAGCO API",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL"
+    },
+    "6379": {
+      "label": "Redis"
+    },
+    "6333": {
+      "label": "Qdrant"
+    },
+    "9090": {
+      "label": "Prometheus"
+    },
+    "3000": {
+      "label": "Grafana"
+    }
+  },
+
+  "postCreateCommand": "pip install -r requirements.txt && pip install pytest pytest-asyncio pytest-cov black flake8 mypy",
+  
+  "postStartCommand": "echo '🚀 SAGCO OS Development Environment Ready!' && echo 'Run: make dev to start all services'",
+
+  "remoteUser": "vscode",
+  
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ]
 }

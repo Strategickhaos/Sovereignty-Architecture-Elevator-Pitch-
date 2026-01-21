@@ -1,0 +1,113 @@
+# Skaffold configuration for SAGCO OS
+# Sovereignty Architecture Grand Central Operating System
+
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: sagco
+
+build:
+  artifacts:
+  - image: sagco
+    docker:
+      dockerfile: Dockerfile
+      target: api
+      buildArgs:
+        ENVIRONMENT: production
+    sync:
+      manual:
+      - src: "src/**/*.py"
+        dest: /app/src
+      - src: "config/*.yaml"
+        dest: /app/config
+  tagPolicy:
+    gitCommit:
+      variant: AbbrevCommitSha
+  local:
+    push: false
+    useBuildkit: true
+
+deploy:
+  kubectl:
+    manifests:
+    - k8s/sagco-deployment.yaml
+
+profiles:
+- name: dev
+  activation:
+  - env: ENVIRONMENT=development
+  build:
+    artifacts:
+    - image: sagco
+      docker:
+        target: dev
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/sagco-deployment.yaml
+  portForward:
+  - resourceType: service
+    resourceName: sagco
+    port: 80
+    localPort: 8000
+  - resourceType: service
+    resourceName: prometheus
+    port: 9090
+    localPort: 9090
+  - resourceType: service
+    resourceName: grafana
+    port: 3000
+    localPort: 3000
+
+- name: gke
+  activation:
+  - env: PLATFORM=gke
+  build:
+    artifacts:
+    - image: gcr.io/PROJECT_ID/sagco
+      docker:
+        dockerfile: Dockerfile
+        target: api
+    tagPolicy:
+      gitCommit: {}
+    googleCloudBuild:
+      projectId: PROJECT_ID
+      machineType: N1_HIGHCPU_8
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/sagco-deployment.yaml
+      - k8s/gke/sagco-gke.yaml
+
+- name: production
+  activation:
+  - env: ENVIRONMENT=production
+  build:
+    artifacts:
+    - image: sagco
+      docker:
+        target: api
+        buildArgs:
+          ENVIRONMENT: production
+    tagPolicy:
+      sha256: {}
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/sagco-deployment.yaml
+      flags:
+        apply:
+        - --wait
+        - --timeout=5m
+  verify:
+  - name: health-check
+    container:
+      name: sagco-health-check
+      image: curlimages/curl:latest
+      command: ["curl"]
+      args: ["-f", "http://sagco.sagco.svc.cluster.local/health"]
+
+test:
+- image: sagco
+  custom:
+  - command: pytest tests/ -v --cov=src/core

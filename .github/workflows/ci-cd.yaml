@@ -1,0 +1,248 @@
+# SAGCO OS - CI/CD Pipeline
+# Sovereignty Architecture Grand Central Operating System
+
+name: SAGCO CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/sagco
+
+jobs:
+  # =============================================================================
+  # LINT - Code quality checks
+  # =============================================================================
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install black flake8 mypy
+          pip install -r requirements.txt
+
+      - name: Run Black
+        run: black --check src/ tests/
+
+      - name: Run Flake8
+        run: flake8 src/ tests/ --max-line-length=100
+
+      - name: Run MyPy
+        run: mypy src/ --ignore-missing-imports
+
+  # =============================================================================
+  # TEST - Run test suite
+  # =============================================================================
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: sagco_test
+          POSTGRES_USER: sagco
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: Run tests
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: sagco_test
+          POSTGRES_USER: sagco
+          POSTGRES_PASSWORD: test_password
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+        run: |
+          pytest tests/ -v --cov=src/core --cov-report=xml --cov-report=term
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+
+  # =============================================================================
+  # BUILD - Build Docker image
+  # =============================================================================
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          target: api
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # =============================================================================
+  # SECURITY - Security scanning
+  # =============================================================================
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      security-events: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # =============================================================================
+  # DEPLOY - Deploy to Kubernetes
+  # =============================================================================
+  deploy:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure kubectl
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/sagco-deployment.yaml
+          kubectl rollout status deployment/sagco -n sagco --timeout=5m
+
+      - name: Verify deployment
+        run: |
+          kubectl get pods -n sagco
+          kubectl get services -n sagco
+          kubectl get ingress -n sagco
+
+  # =============================================================================
+  # NOTIFY - Send deployment notification
+  # =============================================================================
+  notify:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: always()
+
+    steps:
+      - name: Send Discord notification
+        if: env.DISCORD_WEBHOOK_URL != ''
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "🚀 SAGCO OS Deployment",
+              "embeds": [{
+                "title": "Deployment Status: ${{ needs.deploy.result }}",
+                "description": "Commit: ${{ github.sha }}\nBranch: ${{ github.ref_name }}\nActor: ${{ github.actor }}",
+                "color": ${{ needs.deploy.result == 'success' && 3066993 || 15158332 }}
+              }]
+            }'
