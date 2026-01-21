@@ -7,6 +7,19 @@
 use crate::compiler::FlameIR;
 use crate::FlameResult;
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// MATHEMATICAL CONSTANTS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/// God's Number - maximum moves to solve any Rubik's cube state
+pub const GODS_NUMBER: f64 = 20.0;
+
+/// Two Pi constant for angle calculations
+pub const TWO_PI: f64 = 2.0 * std::f64::consts::PI;
+
+/// Epsilon for floating point comparisons
+pub const EPSILON: f64 = 0.001;
+
 /// Layer 1: English identifiers → Hebrew triconsonantal roots
 pub fn layer1_linguistic(ir: FlameIR) -> FlameResult<FlameIR> {
     // Stub implementation

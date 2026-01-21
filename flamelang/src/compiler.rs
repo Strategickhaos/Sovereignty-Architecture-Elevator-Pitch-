@@ -18,6 +18,9 @@ use crate::transform::{
     layer3_wave,
     layer4_dna,
     layer5_llvm,
+    GODS_NUMBER,
+    TWO_PI,
+    EPSILON,
 };
 use crate::{FlameError, FlameResult};
 
@@ -340,10 +343,6 @@ fn validate_pipe_bend_closure(ir: &FlameIR) -> FlameResult<()> {
     // Proof 5: Σθᵢ = 360° implies closed path
     // Check: Bend operations with Angle type sum correctly
     
-    use std::f64::consts::PI;
-    const TWO_PI: f64 = 2.0 * PI;
-    const EPSILON: f64 = 0.001;
-    
     let mut angle_sum = 0.0;
     
     for expr in &ir.exprs {
@@ -370,10 +369,10 @@ fn validate_rubik_bound(ir: &FlameIR) -> FlameResult<()> {
     
     for expr in &ir.exprs {
         if let FlameExpr::Lit { value, ty: FlameType::Perm } = expr {
-            if *value < 0.0 || *value > 20.0 {
+            if *value < 0.0 || *value > GODS_NUMBER {
                 return Err(FlameError::Transform {
                     layer: 4,
-                    message: format!("Perm {} violates God's Number bound [0, 20]", value),
+                    message: format!("Perm {} violates God's Number bound [0, {}]", value, GODS_NUMBER),
                 });
             }
         }

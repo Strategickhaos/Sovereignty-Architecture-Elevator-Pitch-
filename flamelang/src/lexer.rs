@@ -150,9 +150,11 @@ impl Lexer {
         let num_str: String = self.input[start..self.position].iter().collect();
         
         if has_dot {
-            Token::Float(num_str.parse().unwrap())
+            // For floats, return 0.0 if parse fails
+            Token::Float(num_str.parse().unwrap_or(0.0))
         } else {
-            Token::Integer(num_str.parse().unwrap())
+            // For integers, return 0 if parse fails
+            Token::Integer(num_str.parse().unwrap_or(0))
         }
     }
     
