@@ -72,28 +72,28 @@ impl std::error::Error for FlameError {}
 /// 
 /// A vector of bytes representing the compiled binary, or a FlameError
 pub fn compile(source: &str) -> Result<Vec<u8>, FlameError> {
-    // Layer 1: Lexical Analysis
+    // Lexical Analysis
     let tokens = lex(source)?;
     
-    // Layer 2: Parsing
+    // Parsing
     let ast = parse(&tokens)?;
     
-    // Layer 3: Linguistic Transform (English → Hebrew)
+    // Layer 1: Linguistic Transform (English → Hebrew)
     let hebrew_ast = transform_linguistic(&ast)?;
     
-    // Layer 4: Numeric Transform (Unicode → Gematria)
+    // Layer 2: Numeric Transform (Unicode → Gematria)
     let gematria_ast = transform_numeric(&hebrew_ast)?;
     
-    // Layer 5: Wave Transform (c=2πr → Hz)
+    // Layer 3: Wave Transform (c=2πr → Hz)
     let wave_ast = transform_wave(&gematria_ast)?;
     
-    // Layer 6: DNA Transform (Freq → Codon)
+    // Layer 4: DNA Transform (Freq → Codon)
     let dna_ast = transform_dna(&wave_ast)?;
     
-    // Layer 7: LLVM IR Generation
+    // Layer 5: LLVM IR Generation
     let llvm_ir = generate_llvm(&dna_ast)?;
     
-    // Layer 8: Proof Validation
+    // Proof Validation (16 theorems)
     validate_proofs(&llvm_ir)?;
     
     // Generate binary
@@ -114,31 +114,31 @@ fn parse(_tokens: &[Token]) -> Result<Ast, FlameError> {
     Ok(Ast {})
 }
 
-// Layer 1: Linguistic Transform
+// Linguistic Transform (Layer 1: English → Hebrew)
 fn transform_linguistic(_ast: &Ast) -> Result<HebrewAst, FlameError> {
     // Stub implementation
     Ok(HebrewAst {})
 }
 
-// Layer 2: Numeric Transform
+// Numeric Transform (Layer 2: Unicode → Gematria)
 fn transform_numeric(_ast: &HebrewAst) -> Result<GematriaAst, FlameError> {
     // Stub implementation
     Ok(GematriaAst {})
 }
 
-// Layer 3: Wave Transform
+// Wave Transform (Layer 3: c=2πr → Hz)
 fn transform_wave(_ast: &GematriaAst) -> Result<WaveAst, FlameError> {
     // Stub implementation
     Ok(WaveAst {})
 }
 
-// Layer 4: DNA Transform
+// DNA Transform (Layer 4: Freq → Codon)
 fn transform_dna(_ast: &WaveAst) -> Result<DnaAst, FlameError> {
     // Stub implementation
     Ok(DnaAst {})
 }
 
-// Layer 5: LLVM IR Generation
+// LLVM IR Generation (Layer 5)
 fn generate_llvm(_ast: &DnaAst) -> Result<LlvmIr, FlameError> {
     // Stub implementation
     Ok(LlvmIr {})

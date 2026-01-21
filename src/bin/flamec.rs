@@ -55,6 +55,8 @@ fn main() {
     println!("📄 Compiling: {}", input_file);
     println!();
     println!("   Pipeline:");
+    println!("   ├── Lexical Analysis");
+    println!("   ├── Parsing");
     println!("   ├── Layer 1: Linguistic (English → Hebrew)");
     println!("   ├── Layer 2: Numeric (Unicode → Gematria)");
     println!("   ├── Layer 3: Wave (c=2πr → Hz)");
