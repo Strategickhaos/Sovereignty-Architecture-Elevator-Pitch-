@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **SAGCO OS** - Sovereign operating system for enhanced automation ([Integration Guide](./SAGCO_OS_INTEGRATION_GUIDE.md))
 
 ## 🚀 Quick Start
 
@@ -271,6 +272,33 @@ kubectl logs -f deployment/event-gateway -n ops
 # Verify HMAC signature
 curl -X POST https://events.strategickhaos.com/health
 ```
+
+## 🌐 SAGCO OS Integration
+
+**SAGCO OS** (Sovereign Autonomous Governance & Control Operating System) is the next evolution in the Strategickhaos ecosystem, providing enhanced automation, control, and governance capabilities.
+
+### Quick Integration
+
+Choose your preferred method to integrate SAGCO OS:
+
+| Method | Guide | Best For |
+|--------|-------|----------|
+| **Quick Start** | [SAGCO_OS_QUICKSTART.md](./SAGCO_OS_QUICKSTART.md) | Fast integration, all methods summarized |
+| **Full Guide** | [SAGCO_OS_INTEGRATION_GUIDE.md](./SAGCO_OS_INTEGRATION_GUIDE.md) | Detailed steps, troubleshooting, advanced setup |
+
+### Integration Methods
+
+1. **Working Copy (iPad)** - Visual interface, great for mobile workflows
+2. **CLI on Cluster** - Terminal-based, perfect for automation
+3. **GitHub Web Upload** - Browser-based, no CLI required
+
+### Post-Integration
+
+After SAGCO OS is integrated, you'll be able to:
+- ✅ Deploy sovereign OS components to your infrastructure
+- ✅ Automate governance workflows
+- ✅ Enhance Discord bot capabilities
+- ✅ Integrate with existing Kubernetes deployments
 
 ## 👥 Community & Contributors
 
