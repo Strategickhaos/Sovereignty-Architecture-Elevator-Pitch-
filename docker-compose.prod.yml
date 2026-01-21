@@ -1,0 +1,132 @@
+# SAGCO OS - Production Overlay
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+
+version: '3.9'
+
+services:
+  sagco:
+    build:
+      target: api  # Use production API stage
+    environment:
+      - SAGCO_ENV=production
+      - LOG_LEVEL=WARNING
+      - REDIS_URL=redis://redis:6379/0
+      - POSTGRES_URL=postgresql://sagco:${POSTGRES_PASSWORD}@postgres:5432/sagco
+      - QDRANT_URL=http://qdrant:6333
+    ports:
+      - "8000:8000"  # Only API port exposed
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    command: 
+      - postgres
+      - -c
+      - max_connections=200
+      - -c
+      - shared_buffers=256MB
+      - -c
+      - effective_cache_size=1GB
+      - -c
+      - maintenance_work_mem=64MB
+      - -c
+      - checkpoint_completion_target=0.9
+      - -c
+      - wal_buffers=16MB
+      - -c
+      - default_statistics_target=100
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - effective_io_concurrency=200
+      - -c
+      - work_mem=2621kB
+      - -c
+      - min_wal_size=1GB
+      - -c
+      - max_wal_size=4GB
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+  redis:
+    command: 
+      - redis-server
+      - --appendonly yes
+      - --requirepass ${REDIS_PASSWORD}
+      - --maxmemory 512mb
+      - --maxmemory-policy allkeys-lru
+      - --save 900 1
+      - --save 300 10
+      - --save 60 10000
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  qdrant:
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+
+  # ===== Production Load Balancer =====
+  nginx:
+    image: nginx:alpine
+    container_name: sagco-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - sagco
+    networks:
+      - sagco-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M

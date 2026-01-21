@@ -1,0 +1,237 @@
+# SAGCO OS Configuration
+# Version: 0.1.0
+
+# ===== System Configuration =====
+system:
+  name: "SAGCO"
+  version: "0.1.0"
+  environment: "development"
+  debug: true
+  log_level: "INFO"
+
+# ===== Layer Configuration =====
+layers:
+  sensory:
+    enabled: true
+    nodes: 2
+    capacity: 100
+    description: "Input reception and initial processing"
+  
+  cognitive:
+    enabled: true
+    nodes: 4
+    capacity: 100
+    description: "Reasoning, analysis, and pattern recognition"
+  
+  executive:
+    enabled: true
+    nodes: 2
+    capacity: 50
+    description: "Decision making and strategy"
+  
+  motor:
+    enabled: true
+    nodes: 2
+    capacity: 50
+    description: "Action execution and output generation"
+
+# ===== Dopamine Reward System =====
+dopamine:
+  enabled: true
+  learning_rate: 0.1
+  baseline_reward: 0.0
+  reward_thresholds:
+    critical_high: 2.0
+    high: 0.5
+    neutral: 0.0
+    low: -0.5
+    critical_low: -2.0
+  
+  # Task priority adjustment
+  priority_adjustment:
+    enabled: true
+    window_size: 100  # Number of historical rewards to consider
+    
+  # Reward calculation parameters
+  time_weight: 0.4
+  quality_weight: 0.4
+  success_weight: 0.2
+
+# ===== Academic Integration =====
+academic:
+  enabled: true
+  contexts:
+    - id: "cyber-psy-620"
+      course_code: "CYBER-PSY-620"
+      module: "Cognitive Architecture & Distributed Systems"
+      learning_objectives:
+        - "Understand distributed cognitive systems"
+        - "Implement reward-based learning mechanisms"
+        - "Design layered processing architectures"
+        - "Apply sovereignty principles to system design"
+      research_questions:
+        - "How can dopamine-inspired reward systems improve distributed task processing?"
+        - "What are the optimal layer architectures for cognitive OS?"
+        - "How does academic context integration improve learning outcomes?"
+  
+  # Alignment validation
+  validation:
+    enabled: true
+    strict_mode: false
+    log_misalignments: true
+
+# ===== Node Configuration =====
+nodes:
+  auto_register: true
+  health_check_interval: 30  # seconds
+  heartbeat_timeout: 90  # seconds
+  
+  defaults:
+    capacity: 100
+    health_threshold: 0.5
+    max_load_percentage: 80
+
+# ===== Task Processing =====
+tasks:
+  queue_size_limit: 10000
+  priority_range: [0, 100]
+  timeout_default: 300  # seconds
+  retry_policy:
+    enabled: true
+    max_retries: 3
+    backoff_multiplier: 2
+    initial_delay: 1  # seconds
+  
+  # Task types
+  types:
+    cognitive_processing:
+      priority: 5
+      timeout: 60
+    data_analysis:
+      priority: 7
+      timeout: 120
+    decision_making:
+      priority: 10
+      timeout: 30
+    action_execution:
+      priority: 3
+      timeout: 90
+
+# ===== Database Configuration =====
+database:
+  postgres:
+    host: "postgres"
+    port: 5432
+    database: "sagco"
+    user: "sagco"
+    password: "${POSTGRES_PASSWORD:-sagco_dev_pass}"
+    pool_size: 20
+    max_overflow: 10
+    pool_timeout: 30
+    pool_recycle: 3600
+  
+  redis:
+    host: "redis"
+    port: 6379
+    db: 0
+    password: "${REDIS_PASSWORD:-sagco_redis_pass}"
+    max_connections: 50
+    socket_timeout: 5
+  
+  qdrant:
+    host: "qdrant"
+    port: 6333
+    collection_name: "sagco_vectors"
+    vector_size: 768
+    distance: "Cosine"
+    on_disk: true
+
+# ===== API Configuration =====
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  reload: false
+  
+  cors:
+    enabled: true
+    origins:
+      - "http://localhost:3000"
+      - "https://sagco.strategickhaos.com"
+    allow_credentials: true
+    allow_methods: ["*"]
+    allow_headers: ["*"]
+  
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+    burst_size: 20
+
+# ===== Monitoring & Observability =====
+monitoring:
+  prometheus:
+    enabled: true
+    port: 9090
+    path: "/metrics"
+  
+  logging:
+    format: "json"
+    output: "stdout"
+    rotation:
+      enabled: true
+      max_bytes: 104857600  # 100 MB
+      backup_count: 10
+  
+  tracing:
+    enabled: true
+    sample_rate: 0.1
+    export_endpoint: "http://jaeger:14268/api/traces"
+
+# ===== Kubernetes Integration =====
+kubernetes:
+  enabled: false
+  namespace: "sagco"
+  service_account: "sagco-sa"
+  
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+  
+  autoscaling:
+    enabled: true
+    min_replicas: 2
+    max_replicas: 10
+    target_cpu_utilization: 70
+    target_memory_utilization: 80
+
+# ===== Security =====
+security:
+  authentication:
+    enabled: false
+    jwt_secret: "${JWT_SECRET}"
+    token_expiry: 3600
+  
+  authorization:
+    enabled: false
+    rbac: true
+  
+  encryption:
+    at_rest: false
+    in_transit: true
+    tls_cert_path: "/certs/tls.crt"
+    tls_key_path: "/certs/tls.key"
+
+# ===== Feature Flags =====
+features:
+  dopamine_engine: true
+  academic_context: true
+  event_system: true
+  health_monitoring: true
+  metrics_collection: true
+  distributed_tracing: false
+  caching: true
+  async_processing: true
