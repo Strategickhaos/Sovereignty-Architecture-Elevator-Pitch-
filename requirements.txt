@@ -18,7 +18,7 @@ redis==5.0.1
 hiredis==2.2.3
 
 # Vector database
-qdrant-client==1.7.0
+qdrant-client==1.9.0
 
 # Configuration
 pyyaml==6.0.1
@@ -30,7 +30,7 @@ httpx==0.25.1
 # Authentication
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-python-multipart==0.0.6
+python-multipart==0.0.18
 
 # Monitoring and logging
 prometheus-client==0.19.0
