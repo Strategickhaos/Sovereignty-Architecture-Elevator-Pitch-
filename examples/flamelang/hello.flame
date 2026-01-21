@@ -1,0 +1,7 @@
+// FlameLang Hello World Example
+// © 2025 Strategickhaos DAO LLC - Ratio Ex Nihilo
+//
+// This is a simple FlameLang program that demonstrates
+// the multi-layer transformation process.
+
+print("Hello, FlameLang World!");

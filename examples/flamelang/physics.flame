@@ -1,0 +1,16 @@
+// FlameLang Physics Example
+// © 2025 Strategickhaos DAO LLC - Ratio Ex Nihilo
+//
+// This program demonstrates FlameLang's physics validation.
+// All transformations must preserve mathematical invariants.
+
+// Define a wave with valid frequency
+wave w = create_wave(432.0);  // 432Hz - A natural frequency
+
+// Transform through layers
+hebrew h = linguistic_transform(w);
+gematria g = numeric_transform(h);
+dna d = dna_transform(g);
+
+// Output the result
+print(d);
