@@ -104,24 +104,23 @@ pub fn transform_layer4(wave: &WaveForm) -> FlameResult<DnaForm> {
     Ok(DnaForm { codons, sequence })
 }
 
-/// Map frequency to codon (simplified mapping)
+/// Map frequency to codon (64 possible codons)
 fn freq_to_codon(freq: f64) -> FlameResult<String> {
-    // Use frequency modulo to select codon
-    let index = (freq as u64) % 64; // 64 possible codons
+    // DNA codons: 4 bases (A, C, G, T/U) × 3 positions = 64 possible codons
+    let bases = ['A', 'C', 'G', 'U'];
+    let index = (freq as u64) % 64;
     
-    let codon = match index % 4 {
-        0 => "AAA",
-        1 => "AAC",
-        2 => "AAG",
-        _ => "AAU",
-    };
+    // Decode index to 3-base codon
+    let base1 = bases[(index / 16) as usize % 4];
+    let base2 = bases[(index / 4) as usize % 4];
+    let base3 = bases[(index % 4) as usize];
     
-    Ok(codon.to_string())
+    Ok(format!("{}{}{}", base1, base2, base3))
 }
 
-/// Convert codon to ACGT sequence
+/// Convert codon to ACGT sequence (replace U with T for DNA)
 fn codon_to_acgt(codon: &str) -> String {
-    codon.to_string()
+    codon.replace('U', "T")
 }
 
 /// Apply all transformation layers

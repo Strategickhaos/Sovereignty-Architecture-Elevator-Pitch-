@@ -111,12 +111,12 @@ fn generate_llvm(dna: &transform::DnaForm) -> FlameResult<String> {
 }
 
 fn codon_to_opcode(codon: &str) -> FlameResult<String> {
-    // Simplified codon to LLVM opcode mapping
+    // Simplified codon to LLVM opcode mapping (modern LLVM syntax)
     let opcode = match codon {
-        "AAA" => "%tmp0 = alloca i32",
-        "AAC" => "%tmp1 = load i32, i32* %tmp0",
+        "AAA" | "AAT" => "%tmp0 = alloca i32",
+        "AAC" => "%tmp1 = load i32, ptr %tmp0",
         "AAG" => "%tmp2 = add i32 %tmp1, 1",
-        "AAU" => "store i32 %tmp2, i32* %tmp0",
+        "AAU" => "store i32 %tmp2, ptr %tmp0",
         _ => "; nop",
     };
     

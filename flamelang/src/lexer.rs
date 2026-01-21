@@ -81,9 +81,9 @@ impl Lexer {
     }
 
     fn skip_whitespace(&mut self) {
-        while self.position < self.source.len() {
-            let ch = self.source.chars().nth(self.position).unwrap();
-            if ch.is_whitespace() {
+        let chars: Vec<char> = self.source.chars().collect();
+        while self.position < chars.len() {
+            if chars[self.position].is_whitespace() {
                 self.position += 1;
             } else {
                 break;
@@ -92,7 +92,12 @@ impl Lexer {
     }
 
     fn next_token(&mut self) -> FlameResult<Token> {
-        let ch = self.source.chars().nth(self.position).unwrap();
+        let chars: Vec<char> = self.source.chars().collect();
+        if self.position >= chars.len() {
+            return Ok(Token::Eof);
+        }
+        
+        let ch = chars[self.position];
         
         match ch {
             '=' => {
@@ -115,13 +120,13 @@ impl Lexer {
     }
 
     fn read_string(&mut self) -> FlameResult<Token> {
+        let chars: Vec<char> = self.source.chars().collect();
         self.position += 1; // Skip opening quote
         let start = self.position;
         
-        while self.position < self.source.len() {
-            let ch = self.source.chars().nth(self.position).unwrap();
-            if ch == '"' {
-                let string = self.source[start..self.position].to_string();
+        while self.position < chars.len() {
+            if chars[self.position] == '"' {
+                let string: String = chars[start..self.position].iter().collect();
                 self.position += 1; // Skip closing quote
                 return Ok(Token::String(string));
             }
@@ -132,10 +137,11 @@ impl Lexer {
     }
 
     fn read_number(&mut self) -> FlameResult<Token> {
+        let chars: Vec<char> = self.source.chars().collect();
         let start = self.position;
         
-        while self.position < self.source.len() {
-            let ch = self.source.chars().nth(self.position).unwrap();
+        while self.position < chars.len() {
+            let ch = chars[self.position];
             if ch.is_ascii_digit() || ch == '.' {
                 self.position += 1;
             } else {
@@ -143,7 +149,7 @@ impl Lexer {
             }
         }
         
-        let num_str = &self.source[start..self.position];
+        let num_str: String = chars[start..self.position].iter().collect();
         let num = num_str.parse::<f64>()
             .map_err(|e| FlameError::Lexer(format!("Invalid number: {}", e)))?;
         
@@ -151,10 +157,11 @@ impl Lexer {
     }
 
     fn read_identifier(&mut self) -> FlameResult<Token> {
+        let chars: Vec<char> = self.source.chars().collect();
         let start = self.position;
         
-        while self.position < self.source.len() {
-            let ch = self.source.chars().nth(self.position).unwrap();
+        while self.position < chars.len() {
+            let ch = chars[self.position];
             if ch.is_alphanumeric() || ch == '_' {
                 self.position += 1;
             } else {
@@ -162,7 +169,7 @@ impl Lexer {
             }
         }
         
-        let ident = self.source[start..self.position].to_string();
+        let ident: String = chars[start..self.position].iter().collect();
         
         let token = match ident.as_str() {
             "let" => Token::Keyword(Keyword::Let),
