@@ -1,0 +1,22 @@
+[package]
+name = "flamelang"
+version = "2.0.0"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC"]
+description = "FlameLang Compiler - Ratio Ex Nihilo"
+license = "MIT"
+
+[dependencies]
+# No external dependencies for the core compiler
+# Future: inkwell for LLVM backend
+
+[dev-dependencies]
+# No test dependencies needed yet
+
+[[bin]]
+name = "flamelang"
+path = "src/main.rs"
+
+[lib]
+name = "flamelang"
+path = "src/lib.rs"
