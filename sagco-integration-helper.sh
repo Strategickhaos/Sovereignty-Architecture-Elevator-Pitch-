@@ -98,16 +98,18 @@ extract_files() {
     # Move contents to SAGCO directory
     # Handle both cases: zip contains a folder or direct files
     local extracted_files=$(find "$temp_dir" -mindepth 1 -maxdepth 1)
-    local file_count=$(echo "$extracted_files" | wc -l)
+    local file_count=$(find "$temp_dir" -mindepth 1 -maxdepth 1 | wc -l)
     
-    if [ $file_count -eq 1 ] && [ -d "$extracted_files" ]; then
+    if [ "$file_count" -eq 1 ] && [ -d "$extracted_files" ]; then
         # Zip contains a single folder
         print_status "Moving files from extracted folder..."
-        mv "$extracted_files"/* "$SAGCO_DIR/"
+        # Use find to handle files with spaces properly
+        find "$extracted_files" -mindepth 1 -maxdepth 1 -exec mv -t "$SAGCO_DIR/" {} +
     else
         # Zip contains files directly
         print_status "Moving extracted files..."
-        mv "$temp_dir"/* "$SAGCO_DIR/"
+        # Use find to handle files with spaces properly
+        find "$temp_dir" -mindepth 1 -maxdepth 1 -exec mv -t "$SAGCO_DIR/" {} +
     fi
     
     # Cleanup
@@ -166,11 +168,15 @@ verify_integration() {
         print_warning "Not on $DEFAULT_BRANCH branch (currently on $current_branch)"
     fi
     
-    # Check if there are unpushed commits
-    if git log origin/"$DEFAULT_BRANCH".."$DEFAULT_BRANCH" --oneline | grep -q .; then
-        print_warning "There are unpushed commits!"
+    # Check if there are unpushed commits (only if remote branch exists)
+    if git rev-parse --verify origin/"$DEFAULT_BRANCH" >/dev/null 2>&1; then
+        if git log origin/"$DEFAULT_BRANCH".."$DEFAULT_BRANCH" --oneline 2>/dev/null | grep -q .; then
+            print_warning "There are unpushed commits!"
+        else
+            print_success "All commits are pushed!"
+        fi
     else
-        print_success "All commits are pushed!"
+        print_status "Remote branch not found (this is normal for first push)"
     fi
     
     # Show latest commit
