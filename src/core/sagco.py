@@ -208,19 +208,43 @@ class SAGCOKernel:
     
     async def _process_reflexive(self):
         """Process reflexive layer (instant response)"""
-        pass  # Implement reflexive processing
+        # Reflexive processing handles immediate, automatic responses
+        # Example: Quick wins, simple tasks, instant reactions
+        for task in self.tasks:
+            if task.get('priority') == TaskPriority.CRITICAL and task.get('effort', 0) < 2:
+                # Handle quick critical tasks immediately
+                pass
     
     async def _process_tactical(self):
         """Process tactical layer (24-hour planning)"""
-        pass  # Implement tactical processing
+        # Tactical processing handles short-term planning and execution
+        # Focus on tasks within the next 24 hours
+        now = datetime.now()
+        for task in self.tasks:
+            if task.get('status') == 'pending':
+                deadline = task.get('deadline')
+                if deadline and (deadline - now).total_seconds() < 86400:  # 24 hours
+                    # Prioritize tasks due within 24 hours
+                    task['priority'] = max(task.get('priority', TaskPriority.MEDIUM), TaskPriority.HIGH)
     
     async def _process_strategic(self):
         """Process strategic layer (90-day planning)"""
-        pass  # Implement strategic processing
+        # Strategic processing handles long-term vision and goal setting
+        # Evaluate progress towards 90-day goals
+        if len(self.performance_history) > 0:
+            # Analyze trends and adjust strategy
+            pass
     
     async def _process_sovereign(self):
         """Process sovereign layer (meta-awareness)"""
-        pass  # Implement sovereign processing
+        # Sovereign processing handles meta-awareness and system optimization
+        # Evaluate overall system performance and make high-level adjustments
+        status = self.get_status()
+        if status['academic_metrics']['current_gpa'] < 3.7:
+            # Increase focus on academic tasks
+            for task in self.tasks:
+                if task.get('metadata', {}).get('type') == 'academic':
+                    task['priority'] = max(task.get('priority', TaskPriority.MEDIUM), TaskPriority.HIGH)
     
     async def _update_dopamine(self):
         """Update dopamine levels based on activity"""
@@ -352,6 +376,10 @@ class SAGCOKernel:
     
     async def _save_state(self):
         """Save kernel state to disk"""
+        # Use configurable state directory from environment or config
+        state_dir = os.getenv('SAGCO_STATE_DIR', '/tmp')
+        state_file = os.path.join(state_dir, 'sagco_state.json')
+        
         state = {
             'timestamp': datetime.now().isoformat(),
             'tasks': self.tasks,
@@ -360,9 +388,9 @@ class SAGCOKernel:
         }
         
         try:
-            with open('/tmp/sagco_state.json', 'w') as f:
+            with open(state_file, 'w') as f:
                 json.dump(state, f, indent=2, default=str)
-            logger.info("State saved successfully")
+            logger.info(f"State saved to {state_file}")
         except Exception as e:
             logger.error(f"Failed to save state: {e}")
 

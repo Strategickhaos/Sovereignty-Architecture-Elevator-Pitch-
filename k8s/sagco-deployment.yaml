@@ -51,11 +51,13 @@ metadata:
   namespace: sagco
 type: Opaque
 stringData:
-  postgres-password: CHANGE_ME_IN_PRODUCTION
-  redis-password: CHANGE_ME_IN_PRODUCTION
-  jwt-secret: CHANGE_ME_IN_PRODUCTION
-  github-token: ""
-  discord-token: ""
+  # IMPORTANT: Replace these with actual secrets before deploying to production
+  # Use: kubectl create secret generic sagco-secrets --from-literal=postgres-password=$(openssl rand -base64 32)
+  postgres-password: ""  # Set via kubectl or CI/CD
+  redis-password: ""     # Set via kubectl or CI/CD
+  jwt-secret: ""         # Set via kubectl or CI/CD
+  github-token: ""       # Optional: Set if GitHub integration needed
+  discord-token: ""      # Optional: Set if Discord integration needed
 
 ---
 # Deployment for SAGCO application
