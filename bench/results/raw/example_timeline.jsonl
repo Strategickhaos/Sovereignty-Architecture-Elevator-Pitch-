@@ -1,0 +1,4 @@
+{"event":"scenario_start","ts":"2026-01-23T10:00:00.000Z","id":"vpn_drop"}
+{"event":"action","ts":"2026-01-23T10:00:10.010Z","action":"vpn_down","params":{}}
+{"event":"action","ts":"2026-01-23T10:00:20.005Z","action":"vpn_up","params":{}}
+{"event":"scenario_end","ts":"2026-01-23T10:01:00.000Z"}

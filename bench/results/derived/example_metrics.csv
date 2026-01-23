@@ -1,0 +1,4 @@
+scenario,sensor,fault,event_type,latency_ms
+vpn_down,resmon,down,detect,150
+vpn_down,resmon,up,recover,250
+vpn_down,prometheus,up,recover,300
