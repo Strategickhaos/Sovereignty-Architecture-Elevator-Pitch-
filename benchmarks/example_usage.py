@@ -17,6 +17,12 @@ import pathlib
 import subprocess
 import sys
 
+
+def format_timestamp(dt: datetime.datetime) -> str:
+    """Format datetime to ISO format with 'Z' suffix for UTC"""
+    return dt.isoformat().replace("+00:00", "Z")
+
+
 def generate_mock_scenario():
     """Generate a sample VPN drop scenario with sensor responses"""
     
@@ -41,13 +47,13 @@ def generate_mock_scenario():
         f.write(json.dumps({
             "event": "action",
             "action": "vpn_down",
-            "ts": fault_start.isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_start),
             "description": "VPN connection dropped"
         }) + "\n")
         f.write(json.dumps({
             "event": "action",
             "action": "vpn_up",
-            "ts": fault_end.isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_end),
             "description": "VPN connection restored"
         }) + "\n")
     print(f"✓ Timeline: {timeline_path}")
@@ -57,22 +63,22 @@ def generate_mock_scenario():
     with open(resmon_path, "w") as f:
         # Before fault
         f.write(json.dumps({
-            "ts": (fault_start - datetime.timedelta(seconds=10)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_start - datetime.timedelta(seconds=10)),
             "state": "OK"
         }) + "\n")
         # Detection: 5s after fault
         f.write(json.dumps({
-            "ts": (fault_start + datetime.timedelta(seconds=5)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_start + datetime.timedelta(seconds=5)),
             "state": "FAIL"
         }) + "\n")
         # Still failing
         f.write(json.dumps({
-            "ts": (fault_start + datetime.timedelta(seconds=10)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_start + datetime.timedelta(seconds=10)),
             "state": "FAIL"
         }) + "\n")
         # Recovery: 3s after restoration
         f.write(json.dumps({
-            "ts": (fault_end + datetime.timedelta(seconds=3)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_end + datetime.timedelta(seconds=3)),
             "state": "OK"
         }) + "\n")
     print(f"✓ ResMon logs: {resmon_path}")
@@ -81,19 +87,19 @@ def generate_mock_scenario():
     prom_path = raw_dir / "prom_node_exporter" / "log.jsonl"
     with open(prom_path, "w") as f:
         f.write(json.dumps({
-            "ts": (fault_start - datetime.timedelta(seconds=10)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_start - datetime.timedelta(seconds=10)),
             "value": 1
         }) + "\n")
         f.write(json.dumps({
-            "ts": (fault_start + datetime.timedelta(seconds=8)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_start + datetime.timedelta(seconds=8)),
             "value": 0
         }) + "\n")
         f.write(json.dumps({
-            "ts": (fault_start + datetime.timedelta(seconds=13)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_start + datetime.timedelta(seconds=13)),
             "value": 0
         }) + "\n")
         f.write(json.dumps({
-            "ts": (fault_end + datetime.timedelta(seconds=5)).isoformat().replace("+00:00", "Z"),
+            "ts": format_timestamp(fault_end + datetime.timedelta(seconds=5)),
             "value": 1
         }) + "\n")
     print(f"✓ Prometheus logs: {prom_path}")
@@ -101,10 +107,10 @@ def generate_mock_scenario():
     # Generate Classic Watchdog logs (slow detection: 12s)
     classic_path = raw_dir / "classic_watchdog" / "log.txt"
     with open(classic_path, "w") as f:
-        f.write(f"{(fault_start - datetime.timedelta(seconds=10)).isoformat().replace('+00:00', 'Z')} OK\n")
-        f.write(f"{(fault_start + datetime.timedelta(seconds=12)).isoformat().replace('+00:00', 'Z')} FAIL\n")
-        f.write(f"{(fault_start + datetime.timedelta(seconds=17)).isoformat().replace('+00:00', 'Z')} FAIL\n")
-        f.write(f"{(fault_end + datetime.timedelta(seconds=8)).isoformat().replace('+00:00', 'Z')} OK\n")
+        f.write(f"{format_timestamp(fault_start - datetime.timedelta(seconds=10))} OK\n")
+        f.write(f"{format_timestamp(fault_start + datetime.timedelta(seconds=12))} FAIL\n")
+        f.write(f"{format_timestamp(fault_start + datetime.timedelta(seconds=17))} FAIL\n")
+        f.write(f"{format_timestamp(fault_end + datetime.timedelta(seconds=8))} OK\n")
     print(f"✓ Classic Watchdog logs: {classic_path}")
     
     print("\n✅ Mock scenario generated successfully!\n")

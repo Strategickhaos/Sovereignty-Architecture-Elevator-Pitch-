@@ -14,26 +14,26 @@ from sensor_normalizer import resmon_to_bool, prom_to_bool
 
 def test_resmon_to_bool():
     """Test ResMon state conversion"""
-    assert resmon_to_bool("OK") == True
-    assert resmon_to_bool("ok") == True
-    assert resmon_to_bool("Ok") == True
-    assert resmon_to_bool("FAIL") == False
-    assert resmon_to_bool("DEGRADED") == False
-    assert resmon_to_bool("ERROR") == False
+    assert resmon_to_bool("OK")
+    assert resmon_to_bool("ok")
+    assert resmon_to_bool("Ok")
+    assert not resmon_to_bool("FAIL")
+    assert not resmon_to_bool("DEGRADED")
+    assert not resmon_to_bool("ERROR")
     print("✓ test_resmon_to_bool passed")
 
 
 def test_prom_to_bool():
     """Test Prometheus metric conversion"""
-    assert prom_to_bool({"value": 1}) == True
-    assert prom_to_bool({"value": 1.0}) == True
-    assert prom_to_bool({"value": "1"}) == True
-    assert prom_to_bool({"value": 0}) == False
-    assert prom_to_bool({"value": 0.0}) == False
-    assert prom_to_bool({"value": "0"}) == False
-    assert prom_to_bool({"value": 2}) == False
-    assert prom_to_bool({"value": "invalid"}) == False
-    assert prom_to_bool({}) == False
+    assert prom_to_bool({"value": 1})
+    assert prom_to_bool({"value": 1.0})
+    assert prom_to_bool({"value": "1"})
+    assert not prom_to_bool({"value": 0})
+    assert not prom_to_bool({"value": 0.0})
+    assert not prom_to_bool({"value": "0"})
+    assert not prom_to_bool({"value": 2})
+    assert not prom_to_bool({"value": "invalid"})
+    assert not prom_to_bool({})
     print("✓ test_prom_to_bool passed")
 
 

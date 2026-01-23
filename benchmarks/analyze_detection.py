@@ -232,9 +232,12 @@ def main():
     
     if not all_timestamps:
         print("Warning: No sensor data available for coherence timeline")
-        return
+        return 0  # Success, but no data to plot
     
     baseline_ts = min(all_timestamps)
+    
+    # Collect sensors with data for proper y-axis labeling
+    active_sensors = [name for name, samples in sensor_data.items() if samples]
     
     for idx, (name, samples) in enumerate(sensor_data.items()):
         if not samples:  # Skip sensors with no data
@@ -244,7 +247,9 @@ def main():
         plt.step(
             ts_list, [s + idx * 1.5 for s in state_list], where="post", label=name
         )
-    plt.yticks([0, 1.5, 3], list(sensor_data.keys()))
+    
+    # Set y-axis labels based on active sensors only
+    plt.yticks([i * 1.5 for i in range(len(active_sensors))], active_sensors)
     plt.xlabel("Time (s)")
     plt.title("State Coherence Timeline")
     plt.grid(True)
