@@ -1,0 +1,25 @@
+[package]
+name = "msmc-backend"
+version = "2.0.0"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC"]
+description = "Musical State Machine Compiler (MSMC) v2.0 - Flame IR to Audio Backend"
+license = "MIT"
+
+[lib]
+name = "msmc_backend"
+path = "src/msmc/mod.rs"
+
+[[example]]
+name = "rondo_example"
+path = "examples/rondo_example.rs"
+
+[dependencies]
+# Core dependencies
+sha2 = "0.10"
+hex = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+# Testing dependencies (if needed)
