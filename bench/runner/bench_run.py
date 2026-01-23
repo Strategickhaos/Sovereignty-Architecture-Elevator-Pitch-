@@ -18,6 +18,13 @@ def run_action(action, params):
         subprocess.run([str(ROOT / "injectors/netem.sh"), "set", ms], check=True)
     elif action == "latency_clear":
         subprocess.run([str(ROOT / "injectors/netem.sh"), "clear"], check=True)
+    elif action == "route_hijack":
+        target = params.get("target", "8.8.8.8/32")
+        via = params.get("via", "10.0.0.1")
+        subprocess.run([str(ROOT / "injectors/route_toggle.sh"), "hijack", target, via], check=True)
+    elif action == "route_restore":
+        target = params.get("target", "8.8.8.8/32")
+        subprocess.run([str(ROOT / "injectors/route_toggle.sh"), "restore", target], check=True)
     else:
         raise ValueError(f"unknown action {action}")
 

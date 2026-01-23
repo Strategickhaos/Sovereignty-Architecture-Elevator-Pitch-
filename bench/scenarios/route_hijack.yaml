@@ -1,0 +1,24 @@
+id: route_hijack
+description: "BGP route hijack simulation - redirect traffic via alternate gateway"
+duration_s: 90
+
+timeline:
+  - t: 0
+    action: "baseline"
+  - t: 15
+    action: "route_hijack"
+    params:
+      target: "8.8.8.8/32"
+      via: "10.0.0.1"
+  - t: 45
+    action: "route_restore"
+    params:
+      target: "8.8.8.8/32"
+
+metrics:
+  - name: route_detection_latency_ms
+    description: "time from route change to system detecting routing anomaly"
+  - name: connectivity_impact
+    description: "packet loss percentage during route change"
+  - name: convergence_time_ms
+    description: "time for system to adapt to new route"

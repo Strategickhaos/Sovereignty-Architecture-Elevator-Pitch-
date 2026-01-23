@@ -115,6 +115,19 @@ Progressive network degradation:
 **Metrics:**
 - State transition curve: Mapping RTT → Resonant/Dissonant/Collapsed states
 
+### Route Hijack (`route_hijack.yaml`)
+
+BGP route hijack simulation - redirects traffic via an alternate gateway:
+- **0s**: Baseline measurement
+- **15s**: Hijack route to 8.8.8.8/32 via 10.0.0.1 (`route_hijack`)
+- **45s**: Restore original route (`route_restore`)
+- **90s**: End scenario
+
+**Metrics:**
+- Route detection latency: Time to detect routing anomaly
+- Connectivity impact: Packet loss during route change
+- Convergence time: Time for system to adapt to new route
+
 ## Fault Injectors
 
 ### `vpn_toggle.sh`
@@ -137,6 +150,20 @@ sudo IF=eth0 ./bench/injectors/netem.sh set 250
 
 # Clear latency
 sudo IF=eth0 ./bench/injectors/netem.sh clear
+```
+
+### `route_toggle.sh`
+
+Route manipulation for BGP hijack simulation:
+```bash
+# Hijack route to 8.8.8.8/32 via 10.0.0.1
+sudo ./bench/injectors/route_toggle.sh hijack 8.8.8.8/32 10.0.0.1
+
+# Restore original route
+sudo ./bench/injectors/route_toggle.sh restore 8.8.8.8/32
+
+# Show current route
+./bench/injectors/route_toggle.sh show 8.8.8.8
 ```
 
 ## Sensor Contracts
@@ -241,6 +268,8 @@ metrics:
 - `vpn_up`: Restore VPN interface
 - `latency_set`: Set network latency (requires `params: {ms: N}`)
 - `latency_clear`: Remove network latency
+- `route_hijack`: Hijack route (requires `params: {target: "X.X.X.X/N", via: "Y.Y.Y.Y"}`)
+- `route_restore`: Restore original route (requires `params: {target: "X.X.X.X/N"}`)
 
 ## Requirements
 
@@ -284,11 +313,11 @@ cat bench/results/derived/metrics.csv
 ## Next Steps
 
 Future enhancements:
-- **Route hijack scenarios** - BGP manipulation tests
-- **Partial connectivity** - Packet loss and jitter
+- **Partial connectivity** - Packet loss and jitter scenarios
 - **State coherence analysis** - Cross-sensor agreement metrics
 - **Automated report generation** - HTML dashboards with charts
 - **CI integration** - Automated regression testing
+- **Multi-node scenarios** - Distributed system testing
 
 ## License
 
