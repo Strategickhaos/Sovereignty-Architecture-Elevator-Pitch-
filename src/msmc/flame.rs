@@ -1,7 +1,7 @@
 // flame.rs - Flame IR Integration Module
 // Provides integration between FlameLang and MSMC Backend
 
-use crate::backend::{FormSpec, FormKind, SectionSpec, SectionId, VoiceSpec, VoiceId};
+use super::{FormSpec, FormKind, SectionSpec, SectionId, VoiceSpec, VoiceId};
 
 /// Represents a theme in the Flame IR
 #[derive(Debug, Clone)]

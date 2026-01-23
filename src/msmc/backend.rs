@@ -231,9 +231,11 @@ pub fn render_msmc_to_wav<B: FlameAudioBackend>(
 
             // Mix into main buffer with gain and offset
             for i in 0..node_len as usize {
-                let global_idx = ((node_start as usize + i) * 2) as usize;
-                samples[global_idx] += left[i] * voice.gain;
-                samples[global_idx + 1] += right[i] * voice.gain;
+                let global_idx = (node_start as usize + i) * 2;
+                if global_idx + 1 < samples.len() {
+                    samples[global_idx] += left[i] * voice.gain;
+                    samples[global_idx + 1] += right[i] * voice.gain;
+                }
             }
         }
     }
