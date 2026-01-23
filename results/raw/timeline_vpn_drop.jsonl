@@ -1,0 +1,2 @@
+{"event": "action", "action": "vpn_down", "ts": "2026-01-23T07:00:00Z", "description": "VPN connection dropped"}
+{"event": "action", "action": "vpn_up", "ts": "2026-01-23T07:05:00Z", "description": "VPN connection restored"}
