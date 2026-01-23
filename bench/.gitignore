@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Sensor output files (generated at runtime)
+sensors/*/state.json
+sensors/*/log.jsonl
+sensors/*/*.log
+
+# Test outputs
+*.log
+.pytest_cache/
