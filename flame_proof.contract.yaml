@@ -290,7 +290,7 @@ tier2_type_proofs:
         
   proof_6_angle_domain:
     name: "prove_angle_domain"
-    invariant: "Angle type values are within [0, 2π) range"
+    invariant: "Angle type values are within [0, 2*PI) range (0 to 6.283185)"
     
     input:
       type: "FlameIR"
@@ -298,7 +298,7 @@ tier2_type_proofs:
       structure: |
         {
           angle_lits: (expr_id, value: f64)[],
-          domain: (min: 0.0, max: 2π)
+          domain: (min: 0.0, max: 6.283185)  # 2*PI
         }
     
     output:
@@ -315,7 +315,7 @@ tier2_type_proofs:
       
     algorithm: |
       1. For each Lit(Angle(v)) expr
-      2. Verify 0.0 <= v < 2π
+      2. Verify 0.0 <= v < 6.283185 (2*PI)
       3. If out of range → FAIL with value
       4. Otherwise → PASS
       

@@ -133,7 +133,7 @@ This contract formalizes the 16 proof validation functions that gate FlameIR com
    - **SAGCO Binding:** `flame_validate_types(ir_handle)`
 
 6. **prove_angle_domain**
-   - **Invariant:** Angle values within [0, 2π) range
+   - **Invariant:** Angle values within [0, 2*PI) range (0 to 6.283185)
    - **Input:** FlameIR angle_literals
    - **Output:** Pass/fail + out-of-range values
    - **Phase:** Compile-time only
