@@ -1,0 +1,26 @@
+id: latency_ramp
+description: "Increase VPN RTT from 20ms → 800ms over 45s"
+duration_s: 60
+
+timeline:
+  - t: 0
+    action: "latency_set"
+    params: { ms: 20 }
+  - t: 10
+    action: "latency_set"
+    params: { ms: 100 }
+  - t: 20
+    action: "latency_set"
+    params: { ms: 250 }
+  - t: 30
+    action: "latency_set"
+    params: { ms: 500 }
+  - t: 40
+    action: "latency_set"
+    params: { ms: 800 }
+  - t: 50
+    action: "latency_clear"
+
+metrics:
+  - name: state_transition_curve
+    description: "mapping RTT→Resonant/Dissonant/Collapsed"
