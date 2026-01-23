@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import argparse, json, subprocess, time, pathlib, datetime
+import argparse, json, subprocess, time, pathlib, datetime, yaml
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 def now_iso():
-    return datetime.datetime.utcnow().isoformat() + "Z"
+    return datetime.datetime.now(datetime.timezone.utc).isoformat().replace('+00:00', 'Z')
 
 def run_action(action, params):
     if action == "baseline":
@@ -30,7 +30,7 @@ def run_action(action, params):
 
 def load_scenario(path):
     with open(path) as f:
-        return json.loads(json.dumps(__import__("yaml").safe_load(f)))
+        return yaml.safe_load(f)
 
 def main():
     ap = argparse.ArgumentParser()
