@@ -38,6 +38,9 @@ def load_timeline(path):
     events = []
     with open(path) as f:
         for line in f:
+            line = line.strip()
+            if not line:  # Skip empty lines
+                continue
             e = json.loads(line)
             if e["event"] == "action":
                 events.append(e)
@@ -48,6 +51,9 @@ def load_resmon(path):
     samples = []
     with open(path) as f:
         for line in f:
+            line = line.strip()
+            if not line:  # Skip empty lines
+                continue
             j = json.loads(line)
             samples.append((parse_iso(j["ts"]), resmon_to_bool(j["state"])))
     return samples
@@ -57,6 +63,9 @@ def load_prometheus(path):
     samples = []
     with open(path) as f:
         for line in f:
+            line = line.strip()
+            if not line:  # Skip empty lines
+                continue
             j = json.loads(line)
             samples.append((parse_iso(j["ts"]), prom_to_bool(j)))
     return samples
@@ -242,6 +251,8 @@ def main():
     plt.tight_layout()
     plt.savefig(RESULTS_DIR / "derived/coherence_timeline.png")
     print("Graphs saved in results/derived/")
+    
+    return 0  # Success
 
 
 if __name__ == "__main__":
