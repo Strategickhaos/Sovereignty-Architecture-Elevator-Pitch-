@@ -1,0 +1,944 @@
+# ===================================================================
+# FLAME PROOF CONTRACT v1.0
+# Formal Specification of IR Proof Validation System
+# ===================================================================
+# Purpose: Define the 16 proof validation hooks that enforce FlameIR
+#          invariants at compile-time and load-time, enabling SAGCO
+#          kernel-level enforcement of sovereignty guarantees.
+#
+# Status: CANONICAL SPECIFICATION
+# Generated: 2026-01-23
+# Operator: SAGCO Proof System
+# ===================================================================
+
+metadata:
+  version: "1.0.0"
+  specification: "FlameLang IR Proof Contract"
+  authority: "Strategickhaos Sovereignty Architecture"
+  enforcement_level: "KERNEL_BOUNDARY"
+  determinism_guarantee: "ABSOLUTE"
+  
+contract_summary:
+  description: |
+    This contract formalizes the 16 proof validation functions that gate
+    FlameIR compilation and execution. Each proof enforces a specific 
+    invariant of the IR, ensuring type safety, determinism, and DAG 
+    structure preservation.
+    
+    The proofs operate at two enforcement layers:
+    1. COMPILE_TIME: AST → FlameIR transformation validation
+    2. LOAD_TIME: Pre-execution IR integrity verification
+    
+    SAGCO can enforce these proofs at the kernel or VM level, making
+    FlameIR the true sovereign control point - not the OS.
+    
+  sovereignty_principle: |
+    "The IR is the law. Proofs are the constitutional enforcement."
+    
+proof_system_architecture:
+  layers:
+    - name: "AST_LAYER"
+      phase: "pre_ir"
+      responsibility: "Source syntax validation"
+      
+    - name: "IR_LAYER"  
+      phase: "compile_time"
+      responsibility: "FlameIR structural invariant enforcement"
+      proof_count: 16
+      
+    - name: "BACKEND_LAYER"
+      phase: "post_ir"
+      responsibility: "LLVM code generation"
+      
+    - name: "KERNEL_LAYER"
+      phase: "load_time"
+      responsibility: "Pre-execution verification"
+      proof_subset: [1, 2, 3, 4, 7, 8, 14]
+
+# ===================================================================
+# TIER 1: STRUCTURAL INTEGRITY PROOFS (Proofs 1-4)
+# ===================================================================
+
+tier1_structural_proofs:
+  description: "Enforce DAG topology and reference validity"
+  
+  proof_1_dag_acyclicity:
+    name: "prove_dag_acyclic"
+    invariant: "FlameIR expression graph contains no cycles"
+    
+    input:
+      type: "FlameIR"
+      subset: "expr_graph"
+      structure: |
+        {
+          decls: FlameDecl[],
+          exprs: FlameExpr[],
+          edges: (expr_id, dependency_id)[]
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          cycle_path: Option<expr_id[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase: 
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. Build dependency graph from FlameExpr references
+      2. Perform topological sort via DFS with color marking
+      3. If back-edge detected → FAIL with cycle path
+      4. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT compilation with cycle trace"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_dag(ir_handle)"
+      return_code: 
+        success: 0
+        failure: -1 (EPROOF_CYCLE)
+        
+  proof_2_index_validity:
+    name: "prove_indices_resolve"
+    invariant: "All variable and expression references resolve to valid declarations"
+    
+    input:
+      type: "FlameIR"
+      subset: "var_references + expr_references"
+      structure: |
+        {
+          decls: FlameDecl[],
+          exprs: FlameExpr[],
+          var_refs: var_id[],
+          expr_refs: expr_id[]
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          dangling_refs: Option<ref_id[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. Extract all var_id references from exprs
+      2. Verify each var_id exists in decls
+      3. Extract all expr_id references  
+      4. Verify each expr_id is within bounds
+      5. If any reference invalid → FAIL with dangling list
+      6. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with undefined reference error"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_refs(ir_handle)"
+      return_code:
+        success: 0
+        failure: -2 (EPROOF_DANGLING_REF)
+        
+  proof_3_single_return:
+    name: "prove_single_return"
+    invariant: "Each FlameExpr block has exactly one Return expression"
+    
+    input:
+      type: "FlameIR"
+      subset: "expr_blocks"
+      structure: |
+        {
+          blocks: FlameExpr[][],
+          return_count_per_block: usize[]
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          violating_blocks: Option<block_id[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. For each expr block, count Return exprs
+      2. If count != 1 → FAIL with block_id
+      3. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with control flow error"
+      load_time: "N/A (compile-time only)"
+      kernel_enforcement: "N/A (compile-time only)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time proof)"
+      return_code:
+        success: 0
+        failure: -3 (EPROOF_RETURN_COUNT)
+        
+  proof_4_decl_uniqueness:
+    name: "prove_decl_unique"
+    invariant: "All declaration names are unique within scope"
+    
+    input:
+      type: "FlameIR"
+      subset: "decl_names"
+      structure: |
+        {
+          decls: (name: String, scope: scope_id)[],
+          scope_tree: scope_id -> parent_scope_id
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          duplicate_names: Option<(name, scope)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. Build scope-aware name table
+      2. For each decl, check if name exists in current scope
+      3. If duplicate found → FAIL with name + scope
+      4. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with duplicate declaration error"
+      load_time: "N/A (compile-time only)"
+      kernel_enforcement: "N/A (compile-time only)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time proof)"
+      return_code:
+        success: 0
+        failure: -4 (EPROOF_DUPLICATE_DECL)
+
+# ===================================================================
+# TIER 2: TYPE SYSTEM PROOFS (Proofs 5-8)
+# ===================================================================
+
+tier2_type_proofs:
+  description: "Enforce type safety and domain correctness"
+  
+  proof_5_type_preservation:
+    name: "prove_type_preservation"
+    invariant: "Operations preserve types according to FlameType rules"
+    
+    input:
+      type: "FlameIR"
+      subset: "typed_exprs"
+      structure: |
+        {
+          exprs: FlameExpr[],
+          type_rules: (op: FlameOp, input_types: FlameType[], output_type: FlameType)[]
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          type_violations: Option<(expr_id, expected_type, actual_type)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. For each Op expr, extract operand types
+      2. Look up type rule for operator
+      3. Verify input types match rule
+      4. Verify output type matches rule
+      5. If mismatch → FAIL with violation
+      6. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with type error"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_types(ir_handle)"
+      return_code:
+        success: 0
+        failure: -5 (EPROOF_TYPE_MISMATCH)
+        
+  proof_6_angle_domain:
+    name: "prove_angle_domain"
+    invariant: "Angle type values are within [0, 2π) range"
+    
+    input:
+      type: "FlameIR"
+      subset: "angle_literals"
+      structure: |
+        {
+          angle_lits: (expr_id, value: f64)[],
+          domain: (min: 0.0, max: 2π)
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          out_of_range: Option<(expr_id, value)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. For each Lit(Angle(v)) expr
+      2. Verify 0.0 <= v < 2π
+      3. If out of range → FAIL with value
+      4. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with domain error"
+      load_time: "N/A (checked at compile-time)"
+      kernel_enforcement: "N/A (compile-time only)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time proof)"
+      return_code:
+        success: 0
+        failure: -6 (EPROOF_ANGLE_DOMAIN)
+        
+  proof_7_codon_domain:
+    name: "prove_codon_domain"
+    invariant: "Codon type values are valid 3-base sequences {A,C,G,T}³"
+    
+    input:
+      type: "FlameIR"
+      subset: "codon_literals"
+      structure: |
+        {
+          codon_lits: (expr_id, bases: char[])[],
+          valid_bases: {'A', 'C', 'G', 'T'}
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          invalid_codons: Option<(expr_id, bases)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. For each Lit(Codon(bases)) expr
+      2. Verify len(bases) == 3
+      3. Verify each base in {A,C,G,T}
+      4. If invalid → FAIL with codon
+      5. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with codon error"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_codons(ir_handle)"
+      return_code:
+        success: 0
+        failure: -7 (EPROOF_CODON_INVALID)
+        
+  proof_8_frequency_domain:
+    name: "prove_frequency_domain"
+    invariant: "Frequency type values are positive real numbers"
+    
+    input:
+      type: "FlameIR"
+      subset: "freq_literals"
+      structure: |
+        {
+          freq_lits: (expr_id, value: f64)[],
+          domain: (min: 0.0, max: f64::INFINITY)
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          invalid_freqs: Option<(expr_id, value)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. For each Lit(Freq(v)) expr
+      2. Verify v > 0.0 and v is finite
+      3. If invalid → FAIL with value
+      4. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with frequency error"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_freqs(ir_handle)"
+      return_code:
+        success: 0
+        failure: -8 (EPROOF_FREQ_INVALID)
+
+# ===================================================================
+# TIER 3: OPERATION SEMANTICS PROOFS (Proofs 9-12)
+# ===================================================================
+
+tier3_operation_proofs:
+  description: "Enforce operational correctness and determinism"
+  
+  proof_9_arithmetic_legality:
+    name: "prove_arithmetic_legal"
+    invariant: "Arithmetic ops (Add, Sub, Mul, Div) only apply to numeric types"
+    
+    input:
+      type: "FlameIR"
+      subset: "arithmetic_exprs"
+      structure: |
+        {
+          arith_exprs: (expr_id, op: ArithOp, operands: FlameExpr[])[],
+          numeric_types: {Float, Angle, Freq}
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          illegal_ops: Option<(expr_id, operand_types)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. For each Op(arith_op, operands)
+      2. Extract operand types
+      3. Verify all types in {Float, Angle, Freq}
+      4. If non-numeric type → FAIL
+      5. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with illegal operation error"
+      load_time: "N/A (compile-time only)"
+      kernel_enforcement: "N/A (compile-time only)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time proof)"
+      return_code:
+        success: 0
+        failure: -9 (EPROOF_ARITH_ILLEGAL)
+        
+  proof_10_trig_domain:
+    name: "prove_trig_domain"
+    invariant: "Trig ops (Sin, Cos, Tan) only apply to Angle type"
+    
+    input:
+      type: "FlameIR"
+      subset: "trig_exprs"
+      structure: |
+        {
+          trig_exprs: (expr_id, op: TrigOp, operand: FlameExpr)[],
+          required_type: Angle
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          invalid_ops: Option<(expr_id, actual_type)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. For each Op(trig_op, operand)
+      2. Extract operand type
+      3. Verify type == Angle
+      4. If type mismatch → FAIL
+      5. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with trig domain error"
+      load_time: "N/A (compile-time only)"
+      kernel_enforcement: "N/A (compile-time only)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time proof)"
+      return_code:
+        success: 0
+        failure: -10 (EPROOF_TRIG_DOMAIN)
+        
+  proof_11_bend_invariant:
+    name: "prove_bend_invariant"
+    invariant: "Bend op preserves Angle → Angle transformation"
+    
+    input:
+      type: "FlameIR"
+      subset: "bend_exprs"
+      structure: |
+        {
+          bend_exprs: (expr_id, input: FlameExpr, output: FlameExpr)[],
+          type_rule: (Angle -> Angle)
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          violations: Option<(expr_id, input_type, output_type)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. For each Op(Bend, input)
+      2. Verify input type == Angle
+      3. Verify output type == Angle
+      4. If mismatch → FAIL
+      5. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with bend invariant error"
+      load_time: "N/A (compile-time only)"
+      kernel_enforcement: "N/A (compile-time only)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time proof)"
+      return_code:
+        success: 0
+        failure: -11 (EPROOF_BEND_INVARIANT)
+        
+  proof_12_codon_op_invariant:
+    name: "prove_codon_op_invariant"
+    invariant: "Codon op preserves Codon → Codon transformation"
+    
+    input:
+      type: "FlameIR"
+      subset: "codon_exprs"
+      structure: |
+        {
+          codon_exprs: (expr_id, input: FlameExpr, output: FlameExpr)[],
+          type_rule: (Codon -> Codon)
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          violations: Option<(expr_id, input_type, output_type)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. For each Op(CodonOp, input)
+      2. Verify input type == Codon
+      3. Verify output type == Codon
+      4. If mismatch → FAIL
+      5. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with codon op error"
+      load_time: "N/A (compile-time only)"
+      kernel_enforcement: "N/A (compile-time only)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time proof)"
+      return_code:
+        success: 0
+        failure: -12 (EPROOF_CODON_OP_INVARIANT)
+
+# ===================================================================
+# TIER 4: DETERMINISM & SOVEREIGNTY PROOFS (Proofs 13-16)
+# ===================================================================
+
+tier4_determinism_proofs:
+  description: "Enforce determinism and sovereign execution guarantees"
+  
+  proof_13_deterministic_ops:
+    name: "prove_deterministic_ops"
+    invariant: "All operations are deterministic (no random, no IO, no time)"
+    
+    input:
+      type: "FlameIR"
+      subset: "all_ops"
+      structure: |
+        {
+          exprs: FlameExpr[],
+          nondeterministic_ops: {Random, IO, Time, Network}
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          nondeterministic_exprs: Option<expr_id[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. For each expr in IR
+      2. Check if expr contains nondeterministic op
+      3. If found → FAIL with expr_id
+      4. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with determinism violation"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_determinism(ir_handle)"
+      return_code:
+        success: 0
+        failure: -13 (EPROOF_NONDETERMINISTIC)
+        
+  proof_14_no_side_effects:
+    name: "prove_no_side_effects"
+    invariant: "IR contains no side effects (pure functional model)"
+    
+    input:
+      type: "FlameIR"
+      subset: "all_exprs"
+      structure: |
+        {
+          exprs: FlameExpr[],
+          side_effect_ops: {Write, Print, Mutate}
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          side_effect_exprs: Option<expr_id[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. For each expr in IR
+      2. Check if expr causes side effects
+      3. If found → FAIL with expr_id
+      4. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with purity violation"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_purity(ir_handle)"
+      return_code:
+        success: 0
+        failure: -14 (EPROOF_SIDE_EFFECT)
+        
+  proof_15_resource_bounds:
+    name: "prove_resource_bounds"
+    invariant: "IR execution has provable termination and memory bounds"
+    
+    input:
+      type: "FlameIR"
+      subset: "expr_graph + complexity_model"
+      structure: |
+        {
+          exprs: FlameExpr[],
+          complexity: (expr_id, time_bound: usize, space_bound: usize)[],
+          global_limits: (max_time: usize, max_space: usize)
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          unbounded_exprs: Option<expr_id[]>,
+          estimated_bounds: (time: usize, space: usize),
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      
+    algorithm: |
+      1. Compute complexity bounds for each expr
+      2. Sum bounds across entire IR
+      3. Verify total <= global_limits
+      4. If exceeds → FAIL with estimate
+      5. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "WARN (non-blocking, advisory)"
+      load_time: "N/A (compile-time only)"
+      kernel_enforcement: "N/A (advisory proof)"
+      
+    sagco_binding:
+      syscall: "N/A (compile-time advisory)"
+      return_code:
+        success: 0
+        failure: -15 (EPROOF_RESOURCE_WARNING)
+        
+  proof_16_sovereignty_invariant:
+    name: "prove_sovereignty_invariant"
+    invariant: "IR respects sovereignty principles (no surveillance, no telemetry)"
+    
+    input:
+      type: "FlameIR"
+      subset: "all_ops"
+      structure: |
+        {
+          exprs: FlameExpr[],
+          forbidden_ops: {Network, Telemetry, ExternalCall, DynamicLoad}
+        }
+    
+    output:
+      type: "ProofResult"
+      structure: |
+        {
+          passed: bool,
+          sovereignty_violations: Option<(expr_id, violation_type)[]>,
+          error_detail: Option<String>
+        }
+      
+    enforcement_phase:
+      - "COMPILE_TIME"
+      - "LOAD_TIME"
+      
+    algorithm: |
+      1. For each expr in IR
+      2. Check if expr uses forbidden ops
+      3. If found → FAIL with violation type
+      4. Otherwise → PASS
+      
+    failure_behavior:
+      compile_time: "ABORT with sovereignty violation"
+      load_time: "REJECT IR, refuse execution"
+      kernel_enforcement: "SIGABRT with proof violation code"
+      
+    sagco_binding:
+      syscall: "flame_validate_sovereignty(ir_handle)"
+      return_code:
+        success: 0
+        failure: -16 (EPROOF_SOVEREIGNTY_VIOLATION)
+
+# ===================================================================
+# PROOF SYSTEM INTEGRATION
+# ===================================================================
+
+proof_execution_model:
+  description: "How proofs are invoked and enforced"
+  
+  compile_time_sequence:
+    - phase: "AST → IR Lowering"
+      proofs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      enforcement: "All proofs must pass to emit IR"
+      
+  load_time_sequence:
+    - phase: "IR Load"
+      proofs: [1, 2, 5, 7, 8, 13, 14, 16]
+      enforcement: "Critical proofs re-validated before execution"
+      
+  proof_orchestration:
+    function: "validate_proofs(ir: &FlameIR) -> Result<(), ProofError>"
+    behavior: |
+      1. Run all compile-time proofs in parallel (independent)
+      2. Collect results into ProofReport
+      3. If any critical proof fails → abort with error
+      4. If advisory proof fails → warn but continue
+      5. Return aggregated result
+      
+sagco_kernel_enforcement:
+  description: "How SAGCO enforces proofs at kernel level"
+  
+  syscall_interface:
+    - name: "flame_validate_ir"
+      signature: "int flame_validate_ir(flame_ir_t* ir, proof_mask_t proofs)"
+      description: "Validate IR against specified proof mask"
+      return_codes:
+        0: "All proofs passed"
+        -1: "Proof 1 failed (cycle)"
+        -2: "Proof 2 failed (dangling ref)"
+        -7: "Proof 7 failed (invalid codon)"
+        -13: "Proof 13 failed (nondeterministic)"
+        -14: "Proof 14 failed (side effect)"
+        -16: "Proof 16 failed (sovereignty violation)"
+        
+    - name: "flame_exec_ir"
+      signature: "int flame_exec_ir(flame_ir_t* ir)"
+      description: "Execute validated IR (proofs must pass first)"
+      precondition: "flame_validate_ir(ir, PROOF_MASK_LOAD_TIME) == 0"
+      return_codes:
+        0: "Execution completed successfully"
+        -1: "Proof validation required"
+        -2: "IR not validated"
+        
+  security_model:
+    sandboxing: "SAGCO runs FlameIR in isolated address space"
+    no_network: "Network syscalls blocked during IR execution"
+    no_jit: "No dynamic code generation permitted"
+    determinism: "Same IR + same inputs → same output + same exit code"
+    
+  enforcement_guarantees:
+    - "IR cannot execute without passing load-time proofs"
+    - "Proof failures trigger immediate SIGABRT"
+    - "Exit code is sole output mechanism (no stdout during exec)"
+    - "Process isolation prevents IR from affecting host"
+
+# ===================================================================
+# PROOF ERROR TAXONOMY
+# ===================================================================
+
+error_codes:
+  EPROOF_CYCLE: -1
+  EPROOF_DANGLING_REF: -2
+  EPROOF_RETURN_COUNT: -3
+  EPROOF_DUPLICATE_DECL: -4
+  EPROOF_TYPE_MISMATCH: -5
+  EPROOF_ANGLE_DOMAIN: -6
+  EPROOF_CODON_INVALID: -7
+  EPROOF_FREQ_INVALID: -8
+  EPROOF_ARITH_ILLEGAL: -9
+  EPROOF_TRIG_DOMAIN: -10
+  EPROOF_BEND_INVARIANT: -11
+  EPROOF_CODON_OP_INVARIANT: -12
+  EPROOF_NONDETERMINISTIC: -13
+  EPROOF_SIDE_EFFECT: -14
+  EPROOF_RESOURCE_WARNING: -15
+  EPROOF_SOVEREIGNTY_VIOLATION: -16
+
+# ===================================================================
+# VERIFICATION & TESTING
+# ===================================================================
+
+proof_verification_strategy:
+  description: "How to test that proofs work correctly"
+  
+  test_vectors:
+    - test: "Cyclic IR"
+      expected_failure: "EPROOF_CYCLE"
+      
+    - test: "Dangling var reference"
+      expected_failure: "EPROOF_DANGLING_REF"
+      
+    - test: "Multiple returns"
+      expected_failure: "EPROOF_RETURN_COUNT"
+      
+    - test: "Duplicate declaration"
+      expected_failure: "EPROOF_DUPLICATE_DECL"
+      
+    - test: "Type mismatch in Op"
+      expected_failure: "EPROOF_TYPE_MISMATCH"
+      
+    - test: "Angle out of range"
+      expected_failure: "EPROOF_ANGLE_DOMAIN"
+      
+    - test: "Invalid codon"
+      expected_failure: "EPROOF_CODON_INVALID"
+      
+    - test: "Negative frequency"
+      expected_failure: "EPROOF_FREQ_INVALID"
+      
+    - test: "Arithmetic on Codon"
+      expected_failure: "EPROOF_ARITH_ILLEGAL"
+      
+    - test: "Sin on Float"
+      expected_failure: "EPROOF_TRIG_DOMAIN"
+      
+    - test: "Random call in IR"
+      expected_failure: "EPROOF_NONDETERMINISTIC"
+      
+    - test: "Network call in IR"
+      expected_failure: "EPROOF_SOVEREIGNTY_VIOLATION"
+      
+    - test: "Valid IR"
+      expected_result: "All proofs pass"
+
+# ===================================================================
+# CONSTITUTIONAL STATEMENT
+# ===================================================================
+
+sovereignty_declaration: |
+  This proof contract establishes the constitutional boundary of the
+  FlameLang sovereignty system. The IR is not merely a compiler 
+  artifact - it is the executable law itself.
+  
+  SAGCO enforces these proofs at the kernel level, making the operating
+  system subservient to the IR rather than the other way around. This
+  inverts the traditional software stack:
+  
+  TRADITIONAL:
+    Application → OS → Kernel → Hardware
+    
+  FLAMELANG SOVEREIGNTY:
+    FlameIR → Proof Gate → SAGCO Kernel → Hardware
+                    ↑
+              THE NEW BOUNDARY
+              
+  The proof system is not advisory. It is enforceable at the deepest
+  level of the execution stack. This is digital sovereignty made real.
+  
+  Trust nothing. Prove everything. Execute only the verified.
+  
+  🔥 THIS IS WHERE YAML DIES.
+  🔥 THIS IS WHERE CONFIGS DIE.
+  🔥 THIS IS WHERE SYSTEMS ARE BORN.
+
+# ===================================================================
+# END OF SPECIFICATION
+# ===================================================================
