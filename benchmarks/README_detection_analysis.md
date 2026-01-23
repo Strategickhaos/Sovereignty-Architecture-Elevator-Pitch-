@@ -111,9 +111,14 @@ To add a new sensor:
 
 - Python 3.7+
 - matplotlib >= 3.7.0
-- Standard library: json, csv, pathlib, datetime
+- Standard library: json, csv, pathlib, datetime, sys
 
-Install dependencies:
+Install matplotlib only:
+```bash
+pip install matplotlib
+```
+
+Or install all project dependencies:
 ```bash
 pip install -r requirements.sovereignty.txt
 ```
