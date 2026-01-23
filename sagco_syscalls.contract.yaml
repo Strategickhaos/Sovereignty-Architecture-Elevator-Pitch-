@@ -1,0 +1,536 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# SAGCO SYSCALLS CONTRACT v2.0.0
+# Extracted from FlameLang Compiler Execution Model (2026-01-23)
+# © 2025 Strategickhaos DAO LLC - Ratio Ex Nihilo
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# This contract defines the system calls and execution model for the SAGCO
+# (Sovereign Architecture General Computing Operations) runtime environment.
+#
+# Source: src/pipeline.rs - compile(), validate_proofs(), transformation passes
+#
+
+version: "2.0.0"
+build_id: "ratio-ex-nihilo"
+specification: "SAGCO OS Syscalls - FlameLang Execution Model"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EXECUTION MODEL
+# ═══════════════════════════════════════════════════════════════════════════════
+
+execution_model:
+  description: "Multi-stage transformation pipeline with proof validation"
+  
+  pipeline_architecture:
+    type: "Sequential 5-Layer Transform"
+    flow: "Source → Lexer → Parser → AST → FlameIR → Transforms → LLVM → Binary"
+    proof_point: "After Layer 4, before LLVM"
+    
+  stage_isolation:
+    description: "Each stage is independent and composable"
+    properties:
+      - "Stateless transformations"
+      - "Deterministic results"
+      - "Verifiable at each boundary"
+      
+  error_handling:
+    model: "Result<T, FlameError>"
+    propagation: "Early return on first error"
+    error_types:
+      - Lexer: "Tokenization failures"
+      - Parser: "Syntax errors"
+      - Transform: "Layer-specific failures with layer ID"
+      - Codegen: "LLVM IR generation errors"
+      - Io: "File system operations"
+      - ProofFailed: "Validation theorem violations"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SYSCALL CATEGORIES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+syscalls:
+  description: "System operations exposed by SAGCO runtime"
+  
+  # ---------------------------------------------------------------------------
+  # FRONTEND SYSCALLS
+  # ---------------------------------------------------------------------------
+  
+  frontend:
+    description: "Source processing and AST construction"
+    
+    sys_lexer_tokenize:
+      signature: "(&str) -> Result<Vec<Token>, FlameError>"
+      description: "Tokenize source string into token stream"
+      implementation: "Lexer::new(source).tokenize()"
+      errors:
+        - "FlameError::Lexer - No tokens produced"
+        - "FlameError::Lexer - Invalid character sequence"
+      constraints:
+        - "Must produce at least one token (EOF)"
+        - "Hebrew roots must be exactly 3 characters"
+        - "Numbers must be valid f64 or i64"
+        
+    sys_parser_parse:
+      signature: "(Vec<Token>) -> Result<Vec<Expr>, FlameError>"
+      description: "Parse token stream into Abstract Syntax Tree"
+      implementation: "Parser::new(tokens).parse()"
+      errors:
+        - "FlameError::Parser - Unexpected token"
+        - "FlameError::Parser - Unmatched delimiter"
+        - "FlameError::Parser - Unsupported expression type"
+      constraints:
+        - "Tokens must include EOF"
+        - "Parentheses must be balanced"
+        - "Binary ops require valid operands"
+        
+    sys_ast_lower:
+      signature: "(&[Expr]) -> Result<FlameIR, FlameError>"
+      description: "Lower AST to canonical FlameIR"
+      implementation: "lower_to_ir(ast)"
+      errors:
+        - "FlameError::Parser - Strings not yet supported"
+        - "FlameError::Parser - Unknown glyph"
+        - "FlameError::Parser - Unsupported op"
+      constraints:
+        - "All expressions must lower to valid IR nodes"
+        - "Indices must be within IR expression array"
+  
+  # ---------------------------------------------------------------------------
+  # TRANSFORMATION SYSCALLS (5 LAYERS)
+  # ---------------------------------------------------------------------------
+  
+  transforms:
+    description: "Layer-by-layer semantic transformations"
+    
+    sys_transform_linguistic:
+      signature: "(FlameIR) -> Result<FlameIR, FlameError>"
+      description: "Layer 1: English identifiers → Hebrew triconsonantal roots"
+      implementation: "run_linguistic_pass(ir)"
+      layer_id: 1
+      semantics:
+        input: "English identifiers (e.g., 'radius', 'angle')"
+        output: "Hebrew 3-letter roots (e.g., רדי, זוי)"
+        encoding: "Phonetic + semantic mapping"
+      errors:
+        - "FlameError::Transform { layer: 1, message }"
+      status: "Stub (currently pass-through)"
+      
+    sys_transform_numeric:
+      signature: "(FlameIR) -> Result<FlameIR, FlameError>"
+      description: "Layer 2: Hebrew roots → Gematria numeric values"
+      implementation: "run_numeric_pass(ir)"
+      layer_id: 2
+      semantics:
+        input: "Hebrew roots"
+        output: "Gematria values (sum of letter values)"
+        encoding: "Standard Hebrew gematria"
+      errors:
+        - "FlameError::Transform { layer: 2, message }"
+      status: "Stub (currently pass-through)"
+      
+    sys_transform_wave:
+      signature: "(FlameIR) -> Result<FlameIR, FlameError>"
+      description: "Layer 3: Gematria → Frequency via c=2πr"
+      implementation: "run_wave_pass(ir)"
+      layer_id: 3
+      semantics:
+        input: "Numeric gematria values"
+        output: "Frequency in Hz"
+        physics: "Circumference formula applied: c = 2πr"
+      errors:
+        - "FlameError::Transform { layer: 3, message }"
+      constraints:
+        - "Frequencies must be positive"
+      status: "Stub (currently pass-through)"
+      
+    sys_transform_dna:
+      signature: "(FlameIR) -> Result<FlameIR, FlameError>"
+      description: "Layer 4: Frequency → DNA codon (64-state bijection)"
+      implementation: "run_dna_pass(ir)"
+      layer_id: 4
+      semantics:
+        input: "Frequency values (Hz)"
+        output: "DNA codons (0-63)"
+        biology: "Maps to standard genetic code table"
+        formula: "codon = (freq / 6.875) mod 64"
+      errors:
+        - "FlameError::Transform { layer: 4, message }"
+      constraints:
+        - "Output guaranteed in range [0, 63]"
+        - "Bijective mapping maintained"
+      status: "Stub (currently pass-through)"
+  
+  # ---------------------------------------------------------------------------
+  # PROOF VALIDATION SYSCALLS (16 THEOREMS)
+  # ---------------------------------------------------------------------------
+  
+  proof_validation:
+    description: "Theorem proving and invariant checking"
+    invocation: "After Layer 4, before LLVM codegen"
+    
+    tier_1_kernel_proofs:
+      description: "Core mathematical properties"
+      
+      sys_validate_fixed_point:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Fixed-point convergence for Bend operation"
+        statement: "∀θ,r: Bend(Bend(θ,r), r) converges"
+        implementation: "validate_fixed_point_convergence(ir)"
+        status: "Stub"
+        
+      sys_validate_grounding:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Grounding completeness"
+        statement: "All symbolic values ground to physical observables"
+        implementation: "validate_grounding_completeness(ir)"
+        status: "Stub"
+        
+      sys_validate_genome:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Genome classification"
+        statement: "All genomes classify into valid taxonomies"
+        implementation: "validate_genome_classification(ir)"
+        status: "Stub"
+        
+      sys_validate_codon_bijection:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Codon bijection to 64 states"
+        statement: "∀x: Codon(x) ∈ [0,63] ∧ injective"
+        implementation: "validate_codon_bijection(ir)"
+        status: "Stub"
+        proof_id: "codon_bijection"
+    
+    tier_2_physics_proofs:
+      description: "Physical constraints and continuity"
+      
+      sys_validate_angle_bounds:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Angle boundedness"
+        statement: "∀θ: Angle(θ) ∈ [0,2π)"
+        implementation: "validate_angle_boundedness(ir)"
+        status: "Stub"
+        proof_id: "angle_boundedness"
+        
+      sys_validate_lipschitz:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Lipschitz continuity"
+        statement: "∀f∈{sin,cos,tan}: |f(x)-f(y)| ≤ L|x-y|"
+        implementation: "validate_lipschitz_continuity(ir)"
+        status: "Stub"
+        proof_id: "lipschitz_continuity"
+        
+      sys_validate_wave_conservation:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Wave energy conservation"
+        statement: "ToFreq(FromFreq(x)) = x"
+        implementation: "validate_wave_conservation(ir)"
+        status: "Stub"
+        
+      sys_validate_freq_positive:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Frequency positivity"
+        statement: "∀f: Freq(f) > 0"
+        implementation: "validate_frequency_positivity(ir)"
+        status: "Stub"
+        proof_id: "frequency_positivity"
+    
+    tier_3_transform_proofs:
+      description: "Transformation validity"
+      
+      sys_validate_hebrew_roots:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Hebrew root validity"
+        statement: "All roots are valid triconsonantal forms"
+        implementation: "validate_hebrew_root_validity(ir)"
+        status: "Stub"
+        
+      sys_validate_gematria:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Gematria bounds"
+        statement: "All gematria values within expected ranges"
+        implementation: "validate_gematria_bounds(ir)"
+        status: "Stub"
+        
+      sys_validate_dna_encoding:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "DNA encoding correctness"
+        statement: "DNA encoding preserves information"
+        implementation: "validate_dna_encoding(ir)"
+        status: "Stub"
+        
+      sys_validate_rubik:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Rubik's God Number bound"
+        statement: "∀p: Perm(p) ≤ 20"
+        implementation: "validate_rubik_god_number(ir)"
+        status: "Stub"
+        proof_id: "rubik_god_number"
+    
+    tier_4_system_proofs:
+      description: "System-level guarantees"
+      
+      sys_validate_ir_acyclic:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "IR acyclicity"
+        statement: "Expression graph is acyclic (DAG)"
+        implementation: "validate_ir_acyclicity(ir)"
+        status: "Stub"
+        
+      sys_validate_type_safe:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Type safety"
+        statement: "Well-typed programs don't go wrong"
+        implementation: "validate_type_safety(ir)"
+        status: "Stub"
+        
+      sys_validate_resources:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Resource bounds"
+        statement: "Finite memory and time consumption"
+        implementation: "validate_resource_bounds(ir)"
+        status: "Stub"
+        
+      sys_validate_deterministic:
+        signature: "(&FlameIR) -> Result<(), FlameError>"
+        theorem: "Determinism"
+        statement: "Same input → same output, always"
+        implementation: "validate_determinism(ir)"
+        status: "Stub"
+  
+  # ---------------------------------------------------------------------------
+  # BACKEND SYSCALLS
+  # ---------------------------------------------------------------------------
+  
+  backend:
+    description: "Code generation and binary emission"
+    
+    sys_codegen_llvm:
+      signature: "(&FlameIR) -> Result<String, FlameError>"
+      description: "Generate LLVM IR from FlameIR"
+      implementation: "run_llvm_pass(ir)"
+      output_format: "LLVM IR text"
+      includes:
+        - "Function declarations: @sin, @cos"
+        - "Custom functions: @flame_bend, @flame_codon"
+        - "Main function with expression codegen"
+      errors:
+        - "FlameError::Codegen - Invalid IR structure"
+        - "FlameError::Codegen - Unsupported operation"
+      constraints:
+        - "All expressions must have valid LLVM representation"
+        - "SSA form maintained"
+        
+    sys_emit_binary:
+      signature: "(&str) -> Result<Vec<u8>, FlameError>"
+      description: "Compile LLVM IR to machine code"
+      implementation: "emit_binary(llvm_ir)"
+      note: "Currently returns IR as bytes (full impl via inkwell)"
+      errors:
+        - "FlameError::Codegen - LLVM compilation failure"
+      future:
+        - "Use inkwell for actual compilation"
+        - "Target-specific machine code generation"
+  
+  # ---------------------------------------------------------------------------
+  # I/O SYSCALLS
+  # ---------------------------------------------------------------------------
+  
+  io:
+    description: "File system and external interactions"
+    
+    sys_read_source:
+      signature: "(&str) -> Result<String, FlameError>"
+      description: "Read source file from disk"
+      implementation: "fs::read_to_string(path)"
+      errors:
+        - "FlameError::Io - File not found"
+        - "FlameError::Io - Permission denied"
+        - "FlameError::Io - Invalid UTF-8"
+        
+    sys_write_binary:
+      signature: "(&str, &[u8]) -> Result<(), FlameError>"
+      description: "Write compiled binary to disk"
+      implementation: "fs::write(path, binary)"
+      default_output: "a.out"
+      errors:
+        - "FlameError::Io - Write permission denied"
+        - "FlameError::Io - Disk full"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SYSCALL SEQUENCES (CANONICAL FLOWS)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+syscall_sequences:
+  description: "Standard execution flows through syscalls"
+  
+  full_compilation:
+    name: "Complete source-to-binary compilation"
+    sequence:
+      - step: 1
+        syscall: "sys_read_source"
+        input: "source file path"
+        output: "source string"
+        
+      - step: 2
+        syscall: "sys_lexer_tokenize"
+        input: "source string"
+        output: "Vec<Token>"
+        
+      - step: 3
+        syscall: "sys_parser_parse"
+        input: "Vec<Token>"
+        output: "Vec<Expr> (AST)"
+        
+      - step: 4
+        syscall: "sys_ast_lower"
+        input: "Vec<Expr>"
+        output: "FlameIR"
+        
+      - step: 5
+        syscall: "sys_transform_linguistic"
+        input: "FlameIR"
+        output: "FlameIR (Layer 1)"
+        
+      - step: 6
+        syscall: "sys_transform_numeric"
+        input: "FlameIR (Layer 1)"
+        output: "FlameIR (Layer 2)"
+        
+      - step: 7
+        syscall: "sys_transform_wave"
+        input: "FlameIR (Layer 2)"
+        output: "FlameIR (Layer 3)"
+        
+      - step: 8
+        syscall: "sys_transform_dna"
+        input: "FlameIR (Layer 3)"
+        output: "FlameIR (Layer 4)"
+        
+      - step: 9
+        syscall: "validate_proofs (16 syscalls)"
+        input: "FlameIR (Layer 4)"
+        output: "() or FlameError::ProofFailed"
+        note: "Critical validation gate"
+        
+      - step: 10
+        syscall: "sys_codegen_llvm"
+        input: "FlameIR (validated)"
+        output: "LLVM IR string"
+        
+      - step: 11
+        syscall: "sys_emit_binary"
+        input: "LLVM IR string"
+        output: "Vec<u8> (binary)"
+        
+      - step: 12
+        syscall: "sys_write_binary"
+        input: "output path, binary"
+        output: "() or FlameError::Io"
+    
+    error_behavior: "Early return on first error"
+    total_syscalls: "28 (16 in proof validation)"
+  
+  ast_only:
+    name: "Parse to AST without compilation"
+    sequence:
+      - "sys_read_source"
+      - "sys_lexer_tokenize"
+      - "sys_parser_parse"
+    use_case: "Syntax checking, IDE integration"
+  
+  ir_transform:
+    name: "Apply transformations to existing IR"
+    sequence:
+      - "sys_transform_linguistic"
+      - "sys_transform_numeric"
+      - "sys_transform_wave"
+      - "sys_transform_dna"
+      - "validate_proofs"
+    use_case: "IR-to-IR optimization passes"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LLVM RUNTIME FUNCTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+llvm_runtime:
+  description: "Functions provided in generated LLVM IR"
+  
+  external_declarations:
+    sin:
+      signature: "declare double @sin(double)"
+      source: "C standard library (math.h)"
+      
+    cos:
+      signature: "declare double @cos(double)"
+      source: "C standard library (math.h)"
+  
+  flamelang_runtime:
+    flame_bend:
+      signature: "define double @flame_bend(double %angle, double %radius)"
+      implementation: "fmul double %angle, %radius"
+      semantics: "Arc length = angle * radius"
+      
+    flame_codon:
+      signature: "define i32 @flame_codon(double %freq)"
+      implementation: |
+        %scaled = fdiv double %freq, 6.875
+        %index = fptosi double %scaled to i32
+        %bounded = srem i32 %index, 64
+        ret i32 %bounded
+      semantics: "Frequency → Codon [0,63]"
+  
+  main_function:
+    signature: "define i32 @main()"
+    behavior: "Executes IR expression graph, returns last value as i32"
+    exit_code: "Last expression converted to integer"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EXECUTION GUARANTEES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+guarantees:
+  determinism:
+    statement: "Same source always produces same binary"
+    enforcement: "All syscalls are pure functions of their inputs"
+    
+  safety:
+    statement: "Well-formed programs cannot crash runtime"
+    enforcement: "Proof validation catches violations before execution"
+    
+  completeness:
+    statement: "All valid programs can be compiled"
+    enforcement: "IR is expressive enough for all source constructs"
+    
+  soundness:
+    statement: "Compiled programs respect source semantics"
+    enforcement: "Transformation layers preserve meaning"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+metadata:
+  authors:
+    - "Domenic Gabriel Garza <dom@strategickhaos.ai>"
+  license: "MIT"
+  repository: "https://github.com/strategickhaos/flamelang"
+  extracted_from: "FlameLang v2.0.0 Compiler Source"
+  extraction_date: "2026-01-23"
+  status: "canonical"
+  usage: |
+    This contract defines the execution model and syscalls that govern
+    FlameLang program compilation and runtime behavior. All SAGCO-compliant
+    systems must implement these syscalls with equivalent semantics.
+  
+  implementation_status:
+    frontend: "Implemented"
+    transforms: "Stubs (pass-through)"
+    proofs: "Stubs (all return Ok)"
+    backend: "Partial (LLVM IR generation only)"
+    
+  future_work:
+    - "Implement transformation layer logic"
+    - "Implement proof validation theorems"
+    - "Use inkwell for actual LLVM compilation"
+    - "Add optimization passes"
+    - "Support for more expression types"
