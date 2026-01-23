@@ -1,0 +1,41 @@
+[package]
+name = "flamelang"
+version = "2.0.0"
+edition = "2021"
+authors = ["Domenic Gabriel Garza <strategickhaos@gmail.com>"]
+description = "FlameLang Compiler - 5-Layer Transformation: Linguistic → Numeric → Wave → DNA → LLVM"
+license = "MIT"
+
+[[bin]]
+name = "flamec"
+path = "src/main.rs"
+
+[dependencies]
+# LLVM backend
+inkwell = { version = "0.2", features = ["llvm15-0"] }
+
+# Lexer
+logos = "0.13"
+
+# Parser
+lalrpop-util = { version = "0.20", features = ["lexer"] }
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# CLI
+clap = { version = "4.4", features = ["derive"] }
+
+# Math for wave/frequency operations
+num-complex = "0.4"
+
+[build-dependencies]
+lalrpop = "0.20"
+
+[dev-dependencies]
+pretty_assertions = "1.4"

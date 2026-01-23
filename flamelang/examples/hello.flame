@@ -1,0 +1,6 @@
+// Minimal FlameLang program
+// Should compile, run, and return 0
+
+fn main() -> i32 {
+    return 0;
+}
