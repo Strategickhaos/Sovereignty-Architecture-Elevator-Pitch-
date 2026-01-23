@@ -253,7 +253,7 @@ fn ir_acyclicity(ir: &FlameIR) -> ProofResult {
                 return Err(ProofError {
                     kind: ProofErrorKind::System,
                     proof: "ir_acyclicity",
-                    detail: "forward or cyclic reference detected",
+                    detail: "expression references itself or future expression",
                 });
             }
         }
