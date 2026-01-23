@@ -45,7 +45,7 @@ def prom_to_bool(prom_sample: Dict[str, Any]) -> bool:
     
     Args:
         prom_sample: Dictionary containing Prometheus metrics
-                    Expected keys: 'tun0_up', 'up', 'probe_success'
+                    Expected keys: 'tun0_up', 'up'
                     
     Returns:
         bool: True if both interface and service are up, False otherwise

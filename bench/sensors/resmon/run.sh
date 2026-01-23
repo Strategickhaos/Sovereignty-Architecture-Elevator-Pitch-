@@ -15,8 +15,9 @@ set -euo pipefail
 CHECK_HOST=${CHECK_HOST:-10.8.0.1}
 CHECK_PORT=${CHECK_PORT:-22}
 IF="tun0"
-STATE_FILE="/bench/sensors/resmon/state.json"
-LOG_FILE="/bench/sensors/resmon/log.jsonl"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+STATE_FILE="${STATE_FILE:-$SCRIPT_DIR/state.json}"
+LOG_FILE="${LOG_FILE:-$SCRIPT_DIR/log.jsonl}"
 
 # Ensure output directory exists
 mkdir -p "$(dirname "$STATE_FILE")"
@@ -57,9 +58,12 @@ while true; do
   if [ "$up" = true ] && [ "$route_ok" = true ] && [ $tcp_ok -eq 0 ]; then
       # Extract average latency from ping output
       # Example: "rtt min/avg/max/mdev = 10.123/25.456/40.789/15.321 ms"
-      latency_output=$(ping -c3 -W1 "$CHECK_HOST" 2>/dev/null | tail -1 | awk -F '/' '{print $5}')
-      if [ -n "$latency_output" ]; then
-          latency=$latency_output
+      ping_output=$(ping -c3 -W1 "$CHECK_HOST" 2>/dev/null)
+      if [ $? -eq 0 ]; then
+          latency_output=$(echo "$ping_output" | tail -1 | awk -F '/' '{print $5}')
+          if [ -n "$latency_output" ] && [ "$latency_output" != "0" ]; then
+              latency=$latency_output
+          fi
       fi
   fi
 
@@ -68,9 +72,12 @@ while true; do
   
   if [ "$up" = true ] && [ "$route_ok" = true ] && [ $tcp_ok -eq 0 ]; then
       # All checks pass, classify by latency
-      if (( $(echo "$latency < 200" | bc -l 2>/dev/null || echo 0) )); then
+      # Convert to integer for faster comparison (e.g., 45.2 -> 45)
+      latency_int=${latency%.*}
+      
+      if [ "$latency_int" -lt 200 ] 2>/dev/null; then
           state="Resonant"
-      elif (( $(echo "$latency >= 200 && $latency < 500" | bc -l 2>/dev/null || echo 0) )); then
+      elif [ "$latency_int" -lt 500 ] 2>/dev/null; then
           state="Dissonant"
       else
           state="Collapsed"
