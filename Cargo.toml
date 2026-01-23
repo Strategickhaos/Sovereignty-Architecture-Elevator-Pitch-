@@ -1,0 +1,28 @@
+[package]
+name = "sagco-proof-enforcer"
+version = "0.1.0"
+edition = "2021"
+authors = ["StrategicKhaos"]
+license = "MIT"
+description = "SAGCO Proof Enforcer - Kernel-side FlameIR admission gate"
+repository = "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+
+[lib]
+name = "sagco_proof_enforcer"
+path = "src/lib.rs"
+
+[[example]]
+name = "basic_enforcement"
+path = "examples/basic_enforcement.rs"
+
+[dependencies]
+# No external dependencies needed for core enforcement
+
+[features]
+default = []
+std = []
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
