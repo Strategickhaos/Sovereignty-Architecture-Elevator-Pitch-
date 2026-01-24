@@ -1,0 +1,52 @@
+# SAGCO-HYDRA Hypervisor Configuration
+# DNA: SAGCO-ATG-FLM2-MSMC2-P16-CMD23-ISO102-MESH5
+
+# Node identification
+node:
+  name: "sagco-node-1"
+  role: "controller"  # controller, worker, or archive
+  
+# Directories
+directories:
+  config: "/etc/sagco-hv"
+  state: "/var/lib/sagco-hv"
+  images: "/var/lib/sagco-hv/images"
+  run: "/run/sagco-hv"
+
+# Mesh networking
+mesh:
+  enabled: true
+  discovery_port: 7777
+  nodes:
+    - name: "ATHENA"
+      address: "192.168.2.26"
+      role: "controller"
+    - name: "LYRA"
+      address: "192.168.1.1"
+      role: "worker"
+    - name: "NOVA"
+      address: "192.168.1.25"
+      role: "worker"
+    - name: "ATEROTH"
+      address: "169.254.0.1"
+      role: "archive"
+    - name: "SAGCO-VM"
+      address: "10.0.2.15"
+      role: "worker"
+
+# CRDT state sync
+crdt:
+  sync_interval_sec: 30
+  conflict_resolution: "last-write-wins"
+
+# TPM attestation
+tpm:
+  enabled: false
+  device: "/dev/tpm0"
+  pcr_banks: [0, 1, 2, 3, 4, 5, 6, 7]
+
+# Logging
+logging:
+  level: "info"
+  format: "json"
+  output: "/var/log/sagco-hv/hypervisor.log"

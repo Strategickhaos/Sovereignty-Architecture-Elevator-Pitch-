@@ -1,0 +1,21 @@
+# FlameLang VM Definition Example
+# Kali Linux Lab Environment
+
+sovereign vm "kali-lab" {
+    # Hardware resources
+    cpus   = 2
+    memory = 4096_MB
+    
+    # Storage
+    disk   = "/var/lib/sagco-hv/images/kali.qcow2"
+    
+    # Network
+    net    = "lab-net"
+    
+    # Autostart
+    autostart = true
+    
+    # Metadata
+    tags = ["security", "lab", "kali"]
+    description = "Kali Linux penetration testing environment"
+}

@@ -1,0 +1,59 @@
+[package]
+name = "sagco-hv"
+version = "0.1.0"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC"]
+description = "SAGCO-HYDRA Type-1 Hypervisor - Distributed Organism Architecture"
+license = "MIT"
+
+[dependencies]
+# KVM and low-level system interfaces
+libc = "0.2"
+nix = { version = "0.27", features = ["ioctl"] }
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+async-trait = "0.1"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Cryptography and hashing
+sha2 = "0.10"
+hex = "0.4"
+
+# CRDT for distributed state (using automerge instead)
+# crdt = "0.5"  # Latest available version
+
+# Configuration
+config = "0.13"
+
+# CLI
+clap = { version = "4.4", features = ["derive"] }
+
+[dev-dependencies]
+tempfile = "3.8"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[lib]
+name = "sagco_hv"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sagco-hv"
+path = "src/main.rs"
