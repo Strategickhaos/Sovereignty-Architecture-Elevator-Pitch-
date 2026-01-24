@@ -42,9 +42,10 @@ impl CrdtStateManager {
     
     /// Merge state from another node
     pub fn merge(&mut self, _other: &CrdtStateManager) -> Result<()> {
+        // TODO: Implement CRDT merge logic in Phase 2
         // In a real implementation:
         // 1. Compare vector clocks
-        // 2. Resolve conflicts
+        // 2. Resolve conflicts using CRDT rules (LWW, OR-Set, etc.)
         // 3. Merge state
         
         Ok(())

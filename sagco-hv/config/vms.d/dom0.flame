@@ -1,0 +1,33 @@
+# FlameLang VM Definition
+# Dom0 - Privileged Control Domain
+
+sovereign vm "sagco-dom0" {
+    # Hardware resources (most of system)
+    cpus   = 7  # Reserve 1 CPU for hypervisor
+    memory = 60_GB  # Reserve 4GB for hypervisor
+    
+    # Privileged access
+    privileged = true
+    direct_io = true
+    
+    # Storage
+    disk   = "/var/lib/sagco-hv/images/dom0.qcow2"
+    
+    # Network
+    net    = "bridge-br0"
+    
+    # Always start with hypervisor
+    autostart = true
+    priority = 1  # Highest priority
+    
+    # Metadata
+    tags = ["dom0", "control-plane", "privileged"]
+    description = "SAGCO-HYDRA privileged control domain"
+    
+    # Capabilities
+    capabilities = [
+        "manage-vms",
+        "network-control",
+        "hardware-access"
+    ]
+}

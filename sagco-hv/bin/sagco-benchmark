@@ -201,9 +201,10 @@ sovereign vm "benchmark-test" {
         print("   ⚠️  FlameLang compiler in development, simulating benchmark...")
         
         # Simulate compilation and execution time
+        # TODO: Replace with actual FlameLang compiler measurements when implemented
         # In reality, FlameLang compiles to LLVM IR then to native code
-        compile_time = 150.0  # Simulated: ~150ms compilation
-        exec_time = 8.5       # Simulated: ~8.5ms execution (faster than Python, close to Rust)
+        compile_time = 150.0  # Simulated: ~150ms compilation (placeholder)
+        exec_time = 8.5       # Simulated: ~8.5ms execution (placeholder)
         
         time.sleep(0.15)  # Simulate compilation delay
         

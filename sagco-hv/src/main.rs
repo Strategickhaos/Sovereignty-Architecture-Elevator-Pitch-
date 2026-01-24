@@ -159,6 +159,8 @@ fn cmd_list() -> Result<()> {
 fn cmd_start_vm(name: &str) -> Result<()> {
     info!("Starting VM: {}", name);
     
+    // TODO: Load VM definition from /etc/sagco-hv/vms.d/{name}.flame
+    // For now, using hardcoded values for Phase 0
     let vm_def = VmDefinition::new(name, 2, 2048);
     let mut handle = VmHandle::new(vm_def);
     handle.start()?;
@@ -171,6 +173,8 @@ fn cmd_start_vm(name: &str) -> Result<()> {
 fn cmd_stop_vm(name: &str) -> Result<()> {
     info!("Stopping VM: {}", name);
     
+    // TODO: Load VM definition from /etc/sagco-hv/vms.d/{name}.flame
+    // For now, using hardcoded values for Phase 0
     let vm_def = VmDefinition::new(name, 2, 2048);
     let mut handle = VmHandle::new(vm_def);
     handle.stop()?;

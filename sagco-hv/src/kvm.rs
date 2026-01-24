@@ -181,6 +181,9 @@ const fn request_code_none(ty: u8, nr: u8) -> libc::c_ulong {
     nix::request_code_none!(ty, nr) as libc::c_ulong
 }
 
+// Note: The above helper function is currently unused but may be needed
+// for future ioctl definitions. Keeping it for forward compatibility.
+
 #[cfg(test)]
 mod tests {
     use super::*;

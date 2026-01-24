@@ -1,0 +1,46 @@
+# FlameLang VM Definition
+# Development VM with GPU Passthrough
+
+sovereign vm "dev-workstation" {
+    # Hardware resources
+    cpus   = 4
+    memory = 16_GB
+    
+    # GPU passthrough for ML/gaming
+    devices = [
+        {
+            type = "pci",
+            id = "0000:01:00.0",  # NVIDIA RTX GPU
+            description = "RTX GPU for ML training"
+        },
+        {
+            type = "pci", 
+            id = "0000:01:00.1",  # GPU audio
+            description = "GPU audio device"
+        }
+    ]
+    
+    # Storage
+    disk   = "/var/lib/sagco-hv/images/dev-workstation.qcow2"
+    disk_size = 500_GB
+    
+    # Network
+    net    = "default"
+    
+    # USB passthrough
+    usb = [
+        {
+            vendor_id = "046d",
+            product_id = "c52b",
+            description = "Logitech Mouse"
+        }
+    ]
+    
+    # Performance tuning
+    cpu_pinning = [0, 1, 2, 3]  # Pin to specific cores
+    huge_pages = true
+    
+    # Metadata
+    tags = ["development", "gpu", "workstation"]
+    description = "Development workstation with GPU passthrough"
+}
