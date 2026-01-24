@@ -1,0 +1,33 @@
+// Example FlameLang DSL for hypervisor control
+// This demonstrates the intended syntax for Phase 1
+
+// Initialize the hypervisor subsystem
+hypervisor "SAGCO-HV" {
+  default_memory = 512_MB
+  default_vcpus  = 1
+  kvm_device     = "/dev/kvm"
+}
+
+// Define a virtual machine
+vm "sagco_live_1" {
+  memory  = 1024_MB
+  vcpus   = 2
+  disk    = "/isos/sagco-live.iso"
+  kernel  = "/boot/vmlinuz-sagco"
+  cmdline = "root=/dev/vda console=ttyS0"
+}
+
+// Define another VM with minimal config
+vm "test_vm" {
+  memory = 256_MB
+  vcpus  = 1
+  disk   = "/isos/alpine-virt.iso"
+}
+
+// Boot command - starts the VM
+boot "sagco_live_1"
+
+// Commands that could be added later:
+// stop "sagco_live_1"
+// destroy "sagco_live_1"
+// status "sagco_live_1"

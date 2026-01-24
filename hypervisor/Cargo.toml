@@ -1,0 +1,31 @@
+[package]
+name = "sagco-hv-core"
+version = "0.1.0"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC"]
+description = "SAGCO OS Hypervisor Core - Rust/KVM FFI boundary for FlameLang"
+license = "MIT"
+
+[lib]
+name = "sagco_hv_core"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+lazy_static = "1.4"
+
+[dev-dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[profile.dev]
+opt-level = 0
+
+# Future dependencies for KVM integration:
+# [dependencies]
+# libc = "0.2"
+# nix = "0.27"
+# kvm-ioctls = "0.15"
+# kvm-bindings = "0.6"
