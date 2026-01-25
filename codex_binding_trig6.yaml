@@ -1,0 +1,254 @@
+---
+
+meta:
+  id: "codex-seraphinianus-binding-trig6"
+  version: "0.1.0"
+  author: "Domenic Gabriel Garza (Strategickhaos DAO LLC)"
+  description: >
+    Binding pipeline that ingests Codex Seraphinianus pages, extracts glyphs,
+    clusters them into a symbolic alphabet, and maps those symbols into
+    FlameLang codon IR, with TRIG6 used as a fitness model for the stability
+    of each mapping.
+
+sources:
+  codex_pdf: "Codex Seraphinianus.pdf"
+  page_ranges:
+    # Front matter, plates, and script-heavy sections
+    - { start: 1, end: 40 }
+  notes: >
+    Pages with hybrid image+script (e.g., fantastical organisms, plants,
+    and dense invented script columns) are treated as the main symbol field.
+
+compiler_binding:
+  target_language: "FlameLang"
+  target_ir: "DNA_CODON_64"
+  output_artifacts:
+    - "codex_glyph_alphabet.json"
+    - "codex_to_codon_map.json"
+    - "codex_binding_report.trig6.json"
+
+pipeline:
+  - id: "ingest_pages"
+    stage: "input"
+    op: "pdf_to_images"
+    params:
+      dpi: 300
+      color_mode: "rgb"
+
+  - id: "segment_layout"
+    stage: "analysis"
+    op: "page_layout_segmentation"
+    params:
+      # separate illustration regions from script columns
+      detect_regions:
+        - "text_block"
+        - "illustration"
+      model: "vision_transformer_v1"
+
+  - id: "extract_glyphs"
+    stage: "analysis"
+    op: "glyph_segmentation"
+    input_from: "segment_layout"
+    params:
+      source_regions:
+        - "text_block"
+      min_height_px: 18
+      max_height_px: 72
+      grouping: "connected_components"
+      output: "glyph_crops/"
+
+  - id: "embed_glyphs"
+    stage: "feature_encoding"
+    op: "image_embedding"
+    input_from: "extract_glyphs"
+    params:
+      encoder_model: "glyph-encoder-v1"
+      vector_dim: 256
+      output: "glyph_vectors.npy"
+
+  - id: "cluster_glyphs"
+    stage: "alphabet_induction"
+    op: "vector_clustering"
+    input_from: "embed_glyphs"
+    params:
+      algorithm: "hdbscan"
+      min_cluster_size: 15
+      max_clusters: 128
+      out_clusters_json: "glyph_clusters.json"
+
+  - id: "assign_symbol_ids"
+    stage: "alphabet_induction"
+    op: "symbol_id_assignment"
+    input_from: "cluster_glyphs"
+    params:
+      # take up to 64 most-stable clusters as codex alphabet
+      max_symbols: 64
+      stability_metric: "cluster_persistence"
+      symbol_prefix: "CSYM_"
+      out_alphabet_json: "codex_glyph_alphabet.json"
+
+  - id: "map_symbols_to_codons"
+    stage: "binding"
+    op: "codon_mapping"
+    input_from: "assign_symbol_ids"
+    params:
+      codon_table: "flamelang_codon_table_64.json"
+      mapping_strategy: "trig6_guided"
+      trig6_config_ref: "trig6_binding_model"
+      out_mapping_json: "codex_to_codon_map.json"
+
+  - id: "evaluate_binding_trig6"
+    stage: "validation"
+    op: "trig6_binding_eval"
+    input_from:
+      - "assign_symbol_ids"
+      - "map_symbols_to_codons"
+    params:
+      trig6_config_ref: "trig6_binding_model"
+      report_path: "codex_binding_report.trig6.json"
+
+  - id: "emit_flame_tokens"
+    stage: "codegen"
+    op: "glyph_sequence_to_codon_stream"
+    deps:
+      alphabet: "codex_glyph_alphabet.json"
+      mapping: "codex_to_codon_map.json"
+    params:
+      sequence_extraction:
+        # treat each text line as a codon sequence
+        mode: "line_order"
+        page_order: "ascending"
+      output_ir: "codex_stream.codon"
+      allow_unknown_symbol:
+        codon: "NNN"   # no-op codon for unassigned glyphs
+
+trig6_binding_model:
+  description: >
+    TRIG6 configuration for evaluating how stable the Codex glyph → codon
+    mapping is as an input alphabet for FlameLang / SAGCO-OS.
+
+  parameters:
+    theta:
+      meaning: "Phase of binding maturity from 0 (random) to 2π (canonical)."
+      compute: >
+        theta = 2 * pi * (binding_iteration / max_iterations)
+
+    R:
+      meaning: "Resonance of mapping (symbol consistency and compiler stability)."
+      components:
+        - name: "cluster_purity"
+          weight: 0.4
+        - name: "roundtrip_stability"
+          weight: 0.4
+        - name: "compile_success_rate"
+          weight: 0.2
+      compute: >
+        R = 0.4 * cluster_purity
+          + 0.4 * roundtrip_stability
+          + 0.2 * compile_success_rate
+
+    D:
+      meaning: "Drift between successive bindings (schema churn)."
+      components:
+        - name: "symbol_reassignment_rate"
+          weight: 0.6
+        - name: "codon_conflict_rate"
+          weight: 0.4
+      compute: >
+        D = clamp(0.6 * symbol_reassignment_rate
+                + 0.4 * codon_conflict_rate, 0.0, 1.0)
+
+    N:
+      meaning: "Noise / uncertainty in glyph recognition."
+      components:
+        - name: "ocr_ambiguity"
+          weight: 0.5
+        - name: "embedding_variance"
+          weight: 0.5
+      compute: >
+        N = clamp(0.5 * ocr_ambiguity
+                + 0.5 * embedding_variance, 0.0, 1.0)
+
+    eq:
+      meaning: "Equivalence between Codex-driven IR and canonical FlameLang IR."
+      compute: >
+        eq = ir_equivalence_score   # measured via regression tests (0-1)
+
+    danger:
+      meaning: "Instability of the binding; tiny symbol changes cause large IR shifts."
+      threshold_tan_theta: 10.0
+      predicate: >
+        danger = (abs(tan(theta)) > threshold_tan_theta)
+              or (codon_conflict_rate > 0.4)
+
+    fitness:
+      formula: "f = R * (1 - D) * (1 - N) * eq"
+      thresholds:
+        stable_binding_min: 0.70
+        experimental_min: 0.50
+
+  mutation_policy:
+    description: "How we evolve the Codex→codon mapping when fitness is low."
+    triggers:
+      - condition: "fitness < experimental_min"
+        action: "full_remap"
+      - condition: "experimental_min <= fitness < stable_binding_min"
+        action: "local_mutation"
+    local_mutation:
+      targets:
+        - "symbol_to_codon_assignments"
+        - "cluster_cut_threshold"
+      max_delta:
+        symbol_reassignment_rate: 0.10
+    full_remap:
+      strategy: "reseed_mapping_from_most_stable_clusters"
+      preserve_top_fraction: 0.20
+
+dictionary_index:
+  # Lawyer-friendly glossary tying Codex binding to TRIG6 & compiler objects.
+  - term: "Codex Seraphinianus"
+    type: "source_manuscript"
+    definition: >
+      An illustrated book written in an invented script. In this system it
+      functions purely as a symbolic substrate: a reservoir of unique glyphs
+      and layouts used to derive an input alphabet for the compiler.
+  - term: "Glyph Alphabet (CSYM_x)"
+    type: "symbol_set"
+    definition: >
+      The induced alphabet produced by clustering visual glyphs from the Codex.
+      Each CSYM_x label corresponds to a cluster of visually similar marks.
+  - term: "Codon IR"
+    type: "intermediate_representation"
+    definition: >
+      The 64-element instruction set used by FlameLang and SAGCO-OS. Each codon
+      (e.g., ATG, TGG) maps to a semantic operation in the runtime.
+  - term: "Binding Pipeline"
+    type: "compiler_frontend"
+    definition: >
+      The sequence of steps that transforms Codex page images into codon IR,
+      parameterized and evaluated by the TRIG6 model defined above.
+  - term: "TRIG6 Binding Fitness"
+    type: "evaluation_metric"
+    definition: >
+      The scalar fitness value f = R * (1-D) * (1-N) * eq used to decide
+      whether a given glyph→codon mapping is sufficiently stable to be used
+      as a front-end encoding for FlameLang programs.
+  - term: "Danger Zone"
+    type: "stability_guardrail"
+    definition: >
+      Regions of the binding configuration where |tan(theta)| exceeds the
+      configured threshold or codon conflicts are high. In these regions the
+      mapping is considered unstable and must be evolved or rejected.
+
+legal_notes:
+  ownership_and_rights: >
+    This YAML describes a technical binding pipeline and TRIG6-based evaluation
+    method. It does not reproduce or claim ownership over the artistic content
+    of the Codex; it treats the manuscript as a generic symbol source. The
+    protectable subject matter is the TRIG6-guided binding algorithm, the
+    codon mapping strategy, and their integration into the FlameLang /
+    SAGCO-OS toolchain.
+  suggested_protection:
+    - "Method-of-use patent for TRIG6-guided symbolic binding to codon IR."
+    - "Trade secret for exact glyph clustering and mapping heuristics."
+    - "Copyright for this specification and associated implementation code."
