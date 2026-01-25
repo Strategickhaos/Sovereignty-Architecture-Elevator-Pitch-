@@ -57,3 +57,6 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Test reports
+benchmarks/reports/
