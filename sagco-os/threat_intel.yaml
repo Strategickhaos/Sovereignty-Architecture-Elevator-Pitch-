@@ -1,0 +1,192 @@
+# SAGCO-OS Threat Intelligence Database
+# Zero Vendor Lock-in | Harbor-Compliant | Indicators of Compromise (IOC) Focus
+version: "1.0.0"
+last_updated: "2026-01-25T04:38:00Z"
+operator: "Strategickhaos DAO LLC"
+ein: "39-2923503"
+
+# Threat Intelligence Configuration
+threat_intel:
+  # Intelligence Source Configuration
+  sources:
+    - name: "internal_incidents"
+      type: "proprietary"
+      weight: 1.0
+      description: "Internal SOC incident logs and forensics"
+      status: "active"
+    
+    - name: "public_feeds"
+      type: "community"
+      weight: 0.7
+      description: "Community-sourced threat intelligence feeds"
+      status: "active"
+      feeds:
+        - "abuse.ch"
+        - "emergingthreats"
+        - "custom_blocklists"
+    
+    - name: "commercial_feeds"
+      type: "optional"
+      weight: 0.5
+      description: "Optional commercial threat intelligence (vendor-agnostic)"
+      status: "inactive"
+      note: "Can be enabled if budget allows - sources remain replaceable"
+
+  # Indicator Categories
+  indicators:
+    # IP-based indicators
+    - type: "ip"
+      value: "203.0.113.42"
+      label: "C2_suspected"
+      severity: "high"
+      action: "BLOCK"
+      source: "internal_incidents"
+      first_seen: "2026-01-20T12:00:00Z"
+      last_seen: "2026-01-24T18:30:00Z"
+      confidence: 0.95
+      context: "Observed scanning patterns consistent with C2 beacon behavior"
+      references:
+        - "incident_log_2026_001"
+    
+    - type: "ip"
+      value: "198.51.100.15"
+      label: "brute_force_attempt"
+      severity: "medium"
+      action: "RATE_LIMIT"
+      source: "internal_incidents"
+      first_seen: "2026-01-22T08:15:00Z"
+      confidence: 0.85
+      context: "Multiple failed authentication attempts detected"
+    
+    # CIDR block indicators
+    - type: "cidr"
+      value: "198.51.100.0/24"
+      label: "scan_heavy"
+      severity: "medium"
+      action: "RATE_LIMIT"
+      source: "public_feeds"
+      first_seen: "2026-01-15T00:00:00Z"
+      confidence: 0.70
+      context: "Known hosting provider block with high scanning activity"
+      note: "Shared infrastructure - rate limit not block to avoid false positives"
+    
+    - type: "cidr"
+      value: "192.0.2.0/24"
+      label: "malware_distribution"
+      severity: "critical"
+      action: "BLOCK"
+      source: "public_feeds"
+      first_seen: "2026-01-10T00:00:00Z"
+      confidence: 0.92
+      context: "Known malware hosting infrastructure"
+    
+    # Domain-based indicators
+    - type: "domain"
+      value: "shady-example.net"
+      label: "phishing"
+      severity: "high"
+      action: "BLOCK_DNS"
+      source: "public_feeds"
+      first_seen: "2026-01-18T10:00:00Z"
+      confidence: 0.88
+      context: "Phishing campaign targeting financial services"
+      references:
+        - "phishing_campaign_2026_q1"
+    
+    - type: "domain"
+      value: "malicious-actor-domain.com"
+      label: "malware_c2"
+      severity: "critical"
+      action: "BLOCK_DNS"
+      source: "internal_incidents"
+      first_seen: "2026-01-20T14:22:00Z"
+      confidence: 0.97
+      context: "Confirmed malware C2 domain from incident response"
+    
+    # Hash-based indicators (malware signatures)
+    - type: "hash_sha256"
+      value: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      label: "malware_sample"
+      severity: "critical"
+      action: "QUARANTINE"
+      source: "internal_incidents"
+      first_seen: "2026-01-19T16:45:00Z"
+      confidence: 1.0
+      context: "Known malware sample from incident IR-2026-003"
+    
+    - type: "hash_md5"
+      value: "5d41402abc4b2a76b9719d911017c592"
+      label: "suspicious_binary"
+      severity: "medium"
+      action: "ALERT"
+      source: "public_feeds"
+      first_seen: "2026-01-17T11:00:00Z"
+      confidence: 0.65
+      context: "Binary with suspicious characteristics - monitoring recommended"
+
+  # Action Definitions
+  actions:
+    BLOCK:
+      enforcement: "iptables/nftables rule"
+      description: "Immediately drop all traffic from this indicator"
+      log_level: "critical"
+      alert_guardian: true
+      
+    RATE_LIMIT:
+      enforcement: "connection throttling"
+      description: "Allow limited connections to avoid false positives on shared infrastructure"
+      log_level: "warning"
+      alert_guardian: true
+      threshold: "10 connections per minute"
+      
+    BLOCK_DNS:
+      enforcement: "DNS resolver blacklist"
+      description: "Block DNS resolution for malicious domains"
+      log_level: "critical"
+      alert_guardian: true
+      
+    ALERT:
+      enforcement: "log and monitor only"
+      description: "Generate alert without blocking - requires analysis"
+      log_level: "info"
+      alert_guardian: true
+      
+    QUARANTINE:
+      enforcement: "file system isolation"
+      description: "Isolate files matching hash signatures"
+      log_level: "critical"
+      alert_guardian: true
+
+  # Guardian Integration
+  guardian_integration:
+    security_noise_threshold: 0.75
+    theta_adjustment:
+      on_threat_hit: "+0.262"  # ~15 degrees toward security mode
+      on_threat_clear: "-0.131"  # ~7.5 degrees back to normal
+    resonance_impact:
+      threat_detected: 0.81
+      threat_blocked: 0.92
+    focus_router_mode:
+      high_threat: "security_edge_case"
+      normal: "balanced_governance"
+    
+  # Logging Configuration
+  logging:
+    threat_events_path: "/var/sagco/logs/threats.jsonl"
+    alerts_path: "/var/sagco/logs/alerts.jsonl"
+    governance_path: "/var/sagco/logs/governance.jsonl"
+    retention_days: 90
+    
+  # Legal and Compliance
+  compliance:
+    framework: "Harbor Compliance + Internal SOC"
+    documentation: "sagco-os/policies/internal_security_policy.md"
+    audit_trail: true
+    incident_response_plan: "Required for all CRITICAL severity indicators"
+    
+  # Vendor Lock-in Prevention
+  vendor_agnostic:
+    philosophy: "Zero vendor lock-in - all sources and enforcement mechanisms are replaceable"
+    source_flexibility: "Threat intel sources can be added, removed, or replaced without system changes"
+    enforcement_flexibility: "Can use iptables, nftables, WireGuard, cloud firewall APIs, or any combination"
+    compiler_sovereignty: "SAGCO-OS logic for interpretation and action remains internal and proprietary"
