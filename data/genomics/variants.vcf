@@ -1,5 +1,0 @@
-##fileformat=VCFv4.2
-##source=TRIG6_SAGCO_GenomicsRecon
-##reference=simulated
-#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
-2	250	.	T	C	.	PASS	PATH=likely_pathogenic

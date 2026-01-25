@@ -35,3 +35,37 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Loihi Integration Output Data
+# These are generated files that shouldn't be committed
+data/processed/*.npy
+data/loihi/*.npy
+data/loihi/*.json
+data/loihi/*.py
+data/trig6/*.json
+data/genomics/*.json
+data/genomics/*.vcf
+data/genomics/*.txt
+data/pipeline_results.json
