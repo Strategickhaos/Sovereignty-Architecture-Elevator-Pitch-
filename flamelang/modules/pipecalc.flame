@@ -126,8 +126,9 @@ sovereign module pipecalc {
     /// Setback is the distance from the center of the bend to the tangent point
     /// For radius > 5": SETBACK = radius × tan(angle/2)
     fn setback_45(radius: f64) -> f64 {
-        // For 45° bend: tan(45°/2) = tan(22.5°) ≈ 0.4142
-        radius * 0.4142135623730951  // tan(22.5°)
+        // For 45° bend: tan(45°/2) = tan(22.5°)
+        let half_angle_rad = to_radians(22.5);
+        radius * tan(half_angle_rad)
     }
     
     /// Setback Calculation for any angle
@@ -141,14 +142,18 @@ sovereign module pipecalc {
     // ───────────────────────────────────────────────────────────────
     
     fn compute_travel(rise_deg: f64) -> f64 {
-        // Simplified travel calculation based on rise angle
-        // For 45° rise, typical travel multiplier is √2 ≈ 1.414
-        if rise_deg == 45.0 {
-            return 1.414;
-        } else if rise_deg == 30.0 {
-            return 2.000;
+        // Lookup table for common angles (avoids floating-point equality issues)
+        // Using approximate comparison for common values
+        let rise_rounded = (rise_deg * 10.0).round() / 10.0;
+        
+        if rise_rounded == 45.0 {
+            return COSECANT_45;  // 1.414
+        } else if rise_rounded == 30.0 {
+            return COSECANT_30;  // 2.000
+        } else if rise_rounded == 60.0 {
+            return COSECANT_60;  // 1.155
         } else {
-            // General formula: 1/sin(angle)
+            // General formula for other angles: 1/sin(angle)
             let rise_rad = to_radians(rise_deg);
             return 1.0 / sin(rise_rad);
         }

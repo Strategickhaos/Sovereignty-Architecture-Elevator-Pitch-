@@ -68,17 +68,23 @@ fn main() {
     
     let radius = 6.0;  // 6" radius
     
+    // Define standard bend multipliers as constants
+    let MULT_90 = 1.5708;   // π/2
+    let MULT_180 = 3.1416;  // π
+    let MULT_270 = 4.7123;  // 3π/2
+    let MULT_360 = 6.2832;  // 2π
+    
     let bend_90 = pipecalc::bend_length(radius, 90.0);
-    print(f"90° Bend (radius {radius}\"): {bend_90:.4}\" (Expected: {radius * 1.5708:.4}\")");
+    print(f"90° Bend (radius {radius}\"): {bend_90:.4}\" (Expected: {radius * MULT_90:.4}\")");
     
     let bend_180 = pipecalc::bend_length(radius, 180.0);
-    print(f"180° Bend (radius {radius}\"): {bend_180:.4}\" (Expected: {radius * 3.1416:.4}\")");
+    print(f"180° Bend (radius {radius}\"): {bend_180:.4}\" (Expected: {radius * MULT_180:.4}\")");
     
     let bend_270 = pipecalc::bend_length(radius, 270.0);
-    print(f"270° Bend (radius {radius}\"): {bend_270:.4}\" (Expected: {radius * 4.7123:.4}\")");
+    print(f"270° Bend (radius {radius}\"): {bend_270:.4}\" (Expected: {radius * MULT_270:.4}\")");
     
     let bend_360 = pipecalc::bend_length(radius, 360.0);
-    print(f"360° Bend (radius {radius}\"): {bend_360:.4}\" (Expected: {radius * 6.2832:.4}\")");
+    print(f"360° Bend (radius {radius}\"): {bend_360:.4}\" (Expected: {radius * MULT_360:.4}\")");
     print("");
     
     // ───────────────────────────────────────────────────────────────

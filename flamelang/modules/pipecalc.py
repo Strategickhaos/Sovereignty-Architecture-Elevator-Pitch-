@@ -191,14 +191,20 @@ def compute_travel(rise_deg: float) -> float:
     Returns:
         Travel multiplier
     """
-    if rise_deg == 45.0:
-        return 1.414
-    elif rise_deg == 30.0:
-        return 2.000
-    else:
-        # General formula: 1/sin(angle)
-        rise_rad = math.radians(rise_deg)
-        return 1.0 / math.sin(rise_rad)
+    # Lookup table for common angles
+    angle_multipliers = {
+        45.0: 1.414,
+        30.0: 2.000,
+        60.0: 1.155,
+    }
+    
+    # Use lookup table if angle is common
+    if rise_deg in angle_multipliers:
+        return angle_multipliers[rise_deg]
+    
+    # General formula for other angles: 1/sin(angle)
+    rise_rad = math.radians(rise_deg)
+    return 1.0 / math.sin(rise_rad)
 
 
 def methane_combustion() -> Combustion:
