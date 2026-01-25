@@ -107,7 +107,7 @@ The Egyptians optimized lime mortar without calculus:
 - Temperature regulation → **reduced N** (variability)
 - Strain selection → **increased R** (yield)
 
-**Fitness improvement: 0.09 → 0.51 (5.7x)**
+**Fitness improvement: 0.099 → 0.405 (4.1x)**
 
 ### 3. Universal Danger Zones
 

@@ -56,7 +56,7 @@ CaO + H2O → Ca(OH)2 → CaCO3
 | **R** | 0.80 (bond strength) | 0.85 (with pozzolans) | Material testing |
 | **D** | 0.20 (crack drift) | 0.15 (reduced cracking) | Shrinkage measurements |
 | **N** | 0.25 (aggregate noise) | 0.20 (controlled mixing) | Variance analysis |
-| **Fitness** | 0.432 | 0.520 | Longevity proxy |
+| **Fitness** | 0.432 | 0.488 | Longevity proxy |
 
 #### The Survival Mechanism
 
@@ -112,10 +112,10 @@ Optimized State:
   R: 0.75    # Improved yield
   D: 0.25    # Reduced contamination
   N: 0.20    # Controlled variability
-  Fitness: 0.455  # 0.75 * (1-0.25) * (1-0.20) * 0.9 = 0.405 - 4.1x improvement
+  Fitness: 0.405  # 0.75 * (1-0.25) * (1-0.20) * 0.9 = 0.405 - 4.1x improvement
 ```
 
-By 1945, industrial fermentation had achieved fitness > 0.50, enabling mass production that saved millions of lives.
+By 1945, industrial fermentation had achieved fitness > 0.40, enabling mass production that saved millions of lives.
 
 **The same stability mathematics that prevent airplane crashes governed penicillin production.**
 
