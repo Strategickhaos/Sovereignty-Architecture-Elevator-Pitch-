@@ -1,0 +1,292 @@
+# TRIG6 Configuration File (.t6)
+# EEG Seizure Basin Detection - Biomedical Application
+# Application: Neural stability monitoring and seizure prediction
+
+config_metadata:
+  name: "EEG Non-Seizure Basin Detection"
+  version: "1.0"
+  created: "2026-01-25"
+  author: "StrategicKhaos DAO LLC"
+  domain: "Biomedical - Neurological Monitoring"
+  description: "Identify and prove stable non-seizure states in EEG phase space"
+  
+  medical_disclaimer: |
+    This is a research tool, not a medical device.
+    Not approved for clinical diagnosis or treatment.
+    For research and development purposes only.
+
+hardware:
+  input:
+    type: "potentiometer"
+    pin: "A0"
+    range: [0, 1023]
+    physical_range: [0.0, 1.0]  # Normalized noise threshold
+    represents: "EEG noise/artifact threshold for basin detection"
+    
+    # In production, would be replaced with actual EEG signal processing
+    note: "Potentiometer simulates variable noise threshold for finding stable basins"
+  
+  feedback:
+    led_fitness:
+      pin: "D2"
+      color: "green"
+      meaning: "Stable non-seizure basin detected"
+    led_danger:
+      pin: "D3"
+      color: "red"
+      meaning: "Pre-seizure pattern or instability detected"
+    led_evolve:
+      pin: "D4"
+      color: "yellow"
+      meaning: "Analyzing EEG phase space"
+  
+  optional:
+    display:
+      type: "OLED 0.96in I2C"
+      shows: ["basin_name", "stability_score", "warning_level"]
+    
+    serial_output:
+      enabled: true
+      baud: 115200
+      format: "JSON streaming"
+
+trig6_parameters:
+  state:
+    R_initial: 0.0  # Represents neural synchrony
+    D_initial: 0.0  # Represents drift toward seizure state
+    theta_initial: 0.0  # Phase in neural oscillation cycle
+    N_initial: 0.0  # EEG noise/artifacts
+  
+  evolution:
+    alpha: 0.08  # Slower evolution for neural stability
+    decay: 0.98  # High persistence - neural state has inertia
+  
+  limits:
+    R_max: 1.5  # Maximum safe synchrony (too high = seizure risk)
+    D_crit: 0.2  # Very sensitive to drift
+    N_max: 0.4  # Moderate noise tolerance
+  
+  noise:
+    sensor_noise: 0.03  # EEG is noisy
+    model_noise: 0.02
+
+# Neural domain-specific mapping
+domain_mapping:
+  frequency_bands:
+    delta: [0.5, 4.0]    # Hz - deep sleep
+    theta: [4.0, 8.0]    # Hz - drowsiness
+    alpha: [8.0, 13.0]   # Hz - relaxed, eyes closed
+    beta: [13.0, 30.0]   # Hz - active thinking
+    gamma: [30.0, 100.0] # Hz - cognitive processing
+  
+  seizure_indicators:
+    spike_threshold: 2.0  # Standard deviations above baseline
+    sync_threshold: 1.3   # Excessive neural synchrony
+    drift_rate: 0.15      # Rapid change toward seizure state
+
+fitness_function:
+  type: "neural_stability"
+  
+  parameters:
+    # Safe operating ranges
+    safe_synchrony_min: 0.3
+    safe_synchrony_max: 1.2
+    max_drift_rate: 0.2
+    noise_tolerance: 0.3
+    
+    # Frequency preferences (mapped via theta)
+    preferred_alpha_beta: true  # Theta near π/2 to 3π/4
+    
+  formula: |
+    # Synchrony safety (R should be moderate)
+    if R < safe_synchrony_min:
+      sync_fitness = R / safe_synchrony_min  # Too low is also bad
+    elif R > safe_synchrony_max:
+      sync_fitness = exp(-(R - safe_synchrony_max) * 3.0)  # Seizure risk
+    else:
+      sync_fitness = 1.0
+    
+    # Drift stability (low is good)
+    drift_fitness = exp(-D / max_drift_rate)
+    
+    # Noise handling
+    if N > noise_tolerance:
+      noise_fitness = exp(-(N - noise_tolerance) * 5.0)
+    else:
+      noise_fitness = 1.0
+    
+    # Phase preference (favor alpha/beta rhythms)
+    # theta ∈ [π/2, 3π/4] represents healthy wakeful state
+    target_phase = 0.625 * PI  # 5π/8
+    phase_width = 0.25 * PI
+    phase_fitness = exp(-pow(theta - target_phase, 2) / phase_width)
+    
+    # Combined fitness
+    fitness = sync_fitness * drift_fitness * noise_fitness * phase_fitness
+  
+  threshold: 0.90  # Very high threshold for medical safety
+
+danger_zones:
+  excessive_synchrony:
+    enabled: true
+    condition: "R > 1.5"
+    warning_level: "CRITICAL"
+    reason: "Hypersynchrony - seizure precursor"
+    action: "Alert medical staff, log timestamp"
+  
+  rapid_drift:
+    enabled: true
+    condition: "D > 0.2"
+    warning_level: "HIGH"
+    reason: "Rapid state change detected"
+    action: "Increase monitoring frequency"
+  
+  spike_detection:
+    enabled: true
+    condition: "N > 0.5 and R > 1.0"
+    warning_level: "MEDIUM"
+    reason: "Possible spike/artifact"
+    action: "Log for review"
+  
+  low_synchrony:
+    enabled: true
+    condition: "R < 0.2"
+    warning_level: "LOW"
+    reason: "Very low neural activity"
+    action: "Check sensor connection"
+
+safe_basins:
+  # Known stable states from neurological research
+  
+  alpha_rhythm_basin:
+    name: "Relaxed Alpha Rhythm"
+    R_range: [0.6, 0.9]
+    D_max: 0.05
+    theta_range: [1.57, 2.36]  # π/2 to 3π/4
+    characteristics: "Eyes closed, relaxed, no cognitive load"
+  
+  beta_focus_basin:
+    name: "Focused Beta Activity"
+    R_range: [0.8, 1.1]
+    D_max: 0.08
+    theta_range: [2.36, 3.14]  # 3π/4 to π
+    characteristics: "Active thinking, problem solving"
+  
+  theta_meditation_basin:
+    name: "Deep Meditation / Light Sleep"
+    R_range: [0.4, 0.7]
+    D_max: 0.06
+    theta_range: [0.79, 1.57]  # π/4 to π/2
+    characteristics: "Meditative state, theta dominance"
+
+evolution_gate:
+  min_stable_duration: 5.0  # seconds - neural stability needs sustained observation
+  population_size: 20  # Collect more proven configs for statistical confidence
+  auto_log: true
+  
+  validation:
+    require_sustained_fitness: true
+    outlier_rejection: true
+    min_confidence: 0.95
+
+output:
+  format: "json"  # JSON for medical data integration
+  directory: "./proven_configs/eeg/"
+  filename_pattern: "eeg_basin_{timestamp}.json"
+  
+  fields:
+    - timestamp
+    - pot_value
+    - neural_synchrony_R
+    - drift_D
+    - phase_theta
+    - noise_N
+    - fitness
+    - basin_name
+    - warning_level
+    - frequency_band_estimate
+    - medical_notes
+  
+  streaming:
+    enabled: true
+    interval_ms: 100  # 10 Hz monitoring
+    format: "JSON-ND"  # Newline-delimited JSON
+
+monitoring_protocol: |
+  EEG Basin Detection Protocol:
+  
+  Phase 1 - Calibration:
+  1. Patient in relaxed state, eyes closed
+  2. Adjust potentiometer to represent noise threshold
+  3. Identify baseline alpha rhythm basin
+  4. Log proven stable configuration
+  
+  Phase 2 - Exploration:
+  1. Vary potentiometer to explore phase space
+  2. Map different neural states (alpha, beta, theta)
+  3. Identify boundaries between basins
+  4. Document transitions and stability
+  
+  Phase 3 - Seizure Prediction:
+  1. Monitor for drift toward danger zones
+  2. Track R approaching hypersynchrony threshold
+  3. Log any rapid phase transitions
+  4. Alert if fitness drops below threshold
+  
+  Phase 4 - Validation:
+  1. Compare TRIG6 basins to clinical EEG readings
+  2. Correlate proven basins with patient state
+  3. Validate danger zone accuracy
+  4. Refine fitness function parameters
+
+research_notes:
+  background: |
+    Traditional EEG analysis uses frequency-domain features (FFT).
+    TRIG6 provides complementary phase-space perspective.
+    
+    Phase space advantages:
+    - Captures transient dynamics
+    - Detects pre-seizure drift
+    - Identifies stable vs. chaotic regions
+    - Memoryless (current state focus)
+  
+  hypothesis: |
+    Non-seizure neural activity occupies stable basins in TRIG6 phase space.
+    Pre-seizure states show as drift out of stable basins.
+    Hypersynchrony (high R) precedes seizure onset.
+  
+  validation_needed:
+    - Clinical EEG correlation study
+    - Seizure prediction accuracy metrics
+    - False positive/negative rates
+    - Comparison to standard methods
+
+integration_with_neuro36:
+  compatibility: true
+  notes: |
+    This TRIG6 config can integrate with NEURO-36 seizure models.
+    Potentiometer input can be replaced with real EEG signal processing.
+    Fitness function can be trained on patient-specific data.
+  
+  future_development:
+    - Multi-channel EEG (multiple TRIG6 engines)
+    - Machine learning fitness optimization
+    - Real-time closed-loop intervention
+    - Integration with neural prosthetics
+
+safety_considerations:
+  limitations:
+    - "Not a substitute for medical EEG"
+    - "Requires validation against clinical data"
+    - "Not approved for patient care decisions"
+  
+  ethical_guidelines:
+    - "Research use only"
+    - "Informed consent required"
+    - "IRB approval for human studies"
+    - "Data privacy (HIPAA compliance if applicable)"
+  
+  liability_disclaimer: |
+    This system is for research purposes only.
+    Do not use for medical diagnosis or treatment without
+    appropriate regulatory approval and clinical validation.
