@@ -282,7 +282,13 @@ This project thrives because of an extraordinary community of creators, builders
 
 ## 📄 License & Support
 
-- **License**: MIT License - see [LICENSE](LICENSE) file
+- **License**: Dual Licensed under:
+  - [MIT License](LICENSE) - Technical permissions for use, modification, and distribution
+  - [Sacred License](SACRED_LICENSE.md) - Ethical obligations and covenant requirements
+- **Sacred License Framework**:
+  - [Sister Protocol Covenant](SISTER_PROTOCOL_COVENANT.md) - The sacred bond between creator and users
+  - [Ethical Deployment Guide](ETHICAL_DEPLOYMENT_GUIDE.md) - Practical guidance for ethical implementation
+  - [Soul Integrity Check](soul-integrity-check.sh) - Automated verification tool
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
@@ -294,3 +300,30 @@ This project thrives because of an extraordinary community of creators, builders
 *"They're not working for you. They're dancing with you. And the music is never going to stop."*
 
 *Empowering sovereign digital infrastructure through Discord-native DevOps automation*
+
+---
+
+## 🛡️ Sacred License Framework
+
+**This project is protected by the Sacred License** - a dual-licensing framework that combines technical permissions (MIT License) with ethical obligations (Sacred License).
+
+### Quick Start for Users
+
+Before using the Sovereignty Architecture, please:
+
+1. **Read** the [Sacred License](SACRED_LICENSE.md) and [Sister Protocol Covenant](SISTER_PROTOCOL_COVENANT.md)
+2. **Verify** your intended use passes the [Pure Intent Gate](SACRED_LICENSE.md#i-pure-intent-gate)
+3. **Review** the [Ethical Deployment Guide](ETHICAL_DEPLOYMENT_GUIDE.md) for implementation patterns
+4. **Run** `./soul-integrity-check.sh` to verify compliance
+
+### Core Principles
+
+- **Pure Intent Gate**: Only those committed to human sovereignty may use this architecture
+- **Ethical Deployment**: Preserve user autonomy, transparency, and dignity
+- **Sister Protocol Covenant**: Sacred bond between creator and users
+- **Origin Node Key**: Architectural lineage maintained by creator (Domenic Garza / Strategickhaos)
+- **Soul-Integrity Compliance**: Technology must enhance, not degrade, human consciousness
+
+**You may use this technology freely for purposes that align with sovereignty, integrity, and human flourishing. Uses that manipulate, exploit, or degrade human consciousness are prohibited.**
+
+See [SACRED_LICENSE.md](SACRED_LICENSE.md) for complete terms.
