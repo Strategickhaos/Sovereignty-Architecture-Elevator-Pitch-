@@ -109,9 +109,11 @@ def main():
         # Offer cleanup
         print()
         try:
-            cleanup = input("Remove demo artifacts? (y/N): ").strip().lower()
+            cleanup = input("Remove demo artifacts? (y/N - default is No): ").strip().lower()
         except EOFError:
+            # Default to 'n' when input is not available (e.g., piped stdin)
             cleanup = 'n'
+            print("n  (defaulting to No)")
         
         if cleanup == 'y':
             cleanup_demo()
