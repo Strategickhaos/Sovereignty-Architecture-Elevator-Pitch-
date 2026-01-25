@@ -151,7 +151,7 @@ class TRIG6Framework:
         return resonance * (1 - drift) * (1 - noise) * equilibrium
 
 
-class PharmacoopeiaSimulator:
+class PharmacopeiaSimulator:
     """Monte Carlo simulator for alchemical recipes."""
     
     def __init__(self, seed: int = None):
@@ -233,12 +233,12 @@ class PharmacoopeiaSimulator:
             
             # Ingredient balance based on configuration
             ingredient_values = list(config.values())
-            ingredient_balance = sum(ingredient_values) / len(ingredient_values) if ingredient_values else 0.5
+            mean_val = sum(ingredient_values) / len(ingredient_values) if ingredient_values else 0.5
+            ingredient_balance = mean_val
             
             resonance = TRIG6Framework.compute_resonance(ingredient_balance, progress)
             
             # Extremity based on variance from mean
-            mean_val = sum(ingredient_values) / len(ingredient_values) if ingredient_values else 0.5
             extremity = sum(abs(v - mean_val) for v in ingredient_values) / len(ingredient_values) if ingredient_values else 0
             
             drift = TRIG6Framework.compute_drift(extremity, recipe.hazard_level)
@@ -273,11 +273,11 @@ class PharmacoopeiaSimulator:
     
     @staticmethod
     def _std_dev(values: List[float]) -> float:
-        """Compute standard deviation."""
+        """Compute sample standard deviation."""
         if len(values) < 2:
             return 0.0
         mean = sum(values) / len(values)
-        variance = sum((x - mean) ** 2 for x in values) / len(values)
+        variance = sum((x - mean) ** 2 for x in values) / (len(values) - 1)
         return math.sqrt(variance)
 
 
@@ -407,11 +407,11 @@ class ReportGenerator:
     
     @staticmethod
     def _weighted_std(values: List[float]) -> float:
-        """Compute standard deviation of values."""
+        """Compute sample standard deviation of values."""
         if len(values) < 2:
             return 0.0
         mean = sum(values) / len(values)
-        variance = sum((x - mean) ** 2 for x in values) / len(values)
+        variance = sum((x - mean) ** 2 for x in values) / (len(values) - 1)
         return math.sqrt(variance)
 
 
@@ -480,7 +480,7 @@ def main():
     print()
     
     # Initialize simulator
-    simulator = PharmacoopeiaSimulator()
+    simulator = PharmacopeiaSimulator()
     
     # Run simulations for all recipes
     all_stats = []
