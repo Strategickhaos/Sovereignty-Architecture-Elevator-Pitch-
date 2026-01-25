@@ -14,7 +14,7 @@ import yaml
 import json
 import argparse
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Any
 
 
@@ -111,6 +111,24 @@ class ThreatIntelLoader:
         print(f"✅ Generated {len(blacklist)} DNS blacklist entries")
         return blacklist
     
+    def _parse_theta_adjustment(self, value: str) -> float:
+        """Parse theta adjustment value from string, handling +/- signs"""
+        try:
+            # Remove '+' prefix if present, keep '-' for negative values
+            cleaned = value.lstrip('+')
+            return float(cleaned)
+        except (ValueError, AttributeError):
+            return 0.0
+    
+    def _get_resonance_impact(self, action: str, guardian_config: Dict) -> float:
+        """Determine resonance impact based on action type"""
+        resonance_impacts = guardian_config.get('resonance_impact', {})
+        
+        if action == 'BLOCK':
+            return resonance_impacts.get('threat_blocked', 0.92)
+        else:
+            return resonance_impacts.get('threat_detected', 0.81)
+    
     def compile_guardian_alerts(self) -> List[Dict[str, Any]]:
         """Compile Guardian alert rules from threat indicators"""
         print("[Phase 2.6.2] Compiling Guardian alert rules...")
@@ -126,7 +144,8 @@ class ThreatIntelLoader:
             # Map severity to Guardian response
             theta_adjustment = 0.0
             if severity in ['critical', 'high'] and action in ['BLOCK', 'BLOCK_DNS', 'QUARANTINE']:
-                theta_adjustment = float(guardian_config['theta_adjustment']['on_threat_hit'].replace('+', ''))
+                theta_str = guardian_config['theta_adjustment']['on_threat_hit']
+                theta_adjustment = self._parse_theta_adjustment(theta_str)
             
             alert = {
                 'indicator': f"{indicator['type']}:{indicator['value']}",
@@ -134,7 +153,7 @@ class ThreatIntelLoader:
                 'severity': severity,
                 'action': action,
                 'theta_adjustment': theta_adjustment,
-                'resonance_impact': guardian_config['resonance_impact'].get('threat_blocked', 0.92) if action == 'BLOCK' else guardian_config['resonance_impact'].get('threat_detected', 0.81)
+                'resonance_impact': self._get_resonance_impact(action, guardian_config)
             }
             alerts.append(alert)
         
@@ -154,7 +173,7 @@ class ThreatIntelLoader:
             "severity": indicator.get('severity'),
             "action": indicator.get('action'),
             "enforcement_mechanism": "iptables" if indicator['type'] in ['ip', 'cidr'] else "dns_resolver",
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             "context": indicator.get('context'),
             "confidence": indicator.get('confidence'),
             "source": indicator.get('source'),
@@ -177,14 +196,14 @@ class ThreatIntelLoader:
         # Save iptables rules
         with open(f"{output_dir}/threat_iptables.rules", 'w') as f:
             f.write("# SAGCO-OS Threat Intelligence - iptables Rules\n")
-            f.write(f"# Generated: {datetime.utcnow().isoformat()}Z\n\n")
+            f.write(f"# Generated: {datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}\n\n")
             for rule in self.enforcement_rules['iptables']:
                 f.write(f"{rule}\n")
         
         # Save DNS blacklist
         with open(f"{output_dir}/threat_dns_blacklist.conf", 'w') as f:
             f.write("# SAGCO-OS Threat Intelligence - DNS Blacklist\n")
-            f.write(f"# Generated: {datetime.utcnow().isoformat()}Z\n\n")
+            f.write(f"# Generated: {datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}\n\n")
             for domain in self.enforcement_rules['dns_blacklist']:
                 f.write(f"{domain}\n")
         

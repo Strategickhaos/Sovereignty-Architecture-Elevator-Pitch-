@@ -433,7 +433,11 @@ This security policy is reviewed:
 
 **For Harbor Compliance or auditors:**
 
-> "Strategickhaos DAO LLC operates an internal Security Operations Center (SOC) powered by SAGCO-OS. During system boot, SAGCO-OS loads a threat intelligence database containing Indicators of Compromise (IOCs) from internal incidents and public threat feeds. These indicators are automatically compiled into firewall rules, VPN access controls, and DNS blacklists according to written security policy. All enforcement actions are logged with full audit trails for compliance and legal defensibility. The system focuses on behavior-based threat detection, not identity-based blocking, ensuring legal and ethical security operations."
+> Strategickhaos DAO LLC operates an internal Security Operations Center (SOC) powered by SAGCO-OS. During system boot, SAGCO-OS loads a threat intelligence database containing Indicators of Compromise (IOCs) from internal incidents and public threat feeds. 
+>
+> These indicators are automatically compiled into firewall rules, VPN access controls, and DNS blacklists according to written security policy. All enforcement actions are logged with full audit trails for compliance and legal defensibility. 
+>
+> The system focuses on behavior-based threat detection, not identity-based blocking, ensuring legal and ethical security operations.
 
 ---
 
