@@ -1,0 +1,252 @@
+#!/usr/bin/env python3
+"""
+SAGCO-MESH - Neural Mesh Node Discovery & Status
+SAGCO-HYDRA v1.0.6
+DNA Strand: SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1
+
+Discovers and reports status of all 5 nodes in the Strategickhaos Neural Mesh:
+- Athena (Subconscious) - i7-9700F, 64GB, RTX
+- Lyra (Right Hemisphere) - ASUS Laptop, WiFi 6
+- Nova (Left Hemisphere) - Intel Laptop, WiFi 6
+- Ateroth (Archive) - Sony VAIO, i5, 6GB
+- SAGCO-VM (Soul) - Alpine VirtualBox
+"""
+
+import socket
+import subprocess
+import sys
+import json
+from datetime import datetime
+from typing import Dict, List, Optional
+
+# MESH5 Node Configuration
+MESH_NODES = {
+    "athena": {
+        "name": "Athena",
+        "role": "Subconscious",
+        "ip": "192.168.2.26",
+        "specs": "i7-9700F, 64GB RAM, RTX GPU",
+        "ports": [22, 443, 8080]
+    },
+    "lyra": {
+        "name": "Lyra",
+        "role": "Right Hemisphere",
+        "ip": "Lyra_5G_Ctrl",  # Hostname-based
+        "specs": "ASUS Laptop, Realtek 8852, WiFi 6",
+        "ports": [22, 443]
+    },
+    "nova": {
+        "name": "Nova",
+        "role": "Left Hemisphere",
+        "ip": "192.168.1.25",
+        "specs": "Intel Laptop, Intel AX203, WiFi 6",
+        "ports": [22, 443]
+    },
+    "ateroth": {
+        "name": "Ateroth",
+        "role": "Archive",
+        "ip": "169.254.x.x",  # Link-local, discovery needed
+        "specs": "Sony VAIO, i5, 6GB RAM, HDD",
+        "ports": [22]
+    },
+    "sagco-vm": {
+        "name": "SAGCO-VM",
+        "role": "Soul",
+        "ip": "10.0.2.15",  # VirtualBox NAT default
+        "specs": "Alpine LTS, VirtualBox, 2GB RAM",
+        "ports": [22, 80]
+    }
+}
+
+def check_node_reachable(ip: str, port: int = 22, timeout: float = 2.0) -> bool:
+    """Check if a node is reachable via TCP connection"""
+    if 'x.x' in ip:  # Skip unconfigured IPs
+        return False
+    
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        result = sock.connect_ex((ip, port))
+        sock.close()
+        return result == 0
+    except (socket.gaierror, socket.timeout, OSError):
+        return False
+
+def ping_node(ip: str) -> bool:
+    """Ping a node to check basic network connectivity"""
+    if 'x.x' in ip:  # Skip unconfigured IPs
+        return False
+    
+    try:
+        # Use ping with 1 second timeout, 1 packet
+        result = subprocess.run(
+            ['ping', '-c', '1', '-W', '1', ip],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=2
+        )
+        return result.returncode == 0
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return False
+
+def discover_mesh(verbose: bool = False) -> Dict:
+    """Discover all mesh nodes and report their status"""
+    results = {
+        "timestamp": datetime.now().isoformat(),
+        "dna_strand": "SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1",
+        "mesh_version": "5.0",
+        "total_nodes": len(MESH_NODES),
+        "nodes_online": 0,
+        "nodes_offline": 0,
+        "nodes": {}
+    }
+    
+    print("╔═══════════════════════════════════════════════════════════════════════╗")
+    print("║         SAGCO-MESH NEURAL NETWORK DISCOVERY v1.0                     ║")
+    print("╚═══════════════════════════════════════════════════════════════════════╝")
+    print()
+    print(f"🧬 DNA Strand: {results['dna_strand']}")
+    print(f"🕐 Timestamp: {results['timestamp']}")
+    print(f"🌐 Mesh Topology: {results['mesh_version']} (5-Node Neural Network)")
+    print()
+    print("┌─────────────────────────────────────────────────────────────────────┐")
+    print("│ NODE DISCOVERY SCAN                                                 │")
+    print("├────────────┬──────────────┬─────────────┬──────────┬───────────────┤")
+    print("│ Node       │ Role         │ IP Address  │ Status   │ Response Time │")
+    print("├────────────┼──────────────┼─────────────┼──────────┼───────────────┤")
+    
+    for node_id, node in MESH_NODES.items():
+        node_name = node['name']
+        role = node['role']
+        ip = node['ip']
+        
+        # Try to discover node
+        is_online = False
+        response_time = "N/A"
+        
+        # Try ping first
+        if ping_node(ip):
+            is_online = True
+            response_time = "<1s"
+        
+        # Try TCP port check
+        if not is_online:
+            for port in node['ports']:
+                if check_node_reachable(ip, port):
+                    is_online = True
+                    response_time = "<2s"
+                    break
+        
+        status_icon = "🟢 ONLINE " if is_online else "🔴 OFFLINE"
+        
+        results['nodes'][node_id] = {
+            "name": node_name,
+            "role": role,
+            "ip": ip,
+            "specs": node['specs'],
+            "online": is_online,
+            "response_time": response_time
+        }
+        
+        if is_online:
+            results['nodes_online'] += 1
+        else:
+            results['nodes_offline'] += 1
+        
+        # Print row
+        print(f"│ {node_name:<10} │ {role:<12} │ {ip:<11} │ {status_icon} │ {response_time:<13} │")
+    
+    print("└────────────┴──────────────┴─────────────┴──────────┴───────────────┘")
+    print()
+    print(f"📊 Mesh Status: {results['nodes_online']}/{results['total_nodes']} nodes online")
+    print()
+    
+    # Print mesh topology
+    print("┌─────────────────────────────────────────────────────────────────────┐")
+    print("│ NEURAL MESH TOPOLOGY                                                │")
+    print("└─────────────────────────────────────────────────────────────────────┘")
+    print()
+    print("    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐")
+    print(f"    │   ATHENA    │     │    LYRA     │     │    NOVA     │")
+    print(f"    │Subconscious │     │ Right Hemi  │     │ Left Hemi   │")
+    print(f"    └──────{'🟢' if results['nodes']['athena']['online'] else '🔴'}──────┘     └──────{'🟢' if results['nodes']['lyra']['online'] else '🔴'}──────┘     └──────{'🟢' if results['nodes']['nova']['online'] else '🔴'}──────┘")
+    print("           │                   │                   │")
+    print("           └───────────────────┼───────────────────┘")
+    print("                               │")
+    print("    ┌─────────────┐     ┌──────┴──────┐     ┌─────────────┐")
+    print(f"    │   ATEROTH   │     │  MESH CORE  │     │  SAGCO-VM   │")
+    print(f"    │   Archive   │     │ (Tailscale) │     │    Soul     │")
+    print(f"    └──────{'🟢' if results['nodes']['ateroth']['online'] else '🔴'}──────┘     └─────────────┘     └──────{'🟢' if results['nodes']['sagco-vm']['online'] else '🔴'}──────┘")
+    print()
+    
+    if verbose:
+        print("┌─────────────────────────────────────────────────────────────────────┐")
+        print("│ DETAILED NODE SPECIFICATIONS                                        │")
+        print("└─────────────────────────────────────────────────────────────────────┘")
+        print()
+        for node_id, node_data in results['nodes'].items():
+            print(f"  [{node_data['name']}] - {node_data['role']}")
+            print(f"    IP: {node_data['ip']}")
+            print(f"    Specs: {node_data['specs']}")
+            print(f"    Status: {'ONLINE' if node_data['online'] else 'OFFLINE'}")
+            print()
+    
+    return results
+
+def save_mesh_state(results: Dict, filename: str = "mesh_state.json"):
+    """Save mesh discovery results to JSON file"""
+    with open(filename, 'w') as f:
+        json.dump(results, f, indent=2)
+    print(f"💾 Mesh state saved to: {filename}")
+
+def main():
+    """Main entry point"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(
+        description='SAGCO-MESH - Neural Mesh Node Discovery & Status',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        'action',
+        nargs='?',
+        default='status',
+        choices=['status', 'discover', 'sync', 'help'],
+        help='Action to perform (default: status)'
+    )
+    parser.add_argument(
+        '-v', '--verbose',
+        action='store_true',
+        help='Show detailed node specifications'
+    )
+    parser.add_argument(
+        '-o', '--output',
+        help='Save results to JSON file'
+    )
+    
+    args = parser.parse_args()
+    
+    if args.action == 'help':
+        parser.print_help()
+        return 0
+    
+    # Perform mesh discovery
+    results = discover_mesh(verbose=args.verbose)
+    
+    # Save to file if requested
+    if args.output:
+        save_mesh_state(results, args.output)
+    
+    # Exit code based on mesh health
+    if results['nodes_online'] == 0:
+        print("❌ CRITICAL: No mesh nodes online!")
+        return 2
+    elif results['nodes_online'] < results['total_nodes']:
+        print(f"⚠️  WARNING: Only {results['nodes_online']}/{results['total_nodes']} nodes online")
+        return 1
+    else:
+        print("✅ SUCCESS: All mesh nodes online!")
+        return 0
+
+if __name__ == '__main__':
+    sys.exit(main())
