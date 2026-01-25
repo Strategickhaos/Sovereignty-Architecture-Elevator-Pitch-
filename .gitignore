@@ -35,3 +35,7 @@ target/
 
 # Workspace data
 workspace/
+
+# TRIG6 simulation outputs
+trig6_outputs/
+*.png
