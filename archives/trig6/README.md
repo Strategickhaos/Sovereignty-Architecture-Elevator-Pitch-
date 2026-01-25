@@ -12,6 +12,8 @@ The TRIG6 Material Simulations Archive contains 36 blueprint specifications for 
 ### Scripts
 - `scripts/trig6_engine.py` - Core TRIG6 simulation engine
 - `scripts/potentiometer_proof.py` - Hardware integration for physical proof
+- `scripts/arduino_potentiometer.ino` - Arduino sketch for potentiometer interface
+- `scripts/demo_comprehensive.py` - Comprehensive demonstration of all features
 
 ### Blueprints (36 Total)
 
@@ -76,7 +78,21 @@ Threshold: f ≥ 0.5 = stable basin
 
 ## Quick Start
 
-### 1. Run the TRIG6 Engine
+### 1. Run the Comprehensive Demo
+
+```bash
+cd archives/trig6/scripts
+python3 demo_comprehensive.py
+```
+
+This showcases all TRIG6 features including:
+- Basic evaluation
+- Material comparison
+- Danger zone detection
+- Parameter optimization
+- Fitness formula explanation
+
+### 2. Run the TRIG6 Engine
 
 ```bash
 cd archives/trig6/scripts
@@ -88,7 +104,7 @@ This will run example simulations for:
 - BP-06: Cotton Rag (highest fitness)
 - BP-35: Chrome-Tanned Leather (danger zone)
 
-### 2. Test Potentiometer Integration
+### 3. Test Potentiometer Integration
 
 ```bash
 cd archives/trig6/scripts
@@ -99,6 +115,14 @@ Note: Hardware integration requires:
 - Arduino Uno/Nano with potentiometer on A0
 - pyserial library: `pip install pyserial`
 - Script enters simulation mode if hardware not available
+
+### 4. Upload Arduino Sketch
+
+For hardware proof system:
+1. Open `scripts/arduino_potentiometer.ino` in Arduino IDE
+2. Connect Arduino via USB
+3. Upload sketch to board
+4. Run `potentiometer_proof.py` with matching serial port
 
 ## Archive Summary
 
