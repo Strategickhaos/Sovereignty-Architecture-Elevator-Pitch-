@@ -1,0 +1,575 @@
+# TRIG6 Alchemical Index - 36 Recipes in Four Houses
+# Appendix G: Historical Alchemy TRIG6 Classification
+# WARNING: FOR MODELING ONLY - NOT OPERATIONAL CHEMISTRY
+
+# All parameters are normalized and symbolic.
+# This classification is for historical and mathematical modeling only, 
+# not for lab use or replication.
+
+recipes:
+  # ===================================================================
+  # HOUSE OF HERMES (1-9): Hermetic Corpus & Emerald Tablet
+  # Era: Greco-Egyptian (c. 100-300 CE)
+  # Theme: Transmutation, Universal Solvent, Elixir of Life
+  # ===================================================================
+
+  - id: "ALCH-HERMES-001"
+    name: "Prima Materia Extraction"
+    symbolic_role: "Seeking the base matter from which all things arise"
+    chemical_essence: "Chaotic mixture → symbolic purification → universal substrate"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/3"
+      R: 0.3
+      D: 0.5
+      N: 0.7
+      danger: true
+    notes: "High uncertainty; foundational concept, not practical recipe"
+
+  - id: "ALCH-HERMES-002"
+    name: "Solar Tincture"
+    symbolic_role: "Binding solar (gold) essence to spirit"
+    chemical_essence: "Gold-class metal + volatile spirit → symbolic gold essence"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.4
+      D: 0.5
+      N: 0.6
+      danger: true
+    notes: "Symbolic transmutation; model-only, never operational"
+
+  - id: "ALCH-HERMES-003"
+    name: "Lunar Tincture"
+    symbolic_role: "Binding lunar (silver) essence to spirit"
+    chemical_essence: "Silver-class metal + volatile spirit → symbolic silver essence"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.4
+      D: 0.4
+      N: 0.6
+      danger: true
+    notes: "Partner to solar tincture; symbolic pairing"
+
+  - id: "ALCH-HERMES-004"
+    name: "Mercury Fixation"
+    symbolic_role: "Binding the volatile spirit to the body"
+    chemical_essence: "Mercury-class metal + sulfur-class mineral → sulfide"
+    hazard_level: "HIGH"
+    trig6_signature:
+      theta_class: "π/2"
+      R: 0.4
+      D: 0.6
+      N: 0.5
+      danger: true
+    notes: "Always treated as a red-zone process; model-only, never operational"
+
+  - id: "ALCH-HERMES-005"
+    name: "Universal Solvent (Alkahest)"
+    symbolic_role: "The solvent that dissolves all substances"
+    chemical_essence: "Hypothetical super-acid or super-base concept"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "3π/4"
+      R: 0.1
+      D: 0.9
+      N: 0.8
+      danger: true
+    notes: "Purely theoretical; never successfully created historically"
+
+  - id: "ALCH-HERMES-006"
+    name: "Philosopher's Stone (Red Stone)"
+    symbolic_role: "Transmutation catalyst for base metals to gold"
+    chemical_essence: "Complex mineral-metal matrix (historically unsuccessful)"
+    hazard_level: "HIGH"
+    trig6_signature:
+      theta_class: "2π/3"
+      R: 0.2
+      D: 0.7
+      N: 0.9
+      danger: true
+    notes: "The ultimate goal of Western alchemy; never achieved"
+
+  - id: "ALCH-HERMES-007"
+    name: "White Stone (Lesser Work)"
+    symbolic_role: "Transmutation to silver; preliminary stage"
+    chemical_essence: "Similar to red stone but for silver transmutation"
+    hazard_level: "HIGH"
+    trig6_signature:
+      theta_class: "π/2"
+      R: 0.3
+      D: 0.6
+      N: 0.8
+      danger: true
+    notes: "Theoretical precursor to the red stone"
+
+  - id: "ALCH-HERMES-008"
+    name: "Elixir of Life"
+    symbolic_role: "Universal medicine granting longevity"
+    chemical_essence: "Theoretical compound of balanced humors"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "5π/6"
+      R: 0.2
+      D: 0.8
+      N: 0.9
+      danger: true
+    notes: "Medicinal goal of alchemy; never achieved safely"
+
+  - id: "ALCH-HERMES-009"
+    name: "Quintessence Extraction"
+    symbolic_role: "Fifth element beyond earth/air/fire/water"
+    chemical_essence: "Distillation of distillations → purest spirit"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/4"
+      R: 0.5
+      D: 0.5
+      N: 0.6
+      danger: true
+    notes: "Repeated distillation process; symbolic purity"
+
+  # ===================================================================
+  # HOUSE OF ZOSIMOS (10-18): Greek-Egyptian Practical Alchemy
+  # Era: Late Antiquity (c. 300 CE)
+  # Theme: Distillations, Dyes, Metallurgy, Practical Crafts
+  # ===================================================================
+
+  - id: "ALCH-ZOSIMOS-010"
+    name: "Copper Distillation"
+    symbolic_role: "Purifying copper through fire and condensation"
+    chemical_essence: "Copper-class metal → heating → vapor recovery"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/3"
+      R: 0.6
+      D: 0.4
+      N: 0.5
+      danger: true
+    notes: "Early metallurgical distillation; moderate toxicity"
+
+  - id: "ALCH-ZOSIMOS-011"
+    name: "Purple Dye (Tyrian)"
+    symbolic_role: "Extracting royal purple from mollusks"
+    chemical_essence: "Organic brominated compound from sea snails"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.8
+      D: 0.2
+      N: 0.3
+      danger: false
+    notes: "Historical dye production; relatively safe process"
+
+  - id: "ALCH-ZOSIMOS-012"
+    name: "Bronze Alloy Recipe"
+    symbolic_role: "Combining copper and tin for stronger metal"
+    chemical_essence: "Copper + tin → bronze alloy"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/4"
+      R: 0.8
+      D: 0.2
+      N: 0.2
+      danger: false
+    notes: "Practical metallurgy; well-understood process"
+
+  - id: "ALCH-ZOSIMOS-013"
+    name: "Glass Making (Lead Glass)"
+    symbolic_role: "Creating transparent stone through fire"
+    chemical_essence: "Silica + lead oxide + heat → glass"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/3"
+      R: 0.7
+      D: 0.4
+      N: 0.3
+      danger: true
+    notes: "Lead toxicity concern; otherwise stable"
+
+  - id: "ALCH-ZOSIMOS-014"
+    name: "Gold Gilding Solution"
+    symbolic_role: "Coating base metals with gold appearance"
+    chemical_essence: "Gold salts in solution → surface deposition"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/4"
+      R: 0.7
+      D: 0.3
+      N: 0.4
+      danger: false
+    notes: "Decorative metalwork; moderate complexity"
+
+  - id: "ALCH-ZOSIMOS-015"
+    name: "Sulfur Purification"
+    symbolic_role: "Extracting pure philosophical sulfur"
+    chemical_essence: "Sulfur-class mineral → sublimation → purified sulfur"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/3"
+      R: 0.6
+      D: 0.4
+      N: 0.4
+      danger: true
+    notes: "Produces toxic SO2 fumes; requires ventilation"
+
+  - id: "ALCH-ZOSIMOS-016"
+    name: "Ink Recipe (Lampblack)"
+    symbolic_role: "Capturing fire's residue for writing"
+    chemical_essence: "Carbon + resin → stable ink"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/4"
+      R: 0.7
+      D: 0.3
+      N: 0.4
+      danger: false
+    notes: "Safe example; see full worked example ALCH-ZOSIMOS-INK-001"
+
+  - id: "ALCH-ZOSIMOS-017"
+    name: "Iron Black Dye"
+    symbolic_role: "Creating deep black from iron salts"
+    chemical_essence: "Iron salts + tannins → iron-tannin complex"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.8
+      D: 0.2
+      N: 0.3
+      danger: false
+    notes: "Basis of iron gall ink; historically important"
+
+  - id: "ALCH-ZOSIMOS-018"
+    name: "Cinnabar Synthesis"
+    symbolic_role: "Creating vermillion pigment from mercury and sulfur"
+    chemical_essence: "Mercury + sulfur → mercury sulfide (HgS)"
+    hazard_level: "HIGH"
+    trig6_signature:
+      theta_class: "π/2"
+      R: 0.5
+      D: 0.7
+      N: 0.5
+      danger: true
+    notes: "Mercury toxicity; produces toxic fumes"
+
+  # ===================================================================
+  # HOUSE OF JABIR (19-27): Islamic Golden Age Chemistry
+  # Era: 8th-9th Century CE
+  # Theme: Acids, Salts, Mineral Processing
+  # ===================================================================
+
+  - id: "ALCH-JABIR-019"
+    name: "Aqua Fortis (Strong Water)"
+    symbolic_role: "The acid that dissolves silver but not gold"
+    chemical_essence: "Strong mineral acid (nitric acid type)"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "2π/3"
+      R: 0.3
+      D: 0.9
+      N: 0.5
+      danger: true
+    notes: "Highly corrosive; model-only, never operational"
+
+  - id: "ALCH-JABIR-020"
+    name: "Aqua Regia (Royal Water)"
+    symbolic_role: "The acid that dissolves gold"
+    chemical_essence: "Strong mixed acid system"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "3π/4"
+      R: 0.4
+      D: 0.9
+      N: 0.6
+      danger: true
+    notes: "Extremely corrosive and toxic; model-only"
+
+  - id: "ALCH-JABIR-021"
+    name: "Sal Ammoniac Preparation"
+    symbolic_role: "Creating the white salt of Jupiter"
+    chemical_essence: "Ammonium chloride from natural sources"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/4"
+      R: 0.7
+      D: 0.3
+      N: 0.4
+      danger: false
+    notes: "Important alchemical reagent; moderate hazard"
+
+  - id: "ALCH-JABIR-022"
+    name: "Verdigris Production"
+    symbolic_role: "Growing green crystals on copper"
+    chemical_essence: "Copper + acetic acid → copper acetate"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.7
+      D: 0.3
+      N: 0.3
+      danger: false
+    notes: "Copper toxicity; used in pigments and medicine"
+
+  - id: "ALCH-JABIR-023"
+    name: "Alum Purification"
+    symbolic_role: "Crystallizing the double salt"
+    chemical_essence: "Aluminum potassium sulfate crystallization"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/8"
+      R: 0.8
+      D: 0.2
+      N: 0.2
+      danger: false
+    notes: "Used in dyeing and tanning; safe process"
+
+  - id: "ALCH-JABIR-024"
+    name: "Borax Refinement"
+    symbolic_role: "Purifying the white flux"
+    chemical_essence: "Sodium borate purification"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.8
+      D: 0.2
+      N: 0.3
+      danger: false
+    notes: "Metallurgical flux; relatively safe"
+
+  - id: "ALCH-JABIR-025"
+    name: "Sulfuric Oil (Oil of Vitriol)"
+    symbolic_role: "The green lion devouring the sun"
+    chemical_essence: "Concentrated sulfuric acid"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "5π/6"
+      R: 0.3
+      D: 0.9
+      N: 0.6
+      danger: true
+    notes: "Extremely corrosive; model-only, never operational"
+
+  - id: "ALCH-JABIR-026"
+    name: "Spirit of Salt (Muriatic Acid)"
+    symbolic_role: "The volatile essence of common salt"
+    chemical_essence: "Hydrochloric acid from salt"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "2π/3"
+      R: 0.4
+      D: 0.8
+      N: 0.5
+      danger: true
+    notes: "Highly corrosive; model-only, never operational"
+
+  - id: "ALCH-JABIR-027"
+    name: "Copperas (Green Vitriol)"
+    symbolic_role: "Crystallizing the martial essence"
+    chemical_essence: "Iron sulfate crystallization"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.8
+      D: 0.2
+      N: 0.3
+      danger: false
+    notes: "Used in ink and dye; safe crystallization"
+
+  # ===================================================================
+  # HOUSE OF PARACELSUS (28-36): Renaissance Medical Alchemy
+  # Era: 16th Century CE
+  # Theme: Spagyric Medicine, Tinctures, Iatrochemistry
+  # ===================================================================
+
+  - id: "ALCH-PARACELSUS-028"
+    name: "Laudanum Tincture"
+    symbolic_role: "The sleep-inducing panacea"
+    chemical_essence: "Opiate alkaloids in alcohol solution"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "π/2"
+      R: 0.6
+      D: 0.8
+      N: 0.4
+      danger: true
+    notes: "Highly addictive; historical overdose risk; model-only"
+
+  - id: "ALCH-PARACELSUS-029"
+    name: "Antimony Wine"
+    symbolic_role: "The purging cup that cures seizures"
+    chemical_essence: "Antimony salts in wine (emetic and toxic)"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "2π/3"
+      R: 0.5
+      D: 0.8
+      N: 0.5
+      danger: true
+    notes: "Severe toxicity; ties to NEURO-36 EPI-032 model"
+
+  - id: "ALCH-PARACELSUS-030"
+    name: "Mercury Sublimate Medicine"
+    symbolic_role: "Treating syphilis with the serpent's cure"
+    chemical_essence: "Mercury chloride as antisyphilitic"
+    hazard_level: "EXTREME"
+    trig6_signature:
+      theta_class: "3π/4"
+      R: 0.4
+      D: 0.9
+      N: 0.6
+      danger: true
+    notes: "Mercury poisoning common; model-only"
+
+  - id: "ALCH-PARACELSUS-031"
+    name: "Spagyric Herbal Essence"
+    symbolic_role: "Separating and recombining plant spirits"
+    chemical_essence: "Alcohol extraction → distillation → recombination"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/4"
+      R: 0.7
+      D: 0.3
+      N: 0.4
+      danger: false
+    notes: "Foundational to modern herbal tinctures"
+
+  - id: "ALCH-PARACELSUS-032"
+    name: "Calcined Coral (Coral Calx)"
+    symbolic_role: "Ocean's gift for stomach ailments"
+    chemical_essence: "Calcium carbonate from heated coral"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.8
+      D: 0.1
+      N: 0.2
+      danger: false
+    notes: "Antacid precursor; safe preparation"
+
+  - id: "ALCH-PARACELSUS-033"
+    name: "Theriac (Universal Antidote)"
+    symbolic_role: "The compound of 64 ingredients"
+    chemical_essence: "Complex mixture including opium, herbs, honey"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/3"
+      R: 0.5
+      D: 0.5
+      N: 0.7
+      danger: true
+    notes: "Opiate content; high variability; model-only"
+
+  - id: "ALCH-PARACELSUS-034"
+    name: "Aurum Potabile (Drinkable Gold)"
+    symbolic_role: "Gold dissolved for longevity"
+    chemical_essence: "Gold salts or colloidal gold in solution"
+    hazard_level: "MEDIUM"
+    trig6_signature:
+      theta_class: "π/4"
+      R: 0.3
+      D: 0.6
+      N: 0.7
+      danger: true
+    notes: "Questionable efficacy; potential toxicity"
+
+  - id: "ALCH-PARACELSUS-035"
+    name: "Wound Salve (Weapon Salve)"
+    symbolic_role: "Healing at a distance via sympathetic magic"
+    chemical_essence: "Moss, herbs, and oils (non-toxic)"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/8"
+      R: 0.4
+      D: 0.2
+      N: 0.6
+      danger: false
+    notes: "Symbolic/placebo medicine; safe ingredients"
+
+  - id: "ALCH-PARACELSUS-036"
+    name: "Melissa Cordial (Carmelite Water)"
+    symbolic_role: "The heart-strengthening spirit"
+    chemical_essence: "Lemon balm + spices in alcohol"
+    hazard_level: "LOW"
+    trig6_signature:
+      theta_class: "π/6"
+      R: 0.7
+      D: 0.2
+      N: 0.3
+      danger: false
+    notes: "Herbal cordial; relatively safe; still used today"
+
+# ===================================================================
+# SUMMARY STATISTICS
+# ===================================================================
+summary:
+  total_recipes: 36
+  houses:
+    - name: "Hermes"
+      count: 9
+      era: "Greco-Egyptian (100-300 CE)"
+      avg_hazard: "MEDIUM-HIGH"
+    - name: "Zosimos"
+      count: 9
+      era: "Late Antiquity (c. 300 CE)"
+      avg_hazard: "LOW-MEDIUM"
+    - name: "Jabir"
+      count: 9
+      era: "Islamic Golden Age (8-9th C.)"
+      avg_hazard: "MEDIUM-HIGH"
+    - name: "Paracelsus"
+      count: 9
+      era: "Renaissance (16th C.)"
+      avg_hazard: "MEDIUM-HIGH"
+
+  hazard_distribution:
+    LOW: 13
+    MEDIUM: 10
+    HIGH: 5
+    EXTREME: 8
+
+  theta_class_distribution:
+    "π/8": 2
+    "π/6": 9
+    "π/4": 8
+    "π/3": 6
+    "π/2": 5
+    "2π/3": 4
+    "3π/4": 2
+    "5π/6": 2
+
+  danger_flag:
+    true: 23
+    false: 13
+
+# ===================================================================
+# NEURO-36 CROSS-MAPPING CANDIDATES
+# ===================================================================
+neuro36_hypotheses:
+  - recipe_id: "ALCH-PARACELSUS-029"
+    disease_codon: "EPI-032"
+    symptom_cluster: "Seizure disorders"
+    hypothesis: "Antimony's anticonvulsant effects vs. severe toxicity"
+    joint_fitness_estimate: 0.15
+    note: "Historical use; modern equivalents safer"
+
+  - recipe_id: "ALCH-PARACELSUS-028"
+    disease_codon: "PAIN-015"
+    symptom_cluster: "Chronic pain, palliative care"
+    hypothesis: "Opiate analgesia vs. addiction risk"
+    joint_fitness_estimate: 0.25
+    note: "Known efficacy but unacceptable toxicity profile"
+
+  - recipe_id: "ALCH-PARACELSUS-031"
+    disease_codon: "INF-008"
+    symptom_cluster: "Inflammatory conditions"
+    hypothesis: "Herbal anti-inflammatory compounds"
+    joint_fitness_estimate: 0.45
+    note: "Low toxicity; basis for modern phytotherapy"
+
+  - recipe_id: "ALCH-PARACELSUS-032"
+    disease_codon: "GI-012"
+    symptom_cluster: "Gastric hyperacidity"
+    hypothesis: "Calcium carbonate as antacid"
+    joint_fitness_estimate: 0.65
+    note: "Safe and effective; still used today"
