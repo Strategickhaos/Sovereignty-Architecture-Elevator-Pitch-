@@ -122,7 +122,7 @@ class TRIG6Engine:
         N: float,
         eq: float,
         steps: int = 100
-    ) -> TRIG6State:
+    ) -> Optional[TRIG6State]:
         """
         Find optimal theta value in a range to maximize fitness.
         
@@ -136,12 +136,12 @@ class TRIG6Engine:
             steps: Number of steps to evaluate
         
         Returns:
-            TRIG6State with highest fitness in the range
+            TRIG6State with highest fitness in the range, or None if all dangerous
         """
         best_state = None
         best_fitness = -1
         
-        for i in range(steps):
+        for i in range(steps + 1):  # Include endpoint
             theta = theta_start + (theta_end - theta_start) * (i / steps)
             state = self.evaluate(theta, R, D, N, eq)
             
