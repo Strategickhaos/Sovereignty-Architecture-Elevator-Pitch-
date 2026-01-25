@@ -35,3 +35,9 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameLang CI artifacts
+stress_results.json
+graph/trig6_neurograph.json
+graph/trig6_neurograph.dot
+legion_*.json
