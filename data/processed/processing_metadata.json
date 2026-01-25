@@ -1,0 +1,27 @@
+{
+  "statistics": {
+    "total_spikes": 49078,
+    "spike_rate_percent": 29.954833984375,
+    "num_epochs": 10,
+    "num_channels": 64,
+    "samples_per_epoch": 256
+  },
+  "config": {
+    "eeg": {
+      "sample_rate": 256,
+      "num_channels": 64,
+      "filter_low": 0.5,
+      "filter_high": 40.0,
+      "notch_freq": 60,
+      "epoch_duration": 1.0,
+      "normalization": "z-score"
+    },
+    "spike": {
+      "method": "rate_coding",
+      "threshold": 0.5,
+      "max_spike_rate": 200,
+      "time_window": 0.01
+    }
+  },
+  "timestamp": "2026-01-25T11:19:58.472101"
+}
