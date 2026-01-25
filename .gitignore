@@ -40,3 +40,4 @@ workspace/
 bench_cache/
 results.json
 __pycache__/flamebench.cpython-*.pyc
+__pycache__/demo_flamebench.cpython-*.pyc
