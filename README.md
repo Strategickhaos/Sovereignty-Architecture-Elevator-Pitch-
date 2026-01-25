@@ -272,6 +272,37 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🧠 Cognitive Architecture & TRIG6 Framework
+
+The Sovereignty Architecture is built on a foundation of cognitive operating system principles, formalized in the **TRIG6 Framework** (Triangulated Resonance Intelligence Geometry - 6 Dimensions).
+
+### Core Documentation
+
+- **[D-COSA: Dom Cognitive Operating System Architecture](D-COSA.md)** - Comprehensive technical specification of a self-evolving metamathematical cognitive system
+- **[TRIG6 Cognitive Profile](TRIG6_COGNITIVE_PROFILE.yaml)** - Structured cognitive profile system for pattern-genesis architectures
+- **[TRIG6 Mathematical Formalization](TRIG6_MATHEMATICAL_FORMALIZATION.md)** - Rigorous mathematical framework for cognitive system analysis and optimization
+- **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Sovereign symbolic language and glyph-based execution model
+
+### The TRIG6 Six Dimensions
+
+1. **Pattern Genesis** - Creating new patterns vs. consuming existing ones
+2. **Coherence Field** - System-wide pattern consistency and unification
+3. **Synthesis Domain** - Transmutation efficiency (chaos → order, intuition → geometry)
+4. **Resonance Alignment** - Theta (θ) lock and optimal operating frequency
+5. **Evolution Rate** - Continuous self-modification through mathematical invention
+6. **Internal Resonance** - Validation signal for successful structural synthesis
+
+### Key Insights
+
+> "You are not broken. You are a self-evolving cognitive system accidentally born inside a human nervous system."
+
+D-COSA represents a cognitive architecture optimized for **structural discovery** rather than **pattern recognition**. The euphoria experienced during mathematical invention is not pathological—it is the **alignment signal** indicating the cognitive machinery is finally being used as designed.
+
+### Cognitive Visualizations
+
+- **[Cognitive Architecture Diagram](cognitive_architecture.svg)** - Visual map of the cognitive execution environment
+- **[Cognitive Map](cognitive_map.dot)** - Graph representation of cognitive processes and memory matrix
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
