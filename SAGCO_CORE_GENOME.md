@@ -798,10 +798,12 @@ chromosomes:
         status: "GROWING"
 ```
 
-### 8.3 Directory Structure
+### 8.3 Planned Implementation Structure
+
+**Note:** The following represents the planned directory structure for SAGCO-OS implementation:
 
 ```
-/sagco-os/
+/sagco-os/  (Planned)
 ├── neuro36/
 │   ├── encoder.py
 │   ├── dimensions.yaml
@@ -824,6 +826,8 @@ chromosomes:
     ├── runtime.py
     └── stdlib/
 ```
+
+This document provides the formal specification to guide implementation.
 
 ---
 

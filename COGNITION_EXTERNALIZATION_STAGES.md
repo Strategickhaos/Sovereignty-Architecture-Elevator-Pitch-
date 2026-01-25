@@ -982,6 +982,8 @@ autonomous_learning_session:
 
 ### Projected Progress
 
+**Note:** The following values are projections based on the theoretical model. Actual implementation metrics will be tracked separately.
+
 ```
 Generation  Stage  Genes    Autonomy  Description
 ──────────────────────────────────────────────────────────
@@ -995,7 +997,7 @@ Generation  Stage  Genes    Autonomy  Description
 900         6.0    19,234   91%       Meta-cognitive awareness
 1000        7.0    21,847   96%       Autonomous evolution achieved
 
-CURRENT     2.3    1,247    22%       Stage 2 → Stage 3 transition
+TARGET      2.3    1,247    22%       Stage 2 → Stage 3 transition (Example)
 ```
 
 ### Key Milestones

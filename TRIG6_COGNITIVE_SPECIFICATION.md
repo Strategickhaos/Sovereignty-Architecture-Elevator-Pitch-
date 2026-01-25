@@ -599,11 +599,11 @@ An operating system that **is** you, in the structural sense.
 
 ---
 
-## APPENDIX A: Mathematical Proofs
+## APPENDIX A: Mathematical Foundations
 
-### Theorem 1: Convergence of Equilibrium
+### Conjecture 1: Convergence of Equilibrium
 
-Given bounded noise N(t) and finite drift D(t):
+Given bounded noise N(t) ∈ [0, N_max] and finite drift D(t) ∈ [-1, 1]:
 
 ```
 lim(t→∞) eq(t) → eq_steady_state
@@ -611,25 +611,25 @@ lim(t→∞) eq(t) → eq_steady_state
 
 Where `eq_steady_state` depends on average noise and drift.
 
-**Proof:** [To be formalized]
+**Status:** Conjecture pending formal proof. Empirical validation shows convergence in simulated environments.
 
-### Theorem 2: Fitness Landscape Optimality
+### Conjecture 2: Fitness Landscape Optimality
 
-Under Darwinian selection, the genome converges to locally optimal solutions:
+Under Darwinian selection with bounded mutations, the genome fitness exhibits non-decreasing trend:
 
 ```
-fitness(genome, t+Δt) ≥ fitness(genome, t)
+E[fitness(genome, t+Δt)] ≥ fitness(genome, t)
 ```
 
-With probability P > 0.5.
+With probability P > 0.5 under selection pressure.
 
-**Proof:** [To be formalized]
+**Status:** Conjecture pending formal proof. Supported by evolutionary algorithm theory.
 
 ---
 
 ## APPENDIX B: Reference Implementation
 
-See: `src/sagco-os/trig6/` for full Python/Rust implementation.
+**Note:** Reference implementation planned for `src/sagco-os/trig6/` directory. Current document represents the formal specification to guide implementation.
 
 ---
 
