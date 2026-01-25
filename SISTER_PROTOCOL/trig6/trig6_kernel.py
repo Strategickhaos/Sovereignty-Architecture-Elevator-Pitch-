@@ -24,7 +24,8 @@ def load_gene(path: str) -> Dict:
 def compute_theta(gene: Dict, params: Dict) -> float:
     """Compute phase angle from parameters."""
     # Default: normalize params to [0, 2π]
-    values = list(params.values())
+    # Only use numeric values
+    values = [v for v in params.values() if isinstance(v, (int, float))]
     if not values:
         return 0.0
     normalized = sum(values) / len(values)
@@ -119,8 +120,12 @@ def evolve_gene(gene: Dict, generations: int = 100,
     champion = {}
     for key in gene.get('parameters', {}).keys():
         param_range = gene['parameters'][key]
-        if isinstance(param_range, list) and len(param_range) == 2:
-            champion[key] = random.uniform(param_range[0], param_range[1])
+        if isinstance(param_range, list) and len(param_range) >= 2:
+            if isinstance(param_range[0], (int, float)) and isinstance(param_range[1], (int, float)):
+                champion[key] = random.uniform(param_range[0], param_range[1])
+            else:
+                # Non-numeric - pick random option
+                champion[key] = random.choice(param_range)
         else:
             champion[key] = param_range
     
@@ -129,13 +134,20 @@ def evolve_gene(gene: Dict, generations: int = 100,
     for g in range(generations):
         # Mutate
         challenger = champion.copy()
-        mutate_key = random.choice(list(challenger.keys()))
+        # Only mutate numeric parameters
+        numeric_keys = [k for k in challenger.keys() 
+                       if isinstance(challenger[k], (int, float))]
+        if not numeric_keys:
+            break  # No numeric parameters to evolve
+        
+        mutate_key = random.choice(numeric_keys)
         param_range = gene['parameters'].get(mutate_key, [0, 1])
-        if isinstance(param_range, list) and len(param_range) == 2:
-            mutation = random.gauss(0, (param_range[1] - param_range[0]) * 0.1)
-            challenger[mutate_key] = max(param_range[0], 
-                                         min(param_range[1], 
-                                             challenger[mutate_key] + mutation))
+        if isinstance(param_range, list) and len(param_range) >= 2:
+            if isinstance(param_range[0], (int, float)) and isinstance(param_range[1], (int, float)):
+                mutation = random.gauss(0, (param_range[1] - param_range[0]) * 0.1)
+                challenger[mutate_key] = max(param_range[0], 
+                                             min(param_range[1], 
+                                                 challenger[mutate_key] + mutation))
         
         # Simulate (domain-specific - override in subclass)
         metrics = simulate_gene(gene, challenger)
@@ -184,8 +196,17 @@ if __name__ == "__main__":
         print(f"Champion fitness: {score:.4f}")
     else:
         # Single evaluation with default params
-        params = {k: (v[0] + v[1])/2 if isinstance(v, list) else v 
-                  for k, v in gene.get('parameters', {}).items()}
+        params = {}
+        for k, v in gene.get('parameters', {}).items():
+            if isinstance(v, list) and len(v) >= 2:
+                # Check if numeric
+                if isinstance(v[0], (int, float)) and isinstance(v[1], (int, float)):
+                    params[k] = (v[0] + v[1])/2
+                else:
+                    # Non-numeric list (e.g., strings) - pick middle option
+                    params[k] = v[len(v)//2]
+            else:
+                params[k] = v
         metrics = simulate_gene(gene, params)
         state = evaluate_gene(gene, params, metrics)
         

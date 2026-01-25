@@ -1,0 +1,117 @@
+# /craft_genes/DAMASCUS_001.t6.yaml
+
+meta:
+  id: "DAMASCUS-001-WOOTZ"
+  era: "Ancient India/Damascus (~300 BCE - 1700 CE)"
+  process: "Wootz steel → Damascus blade"
+  dna_sequence: "ATG-ORE-SMELT-FORGE-QUENCH-PATTERN-TAA"
+  survival_examples: "Museum blades, modern recreations"
+  lost_knowledge: "Exact carbon/trace-element ratios, forging temperatures"
+
+parameters:
+  iron_ore_purity: [0.85, 0.99]
+  carbon_content_pct: [1.0, 1.8]
+  chromium_ppm: [100, 500]
+  vanadium_ppm: [50, 200]
+  manganese_pct: [0.1, 0.5]
+  
+  crucible_temp_c: [1100, 1400]
+  soak_time_hours: [12, 36]
+  cooling_rate_c_per_hour: [10, 100]
+  
+  forge_cycles: [50, 200]
+  forge_temp_c: [800, 1100]
+  fold_count: [5, 15]
+  
+  quench_temp_c: [800, 900]
+  quench_medium: ["oil", "water", "brine"]
+  tempering_temp_c: [150, 400]
+
+operations:
+  - id: "OP1-SMELT"
+    name: "crucible_smelt"
+    input: "Iron ore + carbon source + trace elements"
+    output: "Wootz steel ingot"
+    critical: "Temperature control, atmosphere management"
+    
+  - id: "OP2-FORGE"
+    name: "pattern_forge"
+    method: "Repeated heating, hammering, folding"
+    pattern: "Watered silk / damascene"
+    
+  - id: "OP3-QUENCH"
+    name: "hardening_quench"
+    timing: "Critical - determines blade hardness/toughness balance"
+    
+  - id: "OP4-TEMPER"
+    name: "stress_relief"
+    purpose: "Reduce brittleness, improve toughness"
+
+trig6_hooks:
+  theta_fn: >
+    # Carbon content affects phase angle
+    carbon_factor = (carbon_content_pct - 1.5) / 1.5
+    temp_factor = (crucible_temp_c - 1200) / 1200
+    theta = π/4 + π/6 * (carbon_factor + temp_factor)
+    
+  resonance_fn: >
+    # Pattern visibility and blade strength
+    R = pattern_clarity * edge_retention * (1 - brittleness_index)
+    
+  drift_fn: >
+    # Deviation from ideal carbon/temperature curve
+    D = |actual_hardness - target_hardness| / target_hardness
+    
+  noise_fn: >
+    # Variability in ore quality, atmospheric conditions
+    N = ore_impurity_variance + forge_temp_variance
+
+danger_zones:
+  - id: "decarburization"
+    condition: "forge_temp_c > 1150 && forge_cycles > 100"
+    action: "STOP - carbon loss will weaken blade"
+    severity: "critical"
+    
+  - id: "grain_growth"
+    condition: "crucible_temp_c > 1350 || soak_time_hours > 30"
+    action: "FLAG - excessive grain size reduces toughness"
+    severity: "major"
+    
+  - id: "quench_crack"
+    condition: "quench_medium == 'water' && carbon_content_pct > 1.5"
+    action: "WARNING - high risk of cracking, use oil"
+    severity: "major"
+    
+  - id: "insufficient_hardness"
+    condition: "carbon_content_pct < 1.2"
+    action: "REJECT - will not hold edge"
+    severity: "critical"
+
+fitness:
+  weights:
+    hardness: 0.30
+    toughness: 0.25
+    pattern_beauty: 0.20
+    edge_retention: 0.15
+    flexibility: 0.10
+    
+  function: >
+    f = R * (1 - D) * (1 - N);
+    return f;
+    
+  threshold: 0.80  # Very high bar for legendary steel
+
+evolution:
+  generations: 200
+  target: "Recreate lost Damascus steel properties"
+  constraints:
+    - "No modern alloys (must use ancient-available elements)"
+    - "Traditional forging methods only"
+    - "Pattern must be visible without acid etching"
+
+historical_notes: >
+  Damascus steel production ceased around 1700 CE, possibly due to:
+  - Depletion of specific ore sources with unique trace elements
+  - Loss of master smiths without apprentice succession
+  - Economic/political disruption in Damascus region
+  Modern recreations approximate but may not exactly match original process.
