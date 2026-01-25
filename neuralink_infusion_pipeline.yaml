@@ -85,8 +85,8 @@ stages:
         - "dna_motifs"  # Genetic sequence patterns
       analysis_mode: "cytometry"  # or "genomic"
     inputs:
-      blood_data_path: "data/blood_samples/fasta.npy"  # FASTA or microscopy data
-      dna_sequences: "data/blood_samples/genomic.fasta"
+      blood_data_path: "data/blood_samples/cells.npy"  # Microscopy data (NumPy array)
+      dna_sequences: "data/blood_samples/genomic.fasta"  # FASTA format genetic sequences
       reference_genome: "data/references/hg38.fa"
     outputs:
       blood_glyphs_dir: "${work_dir}/blood_glyphs/raw"
@@ -327,6 +327,12 @@ codon_references:
     - "REPAIR_BLOOD_TYPE"  # DNA reconstruction/CRISPR
     - "STIM_SUPPRESS"  # Closed-loop neural suppression
     - "SYNTH_HEMOGLOBIN"  # Blood factor synthesis simulation
+    - "DETECT_HFO"  # High-frequency oscillation detection
+    - "CLUSTER_CELLS"  # Blood cell classification
+    - "MOTIF_RECON"  # DNA motif reconstruction
+    - "BIFURCATION_ALERT"  # Instability detection
+    - "EVOLVE_FITNESS"  # Fitness optimization
+    - "HYBRID_FUSION"  # Multi-modal EEG+blood fusion
 
 # ═══════════════════════════════════════════════════════════════════════════
 # RESEARCH CITATIONS
