@@ -1,5 +1,5 @@
 # TRIG6 LOST PHARMACOPEIA SIMULATION REPORT
-## Proof-Generation Run: 2026-01-25T09:40:46.227535
+## Proof-Generation Run: 2026-01-25T09:46:45.138779
 ## Sister Protocol Validation Engine
 
 ---
@@ -84,9 +84,9 @@ This report demonstrates that:
 ## CRYPTOGRAPHIC PROOF
 
 **Report Hash (SHA-256):**
-`58a13b9aa6f71284f39157b0f1625e04a9033dedb28eae325f04a16cde6cfb87`
+`5099fe58d38cf7f3ed1cb91e7f7b6ca74d5ed80cc0b1a7840026ec69df188f51`
 
-**Timestamp:** 2026-01-25T09:40:46.227535
+**Timestamp:** 2026-01-25T09:46:45.138779
 
 ---
 
