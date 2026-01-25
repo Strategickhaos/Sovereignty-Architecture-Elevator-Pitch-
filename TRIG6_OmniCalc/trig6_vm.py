@@ -2,14 +2,26 @@
 from dataclasses import dataclass, field
 from typing import Optional, Dict, Any
 
-from trig6_core import (
-    Trig6Projections,
-    blend_trig_hyper,
-    compute_noise,
-    compute_drift,
-    compute_resonance,
-    danger_zones,
-)
+try:
+    # Relative import for package use
+    from .trig6_core import (
+        Trig6Projections,
+        blend_trig_hyper,
+        compute_noise,
+        compute_drift,
+        compute_resonance,
+        danger_zones,
+    )
+except ImportError:
+    # Absolute import for direct script execution
+    from trig6_core import (
+        Trig6Projections,
+        blend_trig_hyper,
+        compute_noise,
+        compute_drift,
+        compute_resonance,
+        danger_zones,
+    )
 
 
 @dataclass

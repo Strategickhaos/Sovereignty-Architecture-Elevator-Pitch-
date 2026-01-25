@@ -19,7 +19,15 @@ TRIG6 is a new mathematical framework that treats trigonometric functions as a u
 
 ## 🚀 Quick Start
 
-### Basic Usage
+### Run the Demo
+
+See all features in action:
+```bash
+cd TRIG6_OmniCalc
+python3 demo.py
+```
+
+### Interactive Calculator
 
 ```bash
 cd TRIG6_OmniCalc
