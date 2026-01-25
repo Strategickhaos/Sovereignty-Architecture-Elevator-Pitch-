@@ -45,33 +45,46 @@ class NetworkOracle:
         """Analyze information flow patterns"""
         findings = []
         
-        # Check for contradictions
+        # Check for contradictions (basic detection)
         sentences = text.split('.')
         for i, sent1 in enumerate(sentences):
             for sent2 in sentences[i+1:]:
-                # Simple contradiction detection
-                if 'not' in sent1.lower() and any(word in sent2.lower() for word in sent1.lower().split()):
-                    findings.append({
-                        'type': 'network',
-                        'severity': 'high',
-                        'pattern': 'Potential contradiction',
-                        'match': f"{sent1.strip()[:50]}... vs {sent2.strip()[:50]}..."
-                    })
+                # Simple contradiction detection: look for negation patterns
+                if 'not' in sent1.lower() or 'no ' in sent1.lower():
+                    # Extract key words (nouns/verbs, ignoring common words)
+                    words1 = set(w.lower() for w in sent1.split() 
+                                if len(w) > 4 and w.lower() not in ['that', 'this', 'with', 'from'])
+                    words2 = set(w.lower() for w in sent2.split() 
+                                if len(w) > 4 and w.lower() not in ['that', 'this', 'with', 'from'])
+                    
+                    # Check for significant word overlap
+                    overlap = words1 & words2
+                    if len(overlap) >= 2:  # At least 2 significant words in common
+                        findings.append({
+                            'type': 'network',
+                            'severity': 'high',
+                            'pattern': 'Potential contradiction',
+                            'match': f"{sent1.strip()[:50]}... vs {sent2.strip()[:50]}..."
+                        })
         
         # Check for topic drift
         words = text.lower().split()
         if len(words) > 100:
             first_half = set(words[:len(words)//2])
             second_half = set(words[len(words)//2:])
-            overlap = len(first_half & second_half) / len(first_half | second_half)
             
-            if overlap < 0.3:
-                findings.append({
-                    'type': 'network',
-                    'severity': 'low',
-                    'pattern': 'Topic drift detected',
-                    'match': f'Semantic overlap: {overlap:.1%}'
-                })
+            # Avoid division by zero
+            union = first_half | second_half
+            if len(union) > 0:
+                overlap = len(first_half & second_half) / len(union)
+                
+                if overlap < 0.3:
+                    findings.append({
+                        'type': 'network',
+                        'severity': 'low',
+                        'pattern': 'Topic drift detected',
+                        'match': f'Semantic overlap: {overlap:.1%}'
+                    })
         
         return findings
 
@@ -82,11 +95,14 @@ class SearchSpaceOracle:
         """Analyze text entropy and information density"""
         findings = []
         
-        # Calculate entropy
+        # Calculate entropy (optimized)
         if len(text) > 0:
             counter = Counter(text.lower())
-            entropy = -sum((count/len(text)) * math.log2(count/len(text)) 
-                          for count in counter.values())
+            entropy = 0
+            total_len = len(text)
+            for count in counter.values():
+                probability = count / total_len
+                entropy -= probability * math.log2(probability)
             
             # Low entropy might indicate generated/repetitive text
             if entropy < 3.0:

@@ -176,8 +176,9 @@ class Program {{
 
 def benchmark_bash():
     """Benchmark Bash performance"""
-    # Use smaller iteration count for bash (it's slow)
-    iterations = min(ITERATIONS, 1000)
+    # Note: Using smaller iteration count (1000) for bash due to performance
+    # Results are normalized in the display
+    iterations = 1000
     
     code = f"""
 start=$(date +%s%3N)
