@@ -168,6 +168,8 @@ class FlameLangTRIG6:
             results = sim.simulate()
             
             # Balance metric: minimize |sin - cos| for even tension
+            # Equal sin/cos values (45°) provide optimal balance between
+            # longitudinal and transverse thread forces in woven patterns
             balance = abs(results['sin'] - results['cos'])
             
             print(f"  {label}: sin={results['sin']:.4f}, cos={results['cos']:.4f}, balance={balance:.4f}")

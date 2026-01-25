@@ -61,12 +61,12 @@ class TRIG6:
         if abs(sin_val) < 1e-10:
             csc_val = float('inf')
         else:
-            csc_val = self.alpha / sin_val
+            csc_val = 1.0 / sin_val
             
         if abs(cos_val) < 1e-10:
             sec_val = float('inf')
         else:
-            sec_val = self.alpha / cos_val
+            sec_val = 1.0 / cos_val
             
         if abs(tan_val) < 1e-10:
             cot_val = float('inf')
