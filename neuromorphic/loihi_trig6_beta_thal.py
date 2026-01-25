@@ -27,6 +27,14 @@ from typing import Tuple, List, Dict
 # HBB beta-thalassemia target sequence (IVS-I-110 region)
 TARGET_GRNA_IVS_I_110 = "GCTGGTGGTCTACCCTTGG"  # 19bp target for Cas9
 
+# TRIG6 Constants
+TRIG6_DANGER_TAN_THRESHOLD = 8.5  # Tangent threshold for unstable resonance detection
+TRIG6_DANGER_OFFTARGET_THRESHOLD = 0.1  # Off-target threshold for danger gating
+
+# TREO Evolution Constants
+MAX_OFFTARGET_SCORE = 0.2  # Maximum simulated off-target score for random sampling
+EPSILON = 1e-6  # Small value to avoid division by zero in weighted selection
+
 
 def loihi_spike_encode(seq: str, tau: float = 0.02, thresh: float = 1.2) -> np.ndarray:
     """
@@ -112,7 +120,8 @@ def trig6_states(
     eq = eff  # Equilibrium (editing efficiency)
     
     # Danger detection (prune candidates in unstable resonance)
-    danger = abs(tan(theta)) > 8.5 or off_target > 0.1
+    danger = (abs(tan(theta)) > TRIG6_DANGER_TAN_THRESHOLD or 
+              off_target > TRIG6_DANGER_OFFTARGET_THRESHOLD)
     
     # Fitness calculation
     fitness = R * (1 - D) * (1 - N) * eq
@@ -172,7 +181,7 @@ def treo_evolve(
             embed = loihi_spike_encode(ind)
             
             # Simulate CRISPR off-target score (would use real CRISPRscore in production)
-            off_target = random.uniform(0, 0.2)
+            off_target = random.uniform(0, MAX_OFFTARGET_SCORE)
             
             # Editing efficiency proxy from spike embedding
             eff = np.sum(embed) / len(embed) if len(embed) > 0 else 0.5
@@ -202,7 +211,7 @@ def treo_evolve(
         for _ in range(pop_size - 3):
             # Resonance-biased selection (weighted by top 5 fitnesses)
             top_fits = sorted_fits[:5]
-            weights = [f + 1e-6 for f in top_fits]  # Add small value to avoid zero weights
+            weights = [f + EPSILON for f in top_fits]  # Add small value to avoid zero weights
             
             # Select two parents
             parent_indices = random.choices(range(5), weights=weights, k=2)
@@ -212,13 +221,15 @@ def treo_evolve(
             cross_pt = random.randint(1, len(target) - 1)
             child = p1[:cross_pt] + p2[cross_pt:]
             
-            # Drift-gated mutation (reduce mutation in high-drift states)
-            # Get average D from current generation
+            # Drift-gated mutation: Reduce mutation rate when danger/drift (D) is high
+            # This prevents exploration in unstable regions and focuses search on safe candidates
+            # Get average D (danger) from current generation's elite population
             current_D = sum(
                 trig6_states(ind, target, 0.1, 0.8, gen/gens)[3] 
                 for ind in sorted_pop[:5]
             ) / 5
             
+            # Adaptive mutation rate: base_mut * (1 - D) scales down when D is high
             mut_rate = base_mut * (1 - current_D)
             
             if random.random() < mut_rate:
