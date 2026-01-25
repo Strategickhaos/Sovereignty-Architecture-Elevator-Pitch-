@@ -902,12 +902,13 @@ This is *not* formal claim language, just bullet points clarifying scope:
   - Prior work on phase-space methods in computational biology
   - Financial risk modeling literature (though none use trigonometric phase space)
 
-# 9. Hashes (to be filled after commit)
+# 9. Hashes (Cryptographic Proof of Publication)
 
 ```text
-git_commit_sha: [To be filled after initial commit]
-file_sha256:    [To be filled from sha256sum]
-timestamp:      [To be filled with ISO 8601 timestamp]
+git_commit_sha: 184b7ec3f1023db84ad05f0ee2c1635d6b4c87c0
+file_sha256:    97b6287a814998c8729826188ad25787c5f0f39fdf007a7223f3c04f0814460c
+timestamp:      2026-01-25T07:32:37Z
+repository:     https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
 ```
 
 # 10. Legal Notice (Plain Language)
