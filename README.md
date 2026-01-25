@@ -272,6 +272,54 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🔥 FlameLang Benchmark System
+
+**FlameBench** is a self-evolving benchmark harness for the FlameLang compiler that auto-discovers test capsules from GitHub Gists.
+
+### Quick Start
+
+```bash
+# Run the demo
+python3 demo_flamebench.py
+
+# Or run directly
+python3 flamebench.py
+```
+
+### Key Features
+
+- **Auto-Discovery**: Automatically finds gists with `FlameTest:` prefix
+- **Gist-Based Tests**: Each test is a GitHub Gist with FlameLang source + manifest
+- **Bayesian Metrics**: Outputs probabilistic success metrics for Guardian integration
+- **Zero Config**: Just create a gist and run - no code changes needed
+
+### Test Capsules
+
+Current implemented patterns:
+- **3.1**: Basic if/else (max of two numbers)
+- **3.3**: Chained if/else-if (age category ranges)
+- **3.2.5**: Modulo branching (even/odd detection)
+
+### Documentation
+
+- **[FlameBench README](FLAMEBENCH_README.md)** - Complete usage guide
+- **[Gist Creation Guide](GIST_CREATION_GUIDE.md)** - How to create test gists
+- **[Implementation Details](FLAMELANG_IMPLEMENTATION.md)** - Architecture and integration
+- **[FlameLang Spec](FLAMELANG_SPECIFICATION.md)** - Language specification
+
+### Example Output
+
+```
+🔥 FlameBench - FlameLang Compiler Benchmark Harness
+Found 2 test capsule(s)
+
+📋 Per-Capsule Results:
+  • zyb-it145-ch3-3_1-max-of-two: p=1.00 [if-else, comparison, max]
+  • zyb-it145-ch3-3_3-age-category: p=1.00 [if-else-if, range-detection]
+
+💾 Results saved to results.json
+```
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
