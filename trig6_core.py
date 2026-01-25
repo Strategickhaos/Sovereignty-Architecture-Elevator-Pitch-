@@ -15,12 +15,15 @@ Theorems:
 
 import numpy as np
 from typing import List, Tuple, Union, Optional
+import sys
+import warnings
+
 try:
     from sympy import symbols, Min, Product, Indexed, simplify
     SYMPY_AVAILABLE = True
 except ImportError:
     SYMPY_AVAILABLE = False
-    print("Warning: SymPy not available. Symbolic math features disabled.")
+    warnings.warn("SymPy not available. Symbolic math features disabled.", ImportWarning)
 
 
 # =============================================================================

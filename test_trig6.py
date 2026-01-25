@@ -16,6 +16,10 @@ import sys
 import numpy as np
 from typing import List
 
+# Test tolerances as named constants
+FLOAT_TOLERANCE = 1e-6
+ENVELOPE_TOLERANCE = 1e-10
+
 # Import TRIG6 core
 try:
     from trig6_core import (
@@ -76,7 +80,7 @@ class TestTRIG6:
     def assert_greater_equal(self, actual, lower_bound, msg=""):
         """Assert actual >= lower_bound."""
         self.tests_run += 1
-        if actual >= lower_bound - 1e-10:  # Small tolerance for float errors
+        if actual >= lower_bound - ENVELOPE_TOLERANCE:  # Small tolerance for float errors
             self.passed += 1
             return True
         else:
