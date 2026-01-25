@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "id": "CODON_TABLE_VOY_DIAG_V1",
+    "version": "1.0.0",
+    "description": "Voynich Diagnostic Codon Mapping Table",
+    "author": "Strategickhaos DAO LLC",
+    "date": "2026-01-25"
+  },
+  "codons": {
+    "NNN": {
+      "name": "NOOP",
+      "description": "No operation / unknown symbol",
+      "category": "control"
+    },
+    "AAA": {
+      "name": "GLYPH_RECLUSTER",
+      "description": "Recluster glyph embeddings",
+      "category": "diagnostic"
+    },
+    "AAC": {
+      "name": "PATTERN_ADJUST",
+      "description": "Adjust pattern recognition threshold",
+      "category": "diagnostic"
+    },
+    "AAG": {
+      "name": "VARIANCE_REDUCE",
+      "description": "Reduce glyph variance threshold",
+      "category": "diagnostic"
+    },
+    "AAT": {
+      "name": "ENTROPY_NORMALIZE",
+      "description": "Normalize entropy calculation",
+      "category": "diagnostic"
+    }
+  },
+  "strategies": {
+    "entropy_weighted": {
+      "description": "Weight mapping by entropy of glyph features",
+      "weight_fn": "entropy(features) / max_entropy"
+    },
+    "frequency_based": {
+      "description": "Map by frequency of occurrence",
+      "weight_fn": "count(glyph) / total_glyphs"
+    },
+    "similarity_clustered": {
+      "description": "Cluster by visual similarity",
+      "weight_fn": "cosine_similarity(embeddings)"
+    }
+  }
+}

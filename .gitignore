@@ -35,3 +35,7 @@ target/
 
 # Workspace data
 workspace/
+
+# Voynich pipeline artifacts
+artifacts/
+*.npy
