@@ -5,6 +5,8 @@ This document provides detailed information about historical paper-making and bo
 ## Table of Contents
 - [Papyrus Manufacturing Details (Ancient Egyptian Process)](#papyrus-manufacturing-details-ancient-egyptian-process)
 - [Mayan Book Binding Techniques (Codices)](#mayan-book-binding-techniques-codices)
+- [Comparison Between Techniques](#comparison-between-techniques)
+- [References and Further Reading](#references-and-further-reading)
 
 ---
 
@@ -28,7 +30,7 @@ Cut 3-4m tall papyrus stems from Nile Delta marshes during low water season (sum
 Peel green outer rind, exposing white inner pith. Slice pith lengthwise into thin strips (1-2cm wide, as long as possible) using bronze knives or reeds.
 
 #### 3. Layering
-Soak strips in Nile water 6-8 days to soften and release sugars (natural adhesive). Lay horizontal layer on flat surface (stone/wood), then vertical layer perpendicular—creates cross-grain strength like laminate.
+Soak strips in Nile water 6-8 days to soften and release sugars (natural adhesive). Lay horizontal layer on flat surface (stone or wood). Then place a vertical layer perpendicular to the first. This creates cross-grain strength similar to laminate construction.
 
 #### 4. Pressing/Fusing
 Hammer layers with wooden mallet or stone to flatten/fuse (releases starch, bonds fibers). No external glue; natural plant juices act as binder.
@@ -58,11 +60,11 @@ Use sedge/grass; soak/press/dry similar—yields ~50% success rate without speci
 
 ## Mayan Book Binding Techniques (Codices)
 
-Mayan codices (pre-Columbian, ~300-1500 CE) were folding books, not scrolls like Egyptian papyri—made from amate bark paper (from fig/mulberry trees), accordion-folded, and bound minimally. Only 4 survive (e.g., Dresden, Madrid)—screenfold style, painted with glyphs/figures on lime-coated paper. Binding was functional, not decorative; no stitching like Coptic/European, but folding with occasional adhesive/covers.
+Mayan codices were pre-Columbian folding books created approximately 300-1500 CE. Unlike Egyptian papyri scrolls, these were made from amate bark paper (derived from fig and mulberry trees) and bound using an accordion-fold technique. Only 4 codices survive today, including the Dresden and Madrid codices. These featured a screenfold style with glyphs and figures painted on lime-coated paper. The binding was functional rather than decorative, using folding with occasional adhesive or covers instead of stitching like Coptic or European techniques.
 
 ### Historical Context
 - **Period**: Pre-Columbian, approximately 300-1500 CE
-- **Source Material**: Amate bark paper from fig/mulberry trees (ficus glabrata)
+- **Source Material**: Amate bark paper from fig/mulberry trees (*Ficus glabrata*)
 - **Format**: Accordion-folded codex (screenfold style)
 - **Primary Use**: Divination, calendars, astronomical records
 - **Surviving Examples**: Only 4 codices survive (Dresden, Madrid, Paris, and Grolier)
@@ -71,7 +73,7 @@ Mayan codices (pre-Columbian, ~300-1500 CE) were folding books, not scrolls like
 ### Step-by-Step Binding Techniques
 
 #### 1. Paper Preparation (Amate)
-Beat fig tree inner bark (ficus glabrata) into pulp, soak, spread on board, pound flat with stones, dry to flexible sheet (similar to papyrus but bark-based).
+Beat fig tree inner bark (*Ficus glabrata*) into pulp, soak, spread on board, pound flat with stones, dry to flexible sheet (similar to papyrus but bark-based).
 
 #### 2. Coating
 Apply white lime gesso (calcium carbonate + binder) to both sides for smooth writing surface; polish with stones.
