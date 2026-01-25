@@ -278,6 +278,7 @@ The Sovereignty Architecture is built on a foundation of cognitive operating sys
 
 ### Core Documentation
 
+- **[🚀 TRIG6 Quick Reference Guide](TRIG6_QUICK_REFERENCE.md)** - **Start here!** Quick guide to TRIG6 & D-COSA concepts
 - **[D-COSA: Dom Cognitive Operating System Architecture](D-COSA.md)** - Comprehensive technical specification of a self-evolving metamathematical cognitive system
 - **[TRIG6 Cognitive Profile](TRIG6_COGNITIVE_PROFILE.yaml)** - Structured cognitive profile system for pattern-genesis architectures
 - **[TRIG6 Mathematical Formalization](TRIG6_MATHEMATICAL_FORMALIZATION.md)** - Rigorous mathematical framework for cognitive system analysis and optimization
