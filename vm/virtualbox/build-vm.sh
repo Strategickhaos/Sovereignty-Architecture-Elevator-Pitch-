@@ -185,8 +185,8 @@ Sovereignty Architecture VirtualBox VM
 
 VM Name: ${VM_NAME}
 Disk: ${VM_DISK}
-Size: ${VM_SIZE}MB ($(echo "scale=2; ${VM_SIZE}/1024" | bc)GB)
-Memory: ${VM_MEMORY}MB ($(echo "scale=2; ${VM_MEMORY}/1024" | bc)GB)
+Size: ${VM_SIZE}MB ($((VM_SIZE/1024))GB)
+Memory: ${VM_MEMORY}MB ($((VM_MEMORY/1024))GB)
 CPUs: ${VM_CPUS}
 Video Memory: ${VM_VRAM}MB
 

@@ -104,20 +104,29 @@ main() {
     
     # Generate manifest
     log_info "Generating backup manifest..."
+    
+    # Build file list JSON safely
+    file_list=""
+    if compgen -G "${BACKUP_DIR}/*.gpg" > /dev/null; then
+        while IFS= read -r file; do
+            size=$(du -h "$file" | cut -f1)
+            sha256=$(sha256sum "$file" | cut -d' ' -f1)
+            file_list+="    {
+      \"name\": \"$(basename "$file")\",
+      \"size\": \"$size\",
+      \"sha256\": \"$sha256\"
+    },"
+        done < <(find "${BACKUP_DIR}" -maxdepth 1 -name "*.gpg" -type f)
+        # Remove trailing comma
+        file_list=$(echo "$file_list" | sed '$ s/,$//')
+    fi
+    
     cat > "${BACKUP_DIR}/manifest.json" << EOF
 {
   "backup_date": "${BACKUP_DATE}",
   "backup_time": "${BACKUP_TIME}",
   "files": [
-$(ls -1 "${BACKUP_DIR}"/*.gpg | while read file; do
-    size=$(du -h "$file" | cut -f1)
-    sha256=$(sha256sum "$file" | cut -d' ' -f1)
-    echo "    {"
-    echo "      \"name\": \"$(basename "$file")\","
-    echo "      \"size\": \"$size\","
-    echo "      \"sha256\": \"$sha256\""
-    echo "    },"
-done | sed '$ s/,$//')
+${file_list}
   ],
   "encryption": "GPG",
   "recipient": "${GPG_RECIPIENT}"

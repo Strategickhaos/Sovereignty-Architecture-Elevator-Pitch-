@@ -92,23 +92,28 @@ main() {
         log_info "Converting DISTRIBUTION_ARTIFACTS.md to PDF..."
         
         if command -v pandoc &> /dev/null; then
-            pandoc DISTRIBUTION_ARTIFACTS.md \
-                -o "${BUILD_DIR}/sovereignty-distribution-guide-v${RELEASE_VERSION}.pdf" \
-                --pdf-engine=xelatex \
-                --toc \
-                --number-sections \
-                -V geometry:margin=1in \
-                -V fontsize=11pt || log_warn "PDF generation failed"
+            if command -v xelatex &> /dev/null; then
+                pandoc DISTRIBUTION_ARTIFACTS.md \
+                    -o "${BUILD_DIR}/sovereignty-distribution-guide-v${RELEASE_VERSION}.pdf" \
+                    --pdf-engine=xelatex \
+                    --toc \
+                    --number-sections \
+                    -V geometry:margin=1in \
+                    -V fontsize=11pt || log_warn "PDF generation failed"
+            else
+                log_warn "xelatex not found. Install with: sudo apt-get install texlive-xelatex"
+                log_info "Skipping PDF generation"
+            fi
         else
-            log_warn "Pandoc not installed, skipping PDF generation"
-            log_info "Install with: sudo apt-get install pandoc texlive-xelatex"
+            log_warn "Pandoc not installed. Install with: sudo apt-get install pandoc texlive-xelatex"
+            log_info "Skipping PDF generation"
         fi
     fi
     
     if [ -f "README.md" ]; then
         log_info "Converting README.md to PDF..."
         
-        if command -v pandoc &> /dev/null; then
+        if command -v pandoc &> /dev/null && command -v xelatex &> /dev/null; then
             pandoc README.md \
                 -o "${BUILD_DIR}/sovereignty-readme-v${RELEASE_VERSION}.pdf" \
                 --pdf-engine=xelatex \

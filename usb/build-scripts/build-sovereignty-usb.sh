@@ -59,7 +59,13 @@ main() {
     
     # Create disk image
     log_info "Creating disk image (${USB_SIZE})..."
-    dd if=/dev/zero of="${USB_IMAGE}" bs=1 count=0 seek="${USB_SIZE}" 2>/dev/null
+    # Use fallocate for faster sparse file creation
+    if command -v fallocate &> /dev/null; then
+        fallocate -l "${USB_SIZE}" "${USB_IMAGE}"
+    else
+        # Fallback to truncate if fallocate is not available
+        truncate -s "${USB_SIZE}" "${USB_IMAGE}"
+    fi
     
     # Create partitions
     log_info "Creating GPT partition table..."
@@ -167,11 +173,17 @@ EOF
     # Install GRUB bootloader (if available)
     if command -v grub-install &> /dev/null; then
         log_info "Installing GRUB bootloader..."
-        sudo grub-install --target=x86_64-efi --efi-directory="${MOUNT_POINT}/boot/efi" \
-            --boot-directory="${MOUNT_POINT}/boot" --removable "${LOOP_DEVICE}" || \
-            log_warn "GRUB installation skipped (may need to run on actual hardware)"
+        # Note: This may not work in all environments and might need to be run on actual hardware
+        sudo grub-install --target=x86_64-efi \
+            --efi-directory="${MOUNT_POINT}/boot/efi" \
+            --boot-directory="${MOUNT_POINT}/boot" \
+            --removable \
+            --no-nvram \
+            "${LOOP_DEVICE}" 2>/dev/null || \
+            log_warn "GRUB installation skipped (may need to run on actual hardware or with different options)"
     else
         log_warn "GRUB not available, bootloader installation skipped"
+        log_info "Bootloader will need to be installed manually or on target hardware"
     fi
     
     # Unmount all
