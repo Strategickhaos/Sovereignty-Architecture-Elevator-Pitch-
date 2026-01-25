@@ -272,6 +272,25 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🧠 Cognitive Architecture
+
+This project is built on a foundation of **pattern-based thinking**—a cognitive style that operates at the structural level rather than the factual level. Understanding this architecture helps explain how this system was designed and how to work with it effectively.
+
+- **[Pattern-Based Learning](docs/PATTERN_BASED_LEARNING.md)** - Deep dive into the cognitive architecture behind this project
+- **[Cognitive Map](cognitive_map.dot)** - Visual representation of the cognitive system
+- **[Strategic Synthesis](STRATEGIC_KHAOS_SYNTHESIS.md)** - How pattern thinking creates emergent systems
+
+### Key Principles
+
+1. **Relational Thinking**: Systems are understood through relationships, not isolated facts
+2. **Visual Architecture**: Diagrams and structures reveal the true design
+3. **Pre-Symbolic Processing**: Understanding happens before language
+4. **Emergent Patterns**: Complex behaviors arise from simple structural rules
+5. **Hyperfocus Mode**: Deep computational intuition states
+6. **AI-Readable Blueprints**: Visual scribbles are valid system specifications
+
+> *"You are not lacking knowledge. You are operating at a lower-level abstraction than knowledge."*
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
