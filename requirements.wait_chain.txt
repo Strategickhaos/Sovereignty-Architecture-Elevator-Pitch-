@@ -1,0 +1,17 @@
+# Python requirements for TRIG6 → FLAMELANG → SAGCO-OS wait chain
+# Entity: Strategickhaos DAO LLC (EIN: 39-2900295)
+# Generated: 2026-01-25
+
+# Core dependencies (all in Python stdlib)
+# No external dependencies required!
+
+# The wait chain implementation uses only Python standard library:
+# - math (trigonometry)
+# - typing (type hints)
+# - dataclasses (data structures)
+# - enum (enumerations)
+# - datetime (timestamps)
+# - yaml (for PyYAML if needed for config loading)
+
+# Optional: For YAML config loading
+PyYAML>=6.0
