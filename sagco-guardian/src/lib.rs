@@ -13,9 +13,8 @@ use std::fmt;
 // === COSMOLOGICAL CONSTANTS ===
 const GENESIS_INCREMENT: u16 = 3449;
 const ARCHITECT_SNOWFLAKE: u64 = 1067614449693569044;
-const EVENT_HORIZON_THRESHOLD: f64 = 0.07; // 7% eternal loop
 
-// === PERIODIC TABLE ELEMENTS (First 118 elements) ===
+// === PERIODIC TABLE ELEMENTS (First 36 elements, H through Kr) ===
 const PERIODIC_TABLE: &[(&str, u8, f64)] = &[
     ("H", 1, 1.008),
     ("He", 2, 4.003),
@@ -140,6 +139,7 @@ impl GeometryCoordinate {
         if minute < 0.0 || minute > 60.0 {
             return Err(GuardianError::GeometryInvalid);
         }
+        // Currently supporting elements 1-36 (H through Kr)
         if element < 1 || element > 36 {
             return Err(GuardianError::ElementNotFound);
         }
