@@ -29,6 +29,8 @@ jobs:
   stress_legion:
     name: "Legion Stress Test (TRIG6)"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
@@ -205,6 +207,8 @@ jobs:
   visualization:
     name: "Generate TRIG6 Visualization"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: stress_legion
     if: always()
     

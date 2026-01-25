@@ -31,6 +31,8 @@ jobs:
   generate_genes:
     name: "Gene Generation (Lab → Spec)"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       genes_generated: ${{ steps.convert.outputs.genes_generated }}
     
@@ -76,6 +78,8 @@ jobs:
   generate_mutations:
     name: "Mutation Generation"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: generate_genes
     outputs:
       mutation_count: ${{ steps.mutate.outputs.mutation_count }}
@@ -140,6 +144,8 @@ jobs:
   stress_test:
     name: "Stress Test & TRIG6 Metrics"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: generate_mutations
     strategy:
       matrix:
@@ -213,6 +219,8 @@ jobs:
   evolutionary_gate:
     name: "Evolutionary Gate (Natural Selection)"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: stress_test
     strategy:
       matrix:
@@ -268,6 +276,8 @@ jobs:
   evolution_report:
     name: "Evolution Summary"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [generate_genes, generate_mutations, evolutionary_gate]
     if: always()
     
