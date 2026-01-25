@@ -1,0 +1,123 @@
+# /trig6/recipes/RECIPE_NEURO_001.t6.yaml
+
+meta:
+  id: "RECIPE-NEURO-001"
+  era: "Ancient Nile / inferred structure"
+  target: "Epileptic seizures (EPI-032 / Dravet-adjacent)"
+  intent: "Reduce seizure frequency without catastrophic toxicity"
+  disclaimer: "THEORETICAL STRUCTURE ONLY — not medical advice"
+  neuro36_link: "EPI-032"
+
+ingredients:
+  - name: "herb_a"
+    role: "sedative"
+    mechanism: "GABA modulation"
+    dose_mg_per_kg: [0.1, 0.4]
+    therapeutic_index: 3.5
+    
+  - name: "herb_b"
+    role: "anti-inflammatory"
+    mechanism: "COX inhibition"
+    dose_mg_per_kg: [0.05, 0.2]
+    therapeutic_index: 5.0
+    
+  - name: "mineral_salt"
+    role: "electrolyte_modulator"
+    mechanism: "Na/K balance"
+    dose_mg_per_kg: [0.01, 0.05]
+    therapeutic_index: 8.0
+
+parameters:
+  herb_a_dose: [0.1, 0.4]
+  herb_b_dose: [0.05, 0.2]
+  mineral_dose: [0.01, 0.05]
+  brew_time_min: [15, 40]
+  frequency_per_day: [1, 3]
+  treatment_days: [7, 30]
+
+administration:
+  route: "oral_decoction"
+  timing: "before_sleep"
+  contraindications:
+    - "pregnancy"
+    - "liver_disease"
+    - "concurrent_sedatives"
+
+preparation:
+  - step: "harvest_herbs"
+    timing: "morning, after dew evaporates"
+  - step: "dry_herbs"
+    duration_days: [3, 7]
+    method: "shade drying"
+  - step: "grind_to_powder"
+    tool: "mortar and pestle"
+    particle_size_mm: [0.1, 0.5]
+  - step: "boil_in_water"
+    ratio: "1:10 powder:water"
+    duration_min: [15, 40]
+    temperature_c: [85, 100]
+  - step: "strain_and_cool"
+    filter: "linen cloth"
+  - step: "administer"
+    timing: "30 min before sleep"
+
+trig6_hooks:
+  theta_fn: >
+    # Dose intensity mapped to phase angle
+    dose_intensity = (herb_a_dose/0.4 + herb_b_dose/0.2 + mineral_dose/0.05) / 3
+    frequency_factor = frequency_per_day / 3
+    theta = π/2 * dose_intensity * frequency_factor
+    
+  resonance_fn: >
+    # Symptom reduction without toxicity
+    R = clamp(seizure_reduction_rate - toxicity_score, 0, 1)
+    
+  drift_fn: >
+    # Off-target effects
+    D = (drowsiness_index + nausea_index + cognitive_impact) / 3
+    
+  noise_fn: >
+    # Data uncertainty
+    N = (patient_variability + measurement_error + placebo_effect) / 3
+
+danger_zones:
+  - id: "overdose_window"
+    condition: "|tan(theta)| > 10 || toxicity_score > 0.7"
+    action: "HALT - reduce dose immediately"
+    severity: "critical"
+    
+  - id: "underdose_window"
+    condition: "R < 0.2 && treatment_days > 14"
+    action: "FLAG - consider dose increase or abandonment"
+    severity: "major"
+    
+  - id: "interaction_risk"
+    condition: "herb_a_dose + herb_b_dose > 0.5"
+    action: "FLAG - monitor for synergistic toxicity"
+    severity: "major"
+
+fitness:
+  weights:
+    seizure_reduction: 0.40
+    toxicity_avoidance: 0.30
+    side_effect_minimization: 0.20
+    preparation_feasibility: 0.10
+    
+  function: >
+    f = R * (1 - D) * (1 - N) * eq;
+    return f;
+    
+  threshold: 0.65
+
+evolution:
+  method: "Darwinian gate"
+  mutation_rate: 0.1
+  mutation_targets:
+    - herb_a_dose
+    - herb_b_dose
+    - mineral_dose
+    - brew_time_min
+    - frequency_per_day
+  selection: "f > champion → new champion"
+  generations: 100
+  early_stop: "f > 0.85 for 10 generations"

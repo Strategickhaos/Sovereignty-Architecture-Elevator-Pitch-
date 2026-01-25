@@ -1,0 +1,94 @@
+# /craft_genes/PAPYRUS_001.t6.yaml
+
+meta:
+  id: "PAPYRUS-001-CLASSIC"
+  era: "Ancient Egypt (~3000 BCE)"
+  process: "Cyperus papyrus → writing sheet"
+  dna_sequence: "ATG-HAR-PRP-SOK-LAY-HAM-DRY-POL-TAA"
+  survival_examples: "Ebers Papyrus (~1550 BCE), Book of the Dead"
+
+parameters:
+  stem_length_m: [2.5, 3.5]
+  maturity_index: [0.7, 1.0]
+  strip_width_cm: [1.0, 2.0]
+  soak_days: [5, 9]
+  water_temp_c: [20, 28]
+  press_pressure_kpa: [10, 40]
+  press_days: [3, 6]
+  ambient_humidity_pct: [20, 60]
+  polish_time_min: [5, 20]
+
+operations:
+  - id: "OP1"
+    name: "harvest_stems"
+    season: "summer (low water)"
+    
+  - id: "OP2"
+    name: "prep_pith"
+    tool: "bronze knife"
+    
+  - id: "OP3"
+    name: "soak_strips"
+    medium: "Nile water"
+    purpose: "soften + release sugars"
+    
+  - id: "OP4"
+    name: "layer_crosswise"
+    pattern: "horizontal then vertical"
+    
+  - id: "OP5"
+    name: "press_hammer"
+    tool: "wooden mallet"
+    
+  - id: "OP6"
+    name: "press_and_dry"
+    weights: "heavy stones"
+    
+  - id: "OP7"
+    name: "polish_surface"
+    tool: "ivory/shell/pumice"
+
+trig6_hooks:
+  theta_fn: >
+    soak_factor = (soak_days - 7) / 7  # Deviation from ideal
+    humidity_factor = (ambient_humidity_pct - 35) / 35
+    theta = π/3 + π/6 * (soak_factor + humidity_factor)
+    
+  resonance_fn: >
+    R = sheet_strength * smoothness_index * (1 - warp_index)
+    
+  drift_fn: >
+    D = |actual_thickness - target_thickness| / target_thickness
+    
+  noise_fn: >
+    N = fiber_quality_variance + environmental_variance
+
+danger_zones:
+  - id: "fiber_rot"
+    condition: "soak_days > 9 || (soak_days > 7 && water_temp_c > 28)"
+    action: "REJECT - reduce soak time"
+    
+  - id: "brittle_crack"
+    condition: "press_days > 7 && ambient_humidity_pct < 25"
+    action: "FLAG - increase humidity"
+    
+  - id: "mold_growth"
+    condition: "ambient_humidity_pct > 70"
+    action: "REJECT - reduce humidity"
+
+fitness:
+  weights:
+    strength: 0.35
+    smoothness: 0.25
+    durability: 0.25
+    flexibility: 0.15
+    
+  function: >
+    f = R * (1 - D) * (1 - N);
+    return f;
+    
+  threshold: 0.75
+
+evolution:
+  generations: 50
+  target: "2000+ year survival in dry conditions"

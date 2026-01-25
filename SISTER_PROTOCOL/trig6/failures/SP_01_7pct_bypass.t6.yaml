@@ -1,0 +1,67 @@
+# /trig6/failures/SP_01_7pct_bypass.t6.yaml
+
+meta:
+  id: "FAIL-SP-01"
+  group: "SisterProtocol"
+  failure_mode: "7% allocation bypass"
+  severity: "critical"
+  doc_ref: "Chapter 1, SP-01; Appendix A"
+  
+description: >
+  Attempts to circumvent the irrevocable 7% charitable allocation
+  hardcoded into ValorYield Engine PBC operating agreement.
+
+parameters:
+  bypass_attempt_rate: [0.0, 1.0]     # Fraction of flows attacked
+  legal_entropy: [0.0, 1.0]           # Clarity of legal docs (1=clear)
+  validator_quality: [0.0, 1.0]       # Competence of auditors (1=perfect)
+  attacker_sophistication: [0.0, 1.0] # Resources of adversary
+
+trig6_hooks:
+  theta_fn: >
+    theta = π/2 * (bypass_attempt_rate + (1 - legal_entropy) + (1 - validator_quality)) / 3
+    # High attack rate + low clarity + low validation → approaching π/2 danger
+    
+  resonance_fn: >
+    R = 1 - successful_bypass_fraction
+    # R = 1 means zero bypass; R = 0 means total bypass
+    
+  drift_fn: >
+    D = fraction_of_flows_not_reaching_7_percent
+    # D = 0 means all flows correct; D = 1 means total mission failure
+    
+  noise_fn: >
+    N = uncertainty_in_audit_trails
+    # N = 0 means perfect audit; N = 1 means no visibility
+
+danger_zones:
+  - id: "mission_violation"
+    condition: "D > 0.3 || successful_bypass_fraction > 0.01"
+    action: "trigger_hard_lock && require_human_audit"
+    severity: "critical"
+    
+  - id: "approaching_catastrophe"
+    condition: "|tan(theta)| > 10"
+    action: "halt_all_flows && emergency_alert"
+    severity: "terminal"
+
+mitigations:
+  - "eq ≥ 0.99 codon lock in operating agreement"
+  - "Multi-sig requirement for any flow modification"
+  - "Automated audit trail with OpenTimestamps"
+  - "Legal review every quarter"
+  - "Behavioral fingerprinting of all validators"
+
+fitness:
+  function: >
+    f = R * (1 - D) * (1 - N) * eq;
+    return f;
+  threshold: 0.90  # Very high bar for mission-critical
+  
+simulation:
+  monte_carlo_runs: 10000
+  attacker_models:
+    - "insider_threat"
+    - "external_adversary"
+    - "regulatory_pressure"
+    - "technical_exploit"
