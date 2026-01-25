@@ -58,7 +58,7 @@ This chapter is currently being developed. It will include:
 
 ## Related Documentation
 
-- [UNIFIED_SOVEREIGNTY_ARCHITECTURE.md](../../../UNIFIED_SOVEREIGNTY_ARCHITECTURE.md)
+- [UNIFIED_SOVEREIGNTY_ARCHITECTURE(1).md](../../../UNIFIED_SOVEREIGNTY_ARCHITECTURE(1).md)
 - [STRATEGICKHAOS_EMPIRE_REPORT.md](../../../STRATEGICKHAOS_EMPIRE_REPORT.md)
 
 ---
