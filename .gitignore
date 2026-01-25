@@ -42,3 +42,8 @@ mutant_*.json
 test_metrics_*.json
 *_mutant_*.json
 stress_test_results.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
