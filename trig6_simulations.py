@@ -116,7 +116,7 @@ class TRIG6TheoremSimulator:
         output_path = f"{self.output_dir}/theorem1_resonance_maximization.png"
         plt.savefig(output_path, dpi=150, bbox_inches='tight')
         print(f"✅ Visualization saved: {output_path}")
-        plt.close()
+        plt.close(fig)
         
         return theta_opt, resonance_values
     
@@ -204,7 +204,7 @@ class TRIG6TheoremSimulator:
         output_path = f"{self.output_dir}/theorem2_drift_correction.png"
         plt.savefig(output_path, dpi=150, bbox_inches='tight')
         print(f"✅ Visualization saved: {output_path}")
-        plt.close()
+        plt.close(fig)
         
         return theta_history
     
@@ -333,7 +333,7 @@ class TRIG6TheoremSimulator:
         output_path = f"{self.output_dir}/theorem3_emergent_coherence.png"
         plt.savefig(output_path, dpi=150, bbox_inches='tight')
         print(f"✅ Visualization saved: {output_path}")
-        plt.close()
+        plt.close(fig)
         
         return theta_trajectories
     
@@ -401,7 +401,7 @@ class TRIG6TheoremSimulator:
         output_path = f"{self.output_dir}/trig6_manifold.png"
         plt.savefig(output_path, dpi=150, bbox_inches='tight')
         print(f"✅ Visualization saved: {output_path}")
-        plt.close()
+        plt.close(fig)
 
 
 def run_all_simulations():

@@ -14,9 +14,6 @@ from typing import Tuple, List, Optional, Dict
 from dataclasses import dataclass
 import warnings
 
-# Suppress division by zero warnings (handled explicitly)
-warnings.filterwarnings('ignore', category=RuntimeWarning)
-
 
 @dataclass
 class TRIG6Projection:
@@ -128,9 +125,12 @@ class TRIG6Core:
         theta = theta % (2 * np.pi)
         
         # Compute base trigonometric functions
-        sin_theta = np.sin(theta)
-        cos_theta = np.cos(theta)
-        tan_theta = np.tan(theta)
+        # Suppress division warnings for controlled singularity handling
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore', category=RuntimeWarning)
+            sin_theta = np.sin(theta)
+            cos_theta = np.cos(theta)
+            tan_theta = np.tan(theta)
         
         # Compute reciprocal functions with singularity handling
         # csc(θ) = 1/sin(θ), singular at θ = kπ
