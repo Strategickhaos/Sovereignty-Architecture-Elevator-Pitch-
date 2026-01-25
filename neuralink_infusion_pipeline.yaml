@@ -87,6 +87,11 @@ stages:
       blood_data_path: "data/blood_samples/fasta.npy"   # FASTA format or microscopy data
       microscopy_path: "data/blood_samples/cell_images/"
       genetic_data_path: "data/blood_samples/variants.vcf"
+      vcf_validation:
+        required_version: "VCFv4.2"
+        required_fields: ["CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO"]
+        min_quality_score: 30  # Phred-scaled quality threshold
+        required_info_fields: ["CLNSIG", "GENEINFO"]  # ClinVar pathogenicity annotation
     outputs:
       blood_glyphs_dir: "${work_dir}/blood_glyphs/raw"
       cell_anomalies_dir: "${work_dir}/blood_glyphs/cell_anomalies"

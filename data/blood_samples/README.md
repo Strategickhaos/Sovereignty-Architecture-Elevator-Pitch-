@@ -104,8 +104,10 @@ blood_samples/
 ##fileformat=VCFv4.2
 ##reference=GRCh38
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
-chr11	5227002	rs334	T	A	.	PASS	CLNSIG=Pathogenic;GENEINFO=HBB;CLNDN=Sickle_cell_anemia
+chr11	5227002	rs334	T	A	999	PASS	CLNSIG=Pathogenic;GENEINFO=HBB;CLNDN=Sickle_cell_anemia;AF=0.05
 ```
+
+Note: QUAL=999 indicates high-confidence variant call (Phred-scaled quality score).
 
 ## Synthetic Data Generation
 

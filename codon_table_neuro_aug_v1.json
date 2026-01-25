@@ -141,9 +141,17 @@
         }
       ],
       "crispr_params": {
+        "cas_protein": "Cas9",
         "pam_sequence": "NGG",
         "guide_length": 20,
-        "off_target_threshold": 0.05
+        "off_target_threshold": 0.05,
+        "configurable": true,
+        "supported_variants": {
+          "Cas9": {"pam": "NGG", "guide_length": 20},
+          "Cas12a": {"pam": "TTTV", "guide_length": 23},
+          "Cas13": {"pam": "none", "guide_length": 28}
+        },
+        "notes": "Parameters are configurable per Cas protein type"
       },
       "evolution": {
         "fitness_metric": "eq = 1.0 - variant_div",
