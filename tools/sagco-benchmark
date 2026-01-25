@@ -74,8 +74,11 @@ print((end - start) * 1000)
             timeout=30
         )
         
-        time_ms = float(result.stdout.strip())
-        ops_per_sec = int(self.ops_count / (time_ms / 1000))
+        try:
+            time_ms = float(result.stdout.strip())
+            ops_per_sec = int(self.ops_count / (time_ms / 1000))
+        except (ValueError, ZeroDivisionError) as e:
+            raise RuntimeError(f"Failed to parse benchmark output: {e}")
         
         return time_ms, ops_per_sec
 
@@ -104,8 +107,11 @@ echo $((end - start))
             timeout=60
         )
         
-        time_ms = float(result.stdout.strip())
-        ops_per_sec = int(self.ops_count / (time_ms / 1000))
+        try:
+            time_ms = float(result.stdout.strip())
+            ops_per_sec = int(self.ops_count / (time_ms / 1000))
+        except (ValueError, ZeroDivisionError) as e:
+            raise RuntimeError(f"Failed to parse benchmark output: {e}")
         
         return time_ms, ops_per_sec
 
@@ -136,8 +142,11 @@ console.log(end - start);
             timeout=30
         )
         
-        time_ms = float(result.stdout.strip())
-        ops_per_sec = int(self.ops_count / (time_ms / 1000))
+        try:
+            time_ms = float(result.stdout.strip())
+            ops_per_sec = int(self.ops_count / (time_ms / 1000))
+        except (ValueError, ZeroDivisionError) as e:
+            raise RuntimeError(f"Failed to parse benchmark output: {e}")
         
         return time_ms, ops_per_sec
 

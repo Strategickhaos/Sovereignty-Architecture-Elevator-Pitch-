@@ -23,6 +23,9 @@ from collections import Counter
 class SignatureOracle:
     """Pattern-based signature detection using Yara-style rules"""
     
+    # Risk scoring constants
+    RISK_SCORE_PER_MATCH = 0.15
+    
     HALLUCINATION_PATTERNS = [
         r'\b(definitely|absolutely|certainly|always|never)\s+(true|false|correct|wrong)\b',
         r'\bI\s+(am|was)\s+(trained|created|designed)\s+by\b',
@@ -40,7 +43,7 @@ class SignatureOracle:
             found = re.finditer(pattern, text, re.IGNORECASE)
             matches.extend([(m.group(), m.start(), m.end()) for m in found])
         
-        risk_score = min(len(matches) * 0.15, 1.0)
+        risk_score = min(len(matches) * self.RISK_SCORE_PER_MATCH, 1.0)
         
         return {
             "oracle": "SignatureOracle",
@@ -129,6 +132,10 @@ class SearchSpaceOracle:
 class EntropyOracle:
     """Shannon entropy and randomness analysis"""
     
+    # Threshold constants
+    LOW_ENTROPY_THRESHOLD = 0.7
+    LOW_DIVERSITY_THRESHOLD = 0.4
+    
     def calculate_entropy(self, text: str) -> float:
         """Calculate Shannon entropy of text"""
         if not text:
@@ -161,9 +168,9 @@ class EntropyOracle:
         
         # Low entropy or low diversity suggests templated/generated text
         risk_score = 0.0
-        if normalized_entropy < 0.7:
+        if normalized_entropy < self.LOW_ENTROPY_THRESHOLD:
             risk_score += 0.4
-        if lexical_diversity < 0.4:
+        if lexical_diversity < self.LOW_DIVERSITY_THRESHOLD:
             risk_score += 0.4
         
         risk_score = min(risk_score, 1.0)
