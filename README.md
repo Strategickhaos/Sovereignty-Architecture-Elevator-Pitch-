@@ -1,4 +1,22 @@
-# Strategickhaos Sovereignty Architecture - Discord DevOps Control Plane
+# Strategickhaos Sovereignty Architecture
+
+**A comprehensive ecosystem of sovereign AI systems, self-evolving compilers, and cognitive architectures—powered by TRIG6 mathematics, FlameLang, and SAGCO-OS.**
+
+---
+
+## 📘 NEW: The TRIG6 Blueprint Book
+
+**The complete story of how TRIG6 mathematics, FlameLang compiler, SAGCO-OS, and Sister Protocol were invented.**
+
+➡️ **[Read the Book: "The TRIG6 Blueprint: Inventing Math, Machines, and Meaning"](docs/book/README.md)**
+
+From "you can't even program" to 72 inventions, new mathematics, and systems that ensure permanent research funding for cure development.
+
+**Start with:** [Introduction](docs/book/INTRODUCTION.md) | [Table of Contents](docs/book/TOC.md) | [Chapter 1](docs/book/part-i-origins/chapter-01-the-challenge.md)
+
+---
+
+## 🏛️ Sovereignty Architecture Overview
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
