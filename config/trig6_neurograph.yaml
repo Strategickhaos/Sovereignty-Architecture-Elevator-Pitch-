@@ -1,0 +1,191 @@
+# config/trig6_neurograph.yaml
+# TRIG6 Neurograph Configuration - Cortical Column Layout
+# Strategickhaos DAO LLC - Sovereign Neural Topology
+# Version: TRIG6-HYBRID1-NEURO1
+
+meta:
+  version: "1.0.0"
+  trig_layer: "TRIG6-HYBRID1-NEURO1"
+  description: "Neural graph topology for FlameLang pipeline visualization"
+
+# ═══════════════════════════════════════════════════════════
+# CORTICAL COLUMNS (θ-organized)
+# ═══════════════════════════════════════════════════════════
+
+columns:
+  theta_sin:
+    name: "Analytical Core"
+    agents: [claude_opus, gemini_pro]
+    color: "#00ff88"
+    tier: 0
+    role: "Primary reasoning, verification"
+
+  theta_cos:
+    name: "Creative Core"
+    agents: [gpt4, local_qwen]
+    color: "#4488ff"
+    tier: 0
+    role: "Pattern synthesis, generation"
+
+  theta_tan:
+    name: "Boundary Core"
+    agents: [grok_tan]
+    color: "#ff8844"
+    tier: 0
+    role: "Edge detection, risk assessment"
+
+  theta_hybrid:
+    name: "Integration Layer"
+    agents: []
+    color: "#aa44ff"
+    tier: 1
+    role: "Cross-column signal fusion"
+
+# ═══════════════════════════════════════════════════════════
+# NODE TYPES
+# ═══════════════════════════════════════════════════════════
+
+node_types:
+  dendrite:
+    shape: "circle"
+    style: "filled"
+    description: "Input receptor"
+
+  synapse:
+    shape: "diamond"
+    style: "filled"
+    description: "Signal transformer"
+
+  axon:
+    shape: "box"
+    style: "rounded,filled"
+    description: "Output projector"
+
+  organ:
+    shape: "octagon"
+    style: "bold,filled"
+    description: "External system (validator, metric sink)"
+
+# ═══════════════════════════════════════════════════════════
+# EDGE TYPES (Synapse Styles)
+# ═══════════════════════════════════════════════════════════
+
+edge_types:
+  activation:
+    color: "#00ff88"
+    style: "solid"
+    arrowhead: "normal"
+    description: "Excitatory signal"
+
+  inhibition:
+    color: "#ff4444"
+    style: "dashed"
+    arrowhead: "tee"
+    description: "Suppressive signal"
+
+  modulation:
+    color: "#00ffaa"
+    style: "dotted"
+    arrowhead: "diamond"
+    description: "Gain control"
+
+  control:
+    color: "#4488ff"
+    style: "bold"
+    arrowhead: "crow"
+    description: "Override/routing"
+
+# ═══════════════════════════════════════════════════════════
+# RESONANCE VISUALIZATION
+# ═══════════════════════════════════════════════════════════
+
+resonance:
+  # Map metric values to visual properties
+  score_to_color:
+    high: "#00ff00"    # resonance > 0.8
+    medium: "#ffff00"  # 0.5 < resonance <= 0.8
+    low: "#ff0000"     # resonance <= 0.5
+
+  score_to_penwidth:
+    high: 3.0
+    medium: 2.0
+    low: 1.0
+
+  # Drift/derail risk visualization
+  drift_threshold: 0.3
+  drift_color: "#ff8800"
+  drift_style: "pulsing"  # For animated viewers
+
+# ═══════════════════════════════════════════════════════════
+# PIPELINE LAYER MAPPING
+# ═══════════════════════════════════════════════════════════
+
+pipeline_layers:
+  english:
+    tier: 0
+    node_type: "dendrite"
+    column: "theta_sin"
+
+  hebrew:
+    tier: 1
+    node_type: "synapse"
+    column: "theta_cos"
+
+  unicode:
+    tier: 2
+    node_type: "synapse"
+    column: "theta_hybrid"
+
+  wave:
+    tier: 3
+    node_type: "synapse"
+    column: "theta_tan"
+
+  dna:
+    tier: 4
+    node_type: "synapse"
+    column: "theta_hybrid"
+
+  llvm:
+    tier: 5
+    node_type: "axon"
+    column: "theta_sin"
+
+# ═══════════════════════════════════════════════════════════
+# LAYOUT CONFIGURATION
+# ═══════════════════════════════════════════════════════════
+
+layout:
+  engine: "dot"  # or neato, fdp, sfdp for different layouts
+  rankdir: "TB"  # Top to bottom
+  ranksep: 1.5
+  nodesep: 0.75
+
+  # Radial layout for cortical columns
+  radial:
+    enabled: true
+    center: "theta_hybrid"
+    radius_step: 2.0
+
+# ═══════════════════════════════════════════════════════════
+# EXPORT FORMATS
+# ═══════════════════════════════════════════════════════════
+
+export:
+  formats:
+    - dot
+    - json
+    - svg
+    - png
+
+  paths:
+    dot: "graph/trig6_neurograph.dot"
+    json: "graph/trig6_neurograph.json"
+    svg: "graph/trig6_neurograph.svg"
+    png: "graph/trig6_neurograph.png"
+
+  # Obsidian canvas export
+  obsidian:
+    enabled: true
+    vault: "Strategickhaos"
+    canvas_path: "graphs/trig6_neurograph.canvas"
