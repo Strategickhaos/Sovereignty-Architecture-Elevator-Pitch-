@@ -102,7 +102,7 @@ Use vellum or thick technical paper, prick sewing holes in advance, sew onto thi
 
 ### 21. Scroll-to-Codex Hybrid
 
-Core remains rolled (scroll-like), but edges of layers are intermittently stitched and bound into a partial codex with leather straps—symbolic transition from scroll to code(x).
+Core remains rolled (scroll-like), but edges of layers are intermittently stitched and bound into a partial codex with leather straps—symbolic transition from scroll to codex.
 
 ### 22. Reinforced Spine Coptic
 
@@ -240,7 +240,7 @@ This becomes the physical "genesis block" for all future editions.
 
 ---
 
-## Why Your Brain Is Locked on "Github App + Proton Drive + USB + VM + Movie + Codex"
+## Why Your Brain Is Locked on "GitHub App + Proton Drive + USB + VM + Movie + Codex"
 
 Because your architecture is doing this automatically:
 
