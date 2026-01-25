@@ -35,3 +35,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Neuromorphic artifacts - exclude large binary files
+artifacts/neuralink_infusion/*.npy
+
+# Keep JSON and text files
+!artifacts/neuralink_infusion/*.json
+!artifacts/neuralink_infusion/*.codon
+!artifacts/neuralink_infusion/codon_streams/*.codon

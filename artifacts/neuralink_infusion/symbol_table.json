@@ -1,0 +1,182 @@
+{
+  "NSYM_000": {
+    "index": 0,
+    "type": "neural_symbol",
+    "frequency": "432Hz"
+  },
+  "NSYM_001": {
+    "index": 1,
+    "type": "neural_symbol",
+    "frequency": "433Hz"
+  },
+  "NSYM_002": {
+    "index": 2,
+    "type": "neural_symbol",
+    "frequency": "434Hz"
+  },
+  "NSYM_003": {
+    "index": 3,
+    "type": "neural_symbol",
+    "frequency": "435Hz"
+  },
+  "NSYM_004": {
+    "index": 4,
+    "type": "neural_symbol",
+    "frequency": "436Hz"
+  },
+  "NSYM_005": {
+    "index": 5,
+    "type": "neural_symbol",
+    "frequency": "437Hz"
+  },
+  "NSYM_006": {
+    "index": 6,
+    "type": "neural_symbol",
+    "frequency": "438Hz"
+  },
+  "NSYM_007": {
+    "index": 7,
+    "type": "neural_symbol",
+    "frequency": "439Hz"
+  },
+  "NSYM_008": {
+    "index": 8,
+    "type": "neural_symbol",
+    "frequency": "440Hz"
+  },
+  "NSYM_009": {
+    "index": 9,
+    "type": "neural_symbol",
+    "frequency": "441Hz"
+  },
+  "NSYM_010": {
+    "index": 10,
+    "type": "neural_symbol",
+    "frequency": "442Hz"
+  },
+  "NSYM_011": {
+    "index": 11,
+    "type": "neural_symbol",
+    "frequency": "443Hz"
+  },
+  "NSYM_012": {
+    "index": 12,
+    "type": "neural_symbol",
+    "frequency": "444Hz"
+  },
+  "NSYM_013": {
+    "index": 13,
+    "type": "neural_symbol",
+    "frequency": "445Hz"
+  },
+  "NSYM_014": {
+    "index": 14,
+    "type": "neural_symbol",
+    "frequency": "446Hz"
+  },
+  "NSYM_015": {
+    "index": 15,
+    "type": "neural_symbol",
+    "frequency": "447Hz"
+  },
+  "NSYM_016": {
+    "index": 16,
+    "type": "neural_symbol",
+    "frequency": "448Hz"
+  },
+  "NSYM_017": {
+    "index": 17,
+    "type": "neural_symbol",
+    "frequency": "449Hz"
+  },
+  "NSYM_018": {
+    "index": 18,
+    "type": "neural_symbol",
+    "frequency": "450Hz"
+  },
+  "NSYM_019": {
+    "index": 19,
+    "type": "neural_symbol",
+    "frequency": "451Hz"
+  },
+  "NSYM_020": {
+    "index": 20,
+    "type": "neural_symbol",
+    "frequency": "452Hz"
+  },
+  "NSYM_021": {
+    "index": 21,
+    "type": "neural_symbol",
+    "frequency": "453Hz"
+  },
+  "NSYM_022": {
+    "index": 22,
+    "type": "neural_symbol",
+    "frequency": "454Hz"
+  },
+  "NSYM_023": {
+    "index": 23,
+    "type": "neural_symbol",
+    "frequency": "455Hz"
+  },
+  "NSYM_024": {
+    "index": 24,
+    "type": "neural_symbol",
+    "frequency": "456Hz"
+  },
+  "NSYM_025": {
+    "index": 25,
+    "type": "neural_symbol",
+    "frequency": "457Hz"
+  },
+  "NSYM_026": {
+    "index": 26,
+    "type": "neural_symbol",
+    "frequency": "458Hz"
+  },
+  "NSYM_027": {
+    "index": 27,
+    "type": "neural_symbol",
+    "frequency": "459Hz"
+  },
+  "NSYM_028": {
+    "index": 28,
+    "type": "neural_symbol",
+    "frequency": "460Hz"
+  },
+  "NSYM_029": {
+    "index": 29,
+    "type": "neural_symbol",
+    "frequency": "461Hz"
+  },
+  "NSYM_030": {
+    "index": 30,
+    "type": "neural_symbol",
+    "frequency": "462Hz"
+  },
+  "NSYM_031": {
+    "index": 31,
+    "type": "neural_symbol",
+    "frequency": "463Hz"
+  },
+  "NSYM_032": {
+    "index": 32,
+    "type": "neural_symbol",
+    "frequency": "464Hz"
+  },
+  "NSYM_033": {
+    "index": 33,
+    "type": "neural_symbol",
+    "frequency": "465Hz"
+  },
+  "NSYM_034": {
+    "index": 34,
+    "type": "neural_symbol",
+    "frequency": "466Hz"
+  },
+  "NSYM_035": {
+    "index": 35,
+    "type": "neural_symbol",
+    "frequency": "467Hz"
+  }
+}

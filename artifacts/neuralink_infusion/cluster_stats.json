@@ -1,0 +1,146 @@
+{
+  "cluster_0": {
+    "size": 48,
+    "centroid": 2.7755575615628914e-17
+  },
+  "cluster_1": {
+    "size": 3,
+    "centroid": 0.7999999999967999
+  },
+  "cluster_2": {
+    "size": 1,
+    "centroid": 0.5999999999976
+  },
+  "cluster_3": {
+    "size": 1,
+    "centroid": 0.95999999999616
+  },
+  "cluster_4": {
+    "size": 3,
+    "centroid": 0.7599999999969601
+  },
+  "cluster_5": {
+    "size": 1,
+    "centroid": 0.87999999999648
+  },
+  "cluster_6": {
+    "size": 2,
+    "centroid": 0.71999999999712
+  },
+  "cluster_7": {
+    "size": 2,
+    "centroid": 0.6399999999974401
+  },
+  "cluster_8": {
+    "size": 1,
+    "centroid": 0.9199999999963201
+  },
+  "cluster_9": {
+    "size": 1,
+    "centroid": 0.9999999999960001
+  },
+  "cluster_10": {
+    "size": 1,
+    "centroid": 0.8399999999966401
+  },
+  "cluster_11": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_12": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_13": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_14": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_15": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_16": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_17": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_18": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_19": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_20": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_21": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_22": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_23": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_24": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_25": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_26": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_27": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_28": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_29": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_30": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_31": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_32": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_33": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_34": {
+    "size": 0,
+    "centroid": 0.0
+  },
+  "cluster_35": {
+    "size": 0,
+    "centroid": 0.0
+  }
+}
