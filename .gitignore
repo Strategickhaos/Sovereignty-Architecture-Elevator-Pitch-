@@ -41,3 +41,8 @@ flamebench/
 **/bench_cache/
 **/flamebench-results.json
 **/guardian-uncertainty.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
