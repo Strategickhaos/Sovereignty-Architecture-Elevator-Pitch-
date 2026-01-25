@@ -424,6 +424,8 @@ I affirm that I have the legal authority to execute this declaration on behalf o
 
 ## XI. EXECUTION
 
+**NOTE:** This declaration must be executed (signed and dated) before filing with USPTO. Signature blocks below are for future execution upon patent attorney engagement.
+
 ### A. Inventor Signature Block
 
 **Inventor Name (Printed):** Domenic Garza

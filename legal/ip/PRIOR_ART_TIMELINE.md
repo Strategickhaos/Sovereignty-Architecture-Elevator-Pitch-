@@ -82,6 +82,8 @@ This timeline establishes **definitive proof of first invention** through:
 
 #### Key Commits (Cryptographically Timestamped)
 
+**Note:** Actual Git commit SHA hashes to be populated from repository history by patent attorney. Examples shown below with [hash] placeholders.
+
 ```
 Commit: [hash] — "Initial SAGCO-OS architecture specification"
 Date: July 20, 2025
