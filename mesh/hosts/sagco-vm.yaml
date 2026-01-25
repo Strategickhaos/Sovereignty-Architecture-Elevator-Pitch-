@@ -1,0 +1,100 @@
+# SAGCO Neural Mesh Node: SAGCO-VM
+# Role: Soul (Virtual Development Instance)
+# Version: 1.0.0
+
+node:
+  id: "sagco-vm"
+  name: "SAGCO-VM"
+  role: "soul"
+  priority: 8  # High priority for development
+  
+hardware:
+  virtualization:
+    hypervisor: "VirtualBox"
+    version: "7.0+"
+    
+  cpu:
+    vcpus: 2
+    model: "host-passthrough"
+  
+  memory:
+    size: "2 GB"
+    type: "virtual"
+  
+  storage:
+    - type: "VDI"
+      size: "20 GB"
+      mount: "/"
+      format: "dynamic"
+
+network:
+  primary:
+    interface: "enp0s3"
+    type: "NAT"
+    ip: "10.0.2.15"  # Default VirtualBox NAT IP
+    gateway: "10.0.2.2"
+  
+  secondary:
+    interface: "enp0s8"
+    type: "Host-only"
+    ip: "192.168.56.10"
+  
+  ports:
+    - 22    # SSH (forwarded to host:2222)
+    - 8080  # SAGCO API (forwarded to host:8080)
+    - 3000  # Development server
+
+services:
+  sagco_kernel:
+    enabled: true
+    version: "1.0.6"
+    config:
+      cognitive_loop_interval: "500ms"
+      bloom_filter_size: 50000
+      development_mode: true
+  
+  mesh_sync:
+    enabled: true
+    protocol: "crdt"
+    sync_interval: "5s"
+  
+  oracle:
+    enabled: true
+    ensemble: ["signature", "entropy"]  # Lightweight subset
+
+  development:
+    enabled: true
+    hot_reload: true
+    debug_port: 5005
+
+operating_system:
+  distro: "Alpine Linux"
+  version: "3.19"
+  kernel: "6.12.1-sagco"
+  init: "BusyBox + SAGCO"
+  shell: "ash"
+
+capabilities:
+  - development
+  - testing
+  - prototyping
+  - kernel_development
+  - command_testing
+  - iso_building
+
+shared_folders:
+  - host: "~/sagco-dev"
+    guest: "/workspace"
+    automount: true
+  
+  - host: "~/Downloads"
+    guest: "/downloads"
+    readonly: true
+
+metadata:
+  location: "VirtualBox Host"
+  owner: "Domenic Gabriel Garza"
+  deployed: "2025-01-15"
+  dna_codon: "MESH5"
+  mesh_version: "5.0"
+  purpose: "Primary development and testing environment"
