@@ -71,6 +71,31 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🔥 FlameLang Evolutionary Gate (`evolution-gate`)
+- **Darwinian Compiler Evolution**: Automated evaluation of compiler mutations
+- **Multi-Domain Fitness**: Combines TRIG6 swarm metrics + FlameBench performance + behavioral equivalence
+- **Safety Guardrails**: Hard gate for correctness (eq ≥ 0.99), strict improvement requirement
+- **CI/CD Integration**: Automatic champion tracking and codon updates
+- **Curriculum-Driven**: zyBooks labs become evolutionary pressure
+
+```bash
+# Evaluate a compiler mutation
+python src/emulator/wave_cores/trig6/evo_gate/flamelang_evo_gate.py \
+  --candidate main \
+  --champion champion.json
+
+# With custom fitness weights
+python src/emulator/wave_cores/trig6/evo_gate/flamelang_evo_gate.py \
+  --candidate $COMMIT_SHA \
+  --rho 0.25 \    # Phase coherence weight
+  --gamma 0.35    # FlameBench weight
+```
+
+**Documentation:**
+- Comprehensive Guide: [`docs/EVOLUTIONARY_GATE.md`](docs/EVOLUTIONARY_GATE.md)
+- Integration Steps: [`docs/EVOLUTIONARY_GATE_INTEGRATION.md`](docs/EVOLUTIONARY_GATE_INTEGRATION.md)
+- Package README: [`src/emulator/wave_cores/trig6/evo_gate/README.md`](src/emulator/wave_cores/trig6/evo_gate/README.md)
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment
