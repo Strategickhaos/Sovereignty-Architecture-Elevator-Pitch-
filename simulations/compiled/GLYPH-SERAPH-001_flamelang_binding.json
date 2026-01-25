@@ -1,0 +1,666 @@
+{
+  "recipe_id": "GLYPH-SERAPH-001",
+  "recipe_name": "Codex Seraphinianus Glyph Mapping",
+  "hazard_level": "LOW",
+  "codons": {
+    "codon_000": {
+      "glyph_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "binding_code": "[000]",
+      "count": 4
+    },
+    "codon_001": {
+      "glyph_ids": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "binding_code": "[001]",
+      "count": 4
+    },
+    "codon_002": {
+      "glyph_ids": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "binding_code": "[002]",
+      "count": 4
+    },
+    "codon_003": {
+      "glyph_ids": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "binding_code": "[003]",
+      "count": 4
+    },
+    "codon_004": {
+      "glyph_ids": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "binding_code": "[004]",
+      "count": 4
+    },
+    "codon_005": {
+      "glyph_ids": [
+        20,
+        21,
+        22,
+        23
+      ],
+      "binding_code": "[005]",
+      "count": 4
+    },
+    "codon_006": {
+      "glyph_ids": [
+        24,
+        25,
+        26,
+        27
+      ],
+      "binding_code": "[006]",
+      "count": 4
+    },
+    "codon_007": {
+      "glyph_ids": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "binding_code": "[007]",
+      "count": 4
+    },
+    "codon_008": {
+      "glyph_ids": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "binding_code": "[008]",
+      "count": 4
+    },
+    "codon_009": {
+      "glyph_ids": [
+        36,
+        37,
+        38,
+        39
+      ],
+      "binding_code": "[009]",
+      "count": 4
+    },
+    "codon_010": {
+      "glyph_ids": [
+        40,
+        41,
+        42,
+        43
+      ],
+      "binding_code": "[010]",
+      "count": 4
+    },
+    "codon_011": {
+      "glyph_ids": [
+        44,
+        45,
+        46,
+        47
+      ],
+      "binding_code": "[011]",
+      "count": 4
+    },
+    "codon_012": {
+      "glyph_ids": [
+        48,
+        49,
+        50,
+        51
+      ],
+      "binding_code": "[012]",
+      "count": 4
+    },
+    "codon_013": {
+      "glyph_ids": [
+        52,
+        53,
+        54,
+        55
+      ],
+      "binding_code": "[013]",
+      "count": 4
+    },
+    "codon_014": {
+      "glyph_ids": [
+        56,
+        57,
+        58,
+        59
+      ],
+      "binding_code": "[014]",
+      "count": 4
+    },
+    "codon_015": {
+      "glyph_ids": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "binding_code": "[015]",
+      "count": 4
+    },
+    "codon_016": {
+      "glyph_ids": [
+        64,
+        65,
+        66,
+        67
+      ],
+      "binding_code": "[016]",
+      "count": 4
+    },
+    "codon_017": {
+      "glyph_ids": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "binding_code": "[017]",
+      "count": 4
+    },
+    "codon_018": {
+      "glyph_ids": [
+        72,
+        73,
+        74,
+        75
+      ],
+      "binding_code": "[018]",
+      "count": 4
+    },
+    "codon_019": {
+      "glyph_ids": [
+        76,
+        77,
+        78,
+        79
+      ],
+      "binding_code": "[019]",
+      "count": 4
+    },
+    "codon_020": {
+      "glyph_ids": [
+        80,
+        81,
+        82,
+        83
+      ],
+      "binding_code": "[020]",
+      "count": 4
+    },
+    "codon_021": {
+      "glyph_ids": [
+        84,
+        85,
+        86,
+        87
+      ],
+      "binding_code": "[021]",
+      "count": 4
+    },
+    "codon_022": {
+      "glyph_ids": [
+        88,
+        89,
+        90,
+        91
+      ],
+      "binding_code": "[022]",
+      "count": 4
+    },
+    "codon_023": {
+      "glyph_ids": [
+        92,
+        93,
+        94,
+        95
+      ],
+      "binding_code": "[023]",
+      "count": 4
+    },
+    "codon_024": {
+      "glyph_ids": [
+        96,
+        97,
+        98,
+        99
+      ],
+      "binding_code": "[024]",
+      "count": 4
+    },
+    "codon_025": {
+      "glyph_ids": [
+        100,
+        101,
+        102,
+        103
+      ],
+      "binding_code": "[025]",
+      "count": 4
+    },
+    "codon_026": {
+      "glyph_ids": [
+        104,
+        105,
+        106,
+        107
+      ],
+      "binding_code": "[026]",
+      "count": 4
+    },
+    "codon_027": {
+      "glyph_ids": [
+        108,
+        109,
+        110,
+        111
+      ],
+      "binding_code": "[027]",
+      "count": 4
+    },
+    "codon_028": {
+      "glyph_ids": [
+        112,
+        113,
+        114,
+        115
+      ],
+      "binding_code": "[028]",
+      "count": 4
+    },
+    "codon_029": {
+      "glyph_ids": [
+        116,
+        117,
+        118,
+        119
+      ],
+      "binding_code": "[029]",
+      "count": 4
+    },
+    "codon_030": {
+      "glyph_ids": [
+        120,
+        121,
+        122,
+        123
+      ],
+      "binding_code": "[030]",
+      "count": 4
+    },
+    "codon_031": {
+      "glyph_ids": [
+        124,
+        125,
+        126,
+        127
+      ],
+      "binding_code": "[031]",
+      "count": 4
+    },
+    "codon_032": {
+      "glyph_ids": [
+        128,
+        129,
+        130,
+        131
+      ],
+      "binding_code": "[032]",
+      "count": 4
+    },
+    "codon_033": {
+      "glyph_ids": [
+        132,
+        133,
+        134,
+        135
+      ],
+      "binding_code": "[033]",
+      "count": 4
+    },
+    "codon_034": {
+      "glyph_ids": [
+        136,
+        137,
+        138,
+        139
+      ],
+      "binding_code": "[034]",
+      "count": 4
+    },
+    "codon_035": {
+      "glyph_ids": [
+        140,
+        141,
+        142,
+        143
+      ],
+      "binding_code": "[035]",
+      "count": 4
+    },
+    "codon_036": {
+      "glyph_ids": [
+        144,
+        145,
+        146,
+        147
+      ],
+      "binding_code": "[036]",
+      "count": 4
+    },
+    "codon_037": {
+      "glyph_ids": [
+        148,
+        149,
+        150,
+        151
+      ],
+      "binding_code": "[037]",
+      "count": 4
+    },
+    "codon_038": {
+      "glyph_ids": [
+        152,
+        153,
+        154,
+        155
+      ],
+      "binding_code": "[038]",
+      "count": 4
+    },
+    "codon_039": {
+      "glyph_ids": [
+        156,
+        157,
+        158,
+        159
+      ],
+      "binding_code": "[039]",
+      "count": 4
+    },
+    "codon_040": {
+      "glyph_ids": [
+        160,
+        161,
+        162,
+        163
+      ],
+      "binding_code": "[040]",
+      "count": 4
+    },
+    "codon_041": {
+      "glyph_ids": [
+        164,
+        165,
+        166,
+        167
+      ],
+      "binding_code": "[041]",
+      "count": 4
+    },
+    "codon_042": {
+      "glyph_ids": [
+        168,
+        169,
+        170,
+        171
+      ],
+      "binding_code": "[042]",
+      "count": 4
+    },
+    "codon_043": {
+      "glyph_ids": [
+        172,
+        173,
+        174,
+        175
+      ],
+      "binding_code": "[043]",
+      "count": 4
+    },
+    "codon_044": {
+      "glyph_ids": [
+        176,
+        177,
+        178,
+        179
+      ],
+      "binding_code": "[044]",
+      "count": 4
+    },
+    "codon_045": {
+      "glyph_ids": [
+        180,
+        181,
+        182,
+        183
+      ],
+      "binding_code": "[045]",
+      "count": 4
+    },
+    "codon_046": {
+      "glyph_ids": [
+        184,
+        185,
+        186,
+        187
+      ],
+      "binding_code": "[046]",
+      "count": 4
+    },
+    "codon_047": {
+      "glyph_ids": [
+        188,
+        189,
+        190,
+        191
+      ],
+      "binding_code": "[047]",
+      "count": 4
+    },
+    "codon_048": {
+      "glyph_ids": [
+        192,
+        193,
+        194,
+        195
+      ],
+      "binding_code": "[048]",
+      "count": 4
+    },
+    "codon_049": {
+      "glyph_ids": [
+        196,
+        197,
+        198,
+        199
+      ],
+      "binding_code": "[049]",
+      "count": 4
+    },
+    "codon_050": {
+      "glyph_ids": [
+        200,
+        201,
+        202,
+        203
+      ],
+      "binding_code": "[050]",
+      "count": 4
+    },
+    "codon_051": {
+      "glyph_ids": [
+        204,
+        205,
+        206,
+        207
+      ],
+      "binding_code": "[051]",
+      "count": 4
+    },
+    "codon_052": {
+      "glyph_ids": [
+        208,
+        209,
+        210,
+        211
+      ],
+      "binding_code": "[052]",
+      "count": 4
+    },
+    "codon_053": {
+      "glyph_ids": [
+        212,
+        213,
+        214,
+        215
+      ],
+      "binding_code": "[053]",
+      "count": 4
+    },
+    "codon_054": {
+      "glyph_ids": [
+        216,
+        217,
+        218,
+        219
+      ],
+      "binding_code": "[054]",
+      "count": 4
+    },
+    "codon_055": {
+      "glyph_ids": [
+        220,
+        221,
+        222,
+        223
+      ],
+      "binding_code": "[055]",
+      "count": 4
+    },
+    "codon_056": {
+      "glyph_ids": [
+        224,
+        225,
+        226,
+        227
+      ],
+      "binding_code": "[056]",
+      "count": 4
+    },
+    "codon_057": {
+      "glyph_ids": [
+        228,
+        229,
+        230,
+        231
+      ],
+      "binding_code": "[057]",
+      "count": 4
+    },
+    "codon_058": {
+      "glyph_ids": [
+        232,
+        233,
+        234,
+        235
+      ],
+      "binding_code": "[058]",
+      "count": 4
+    },
+    "codon_059": {
+      "glyph_ids": [
+        236,
+        237,
+        238,
+        239
+      ],
+      "binding_code": "[059]",
+      "count": 4
+    },
+    "codon_060": {
+      "glyph_ids": [
+        240,
+        241,
+        242,
+        243
+      ],
+      "binding_code": "[060]",
+      "count": 4
+    },
+    "codon_061": {
+      "glyph_ids": [
+        244,
+        245,
+        246,
+        247
+      ],
+      "binding_code": "[061]",
+      "count": 4
+    },
+    "codon_062": {
+      "glyph_ids": [
+        248,
+        249,
+        250,
+        251
+      ],
+      "binding_code": "[062]",
+      "count": 4
+    },
+    "codon_063": {
+      "glyph_ids": [
+        252,
+        253,
+        254,
+        255
+      ],
+      "binding_code": "[063]",
+      "count": 4
+    }
+  },
+  "metadata": {
+    "total_glyphs": 256,
+    "codon_count": 64,
+    "ingredients": {
+      "embedding_dim": 256.0,
+      "min_cluster_size": 12.0,
+      "max_clusters": 128.0,
+      "image_dpi": 300.0,
+      "glyph_min_size": 25.0
+    },
+    "process_stages": [
+      "glyph_extraction",
+      "embedding_generation",
+      "clustering",
+      "codon_mapping",
+      "validation",
+      "compilation"
+    ]
+  }
+}
