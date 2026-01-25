@@ -149,7 +149,19 @@ class T6Parser:
     
     @staticmethod
     def _create_hook_function(func_name: str, params: str, body: str, hook_type: str):
-        """Create a hook function from parsed code."""
+        """
+        Create a hook function from parsed code.
+        
+        NOTE: Current implementation returns placeholder functions for safety.
+        Custom hook code from .t6 files is parsed but not executed.
+        
+        For production use, consider:
+        1. Use ast.parse() with restricted globals for safe execution
+        2. Implement a domain-specific language for mathematical expressions
+        3. Use a sandboxed execution environment
+        
+        This is a security measure to prevent arbitrary code execution.
+        """
         # For safety, create a simple wrapper that returns default values
         # In production, you'd want to use ast.parse and safe execution
         

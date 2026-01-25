@@ -127,8 +127,11 @@ expected_fitness_range = [0.0, 0.10]
 expected_danger_rate_percent = 95.0
 
 # Evolution can optimize parameters but cannot create meaning
-evolved_fitness_range = [0.0, 0.15]
-evolved_danger_count = 5-8
+# Note: Evolved parameters may change but fitness remains very low
+evolved_fitness_range_min = 0.0
+evolved_fitness_range_max = 0.15
+evolved_danger_count_min = 5
+evolved_danger_count_max = 8
 
 [interpretation]
 failure_modes = [

@@ -88,7 +88,11 @@ class TRIG6Simulator:
         if mean_val == 0:
             return 0.0
         
-        variance_ratio = statistics.stdev(values) / mean_val if len(values) > 1 else 0.0
+        # Avoid division by zero: check both conditions
+        if len(values) > 1 and statistics.stdev(values) != 0:
+            variance_ratio = statistics.stdev(values) / mean_val
+        else:
+            variance_ratio = 0.0
         # Progress-weighted resonance (evolves over simulation)
         base_resonance = max(0.0, 1.0 - variance_ratio)
         return base_resonance * (0.5 + 0.5 * s)

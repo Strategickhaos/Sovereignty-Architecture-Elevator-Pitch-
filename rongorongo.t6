@@ -122,12 +122,17 @@ def compute_rongorongo_noise(s, ingredients):
 """
 
 [expected_results]
+# Expected results from simulations
 expected_mean_fitness = 0.15
-expected_fitness_range = [0.10, 0.30]
+expected_fitness_range_min = 0.10
+expected_fitness_range_max = 0.30
 expected_danger_rate_percent = 80.0
 
-evolved_fitness_range = [0.15, 0.40]
-evolved_danger_count = 3-6
+# Evolved configurations
+evolved_fitness_range_min = 0.15
+evolved_fitness_range_max = 0.40
+evolved_danger_count_min = 3
+evolved_danger_count_max = 6
 
 [interpretation]
 failure_modes = [
