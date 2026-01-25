@@ -35,6 +35,8 @@ jobs:
   validate-flame-spec:
     name: "🔥 Validate FlameLang Specs"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       specs: ${{ steps.find-specs.outputs.specs }}
 
@@ -113,6 +115,8 @@ jobs:
     name: "⚡ FlameLang Stress Harness"
     needs: validate-flame-spec
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -208,6 +212,8 @@ jobs:
     name: "🏛️ Legion: ${{ matrix.validator }}"
     needs: flamelang-stress
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -333,6 +339,8 @@ jobs:
     name: "⚖️ Legion Consensus"
     needs: legion-validators
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Download all validator results
@@ -386,6 +394,8 @@ jobs:
     name: "🧠 TRIG6 Neurograph Build"
     needs: flamelang-stress
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
