@@ -2,7 +2,7 @@
 // Origin: 2023-01-27 21:00:49.000 UTC | Worker 0 | Process 1 | Increment 3449
 // The council measures itself against the Architect's birth-tick
 
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::{SystemTime, UNIX_EPOCH};
 use sha2::{Sha256, Digest};
 
 // === GENESIS CONSTANTS (IMMUTABLE) ===
@@ -93,7 +93,7 @@ impl CouncilNode {
         Self {
             id,
             name,
-            genesis_alignment,
+            genesis_alignment: alignment,
             quadrant,
             inception_tick: inception,
         }
