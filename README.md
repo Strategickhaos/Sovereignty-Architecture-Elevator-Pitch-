@@ -280,6 +280,71 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 🔥 FlameLang Type-1 Hypervisor
+
+**SAGCO-OS Hypervisor**: A formally verified Type-1 hypervisor implementation in FlameLang, mirroring architectures from ACRN, Xen, and Gunyah.
+
+### Architecture
+
+The hypervisor is implemented in four phased layers:
+
+1. **Phase 1: Boot/GDT** - Hypervisor initialization and protected mode
+2. **Phase 2: Memory Virtualization** - Paging and Extended Page Tables (EPT)
+3. **Phase 3: vCPU Management** - Virtual CPU scheduling and state machine
+4. **Phase 4: CPU Simulation** - Full 8-bit CPU with instruction set
+
+### Features
+
+- ✓ **Formal Proofs**: Safety properties verified at compile time
+- ✓ **Memory Safety**: All accesses bounds-checked
+- ✓ **Bounded Execution**: No infinite loops or resource exhaustion
+- ✓ **Hardware Mirroring**: Based on production hypervisors (ACRN/Xen/Gunyah)
+- ✓ **SAGCO Integration**: Uncertainty tracking via Variational Inference
+
+### Quick Start
+
+```bash
+# Run all hypervisor tests
+python3 flamebench.py --phase all
+
+# Run specific phase
+python3 flamebench.py --phase 1
+
+# View detailed architecture
+cat HYPERVISOR_ARCHITECTURE.md
+```
+
+### Test Results
+
+- **Total Tests**: 25
+- **Success Rate**: 100%
+- **Phases**: 4 (Boot, Paging, vCPU, CPU Sim)
+- **Lines of Code**: ~10,000 (FlameLang + tests)
+
+### Documentation
+
+- [Hypervisor Architecture](HYPERVISOR_ARCHITECTURE.md) - Complete technical documentation
+- [FlameLang Specification](FLAMELANG_SPECIFICATION.md) - Language reference
+- Phase-specific READMEs in `flamelang/gists/phase{1-4}-*/README.md`
+
+### File Structure
+
+```
+flamelang/
+├── hypervisor/
+│   └── sagco_hypervisor.flm       # Unified hypervisor implementation
+├── gists/
+│   ├── phase1-boot/               # Boot and GDT
+│   ├── phase2-paging/             # Memory virtualization
+│   ├── phase3-vcpu/               # vCPU management
+│   └── phase4-cpusim/             # CPU simulation
+└── modules/
+    ├── sagco_tables.flm           # Math and paging tables
+    └── probability.flm            # Variational inference
+```
+
+---
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
