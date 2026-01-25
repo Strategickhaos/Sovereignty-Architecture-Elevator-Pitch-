@@ -118,12 +118,11 @@ stages:
       Stable/high-support symbols are mapped to ATG/TGG/...; low-support
       or noisy symbols map to NNN (no-op codon).
     params:
-      codon_table_path: "spec/codon_table_flame_v1.json"   # defines 64 codons
       mapping_strategy: "frequency_weighted_round_robin"
       noop_codon: "NNN"
     inputs:
       symbol_table_path: "${work_dir}/symbols/symbol_table.json"
-      codon_table_path: "spec/codon_table_flame_v1.json"
+      codon_table_path: "spec/codon_table_flame_v1.json"   # defines 64 codons
     outputs:
       symbol_to_codon_path: "${work_dir}/binding/symbol_to_codon_v0.json"
 
@@ -225,6 +224,8 @@ trig6_global:
   description: "Shared TRIG6 parameters for all evaluations in this pipeline."
   danger_tan_limit: "${tan_danger_limit}"
   eq_target: "${eq_target}"
+  constants:
+    PI: 3.14159265358979323846
 
 governance:
   license: "© 2026 Strategickhaos DAO LLC – Internal Research Use Only"
