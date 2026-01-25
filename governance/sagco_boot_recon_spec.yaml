@@ -260,7 +260,7 @@ boot_sequence:
           action: "Initialize HybridWaveCoreState"
           description: "Create wave core with default θ = π/4"
           initial_state:
-            theta: 0.7854
+            theta: 0.7854  # π/4 radians (45 degrees) - balanced initial state
             alpha: 0.0
             resonance: 1.0
             drift: 0.0
@@ -362,10 +362,10 @@ boot_sequence:
           description: "Record successful governance initialization"
           log_entry:
             event: "SAGCO_BOOT_COMPLETE"
-            dna: "${SAGCO_DNA}"
-            theta: "${CURRENT_THETA}"
-            resonance: "${CURRENT_RESONANCE}"
-            timestamp: "${ISO_TIMESTAMP}"
+            dna: "${SAGCO_DNA}"  # Sourced from /etc/sagco/sagco.conf
+            theta: "${CURRENT_THETA}"  # Current HybridWaveCoreState theta value
+            resonance: "${CURRENT_RESONANCE}"  # Current swarm resonance metric
+            timestamp: "${ISO_TIMESTAMP}"  # ISO 8601 format (e.g., 2026-01-25T04:20:45Z)
 
         - id: "7.2"
           action: "Emit boot beacon"
@@ -548,12 +548,14 @@ legal_references:
     url: "https://wyoleg.gov/statutes/compress/title17.pdf"
 
   - title: "Strategickhaos DAO LLC Articles of Organization"
-    filing_date: "[On file]"
+    filing_date: "On file with Wyoming Secretary of State"
     jurisdiction: "Wyoming"
+    note: "Contact legal counsel or refer to organizational records for exact filing date"
 
   - title: "Strategickhaos DAO LLC Certificate of Good Standing"
-    issue_date: "[On file]"
+    issue_date: "On file with Wyoming Secretary of State"
     jurisdiction: "Wyoming"
+    note: "Contact legal counsel or refer to organizational records for current certificate"
 
   - title: "USPTO Guidance on AI-Assisted Inventions"
     reference: "Federal Register Vol. 89, No. 30 (Feb 13, 2024)"
