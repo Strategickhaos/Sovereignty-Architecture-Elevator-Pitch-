@@ -1,0 +1,233 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "name": "Neural Augmentation Codon Table",
+    "description": "Neuralink-inspired BCI codon mappings for ADHD/Autism cognitive augmentation in TRIG6 SAGCO-OS",
+    "author": "Domenic Gabriel Garza (Strategickhaos DAO LLC)",
+    "genome": ["NEURO-03", "NEURO-06", "NEURO-36"],
+    "homologies": ["HOM-02", "HOM-03", "HOM-04"]
+  },
+  "codon_mappings": {
+    "FOCUS_BOOST": {
+      "codon": "FBS",
+      "neural_pattern": "high_coherence_low_drift",
+      "description": "Amplify focus by stabilizing attention phase-locking",
+      "trig6_params": {
+        "theta_bias": 0.0,
+        "resonance_boost": 0.3,
+        "drift_dampen": 0.4
+      },
+      "os_action": "pipeline_burst_to_focus_script"
+    },
+    "MEMORY_EXPORT": {
+      "codon": "MEX",
+      "neural_pattern": "working_memory_overflow",
+      "description": "Externalize working memory via OS pipelines to prevent cognitive overload",
+      "trig6_params": {
+        "theta_bias": 0.0,
+        "resonance_boost": 0.2,
+        "noise_filter": 0.3
+      },
+      "os_action": "export_memory_to_external_store"
+    },
+    "BURST_STABILIZE": {
+      "codon": "BST",
+      "neural_pattern": "adhd_burst_variance",
+      "description": "Convert ADHD bursts into stable codons via stochastic resonance",
+      "trig6_params": {
+        "theta_bias": 0.1,
+        "resonance_boost": 0.5,
+        "drift_dampen": 0.5,
+        "noise_transform": 0.4
+      },
+      "os_action": "weaponize_burst_to_stable_codon"
+    },
+    "SENSORY_FILTER": {
+      "codon": "SFT",
+      "neural_pattern": "autism_sensory_overload",
+      "description": "Filter sensory entropy to prevent autism-pattern overload",
+      "trig6_params": {
+        "noise_filter": 0.6,
+        "resonance_boost": 0.2
+      },
+      "os_action": "apply_sensory_damping_filter"
+    },
+    "HYPERFOCUS_CHANNEL": {
+      "codon": "HFC",
+      "neural_pattern": "hyperfocus_explosion",
+      "description": "Channel hyperfocus explosions into productive OS workflows",
+      "trig6_params": {
+        "theta_bias": -0.2,
+        "resonance_boost": 0.7,
+        "drift_dampen": 0.6
+      },
+      "os_action": "redirect_hyperfocus_to_task_pipeline"
+    },
+    "ATTENTION_PREDICT": {
+      "codon": "APD",
+      "neural_pattern": "attention_drift_early",
+      "description": "Predict attention drift before dopamine crash",
+      "trig6_params": {
+        "drift_monitor": 0.8,
+        "bifurcation_detect": 0.7
+      },
+      "os_action": "alert_on_predicted_crash"
+    },
+    "PHASE_LOCK": {
+      "codon": "PLK",
+      "neural_pattern": "theta_phase_coherence",
+      "description": "Lock to theta phase for sustained attention",
+      "trig6_params": {
+        "theta_bias": 0.0,
+        "resonance_boost": 0.6,
+        "coherence_target": 0.85
+      },
+      "os_action": "synchronize_to_theta_rhythm"
+    },
+    "NOISE_AMPLIFY": {
+      "codon": "NAM",
+      "neural_pattern": "stochastic_peak_signal",
+      "description": "Amplify signal through stochastic resonance (HOM-02)",
+      "trig6_params": {
+        "noise_transform": 0.7,
+        "resonance_boost": 0.8
+      },
+      "os_action": "boost_signal_via_noise"
+    },
+    "BIFURCATION_GUARD": {
+      "codon": "BFG",
+      "neural_pattern": "tangent_instability",
+      "description": "Guard against bifurcation dangers in chaotic neural nets",
+      "trig6_params": {
+        "danger_threshold": 8.5,
+        "theta_monitor": true,
+        "drift_dampen": 0.7
+      },
+      "os_action": "prevent_tangent_explosion"
+    },
+    "GAMMA_BURST": {
+      "codon": "GBT",
+      "neural_pattern": "adhd_gamma_distribution",
+      "description": "Model ADHD bursting noise via Gamma distribution",
+      "trig6_params": {
+        "noise_model": "gamma",
+        "burst_variance": 0.2,
+        "resonance_boost": 0.3
+      },
+      "os_action": "simulate_adhd_burst_pattern"
+    },
+    "COHERENCE_RESTORE": {
+      "codon": "CRS",
+      "neural_pattern": "neural_coherence_recovery",
+      "description": "Restore neural coherence after entropy spike",
+      "trig6_params": {
+        "coherence_target": 0.9,
+        "noise_filter": 0.5,
+        "resonance_boost": 0.4
+      },
+      "os_action": "restore_coherence_state"
+    },
+    "ENTROPY_MAP": {
+      "codon": "ENM",
+      "neural_pattern": "brain_entropy_measure",
+      "description": "Map brain entropy as N in TRIG6 (decode from BCI)",
+      "trig6_params": {
+        "entropy_decode": true,
+        "noise_monitor": 0.8
+      },
+      "os_action": "decode_neural_entropy"
+    },
+    "NEURO_NOOP": {
+      "codon": "NNN",
+      "neural_pattern": "baseline_resting_state",
+      "description": "No-operation baseline for resting neural state",
+      "trig6_params": {},
+      "os_action": "noop"
+    }
+  },
+  "evolution_strategies": {
+    "burst_weighted": {
+      "description": "Prioritize codons that stabilize ADHD burst patterns",
+      "weight_factors": {
+        "burst_variance": 0.4,
+        "phase_coherence": 0.3,
+        "drift_stability": 0.3
+      }
+    },
+    "coherence_optimized": {
+      "description": "Optimize for maximum neural coherence",
+      "weight_factors": {
+        "phase_coherence": 0.5,
+        "resonance": 0.3,
+        "noise_reduction": 0.2
+      }
+    },
+    "adaptive_resonance": {
+      "description": "Adapt to stochastic resonance patterns (HOM-02)",
+      "weight_factors": {
+        "resonance": 0.5,
+        "noise_transform": 0.3,
+        "burst_variance": 0.2
+      }
+    }
+  },
+  "bci_correlations": {
+    "neuralink_threads": {
+      "channel_count": 1024,
+      "sampling_rate_hz": 20000,
+      "neural_decoding": "glyph_embeddings_as_thread_signals"
+    },
+    "adhd_patterns": {
+      "burst_model": "gamma_distribution",
+      "attention_drift": "bifurcation_detection",
+      "hyperfocus": "theta_phase_lock"
+    },
+    "autism_patterns": {
+      "sensory_overload": "entropy_threshold_exceeded",
+      "pattern_recognition": "coherence_clustering",
+      "communication_support": "symbol_to_codon_mapping"
+    }
+  },
+  "trig6_integration": {
+    "theta_source": "neural_phase_lock",
+    "resonance_components": ["coherence_mean", "stochastic_peak"],
+    "drift_indicators": ["attention_drift", "bifurcation_rate"],
+    "noise_sources": ["burst_variance", "sensory_entropy"],
+    "equilibrium_measure": "KL_divergence",
+    "danger_limits": {
+      "tan_theta": 8.5,
+      "burst_rate": 0.15
+    },
+    "fitness_optimization": "maximize_R_minimize_D_N_maximize_eq"
+  },
+  "os_pipeline_actions": {
+    "pipeline_burst_to_focus_script": "Convert burst energy to focus task execution",
+    "export_memory_to_external_store": "Offload working memory to OS memory pipeline",
+    "weaponize_burst_to_stable_codon": "Transform bursts into productive coding sequences",
+    "apply_sensory_damping_filter": "Filter overwhelming sensory inputs",
+    "redirect_hyperfocus_to_task_pipeline": "Channel hyperfocus into task completion",
+    "alert_on_predicted_crash": "Early warning system for attention crashes",
+    "synchronize_to_theta_rhythm": "Lock process timing to theta phase",
+    "boost_signal_via_noise": "Amplify weak signals through stochastic resonance",
+    "prevent_tangent_explosion": "Guard against chaotic instabilities",
+    "simulate_adhd_burst_pattern": "Generate ADHD-like burst patterns for testing",
+    "restore_coherence_state": "Re-establish coherent neural state",
+    "decode_neural_entropy": "Extract entropy from neural signals",
+    "noop": "No operation - baseline state"
+  },
+  "genome_inheritance": {
+    "NEURO-03": "Failure learning from neural prediction errors",
+    "NEURO-06": "Collapse prevention through bifurcation detection",
+    "NEURO-36": "Immortalization via continuous neural adaptation",
+    "HOM-02": "Stochastic resonance for signal amplification",
+    "HOM-03": "Drift compensation mechanisms",
+    "HOM-04": "Noise bursting utilization"
+  },
+  "ethical_constraints": {
+    "simulation_only": true,
+    "no_real_bci_claims": true,
+    "augmentation_purpose": "Support for ADHD/Autism cognitive patterns",
+    "privacy": "All neural data simulated, no real brain signals",
+    "transparency": "Open source simulation for research and understanding"
+  }
+}
