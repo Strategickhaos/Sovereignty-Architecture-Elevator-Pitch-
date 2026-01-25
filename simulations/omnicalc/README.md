@@ -57,20 +57,22 @@ while condition ... end # Loop execution
 ## Running Simulations
 
 ### Prerequisites
-- OmniCalc interpreter (hypothetical for book purposes)
-- Python 3.8+ (for future interpreter implementation)
+**Note**: OmniCalc is a hypothetical simulation language created for book/research purposes. The `.t6` files are theoretical examples demonstrating TRIG6 framework concepts. A real interpreter does not currently exist.
 
-### Basic Usage
+### Theoretical Usage
+If an OmniCalc interpreter were implemented, usage would be:
 ```bash
 # Run a single simulation
 omnicalc run altimeter.t6
 
-# Run all simulations
+# Run all simulations  
 for sim in *.t6; do
   echo "Running $sim..."
   omnicalc run "$sim"
 done
 ```
+
+**Current Status**: These are specification files for educational and research purposes.
 
 ### Expected Output
 Each simulation outputs state information:

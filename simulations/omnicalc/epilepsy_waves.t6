@@ -14,6 +14,7 @@ step
 state  # Expected: R=0.38 (low coherence), D=0.75 (spread), N=0.4 (variance), danger=Yes (tan∞ spike)
 
 # Step 2: Therapeutic intervention loop
+# Note: 'step' operation updates resonance based on current theta and alpha
 while resonance < 0.8
   alpha 0.6  # Damping therapy
   theta (theta + theta_opt)/2  # Converge to normal rhythm

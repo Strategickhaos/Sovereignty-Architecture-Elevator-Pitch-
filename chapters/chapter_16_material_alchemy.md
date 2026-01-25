@@ -148,7 +148,16 @@ The TRIG6 modeling framework provides a unified mathematical approach to underst
 All four processes exhibit common TRIG6 dynamics:
 
 1. **Phase Evolution**: Each process progresses through distinct phases (θ)
+   - θ ∈ [0, π/4] (0° - 45°): Preparation/initialization
+   - θ ∈ [π/4, π/2] (45° - 90°): Active transformation
+   - θ ∈ [π/2, π] (90° - 180°): Completion/stabilization
+   
 2. **Stability Windows**: Optimal performance occurs at specific phase angles
+   - Altimeters: π/6 (30°) optimal accuracy
+   - Epilepsy: π/4 (45°) normal rhythm target
+   - Penicillin: π/4 (45°) optimal yield
+   - Egyptian Stone: π/6 (30°) optimal strength
+   
 3. **Danger Zones**: Critical instabilities occur at high angles (approaching π/2)
 4. **Adaptive Control**: Real-time adjustments (α parameter) enable convergence
 5. **Fitness Optimization**: Multi-factor fitness function balances competing objectives
