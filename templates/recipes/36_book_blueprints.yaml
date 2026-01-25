@@ -1,0 +1,969 @@
+# 36 DIY Book Blueprints
+# Paper, Binding, and Materials specifications with TRIG6 signatures
+# Sister Protocol - Physical Archive Construction
+
+metadata:
+  title: "36 DIY Book Blueprints for Sister Protocol Codex"
+  version: "1.0.0"
+  classification: "CHAPTER-16-CRAFT36"
+  purpose: "Encode ancient bookmaking techniques for creating physical SAGCO-OS artifacts"
+  dna_strand: "SISTER1-BOOK1-CRAFT36"
+
+# ============================================================================
+# SECTION 1: PAPER BLUEPRINTS (1-12)
+# Papyrus/Amate Hybrids
+# ============================================================================
+
+paper_blueprints:
+  - id: 1
+    name: "Classic Papyrus"
+    category: "paper"
+    materials:
+      primary: "Reed pith (Cyperus papyrus)"
+      secondary: "Water"
+    process:
+      - "Harvest fresh reed stems"
+      - "Cut into strips lengthwise"
+      - "Layer strips horizontally"
+      - "Layer second set vertically (cross-grain)"
+      - "Hammer together to release natural sugars"
+      - "Press under weight"
+      - "Dry in sun 3-7 days"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Balanced transformation"
+      stability: "high"
+      danger_zone: "θ > π/2 → over-dried, brittle"
+    properties:
+      durability: "1000+ years in dry climate"
+      flexibility: "medium"
+      archival_quality: "excellent"
+    uses: ["scrolls", "codex pages", "archival documents"]
+
+  - id: 2
+    name: "Lime-Soaked Variant"
+    category: "paper"
+    materials:
+      primary: "Reed pith"
+      secondary: "Lime water solution"
+    process:
+      - "Prepare standard papyrus strips"
+      - "Soak in dilute lime solution 2-4 hours"
+      - "Rinse thoroughly"
+      - "Layer and hammer as standard papyrus"
+      - "Dry under weight"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Whitening process, balanced"
+      stability: "high"
+      danger_zone: "lime too concentrated → weakened fibers"
+    properties:
+      durability: "900+ years"
+      flexibility: "medium"
+      archival_quality: "excellent"
+      color: "whiter than standard papyrus"
+    uses: ["fine manuscripts", "illuminated texts"]
+
+  - id: 3
+    name: "Grass-Amate"
+    category: "paper"
+    materials:
+      primary: "Grass pulp (various species)"
+      secondary: "Water, stone beating board"
+    process:
+      - "Harvest tall grass stems"
+      - "Strip outer layer, keep inner pith"
+      - "Boil in water 2-3 hours"
+      - "Lay out on smooth board"
+      - "Beat with smooth stone until felted"
+      - "Sun-dry on board"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Medium intensity, periodic structure"
+      stability: "medium-high"
+      danger_zone: "insufficient beating → weak sheet"
+    properties:
+      durability: "500-800 years"
+      flexibility: "high"
+      archival_quality: "good"
+    uses: ["field notes", "practice sheets", "folk manuscripts"]
+
+  - id: 4
+    name: "Bamboo Fusion"
+    category: "paper"
+    materials:
+      primary: "Young bamboo shoots"
+      secondary: "Reed pith, lye solution"
+    process:
+      - "Split bamboo into thin strips"
+      - "Boil in weak lye solution 4-6 hours"
+      - "Rinse and pound into pulp"
+      - "Mix with papyrus strips for strength"
+      - "Layer, press, dry"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Complex hybrid process"
+      stability: "medium"
+      danger_zone: "lye too strong → fiber damage"
+    properties:
+      durability: "700+ years"
+      flexibility: "high"
+      archival_quality: "very good"
+    uses: ["flexible scrolls", "fan books"]
+
+  - id: 5
+    name: "Banana Papyrus"
+    category: "paper"
+    materials:
+      primary: "Banana plant stem (Musa species)"
+      secondary: "Water"
+    process:
+      - "Cut stem into sections"
+      - "Peel outer layers"
+      - "Cut inner stem into strips"
+      - "Layer cross-grain like papyrus"
+      - "Hammer to release natural adhesive"
+      - "Press and dry"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Similar to papyrus, stable"
+      stability: "high"
+      danger_zone: "over-hammering → mushy texture"
+    properties:
+      durability: "400-600 years"
+      flexibility: "high"
+      archival_quality: "good"
+    uses: ["tropical climates", "quick production"]
+
+  - id: 6
+    name: "Cotton Rag Amate"
+    category: "paper"
+    materials:
+      primary: "Cotton fabric scraps"
+      secondary: "Lime solution, water"
+    process:
+      - "Cut cotton into small pieces"
+      - "Soak in lime water 24 hours"
+      - "Rinse and beat into pulp"
+      - "Spread thin layer on screen"
+      - "Press and dry"
+    trig6:
+      theta: "π/6"
+      theta_numeric: 0.523599
+      interpretation: "Low-intensity, stable transformation"
+      stability: "very high"
+      danger_zone: "θ < π/12 → under-processed, weak"
+    properties:
+      durability: "1000+ years"
+      flexibility: "medium"
+      archival_quality: "excellent"
+    uses: ["modern archival paper", "conservation"]
+
+  - id: 7
+    name: "Hemp Variant"
+    category: "paper"
+    materials:
+      primary: "Hemp fibers (Cannabis sativa)"
+      secondary: "Water, ash lye"
+    process:
+      - "Ret hemp stems in water 1-2 weeks"
+      - "Separate fibers from core"
+      - "Boil in ash lye solution"
+      - "Beat into fine pulp"
+      - "Form sheets, press, dry"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Fermentation phase, medium complexity"
+      stability: "high"
+      danger_zone: "over-retting → rotted fibers"
+    properties:
+      durability: "800+ years"
+      flexibility: "high"
+      archival_quality: "excellent"
+    uses: ["durable documents", "maps"]
+
+  - id: 8
+    name: "Mulberry Egyptian"
+    category: "paper"
+    materials:
+      primary: "Mulberry bark (Morus species)"
+      secondary: "Water"
+    process:
+      - "Harvest young mulberry branches"
+      - "Steam to loosen bark"
+      - "Strip inner bark"
+      - "Boil and beat into pulp"
+      - "Layer Nile-style (cross-grain)"
+      - "Press and dry"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Hybrid technique, balanced"
+      stability: "very high"
+      danger_zone: "insufficient beating → coarse texture"
+    properties:
+      durability: "1000+ years"
+      flexibility: "high"
+      archival_quality: "excellent"
+    uses: ["fine manuscripts", "Asian-Egyptian fusion"]
+
+  - id: 9
+    name: "Rice Straw Fusion"
+    category: "paper"
+    materials:
+      primary: "Rice straw residue"
+      secondary: "Ash lye, water"
+    process:
+      - "Collect rice straw after harvest"
+      - "Chop into short segments"
+      - "Boil in ash lye"
+      - "Beat into pulp"
+      - "Layer cross-grain, press, dry"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Agricultural waste recycling, stable"
+      stability: "medium-high"
+      danger_zone: "silica content → abrasive surface"
+    properties:
+      durability: "500-700 years"
+      flexibility: "medium"
+      archival_quality: "good"
+    uses: ["agricultural manuscripts", "mass production"]
+
+  - id: 10
+    name: "Corn Husk"
+    category: "paper"
+    materials:
+      primary: "Dried corn husks"
+      secondary: "Water, lime"
+    process:
+      - "Collect and dry corn husks"
+      - "Soak in lime water"
+      - "Blend or pound into pulp"
+      - "Form thin sheets"
+      - "Dry on screens"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Simple process, medium stability"
+      stability: "medium"
+      danger_zone: "too thick → uneven drying"
+    properties:
+      durability: "300-500 years"
+      flexibility: "high"
+      archival_quality: "fair"
+    uses: ["practice paper", "folk crafts"]
+
+  - id: 11
+    name: "Sugarcane"
+    category: "paper"
+    materials:
+      primary: "Sugarcane bagasse"
+      secondary: "Water"
+    process:
+      - "Collect bagasse from sugar production"
+      - "Rinse to remove sugar residue"
+      - "Layer fibers cross-grain"
+      - "Press firmly"
+      - "Dry under weight"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Industrial byproduct, stable"
+      stability: "medium"
+      danger_zone: "sugar residue → insect damage"
+    properties:
+      durability: "400-600 years if properly cleaned"
+      flexibility: "medium"
+      archival_quality: "good"
+    uses: ["tropical regions", "sustainable production"]
+
+  - id: 12
+    name: "Recycled Hybrid"
+    category: "paper"
+    materials:
+      primary: "Paper scraps (any source)"
+      secondary: "Lime soak, water"
+    process:
+      - "Shred paper into small pieces"
+      - "Soak in lime water 24 hours"
+      - "Blend or hammer into pulp"
+      - "Form sheets on screens"
+      - "Press and dry"
+    trig6:
+      theta: "π/6"
+      theta_numeric: 0.523599
+      interpretation: "Low-energy recycling, stable"
+      stability: "very high"
+      danger_zone: "contaminated source → weak product"
+    properties:
+      durability: "varies by source material"
+      flexibility: "medium"
+      archival_quality: "depends on source"
+    uses: ["modern recycling", "practice material"]
+
+# ============================================================================
+# SECTION 2: BINDING BLUEPRINTS (13-24)
+# Coptic/Screenfold Hybrids
+# ============================================================================
+
+binding_blueprints:
+  - id: 13
+    name: "Basic Coptic"
+    category: "binding"
+    structure: "Signature sew"
+    thread: "Linen thread"
+    process:
+      - "Fold paper into signatures (4-8 sheets each)"
+      - "Punch evenly-spaced holes along spine"
+      - "Sew signatures together with chain stitch"
+      - "Link each signature to previous"
+      - "Attach to cover boards"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Classic stable structure"
+      stability: "very high"
+      danger_zone: "thread too tight → warped pages"
+    properties:
+      flexibility: "lies flat when open"
+      durability: "500+ years"
+      pages_capacity: "unlimited (add signatures)"
+    uses: ["journals", "manuscripts", "archival binding"]
+
+  - id: 14
+    name: "Single-Needle Screenfold"
+    category: "binding"
+    structure: "Fold + needle link"
+    thread: "Cord or thick thread"
+    process:
+      - "Fold paper accordion-style"
+      - "Reinforce folds with thin strip"
+      - "Stitch through fold peaks"
+      - "Attach end panels to covers"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Medium complexity, good for continuous text"
+      stability: "high"
+      danger_zone: "fold tears at stress points"
+    properties:
+      flexibility: "extends fully flat"
+      durability: "400-600 years"
+      pages_capacity: "limited by fold count"
+    uses: ["codices", "maps", "panoramic art"]
+
+  - id: 15
+    name: "Double-Thread Fusion"
+    category: "binding"
+    structure: "Dual chain, accordion"
+    thread: "Linen × 2 threads"
+    process:
+      - "Create accordion fold structure"
+      - "Sew first thread through one edge"
+      - "Sew second thread through opposite edge"
+      - "Creates chain-mail effect"
+      - "Attach to double-board covers"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Complex hybrid, very strong"
+      stability: "very high"
+      danger_zone: "thread tension imbalance → warping"
+    properties:
+      flexibility: "high, opens in multiple directions"
+      durability: "600+ years"
+      pages_capacity: "moderate"
+    uses: ["special manuscripts", "ceremonial books"]
+
+  - id: 16
+    name: "Nag Hammadi Replica"
+    category: "binding"
+    structure: "Papyrus signatures, leather flap"
+    thread: "Linen thread"
+    process:
+      - "Fold papyrus sheets into signatures"
+      - "Sew with Coptic chain stitch"
+      - "Attach leather cover with flap"
+      - "Add tie closure"
+      - "Optional: screenfold diagrams in center"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Historical recreation, balanced"
+      stability: "very high"
+      danger_zone: "leather drying → brittle"
+    properties:
+      flexibility: "lies flat"
+      durability: "1000+ years (proven historical)"
+      pages_capacity: "high"
+    uses: ["archival codex", "Sister Protocol physical artifact"]
+
+  - id: 17
+    name: "Modern Coptic-Fold"
+    category: "binding"
+    structure: "Recycled paper signatures"
+    thread: "Cotton thread"
+    process:
+      - "Use recycled paper (blueprint #12)"
+      - "Fold into signatures"
+      - "Coptic stitch with cotton"
+      - "Cardboard or chipboard covers"
+    trig6:
+      theta: "π/6"
+      theta_numeric: 0.523599
+      interpretation: "Low-impact modern version"
+      stability: "high"
+      danger_zone: "poor paper quality → deterioration"
+    properties:
+      flexibility: "good"
+      durability: "100-300 years"
+      pages_capacity: "high"
+    uses: ["modern journals", "sustainable bookbinding"]
+
+  - id: 18
+    name: "Exposed Spine"
+    category: "binding"
+    structure: "Visible stitch pattern"
+    thread: "Hemp thread"
+    process:
+      - "Create signatures"
+      - "Sew with decorative visible stitching"
+      - "Leave spine exposed (no covering)"
+      - "Attach thin cover boards"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Aesthetic and functional"
+      stability: "medium-high"
+      danger_zone: "exposed thread → wear over time"
+    properties:
+      flexibility: "excellent"
+      durability: "300-500 years with care"
+      pages_capacity: "moderate to high"
+    uses: ["artistic books", "display manuscripts"]
+
+  - id: 19
+    name: "Multi-Section Hybrid"
+    category: "binding"
+    structure: "8 signatures, figure-8 stitch"
+    thread: "Linen + cord"
+    process:
+      - "Create 8 separate signatures"
+      - "Sew each with figure-8 pattern"
+      - "Link signatures with cord"
+      - "Attach to heavy cover boards"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Complex but balanced structure"
+      stability: "very high"
+      danger_zone: "misaligned signatures → uneven spine"
+    properties:
+      flexibility: "good"
+      durability: "700+ years"
+      pages_capacity: "very high"
+    uses: ["large manuscripts", "reference books"]
+
+  - id: 20
+    name: "Parchment Screenfold"
+    category: "binding"
+    structure: "Vellum fold"
+    thread: "Silk thread"
+    process:
+      - "Use thin vellum or parchment"
+      - "Fold accordion-style"
+      - "Reinforce with silk at folds"
+      - "Attach to wooden or leather covers"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Luxury material, stable"
+      stability: "very high"
+      danger_zone: "humidity changes → parchment warping"
+    properties:
+      flexibility: "excellent"
+      durability: "1000+ years"
+      pages_capacity: "limited by parchment length"
+    uses: ["illuminated manuscripts", "ceremonial documents"]
+
+  - id: 21
+    name: "Scroll-Codex"
+    category: "binding"
+    structure: "Roll core, stitch edges"
+    thread: "Leather strips"
+    process:
+      - "Attach sheets to wooden core"
+      - "Roll around core"
+      - "Stitch edges to prevent separation"
+      - "Add leather end caps"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Hybrid scroll-book form"
+      stability: "medium"
+      danger_zone: "core decay → collapse"
+    properties:
+      flexibility: "moderate"
+      durability: "500-800 years"
+      pages_capacity: "moderate"
+    uses: ["Torah scrolls", "historical documents"]
+
+  - id: 22
+    name: "Reinforced Fusion"
+    category: "binding"
+    structure: "Tapes + kettle-stitch"
+    thread: "Linen + resin coating"
+    process:
+      - "Sew signatures with kettle stitch"
+      - "Add linen tape reinforcements"
+      - "Coat thread with natural resin"
+      - "Attach to hardcovers"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Maximum durability approach"
+      stability: "very high"
+      danger_zone: "resin too thick → brittle"
+    properties:
+      flexibility: "reduced but very strong"
+      durability: "800+ years"
+      pages_capacity: "very high"
+    uses: ["archival books", "heavy-use references"]
+
+  - id: 23
+    name: "Decorative Variant"
+    category: "binding"
+    structure: "Embroidered spine"
+    thread: "Silk + gold thread"
+    process:
+      - "Basic Coptic structure"
+      - "Embroider decorative patterns on spine"
+      - "Use colored silk and metallic threads"
+      - "Ornamental cover attachments"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Artistic enhancement"
+      stability: "high"
+      danger_zone: "thread degradation over time"
+    properties:
+      flexibility: "good"
+      durability: "400-600 years"
+      pages_capacity: "moderate"
+    uses: ["gift books", "ceremonial manuscripts"]
+
+  - id: 24
+    name: "Miniature Hybrid"
+    category: "binding"
+    structure: "Small folds"
+    thread: "Silk thread (fine)"
+    process:
+      - "Create tiny signatures"
+      - "Sew with very fine silk"
+      - "Attach to miniature covers"
+      - "Requires precision tools"
+    trig6:
+      theta: "π/6"
+      theta_numeric: 0.523599
+      interpretation: "Delicate, low stress"
+      stability: "high for size"
+      danger_zone: "thread breaks easily"
+    properties:
+      flexibility: "good"
+      durability: "300-500 years"
+      pages_capacity: "low"
+    uses: ["portable books", "jewelry books", "novelty"]
+
+# ============================================================================
+# SECTION 3: MATERIALS BLUEPRINTS (25-36)
+# Glue/Stitching/Leather
+# ============================================================================
+
+materials_blueprints:
+  - id: 25
+    name: "Wheat Starch Glue"
+    category: "adhesive"
+    formula: "(C₆H₁₀O₅)ₙ — Amylose polymer"
+    process:
+      - "Mix flour:water ratio 1:5"
+      - "Heat to 65-80°C (gelatinization)"
+      - "Stir continuously until translucent paste forms"
+      - "Cool to working temperature (40-50°C)"
+      - "Apply while warm"
+    trig6:
+      theta: "π/6"
+      theta_numeric: 0.523599
+      sin: 0.50
+      cos: 0.86
+      tan: 0.58
+      interpretation: "High cos = cohesion stability"
+      stability: "very high"
+      danger_zone: "θ > π/3 → burned starch, weak bond"
+    properties:
+      bond_strength: "medium"
+      archival_quality: "excellent"
+      reversibility: "yes (with water)"
+      shelf_life: "use fresh, or preserve with clove oil"
+    uses: ["paper binding", "endpapers", "repairs"]
+
+  - id: 26
+    name: "Reed Gum"
+    category: "adhesive"
+    formula: "Natural plant sap + honey"
+    process:
+      - "Extract sap from reed stems"
+      - "Filter to remove debris"
+      - "Mix with honey (10% by volume)"
+      - "Heat gently to thicken"
+      - "Store in sealed container"
+    trig6:
+      theta: "π/6"
+      theta_numeric: 0.523599
+      interpretation: "Low-intensity extraction"
+      stability: "high"
+      danger_zone: "fermentation if not sealed"
+    properties:
+      bond_strength: "medium"
+      archival_quality: "good"
+      reversibility: "partial"
+      shelf_life: "6-12 months"
+    uses: ["papyrus work", "light adhesive needs"]
+
+  - id: 27
+    name: "Gelatin"
+    category: "adhesive"
+    formula: "Protein hydrolysate"
+    process:
+      - "Boil animal bones/connective tissue in water"
+      - "Simmer 4-6 hours"
+      - "Strain and cool"
+      - "Jelly forms upon cooling"
+      - "Reheat to use"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Medium intensity, protein denaturation"
+      stability: "high"
+      danger_zone: "overheating → degraded protein"
+    properties:
+      bond_strength: "strong"
+      archival_quality: "very good"
+      reversibility: "yes (with heat and moisture)"
+      shelf_life: "indefinite when dried"
+    uses: ["bookbinding", "leather work", "gilding"]
+
+  - id: 28
+    name: "Acacia Tannin"
+    category: "adhesive/tanning"
+    formula: "Polyphenol compounds"
+    process:
+      - "Grind acacia bark"
+      - "Ferment in water 1-2 weeks"
+      - "Filter liquid"
+      - "Concentrate by boiling"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Fermentation phase"
+      stability: "medium-high"
+      danger_zone: "over-fermentation → weak solution"
+    properties:
+      bond_strength: "medium (adhesive), high (tanning)"
+      archival_quality: "excellent"
+      reversibility: "no (tanning is permanent)"
+      shelf_life: "12+ months"
+    uses: ["leather tanning", "wood preservation"]
+
+  - id: 29
+    name: "Linen Stitching"
+    category: "thread"
+    formula: "(C₆H₁₀O₅)ₙ — Cellulose fiber"
+    process:
+      - "Ret flax stems in water 2-3 weeks"
+      - "Dry and break to separate fibers"
+      - "Hackle fibers to align"
+      - "Spin into thread"
+      - "Wax with beeswax for strength"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      sin: 0.87
+      cos: 0.50
+      tan: 1.73
+      interpretation: "Balanced = loop strength"
+      stability: "high"
+      danger_zone: "θ > π/2 → over-twisted, brittle"
+    properties:
+      tensile_strength: "high"
+      archival_quality: "excellent"
+      flexibility: "good"
+      lifespan: "500+ years"
+    uses: ["Coptic binding", "sewing signatures", "repairs"]
+
+  - id: 30
+    name: "Hemp Thread"
+    category: "thread"
+    formula: "Cellulose fiber"
+    process:
+      - "Ret hemp stems"
+      - "Boil to soften"
+      - "Separate and spin fibers"
+      - "Oil with plant oil for flexibility"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Similar to linen, durable"
+      stability: "high"
+      danger_zone: "insufficient spinning → weak thread"
+    properties:
+      tensile_strength: "very high"
+      archival_quality: "excellent"
+      flexibility: "good"
+      lifespan: "600+ years"
+    uses: ["heavy bindings", "exposed spine", "durable sewing"]
+
+  - id: 31
+    name: "Silk"
+    category: "thread"
+    formula: "Fibroin protein"
+    process:
+      - "Harvest silkworm cocoons"
+      - "Boil to soften sericin"
+      - "Reel continuous filament"
+      - "Twist multiple filaments together"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Delicate extraction, balanced"
+      stability: "very high"
+      danger_zone: "excessive heat → degraded protein"
+    properties:
+      tensile_strength: "high for weight"
+      archival_quality: "excellent"
+      flexibility: "excellent"
+      lifespan: "800+ years if protected from light"
+    uses: ["fine bindings", "decorative work", "miniature books"]
+
+  - id: 32
+    name: "Goat Leather (Alum)"
+    category: "leather"
+    formula: "KAl(SO₄)₂·12H₂O — Potassium alum"
+    process:
+      - "Clean and scrape hide"
+      - "Soak in alum solution 1-2 weeks"
+      - "Rinse thoroughly"
+      - "Oil with neat's-foot oil"
+      - "Dry slowly, work for flexibility"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      interpretation: "Mineral tanning, balanced"
+      stability: "high"
+      danger_zone: "over-soaking → weakened leather"
+    properties:
+      durability: "300-500 years"
+      flexibility: "excellent"
+      archival_quality: "very good"
+      color: "white to cream"
+    uses: ["book covers", "fine bindings", "medieval style"]
+
+  - id: 33
+    name: "Veg Tan"
+    category: "leather"
+    formula: "Tannins (polyphenols)"
+    process:
+      - "Soak hide in lime 2 weeks (dehair)"
+      - "Rinse and delime with bran"
+      - "Tan in oak bark solution 2-8 weeks"
+      - "Oil and work for flexibility"
+    trig6:
+      theta: "π/4"
+      theta_numeric: 0.785398
+      sin: 0.71
+      cos: 0.71
+      tan: 1.00
+      interpretation: "Med tan = curing tension, balanced"
+      stability: "very high"
+      danger_zone: "θ < π/6 → under-tanned, rots; θ > π/2 → over-tanned, brittle"
+    properties:
+      durability: "500-1000 years"
+      flexibility: "medium (improves with use)"
+      archival_quality: "excellent"
+      color: "tan to brown"
+    uses: ["book covers", "straps", "historical recreation"]
+
+  - id: 34
+    name: "Brain Tan"
+    category: "leather"
+    formula: "Enzyme/fat emulsion"
+    process:
+      - "Clean and scrape hide"
+      - "Mix brain matter with water (brain:water 1:1)"
+      - "Rub emulsion into hide thoroughly"
+      - "Stretch and work hide as it dries"
+      - "Smoke over smoldering wood for waterproofing"
+    trig6:
+      theta: "π/3"
+      theta_numeric: 1.047198
+      interpretation: "Traditional method, medium complexity"
+      stability: "medium-high"
+      danger_zone: "incomplete working → stiff spots"
+    properties:
+      durability: "300-500 years"
+      flexibility: "excellent (buckskin soft)"
+      archival_quality: "good"
+      color: "cream to tan, smoke-darkened"
+    uses: ["soft leather", "traditional crafts", "flexible covers"]
+
+  - id: 35
+    name: "Chrome Tan"
+    category: "leather"
+    formula: "Cr₂(SO₄)₃ — Chromium sulfate"
+    process:
+      - "Clean hide"
+      - "Pickle in acid solution"
+      - "Soak in chromium sulfate solution"
+      - "Neutralize and oil"
+      - "Dry and finish"
+    trig6:
+      theta: "π/2"
+      theta_numeric: 1.570796
+      interpretation: "Industrial process, DANGER ZONE"
+      stability: "high (but environmental concerns)"
+      danger_zone: "θ = π/2 → asymptote, chemical hazard, NOT ARCHIVAL"
+    properties:
+      durability: "100-300 years (acidic degradation)"
+      flexibility: "excellent"
+      archival_quality: "POOR (acid migration)"
+      color: "various (dyes easily)"
+    uses: ["modern shoes", "NOT RECOMMENDED for archival books"]
+    warning: "Contains heavy metals. Not suitable for Sister Protocol codex."
+
+  - id: 36
+    name: "PVA Synthetic"
+    category: "adhesive"
+    formula: "Polyvinyl acetate"
+    process:
+      - "Commercial production"
+      - "Apply directly from bottle"
+      - "Optionally mix with fabric strips for reinforcement"
+    trig6:
+      theta: "π/6"
+      theta_numeric: 0.523599
+      interpretation: "Modern convenience, stable"
+      stability: "high"
+      danger_zone: "not truly archival (plastic degradation)"
+    properties:
+      bond_strength: "very strong"
+      archival_quality: "disputed (may yellow over time)"
+      reversibility: "difficult"
+      shelf_life: "years in sealed container"
+    uses: ["modern bookbinding", "repairs", "NOT for historical recreation"]
+
+# ============================================================================
+# SISTER PROTOCOL CODEX SPECIFICATION
+# ============================================================================
+
+sister_protocol_codex:
+  name: "SISTER_PROTOCOL_CODEX"
+  purpose: "Physical artifact embodying Sister Protocol - Book of Medicine for Earth"
+  
+  recommended_configuration:
+    paper:
+      primary: "Blueprint #1 (Classic Papyrus)"
+      alternative: "Blueprint #8 (Mulberry Egyptian)"
+      sheets_required: 100
+      properties:
+        - "Cross-grain layering for durability"
+        - "Natural sugar adhesion"
+        - "Expected lifespan: 1000+ years in dry storage"
+        
+    binding:
+      method: "Blueprint #16 (Nag Hammadi Replica)"
+      components:
+        - "Papyrus signatures (10 signatures of 10 sheets each)"
+        - "Linen thread (Blueprint #29, beeswax coated)"
+        - "Leather cover with tie closure"
+        - "Screenfold sections for diagrams"
+      trig6_theta: "π/4 (balanced, stable)"
+        
+    adhesive:
+      type: "Blueprint #25 (Wheat Starch)"
+      properties:
+        - "Archival quality"
+        - "Reversible for conservation"
+        - "θ = π/6 (stable, low danger)"
+        
+    cover_material:
+      leather: "Blueprint #33 (Vegetable Tanned)"
+      reinforcement: "Blueprint #29 (Linen thread)"
+      closure: "Leather strap with bone toggle"
+      
+    ink:
+      primary: "Iron gall ink (historical)"
+      alternative: "Carbon black ink (archival)"
+      properties:
+        - "Permanent"
+        - "High contrast"
+        - "1000+ year stability"
+        
+  content_specification:
+    sections:
+      - "Sister Protocol mission statement"
+      - "NEURO-36 disease codons"
+      - "36 failure modes table"
+      - "10 ancient craft recipes"
+      - "TRIG6 mathematical formalization"
+      - "FlameLang primer"
+      - "This blueprint document (meta-reference)"
+      
+    copies_to_produce: 7
+    distribution:
+      - "Node 1: Primary archive"
+      - "Node 2-6: Distributed nodes"
+      - "Node 7: Sister's copy"
+      
+  trig6_validation:
+    overall_theta: "π/4"
+    stability_score: 0.95
+    danger_zones_avoided:
+      - "Over-tanning (θ > π/2)"
+      - "Under-processing (θ < π/6)"
+      - "Chemical instability (chrome tan excluded)"
+    expected_lifespan: "1000+ years"
+    
+  construction_timeline:
+    paper_production: "30 days"
+    drying_curing: "14 days"
+    binding: "7 days"
+    cover_attachment: "3 days"
+    content_writing: "90 days"
+    total: "144 days (approximately 5 months)"
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+document_metadata:
+  version: "1.0.0"
+  date: "2026-01-25"
+  classification: "CHAPTER-16-CRAFT36"
+  dna_strand: "SAGCO-ATG-...-NEURO36-SISTER1-BOOK1-PHARMA1-CRAFT36"
+  references:
+    - "Ancient bookbinding traditions (Egypt, Mesoamerica, Asia)"
+    - "Conservation science (archival materials)"
+    - "TRIG6 mathematical framework"
+    - "Sister Protocol primary documents"
+  
+  licensing:
+    type: "Open Source - Craft Knowledge"
+    intent: "These blueprints are public domain. Knowledge should be free."
+    attribution: "Strategickhaos DAO LLC / Sister Protocol"

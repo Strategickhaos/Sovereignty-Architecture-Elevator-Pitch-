@@ -1,0 +1,110 @@
+# Recipe Gene Template
+# Use this template to encode any therapeutic intervention — ancient or modern — as a FlameLang gene
+
+meta:
+  id: "RECIPE-[CATEGORY]-[NUMBER]"
+  era: "[Historical period / modern]"
+  target: "[Condition being treated]"
+  intent: "[Therapeutic goal]"
+  disclaimer: "THEORETICAL STRUCTURE — not medical advice"
+  version: "1.0.0"
+  classification: "[PROJECT-CLASSIFICATION]"
+  dna_strand: "[DNA-IDENTIFIER]"
+
+ingredients:
+  - name: "[Component name]"
+    role: "[Mechanism of action]"
+    dose: [min, max]
+    source: "[Origin]"
+    notes: "[Additional information]"
+
+administration:
+  route: "[oral/topical/inhaled/etc]"
+  timing: "[Frequency, duration]"
+  best_timing: "[Optimal time of day]"
+  contraindications:
+    - "[condition_1]"
+    - "[condition_2]"
+
+preparation:
+  - step: "[Operation]"
+    parameters: "[Details]"
+    timing: "[When to perform]"
+    
+  - step: "[Next operation]"
+    parameters: "[Details]"
+
+trig6_hooks:
+  theta_fn: |
+    # Phase angle calculation
+    # Maps regime intensity to angle on manifold
+    [Your calculation here]
+    
+  resonance_fn: |
+    # Resonance measurement (benefit vs baseline)
+    # R = clamp(benefit - harm, 0, 1)
+    [Your calculation here]
+    
+  drift_fn: |
+    # Drift measurement (off-target effects)
+    # D = side_effects_index
+    [Your calculation here]
+    
+  noise_fn: |
+    # Noise measurement (data uncertainty)
+    # N = data_uncertainty(observations, variance)
+    [Your calculation here]
+
+danger_zones:
+  - id: "[danger_id]"
+    condition: "[When tan(θ) blows up or other critical threshold]"
+    action: "[Mitigation strategy]"
+    severity: "[CRITICAL/WARNING/CAUTION]"
+    
+  - id: "[another_danger_id]"
+    condition: "[Trigger condition]"
+    action: "[Response]"
+    severity: "[Severity level]"
+
+fitness:
+  weights:
+    primary_outcome: 0.40
+    safety: 0.30
+    tolerability: 0.20
+    feasibility: 0.10
+    
+  function: |
+    # Composite fitness function
+    # f = R * (1 - D) * (1 - N) * eq
+    [Your fitness calculation]
+    
+  threshold: [minimum acceptable value]
+  champion_threshold: [exceptional performance value]
+
+evolution:
+  method: "Darwinian gate"
+  mutation_targets:
+    - parameter: "[parameter_name]"
+      variation: "[±X%]"
+      rate: [0.0-1.0]
+      
+  selection: "f > champion → new champion"
+  generations: [count]
+  population_size: [size]
+  mutation_rate: [0.0-1.0]
+  crossover_rate: [0.0-1.0]
+
+validation:
+  required_trials: [number]
+  minimum_duration_days: [duration]
+  control_group_required: [true/false]
+  monitoring: "[type of monitoring]"
+  safety_checkpoints: [list of day markers]
+  
+historical_notes: |
+  [Background information, rationale, context]
+
+references:
+  - "[Reference 1]"
+  - "[Reference 2]"
+  - "[Reference 3]"
