@@ -17,6 +17,21 @@ NC='\033[0m' # No Color
 # Log file
 LOG_FILE="/tmp/sagco-network-fix-$(date +%Y%m%d_%H%M%S).log"
 
+# Detect platform
+detect_platform() {
+    if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]] || command -v ipconfig.exe &> /dev/null; then
+        echo "windows"
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "linux"
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "macos"
+    else
+        echo "unknown"
+    fi
+}
+
+PLATFORM=$(detect_platform)
+
 log() {
     echo -e "${GREEN}[$(date +'%Y-%m-%d %H:%M:%S')]${NC} $1" | tee -a "$LOG_FILE"
 }
@@ -36,7 +51,7 @@ header() {
 }
 
 check_admin() {
-    if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+    if [[ "$PLATFORM" == "windows" ]]; then
         # Check for Windows admin rights
         net session &>/dev/null
         if [ $? -ne 0 ]; then
@@ -44,9 +59,13 @@ check_admin() {
             error "Please run Git Bash or PowerShell as Administrator."
             exit 1
         fi
-    elif [[ "$EUID" -ne 0 ]]; then
-        error "This script must be run as root (use sudo)."
-        exit 1
+    elif [[ "$PLATFORM" == "linux" ]] || [[ "$PLATFORM" == "macos" ]]; then
+        if [[ "$EUID" -ne 0 ]]; then
+            error "This script must be run as root (use sudo)."
+            exit 1
+        fi
+    else
+        warn "Could not detect platform. Some features may not work."
     fi
 }
 
@@ -183,16 +202,34 @@ generate_report() {
         echo "======================================"
         echo ""
         echo "System Information:"
-        uname -a 2>/dev/null || systeminfo | head -10
+        if command -v uname &> /dev/null; then
+            uname -a
+        elif command -v systeminfo &> /dev/null; then
+            systeminfo | head -10
+        fi
         echo ""
         echo "Network Adapters:"
-        ipconfig 2>/dev/null || ip addr
+        if command -v ipconfig &> /dev/null; then
+            ipconfig
+        elif command -v ip &> /dev/null; then
+            ip addr
+        fi
         echo ""
         echo "Active Connections:"
-        netstat -an 2>/dev/null || ss -tuln
+        if command -v ss &> /dev/null; then
+            ss -tuln
+        elif command -v netstat &> /dev/null; then
+            netstat -an
+        fi
         echo ""
         echo "DNS Configuration:"
-        ipconfig /all 2>/dev/null | grep -i "dns\|dhcp" || cat /etc/resolv.conf
+        if command -v ipconfig &> /dev/null; then
+            ipconfig /all | grep -i "dns\|dhcp"
+        elif command -v nmcli &> /dev/null; then
+            nmcli device show | grep -i "dns\|dhcp"
+        elif [ -f /etc/resolv.conf ]; then
+            cat /etc/resolv.conf
+        fi
         echo ""
     } > "$REPORT_FILE"
     
@@ -253,8 +290,10 @@ main_menu() {
 log "SAGCO-OS Network Fix Script Started"
 log "Log file: $LOG_FILE"
 
-# Check for admin rights
-# check_admin  # Commented out for testing in sandbox
+# Check for admin rights (skip in sandbox/test environments)
+if [[ "${SKIP_ADMIN_CHECK:-}" != "true" ]]; then
+    check_admin
+fi
 
 # Show main menu
 main_menu
