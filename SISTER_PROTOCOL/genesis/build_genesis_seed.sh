@@ -8,7 +8,7 @@ echo "🌱 Building Genesis Seed for Sister Protocol v1.0.0"
 echo "=================================================="
 
 # Configuration
-GENESIS_DIR="$(dirname "$0")"
+GENESIS_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$GENESIS_DIR")"
 OUTPUT_DIR="$ROOT_DIR/genesis/output"
 SEED_NAME="sister-protocol-genesis-v1.0.0"
@@ -62,8 +62,8 @@ echo "✅ Checksums generated"
 echo ""
 echo "📦 Step 6: Creating archive..."
 # Create tarball
-cd "$(dirname "$OUTPUT_DIR")"
-tar -czf "$SEED_NAME.tar.gz" "$(basename "$OUTPUT_DIR")"
+cd "$ROOT_DIR/genesis"
+tar -czf "$SEED_NAME.tar.gz" output/
 
 echo "✅ Archive created: $SEED_NAME.tar.gz"
 
@@ -75,6 +75,7 @@ echo "Output: genesis/$SEED_NAME.tar.gz"
 echo "Size: $(du -h "$SEED_NAME.tar.gz" | cut -f1)"
 echo ""
 echo "To extract and run:"
+echo "  cd SISTER_PROTOCOL/genesis"
 echo "  tar -xzf $SEED_NAME.tar.gz"
 echo "  cd output"
 echo "  python3 trig6/trig6_kernel.py trig6/failures/SP_01_7pct_bypass.t6.yaml"

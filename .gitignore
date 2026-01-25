@@ -35,3 +35,5 @@ target/
 
 # Workspace data
 workspace/
+SISTER_PROTOCOL/genesis/*.tar.gz
+SISTER_PROTOCOL/genesis/output/
