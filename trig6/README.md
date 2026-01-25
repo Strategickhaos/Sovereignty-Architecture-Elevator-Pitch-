@@ -220,7 +220,7 @@ The same applies to:
 
 > *"This is not just a risk framework or a memoir. This is a universal language for process stability that applies from neurons to navigation to fermentation to stonework."*
 
-**One framework. Every domain. 3000+ years of human knowledge.**
+**One framework. Every domain. 10,000+ years of human knowledge.**
 
 ---
 

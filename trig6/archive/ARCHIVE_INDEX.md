@@ -258,10 +258,9 @@ When referencing TRIG6 framework:
 
 ```
 TRIG6 Universal Process Stability Framework
-Archive Keeper: DOM_010101
-Repository: Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
-Last Updated: 2026-01-25
-Total Encoded: 158+ processes across 3000+ years of human knowledge
+Strategickhaos Sovereignty Architecture
+Archive: 158+ processes (8000 BCE - Present)
+Framework: f = R * (1-D) * (1-N) * eq
 ```
 
 ---

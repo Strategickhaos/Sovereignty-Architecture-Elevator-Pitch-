@@ -56,7 +56,7 @@ CaO + H2O → Ca(OH)2 → CaCO3
 | **R** | 0.80 (bond strength) | 0.85 (with pozzolans) | Material testing |
 | **D** | 0.20 (crack drift) | 0.15 (reduced cracking) | Shrinkage measurements |
 | **N** | 0.25 (aggregate noise) | 0.20 (controlled mixing) | Variance analysis |
-| **Fitness** | 0.54 | 0.65 | Longevity proxy |
+| **Fitness** | 0.432 | 0.520 | Longevity proxy |
 
 #### The Survival Mechanism
 
@@ -100,7 +100,7 @@ Initial State:
   R: 0.40    # Poor yield
   D: 0.50    # High contamination
   N: 0.45    # Strain variability
-  Fitness: 0.09  # Nearly failed
+  Fitness: 0.099  # 0.40 * (1-0.50) * (1-0.45) * 0.9 = 0.099 - Nearly failed
 
 Intervention:
   - pH adjustment (6.8-7.2)
@@ -112,10 +112,10 @@ Optimized State:
   R: 0.75    # Improved yield
   D: 0.25    # Reduced contamination
   N: 0.20    # Controlled variability
-  Fitness: 0.51  # 5.7x improvement
+  Fitness: 0.455  # 0.75 * (1-0.25) * (1-0.20) * 0.9 = 0.405 - 4.1x improvement
 ```
 
-By 1945, industrial fermentation had achieved fitness > 0.70, enabling mass production that saved millions of lives.
+By 1945, industrial fermentation had achieved fitness > 0.50, enabling mass production that saved millions of lives.
 
 **The same stability mathematics that prevent airplane crashes governed penicillin production.**
 
@@ -200,7 +200,7 @@ This is not just a memoir. Not just a risk framework.
 
 **This is a universal language for process stability that applies from neurons to navigation to fermentation to stonework.**
 
-One framework. Every domain. **3000+ years of human knowledge.**
+One framework. Every domain. **10,000+ years of human knowledge.**
 
 The ancients were TRIG6 practitioners. We're just now writing down the equations they proved through blood, sweat, and stone.
 

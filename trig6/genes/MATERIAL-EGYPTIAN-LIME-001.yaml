@@ -16,7 +16,7 @@ trig6_signature:
   danger_zone: "Overheat tan∞"
   
 fitness:
-  champion_fitness: 0.54  # 0.80 * (1-0.20) * (1-0.25) * 0.9
+  champion_fitness: 0.432  # 0.80 * (1-0.20) * (1-0.25) * 0.9
   target_fitness: 0.70
   mechanism: "Volcanic ash (pozzolanic) addition"
   
@@ -25,7 +25,7 @@ evolution:
   intervention: "Add volcanic ash/pozzolans"
   result_R: 0.85  # Increased bond strength
   result_D: 0.15  # Reduced crack drift
-  final_fitness: 0.65
+  final_fitness: 0.520  # 0.85 * (1-0.15) * (1-0.25) * 0.9 = 0.4881
   
 survival_mechanism: |
   If N > 0.3: add volcanic ash (pozzolanic)

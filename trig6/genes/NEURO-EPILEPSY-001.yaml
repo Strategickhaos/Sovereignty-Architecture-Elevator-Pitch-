@@ -14,7 +14,7 @@ trig6_signature:
   danger_zone: "Spike tan∞"
   
 fitness:
-  champion_fitness: 0.34  # 0.70 * (1-0.25) * (1-0.35) * 0.9
+  champion_fitness: 0.307  # 0.70 * (1-0.25) * (1-0.35) * 0.9 = 0.3071
   target_fitness: 0.60
   
 process_parameters:
