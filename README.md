@@ -272,6 +272,21 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 📚 Documentation & Knowledge Base
+
+### Core Architecture Documents
+- **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Sovereign symbolic language and glyph execution system
+- **[Chapter 16: The Lost Pharmacopeia](CHAPTER_16_LOST_PHARMACOPEIA.md)** - Ancient recipes as algorithmic protocols with TRIG6 encoding
+- **[Charitable Commitment](docs/CHARITABLE_COMMITMENT.md)** - 10% profit allocation to human sovereignty initiatives
+
+### Sister Protocol / NEURO-36
+- **TRIG6 Mathematical Framework** - Therapeutic basin mapping for neurological interventions
+- **Recipe Templates** - [`templates/recipes/`](templates/recipes/)
+  - [RECIPE-NEURO-001](templates/recipes/RECIPE_NEURO_001.yaml) - Example epilepsy treatment encoding
+  - [Recipe Gene Template](templates/recipes/recipe_gene_template.yaml) - Blank template for interventions
+  - [36 Book Blueprints](templates/recipes/36_book_blueprints.yaml) - Physical archival artifact specifications
+  - [Templates README](templates/recipes/README.md) - Guide to using recipe templates
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
