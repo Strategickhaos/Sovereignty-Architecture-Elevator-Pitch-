@@ -277,7 +277,7 @@ curl -X POST https://events.strategickhaos.com/health
 This project is built on a foundation of **pattern-based thinking**—a cognitive style that operates at the structural level rather than the factual level. Understanding this architecture helps explain how this system was designed and how to work with it effectively.
 
 - **[Pattern-Based Learning](docs/PATTERN_BASED_LEARNING.md)** - Deep dive into the cognitive architecture behind this project
-- **[Cognitive Map](cognitive_map.dot)** - Visual representation of the cognitive system
+- **[Cognitive Architecture Diagram](cognitive_architecture.svg)** - Visual representation of the cognitive system ([source](cognitive_map.dot))
 - **[Strategic Synthesis](STRATEGIC_KHAOS_SYNTHESIS.md)** - How pattern thinking creates emergent systems
 
 ### Key Principles
