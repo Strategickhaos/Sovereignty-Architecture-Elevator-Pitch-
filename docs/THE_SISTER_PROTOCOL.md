@@ -116,7 +116,7 @@ Everything Dom has built traces back to this mission:
 - **State:** Wyoming
 - **Type:** Public Benefit Corporation
 - **Purpose:** Charitable distribution vehicle
-- **Allocation:** 7% IRREVOCABLE — cannot be removed by board vote or operator action
+- **Allocation:** 7% IRREVOCABLE — cannot be removed by member vote or operator action
 
 ### The 7% Mechanism
 ```
