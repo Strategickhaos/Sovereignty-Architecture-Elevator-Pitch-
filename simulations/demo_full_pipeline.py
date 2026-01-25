@@ -5,6 +5,7 @@ Shows full workflow from recipe to FlameLang compilation
 """
 
 import sys
+import json
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -82,7 +83,6 @@ def demonstrate_full_pipeline():
         
         # Save binding
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        import json
         with open(output_path, 'w') as f:
             json.dump(binding, f, indent=2)
         

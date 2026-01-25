@@ -1,5 +1,5 @@
 # TRIG6 LOST PHARMACOPEIA SIMULATION REPORT
-## Proof-Generation Run: 2026-01-25T09:23:13.266375
+## Proof-Generation Run: 2026-01-25T09:29:41.989264
 ## Sister Protocol Validation Engine
 
 ---
@@ -7,17 +7,17 @@
 ## EXECUTIVE SUMMARY
 
 **Recipes Simulated:** 1
-**Total Simulation Runs:** 100
+**Total Simulation Runs:** 50
 
 ### Aggregate Statistics
-- **Mean Fitness:** 0.0775
-- **Fitness Std Dev:** 0.0014
+- **Mean Fitness:** 0.0778
+- **Fitness Std Dev:** 0.0013
 - **Mean Danger Rate:** 100.00%
 
 ### Key Findings
 
-- **Highest Fitness:** Codex Seraphinianus Glyph Mapping (f=0.0816)
-- **Lowest Fitness:** Codex Seraphinianus Glyph Mapping (f=0.0738)
+- **Highest Fitness:** Codex Seraphinianus Glyph Mapping (f=0.0818)
+- **Lowest Fitness:** Codex Seraphinianus Glyph Mapping (f=0.0753)
 - **Safest Recipe:** Codex Seraphinianus Glyph Mapping (danger=100.00%)
 - **Most Dangerous:** Codex Seraphinianus Glyph Mapping (danger=100.00%)
 
@@ -28,8 +28,8 @@
 
 ### Codex Seraphinianus Glyph Mapping (GLYPH-SERAPH-001)
 - **Hazard Level:** LOW
-- **Fitness:** 0.0775 ± 0.0014
-- **Range:** [0.0738, 0.0816]
+- **Fitness:** 0.0778 ± 0.0013
+- **Range:** [0.0753, 0.0818]
 - **Danger Rate:** 100.00%
 - **Best Configuration:** {'embedding_dim': 256.0, 'min_cluster_size': 12.0, 'max_clusters': 128.0, 'image_dpi': 300.0, 'glyph_min_size': 25.0}
 
@@ -38,13 +38,13 @@
 ```json
 {
   "amounts": {
-    "embedding_dim": 152.79285793947534,
-    "min_cluster_size": 19.80295610865416,
-    "max_clusters": 154.92699466356052,
-    "image_dpi": 179.57144345740357,
-    "glyph_min_size": 44.085146189197516
+    "embedding_dim": 201.34873493042215,
+    "min_cluster_size": 17.49177917746323,
+    "max_clusters": 179.27775771433966,
+    "image_dpi": 174.41452525108548,
+    "glyph_min_size": 31.19809953393782
   },
-  "fitness": 0.16632724820181902,
+  "fitness": 0.13883879652079367,
   "dangers": 0
 }
 ```
@@ -95,7 +95,7 @@ f = R × (1 - D) × (1 - N) × eq
 
 ### Simulation Parameters
 - Steps per run: 100
-- Monte Carlo runs per recipe: 100
+- Monte Carlo runs per recipe: 50
 - Random seed: System time
 
 ---
@@ -114,9 +114,9 @@ This report demonstrates that:
 ## CRYPTOGRAPHIC PROOF
 
 **Report Hash (SHA-256):**
-`bdf7561a062a38516dfa79399d1423c466ec15dd6f3928b0908342fe6a21842a`
+`bcee77340cecf175838fb2edf7ff3ef7b02d79eff81532365fced5c0536a121a`
 
-**Timestamp:** 2026-01-25T09:23:13.266375
+**Timestamp:** 2026-01-25T09:29:41.989264
 
 ---
 

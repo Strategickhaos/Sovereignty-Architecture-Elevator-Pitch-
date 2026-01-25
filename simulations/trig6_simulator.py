@@ -13,7 +13,7 @@ import json
 import hashlib
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -24,8 +24,8 @@ class Recipe:
     hazard_level: str
     ingredients: Dict[str, float]
     process_stages: List[str]
-    custom_hooks: Dict[str, callable] = None
-    correlations: List[str] = None
+    custom_hooks: Optional[Dict[str, callable]] = field(default_factory=lambda: None)
+    correlations: Optional[List[str]] = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -71,7 +71,9 @@ class TRIG6Simulator:
         
         values = list(ingredients.values())
         mean = np.mean(values)
-        if mean == 0:
+        
+        # Prevent division by very small or zero mean
+        if abs(mean) < 1e-10:
             return 0.0
         
         variance = np.var(values) / (mean ** 2)
@@ -111,8 +113,25 @@ class TRIG6Simulator:
         """
         Check if configuration is in danger zone.
         Danger: |tan(θ)| > 10
+        
+        Note: Uses safe tangent calculation to avoid infinities.
         """
-        return abs(np.tan(theta)) > 10
+        # Normalize theta to [-π, π] to avoid overflow
+        normalized_theta = (theta + np.pi) % (2 * np.pi) - np.pi
+        
+        # Check if near vertical asymptotes (±π/2, ±3π/2, etc.)
+        # where tan approaches infinity
+        for k in range(-3, 4):
+            asymptote = k * np.pi + np.pi / 2
+            if abs(normalized_theta - asymptote) < 0.01:
+                return True  # Near asymptote = danger
+        
+        # Safe to compute tan
+        try:
+            tan_value = np.tan(normalized_theta)
+            return abs(tan_value) > 10
+        except:
+            return True  # Any error = danger
     
     def compute_fitness(self, R: float, D: float, N: float, equilibrium: float = 0.8) -> float:
         """

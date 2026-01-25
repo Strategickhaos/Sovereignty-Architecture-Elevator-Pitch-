@@ -5,7 +5,6 @@ Loads .t6 recipe files and runs simulations using the TRIG6 Simulator.
 """
 
 import sys
-import os
 import re
 from pathlib import Path
 from typing import Dict, List
@@ -42,8 +41,12 @@ def parse_t6_recipe(filepath: str) -> Recipe:
             if '=' in line and not line.strip().startswith('#'):
                 key, value = line.split('=', 1)
                 key = key.strip()
-                value = float(value.strip())
-                ingredients[key] = value
+                try:
+                    value = float(value.strip())
+                    ingredients[key] = value
+                except ValueError:
+                    print(f"Warning: Could not parse ingredient '{key}' value '{value.strip()}' as float")
+                    continue
     
     # Extract process stages
     stages = []
