@@ -33,7 +33,6 @@ Usage:
 
 import numpy as np
 from typing import List, Tuple, Optional
-import math
 
 
 # ============================================================================
@@ -422,8 +421,12 @@ def validate_phase_parameters(D_phase: List[float],
         (valid, message): Validation result and message
     
     Example:
+        >>> # Example showing decay regime (Gamma < 1)
         >>> validate_phase_parameters([0.1, 0.05, 0.02], [0.1, 0.05, 0.02])
         (False, 'Gamma = 0.702 < 1: Decay regime (poor hyperparameters)')
+        >>> # Example showing growth regime (Gamma > 1)
+        >>> validate_phase_parameters([0.1, 0.05, 0.02], [0.1, 0.05, 0.02], [1.5, 1.3, 1.1])
+        (True, 'Gamma = 1.506 > 1: Growth regime (good hyperparameters)')
     """
     if len(D_phase) != 3 or len(N_phase) != 3:
         return False, "Need exactly 3 parameters per phase"

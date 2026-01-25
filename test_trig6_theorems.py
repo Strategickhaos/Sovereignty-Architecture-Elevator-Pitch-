@@ -317,12 +317,13 @@ def run_all_tests():
                        lambda: trig6_fitness(R=-0.1, D=0.1, N=0.1, eq=0.95),
                        AssertionError)
     
-    # Test invalid phase count (can raise either AssertionError or IndexError)
+    # Test invalid phase count (should raise an error)
     def test_wrong_phases():
         try:
             compute_gamma([0.1, 0.05], [0.1, 0.05, 0.02])
         except (AssertionError, IndexError):
-            raise AssertionError("Expected error")
+            # Either exception type indicates proper validation
+            raise AssertionError()  # Re-raise as AssertionError for test
     runner.test_raises("V8.3: Wrong number of phases",
                        test_wrong_phases,
                        AssertionError)
