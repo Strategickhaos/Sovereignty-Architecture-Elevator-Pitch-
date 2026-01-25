@@ -1,0 +1,14 @@
+[package]
+name = "sagco-dom0d"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "sagco-dom0d"
+path = "src/main.rs"
+
+[dependencies]
+sagco-guardian = { path = "../sagco-guardian" }
+anyhow.workspace = true
