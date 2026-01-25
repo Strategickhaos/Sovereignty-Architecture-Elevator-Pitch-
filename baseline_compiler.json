@@ -1,0 +1,29 @@
+{
+  "compiler_name": "FlameLang Compiler",
+  "version": "1.0.0",
+  "optimization": {
+    "level": "O2",
+    "flags": [
+      "inline-functions",
+      "dead-code-elimination"
+    ]
+  },
+  "error_handling": {
+    "strict_mode": true,
+    "warning_as_error": false,
+    "recovery_strategy": "recover"
+  },
+  "memory": {
+    "gc_strategy": "mark-sweep",
+    "allocation_strategy": "heap",
+    "initial_heap_mb": 256
+  },
+  "parser": {
+    "type": "recursive-descent",
+    "lookahead": 2
+  },
+  "codegen": {
+    "target": "x86_64",
+    "calling_convention": "cdecl"
+  }
+}
