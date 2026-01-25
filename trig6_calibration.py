@@ -44,7 +44,11 @@ if __name__ == "__main__":
         (ClaimMetrics(0.20, 0.80, 0.70, 0.10), 0.0),  # Failed proof (contradiction)
         (ClaimMetrics(0.15, 0.85, 0.75, 0.05), 0.0),  # Infinite loop code
         (ClaimMetrics(0.10, 0.90, 0.80, 0.00), 0.0),  # False conjecture
-        # Add 20 more from your work (e.g., lexer success =1, parser bug =0)
+        # To expand to 30 cases, add data from your domain:
+        # - Lexer/parser successes (R>0.8, D<0.2, N<0.2, eq>0.8) => 1.0
+        # - Buggy code or failed tests (R<0.4, D>0.6, N>0.5, eq<0.3) => 0.0
+        # - Validated algorithms or proven theorems => 1.0
+        # - Infinite loops or crashes => 0.0
     ]
     calibrator.fit(data)
     

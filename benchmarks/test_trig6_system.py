@@ -185,7 +185,9 @@ class TestBCITrig6Gate:
         # Score exactly at warn threshold (0.6) should be NORMAL (>= check)
         # R * (1-D) * (1-N) * eq = 0.6
         # Using R=0.9, D=0.1, N=0.25: 0.9 * 0.9 * 0.75 * eq = 0.6 => eq = 0.9877
-        at_warn = BCITrig6(R=0.9, D=0.1, N=0.25, eq=0.9877)  # score = 0.6
+        at_warn = BCITrig6(R=0.9, D=0.1, N=0.25, eq=0.9877)
+        at_warn_score = at_warn.score()
+        assert abs(at_warn_score - 0.6) < 0.001, f"Expected score ~0.6, got {at_warn_score}"
         assert bci_gate(at_warn) == "NORMAL", "Score at warn threshold should be NORMAL"
         
         # Just below warn threshold
@@ -193,7 +195,9 @@ class TestBCITrig6Gate:
         assert bci_gate(below_warn) == "DEGRADED_MODE", "Score below warn should be DEGRADED_MODE"
         
         # Exactly at abort threshold (0.4) should be DEGRADED_MODE (>= check)
-        at_abort = BCITrig6(R=0.8, D=0.2, N=0.375, eq=1.0)  # score = 0.4
+        at_abort = BCITrig6(R=0.8, D=0.2, N=0.375, eq=1.0)
+        at_abort_score = at_abort.score()
+        assert abs(at_abort_score - 0.4) < 0.001, f"Expected score ~0.4, got {at_abort_score}"
         result = bci_gate(at_abort)
         assert result == "DEGRADED_MODE", \
             f"Score at abort threshold should be DEGRADED_MODE, got {result}"
