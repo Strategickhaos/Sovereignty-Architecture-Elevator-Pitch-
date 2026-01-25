@@ -258,9 +258,9 @@ boot_sequence:
           
         - id: "4.2"
           action: "Initialize HybridWaveCoreState"
-          description: "Create wave core with default θ = π/4"
+          description: "Create wave core with default θ = π/4 (45 degrees)"
           initial_state:
-            theta: 0.7854
+            theta: 0.7854  # π/4 radians (45 degrees) - balanced starting point
             alpha: 0.0
             resonance: 1.0
             drift: 0.0
@@ -315,7 +315,7 @@ boot_sequence:
         - id: "5.4"
           action: "Start drift monitoring loop"
           description: "Continuous governance health assessment"
-          interval: "5 seconds"
+          interval: "5 seconds"  # Configurable via FOCUS_ROUTER_MONITOR_INTERVAL
           
         - id: "5.5"
           action: "Arm automatic corrective actions"
@@ -548,12 +548,14 @@ legal_references:
     url: "https://wyoleg.gov/statutes/compress/title17.pdf"
     
   - title: "Strategickhaos DAO LLC Articles of Organization"
-    filing_date: "[On file]"
+    filing_date: "[Confidential - Available upon request]"
     jurisdiction: "Wyoming"
+    note: "Filed with Wyoming Secretary of State"
     
   - title: "Strategickhaos DAO LLC Certificate of Good Standing"
-    issue_date: "[On file]"
+    issue_date: "[Confidential - Available upon request]"
     jurisdiction: "Wyoming"
+    note: "Issued by Wyoming Secretary of State"
     
   - title: "USPTO Guidance on AI-Assisted Inventions"
     reference: "Federal Register Vol. 89, No. 30 (Feb 13, 2024)"
