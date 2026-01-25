@@ -28,6 +28,34 @@ export PRS_CHANNEL="channel_id"
 ./gl2discord.sh "$PRS_CHANNEL" "🔥 Sovereignty Architecture Online!" "System initialized successfully"
 ```
 
+## 📦 Sister Protocol - NEW!
+
+The **Sister Protocol** is a comprehensive framework for documenting, simulating, and evolving failure modes, ancient craft knowledge, and medical treatments through the TRIG6 mathematical engine.
+
+```bash
+# Navigate to Sister Protocol
+cd SISTER_PROTOCOL
+
+# Run a failure simulation
+python3 trig6/trig6_kernel.py trig6/failures/SP_01_7pct_bypass.t6.yaml
+
+# Evolve an ancient craft recipe
+python3 trig6/trig6_kernel.py craft_genes/PAPYRUS_001.t6.yaml --evolve
+
+# Build the genesis seed
+./genesis/build_genesis_seed.sh
+```
+
+**Key Features:**
+- 🧬 **TRIG6 Kernel**: Universal gene runner for failure modes, crafts, and medical treatments
+- 📚 **Book Framework**: Chapters documenting the journey from failures to fuel
+- ⚗️ **Ancient Crafts**: Lost manufacturing processes (papyrus, Damascus steel, Roman concrete)
+- 🧠 **Neuro36 Genome**: 36 neurological diseases analyzed through waveform patterns
+- 🌱 **Genesis Seed**: Self-contained, bootable archive for long-term preservation
+
+See [SISTER_PROTOCOL/README.md](SISTER_PROTOCOL/README.md) for complete documentation.
+
+
 ## 📋 Core Components
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
