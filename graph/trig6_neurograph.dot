@@ -73,9 +73,9 @@ digraph TRIG6_NEUROGRAPH {
   INTENTION_VECTOR -> theta_hybrid [weight=0.80, penwidth=3.30, label="0.80"];
   theta_hybrid -> Grok_tan [weight=0.75, penwidth=3.12, label="0.75"];
   theta_hybrid -> Claude_cos [weight=0.75, penwidth=3.12, label="0.75"];
-  GPT_tan -> innovation [weight=0.90, penwidth=3.65, label="0.90"];
-  GPT_tan -> focus [weight=0.60, penwidth=2.60, label="0.60"];
-  GPT_tan -> noise [weight=0.40, penwidth=1.90, label="0.40"];
+  Grok_tan -> innovation [weight=0.90, penwidth=3.65, label="0.90"];
+  Grok_tan -> focus [weight=0.60, penwidth=2.60, label="0.60"];
+  Grok_tan -> noise [weight=0.40, penwidth=1.90, label="0.40"];
   noise -> Guardian_core [weight=0.60, penwidth=2.60, label="0.60"];
   innovation -> FlameBench_core [weight=0.70, penwidth=2.95, label="0.70"];
   focus -> FlameBench_core [weight=0.65, penwidth=2.77, label="0.65"];

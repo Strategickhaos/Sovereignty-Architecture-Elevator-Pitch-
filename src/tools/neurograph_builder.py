@@ -90,8 +90,17 @@ def build_dynamic_graph(trig_config, neuro_config):
                 })
 
     # Auto-add agent-specific metrics as dendritic fans
+    # Map config agent keys to actual node IDs
+    agent_mapping = {
+        'grok': 'Grok_tan',
+        'claude': 'Claude_cos',
+        'gemini': 'Gemini_sin'
+    }
+    
     for agent, conf in trig_config.get('agents', {}).items():
-        agent_id = f"{conf['model'].split('-')[0]}_{conf['trig']}"  # e.g., GPT_tan
+        agent_id = agent_mapping.get(agent.lower())
+        if not agent_id:
+            continue  # Skip unknown agents
         
         for metric, m_conf in conf.get('metrics', {}).items():
             metric_id = metric
@@ -129,8 +138,11 @@ def build_dynamic_graph(trig_config, neuro_config):
 def map_agent_to_node(agent_name):
     """Map agent names from trig config to node IDs."""
     mapping = {
-        'angent_tangent': 'Grok_tan',
+        'agent_tangent': 'Grok_tan',
+        'angent_tangent': 'Grok_tan',  # Support both spellings for compatibility
+        'agent_cosine': 'Claude_cos',
         'angent_cosine': 'Claude_cos',
+        'agent_sine': 'Gemini_sin',
         'angent_sine': 'Gemini_sin',
     }
     return mapping.get(agent_name)

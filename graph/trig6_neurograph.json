@@ -186,17 +186,17 @@
       "weight": 0.75
     },
     {
-      "from": "GPT_tan",
+      "from": "Grok_tan",
       "to": "innovation",
       "weight": 0.9
     },
     {
-      "from": "GPT_tan",
+      "from": "Grok_tan",
       "to": "focus",
       "weight": 0.6
     },
     {
-      "from": "GPT_tan",
+      "from": "Grok_tan",
       "to": "noise",
       "weight": 0.4
     },
