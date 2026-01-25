@@ -152,6 +152,17 @@ Every attack on the empire generates more revenue. More revenue = more to charit
 
 ---
 
+### Note on Charitable Allocation Percentages
+
+The Sister Protocol references a 7% allocation through ValorYield Engine PBC, while the [Charitable Commitment](CHARITABLE_COMMITMENT.md) document establishes a 10% allocation for Strategickhaos DAO LLC. Both commitments are valid and complementary:
+
+- **ValorYield Engine PBC:** 7% of all revenue, specifically focused on medical research
+- **Strategickhaos DAO LLC:** 10% of net profits, supporting broader charitable purposes
+
+Together, these commitments ensure that a significant portion of the ecosystem's resources flows toward charitable causes, with medical research receiving priority funding through the Sister Protocol's dedicated allocation.
+
+---
+
 ## VII. THE SISTER PROTOCOL — FORMAL DECLARATION
 
 I, **Domenic Gabriel Garza**, Managing Member of Strategickhaos DAO LLC and ValorYield Engine PBC, hereby declare:
