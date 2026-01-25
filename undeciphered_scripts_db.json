@@ -1,0 +1,364 @@
+{
+  "scripts": [
+    {
+      "id": "LINEAR-A-001",
+      "name": "Linear A",
+      "origin": "Minoan, Crete",
+      "period": "1800-1450 BCE",
+      "type": "Syllabic",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Unknown language like Codex - asemic properties",
+      "pipeline_use": "Glyph clustering for Bronze Age simulations",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 180,
+        "min_cluster_size": 12,
+        "max_clusters": 90,
+        "image_dpi": 300,
+        "glyph_min_size": 25
+      }
+    },
+    {
+      "id": "CRETAN-HIER-002",
+      "name": "Cretan Hieroglyphs",
+      "origin": "Minoan, Crete",
+      "period": "2100-1700 BCE",
+      "type": "Pictographic",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Visual complexity similar to Codex illustrations",
+      "pipeline_use": "Input for TRIG6 danger zone testing",
+      "hazard_level": "HIGH",
+      "base_params": {
+        "embedding_dim": 210,
+        "min_cluster_size": 18,
+        "max_clusters": 110,
+        "image_dpi": 350,
+        "glyph_min_size": 35
+      }
+    },
+    {
+      "id": "RONGORONGO-003",
+      "name": "Rongorongo",
+      "origin": "Easter Island",
+      "period": "19th Century CE",
+      "type": "Glyph Script",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Isolated, asemic-like Codex - boustrophedon writing",
+      "pipeline_use": "Wood glyph extraction for evolution",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 190,
+        "min_cluster_size": 14,
+        "max_clusters": 95,
+        "image_dpi": 320,
+        "glyph_min_size": 28
+      }
+    },
+    {
+      "id": "INDUS-004",
+      "name": "Indus/Harappa Script",
+      "origin": "Indus Valley Civilization",
+      "period": "2600-1900 BCE",
+      "type": "Symbol System",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Short texts like Codex fragments",
+      "pipeline_use": "Seal glyph mappings to codons",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 200,
+        "min_cluster_size": 10,
+        "max_clusters": 85,
+        "image_dpi": 300,
+        "glyph_min_size": 22
+      }
+    },
+    {
+      "id": "PROTO-ELAMITE-005",
+      "name": "Proto-Elamite",
+      "origin": "Iran",
+      "period": "3100-2900 BCE",
+      "type": "Proto-writing",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Administrative system like Codex 'encyclopedia'",
+      "pipeline_use": "Tablet simulation in compiler",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 220,
+        "min_cluster_size": 16,
+        "max_clusters": 100,
+        "image_dpi": 310,
+        "glyph_min_size": 26
+      }
+    },
+    {
+      "id": "OLD-ELAMITE-006",
+      "name": "Old Elamite",
+      "origin": "Iran",
+      "period": "2200-1600 BCE",
+      "type": "Linear Script",
+      "status": "Partially Deciphered",
+      "correlation_to_codex": "Linear script with gaps in understanding",
+      "pipeline_use": "Partial mappings for TRIG6 hybrid evolution",
+      "hazard_level": "LOW",
+      "base_params": {
+        "embedding_dim": 170,
+        "min_cluster_size": 11,
+        "max_clusters": 75,
+        "image_dpi": 290,
+        "glyph_min_size": 24
+      }
+    },
+    {
+      "id": "PHAISTOS-007",
+      "name": "Phaistos Disk",
+      "origin": "Crete",
+      "period": "1700 BCE",
+      "type": "Circular Stamped",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Unique format like Codex illustrations - spiral arrangement",
+      "pipeline_use": "Disk glyph rotation in theta calculations",
+      "hazard_level": "HIGH",
+      "base_params": {
+        "embedding_dim": 240,
+        "min_cluster_size": 20,
+        "max_clusters": 115,
+        "image_dpi": 360,
+        "glyph_min_size": 32
+      }
+    },
+    {
+      "id": "VOYNICH-008",
+      "name": "Voynich Manuscript",
+      "origin": "Unknown",
+      "period": "15th Century CE",
+      "type": "Illustrated Codex",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Closest to Codex - asemic, herbal/astronomical pages, invented script",
+      "pipeline_use": "Primary for pipeline - glyph embeddings + TRIG6 stability testing",
+      "hazard_level": "LOW",
+      "base_params": {
+        "embedding_dim": 280,
+        "min_cluster_size": 18,
+        "max_clusters": 128,
+        "image_dpi": 340,
+        "glyph_min_size": 30
+      }
+    },
+    {
+      "id": "VINCA-009",
+      "name": "Vinča/Old European",
+      "origin": "Balkans",
+      "period": "5700-4500 BCE",
+      "type": "Proto-writing Symbols",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Prehistoric marks and symbols",
+      "pipeline_use": "Artifact simulation for early language evolution",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 160,
+        "min_cluster_size": 8,
+        "max_clusters": 70,
+        "image_dpi": 280,
+        "glyph_min_size": 20
+      }
+    },
+    {
+      "id": "ISTHMIAN-010",
+      "name": "Isthmian (Epi-Olmec)",
+      "origin": "Mesoamerica",
+      "period": "500 BCE - 500 CE",
+      "type": "Logosyllabic",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Mayan-like glyphs with complex structure",
+      "pipeline_use": "Olmec glyph correlations to Codex",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 230,
+        "min_cluster_size": 15,
+        "max_clusters": 105,
+        "image_dpi": 330,
+        "glyph_min_size": 29
+      }
+    },
+    {
+      "id": "LIBER-LINTEUS-011",
+      "name": "Liber Linteus",
+      "origin": "Etruscan",
+      "period": "3rd Century BCE",
+      "type": "Linen Book",
+      "status": "Partially Understood",
+      "correlation_to_codex": "Textile medium - ritual text",
+      "pipeline_use": "Linen binding simulation in TRIG6",
+      "hazard_level": "LOW",
+      "base_params": {
+        "embedding_dim": 190,
+        "min_cluster_size": 12,
+        "max_clusters": 80,
+        "image_dpi": 295,
+        "glyph_min_size": 25
+      }
+    },
+    {
+      "id": "ROHONC-012",
+      "name": "Rohonc Codex",
+      "origin": "Unknown",
+      "period": "16th Century CE",
+      "type": "Illustrated Book",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Codex-like format - illustrated manuscript",
+      "pipeline_use": "Failure evolution testing (high noise)",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 270,
+        "min_cluster_size": 17,
+        "max_clusters": 125,
+        "image_dpi": 335,
+        "glyph_min_size": 31
+      }
+    },
+    {
+      "id": "SINGAPORE-STONE-013",
+      "name": "Singapore Stone",
+      "origin": "Singapore",
+      "period": "10th-13th Century CE",
+      "type": "Stone Inscription",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Fragmentary text",
+      "pipeline_use": "Stone glyph extraction",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 175,
+        "min_cluster_size": 10,
+        "max_clusters": 72,
+        "image_dpi": 285,
+        "glyph_min_size": 23
+      }
+    },
+    {
+      "id": "ELAMITE-LINEAR-014",
+      "name": "Elamite Linear",
+      "origin": "Iran",
+      "period": "2300 BCE",
+      "type": "Linear Script",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Linear like Codex script",
+      "pipeline_use": "Linear evolution in compiler",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 185,
+        "min_cluster_size": 11,
+        "max_clusters": 78,
+        "image_dpi": 292,
+        "glyph_min_size": 24
+      }
+    },
+    {
+      "id": "TARTARIA-015",
+      "name": "Tartaria Tablets",
+      "origin": "Vinča Culture, Romania",
+      "period": "5300 BCE",
+      "type": "Proto-writing",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Ancient symbols on tablets",
+      "pipeline_use": "Tablet modeling",
+      "hazard_level": "HIGH",
+      "base_params": {
+        "embedding_dim": 155,
+        "min_cluster_size": 7,
+        "max_clusters": 65,
+        "image_dpi": 275,
+        "glyph_min_size": 19
+      }
+    },
+    {
+      "id": "DISPILIO-016",
+      "name": "Dispilio Tablet",
+      "origin": "Greece",
+      "period": "5200 BCE",
+      "type": "Wooden Tablet",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Wood medium with symbols",
+      "pipeline_use": "Rongorongo-like wood simulation",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 165,
+        "min_cluster_size": 9,
+        "max_clusters": 68,
+        "image_dpi": 278,
+        "glyph_min_size": 21
+      }
+    },
+    {
+      "id": "KUMEYAAY-017",
+      "name": "Kumeyaay Pictographs",
+      "origin": "California",
+      "period": "Pre-colonial",
+      "type": "Rock Art",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Pictographic visual language",
+      "pipeline_use": "Visual language evolution",
+      "hazard_level": "LOW",
+      "base_params": {
+        "embedding_dim": 150,
+        "min_cluster_size": 6,
+        "max_clusters": 62,
+        "image_dpi": 270,
+        "glyph_min_size": 18
+      }
+    },
+    {
+      "id": "PROTO-SINAITIC-018",
+      "name": "Proto-Sinaitic Script",
+      "origin": "Sinai Peninsula",
+      "period": "1900-1700 BCE",
+      "type": "Early Alphabet",
+      "status": "Partially Deciphered",
+      "correlation_to_codex": "Transitional writing system",
+      "pipeline_use": "Alphabetic glyph evolution",
+      "hazard_level": "LOW",
+      "base_params": {
+        "embedding_dim": 140,
+        "min_cluster_size": 8,
+        "max_clusters": 58,
+        "image_dpi": 265,
+        "glyph_min_size": 20
+      }
+    },
+    {
+      "id": "CASCAJAL-BLOCK-019",
+      "name": "Cascajal Block",
+      "origin": "Olmec, Mexico",
+      "period": "900 BCE",
+      "type": "Stone Block Script",
+      "status": "Undeciphered",
+      "correlation_to_codex": "Mesoamerican glyph system",
+      "pipeline_use": "Olmec stone glyph processing",
+      "hazard_level": "MEDIUM",
+      "base_params": {
+        "embedding_dim": 195,
+        "min_cluster_size": 13,
+        "max_clusters": 88,
+        "image_dpi": 298,
+        "glyph_min_size": 27
+      }
+    },
+    {
+      "id": "ZAPOTEC-020",
+      "name": "Zapotec Script",
+      "origin": "Oaxaca, Mexico",
+      "period": "500 BCE - 800 CE",
+      "type": "Logographic",
+      "status": "Partially Deciphered",
+      "correlation_to_codex": "Mesoamerican writing with gaps",
+      "pipeline_use": "Logographic codon mapping",
+      "hazard_level": "LOW",
+      "base_params": {
+        "embedding_dim": 205,
+        "min_cluster_size": 14,
+        "max_clusters": 92,
+        "image_dpi": 305,
+        "glyph_min_size": 26
+      }
+    }
+  ]
+}
