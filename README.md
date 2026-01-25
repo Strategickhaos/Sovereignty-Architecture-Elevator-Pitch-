@@ -2,6 +2,19 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+---
+
+## 📘 NEW: The Book — "Strategickhaos: The Operating System of a Human Mind"
+
+**[Read the complete book manuscript →](./docs/book/)**
+
+Discover the philosophical foundation and origin story behind Strategickhaos:
+- **Part VI (COMPLETE):** [The Inversion Principle](./docs/book/part-6-the-inversion-principle/) — Why refusing to repeat failure became the operating principle
+- All 7 parts documented with structure, navigation, and context
+- Explains the "why" behind SAGCO-OS, FlameLang, TRIG6, and the entire ecosystem
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
