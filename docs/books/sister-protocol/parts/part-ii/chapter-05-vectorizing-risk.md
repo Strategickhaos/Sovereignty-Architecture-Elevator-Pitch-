@@ -27,15 +27,15 @@ This cyclical progression maps naturally to angles in radians:
 
 ### The Tangent Singularity as Danger Marker
 
-The tangent function has a critical property: it approaches infinity at π/2 and 3π/2.
+The tangent function has a critical property: it is undefined (approaches ±∞) at π/2 and 3π/2.
 
 ```
-tan(0) = 0       (stable)
-tan(π/4) = 1     (manageable)
-tan(π/2) → ∞     (SINGULARITY - DANGER)
-tan(3π/4) = -1   (recovering)
-tan(π) = 0       (temporary stability)
-tan(3π/2) → -∞   (SINGULARITY - CATASTROPHE)
+tan(0) = 0           (stable)
+tan(π/4) = 1         (manageable)
+tan(π/2) → ±∞        (UNDEFINED - SINGULARITY - DANGER)
+tan(3π/4) = -1       (recovering)
+tan(π) = 0           (temporary stability)
+tan(3π/2) → ±∞       (UNDEFINED - SINGULARITY - CATASTROPHE)
 ```
 
 When |tan θ| > 10, the system is near a singularity—small changes in time (phase) produce massive changes in behavior. This is the mathematical signature of a **tipping point**.

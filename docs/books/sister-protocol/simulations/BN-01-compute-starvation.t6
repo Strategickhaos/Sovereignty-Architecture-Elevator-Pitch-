@@ -19,7 +19,7 @@ vector BN-01 {
     
     # Derived metrics
     tan_theta: tan(π/4) = 1.0
-    danger: |tan_theta| > 10 ? false : false  # Not yet dangerous
+    danger: |tan_theta| > 10  # false - Not yet dangerous
     
     # Timestamps
     discovered: "2025-03-15"
@@ -184,11 +184,12 @@ simulation run {
     # Comparison
     effectiveness = (R_a_final - R_b_final) / R_b_final
                   = (0.75 - 0.1) / 0.1
-                  = 650% improvement
+                  = 6.5x improvement (650%)
     
     # Darwinian selection
     fitness_a = 0.75 * 0.9 * 0.95 = 0.64 (champion)
     fitness_b = 0.1 * 0.2 * 0.1 = 0.002 (extinct)
+    fitness_ratio = fitness_a / fitness_b = 320x (31,900% improvement)
     
     selection: gray_scaling WINS (f_a >> f_b)
 }
@@ -200,7 +201,7 @@ results {
         1: "Gray scaling maintains R >0.5 throughout growth period"
         2: "Resonance-based prioritization prevents catastrophic collapse"
         3: "Elastic scaling in gray zone (0.5 < R < 0.6) is critical"
-        4: "Fitness improvement: 32,000% over no mitigation"
+        4: "Fitness improvement: 320x (31,900%) over no mitigation"
         5: "Cost: ~20% additional compute for buffer, saves 100% downtime cost"
     }
     
