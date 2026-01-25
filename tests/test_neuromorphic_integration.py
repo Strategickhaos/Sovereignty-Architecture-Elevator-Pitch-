@@ -99,7 +99,8 @@ def test_master_pipeline():
     
     # Validate data flow
     assert results["eeg"]["n_anomalies"] > 0
-    assert results["loihi"]["n_spike_trains"] == len(results["eeg"]["anomalies"]) or True  # Flexible
+    # Spike trains count matches epochs, not anomalies count
+    assert results["loihi"]["n_spike_trains"] > 0
     assert results["genomics"]["n_correlations"] > 0
     assert 0 <= results["trig6"]["fitness_score"] <= 1
     assert results["evolution"]["generations"] > 0

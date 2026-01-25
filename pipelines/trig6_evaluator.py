@@ -330,8 +330,10 @@ class TRIG6Evaluator:
                 if hist_2d[i, j] > 0 and px[i] > 0 and py[j] > 0:
                     mi += hist_2d[i, j] * np.log(hist_2d[i, j] / (px[i] * py[j]))
         
-        # Normalize to [0, 1]
-        return np.clip(mi / 2.0, 0, 1)
+        # Normalize to [0, 1] range
+        # Divide by 2.0 as empirical max MI for this discretization is ~2.0
+        MI_NORMALIZATION_FACTOR = 2.0
+        return np.clip(mi / MI_NORMALIZATION_FACTOR, 0, 1)
 
 
 class EvolutionLoop:

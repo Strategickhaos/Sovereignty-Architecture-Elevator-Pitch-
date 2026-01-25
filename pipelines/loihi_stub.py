@@ -225,7 +225,10 @@ class LoihiStub:
             })
             
             # Simulate power consumption (~1mJ per classification)
-            power_mj = 0.8 + np.random.uniform(0, 0.4)
+            # Loihi 2 typical power: 0.8-1.2 mJ per inference
+            BASE_POWER_MJ = 0.8  # Base power consumption in millijoules
+            POWER_VARIANCE_MJ = 0.4  # Random variance in power consumption
+            power_mj = BASE_POWER_MJ + np.random.uniform(0, POWER_VARIANCE_MJ)
             results["power_consumed"].append(power_mj)
             
             # Simulate latency (<10ms)

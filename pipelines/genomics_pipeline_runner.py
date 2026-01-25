@@ -323,8 +323,13 @@ class GenomicsPipelineRunner:
         header = f">{gene} | {correlations[0].condition}"
         
         # Placeholder sequence (in production, would be actual DNA sequence)
-        # Each base represented: A=Adenine, C=Cytosine, G=Guanine, T=Thymine
-        sequence = f"ATCG{'N'*100}GCTA  # {correlations[0].variant}"
+        # Each base: A=Adenine, C=Cytosine, G=Guanine, T=Thymine
+        # Using flanking sequences (ATCG...GCTA) with N's for unknown regions
+        PLACEHOLDER_SEQUENCE_LENGTH = 100
+        FLANKING_5_PRIME = "ATCG"  # 5' flanking sequence
+        FLANKING_3_PRIME = "GCTA"  # 3' flanking sequence
+        
+        sequence = f"{FLANKING_5_PRIME}{'N'*PLACEHOLDER_SEQUENCE_LENGTH}{FLANKING_3_PRIME}  # {correlations[0].variant}"
         
         return f"{header}\n{sequence}\n"
     

@@ -116,10 +116,12 @@ class EEGPipelineRunner:
             logger.info(f"Loading dataset from: {source}")
             
             # Simulated data for demonstration
-            # Replace with actual data loading:
-            # import mne
-            # raw = mne.io.read_raw_edf(source, preload=True)
-            # self.data = raw.get_data()
+            # In production, use MNE-Python for real data:
+            #   import mne
+            #   raw = mne.io.read_raw_edf(source, preload=True)
+            #   self.data = raw.get_data()
+            #   self.eeg_config.sampling_rate = int(raw.info['sfreq'])
+            #   self.eeg_config.channels = raw.info['nchan']
             
             duration_seconds = 60
             n_samples = int(self.eeg_config.sampling_rate * duration_seconds)
