@@ -3,12 +3,12 @@ inv_id: INV-XXXX
 title: "[INVENTION NAME]"
 technical_field: "[FIELD / DOMAIN]"
 disclosure_type: "DEFENSIVE PUBLICATION – NOT PATENTED"
-first_conception_date: "[DATE]"
+first_conception_date: "[DATE - To be filled by inventor]"
 disclosure_date: "[DATE]"
 inventor: "Dominic 'Dom010101' [Strategickhaos]"
 repository: "[REPOSITORY URL]"
 related_prs: "[PR NUMBERS]"
-file_sha256: "COMPUTED_AFTER_FINALIZATION"
+file_sha256: "See INV-XXXX_DISCLOSURE.md.sha256 file (computed after finalization to avoid circular dependency)"
 status: "Defensive Publication - Prior Art"
 ---
 

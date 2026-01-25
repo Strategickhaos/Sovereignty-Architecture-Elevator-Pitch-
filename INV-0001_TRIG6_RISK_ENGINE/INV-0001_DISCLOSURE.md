@@ -3,12 +3,12 @@ inv_id: INV-0001
 title: "TRIG6 Risk Geometry Engine"
 technical_field: "Mathematical AI / Risk Modeling"
 disclosure_type: "DEFENSIVE PUBLICATION – NOT PATENTED"
-first_conception_date: "[DATE - To be filled]"
+first_conception_date: "[DATE - To be filled by inventor]"
 disclosure_date: "2026-01-25"
 inventor: "Dominic 'Dom010101' [Strategickhaos]"
 repository: "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
 related_prs: "#970, #971, #972"
-file_sha256: "COMPUTED_AFTER_FINALIZATION"
+file_sha256: "See INV-0001_DISCLOSURE.md.sha256 file (computed after finalization to avoid circular dependency)"
 status: "Defensive Publication - Prior Art"
 ---
 
