@@ -20,7 +20,7 @@ If you are legal counsel or an IP attorney reviewing this project, **start here*
 
 ## Other Legal Documents
 
-- **[LEGAL_REVIEW_REQUEST.md](LEGAL_REVIEW_REQUEST.md)** - Template for requesting legal reviews
+- **[LEGAL_REVIEW_REQUEST.md](LEGAL_REVIEW_REQUEST.md)** - Specific legal review request for charitable structure
   - 501(c)(3) formation mechanics
   - Donor tax-deductibility requirements
   - Grant agreements and donor acknowledgements

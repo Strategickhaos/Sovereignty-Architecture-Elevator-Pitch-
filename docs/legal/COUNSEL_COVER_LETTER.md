@@ -193,7 +193,7 @@ For questions, clarifications, or to discuss specific IP strategy, please contac
 **Domenic Gabriel Garza**  
 Strategickhaos DAO LLC  
 EIN: 39-2900295  
-Email: [contact information]
+Email: (Please refer to repository contact information or request directly)
 
 We are prepared to provide additional technical documentation, working demonstrations, and detailed invention disclosures as needed for patent prosecution.
 

@@ -37,7 +37,7 @@ These are the concepts most likely to be core IP / invention hooks.
 
 with a scalar fitness function:
 ```
-f = R × (1 − D) × (1 − N) × eq
+f = R * (1 - D) * (1 - N) * eq
 ```
 
 and a danger condition:
@@ -59,7 +59,7 @@ and a danger condition:
 
 **Definition:** A normalized representation of a system state:
 ```
-S = (θ, R, D, N, eq) with θ ∈ [0, 2π], R, D, N, eq ∈ [0,1]
+S = (θ, R, D, N, eq) where θ is in range [0, 2π], and R, D, N, eq are in range [0, 1]
 ```
 
 **Role:** Standardized input to the TRIG6 fitness and danger functions for any domain (e.g., network stability, EEG waves, fermentation, material curing).
