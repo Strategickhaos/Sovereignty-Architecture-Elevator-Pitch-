@@ -1,0 +1,129 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║              🧠 NEURALINK INFUSION PIPELINE CONFIGURATION                 ║
+# ║                    TRIG6 SAGCO-OS Neuromorphic Integration                ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
+metadata:
+  name: "Neuralink Infusion Pipeline"
+  version: "1.0.0"
+  description: "BCI-driven neuromorphic pipeline for ADHD/autism pattern processing"
+  operator: "Dominic Garza (Me10101)"
+  timestamp: "2026-01-25T11:05:00Z"
+
+pipeline:
+  stages:
+    - name: "ingest"
+      description: "Generate neural data with ADHD/autism patterns"
+      params:
+        timesteps: 300000  # Increased for more data points
+        channels: 64
+        gamma_burst_shape: 5
+        gamma_burst_scale: 2
+        gamma_amplitude_shape: 2
+        gamma_amplitude_scale: 1
+        autism_sensory_entropy: true
+
+    - name: "anomaly_detect"
+      description: "Detect burst windows and neural overloads"
+      params:
+        contamination: 0.12
+        window_size: 1.0  # seconds
+        method: "IsolationForest"
+
+    - name: "glyph_extract"
+      description: "Extract neural features as glyphs"
+      params:
+        features:
+          - "spike_rate"      # mean
+          - "coherence"       # std
+          - "duration"        # max
+
+    - name: "glyph_embed"
+      description: "Neuromorphic embedding via LIF neurons"
+      params:
+        tau: 0.02           # time constant
+        threshold: 1.0      # spike threshold
+        embed_dim: 256      # output dimension
+        simulation_steps: 100
+
+    - name: "glyph_cluster"
+      description: "Cluster embeddings to symbols"
+      params:
+        n_clusters: 36
+        method: "KMeans"
+        random_state: 42
+
+    - name: "symbol_assign"
+      description: "Assign NEURO-aligned symbols"
+      params:
+        prefix: "NEURO"
+        format: "hex"
+
+    - name: "codon_mapping_init"
+      description: "Initialize codon mappings"
+      params:
+        codon_types:
+          - "FOCUS_BOOST"
+          - "MEMORY_EXPORT"
+          - "DRIFT_PREDICT"
+          - "BURST_DETECT"
+
+    - name: "trig6_eval"
+      description: "TRIG6 fitness evaluation"
+      params:
+        metrics:
+          theta:
+            weight: 0.25
+            method: "phase_lock"
+            stub_value: 0.65
+          R:
+            weight: 0.25
+            method: "stochastic_peaks"
+            noise_amp: true
+          D:
+            weight: 0.25
+            method: "bifurcations"
+            instability_from_drift: true
+          N:
+            weight: 0.25
+            method: "bursting_variance"
+        danger_threshold: 0.3
+
+    - name: "evolution_loop"
+      description: "Evolutionary optimization"
+      params:
+        generations: 36
+        population_size: 18
+        mutation_rate: 0.1
+        mutation_targets:
+          - "n_clusters"         # 32-40 range
+          - "burst_threshold"    # ±0.02
+          - "phase_lock_bias"    # ±0.1
+          - "strategy"           # swap between burst_weighted, balanced, etc
+
+    - name: "codon_stream_emit"
+      description: "Emit optimized codon stream"
+      params:
+        output_format: "codon"
+
+    - name: "compiler_integration"
+      description: "SAGCO-OS compile integration"
+      params:
+        mode: "sandbox"
+        augmentation_bins: true
+
+artifacts:
+  output_dir: "artifacts/neuralink_infusion"
+  files:
+    - "neural_data.npy"
+    - "anomalies.json"
+    - "glyphs.npy"
+    - "embeds.npy"
+    - "labels.npy"
+    - "stats.json"
+    - "symbol_table.json"
+    - "mapping.json"
+    - "trig6_report.json"
+    - "champion.json"
+    - "evo_log.json"
+    - "neural_aug.codon"
