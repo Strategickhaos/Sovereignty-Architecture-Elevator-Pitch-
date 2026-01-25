@@ -28,10 +28,10 @@ TRIG6 maps alchemical processes using the following parameters:
 
 ### Source Texts
 
-1. **Emerald Tablet** (Hermes Trismegistus, ~6th-8th CE Arabic) — Foundational "as above, so below" text on unity and transmutation
+1. **Emerald Tablet** (Hermes Trismegistus, ~6th-8th century CE Arabic) — Foundational "as above, so below" text on unity and transmutation
 2. **Works of Zosimos** (~300 CE Greek-Egyptian) — Practical distillation and dye-making
-3. **The Book of the Composition of Alchemy** (Jabir ibn Hayyan/Geber, ~8th CE Islamic) — Experimental acids and salts
-4. **Hermetic and Alchemical Writings** (Paracelsus, 16th CE Swiss) — Medical spagyrics and tinctures
+3. **The Book of the Composition of Alchemy** (Jabir ibn Hayyan/Geber, ~8th century CE Islamic) — Experimental acids and salts
+4. **Hermetic and Alchemical Writings** (Paracelsus, 16th century CE Swiss) — Medical spagyrics and tinctures
 
 ---
 
