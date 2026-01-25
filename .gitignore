@@ -36,6 +36,11 @@ target/
 # Workspace data
 workspace/
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
 # TRIG6 simulation outputs
 trig6_outputs/
 *.png
