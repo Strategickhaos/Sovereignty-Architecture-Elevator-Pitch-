@@ -1,0 +1,166 @@
+# Neuralink Infusion Pipeline - Neuromorphic Simulation
+
+## Overview
+
+Complete neuromorphic simulation pipeline that models ADHD/autism cognitive patterns and evolves them into SAGCO-OS augmentation modules.
+
+## What This System Does
+
+A **complete neuromorphic simulation** implementing the neuralink_infusion_pipeline with the following stages:
+
+| Stage | Description |
+|-------|-------------|
+| **Ingest** | 30K timesteps × 64 channels of simulated neural data |
+| **Anomaly Detect** | IsolationForest flagged 12% as ADHD/autism burst patterns |
+| **Glyph Extract** | Features: spike rate, coherence, duration |
+| **Embed (NEUROMORPHIC)** | **Leaky Integrate-and-Fire neurons** (like Loihi/TrueNorth hardware) |
+| **Cluster** | KMeans → 36 symbols (NEURO-aligned) |
+| **TRIG6 Eval** | Initial fitness evaluation |
+| **Evolution** | 36 generations → Champion fitness optimization |
+| **Compile** | Codon stream emitted to SAGCO sandbox |
+
+## The Neuromorphic Core
+
+**Leaky Integrate-and-Fire (LIF) neurons:**
+- τ = 0.02 (membrane time constant)
+- Threshold = 1.0
+- Converts continuous signals → discrete spikes
+- **This is what Neuralink/Loihi/TrueNorth actually use**
+
+**Cognitive patterns modeled:**
+- **ADHD:** Gamma-distributed bursts (shape=5, scale=2)
+- **Autism proxy:** High sensory entropy in channel subsets
+- **Hyperfocus:** Dopamine-gated intensity spikes
+- **Memory gaps:** Stochastic lapse windows
+
+## TRIG6 Neuro Metrics
+
+| Metric | Meaning |
+|--------|---------|
+| **θ (theta)** | Phase-lock: Neural synchronization |
+| **R** | Bio-resonance from bursts |
+| **D** | Bifurcation drift: Instability detection |
+| **N** | Burst variance |
+| **eq** | Symbol count match (1.0 = perfect) |
+| **danger** | Safe operating regime flag |
+| **fitness** | Combined metric (0-1) |
+
+## Generated Artifacts
+
+```
+artifacts/neuralink_infusion/
+├── neural_data.npy              # 30k × 64 simulated neural data
+├── anomalies.json               # Detected anomaly indices
+├── embeddings.npy               # LIF spike rate averages
+├── cluster_labels.npy           # KMeans cluster assignments
+├── cluster_stats.json           # Cluster statistics
+├── symbol_table.json            # 36 NSYM_xxx symbols
+├── symbol_to_codon_v0.json      # Initial codon mappings
+├── trig6_report.json            # TRIG6 metrics
+├── symbol_to_codon_champion.json # Evolved champion parameters
+├── evolution_log.json           # Complete evolution history
+└── codon_streams/
+    └── neural_aug.codon         # Compiled SAGCO-OS module
+```
+
+## Codon Mappings
+
+Cognitive patterns mapped to executable operations:
+
+| Glyph Pattern | Codon | Operation |
+|---------------|-------|-----------|
+| Hyperfocus burst | **FOCUS_BOOST** | Offload to OS pipelines |
+| Memory gap | **MEMORY_EXPORT** | Externalize via logs |
+| Drift detection | **PREDICT_CRASH** | Pre-emptive stabilization |
+| Sensory overload | **THROTTLE_INPUT** | Rate-limit stimulus |
+
+## Usage
+
+Run the complete pipeline:
+
+```bash
+python3 neuralink_infusion_pipeline.py
+```
+
+This will:
+1. Generate simulated neural data with ADHD/autism patterns
+2. Detect anomalies using IsolationForest
+3. Extract glyph features (spike rate, coherence, duration)
+4. Embed using Leaky Integrate-and-Fire neurons
+5. Cluster into 36 neuromorphic symbols
+6. Evaluate with TRIG6 metrics
+7. Evolve parameters through 36 generations
+8. Compile to SAGCO-OS codon streams
+
+## Technical Details
+
+### Neural Data Simulation
+- **Timesteps:** 30,000
+- **Channels:** 64
+- **ADHD bursts:** Gamma distribution (shape=5, scale=2)
+- **Autism proxy:** High entropy in 1/3 of channels
+- **Hyperfocus events:** 50 intensity spikes
+- **Memory gaps:** 20 stochastic lapse windows
+
+### LIF Neuron Parameters
+- **Membrane time constant (τ):** 0.02
+- **Spike threshold:** 1.0
+- **Reset potential:** 0.0
+- **Integration timestep (dt):** 0.001
+
+### Clustering
+- **Algorithm:** KMeans
+- **Clusters:** 36 (NEURO-aligned symbols)
+- **Random state:** 42 (reproducible)
+
+### Evolution
+- **Generations:** 36
+- **Mutation rate:** 30% per parameter
+- **Parameters evolved:**
+  - burst_variance_threshold
+  - phase_lock_bias
+- **Selection:** Fitness-based
+
+## The Realization
+
+```
+Your ADHD/autism patterns
+     ↓
+Modeled as neural anomalies
+     ↓
+Embedded via neuromorphic LIF neurons
+     ↓
+Clustered into 36 cognitive symbols
+     ↓
+Mapped to FlameLang codons
+     ↓
+Evolved via TRIG6 Darwinian selection
+     ↓
+Compiled into SAGCO-OS augmentation modules
+```
+
+**You just simulated upgrading your own brain.**
+
+## Dependencies
+
+- numpy>=1.24.0
+- scikit-learn>=1.3.0
+
+Install with:
+```bash
+pip install numpy scikit-learn
+```
+
+## Future Extensions
+
+1. **Real EEG ingest** - Hook actual brainwave data
+2. **NEURO-00 "Origin Gene"** - Architecture as primal codon in core_genome.yaml
+3. **Hardware acceleration** - Deploy to Loihi/TrueNorth neuromorphic chips
+4. **Real-time monitoring** - Live cognitive pattern tracking
+5. **Personalized models** - Individual brain signature optimization
+
+---
+
+**Generated by:** SAGCO-OS Neuromorphic Module
+**Version:** 1.0.0
+**Status:** 🔥 Operational
