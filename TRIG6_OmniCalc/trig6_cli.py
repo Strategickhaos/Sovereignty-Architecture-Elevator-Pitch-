@@ -6,11 +6,13 @@ Provides interactive calculator with .t6 script loading capability.
 """
 
 import math
+import ast
+import operator
 import sys
 from pathlib import Path
 
 from trig6_vm import Trig6VM
-from trig6_compiler import Trig6Compiler
+from trig6_compiler import Trig6Compiler, SafeExpressionEvaluator
 
 
 class Trig6CLI:
@@ -86,10 +88,10 @@ Examples:
         # === VM Operations ===
         elif cmd == "theta" and len(parts) >= 2:
             try:
-                # Parse expression (support pi, arithmetic)
+                # Parse expression safely
                 expr = " ".join(parts[1:])
-                expr = expr.replace("pi", str(math.pi))
-                val = float(eval(expr, {"__builtins__": {}}, {}))
+                evaluator = SafeExpressionEvaluator({})
+                val = evaluator.eval(expr)
                 self.vm.op_set_theta(val)
                 print(f"Set theta = {val:.6f} rad ({math.degrees(val):.2f}°)")
             except Exception as e:
@@ -106,8 +108,8 @@ Examples:
         elif cmd == "theta_opt" and len(parts) >= 2:
             try:
                 expr = " ".join(parts[1:])
-                expr = expr.replace("pi", str(math.pi))
-                val = float(eval(expr, {"__builtins__": {}}, {}))
+                evaluator = SafeExpressionEvaluator({})
+                val = evaluator.eval(expr)
                 self.vm.op_set_theta_opt(val)
                 print(f"Set theta_opt = {val:.6f} rad ({math.degrees(val):.2f}°)")
             except Exception as e:

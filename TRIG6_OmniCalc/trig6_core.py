@@ -40,11 +40,20 @@ class Trig6Core:
         sin_val = math.sin(theta)
         cos_val = math.cos(theta)
         
-        # Avoid division by zero with epsilon
-        tan_val = sin_val / (cos_val + self.epsilon) if abs(cos_val) > self.epsilon else float('inf')
-        csc_val = 1.0 / (sin_val + self.epsilon) if abs(sin_val) > self.epsilon else float('inf')
-        sec_val = 1.0 / (cos_val + self.epsilon) if abs(cos_val) > self.epsilon else float('inf')
-        cot_val = cos_val / (sin_val + self.epsilon) if abs(sin_val) > self.epsilon else float('inf')
+        # Avoid division by zero - return infinity when denominator is near zero
+        if abs(cos_val) > self.epsilon:
+            tan_val = sin_val / cos_val
+            sec_val = 1.0 / cos_val
+        else:
+            tan_val = float('inf') if sin_val >= 0 else float('-inf')
+            sec_val = float('inf') if cos_val >= 0 else float('-inf')
+        
+        if abs(sin_val) > self.epsilon:
+            csc_val = 1.0 / sin_val
+            cot_val = cos_val / sin_val
+        else:
+            csc_val = float('inf') if sin_val >= 0 else float('-inf')
+            cot_val = float('inf') if cos_val >= 0 else float('-inf')
         
         return (sin_val, cos_val, tan_val, csc_val, sec_val, cot_val)
     

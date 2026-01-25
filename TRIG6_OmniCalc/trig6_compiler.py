@@ -5,9 +5,73 @@ Compiles .t6 scripts to VM operations and executes them.
 """
 
 import math
+import ast
+import operator
 from typing import List, Callable, Dict, Any
 
 from trig6_vm import Trig6VM
+
+
+class SafeExpressionEvaluator:
+    """Safe expression evaluator using AST parsing."""
+    
+    # Allowed operators
+    OPERATORS = {
+        ast.Add: operator.add,
+        ast.Sub: operator.sub,
+        ast.Mult: operator.mul,
+        ast.Div: operator.truediv,
+        ast.USub: operator.neg,
+        ast.UAdd: operator.pos,
+    }
+    
+    def __init__(self, variables: Dict[str, float]):
+        self.variables = variables
+    
+    def eval(self, expr: str) -> float:
+        """Safely evaluate a mathematical expression."""
+        expr = expr.strip()
+        
+        # Replace pi with its value
+        expr = expr.replace("pi", str(math.pi))
+        
+        try:
+            node = ast.parse(expr, mode='eval')
+            return self._eval_node(node.body)
+        except Exception as e:
+            raise ValueError(f"Failed to evaluate expression '{expr}': {e}")
+    
+    def _eval_node(self, node):
+        """Recursively evaluate AST node."""
+        if isinstance(node, ast.Constant):  # Python 3.8+
+            return float(node.value)
+        elif isinstance(node, ast.Num):  # Python 3.7 compatibility
+            return float(node.n)
+        elif isinstance(node, ast.Name):
+            # Variable lookup
+            if node.id in self.variables:
+                return self.variables[node.id]
+            else:
+                raise ValueError(f"Undefined variable: {node.id}")
+        elif isinstance(node, ast.BinOp):
+            # Binary operation
+            left = self._eval_node(node.left)
+            right = self._eval_node(node.right)
+            op_type = type(node.op)
+            if op_type in self.OPERATORS:
+                return self.OPERATORS[op_type](left, right)
+            else:
+                raise ValueError(f"Unsupported operator: {op_type.__name__}")
+        elif isinstance(node, ast.UnaryOp):
+            # Unary operation
+            operand = self._eval_node(node.operand)
+            op_type = type(node.op)
+            if op_type in self.OPERATORS:
+                return self.OPERATORS[op_type](operand)
+            else:
+                raise ValueError(f"Unsupported operator: {op_type.__name__}")
+        else:
+            raise ValueError(f"Unsupported expression: {ast.dump(node)}")
 
 
 class Trig6Compiler:
@@ -21,23 +85,10 @@ class Trig6Compiler:
         """
         Evaluate simple math expression with variables and pi.
         Supports: pi, basic arithmetic (+, -, *, /), user variables.
+        Uses AST-based evaluation for security.
         """
-        expr = expr.strip()
-        
-        # Replace pi with actual value
-        expr = expr.replace("pi", str(math.pi))
-        
-        # Replace user-defined variables
-        for var_name, var_value in self.vars.items():
-            expr = expr.replace(var_name, str(var_value))
-        
-        # Safely evaluate the expression
-        try:
-            # Use eval with restricted namespace for safety
-            result = float(eval(expr, {"__builtins__": {}}, {}))
-            return result
-        except Exception as e:
-            raise ValueError(f"Failed to parse expression '{expr}': {e}")
+        evaluator = SafeExpressionEvaluator(self.vars)
+        return evaluator.eval(expr)
     
     def compile_line(self, line: str) -> Callable[[], None]:
         """
@@ -57,9 +108,9 @@ class Trig6Compiler:
         if cmd == "set" and len(parts) >= 3:
             var_name = parts[1]
             expr = " ".join(parts[2:])
-            val = self.parse_expr(expr)
             
             def op_set_var():
+                val = self.parse_expr(expr)
                 self.vars[var_name] = val
             
             return op_set_var
@@ -128,7 +179,7 @@ class Trig6Compiler:
                     elif left in self.vars:
                         lval = self.vars[left]
                     else:
-                        lval = 0.0  # Default to 0 if undefined
+                        raise ValueError(f"Undefined variable in conditional: {left}")
                     
                     # Get right value
                     rval = self.parse_expr(right_expr)
