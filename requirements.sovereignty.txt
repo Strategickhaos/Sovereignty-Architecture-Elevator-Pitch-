@@ -31,6 +31,10 @@ pyyaml>=6.0                # YAML configuration files
 jsonschema>=4.17.0         # JSON schema validation
 sqlite3-migrate>=0.4.0     # Database for event storage
 
+# TRIG6 Hybrid Blend dependencies
+torch>=2.0.0               # PyTorch for embedding-based heuristics (optional)
+# sentence-transformers>=2.2.0  # Sentence embeddings (optional, uncomment for production)
+
 # X.com intelligence gathering
 beautifulsoup4>=4.12.0     # HTML parsing for source analysis
 lxml>=4.9.0                # XML/HTML processing
