@@ -1,0 +1,14 @@
+# CHROME-TANNED LEATHER
+# Cr2(SO4)3 — fast but volatile
+meta id MAT-CHROME-035
+meta hazard HIGH
+
+set eq 0.85
+theta pi/2
+alpha 0.50
+
+step
+state
+# Output: R=0.55, D=0.45, N=0.40, danger=Yes, f=0.30
+# DANGER ZONE — θ=π/2 where tan→∞
+# Not recommended for archival binding
