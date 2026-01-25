@@ -44,43 +44,91 @@ impl vCPU {
         let mut mem = self.memory.lock().unwrap();
         if self.halted { return 0.0; }
         
+        // Bounds check PC
+        if self.pc >= MEM_SIZE {
+            self.halted = true;
+            return 0.0;
+        }
+        
         let op = mem[self.pc];
         self.pc += 1;
         
         match op {
             0x01 => { // ADD
+                if self.pc + 1 >= MEM_SIZE {
+                    self.halted = true;
+                    return 0.0;
+                }
                 let a = mem[self.pc] as usize; 
-                let b = mem[self.pc+1] as usize; 
-                self.regs[a] += self.regs[b]; 
-                self.pc += 2; 
+                let b = mem[self.pc+1] as usize;
+                // Bounds check registers
+                if a < NUM_REGS && b < NUM_REGS {
+                    self.regs[a] += self.regs[b];
+                }
+                self.pc += 2;
             }
             0x02 => { // SUB
+                if self.pc + 1 >= MEM_SIZE {
+                    self.halted = true;
+                    return 0.0;
+                }
                 let a = mem[self.pc] as usize; 
-                let b = mem[self.pc+1] as usize; 
-                self.regs[a] -= self.regs[b]; 
-                self.pc += 2; 
+                let b = mem[self.pc+1] as usize;
+                // Bounds check registers
+                if a < NUM_REGS && b < NUM_REGS {
+                    self.regs[a] -= self.regs[b];
+                }
+                self.pc += 2;
             }
             0x10 => { // LOAD
+                if self.pc + 1 >= MEM_SIZE {
+                    self.halted = true;
+                    return 0.0;
+                }
                 let r = mem[self.pc] as usize; 
-                let addr = mem[self.pc+1] as usize; 
-                self.regs[r] = mem[addr] as i32; 
-                self.pc += 2; 
+                let addr = mem[self.pc+1] as usize;
+                // Bounds check register and memory
+                if r < NUM_REGS && addr < MEM_SIZE {
+                    self.regs[r] = mem[addr] as i32;
+                }
+                self.pc += 2;
             }
             0x11 => { // STORE
+                if self.pc + 1 >= MEM_SIZE {
+                    self.halted = true;
+                    return 0.0;
+                }
                 let r = mem[self.pc] as usize; 
-                let addr = mem[self.pc+1] as usize; 
-                mem[addr] = self.regs[r] as u8; 
-                self.pc += 2; 
+                let addr = mem[self.pc+1] as usize;
+                // Bounds check register and memory
+                if r < NUM_REGS && addr < MEM_SIZE {
+                    mem[addr] = self.regs[r] as u8;
+                }
+                self.pc += 2;
             }
             0x20 => { // JMP
-                self.pc = mem[self.pc] as usize; 
+                if self.pc >= MEM_SIZE {
+                    self.halted = true;
+                    return 0.0;
+                }
+                let addr = mem[self.pc] as usize;
+                // Bounds check jump target
+                if addr < MEM_SIZE {
+                    self.pc = addr;
+                } else {
+                    self.halted = true;
+                }
             }
             0xFF => { // HALT
                 self.halted = true; 
             }
             0x30 => { // INT
-                self.interrupt_queue.push(mem[self.pc]); 
-                self.pc += 1; 
+                if self.pc < MEM_SIZE {
+                    self.interrupt_queue.push(mem[self.pc]); 
+                    self.pc += 1;
+                } else {
+                    self.halted = true;
+                }
             }
             _ => {}  // NOP
         }
@@ -90,7 +138,7 @@ impl vCPU {
             self.regs[0] = int_code as i32;  // Sim handler
         }
         
-        (1.0 + (sin_lookup(self.pc as f64) * 0.1))  // Sim time with trig jitter
+        1.0 + (sin_lookup(self.pc as f64) * 0.1)  // Sim time with trig jitter
     }
 }
 

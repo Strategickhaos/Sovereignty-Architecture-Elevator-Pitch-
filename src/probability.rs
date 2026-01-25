@@ -30,7 +30,9 @@ impl Gaussian {
         0.5 * (2.0 * PI * std::f64::consts::E * self.variance).ln() / 2.0f64.ln()
     }
     
-    /// Sample from distribution (Box-Muller transform)
+    /// Sample from distribution
+    /// Note: Returns mean for deterministic testing. 
+    /// In production, would use Box-Muller transform for true sampling.
     pub fn sample(&self) -> f64 {
         // Simplified: return mean for deterministic testing
         // In production, use proper random sampling

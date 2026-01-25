@@ -21,14 +21,14 @@ lazy_static::lazy_static! {
     };
 }
 
-/// O(1) sine lookup with linear interpolation
+/// O(1) sine lookup from precomputed table
 pub fn sin_lookup(x: f64) -> f64 {
     let degrees = (x * 180.0 / PI) % 360.0;
     let index = degrees.abs() as usize % TABLE_SIZE;
     SIN_TABLE[index]
 }
 
-/// O(1) cosine lookup with linear interpolation
+/// O(1) cosine lookup from precomputed table
 pub fn cos_lookup(x: f64) -> f64 {
     let degrees = (x * 180.0 / PI) % 360.0;
     let index = degrees.abs() as usize % TABLE_SIZE;
