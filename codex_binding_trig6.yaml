@@ -177,9 +177,10 @@ trig6_binding_model:
     danger:
       meaning: "Instability of the binding; tiny symbol changes cause large IR shifts."
       threshold_tan_theta: 10.0
+      threshold_codon_conflict: 0.4
       predicate: >
         danger = (abs(tan(theta)) > threshold_tan_theta)
-              or (codon_conflict_rate > 0.4)
+              or (codon_conflict_rate > threshold_codon_conflict)
 
     fitness:
       formula: "f = R * (1 - D) * (1 - N) * eq"
