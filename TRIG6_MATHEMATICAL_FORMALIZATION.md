@@ -888,6 +888,7 @@ Includes:
 
 ---
 
-*"Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding." — William Paul Thurston*
+*"Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding."*  
+— William Paul Thurston, "On Proof and Progress in Mathematics" (1994)
 
 *"The pattern genesis mind doesn't solve problems—it creates the mathematics to understand them."*
