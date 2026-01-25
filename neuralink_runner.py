@@ -43,6 +43,10 @@ logger = logging.getLogger(__name__)
 class NeuralDataSimulator:
     """Simulate BCI neural data with ADHD/Autism characteristics"""
     
+    # Configurable parameters for neural simulation
+    HYPERFOCUS_THRESHOLD = 0.98  # Probability threshold for hyperfocus events
+    SPIKE_THRESHOLD = 2.0        # Standard deviations above mean for spike detection
+    
     def __init__(self, channels: int = 1024, sampling_rate: int = 1000, seed: int = 2026):
         self.channels = channels
         self.sampling_rate = sampling_rate
@@ -65,7 +69,7 @@ class NeuralDataSimulator:
         burst_noise = np.random.gamma(shape, scale, (n_samples, self.channels))
         
         # Add occasional hyperfocus peaks
-        hyperfocus_events = np.random.rand(n_samples, self.channels) > 0.98
+        hyperfocus_events = np.random.rand(n_samples, self.channels) > self.HYPERFOCUS_THRESHOLD
         burst_noise[hyperfocus_events] *= 3.0
         
         # Combine drift and bursts
@@ -107,11 +111,30 @@ class NeuralDataSimulator:
 class NeuralGlyphExtractor:
     """Extract glyphs (features) from neural signals"""
     
+    # Configurable parameters for feature extraction
+    SPIKE_THRESHOLD = 2.0       # Standard deviations above mean
+    ANOMALY_WINDOW_SIZE = 1000  # Samples per anomaly window
+    MAX_ANOMALIES = 100         # Maximum anomalies to process
+    ENTROPY_BINS = 20           # Bins for entropy calculation
+    ENTROPY_EPSILON = 1e-10     # Epsilon for numerical stability
+    
     def __init__(self, sampling_rate: int = 1000):
         self.sampling_rate = sampling_rate
     
-    def compute_spike_rate(self, signal: np.ndarray, threshold: float = 2.0) -> np.ndarray:
-        """Compute spike rate (threshold crossings)"""
+    def compute_spike_rate(self, signal: np.ndarray, threshold: float = None) -> np.ndarray:
+        """
+        Compute spike rate (threshold crossings per second)
+        
+        Args:
+            signal: Neural signal array (time x channels)
+            threshold: Spike detection threshold in standard deviations above mean.
+                      If None, uses class default SPIKE_THRESHOLD.
+        
+        Returns:
+            Array of spike rates (Hz) per channel
+        """
+        if threshold is None:
+            threshold = self.SPIKE_THRESHOLD
         spikes = signal > threshold
         return spikes.sum(axis=0) / (signal.shape[0] / self.sampling_rate)
     
@@ -133,8 +156,19 @@ class NeuralGlyphExtractor:
         
         return np.array(coherence)
     
-    def compute_burst_duration(self, signal: np.ndarray, threshold: float = 2.0) -> np.ndarray:
-        """Average burst duration per channel"""
+    def compute_burst_duration(self, signal: np.ndarray, threshold: float = None) -> np.ndarray:
+        """
+        Average burst duration per channel
+        
+        Args:
+            signal: Neural signal array (time x channels)
+            threshold: Burst detection threshold. If None, uses class default.
+        
+        Returns:
+            Array of average burst durations (seconds) per channel
+        """
+        if threshold is None:
+            threshold = self.SPIKE_THRESHOLD
         durations = []
         for ch in range(signal.shape[1]):
             above = signal[:, ch] > threshold
@@ -160,9 +194,9 @@ class NeuralGlyphExtractor:
             signal_subset = signal
         else:
             # Extract windows around anomalies
-            window_size = min(1000, signal.shape[0] // 10)
+            window_size = min(self.ANOMALY_WINDOW_SIZE, signal.shape[0] // 10)
             indices = []
-            for idx in anomaly_events[:100]:  # Limit to first 100 anomalies
+            for idx in anomaly_events[:self.MAX_ANOMALIES]:
                 start = max(0, idx - window_size // 2)
                 end = min(signal.shape[0], idx + window_size // 2)
                 indices.extend(range(start, end))
@@ -187,6 +221,9 @@ class NeuralGlyphExtractor:
 
 class TRIG6Evaluator:
     """Evaluate codon mappings using TRIG6 metrics (Neuralink-infused)"""
+    
+    # Configurable parameters for TRIG6 evaluation
+    SPIKE_RATE_DANGER_THRESHOLD = 0.15  # Max spike rate before danger
     
     def __init__(self, config: Dict):
         self.config = config
@@ -216,8 +253,11 @@ class TRIG6Evaluator:
         
         # Noise (burst variance + sensory entropy)
         burst_variance = np.var(spike_rate)
-        sensory_entropy = entropy(np.histogram(spike_rate, bins=20)[0] + 1e-10)
-        sensory_entropy_norm = sensory_entropy / np.log(20)  # Normalize
+        sensory_entropy = entropy(
+            np.histogram(spike_rate, bins=NeuralGlyphExtractor.ENTROPY_BINS)[0] 
+            + NeuralGlyphExtractor.ENTROPY_EPSILON
+        )
+        sensory_entropy_norm = sensory_entropy / np.log(NeuralGlyphExtractor.ENTROPY_BINS)  # Normalize
         N = np.clip(0.5 * burst_variance + 0.5 * sensory_entropy_norm, 0.0, 1.0)
         
         # Equilibrium (simplified KL divergence approximation)
@@ -227,7 +267,10 @@ class TRIG6Evaluator:
         eq = np.clip(1.0 - kl_approx, 0.0, 1.0)
         
         # Danger predicate
-        danger = bool(abs(np.tan(theta)) > self.danger_limit or np.mean(spike_rate) > 0.15)
+        danger = bool(
+            abs(np.tan(theta)) > self.danger_limit 
+            or np.mean(spike_rate) > self.SPIKE_RATE_DANGER_THRESHOLD
+        )
         
         # Fitness
         fitness = float(R * (1.0 - D) * (1.0 - N) * eq)
