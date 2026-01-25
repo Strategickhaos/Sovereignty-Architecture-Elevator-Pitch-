@@ -57,6 +57,10 @@ class FlameSpec:
 class LabConverter:
     """Converts lab PDFs to .flame.yaml specs"""
     
+    # Constants for text processing
+    MAX_DESCRIPTION_LENGTH = 200  # Maximum length for requirement descriptions
+    MAX_TEST_TEXT_LENGTH = 100    # Maximum length for test input/output
+    
     def __init__(self):
         self.requirements = []
     
@@ -76,6 +80,8 @@ class LabConverter:
         test_cases = []
         
         # Pattern: numbered requirements
+        # Matches: "1. requirement text" or "2. requirement text"
+        # Captures: requirement number and text until next numbered item or double newline
         req_pattern = r'(?:^|\n)(\d+)\.\s+(.+?)(?=\n\d+\.|\n\n|$)'
         matches = re.finditer(req_pattern, text, re.MULTILINE | re.DOTALL)
         
@@ -89,7 +95,7 @@ class LabConverter:
             
             requirement = {
                 'id': f"REQ-{lab_id}-{req_num}",
-                'description': req_text[:200],  # Truncate for brevity
+                'description': req_text[:self.MAX_DESCRIPTION_LENGTH],  # Truncate for brevity
                 'input': input_match.group(1).strip() if input_match else None,
                 'output': output_match.group(1).strip() if output_match else None,
             }
@@ -100,8 +106,8 @@ class LabConverter:
                 test_case = {
                     'test_id': f"TEST-{lab_id}-{req_num}",
                     'requirement_id': f"REQ-{lab_id}-{req_num}",
-                    'input': input_match.group(1).strip()[:100],
-                    'expected_output': output_match.group(1).strip()[:100],
+                    'input': input_match.group(1).strip()[:self.MAX_TEST_TEXT_LENGTH],
+                    'expected_output': output_match.group(1).strip()[:self.MAX_TEST_TEXT_LENGTH],
                 }
                 test_cases.append(test_case)
         

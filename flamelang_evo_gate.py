@@ -176,12 +176,14 @@ class EvoGate:
         
         if fitness > self.champion_fitness:
             # New champion!
-            improvement = ((fitness - self.champion_fitness) / self.champion_fitness) * 100
+            # Safe percentage calculation with zero check
+            improvement = ((fitness - self.champion_fitness) / self.champion_fitness) * 100 if self.champion_fitness != 0 else 0
             self._save_champion(fitness, metrics, codon)
             return True, f"New champion! f={fitness:.4f} (↑{improvement:.2f}%), previous={self.champion_fitness:.4f}", fitness
         else:
             # Rejected
-            deficit = ((self.champion_fitness - fitness) / self.champion_fitness) * 100
+            # Safe percentage calculation with zero check
+            deficit = ((self.champion_fitness - fitness) / self.champion_fitness) * 100 if self.champion_fitness != 0 else 0
             return False, f"Rejected: f={fitness:.4f} (↓{deficit:.2f}%), champion={self.champion_fitness:.4f}", fitness
     
     def auto_commit(self, codon: str, fitness: float, message: str = None):

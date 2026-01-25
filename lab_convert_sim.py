@@ -74,7 +74,8 @@ class MutationEngine:
             new_flag = random.choice(possible_flags)
             if new_flag not in flags:
                 flags.append(new_flag)
-        elif flags:
+        elif flags and len(flags) > 0:
+            # Safe pop with length check to prevent IndexError
             flags.pop(random.randint(0, len(flags) - 1))
         
         params['optimization']['flags'] = flags
