@@ -183,7 +183,7 @@ class SystemHealthController:
                 'mode': 'FULL',
                 'proof_threshold': health.proof_threshold,
                 'opt_level': 3,
-                'parallel_jobs': health.params.R * 8,  # Scale with resources
+                'parallel_jobs': int(health.params.R * 8),  # Scale with resources
                 'enable_aggressive_opts': True,
                 'memory_limit_mb': 8192,
                 'aggressive_inlining': health.opt_aggression > 0.7,
@@ -194,7 +194,7 @@ class SystemHealthController:
                 'mode': 'DEGRADED',
                 'proof_threshold': health.proof_threshold,
                 'opt_level': 2,
-                'parallel_jobs': max(2, health.params.R * 4),
+                'parallel_jobs': max(2, int(health.params.R * 4)),
                 'enable_aggressive_opts': False,
                 'memory_limit_mb': 4096,
                 'aggressive_inlining': False,
