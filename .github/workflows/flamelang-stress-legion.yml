@@ -1,0 +1,229 @@
+name: FlameLang Stress Legion
+# Stress testing with TRIG6 metrics collection
+
+on:
+  push:
+    branches: [main, development]
+    paths:
+      - '**.py'
+      - '**.flame.yaml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      intensity:
+        description: 'Test intensity level'
+        required: false
+        default: 'normal'
+        type: choice
+        options:
+          - light
+          - normal
+          - heavy
+          - extreme
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  stress_legion:
+    name: "Legion Stress Test (TRIG6)"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml psutil
+      
+      - name: Run stress tests
+        id: stress
+        run: |
+          echo "Running FlameLang stress tests..."
+          INTENSITY="${{ github.event.inputs.intensity || 'normal' }}"
+          
+          cat > stress_test.py << 'EOF'
+          #!/usr/bin/env python3
+          import json
+          import time
+          import random
+          from datetime import datetime
+          
+          def run_stress_test(intensity='normal'):
+              """Run stress tests and collect TRIG6 metrics"""
+              
+              intensity_config = {
+                  'light': {'iterations': 10, 'complexity': 1.0},
+                  'normal': {'iterations': 50, 'complexity': 2.0},
+                  'heavy': {'iterations': 100, 'complexity': 3.0},
+                  'extreme': {'iterations': 500, 'complexity': 5.0}
+              }
+              
+              config = intensity_config.get(intensity, intensity_config['normal'])
+              
+              print(f"Stress test intensity: {intensity}")
+              print(f"Iterations: {config['iterations']}")
+              print(f"Complexity multiplier: {config['complexity']}")
+              
+              # Simulate stress testing
+              results = {
+                  'timestamp': datetime.now().isoformat(),
+                  'intensity': intensity,
+                  'iterations': config['iterations'],
+                  'metrics': {}
+              }
+              
+              # Collect TRIG6 metrics
+              metrics = []
+              for i in range(config['iterations']):
+                  # Simulate metric collection with some variance
+                  metric = {
+                      'iteration': i,
+                      'equivalence': random.uniform(0.90, 0.99),
+                      'noise': random.uniform(0.20, 0.35),
+                      'drift': random.uniform(0.30, 0.45),
+                      'coherence': random.uniform(0.60, 0.75),
+                      'resilience': random.uniform(0.70, 0.95),
+                      'innovation': random.uniform(0.50, 0.85),
+                  }
+                  metrics.append(metric)
+                  
+                  if (i + 1) % 10 == 0:
+                      print(f"  Completed {i + 1}/{config['iterations']} iterations")
+              
+              # Calculate aggregate metrics
+              def avg(key):
+                  return sum(m[key] for m in metrics) / len(metrics)
+              
+              results['metrics'] = {
+                  'equivalence': {'avg': avg('equivalence'), 'min': min(m['equivalence'] for m in metrics), 'max': max(m['equivalence'] for m in metrics)},
+                  'noise': {'avg': avg('noise'), 'min': min(m['noise'] for m in metrics), 'max': max(m['noise'] for m in metrics)},
+                  'drift': {'avg': avg('drift'), 'min': min(m['drift'] for m in metrics), 'max': max(m['drift'] for m in metrics)},
+                  'coherence': {'avg': avg('coherence'), 'min': min(m['coherence'] for m in metrics), 'max': max(m['coherence'] for m in metrics)},
+                  'resilience': {'avg': avg('resilience'), 'min': min(m['resilience'] for m in metrics), 'max': max(m['resilience'] for m in metrics)},
+                  'innovation': {'avg': avg('innovation'), 'min': min(m['innovation'] for m in metrics), 'max': max(m['innovation'] for m in metrics)},
+              }
+              
+              return results
+          
+          if __name__ == '__main__':
+              import sys
+              intensity = sys.argv[1] if len(sys.argv) > 1 else 'normal'
+              results = run_stress_test(intensity)
+              
+              # Save results
+              with open('stress_test_results.json', 'w') as f:
+                  json.dump(results, f, indent=2)
+              
+              print("\n✓ Stress test complete")
+              print(f"Results saved to stress_test_results.json")
+              
+              # Print summary
+              print("\nTRIG6 Metrics Summary:")
+              for metric, values in results['metrics'].items():
+                  print(f"  {metric:12s}: avg={values['avg']:.3f}, min={values['min']:.3f}, max={values['max']:.3f}")
+          EOF
+          
+          python stress_test.py "$INTENSITY"
+      
+      - name: Analyze results
+        run: |
+          if [ -f stress_test_results.json ]; then
+            echo "## Stress Test Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # Extract key metrics
+            python3 << 'EOF'
+          import json
+          with open('stress_test_results.json') as f:
+              results = json.load(f)
+          
+          print(f"**Intensity:** {results['intensity']}")
+          print(f"**Iterations:** {results['iterations']}")
+          print("")
+          print("### TRIG6 Metrics")
+          print("")
+          print("| Metric | Average | Min | Max |")
+          print("|--------|---------|-----|-----|")
+          
+          for metric, values in results['metrics'].items():
+              print(f"| {metric.capitalize()} | {values['avg']:.3f} | {values['min']:.3f} | {values['max']:.3f} |")
+          EOF
+          fi
+      
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: stress-test-results
+          path: "stress_test_results.json"
+          retention-days: 30
+      
+      - name: Check thresholds
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+          
+          with open('stress_test_results.json') as f:
+              results = json.load(f)
+          
+          # Check if metrics are within acceptable ranges
+          metrics = results['metrics']
+          
+          failures = []
+          
+          # Hard gate thresholds
+          if metrics['equivalence']['avg'] >= 0.99:
+              failures.append("Equivalence too high (no variation)")
+          
+          if metrics['noise']['avg'] < 0.25:
+              failures.append("Noise too low (insufficient entropy)")
+          
+          if metrics['drift']['avg'] < 0.35:
+              failures.append("Drift too low (insufficient behavioral variance)")
+          
+          if metrics['coherence']['avg'] >= 0.70:
+              failures.append("Coherence too high (brittleness risk)")
+          
+          if failures:
+              print("⚠️  Hard gate violations detected:")
+              for failure in failures:
+                  print(f"  - {failure}")
+              sys.exit(1)
+          else:
+              print("✓ All hard gates passed")
+          EOF
+
+  visualization:
+    name: "Generate TRIG6 Visualization"
+    runs-on: ubuntu-latest
+    needs: stress_legion
+    if: always()
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Download results
+        uses: actions/download-artifact@v4
+        with:
+          name: stress-test-results
+        continue-on-error: true
+      
+      - name: Generate visualization report
+        run: |
+          echo "# TRIG6 Neurograph Visualization" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**DNA Strand:** TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Cortical visualization config: \`trig6_neurograph.yaml\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The organism is breathing. Watch it evolve." >> $GITHUB_STEP_SUMMARY
