@@ -145,7 +145,7 @@ fn vcpu_set_reg(vcpu: vCPU, reg: i32, value: i32) -> vCPU {
 }
 
 // Simple round-robin scheduler
-fn vcpu_schedule(vcpus: [vCPU; N], current: i32) -> i32 {
+fn vcpu_schedule<const N: i32>(vcpus: [vCPU; N], current: i32) -> i32 {
     // Find next runnable vCPU
     let next = (current + 1) % N;
     let checked = 0;

@@ -16,7 +16,7 @@ struct TrigTable {
 
 // Initialize trigonometric tables
 fn init_trig_tables() -> TrigTable {
-    let table = TrigTable {
+    let mut table = TrigTable {
         sin_table: [0.0; 360],
         cos_table: [0.0; 360],
         tan_table: [0.0; 360]

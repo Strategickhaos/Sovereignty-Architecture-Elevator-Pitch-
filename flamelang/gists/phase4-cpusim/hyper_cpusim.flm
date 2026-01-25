@@ -174,7 +174,7 @@ fn execute_instruction(vcpu: vCPU, mem: Memory, opcode: i32) -> (vCPU, Memory) {
 }
 
 // Run CPU simulation
-fn cpu_sim(program: [i32; N]) -> i32 {
+fn cpu_sim<const N: i32>(program: [i32; N]) -> i32 {
     // Initialize vCPU
     let vcpu = vCPU {
         regs: [0; 16],

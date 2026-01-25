@@ -217,13 +217,17 @@ fn execute_instruction(vcpu: vCPU, opcode: i32) -> vCPU {
     return vcpu;
 }
 
-fn cpu_sim(program: [i32; N]) -> i32 {
+fn cpu_sim<const N: i32>(program: [i32; N]) -> i32 {
     // Initialize vCPU
     let vcpu = vCPU { 
         regs: [0; 16], 
         pc: 0, 
+        sp: 0xFFFF,
+        flags: 0,
         state: Running,
-        id: 0
+        id: 0,
+        priority: 5,
+        quantum: 10000
     };
     
     // Initialize paging
@@ -247,7 +251,8 @@ fn sagco_integrate(sim_result: i32) -> Uncertainty {
     let unc = Uncertainty {
         p_correct: 0.95,      // 95% confidence in simulation
         entropy: 0.2,         // Low entropy for deterministic ops
-        kl_divergence: 0.1    // Minimal divergence from expected
+        kl_divergence: 0.1,   // Minimal divergence from expected
+        variance: 0.05        // Low variance in execution
     };
     
     return unc;
