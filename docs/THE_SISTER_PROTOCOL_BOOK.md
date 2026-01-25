@@ -112,9 +112,9 @@ TRIG6 provides a six-dimensional framework for mapping system states and evolvin
 
 1. **Phase Angle (θ)**: Maps progression through failure lifecycle
    - θ = π/4 → Early warning (tan θ = 1)
-   - θ = π/2 → Crisis point (tan θ → ∞, danger zone)
-   - θ = π → Late stage (tan θ = 0, but reversed)
-   - θ = 3π/2 → Catastrophic (tan θ → -∞)
+   - θ ≈ π/2 → Crisis point (tan θ undefined, approaches ±∞ as θ → π/2, danger zone)
+   - θ = π → Late stage (tan θ = 0, but reversed phase)
+   - θ ≈ 3π/2 → Catastrophic (tan θ undefined, approaches ±∞ as θ → 3π/2)
 
 2. **Resonance (R)**: System stability/coherence
    - R = Σ(coherent_signals) / Σ(total_signals)
@@ -128,8 +128,9 @@ TRIG6 provides a six-dimensional framework for mapping system states and evolvin
    - N = H(system_entropy) / H_max
    - Low N (<0.2) → Predictable, high N (>0.7) → Uncertain
 
-5. **Danger Condition**: |tan θ| > 10
-   - When phase approaches vertical asymptotes (π/2, 3π/2), instability peaks
+5. **Danger Condition**: |tan θ| > 10 or θ near π/2, 3π/2
+   - When phase approaches vertical asymptotes (within ε=0.1 of π/2 or 3π/2), instability peaks
+   - Practically: |tan θ| > 10 OR |θ - π/2| < 0.1 OR |θ - 3π/2| < 0.1
 
 6. **Mitigation Fitness**: f(mitigation) > f(champion)
    - Darwinian selection: new mitigation must outperform current best
@@ -358,9 +359,25 @@ class TRIG6Vector:
         self.D = D          # Deviation
         self.N = N          # Uncertainty
         
-    def is_danger(self) -> bool:
-        """Check if |tan θ| > 10 (danger zone)"""
-        return abs(np.tan(self.theta)) > 10
+    def is_danger(self, epsilon: float = 0.1) -> bool:
+        """
+        Check if in danger zone:
+        - |tan θ| > 10, OR
+        - θ near π/2 or 3π/2 (within epsilon)
+        """
+        # Check proximity to vertical asymptotes
+        near_pi_2 = abs(self.theta - np.pi/2) < epsilon
+        near_3pi_2 = abs(self.theta - 3*np.pi/2) < epsilon
+        
+        if near_pi_2 or near_3pi_2:
+            return True
+        
+        # Safe to compute tan for other angles
+        try:
+            tan_theta = np.tan(self.theta)
+            return abs(tan_theta) > 10
+        except:
+            return True  # Treat errors as danger
     
     def fitness(self, alpha: float = 0.5) -> float:
         """Calculate fitness: R - α(D + N)"""
@@ -538,9 +555,13 @@ This book is designed to evolve:
 
 **Version Control:**
 ```bash
-git clone https://github.com/strategickhaos/sister-protocol-book.git
-cd sister-protocol-book
-./evolve.sh --run-sims --update-tables --publish-pdf
+# Repository location (to be established)
+# git clone https://github.com/strategickhaos/sister-protocol-book.git
+# cd sister-protocol-book
+# ./evolve.sh --run-sims --update-tables --publish-pdf
+
+# Current location in Sovereignty Architecture repo:
+# docs/THE_SISTER_PROTOCOL_BOOK.md
 ```
 
 ### Distribution
