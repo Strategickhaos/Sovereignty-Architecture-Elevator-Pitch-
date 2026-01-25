@@ -186,7 +186,9 @@ class TRIG6Potentiometer:
         """
         Compute proof validation threshold
         
-        When health is low, we require higher proof rigor
+        When health is low, we require higher proof rigor.
+        Inverse relationship: lower health = higher threshold = more rigorous checking.
+        This ensures the system is more careful when stressed.
         
         Args:
             f: Health score [0, 1]

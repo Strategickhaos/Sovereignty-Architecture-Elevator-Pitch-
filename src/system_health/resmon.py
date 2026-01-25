@@ -90,7 +90,8 @@ class RESMON:
                     first_sensor = next(iter(temps.values()))
                     if first_sensor:
                         return first_sensor[0].current
-        except:
+        except (OSError, AttributeError, IndexError):
+            # Sensor not available on this platform or not accessible
             pass
         return None
     
@@ -105,7 +106,8 @@ class RESMON:
         # Load average (Unix-like systems)
         try:
             load_avg = list(os.getloadavg())
-        except:
+        except (OSError, AttributeError):
+            # Not available on Windows or other non-Unix platforms
             load_avg = [0.0, 0.0, 0.0]
         
         # Memory metrics

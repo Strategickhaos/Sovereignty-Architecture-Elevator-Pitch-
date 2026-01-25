@@ -54,7 +54,11 @@ class SystemHealthController:
             'log_interval_ticks': 10,  # Log every 10 ticks
             'thermal_critical_celsius': 85.0,
             'memory_critical_percent': 95.0,
-            'enable_f1_tracking': True
+            'enable_f1_tracking': True,
+            # Parallel job scaling factors
+            'max_parallel_jobs_full': 8,      # Max jobs in FULL mode
+            'max_parallel_jobs_degraded': 4,  # Max jobs in DEGRADED mode
+            'min_parallel_jobs': 2            # Minimum jobs (degraded/safe)
         }
     
     def initialize(self) -> None:
@@ -179,22 +183,25 @@ class SystemHealthController:
         health = self.last_health
         
         if health.mode == SystemMode.FULL:
+            max_jobs = self.config['max_parallel_jobs_full']
             return {
                 'mode': 'FULL',
                 'proof_threshold': health.proof_threshold,
                 'opt_level': 3,
-                'parallel_jobs': int(health.params.R * 8),  # Scale with resources
+                'parallel_jobs': int(health.params.R * max_jobs),  # Scale with resources
                 'enable_aggressive_opts': True,
                 'memory_limit_mb': 8192,
                 'aggressive_inlining': health.opt_aggression > 0.7,
                 'enable_lto': health.opt_aggression > 0.6
             }
         elif health.mode == SystemMode.DEGRADED:
+            max_jobs = self.config['max_parallel_jobs_degraded']
+            min_jobs = self.config['min_parallel_jobs']
             return {
                 'mode': 'DEGRADED',
                 'proof_threshold': health.proof_threshold,
                 'opt_level': 2,
-                'parallel_jobs': max(2, int(health.params.R * 4)),
+                'parallel_jobs': max(min_jobs, int(health.params.R * max_jobs)),
                 'enable_aggressive_opts': False,
                 'memory_limit_mb': 4096,
                 'aggressive_inlining': False,

@@ -204,17 +204,21 @@ class F1Lemma:
         if not bound_n:
             return None
         
-        # Use recent gammas for prediction
-        recent_gammas = [b.gamma for b in self.history[-k:] if b.index >= n - k]
+        # Use the k most recent gammas for prediction
+        # Filter to bounds at or after index (n - k) to get recent context
+        recent_gammas = [b.gamma for b in self.history if b.index >= (n - k + 1) and b.index <= n]
+        
         if not recent_gammas:
-            # Fallback to last known gamma
+            # Fallback to last known gamma if no recent history
             recent_gammas = [self.history[-1].gamma] * k
         
-        # Pad or trim to k
+        # Pad or trim to exactly k elements
         if len(recent_gammas) < k:
+            # Pad with the last gamma
             recent_gammas = recent_gammas + [recent_gammas[-1]] * (k - len(recent_gammas))
         else:
-            recent_gammas = recent_gammas[:k]
+            # Trim to k most recent
+            recent_gammas = recent_gammas[-k:]
         
         return self.compute_kstep_bound(bound_n.value, recent_gammas)
 
