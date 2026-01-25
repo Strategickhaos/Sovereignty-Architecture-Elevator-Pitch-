@@ -5,7 +5,7 @@
 # Version 1.0
 #
 
-set -e
+set -euo pipefail
 
 DEPLOYMENT="${1:-development}"
 REPORT_TYPE="${2:-basic}"
@@ -140,11 +140,11 @@ fi
 section "6. Soul Integrity Violations Detection"
 
 # Check for addictive patterns (red flags)
-ADDICTIVE_PATTERNS=("infinite.scroll" "autoplay" "notification.push" "engagement.metric" "time.on.site")
+ADDICTIVE_PATTERNS=("infinite[._]scroll" "autoplay" "notification[._]push" "engagement[._]metric" "time[._]on[._]site")
 FOUND_ADDICTIVE=0
 
 for pattern in "${ADDICTIVE_PATTERNS[@]}"; do
-    if grep -r "$pattern" --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" . 2>/dev/null | grep -v node_modules | grep -v ".git" | head -1 > /dev/null; then
+    if grep -rE "$pattern" --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" . 2>/dev/null | grep -v node_modules | grep -v ".git" | head -1 > /dev/null; then
         warn "Potential addictive pattern detected: $pattern - Verify it serves user wellbeing"
         FOUND_ADDICTIVE=$((FOUND_ADDICTIVE + 1))
     fi
@@ -155,11 +155,11 @@ if [ $FOUND_ADDICTIVE -eq 0 ]; then
 fi
 
 # Check for dark patterns
-DARK_PATTERNS=("dark.pattern" "deceptive" "trick.*user" "misleading")
+DARK_PATTERNS=("dark[._]pattern" "deceptive" "trick.*user" "misleading")
 FOUND_DARK=0
 
 for pattern in "${DARK_PATTERNS[@]}"; do
-    if grep -r "$pattern" --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" . 2>/dev/null | grep -v node_modules | grep -v ".git" | head -1 > /dev/null; then
+    if grep -rE "$pattern" --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" . 2>/dev/null | grep -v node_modules | grep -v ".git" | head -1 > /dev/null; then
         fail "Potential dark pattern detected: $pattern"
         FOUND_DARK=$((FOUND_DARK + 1))
     fi

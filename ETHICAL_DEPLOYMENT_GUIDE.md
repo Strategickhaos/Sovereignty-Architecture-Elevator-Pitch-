@@ -278,7 +278,7 @@ Run regular self-audits using this framework:
 **Monthly Check**:
 ```bash
 # Use the provided verification tool
-./soul-integrity-check.sh --deployment "production" --report "monthly"
+./soul-integrity-check.sh production monthly
 
 # Review:
 # - User complaints related to autonomy or manipulation
