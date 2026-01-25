@@ -58,9 +58,15 @@ class Node:
     
     def to_dict(self) -> Dict:
         """Convert to dictionary for JSON serialization"""
-        data = asdict(self)
-        data['tier'] = self.tier.value
-        return data
+        return {
+            'id': self.id,
+            'label': self.label,
+            'tier': self.tier.value,
+            'node_type': self.node_type,
+            'active': bool(self.active),
+            'danger_zone': bool(self.danger_zone),
+            'metadata': self.metadata
+        }
 
 
 @dataclass
@@ -76,9 +82,15 @@ class Edge:
     
     def to_dict(self) -> Dict:
         """Convert to dictionary for JSON serialization"""
-        data = asdict(self)
-        data['edge_type'] = self.edge_type.value
-        return data
+        return {
+            'source': self.source,
+            'target': self.target,
+            'edge_type': self.edge_type.value,
+            'weight': float(self.weight),
+            'active': bool(self.active),
+            'danger_indicator': bool(self.danger_indicator),
+            'metadata': self.metadata
+        }
 
 
 class NeurographBuilder:
