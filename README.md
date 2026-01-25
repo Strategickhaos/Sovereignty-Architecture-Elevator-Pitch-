@@ -30,6 +30,18 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🔥 FlameLang Benchmark → Guardian Pipeline
+- **FlameBench** - Python test harness for FlameLang compiler validation
+- **SAGCO Guardian** - Bayesian uncertainty quantification and risk classification
+- **DOM0 Daemon** - Integration orchestrator for compiler reliability monitoring
+
+Run the complete pipeline:
+```bash
+./run_pipeline.sh
+```
+
+See [FLAMEBENCH_GUARDIAN_PIPELINE.md](FLAMEBENCH_GUARDIAN_PIPELINE.md) for detailed documentation.
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
