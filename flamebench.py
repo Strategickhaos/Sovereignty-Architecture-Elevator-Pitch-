@@ -146,7 +146,16 @@ def run_test(gist_path: Path, manifest: Dict[str, Any]) -> Dict[str, Any]:
     print(f"    Expected: {expected}")
     
     # TODO: Replace stub with actual FlameLang compiler execution
-    # When compiler is available, calculate actual p_success from test results
+    # Expected interface when compiler is integrated:
+    #   def run_flamelang(source_file: Path, inputs: List) -> List:
+    #       """Compile and execute FlameLang source with given inputs."""
+    #       # 1. Compile .flm file to executable
+    #       # 2. Run with each input from manifest
+    #       # 3. Capture outputs
+    #       # 4. Return list of actual outputs
+    #       return actual_outputs
+    #
+    # Then calculate: p_success = (correct_count / total_count)
     # For stub demonstration, we use 1.0 to show the data flow works
     total_count = len(inputs)
     p_success = 1.0  # STUB: Will be calculated from actual test results when compiler integrated
