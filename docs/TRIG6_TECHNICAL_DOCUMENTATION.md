@@ -207,6 +207,12 @@ SAGCO-OS (Sovereign AI-Governed Compute Organism) is a bootable operating system
 ### TRIG6 API
 
 ```c
+#include <math.h>
+#include <stdbool.h>
+
+// Danger threshold constant
+#define DANGER_THRESHOLD 10.0f
+
 // Core state structure
 typedef struct {
     float theta;      // Phase (0 to 2π)
