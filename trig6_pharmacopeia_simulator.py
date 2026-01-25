@@ -24,7 +24,7 @@ from dataclasses import dataclass, asdict
 from typing import Dict, List, Tuple, Optional, Any
 from pathlib import Path
 import hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 import multiprocessing as mp
 from functools import partial
 
@@ -634,7 +634,7 @@ def generate_proof_report(results: List[Dict], output_path: str = None) -> str:
     
     This is the deliverable that demonstrates TRIG6 validity.
     """
-    timestamp = datetime.utcnow().isoformat()
+    timestamp = datetime.now(timezone.utc).isoformat()
     
     # Compute aggregate statistics
     all_fitness = [r['fitness_mean'] for r in results]
