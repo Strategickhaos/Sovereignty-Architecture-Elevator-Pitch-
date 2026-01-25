@@ -134,7 +134,7 @@ inheritance_extensions:
 trig6_components:
   theta:
     description: "Phase angle - progress/phase in dynamical systems"
-    range: [0, 2π]
+    range: [0, "2*pi"]
     math_mapping: "Bifurcation triggers, stability angles"
     
   R:
