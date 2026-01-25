@@ -251,7 +251,7 @@ class FlameBench:
                 print(f"⚠️  GitHub API error: {e}")
                 print("    Falling back to embedded capsules")
         else:
-            print("⚠️  GitHub API error: 401 Client Error: Unauthorized for url: https://api.github.com/users/strategickhaos/gists")
+            print(f"⚠️  GitHub token not provided")
             print("    Falling back to embedded capsules")
         
         # Add embedded capsules

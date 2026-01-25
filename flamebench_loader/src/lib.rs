@@ -136,9 +136,13 @@ impl FlameBenchLoader {
         let mut uncertainties = Vec::new();
 
         // Calculate average KL divergence from concept entropies
-        let avg_entropy: f64 = results.concepts.iter()
-            .map(|c| c.entropy)
-            .sum::<f64>() / results.concepts.len() as f64;
+        let avg_entropy: f64 = if results.concepts.is_empty() {
+            0.0
+        } else {
+            results.concepts.iter()
+                .map(|c| c.entropy)
+                .sum::<f64>() / results.concepts.len() as f64
+        };
 
         for entry in guardian.uncertainties {
             // KL divergence estimation: how far concept entropy is from average
