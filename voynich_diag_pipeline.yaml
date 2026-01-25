@@ -1,0 +1,237 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║              🔮 VOYNICH DIAGNOSTIC PIPELINE - TRIG6 SUBSTRATE            ║
+# ║                    Cognitive Architecture Instantiation                   ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+#
+# Voynich Manuscript as diagnostic substrate using TRIG6 cognitive architecture
+# Same pattern as Starlink and Codex pipelines - reusable cognitive framework
+#
+# Operator: Dominic Garza (Me10101)
+# Entity: Strategickhaos DAO LLC
+
+meta:
+  pipeline_id: "voynich_diag_v1.0"
+  cognitive_framework: "TRIG6"
+  version: "1.0.0"
+  created: "2026-01-25"
+  operator: "Dominic Garza (Me10101)"
+  entity: "Strategickhaos DAO LLC"
+  description: "Voynich Manuscript glyph analysis using TRIG6 evolution"
+  
+  # TRIG6 danger thresholds
+  tan_danger_limit: 10.0
+  fitness_warn_threshold: 0.50
+  fitness_target_threshold: 0.80
+
+inputs:
+  # Source configuration
+  source_pdf: "data/voynich_manuscript.pdf"
+  work_dir: "data/voynich_work"
+  random_seed: 42
+  
+  # Target alphabet size (Voynich ~ 20-30 unique glyphs, targeting 48 for diagnostic)
+  anomaly_target_count: 48
+  
+  # Conceptual mapping:
+  # "Anomalies" = weird glyph variants / layout irregularities
+  # TRIG6 components:
+  #   θ (theta) from decipher_progress
+  #   R (resonance) from pattern_consistency + coverage
+  #   D (drift) from variance_rate + outlier_frac
+  #   N (noise) from embed_variance + entropy_norm
+  #   eq (equilibrium) around 48-symbol target alphabet
+
+stages:
+  - id: "ingest"
+    name: "Glyph Ingestion"
+    description: "Extract raw glyphs from Voynich manuscript PDF"
+    params:
+      pages: "all"
+      dpi: 300
+    outputs:
+      - "glyphs.json"
+
+  - id: "anomaly_detect"
+    name: "Anomaly Detection"
+    description: "Use IsolationForest to identify irregular glyph patterns"
+    params:
+      contamination: 0.15
+      n_estimators: 100
+    outputs:
+      - "anomalies.json"
+
+  - id: "glyph_extract"
+    name: "Glyph Feature Extraction"
+    description: "Extract shape_entropy, stroke_count, context_position features"
+    params:
+      feature_set: ["shape_entropy", "stroke_count", "context_position", "aspect_ratio"]
+    outputs:
+      - "glyph_features.npy"
+
+  - id: "glyph_embed"
+    name: "Glyph Embedding"
+    description: "Autoencoder projection to lower-dimensional space"
+    params:
+      dim: 32
+      epochs: 50
+      batch_size: 32
+    outputs:
+      - "glyphs/embeddings.npy"
+
+  - id: "glyph_cluster"
+    name: "Glyph Clustering"
+    description: "KMeans clustering to group similar glyphs"
+    params:
+      n_clusters: 48
+      max_iter: 300
+    outputs:
+      - "glyphs/cluster_labels.npy"
+      - "glyphs/cluster_stats.json"
+
+  - id: "symbol_assign"
+    name: "Symbol Assignment"
+    description: "Map clusters to VSYM_XXX symbols"
+    params:
+      prefix: "VSYM"
+      padding: 3
+    outputs:
+      - "symbols/symbol_table.json"
+
+  - id: "codon_mapping_init"
+    name: "Initial Codon Mapping"
+    description: "Bootstrap 1-to-1 symbol→codon mapping"
+    params:
+      codon_table: "standard"
+      default_op: "NOOP"
+    outputs:
+      - "binding/symbol_to_codon_v0.json"
+
+  - id: "trig6_eval"
+    name: "TRIG6 Evaluation"
+    description: "Compute TRIG6 fitness metrics for current mapping"
+    params:
+      # TRIG6 component weights
+      resonance:
+        pattern_consistency_weight: 0.55
+        coverage_weight: 0.35
+        stability_weight: 0.10
+      drift:
+        variance_rate_weight: 0.65
+        outlier_frac_weight: 0.35
+      noise:
+        embed_variance_weight: 0.55
+        entropy_norm_weight: 0.45
+      
+      # Danger detection
+      danger:
+        tan_limit: 10.0
+        # Danger = over-confident mappings in high-drift regime
+        # Keep Voynich in sandboxed, non-decipherment mode
+        drift_danger_threshold: 0.80
+    outputs:
+      - "binding/trig6_report.json"
+
+  - id: "evolution_loop"
+    name: "TRIG6 Evolution Loop"
+    description: "Evolve parameters to maximize TRIG6 fitness"
+    evolution:
+      pop_size: 20
+      generations: 50
+      top_k: 5
+      mutation_rate: 0.30
+      crossover_rate: 0.10
+      
+      # Parameters to evolve (must match mutation logic)
+      targets:
+        - "n_clusters"
+        - "strategy"
+        - "glyph_variance_threshold"
+      
+      # Fitness targets
+      early_stop_fitness: 0.85
+      convergence_patience: 10
+    outputs:
+      - "binding/symbol_to_codon_champion.json"
+      - "binding/evolution_log.json"
+
+  - id: "codon_stream_emit"
+    name: "Codon Stream Emission"
+    description: "Generate .codon stream files from champion mapping"
+    params:
+      stream_format: "codon_v1"
+      compression: false
+    outputs:
+      - "binding/codon_streams/voynich_diag.codon"
+
+  - id: "compiler_integration"
+    name: "FlameLang Compiler Integration"
+    description: "Sandbox compile through FlameLang/SAGCO-OS"
+    params:
+      sandbox_mode: true
+      max_execution_time: 30
+      allow_network: false
+    outputs:
+      - "binding/compiled/voynich_diag.flame"
+      - "binding/compiled/execution_report.json"
+
+# TRIG6 cognitive mapping documentation
+cognitive_mapping:
+  theta:
+    description: "Decipher progress as angular position"
+    range: "[0, 2π]"
+    source: "decipher_progress metric"
+  
+  resonance:
+    description: "Pattern alignment and coverage quality"
+    range: "[0, 1]"
+    components:
+      - "pattern_consistency: intra-cluster similarity"
+      - "coverage: fraction of glyphs successfully mapped"
+      - "stability: mapping consistency across runs"
+  
+  drift:
+    description: "Variance and instability in mappings"
+    range: "[0, 1]"
+    components:
+      - "variance_rate: cluster size variance"
+      - "outlier_frac: fraction of anomalous clusters"
+  
+  noise:
+    description: "Embedding quality and entropy"
+    range: "[0, 1]"
+    components:
+      - "embed_variance: variance in embedding space"
+      - "entropy_norm: normalized symbol entropy"
+  
+  equilibrium:
+    description: "Distance from target alphabet size"
+    range: "[0, 1]"
+    formula: "1.0 - |count - target| / target"
+  
+  danger:
+    description: "Over-confidence in high-drift regime"
+    condition: "|tan(θ)| > tan_limit OR drift > threshold"
+    action: "Keep in sandboxed mode, prevent decipherment"
+  
+  fitness:
+    description: "Overall mapping quality"
+    formula: "R × (1 - D) × (1 - N) × eq"
+    range: "[0, 1]"
+    target: 0.80
+
+# Mutation strategies for evolution
+mutation_strategies:
+  n_clusters:
+    type: "integer"
+    range: [8, 100]
+    mutation: "±4 with bounds clipping"
+  
+  strategy:
+    type: "categorical"
+    choices: ["entropy_weighted", "frequency_weighted", "uniform"]
+    mutation: "random choice excluding current"
+  
+  glyph_variance_threshold:
+    type: "float"
+    range: [0.01, 0.5]
+    mutation: "±0.02 uniform with bounds clipping"
