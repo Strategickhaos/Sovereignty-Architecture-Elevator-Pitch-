@@ -1,0 +1,9 @@
+name: NOVA
+role: left_hemi
+ip: 192.168.1.51
+os: "Linux"
+cpu: "Intel i5"
+ram_gb: 16
+gpu: "None"
+tags: ["mesh", "secondary"]
+description: "Left hemisphere processing node for analytical tasks"

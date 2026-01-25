@@ -1,0 +1,50 @@
+{
+  "source": "flamebench",
+  "dna_strand": "FLM2-CMD4-MESH5-ORB1",
+  "uncertainties": [
+    {
+      "tag": "if-else",
+      "p_correct": 0.96,
+      "entropy": 0.25,
+      "alpha": 48.0,
+      "beta": 2.0,
+      "sample_size": 50
+    },
+    {
+      "tag": "loop",
+      "p_correct": 0.94,
+      "entropy": 0.28,
+      "alpha": 47.0,
+      "beta": 3.0,
+      "sample_size": 50
+    },
+    {
+      "tag": "function-call",
+      "p_correct": 0.97,
+      "entropy": 0.22,
+      "alpha": 48.5,
+      "beta": 1.5,
+      "sample_size": 50
+    },
+    {
+      "tag": "variable-assignment",
+      "p_correct": 0.98,
+      "entropy": 0.18,
+      "alpha": 49.0,
+      "beta": 1.0,
+      "sample_size": 50
+    },
+    {
+      "tag": "error-handling",
+      "p_correct": 0.92,
+      "entropy": 0.32,
+      "alpha": 46.0,
+      "beta": 4.0,
+      "sample_size": 50
+    }
+  ],
+  "overall": {
+    "p_success": 0.95,
+    "entropy": 0.30
+  }
+}

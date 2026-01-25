@@ -1,0 +1,9 @@
+name: SAGCO-VM
+role: hypervisor
+ip: 192.168.1.100
+os: "Alpine Linux (SAGCO-OS)"
+cpu: "Virtual"
+ram_gb: 8
+gpu: "None"
+tags: ["mesh", "vm", "hypervisor"]
+description: "SAGCO OS hypervisor virtual machine"

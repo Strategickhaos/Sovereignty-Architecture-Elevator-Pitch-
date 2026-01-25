@@ -1,0 +1,9 @@
+name: LYRA
+role: right_hemi
+ip: 192.168.1.50
+os: "Linux"
+cpu: "AMD Ryzen 7"
+ram_gb: 32
+gpu: "None"
+tags: ["mesh", "secondary"]
+description: "Right hemisphere processing node for parallel tasks"

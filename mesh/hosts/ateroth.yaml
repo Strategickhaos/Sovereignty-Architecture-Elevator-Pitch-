@@ -1,0 +1,9 @@
+name: ATEROTH
+role: cortex
+ip: 192.168.1.52
+os: "Ubuntu 22.04"
+cpu: "Intel Xeon"
+ram_gb: 128
+gpu: "Tesla T4"
+tags: ["mesh", "compute", "gpu"]
+description: "Cortex computation node with GPU for heavy processing"
