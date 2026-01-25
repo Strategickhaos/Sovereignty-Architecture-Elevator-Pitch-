@@ -84,7 +84,7 @@ Every process has critical thresholds where **tan(θ) → ∞**:
 | Ancient Crafts | 10 | 8000 BCE - 1700 CE |
 | Alchemical Recipes | 36 | Historical chemistry |
 | **Process Domains** | **4** | **Core examples** |
-| **TOTAL** | **158+** | **3000+ years** |
+| **TOTAL** | **158+** | **10,000+ years** |
 
 ---
 
