@@ -277,9 +277,54 @@ C:\Users\garza\
 
 ---
 
-## 9. FUTURE EXTENSIONS
+## 9. DOMAIN-SPECIFIC MODULES (INV-088: SAGCO OMNI-CALC PIPELINE)
 
-### 9.1 Glyph Table CSV (Proposed)
+### 9.1 Module System Architecture
+
+FlameLang now supports domain-specific calculation modules that transform real-world professional calculations into the sovereign symbolic pipeline:
+
+```
+Domain Input → FlameLang DSL → Hebrew/Gematria → Unicode → Wave → DNA → LLVM → Binary
+```
+
+**Available Modules:**
+- **pipecalc** (v1.0) - Pipefitting calculations (offsets, bends, travel)
+- **chemcalc** (planned) - Chemistry equations and stoichiometry
+- **netcalc** (planned) - Network routing and subnet calculations
+- **cubecalc** (planned) - Rubik's cube algorithms
+- **trigcalc** (planned) - Trigonometric calculations
+- **meshcalc** (planned) - Infrastructure node discovery
+
+**Location:** `flamelang/` directory with modules, examples, tests, and documentation.
+
+**Documentation:** See `flamelang/docs/MODULE_SYSTEM.md` for complete module system documentation.
+
+### 9.2 Example: pipecalc Module
+
+```flame
+use pipecalc;
+
+fn main() {
+    // Special offset: 45° rise × 30° turn
+    let offset = pipecalc::special_offset(45.0, 30.0);
+    print(f"Bottom elbow: {offset.bottom_elbow:.2f}°");  // 52.24°
+    
+    // Rolling offset: 12" SET at 45°
+    let roll = pipecalc::rolling_offset(12.0, 45.0);
+    print(f"Travel: {roll.travel:.3f}\"");  // 16.971"
+    
+    // Bend length: 6" radius, 90° bend
+    let length = pipecalc::bend_length(6.0, 90.0);
+    print(f"Length: {length:.4f}\"");  // 9.4248"
+}
+```
+
+**Python Reference Implementation:**
+```bash
+python3 flamelang/modules/pipecalc.py
+```
+
+### 9.3 Glyph Table CSV (Proposed)
 
 ```csv
 Symbol,Glyph_Name,Frequency,Function,Binding_Code
@@ -289,7 +334,7 @@ Symbol,Glyph_Name,Frequency,Function,Binding_Code
 🧠,Brain,741Hz,Right Hemisphere,003
 ```
 
-### 9.2 Parser Implementation
+### 9.4 Parser Implementation
 
 ```python
 #!/usr/bin/env python3
@@ -333,6 +378,9 @@ class FlameLangParser:
 | glyph_map.json | Uploaded | ⚠️ Truncated |
 | ignite_symbolic_shell.ps1 | Uploaded | ✅ Complete |
 | oath.lock | Uploaded | ✅ Complete |
+| pipecalc.flame | flamelang/modules/ | ✅ Complete (v1.0) |
+| pipecalc.py | flamelang/modules/ | ✅ Complete (Reference) |
+| pipefitting_demo.flame | flamelang/examples/ | ✅ Complete |
 | AuroraNode.ps1 | Not uploaded | ❌ Missing |
 | catpush_dom_glyphos_resonance_999.ps1 | Not uploaded | ❌ Missing |
 

@@ -1,0 +1,226 @@
+// 🔥 FLAMELANG PIPECALC MODULE v1.0
+// INV-088: SAGCO OMNI-CALC PIPELINE - Pipefitting Domain Extension
+// Strategickhaos DAO LLC | Domain: Pipefitting Calculations
+// Reconstructed: 2025-01-25 | Operator: DOM_010101
+
+// ═══════════════════════════════════════════════════════════════════
+// SOVEREIGN MODULE: PIPECALC
+// Purpose: Transform pipefitting domain calculations into FlameLang
+// ═══════════════════════════════════════════════════════════════════
+
+sovereign module pipecalc {
+    
+    // ───────────────────────────────────────────────────────────────
+    // CONSTANTS
+    // ───────────────────────────────────────────────────────────────
+    
+    const PI: f64 = 3.14159265358979323846;
+    
+    // Standard angles for pipe bending
+    const ANGLE_45: f64 = 45.0;
+    const ANGLE_30: f64 = 30.0;
+    const ANGLE_60: f64 = 60.0;
+    const ANGLE_90: f64 = 90.0;
+    const ANGLE_180: f64 = 180.0;
+    const ANGLE_270: f64 = 270.0;
+    const ANGLE_360: f64 = 360.0;
+    
+    // Cosecant lookup table for common angles (for rolling offsets)
+    const COSECANT_45: f64 = 1.414;   // 1/sin(45°)
+    const COSECANT_30: f64 = 2.000;   // 1/sin(30°)
+    const COSECANT_60: f64 = 1.155;   // 1/sin(60°)
+    
+    // ───────────────────────────────────────────────────────────────
+    // TYPES & STRUCTURES
+    // ───────────────────────────────────────────────────────────────
+    
+    struct Offset {
+        bottom_elbow: f64,  // Bottom elbow angle in degrees
+        top_elbow: f64,     // Top elbow angle in degrees
+        travel: f64,        // Travel distance
+    }
+    
+    struct RollOffset {
+        travel: f64,        // Travel distance along pipe
+        run: f64,           // Horizontal run distance
+    }
+    
+    struct BendData {
+        radius: f64,        // Bend radius in inches
+        degrees: f64,       // Bend angle in degrees
+        length: f64,        // Length of bend in inches
+    }
+    
+    // ───────────────────────────────────────────────────────────────
+    // CORE CALCULATIONS
+    // ───────────────────────────────────────────────────────────────
+    
+    /// Special Offset Calculation
+    /// Formula: cos(degree of rise) × cos(degree of turn) = cos(degree of elbow)
+    /// 
+    /// Example from Page 77:
+    ///   45° rise, 30° turn → 0.707 × 0.866 = 0.6123 → arccos = 52°14'
+    fn special_offset(rise_deg: f64, turn_deg: f64) -> Offset {
+        // Convert degrees to radians
+        let rise_rad = to_radians(rise_deg);
+        let turn_rad = to_radians(turn_deg);
+        
+        // Calculate cosines
+        let cos_rise = cos(rise_rad);
+        let cos_turn = cos(turn_rad);
+        
+        // Apply special offset formula
+        let cos_elbow = cos_rise * cos_turn;
+        
+        // Convert back to degrees
+        let bottom_elbow = to_degrees(acos(cos_elbow));
+        
+        // Top elbow calculation: 90° - bottom_elbow + rise
+        let top_elbow = 90.0 - bottom_elbow + rise_deg;
+        
+        // Calculate travel (simplified)
+        let travel = compute_travel(rise_deg);
+        
+        Offset {
+            bottom_elbow: bottom_elbow,
+            top_elbow: top_elbow,
+            travel: travel,
+        }
+    }
+    
+    /// Rolling Offset Calculation
+    /// Formulas from Pages 11-12:
+    ///   TRAVEL = SET × COSECANT(angle)
+    ///   RUN = SET / TANGENT(angle)
+    /// 
+    /// For 45°: TRAVEL = SET × 1.414
+    /// For 30°: TRAVEL = SET × 2.000
+    fn rolling_offset(set: f64, angle_deg: f64) -> RollOffset {
+        let angle_rad = to_radians(angle_deg);
+        
+        // TRAVEL = SET × COSECANT(angle) = SET / SIN(angle)
+        let travel = set / sin(angle_rad);
+        
+        // RUN = SET / TANGENT(angle) = SET / TAN(angle)
+        let run = set / tan(angle_rad);
+        
+        RollOffset {
+            travel: travel,
+            run: run,
+        }
+    }
+    
+    /// Bend Length Calculation
+    /// Formula: length = radius × (degrees / 180°) × π
+    /// 
+    /// Standard multipliers:
+    ///   90° bends:  Radius × 1.5708  (π/2)
+    ///   180° bends: Radius × 3.1416  (π)
+    ///   270° bends: Radius × 4.7123  (3π/2)
+    ///   360° bends: Radius × 6.2832  (2π)
+    fn bend_length(radius: f64, degrees: f64) -> f64 {
+        radius * (degrees / 180.0) * PI
+    }
+    
+    /// Setback Calculation for 45° Bends
+    /// Setback is the distance from the center of the bend to the tangent point
+    /// For radius > 5": SETBACK = radius × tan(angle/2)
+    fn setback_45(radius: f64) -> f64 {
+        // For 45° bend: tan(45°/2) = tan(22.5°) ≈ 0.4142
+        radius * 0.4142135623730951  // tan(22.5°)
+    }
+    
+    /// Setback Calculation for any angle
+    fn setback(radius: f64, angle_deg: f64) -> f64 {
+        let half_angle_rad = to_radians(angle_deg / 2.0);
+        radius * tan(half_angle_rad)
+    }
+    
+    // ───────────────────────────────────────────────────────────────
+    // HELPER FUNCTIONS
+    // ───────────────────────────────────────────────────────────────
+    
+    fn compute_travel(rise_deg: f64) -> f64 {
+        // Simplified travel calculation based on rise angle
+        // For 45° rise, typical travel multiplier is √2 ≈ 1.414
+        if rise_deg == 45.0 {
+            return 1.414;
+        } else if rise_deg == 30.0 {
+            return 2.000;
+        } else {
+            // General formula: 1/sin(angle)
+            let rise_rad = to_radians(rise_deg);
+            return 1.0 / sin(rise_rad);
+        }
+    }
+    
+    // Mathematical utility functions (to be implemented in FlameLang runtime)
+    fn to_radians(degrees: f64) -> f64 {
+        degrees * PI / 180.0
+    }
+    
+    fn to_degrees(radians: f64) -> f64 {
+        radians * 180.0 / PI
+    }
+    
+    fn sin(radians: f64) -> f64 {
+        // Native implementation
+        __builtin_sin(radians)
+    }
+    
+    fn cos(radians: f64) -> f64 {
+        // Native implementation
+        __builtin_cos(radians)
+    }
+    
+    fn tan(radians: f64) -> f64 {
+        // Native implementation
+        __builtin_tan(radians)
+    }
+    
+    fn acos(value: f64) -> f64 {
+        // Native implementation
+        __builtin_acos(value)
+    }
+    
+    // ───────────────────────────────────────────────────────────────
+    // COMBUSTION CHEMISTRY (Bonus Module)
+    // ───────────────────────────────────────────────────────────────
+    
+    /// Methane combustion equation
+    /// CH₄ + 2O₂ → CO₂ + 2H₂O + Energy
+    struct Combustion {
+        fuel: String,           // CH₄
+        oxygen_moles: f64,      // 2.0 for methane
+        co2_moles: f64,         // 1.0
+        water_moles: f64,       // 2.0
+        energy_kj: f64,         // ~890 kJ/mol for methane
+    }
+    
+    fn methane_combustion() -> Combustion {
+        Combustion {
+            fuel: "CH₄",
+            oxygen_moles: 2.0,
+            co2_moles: 1.0,
+            water_moles: 2.0,
+            energy_kj: 890.0,
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// EXPORTS
+// ═══════════════════════════════════════════════════════════════════
+
+export {
+    special_offset,
+    rolling_offset,
+    bend_length,
+    setback,
+    setback_45,
+    methane_combustion,
+    Offset,
+    RollOffset,
+    BendData,
+    Combustion,
+}
