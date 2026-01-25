@@ -272,6 +272,39 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 📚 TRIG6 Book Binding System
+
+**Ancient craft meets modern analysis** - A complete guide to DIY book binding inspired by ancient Egyptian techniques, enhanced with TRIG6 mathematical simulations.
+
+### Features
+- **36 Blueprints**: Complete guide to paper making, binding, and materials
+- **TRIG6 Simulations**: Mathematical modeling of material chemistry
+- **FlameLang Integration**: Symbolic glyph commands for optimization
+
+### Quick Start
+```bash
+# Run TRIG6 simulations
+python3 trig6_simulator.py
+
+# FlameLang optimization
+python3 flamelang_trig6_integration.py "{book_glue⟐optimize}"
+
+# Run test suite
+python3 test_trig6.py
+```
+
+### Documentation
+- **[DIY Book Binding Guide](DIY_BOOK_BINDING_EGYPTIAN_STYLE.md)** - 36 blueprints for ancient Egyptian-style binding
+- **[TRIG6 README](TRIG6_README.md)** - Complete TRIG6 system documentation
+- **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Symbolic shell language
+
+### Materials Coverage
+- **Paper Making** (12 methods): Reed papyrus, bamboo, hemp, mulberry, recycled
+- **Book Binding** (12 methods): Coptic stitch, Nag Hammadi replica, exposed spine
+- **Materials** (12 recipes): Wheat glue, linen thread, vegetable tan leather
+
+🔥 **Reignite the ancient craft with modern analysis**
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
