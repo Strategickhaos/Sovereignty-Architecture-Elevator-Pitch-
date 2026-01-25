@@ -1,0 +1,15 @@
+[package]
+name = "sagco_kernel"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "sagco-dna"
+path = "src/bin/sagco_dna.rs"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+anyhow = { workspace = true }
+sagco_guardian = { path = "../guardian" }

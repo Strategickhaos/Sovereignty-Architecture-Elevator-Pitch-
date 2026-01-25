@@ -1,0 +1,11 @@
+name: NOVA
+role: process
+ip: 192.168.1.75
+os: "Ubuntu Server"
+cpu: "Ryzen 5"
+ram_gb: 16
+gpu: "None"
+tags:
+  - mesh
+  - worker
+  - process

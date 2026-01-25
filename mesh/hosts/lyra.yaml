@@ -1,0 +1,11 @@
+name: LYRA
+role: right_hemi
+ip: 192.168.1.50
+os: "Alpine Linux"
+cpu: "VM vCPU"
+ram_gb: 8
+gpu: "None"
+tags:
+  - mesh
+  - vm
+  - right_hemisphere
