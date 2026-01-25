@@ -3,8 +3,9 @@
 # TRIG6 Vector: θ=π/2, R=0.4, D=0.6, N=0.3, Danger=YES
 
 DEFINE CONSTANTS {
-  PI = 3.14159265359
+  PI = 3.141592653589793
   DANGER_THRESHOLD = 10.0
+  DANGER_PHASE_THRESHOLD = 1.55  # Slightly less than π/2 to avoid undefined tan
   MISSION_EQ_TARGET = 0.99
   GENERATIONS = 50
 }
@@ -14,7 +15,7 @@ VECTOR bypass_failure {
   R: 0.4
   D: 0.6
   N: 0.3
-  danger: EVAL(tan(theta) > DANGER_THRESHOLD)
+  danger: EVAL(theta > DANGER_PHASE_THRESHOLD OR (theta < PI/2 AND tan(theta) > DANGER_THRESHOLD))
   
   DESCRIPTION {
     failure: "7% of resources bypass mission intent"
@@ -217,7 +218,7 @@ SIMULATE {
   LOG("  Drift (D):      {initial.D}")
   LOG("  Noise (N):      {initial.N}")
   LOG("  Danger:         {initial.danger}")
-  LOG("  tan(θ):         {tan(initial.theta)}")
+  LOG("  tan(θ):         {IF initial.theta >= DANGER_PHASE_THRESHOLD THEN 'approaching ∞' ELSE tan(initial.theta)}")
   LOG("")
   LOG("  Bypass Rate:    {initial.METRICS.bypass_rate * 100}%")
   LOG("  Time to Fail:   {initial.METRICS.time_to_failure} years")
@@ -242,7 +243,7 @@ SIMULATE {
   LOG("  Drift (D):      {final.D}")
   LOG("  Noise (N):      {final.N}")
   LOG("  Danger:         {EVAL(tan(final.theta) > DANGER_THRESHOLD)}")
-  LOG("  tan(θ):         {tan(final.theta)}")
+  LOG("  tan(θ):         {IF final.theta >= DANGER_PHASE_THRESHOLD THEN 'approaching ∞' ELSE tan(final.theta)}")
   LOG("")
   
   improvement = {
@@ -259,7 +260,7 @@ SIMULATE {
   LOG("  N reduced:      {improvement.N}%")
   LOG("")
   
-  mission_saved = initial.danger == TRUE AND EVAL(tan(final.theta) > DANGER_THRESHOLD) == FALSE
+  mission_saved = initial.danger == TRUE AND (final.theta < DANGER_PHASE_THRESHOLD AND EVAL(tan(final.theta) <= DANGER_THRESHOLD))
   
   IF mission_saved THEN {
     LOG("✓ MISSION SAVED: Danger eliminated")
