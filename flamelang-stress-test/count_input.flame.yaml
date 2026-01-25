@@ -102,14 +102,14 @@ test_vectors:
   - id: "mixed_punctuation"
     desc: "Various punctuation including non-excluded"
     input: "What? Yes! No… Maybe?"
-    expected_output: 16
+    expected_output: 17
     breakdown:
-      total_chars: 23
+      total_chars: 21
       spaces: 3
-      periods: 3
+      periods: 0
       exclamations: 1
       commas: 0
-      # Note: ? is NOT excluded, counts as char
+      # Note: ? and … (ellipsis U+2026) are NOT excluded, count as chars
 
   - id: "numbers_special"
     desc: "Numbers and special chars (not excluded)"
@@ -139,11 +139,23 @@ test_vectors:
     desc: "Non-ASCII characters (should count)"
     input: "Héllo, wörld!"
     expected_output: 10
+    breakdown:
+      total_chars: 13
+      spaces: 1
+      periods: 0
+      exclamations: 1
+      commas: 1
 
   - id: "long_string"
     desc: "Performance stress - longer input"
     input: "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs!"
-    expected_output: 72
+    expected_output: 67
+    breakdown:
+      total_chars: 85
+      spaces: 16
+      periods: 1
+      exclamations: 1
+      commas: 0
 
 # ═══════════════════════════════════════════════════════════
 # DNA ENCODING (Sovereign Biological Mapping)
