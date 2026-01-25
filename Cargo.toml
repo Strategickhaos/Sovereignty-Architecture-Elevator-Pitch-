@@ -1,0 +1,22 @@
+[workspace]
+members = [
+    "sagco-dom0d",
+    "sagco-guardian",
+    "sagco-netcalc",
+    "sagco-pipecalc-vi",
+    "flamelang-engine",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Dom Garza <dom@strategickhaos.ai>"]
+license = "Proprietary"
+
+[workspace.dependencies]
+tokio = { version = "1.35", features = ["full"] }
+anyhow = "1.0"
+async-trait = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

@@ -1,0 +1,13 @@
+[package]
+name = "sagco-dom0d"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+sagco-guardian = { path = "../sagco-guardian" }
+sagco-netcalc = { path = "../sagco-netcalc" }
+flamelang-engine = { path = "../flamelang-engine" }
