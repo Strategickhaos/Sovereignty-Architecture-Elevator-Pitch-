@@ -1,0 +1,56 @@
+# SAGCO-HYDRA Mesh Node: NOVA
+# Role: Left Hemisphere Processing
+
+node:
+  name: "nova"
+  role: "left_hemisphere"
+  status: "active"
+  description: "Logical and analytical processing node"
+
+hardware:
+  device: "Intel-based Laptop"
+  cpu:
+    model: "Unknown (Mobile)"
+    cores: 4
+    threads: 8
+  
+  memory:
+    total: "16GB"
+    type: "DDR4"
+  
+  storage:
+    - type: "SSD"
+      capacity: "512GB"
+
+network:
+  ip: "192.168.1.25"
+  subnet: "255.255.255.0"
+  gateway: "192.168.1.1"
+  interfaces:
+    - name: "wlan0"
+      type: "WiFi 6"
+      chip: "Intel AX203"
+      band: "5GHz"
+      speed: "1200Mbps"
+
+services:
+  - name: "sagco-logic"
+    port: 8082
+    protocol: "http"
+  
+  - name: "mesh-sync"
+    port: 7777
+    protocol: "udp"
+
+capabilities:
+  - "Logical reasoning"
+  - "Mathematical computation"
+  - "Code analysis"
+  - "Formal verification"
+  - "Mobile mesh node"
+
+mesh:
+  discovery_protocol: "SwarmGate"
+  sync_interval: 10
+  priority: 2
+  backup_nodes: ["lyra", "athena"]

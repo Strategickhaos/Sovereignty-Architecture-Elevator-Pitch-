@@ -1,0 +1,86 @@
+# SAGCO-HYDRA Mesh Node: SAGCO-VM
+# Role: Soul and Development Environment
+
+node:
+  name: "sagco-vm"
+  role: "soul"
+  status: "active"
+  description: "Primary SAGCO-OS development and testing VM"
+
+hardware:
+  hypervisor: "VirtualBox"
+  host_os: "Unknown"
+  
+  vcpu:
+    count: 2
+    type: "Intel"
+  
+  memory:
+    total: "2GB"
+    type: "Virtual"
+  
+  storage:
+    - type: "Virtual Disk (VDI)"
+      capacity: "10GB"
+      mount: "/"
+
+operating_system:
+  name: "SAGCO-OS"
+  base: "Alpine Linux"
+  kernel: "6.12.1"
+  init: "BusyBox"
+  version: "1.0.5"
+
+network:
+  type: "NAT"
+  ip: "10.0.2.15"
+  subnet: "255.255.255.0"
+  gateway: "10.0.2.2"
+  dns: "10.0.2.3"
+  
+  interfaces:
+    - name: "eth0"
+      type: "Intel PRO/1000 MT (virtio)"
+      mac: "auto-generated"
+
+services:
+  - name: "sagco-kernel"
+    port: 8000
+    protocol: "http"
+  
+  - name: "sagco-shell"
+    port: 22
+    protocol: "ssh"
+  
+  - name: "mesh-sync"
+    port: 7777
+    protocol: "udp"
+
+capabilities:
+  - "SAGCO kernel execution"
+  - "FlameLang compilation"
+  - "Development environment"
+  - "Testing and CI/CD"
+  - "Documentation generation"
+
+mesh:
+  discovery_protocol: "SwarmGate"
+  sync_interval: 15
+  priority: 3
+  backup_nodes: ["athena", "nova"]
+
+sagco_components:
+  - "Cognitive Loop"
+  - "Bloom Router"
+  - "Dopamine Refinery"
+  - "Artifact Generator"
+  - "CMD27 Arsenal"
+  - "P16 Proofs (8 active)"
+  - "SQLite State"
+
+boot_sequence:
+  - "GRUB2 → Alpine Kernel"
+  - "BusyBox Init"
+  - "SAGCO Shell"
+  - "Mesh Discovery"
+  - "Service Startup"

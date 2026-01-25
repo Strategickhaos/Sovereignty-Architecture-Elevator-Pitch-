@@ -1,0 +1,195 @@
+#!/usr/bin/env python3
+"""
+SAGCO-MESH - Neural Mesh Node Discovery
+SAGCO-HYDRA v1.0.6
+Discovers and displays status of all 5 mesh nodes
+"""
+
+import sys
+import socket
+import subprocess
+from datetime import datetime
+
+# Node topology from DNA specification
+MESH_NODES = {
+    'athena': {
+        'role': 'Subconscious',
+        'ip': '192.168.2.26',
+        'cpu': 'i7-9700F',
+        'ram': '64GB',
+        'gpu': 'RTX',
+    },
+    'lyra': {
+        'role': 'Right Hemisphere',
+        'network': 'Lyra_5G_Ctrl',
+        'device': 'ASUS Laptop',
+        'wifi': 'Realtek 8852 WiFi 6',
+    },
+    'nova': {
+        'role': 'Left Hemisphere',
+        'ip': '192.168.1.25',
+        'device': 'Laptop',
+        'wifi': 'Intel AX203 WiFi 6',
+    },
+    'ateroth': {
+        'role': 'Archive',
+        'ip': '169.254.0.0/16',  # Link-local range
+        'device': 'Sony VAIO',
+        'cpu': 'i5',
+        'ram': '6GB',
+    },
+    'sagco-vm': {
+        'role': 'Soul',
+        'ip': '10.0.2.0/24',  # VirtualBox NAT range
+        'os': 'Alpine LTS',
+        'hypervisor': 'VirtualBox',
+        'ram': '2GB',
+    },
+}
+
+def check_node_reachable(ip):
+    """Check if a node is reachable via ping"""
+    if not ip or '/' in ip:  # Skip network ranges
+        return None
+    
+    try:
+        # Use ping with timeout
+        result = subprocess.run(
+            ['ping', '-c', '1', '-W', '1', ip],
+            capture_output=True,
+            timeout=2
+        )
+        return result.returncode == 0
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return False
+
+def get_local_ip():
+    """Get local machine IP address"""
+    try:
+        # Create a socket to determine local IP
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        return local_ip
+    except Exception:
+        return "Unknown"
+
+def identify_current_node(local_ip):
+    """Identify which node we're running on"""
+    for node, info in MESH_NODES.items():
+        if 'ip' in info and '/' not in info['ip']:
+            if local_ip == info['ip']:
+                return node
+        # Check if in subnet
+        if 'ip' in info and '/' in info['ip']:
+            subnet = info['ip'].split('/')[0].rsplit('.', 1)[0]
+            if local_ip.startswith(subnet):
+                return node
+    return "unknown"
+
+def display_mesh_topology():
+    """Display the neural mesh topology"""
+    print("╔═══════════════════════════════════════════════════════════════════════════╗")
+    print("║                    SAGCO-HYDRA NEURAL MESH (MESH5)                        ║")
+    print("╚═══════════════════════════════════════════════════════════════════════════╝")
+    print()
+    
+    local_ip = get_local_ip()
+    current_node = identify_current_node(local_ip)
+    
+    print(f"🖥️  Current Node: {current_node.upper()}")
+    print(f"🌐 Local IP: {local_ip}")
+    print(f"⏰ Timestamp: {datetime.now().isoformat()}")
+    print()
+    
+    print("┌─────────────────────────────────────────────────────────────────────────┐")
+    print("│                        MESH TOPOLOGY                                    │")
+    print("├─────────────────────────────────────────────────────────────────────────┤")
+    print("│                                                                         │")
+    print("│    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐              │")
+    print("│    │   ATHENA    │     │    LYRA     │     │    NOVA     │              │")
+    print("│    │ Subconscious│     │ Right Hemi  │     │ Left Hemi   │              │")
+    print("│    │ 192.168.2.26│     │ Lyra_5G_Ctrl│     │ 192.168.1.25│              │")
+    print("│    └──────┬──────┘     └──────┬──────┘     └──────┬──────┘              │")
+    print("│           │                   │                   │                     │")
+    print("│           └───────────────────┼───────────────────┘                     │")
+    print("│                               │                                         │")
+    print("│    ┌─────────────┐     ┌──────┴──────┐     ┌─────────────┐              │")
+    print("│    │   ATEROTH   │     │  MESH CORE  │     │  SAGCO-VM   │              │")
+    print("│    │   Archive   │     │ (SwarmGate) │     │    Soul     │              │")
+    print("│    │ 169.254.x.x │     └─────────────┘     │ 10.0.2.x    │              │")
+    print("│    └─────────────┘                         └─────────────┘              │")
+    print("│                                                                         │")
+    print("└─────────────────────────────────────────────────────────────────────────┘")
+    print()
+    
+def display_node_status():
+    """Display status of all mesh nodes"""
+    print("Node Discovery & Status:")
+    print("─" * 80)
+    
+    for node, info in MESH_NODES.items():
+        role = info.get('role', 'Unknown')
+        ip = info.get('ip', 'N/A')
+        
+        # Check reachability
+        status = "❓"
+        status_text = "Unknown"
+        
+        if 'ip' in info and '/' not in info['ip']:
+            reachable = check_node_reachable(info['ip'])
+            if reachable is True:
+                status = "✅"
+                status_text = "Online"
+            elif reachable is False:
+                status = "❌"
+                status_text = "Offline"
+        
+        # Build info string
+        info_parts = []
+        if 'cpu' in info:
+            info_parts.append(f"CPU: {info['cpu']}")
+        if 'ram' in info:
+            info_parts.append(f"RAM: {info['ram']}")
+        if 'device' in info:
+            info_parts.append(f"Device: {info['device']}")
+        
+        info_str = " | ".join(info_parts) if info_parts else "Virtual node"
+        
+        print(f"{status} {node.upper():10} | {role:18} | {ip:20} | {status_text:8}")
+        if info_str:
+            print(f"   └─ {info_str}")
+    
+    print("─" * 80)
+    print()
+
+def display_mesh_features():
+    """Display mesh network features"""
+    print("Mesh Features:")
+    print("─" * 80)
+    print("  🔄 CRDT State Synchronization    - Conflict-free replicated data")
+    print("  🔍 SwarmGate Discovery Protocol   - Automatic peer discovery")
+    print("  🔐 WireGuard Encryption          - Secure mesh networking")
+    print("  🎯 Distributed Consensus         - Multi-node agreement")
+    print("  ⚡ Load Balancing                - Distributed processing")
+    print("  🛡️  Byzantine Fault Tolerance     - Resilient to failures")
+    print("─" * 80)
+    print()
+
+def main():
+    """Main entry point"""
+    display_mesh_topology()
+    display_node_status()
+    display_mesh_features()
+    
+    print("Mesh Status Legend:")
+    print("  ✅ Online  - Node is reachable and responding")
+    print("  ❌ Offline - Node is not reachable")
+    print("  ❓ Unknown - Cannot determine status (network range or virtual)")
+    print()
+    print("For detailed node configuration, see: mesh/hosts/*.yaml")
+    print()
+
+if __name__ == "__main__":
+    main()
