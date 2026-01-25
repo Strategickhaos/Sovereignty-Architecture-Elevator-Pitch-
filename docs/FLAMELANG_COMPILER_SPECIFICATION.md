@@ -179,12 +179,16 @@ def factorial(n):
     else:
         return n * factorial(n - 1)
 
-# DNA Encoding
+# DNA Encoding (Simplified representation)
 """
-TTG GCT ATG GAA TAG    # function_def int if read return
-GCT TAA ACT CCA TTA    # int else assign multiply function_call
-AAG TAG                # subtract return
+TTG GCT ATG ACT TAG    # function_def int if assign return (base case: return 1)
+GCT TAA CCA TTA TAG    # int else multiply function_call return (recursive case)
+AAG                    # subtract (n-1)
 """
+
+# Note: This is a conceptual mapping showing how program constructs 
+# map to DNA codons. Full encoding would include parameter handling,
+# comparison operations, and detailed control flow.
 ```
 
 ### 2.3 Darwinian Selection Engine

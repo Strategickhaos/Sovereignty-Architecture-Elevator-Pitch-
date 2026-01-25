@@ -431,6 +431,16 @@ class CognitiveInterruptHandler:
         
         return consensus_agents
     
+    def _safe_csc(self, θ, epsilon=1e-6):
+        """
+        Safe cosecant calculation with singularity protection at both θ=0 and θ=π
+        
+        csc(θ) = 1/sin(θ) has singularities at θ = nπ where n is any integer
+        """
+        # Clip to avoid singularities at 0 and π
+        θ_safe = np.clip(θ, epsilon, np.pi - epsilon)
+        return 1 / np.sin(θ_safe)
+    
     def _handle_timeout(self, agent, task):
         """
         Timeout: Agent took too long to respond
