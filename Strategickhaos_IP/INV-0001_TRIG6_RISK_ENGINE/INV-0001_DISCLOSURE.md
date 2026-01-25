@@ -16,7 +16,8 @@ related_entities:
     ein: "39-2923503"
     purpose: "Medical Research Funding"
 repository_url: "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
-file_sha256: "b62aab8a3e0b71c24172ce02bc3c1d8ab08995a5b48220207477466dd6538cf1"
+file_sha256: "Computed after git commit - see git log"
+git_commit_hash: "TBD - computed on commit"
 license: "CC0-1.0 (Public Domain Dedication)"
 moral_rights_notice: |
   This invention is dedicated to Sister and all those affected by neurological conditions.
@@ -461,7 +462,8 @@ This defensive publication serves as evidence of conception and reduction to pra
 
 - **Public Repository**: https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
 - **File Location**: Strategickhaos_IP/INV-0001_TRIG6_RISK_ENGINE/INV-0001_DISCLOSURE.md
-- **SHA-256 Hash**: b62aab8a3e0b71c24172ce02bc3c1d8ab08995a5b48220207477466dd6538cf1
+- **File SHA-256**: Computed via git after publication
+- **Git Commit Hash**: Established upon commit to public repository
 - **Publication Date**: 2025-01-25
 - **License**: CC0-1.0 (Public Domain Dedication)
 
@@ -504,7 +506,8 @@ This document constitutes a defensive publication intended to establish prior ar
 **END OF DISCLOSURE**
 
 Repository: https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-  
-File Hash: b62aab8a3e0b71c24172ce02bc3c1d8ab08995a5b48220207477466dd6538cf1  
+File Hash: Computed via git commit (see git log)
+Git Commit: TBD upon publication  
 Publication Date: 2025-01-25  
 Invention ID: INV-0001  
 Status: Published Prior Art - Public Domain (CC0-1.0)
