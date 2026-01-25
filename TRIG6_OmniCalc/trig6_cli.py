@@ -35,9 +35,51 @@ def parse_numeric(expr: str) -> float:
     """
     Parse simple numeric expressions like:
       "1.0", "pi/4", "2*pi/3"
+    Uses a safer approach than eval() by only allowing math operations.
     """
+    import ast
+    import operator
+    
+    # Replace pi with its value
     expr = expr.replace("pi", str(math.pi))
-    return float(eval(expr, {"__builtins__": {}}, {}))
+    
+    # Whitelist of safe operations
+    safe_ops = {
+        ast.Add: operator.add,
+        ast.Sub: operator.sub,
+        ast.Mult: operator.mul,
+        ast.Div: operator.truediv,
+        ast.USub: operator.neg,
+    }
+    
+    def eval_node(node):
+        if isinstance(node, ast.Constant):  # Python 3.8+
+            return node.value
+        elif isinstance(node, ast.BinOp):
+            left = eval_node(node.left)
+            right = eval_node(node.right)
+            op = safe_ops.get(type(node.op))
+            if op is None:
+                raise ValueError(f"Unsupported operation: {type(node.op).__name__}")
+            return op(left, right)
+        elif isinstance(node, ast.UnaryOp):
+            operand = eval_node(node.operand)
+            op = safe_ops.get(type(node.op))
+            if op is None:
+                raise ValueError(f"Unsupported operation: {type(node.op).__name__}")
+            return op(operand)
+        else:
+            raise ValueError(f"Unsupported expression type: {type(node).__name__}")
+    
+    try:
+        tree = ast.parse(expr, mode='eval')
+        return float(eval_node(tree.body))
+    except Exception as e:
+        # Fall back to simple float parsing if AST fails
+        try:
+            return float(expr)
+        except ValueError:
+            raise ValueError(f"Invalid numeric expression: {expr}") from e
 
 
 def main():

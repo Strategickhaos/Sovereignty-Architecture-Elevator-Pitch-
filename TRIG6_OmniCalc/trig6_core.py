@@ -1,7 +1,7 @@
 # trig6_core.py
 import math
 from dataclasses import dataclass
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 
 EPS = 1e-6
@@ -115,7 +115,7 @@ def blend_trig_hyper(theta: float, alpha: float) -> Trig6Projections:
     )
 
 
-def compute_noise(current: Trig6Projections, previous: Trig6Projections | None) -> float:
+def compute_noise(current: Trig6Projections, previous: Optional[Trig6Projections]) -> float:
     if previous is None:
         return 0.0
     diffs = [
