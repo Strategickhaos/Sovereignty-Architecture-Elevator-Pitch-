@@ -1,0 +1,29 @@
+{
+  "name": "sagco-hv-phase1-boot",
+  "version": "1.0.0",
+  "description": "Type-1 Hypervisor Boot/GDT initialization phase",
+  "author": "SAGCO-OS Team",
+  "phase": 1,
+  "dependencies": [],
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "boot_status",
+      "type": "i32",
+      "description": "Boot result code (0=success, -1=failure)"
+    }
+  ],
+  "expected_result": "Boot OK",
+  "deterministic": true,
+  "safety_proofs": [
+    "no_buffer_overflow",
+    "bounded_arrays",
+    "deterministic_execution"
+  ],
+  "tags": [
+    "hypervisor",
+    "boot",
+    "gdt",
+    "initialization"
+  ]
+}

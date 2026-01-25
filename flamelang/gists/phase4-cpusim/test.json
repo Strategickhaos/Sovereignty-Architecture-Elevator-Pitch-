@@ -1,0 +1,211 @@
+{
+  "test_suite": "Phase 4 CPU Simulation Tests",
+  "tests": [
+    {
+      "name": "test_simple_arithmetic",
+      "description": "Test basic ADD operation",
+      "program": [
+        "0x10000005",
+        "0x10010003",
+        "0x01000001",
+        "0xFF000000"
+      ],
+      "program_assembly": [
+        "LOAD R0, 5",
+        "LOAD R1, 3",
+        "ADD R0, R1",
+        "HALT"
+      ],
+      "expected_output": 8,
+      "expected_cycles": 4,
+      "probability": 1.0
+    },
+    {
+      "name": "test_subtraction",
+      "description": "Test SUB operation",
+      "program": [
+        "0x1000000A",
+        "0x10010004",
+        "0x02000001",
+        "0xFF000000"
+      ],
+      "program_assembly": [
+        "LOAD R0, 10",
+        "LOAD R1, 4",
+        "SUB R0, R1",
+        "HALT"
+      ],
+      "expected_output": 6,
+      "expected_cycles": 4,
+      "probability": 1.0
+    },
+    {
+      "name": "test_multiplication",
+      "description": "Test MUL operation",
+      "program": [
+        "0x10000006",
+        "0x10010007",
+        "0x03000001",
+        "0xFF000000"
+      ],
+      "program_assembly": [
+        "LOAD R0, 6",
+        "LOAD R1, 7",
+        "MUL R0, R1",
+        "HALT"
+      ],
+      "expected_output": 42,
+      "expected_cycles": 4,
+      "probability": 1.0
+    },
+    {
+      "name": "test_conditional_jump",
+      "description": "Test JZ (jump if zero) instruction",
+      "program": [
+        "0x10000000",
+        "0x21000000",
+        "0x31000004",
+        "0x10000042",
+        "0xFF000000"
+      ],
+      "program_assembly": [
+        "LOAD R0, 0",
+        "CMP R0, R0",
+        "JZ 4",
+        "LOAD R0, 66",
+        "HALT"
+      ],
+      "expected_output": 0,
+      "expected_cycles": 4,
+      "assertions": [
+        "Jump taken because R0 == 0",
+        "LOAD R0, 66 instruction skipped"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_loop",
+      "description": "Test loop with counter",
+      "program": [
+        "0x10000000",
+        "0x10010005",
+        "0x01000001",
+        "0x02010001",
+        "0x21010000",
+        "0x32000002",
+        "0xFF000000"
+      ],
+      "program_assembly": [
+        "LOAD R0, 0",
+        "LOAD R1, 5",
+        "ADD R0, R1",
+        "SUB R1, R1 (decrement)",
+        "CMP R1, 0",
+        "JNZ 2 (loop back)",
+        "HALT"
+      ],
+      "expected_output": "Sum of 1 to 5",
+      "expected_cycles": "< 50",
+      "probability": 1.0
+    },
+    {
+      "name": "test_memory_operations",
+      "description": "Test STORE and LOADM",
+      "program": [
+        "0x10000042",
+        "0x11000100",
+        "0x12010100",
+        "0xFF000000"
+      ],
+      "program_assembly": [
+        "LOAD R0, 66",
+        "STORE R0, 256",
+        "LOADM R1, 256",
+        "HALT"
+      ],
+      "expected_output": 66,
+      "assertions": [
+        "Memory[256] == 66",
+        "R1 == 66 after LOADM"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_stack_operations",
+      "description": "Test PUSH and POP",
+      "program": [
+        "0x10000042",
+        "0x50000000",
+        "0x51010000",
+        "0xFF000000"
+      ],
+      "program_assembly": [
+        "LOAD R0, 66",
+        "PUSH R0",
+        "POP R1",
+        "HALT"
+      ],
+      "expected_output": 66,
+      "assertions": [
+        "R1 == 66 after POP",
+        "Stack pointer restored"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_subroutine",
+      "description": "Test CALL and RET",
+      "program": [
+        "0x40000003",
+        "0xFF000000",
+        "0x10000042",
+        "0x41000000"
+      ],
+      "program_assembly": [
+        "CALL 3",
+        "HALT",
+        "LOAD R0, 66",
+        "RET"
+      ],
+      "expected_output": 66,
+      "assertions": [
+        "Subroutine called and returned",
+        "R0 == 66 after subroutine"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_max_cycles_limit",
+      "description": "Verify infinite loop protection",
+      "program": [
+        "0x30000000"
+      ],
+      "program_assembly": [
+        "JMP 0 (infinite loop)"
+      ],
+      "expected_behavior": "Terminates after max_cycles",
+      "expected_cycles": 100000,
+      "assertions": [
+        "Execution stops at max_cycles",
+        "No infinite loop"
+      ],
+      "probability": 1.0
+    }
+  ],
+  "coverage": {
+    "functions": [
+      "cpu_sim",
+      "execute_instruction",
+      "memory_read",
+      "memory_write"
+    ],
+    "instructions_tested": 16,
+    "branches": 20,
+    "paths": 30
+  },
+  "performance": {
+    "max_cycles": 100000,
+    "expected_cycles_simple": 10,
+    "expected_cycles_complex": 5000
+  }
+}

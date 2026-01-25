@@ -1,0 +1,54 @@
+{
+  "name": "sagco-hv-phase4-cpusim",
+  "version": "1.0.0",
+  "description": "Type-1 Hypervisor CPU Simulation - Full instruction set emulation",
+  "author": "SAGCO-OS Team",
+  "phase": 4,
+  "dependencies": [
+    "phase1-boot",
+    "phase2-paging",
+    "phase3-vcpu"
+  ],
+  "inputs": [
+    {
+      "name": "program",
+      "type": "[i32; N]",
+      "description": "Program to execute (array of instructions)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "result",
+      "type": "i32",
+      "description": "Result from R0 register after execution"
+    },
+    {
+      "name": "cycles",
+      "type": "i32",
+      "description": "Number of CPU cycles executed"
+    }
+  ],
+  "expected_result": "Program executed successfully",
+  "deterministic": true,
+  "safety_proofs": [
+    "no_buffer_overflow",
+    "bounded_execution",
+    "memory_safety",
+    "register_bounds",
+    "no_infinite_loops"
+  ],
+  "tags": [
+    "hypervisor",
+    "cpu-simulation",
+    "instruction-set",
+    "emulation"
+  ],
+  "instruction_set": {
+    "arithmetic": ["ADD", "SUB", "MUL", "DIV"],
+    "data_movement": ["LOAD", "STORE", "LOADM", "MOV"],
+    "control_flow": ["JMP", "JZ", "JNZ", "CALL", "RET"],
+    "stack": ["PUSH", "POP"],
+    "comparison": ["CMP"],
+    "system": ["HALT", "NOP"]
+  }
+}

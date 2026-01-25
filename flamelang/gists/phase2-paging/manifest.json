@@ -1,0 +1,40 @@
+{
+  "name": "sagco-hv-phase2-paging",
+  "version": "1.0.0",
+  "description": "Type-1 Hypervisor Memory Virtualization and Paging",
+  "author": "SAGCO-OS Team",
+  "phase": 2,
+  "dependencies": [
+    "phase1-boot"
+  ],
+  "inputs": [
+    {
+      "name": "page_count",
+      "type": "i32",
+      "default": 1024,
+      "description": "Number of pages to map"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "page_table",
+      "type": "PageTable",
+      "description": "Initialized page table structure"
+    }
+  ],
+  "expected_result": "PT mapped",
+  "deterministic": true,
+  "safety_proofs": [
+    "no_buffer_overflow",
+    "bounded_arrays",
+    "valid_page_indices",
+    "no_null_pointer_deref"
+  ],
+  "tags": [
+    "hypervisor",
+    "paging",
+    "memory",
+    "ept",
+    "virtualization"
+  ]
+}

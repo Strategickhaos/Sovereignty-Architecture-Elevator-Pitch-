@@ -1,0 +1,138 @@
+// hyper_paging.flm - Phase 2: Paging/Memory Virtualization
+// Extended Page Tables (EPT) and memory management
+// Mirrors ACRN/Xen paging architectures
+
+// Page Table Entry structure
+struct PageTable {
+    entries: [i32; 1024],  // 1024 page table entries (4MB address space)
+    base_addr: i32,        // Physical base address
+    level: i32,            // Page table level (1-4 for x86-64)
+}
+
+// EPT permissions flags
+const EPT_READ: i32 = 0x1;
+const EPT_WRITE: i32 = 0x2;
+const EPT_EXECUTE: i32 = 0x4;
+const EPT_PRESENT: i32 = 0x7;  // R+W+X
+
+// Initialize paging structures
+fn paging_setup() -> PageTable {
+    let pt = PageTable {
+        entries: [0; 1024],
+        base_addr: 0x1000,  // Start at 4KB boundary
+        level: 1             // First-level page table
+    };
+    
+    // Identity map first 4MB (1024 pages of 4KB each)
+    let i = 0;
+    while i < 1024 {
+        let phys_addr = i * 4096;           // Calculate physical address
+        let flags = EPT_PRESENT;            // Present, readable, writable
+        pt.entries[i] = phys_addr | flags;  // Set PTE
+        i = i + 1;
+    }
+    
+    // Proof: loop bounds guarantee no overflow (i < 1024)
+    return pt;
+}
+
+// Map a virtual page to physical page
+fn map_page(pt: PageTable, virt_addr: i32, phys_addr: i32, flags: i32) -> PageTable {
+    // Extract page table index from virtual address
+    // Index is bits 12-21 (10 bits) for 4KB pages
+    let index = (virt_addr >> 12) & 0x3FF;  // Mask to 10 bits
+    
+    // Proof: index is guaranteed < 1024 due to 0x3FF mask
+    pt.entries[index] = (phys_addr & 0xFFFFF000) | flags;
+    
+    return pt;
+}
+
+// Unmap a virtual page
+fn unmap_page(pt: PageTable, virt_addr: i32) -> PageTable {
+    let index = (virt_addr >> 12) & 0x3FF;
+    pt.entries[index] = 0;  // Clear entry
+    return pt;
+}
+
+// Translate virtual address to physical (page walk)
+fn translate_address(pt: PageTable, virt_addr: i32) -> i32 {
+    let index = (virt_addr >> 12) & 0x3FF;
+    let offset = virt_addr & 0xFFF;  // Offset within page
+    
+    let pte = pt.entries[index];
+    
+    // Check if page is present
+    if (pte & EPT_PRESENT) == 0 {
+        return -1;  // Page fault
+    }
+    
+    // Extract physical address and add offset
+    let phys_base = pte & 0xFFFFF000;
+    return phys_base + offset;
+}
+
+// Setup Extended Page Tables (EPT) for VM
+fn setup_ept() -> PageTable {
+    // EPT provides second-level address translation
+    // Guest Physical Address (GPA) → Host Physical Address (HPA)
+    
+    let ept = PageTable {
+        entries: [0; 1024],
+        base_addr: 0x2000,  // Different base for EPT
+        level: 1
+    };
+    
+    // Map guest memory (1:1 mapping for simplicity)
+    let i = 0;
+    while i < 1024 {
+        let guest_phys = i * 4096;
+        let host_phys = 0x100000 + (i * 4096);  // Offset guest memory
+        ept.entries[i] = host_phys | EPT_PRESENT;
+        i = i + 1;
+    }
+    
+    return ept;
+}
+
+// Setup multi-level page tables (4-level paging for x86-64)
+fn setup_multilevel_paging() -> PageTable {
+    // PML4 (Page Map Level 4) - top level
+    let pml4 = PageTable {
+        entries: [0; 1024],
+        base_addr: 0x3000,
+        level: 4
+    };
+    
+    // Point first entry to PDPT (Page Directory Pointer Table)
+    pml4.entries[0] = 0x4000 | EPT_PRESENT;
+    
+    return pml4;
+}
+
+// Flush TLB (Translation Lookaside Buffer)
+fn flush_tlb() -> void {
+    // Intrinsic: Invalidate TLB entries
+    // x86: invlpg instruction or CR3 reload
+    // Ensures page table changes are visible
+}
+
+// Entry point for Phase 2
+fn main() -> PageTable {
+    // Setup basic paging
+    let pt = paging_setup();
+    
+    // Test page mapping
+    let test_pt = map_page(pt, 0x5000, 0x10000, EPT_PRESENT);
+    
+    // Verify translation
+    let phys = translate_address(test_pt, 0x5000);
+    
+    // Setup EPT for VMs
+    let ept = setup_ept();
+    
+    // Flush TLB to apply changes
+    flush_tlb();
+    
+    return test_pt;
+}

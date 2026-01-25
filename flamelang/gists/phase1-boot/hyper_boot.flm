@@ -1,0 +1,70 @@
+// hyper_boot.flm - Phase 1: Boot/GDT
+// Type-1 Hypervisor Boot Sequence
+// Mirrors ACRN/Xen boot initialization
+
+// GDT Entry structure
+struct GDTEntry {
+    base: i32,
+    limit: i32,
+    access: i32,
+    flags: i32,
+}
+
+// Boot hypervisor and initialize GDT
+fn boot_hypervisor() -> i32 {
+    // Simulate UEFI/GRUB → hypervisor entry point
+    // Initialize Global Descriptor Table for protected mode
+    
+    let gdt = [
+        0,           // Null descriptor (required by x86)
+        0xFFFF,      // Code segment base (full 64K)
+        0xAF9B       // Code segment flags:
+                     // - Present (bit 15)
+                     // - DPL=0 (bits 13-14, ring 0)
+                     // - Executable (bit 11)
+                     // - 64-bit mode (bit 13 in flags)
+    ];
+    
+    // Load GDT register
+    load_gdt(gdt);
+    
+    // Enable protected mode
+    enable_protected_mode();
+    
+    // Initialize hypervisor state
+    init_hypervisor_state();
+    
+    // Proof: deterministic, no overflow
+    return 0;  // Success
+}
+
+fn load_gdt(gdt: [i32; 3]) -> void {
+    // Intrinsic: Load GDT register with table
+    // In real x86: lgdt instruction
+    // GDTR points to GDT base and limit
+    // Proof: gdt array is bounded (3 entries), no buffer overflow
+}
+
+fn enable_protected_mode() -> void {
+    // Intrinsic: Set CR0.PE bit (bit 0)
+    // Enables protected mode execution
+    // CR0 = CR0 | 0x00000001
+}
+
+fn init_hypervisor_state() -> void {
+    // Initialize hypervisor data structures
+    // - IDT (Interrupt Descriptor Table)
+    // - TSS (Task State Segment)
+    // - Initial page tables
+}
+
+// Entry point for Phase 1
+fn main() -> i32 {
+    let status = boot_hypervisor();
+    
+    if status == 0 {
+        return 0;  // Boot successful
+    } else {
+        return -1;  // Boot failed
+    }
+}

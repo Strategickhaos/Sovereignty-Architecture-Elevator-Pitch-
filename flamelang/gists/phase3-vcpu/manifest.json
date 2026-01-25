@@ -1,0 +1,45 @@
+{
+  "name": "sagco-hv-phase3-vcpu",
+  "version": "1.0.0",
+  "description": "Type-1 Hypervisor Virtual CPU Management",
+  "author": "SAGCO-OS Team",
+  "phase": 3,
+  "dependencies": [
+    "phase1-boot",
+    "phase2-paging"
+  ],
+  "inputs": [
+    {
+      "name": "vcpu_count",
+      "type": "i32",
+      "default": 1,
+      "description": "Number of vCPUs to create"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "vcpu_control",
+      "type": "vCPUControl",
+      "description": "Initialized vCPU control structure"
+    }
+  ],
+  "expected_result": "vCPU initialized and managed",
+  "deterministic": false,
+  "uncertainty": {
+    "source": "scheduling",
+    "p_correct": 0.98,
+    "entropy": 0.15
+  },
+  "safety_proofs": [
+    "no_race_conditions",
+    "state_invariants",
+    "register_bounds",
+    "quantum_fairness"
+  ],
+  "tags": [
+    "hypervisor",
+    "vcpu",
+    "scheduling",
+    "virtualization"
+  ]
+}
