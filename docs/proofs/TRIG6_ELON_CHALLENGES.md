@@ -931,7 +931,7 @@ class TRIG6Optimizer:
         self.theta = None  # Phase angles
         self.R = None      # Resource amplification
         self.D = None      # Drift penalty
-        self self.N = None      # Noise rate
+        self.N = None      # Noise rate
         self.eq = None     # Equivalence to target
         
         # Configure for domain
