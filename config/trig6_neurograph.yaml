@@ -84,7 +84,7 @@ edge_types:
     description: "Suppressive signal"
 
   modulation:
-    color: "#00ffaa"
+    color: "#00ddff"
     style: "dotted"
     arrowhead: "diamond"
     description: "Gain control"
@@ -102,7 +102,7 @@ edge_types:
 resonance:
   # Map metric values to visual properties
   score_to_color:
-    high: "#00ff00"    # resonance > 0.8
+    high: "#44ff44"    # resonance > 0.8
     medium: "#ffff00"  # 0.5 < resonance <= 0.8
     low: "#ff0000"     # resonance <= 0.5
 
