@@ -272,6 +272,12 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 📚 Documentation & Appendices
+
+### Core Documentation
+- **[Appendices](docs/appendices/)** - Supplementary documentation and guides
+  - **[Appendix F: The Sister Codex](docs/appendices/APPENDIX_F_SISTER_CODEX.md)** - 36 blueprints for creating a physical edition using ancient Egyptian-inspired bookmaking techniques
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
