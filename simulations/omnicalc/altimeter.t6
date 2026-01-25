@@ -1,0 +1,22 @@
+# Altimeter Trig Calculation Simulation
+# TRIG6 Model: Height measurement via trigonometric angles
+# θ = altitude phase, R = accuracy, D = wind drift, N = instrument noise
+# Danger: steep angle tan∞ (error amplification)
+
+# Initial configuration
+set eq 1.0
+theta pi/4  # Balanced angle (45 degrees)
+alpha 0.2
+theta_opt pi/6  # Optimal angle for accuracy (30 degrees)
+
+# Step 1: Initial measurement
+step
+state  # Expected: R=0.85 (high accuracy), D=0.15 (wind), N=0.2 (calibration), danger=No
+
+# Step 2: Correct for drift if detected
+if drift > 0.3 then theta pi/3  # Adjust to 60 degrees
+step
+state  # Expected: Converged R=0.92
+
+# Final state: High accuracy altimeter reading achieved
+# Fitness: f = R*(1-D)*(1-N)*eq

@@ -1,0 +1,25 @@
+# Epilepsy EEG Wave Simulation
+# TRIG6 Model: EEG spike patterns (beta chaos, non-stationary)
+# θ = wave cycle, R = coherence (normal rhythm), D = spread, N = variance
+# Danger: spike tan∞ (seizure activity)
+
+# Initial configuration - spike phase
+set eq 0.95
+theta pi/2  # Spike phase (90 degrees)
+alpha 0.5
+theta_opt pi/4  # Normal rhythm target (45 degrees)
+
+# Step 1: Detect spike
+step
+state  # Expected: R=0.38 (low coherence), D=0.75 (spread), N=0.4 (variance), danger=Yes (tan∞ spike)
+
+# Step 2: Therapeutic intervention loop
+while resonance < 0.8
+  alpha 0.6  # Damping therapy
+  theta (theta + theta_opt)/2  # Converge to normal rhythm
+  step
+  state  # Iterates to R=0.82
+end
+
+# Final state: Normalized brain wave coherence achieved
+# Fitness: f = R*(1-D)*(1-N)*eq

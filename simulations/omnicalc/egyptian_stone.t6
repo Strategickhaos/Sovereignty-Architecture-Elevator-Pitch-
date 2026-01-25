@@ -1,0 +1,26 @@
+# Egyptian Lime Mortar Curing Simulation
+# TRIG6 Model: Lime mortar/concrete (CaO + sand + water → Ca(OH)2 → CaCO3)
+# θ = curing phase, R = bond strength, D = shrinkage drift, N = aggregate noise
+# Danger: quicklime heat tan∞ (burns/weak bond)
+
+# Initial configuration - balanced curing
+set eq 1.0
+theta pi/4  # Balanced cure phase (45 degrees)
+alpha 0.3
+theta_opt pi/6  # Optimal strength phase (30 degrees)
+
+# Step 1: Initial hydration state
+step
+state  # Expected: R=0.8 (strength), D=0.2 (crack), N=0.25 (mix), danger=No
+
+# Step 2: Add ash if noise detected
+if noise > 0.3 then theta pi/3  # Adjust mixture (60 degrees)
+step
+state  # Expected: R=0.85
+
+# Final state: Durable stone bond achieved (fitness > 0.8)
+# Chemical process: 
+#   CaO (quicklime) + H2O → Ca(OH)2 (slaked lime/hydration)
+#   Ca(OH)2 + CO2 → CaCO3 (limestone/carbonation)
+# Ancient recipe: Nile silt + burnt lime for pyramid blocks
+# Fitness: f = R*(1-D)*(1-N)*eq
