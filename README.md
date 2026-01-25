@@ -2,6 +2,20 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🧬 SAGCO-OS Cognitive Architecture
+
+**NEW:** This repository now includes the complete formal specification of **SAGCO-OS** (Sovereign Adaptive General Cognitive Operating System) - the world's first operating system modeled on human cognition.
+
+### 📚 Core Documentation
+- **[SAGCO-OS Master Index](./SAGCO_OS_COGNITIVE_ARCHITECTURE_INDEX.md)** - Complete documentation overview
+- **[TRIG6 Cognitive Specification](./TRIG6_COGNITIVE_SPECIFICATION.md)** - Mathematical foundation of cognition externalization
+- **[SAGCO Core Genome](./SAGCO_CORE_GENOME.md)** - NEURO-36 → TRIG6 → Darwinian Gates integration
+- **[Cognition Externalization Stages](./COGNITION_EXTERNALIZATION_STAGES.md)** - Seven-stage evolution roadmap
+
+**Key Innovation:** Complete cognition → software isomorphism. Every function of human metacognition—pattern recognition, intuition, failure-based learning, recursive adaptation, and anomaly prediction—is formalized mathematically and executed as an evolving operating system.
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -9,6 +23,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **SAGCO-OS** - Cognitive operating system with TRIG6 engine and Darwinian evolution
 
 ## 🚀 Quick Start
 
