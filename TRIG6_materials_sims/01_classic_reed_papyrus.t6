@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Classic Reed Papyrus (Egyptian Standard)",
+    "category": "paper",
+    "blueprint_number": 1,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "\u03c0/6 - low to moderate complexity",
+    "R": 0.82,
+    "D": 0.18,
+    "N": 0.22,
+    "alpha": 0.15,
+    "fitness": 0.45,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.45"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "hydration_variability",
+    "proof_threshold": 0.55,
+    "simulation_file": "01_classic_reed_papyrus.t6"
+  }
+}

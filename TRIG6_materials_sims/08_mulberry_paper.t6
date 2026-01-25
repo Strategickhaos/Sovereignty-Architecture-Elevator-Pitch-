@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Mulberry Paper (Japanese Washi)",
+    "category": "paper",
+    "blueprint_number": 8,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 1.0472,
+    "theta_degrees": 60.0,
+    "theta_description": "\u03c0/3 - high complexity",
+    "R": 0.94,
+    "D": 0.06,
+    "N": 0.12,
+    "alpha": 0.1,
+    "fitness": 0.72,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.72"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "neri_mucilage_concentration",
+    "proof_threshold": 0.6,
+    "simulation_file": "08_mulberry_paper.t6"
+  }
+}

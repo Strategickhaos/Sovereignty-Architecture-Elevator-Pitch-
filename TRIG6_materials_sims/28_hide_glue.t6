@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Hide Glue (Collagen-Based Reversible)",
+    "category": "material",
+    "blueprint_number": 28,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.7854,
+    "theta_degrees": 45.0,
+    "theta_description": "\u03c0/4 - moderate complexity",
+    "R": 0.82,
+    "D": 0.18,
+    "N": 0.22,
+    "alpha": 0.16,
+    "fitness": 0.5,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.50"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "working_temperature",
+    "proof_threshold": 0.5,
+    "simulation_file": "28_hide_glue.t6"
+  }
+}

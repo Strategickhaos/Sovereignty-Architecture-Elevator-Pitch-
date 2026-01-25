@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Long Stitch Binding (Medieval Simplicity)",
+    "category": "binding",
+    "blueprint_number": 14,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "\u03c0/6 - low to moderate complexity",
+    "R": 0.65,
+    "D": 0.35,
+    "N": 0.2,
+    "alpha": 0.18,
+    "fitness": 0.32,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.32"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "board_rigidity",
+    "proof_threshold": 0.33,
+    "simulation_file": "14_long_stitch_binding.t6"
+  }
+}

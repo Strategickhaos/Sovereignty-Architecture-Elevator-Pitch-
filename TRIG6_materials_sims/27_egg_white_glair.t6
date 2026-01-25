@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Egg White Glair (Medieval Illumination)",
+    "category": "material",
+    "blueprint_number": 27,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.7854,
+    "theta_degrees": 45.0,
+    "theta_description": "\u03c0/4 - moderate complexity",
+    "R": 0.7,
+    "D": 0.3,
+    "N": 0.28,
+    "alpha": 0.22,
+    "fitness": 0.32,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.32"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "beating_duration",
+    "proof_threshold": 0.33,
+    "simulation_file": "27_egg_white_glair.t6"
+  }
+}

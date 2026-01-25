@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Beeswax (Natural Sealant)",
+    "category": "material",
+    "blueprint_number": 32,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "\u03c0/6 - low to moderate complexity",
+    "R": 0.85,
+    "D": 0.15,
+    "N": 0.18,
+    "alpha": 0.14,
+    "fitness": 0.55,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.55"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "melting_temperature",
+    "proof_threshold": 0.5,
+    "simulation_file": "32_beeswax.t6"
+  }
+}

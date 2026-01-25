@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "PVA Synthetic (Modern Alternative)",
+    "category": "material",
+    "blueprint_number": 36,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "\u03c0/6 - low to moderate complexity",
+    "R": 0.8,
+    "D": 0.2,
+    "N": 0.15,
+    "alpha": 0.12,
+    "fitness": 0.5,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.50"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "synthetic_vs_natural_tradeoffs",
+    "proof_threshold": 0.44,
+    "simulation_file": "36_pva_synthetic.t6"
+  }
+}

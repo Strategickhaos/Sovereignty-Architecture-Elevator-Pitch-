@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "name": "Classic Reed Papyrus (Egyptian Standard)",
+    "category": "paper",
+    "blueprint_number": 1,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "archaeological": {
+    "culture": "Ancient Egyptian",
+    "period": "3000 BCE - 1000 CE",
+    "source_material": "Cyperus papyrus reeds from Nile Delta",
+    "historical_use": "Foundation of Western literacy, sacred texts, administrative documents"
+  },
+  "process": {
+    "steps": [
+      "Harvest papyrus reeds 15-20cm from base (peak cellulose)",
+      "Strip outer green rind, expose white pith",
+      "Soak strips in water for 6-8 days",
+      "Arrange in cross-layer (horizontal and vertical)",
+      "Mallet to compress fibers and express cellular sap",
+      "Press with stone blocks for 24-48 hours",
+      "Sun dry under controlled heat",
+      "Polish surface with shell or bone tool"
+    ],
+    "duration": "8-12 days",
+    "difficulty": "moderate",
+    "skill_level": "intermediate"
+  },
+  "chemistry": {
+    "primary_component": "Cellulose (C₆H₁₀O₅)ₙ",
+    "primary_percentage": "60-70%",
+    "secondary_component": "Hemicellulose",
+    "secondary_percentage": "15-25%",
+    "lignin_content": "<5%",
+    "natural_adhesive": "Cellular sap polysaccharides",
+    "ph_range": "6.5-7.5"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "π/6 - moderate complexity",
+    "R": 0.82,
+    "R_description": "High resource efficiency - abundant reeds, simple process",
+    "D": 0.18,
+    "D_description": "Low drift - stable process with minimal degradation",
+    "N": 0.22,
+    "N_description": "Environmental noise - water quality variability",
+    "alpha": 0.15,
+    "alpha_description": "Low damping - minimal intervention required",
+    "fitness": 0.45,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-α) = 0.82 * 0.82 * 0.78 * 0.861 ≈ 0.45"
+  },
+  "safety": {
+    "danger_level": "none",
+    "toxicity": "non-toxic",
+    "hazards": [],
+    "precautions": [
+      "Ensure clean water source to prevent contamination",
+      "Avoid over-drying which can cause brittleness"
+    ],
+    "archival_quality": true
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "hydration_variability",
+    "variable_description": "Water quality affects cellulose fiber bonding",
+    "position_0_percent": {
+      "condition": "Pure Nile Delta water (ideal)",
+      "N_value": 0.15,
+      "fitness": 0.55,
+      "status": "STABLE"
+    },
+    "position_50_percent": {
+      "condition": "Standard well water",
+      "N_value": 0.22,
+      "fitness": 0.45,
+      "status": "MARGINAL"
+    },
+    "position_100_percent": {
+      "condition": "Brackish/contaminated water",
+      "N_value": 0.40,
+      "fitness": 0.32,
+      "status": "UNSTABLE"
+    },
+    "proof_threshold": 0.55,
+    "historical_validation": "Ancient Egyptians succeeded because they had consistent access to high-quality Nile water (N ≤ 0.20). Papyrus production sites cluster near pure water sources."
+  },
+  "material_properties": {
+    "tensile_strength": "moderate",
+    "flexibility": "high",
+    "archival_longevity": "500-2000 years (in dry conditions)",
+    "water_resistance": "low",
+    "ink_receptivity": "excellent",
+    "optimal_storage_conditions": {
+      "temperature": "15-20°C",
+      "humidity": "30-50% RH",
+      "light": "minimal UV exposure"
+    }
+  },
+  "economic_analysis": {
+    "raw_material_cost": "low (if reeds available)",
+    "labor_intensity": "moderate",
+    "time_to_completion": "8-12 days",
+    "skill_required": "intermediate",
+    "scalability": "high (historically mass-produced)",
+    "modern_applications": [
+      "Art substrates",
+      "Historical reproductions",
+      "Educational demonstrations",
+      "Sustainable paper alternatives"
+    ]
+  },
+  "references": [
+    "Lucas, A. & Harris, J.R. (1962). Ancient Egyptian Materials and Industries",
+    "Lewis, Naphtali (1974). Papyrus in Classical Antiquity",
+    "Černý, Jaroslav (1952). Paper and Books in Ancient Egypt"
+  ]
+}

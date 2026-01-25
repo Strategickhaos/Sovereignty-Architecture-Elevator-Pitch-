@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Bamboo Paper (Chinese Innovation)",
+    "category": "paper",
+    "blueprint_number": 4,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 1.0472,
+    "theta_degrees": 60.0,
+    "theta_description": "\u03c0/3 - high complexity",
+    "R": 0.88,
+    "D": 0.12,
+    "N": 0.18,
+    "alpha": 0.1,
+    "fitness": 0.59,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.59"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "lime_cooking_temperature",
+    "proof_threshold": 0.55,
+    "simulation_file": "04_bamboo_paper.t6"
+  }
+}
