@@ -10,6 +10,14 @@ This documentation suite formally defines and documents the role, methodology, a
 
 ---
 
+## ⚡ Quick Start
+
+**New to this methodology?** Start here: [QUICK_START_ARCHITECT.md](./QUICK_START_ARCHITECT.md)
+
+This one-page summary gives you a rapid understanding of the architect role, the daily workflow, and the core concepts in under 5 minutes.
+
+---
+
 ## 📖 Documentation Structure
 
 ### 1. [ARCHITECT_ROLE.md](./ARCHITECT_ROLE.md)
