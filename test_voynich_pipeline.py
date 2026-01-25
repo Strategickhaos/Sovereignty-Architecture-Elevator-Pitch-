@@ -12,11 +12,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Import the voynich_runner module
-import voynich_runner as vr
+# Import the voynich_runner module - handle both direct execution and package import
+try:
+    import voynich_runner as vr
+except ImportError:
+    # Fallback for direct test execution
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    import voynich_runner as vr
 
 
 class TestTRIG6Primitives(unittest.TestCase):

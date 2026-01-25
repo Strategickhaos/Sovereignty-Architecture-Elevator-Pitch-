@@ -47,7 +47,15 @@ def trig6_fitness(R, D, N, eq):
 # ---- Evolution core --------------------------------------------------------
 
 def mutate_params(params: dict, target: str):
-    """In-place mutation rule for a single param key."""
+    """In-place mutation rule for a single param key.
+    
+    Args:
+        params (dict): Parameter dictionary to mutate
+        target (str): Parameter name to mutate. Supported values:
+            - "n_clusters": Integer cluster count mutation (±4, bounds [8, inf))
+            - "glyph_variance_threshold": Float threshold mutation (±0.02, bounds [0.01, 0.5])
+            - "strategy": Categorical strategy selection from predefined choices
+    """
     if target == "n_clusters":
         new_val = int(round(params.get("n_clusters", 48)))
         new_val += np.random.randint(-4, 5)  # -4..+4
@@ -70,10 +78,26 @@ def mutate_params(params: dict, target: str):
 
 def evolve_population(pop_size, generations, top_k, mutation_rate,
                       mutation_targets, eval_fn, init_params):
+    """Evolve population using genetic algorithm with elitism.
+    
+    Args:
+        pop_size (int): Population size (must be > 0)
+        generations (int): Number of generations to evolve
+        top_k (int): Number of top individuals to use as parents (must be > 0)
+        mutation_rate (float): Probability of mutation [0.0, 1.0]
+        mutation_targets (list[str]): List of parameter names that can be mutated
+        eval_fn (callable): Fitness evaluation function. Takes params dict, returns float fitness.
+        init_params (dict): Initial parameter dictionary to seed population
+    
+    Returns:
+        tuple: (champion, history) where
+            - champion: dict with 'params' and 'fitness' keys for best individual
+            - history: list of dicts with 'gen' and 'best_fitness' for each generation
     """
-    pop members: {'params': {..}, 'fitness': float}
-    eval_fn(params) -> fitness
-    """
+    if top_k <= 0:
+        raise ValueError(f"top_k must be positive, got {top_k}")
+    if pop_size <= 0:
+        raise ValueError(f"pop_size must be positive, got {pop_size}")
     population = []
     for _ in range(pop_size):
         population.append({"params": copy.deepcopy(init_params), "fitness": 0.0})
@@ -130,7 +154,8 @@ def run_stage(stage, ctx, pipeline):
     print(f"[stage] {sid}")
 
     if sid == "ingest":
-        # TODO: replace with real glyph extraction from PDF (via OmniCalc/your toolchain)
+        # TODO [P0, Sprint 2]: Replace with real glyph extraction from PDF
+        # Expected integration: OmniCalc toolchain for PDF → image → glyph pipeline
         # For now, generate fake glyphs with simple feature vectors.
         glyphs = [{"id": i, "features": np.random.rand(10).tolist()}
                   for i in range(1200)]
@@ -149,7 +174,12 @@ def run_stage(stage, ctx, pipeline):
             json.dump(anomalies.tolist(), f)
 
     elif sid == "glyph_extract":
-        # In real version: compute shape_entropy, stroke_count, context_position, etc.
+        # TODO [P0, Sprint 2]: Compute real feature vectors
+        # Expected features and ranges:
+        #   - shape_entropy: float [0.0, 1.0] - Shannon entropy of glyph shape
+        #   - stroke_count: int [1, 20] - Number of distinct strokes
+        #   - context_position: float [0.0, 1.0] - Relative position in line/page
+        #   - aspect_ratio: float [0.1, 10.0] - Width/height ratio
         # For now we treat anomalies as already-featured.
         ctx["glyph_features"] = ctx["anomalies"]
 
@@ -290,7 +320,14 @@ def run_stage(stage, ctx, pipeline):
             f.write("// TODO: emit codon stream from champion mapping\n")
 
     elif sid == "compiler_integration":
-        # Stub: hook FlameLang/SAGCO-OS here.
+        # TODO [P1, Sprint 3]: Hook FlameLang/SAGCO-OS compiler
+        # Expected interface:
+        #   flamelang_compile(
+        #       input_dir: Path to codon_streams/,
+        #       output_dir: Path for compiled artifacts,
+        #       sandbox: bool = True,
+        #       max_exec_time: int = 30
+        #   ) -> CompilationReport
         print("[compiler] sandbox compile would run here.")
         # e.g., flamelang_compile(streams_dir, out_dir)
 
