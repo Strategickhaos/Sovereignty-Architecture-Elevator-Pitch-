@@ -35,3 +35,32 @@ target/
 
 # Workspace data
 workspace/
+
+# Distribution build artifacts
+build-output/
+*.img
+*.img.sha256
+*.vdi
+*.ova
+*.ova.sha256
+sovereignty-os-*
+sovereignty-vm-*
+*.tar.gz
+*.tar.gz.gpg
+*.tar.gz.sha256
+
+# Backup files
+backup-log.txt
+/tmp/
+
+# VM files
+VM_INFO.txt
+
+# Movie production artifacts
+media/movie/scenes/
+media/movie/scripts/
+media/movie/assets/
+*.mp4
+*.mov
+*.avi
+*.cast
