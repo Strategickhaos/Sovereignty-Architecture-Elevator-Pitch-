@@ -48,4 +48,4 @@ build/
 
 # System health logs
 src/system_health/logs/
-logs/system_health/
+logs/
