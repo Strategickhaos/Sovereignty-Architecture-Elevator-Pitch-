@@ -1,0 +1,239 @@
+# codex_binding_pipeline.yaml
+# Codex Seraphinianus → TRIG6 → FlameLang/SAGCO-OS Binding Pipeline
+# Author: Domenic Gabriel Garza (Strategickhaos DAO LLC)
+# Version: 1.0.0
+
+meta:
+  id: PIPELINE-CODEX-SERAPH-TRIG6-001
+  name: "Codex Seraphinianus Binding Pipeline"
+  description: >
+    End-to-end pipeline that ingests Codex Seraphinianus pages, extracts glyphs,
+    learns a symbolic alphabet, binds symbols to FlameLang Codon IR,
+    and evaluates mappings with TRIG6 fitness geometry for use in the compiler.
+  owner: "Strategickhaos DAO LLC"
+  eq_target: 0.95        # goal-equivalence for "good enough" mapping
+  tan_danger_limit: 10.0 # |tan(theta)| > limit ⇒ danger
+
+inputs:
+  codex_pdf_path: "data/codex_seraphinianus/Codex_Seraphinianus.pdf"
+  work_dir: "artifacts/codex_binding/"
+  page_range:
+    start: 1     # 1-indexed
+    end: 350     # adjust to actual page count
+  target_symbol_count: 64   # desired alphabet size (maps cleanly to 64 codons)
+  random_seed: 1978         # publication year as canonical seed
+
+stages:
+  - id: ingest
+    name: "PDF → Page Images"
+    description: >
+      Render Codex pages to high-resolution images suitable for glyph analysis.
+    params:
+      dpi: 300
+      image_format: "png"
+      color_mode: "grayscale"   # preserve shape; color reps kept in separate channel
+    outputs:
+      page_images_dir: "${work_dir}/pages"
+
+  - id: layout_segment
+    name: "Layout Segmentation"
+    description: >
+      Separate text-like regions from illustrations and marginalia.
+    params:
+      model: "layout-parser-default"
+      text_confidence_threshold: 0.7
+      min_block_area_px: 2048
+    inputs:
+      page_images_dir: "${work_dir}/pages"
+    outputs:
+      text_region_masks_dir: "${work_dir}/regions/text"
+      illustration_region_masks_dir: "${work_dir}/regions/illustrations"
+
+  - id: glyph_extract
+    name: "Glyph Extraction"
+    description: >
+      Segment individual glyphs from text regions using connected component
+      analysis and heuristic filters.
+    params:
+      glyph_min_size_px: 32
+      glyph_max_size_px: 512
+      dilation_kernel: 2
+      border_margin_px: 4
+    inputs:
+      text_region_masks_dir: "${work_dir}/regions/text"
+    outputs:
+      glyph_images_dir: "${work_dir}/glyphs/raw"
+      glyph_metadata_path: "${work_dir}/glyphs/metadata.json"
+
+  - id: glyph_embed
+    name: "Glyph Embedding"
+    description: >
+      Encode each glyph into a fixed-length vector for clustering.
+    params:
+      backbone_model: "resnet18-shape-only"
+      embedding_dim: 256
+      normalize: true
+      pooling: "avg"
+    inputs:
+      glyph_images_dir: "${work_dir}/glyphs/raw"
+    outputs:
+      glyph_embeddings_path: "${work_dir}/glyphs/embeddings.npy"
+
+  - id: glyph_cluster
+    name: "Glyph Clustering"
+    description: >
+      Discover repeated glyph types via unsupervised clustering.
+    params:
+      algorithm: "hdbscan"
+      min_cluster_size: 16
+      min_samples: 5
+      cluster_selection_epsilon: 0.05
+      max_clusters: 128
+      outlier_label: -1
+    inputs:
+      glyph_embeddings_path: "${work_dir}/glyphs/embeddings.npy"
+    outputs:
+      cluster_labels_path: "${work_dir}/glyphs/cluster_labels.npy"
+      cluster_stats_path: "${work_dir}/glyphs/cluster_stats.json"
+
+  - id: symbol_assign
+    name: "Symbol ID Assignment"
+    description: >
+      Map clusters to canonical symbolic IDs (CSYM_000..CSYM_063),
+      prioritizing high-support clusters; residual or noisy clusters
+      are assigned to CSYM_NOOP.
+    params:
+      target_symbol_count: "${target_symbol_count}"
+      min_support_fraction: 0.001
+      noop_symbol_id: "CSYM_NOOP"
+    inputs:
+      cluster_stats_path: "${work_dir}/glyphs/cluster_stats.json"
+    outputs:
+      symbol_table_path: "${work_dir}/symbols/symbol_table.json"
+
+  - id: codon_mapping_init
+    name: "Initial Codon Mapping"
+    description: >
+      Initialize mapping from Codex symbols to FlameLang codons.
+      Stable/high-support symbols are mapped to ATG/TGG/...; low-support
+      or noisy symbols map to NNN (no-op codon).
+    params:
+      codon_table_path: "spec/codon_table_flame_v1.json"   # defines 64 codons
+      mapping_strategy: "frequency_weighted_round_robin"
+      noop_codon: "NNN"
+    inputs:
+      symbol_table_path: "${work_dir}/symbols/symbol_table.json"
+      codon_table_path: "spec/codon_table_flame_v1.json"
+    outputs:
+      symbol_to_codon_path: "${work_dir}/binding/symbol_to_codon_v0.json"
+
+  - id: trig6_eval
+    name: "TRIG6 Mapping Evaluation"
+    description: >
+      Evaluate quality and stability of the symbol→codon assignment using
+      TRIG6 geometry: resonance (R), drift (D), noise (N), and danger
+      via |tan(theta)| thresholds. Produces a scalar fitness score.
+    trig6:
+      theta_fn: >
+        # Map pipeline progress (0..1) to phase angle (0..2π)
+        # Here: cluster stability / mapping convergence → phase
+        theta = 2 * PI * progress
+      resonance_fn: >
+        # High cluster purity + coverage + temporal stability ⇒ high R
+        R = clamp(0.5 * purity_mean + 0.3 * coverage + 0.2 * stability_score, 0.0, 1.0)
+      drift_fn: >
+        # Reassignment rate + proportion of outliers ⇒ drift
+        D = clamp(0.6 * reassignment_rate + 0.4 * outlier_fraction, 0.0, 1.0)
+      noise_fn: >
+        # Embedding variance + entropy of cluster sizes ⇒ noise
+        N = clamp(0.5 * embedding_variance_norm + 0.5 * cluster_size_entropy_norm, 0.0, 1.0)
+      eq_fn: >
+        # How close current symbol count is to target_symbol_count
+        eq = clamp(1.0 - abs(symbol_count - target_symbol_count) / target_symbol_count, 0.0, 1.0)
+      danger_predicate: >
+        danger = abs(tan(theta)) > tan_danger_limit
+      fitness_fn: >
+        fitness = R * (1.0 - D) * (1.0 - N) * eq
+    params:
+      # thresholds used for logging / gating
+      fitness_warn_threshold: 0.50
+      fitness_target_threshold: 0.70
+    inputs:
+      symbol_to_codon_path: "${work_dir}/binding/symbol_to_codon_v0.json"
+      cluster_stats_path: "${work_dir}/glyphs/cluster_stats.json"
+    outputs:
+      trig6_report_path: "${work_dir}/binding/trig6_codex_report.json"
+      trig6_state_path: "${work_dir}/binding/trig6_state_history.json"
+
+  - id: evolution_loop
+    name: "Darwinian Mapping Evolution"
+    description: >
+      Run an evolutionary search over mapping parameters and symbol assignments,
+      using TRIG6 fitness as the objective. Each generation mutates mapping
+      strategies, cluster thresholds, and symbol assignments; only variants with
+      improved fitness survive.
+    evolution:
+      generations: 64
+      population_size: 16
+      selection_top_k: 4
+      mutation_rate: 0.25
+      mutation_targets:
+        - "min_cluster_size"
+        - "max_clusters"
+        - "mapping_strategy"
+        - "symbol_merge_splits"
+    trig6:
+      reuse_from_stage: trig6_eval
+    inputs:
+      trig6_state_path: "${work_dir}/binding/trig6_state_history.json"
+      symbol_to_codon_path: "${work_dir}/binding/symbol_to_codon_v0.json"
+    outputs:
+      champion_mapping_path: "${work_dir}/binding/symbol_to_codon_champion.json"
+      evolution_log_path: "${work_dir}/binding/evolution_log.json"
+
+  - id: codon_stream_emit
+    name: "Codon Stream Emission"
+    description: >
+      Apply champion symbol→codon mapping to page sequences to emit codon streams
+      consumable by the FlameLang compiler / SAGCO-OS runtime.
+    params:
+      output_format: "codon_stream_v1"
+      include_page_metadata: true
+    inputs:
+      champion_mapping_path: "${work_dir}/binding/symbol_to_codon_champion.json"
+      glyph_metadata_path: "${work_dir}/glyphs/metadata.json"
+    outputs:
+      codon_streams_dir: "${work_dir}/binding/codon_streams"
+
+  - id: compiler_integration
+    name: "Compiler Integration"
+    description: >
+      Treat Codex-derived codon streams as a symbolic frontend for FlameLang
+      programs. Each page (or spread) becomes a candidate program segment
+      that can be executed or further analyzed.
+    params:
+      flame_entrypoint: "bin/flamelangc"
+      sagco_runtime: "bin/sagco-run"
+      mode: "sandbox"          # never run Codex programs against real systems
+    inputs:
+      codon_streams_dir: "${work_dir}/binding/codon_streams"
+    outputs:
+      sagco_trace_dir: "${work_dir}/binding/sagco_traces"
+      compiler_logs_dir: "${work_dir}/binding/compiler_logs"
+
+trig6_global:
+  description: "Shared TRIG6 parameters for all evaluations in this pipeline."
+  danger_tan_limit: "${tan_danger_limit}"
+  eq_target: "${eq_target}"
+
+governance:
+  license: "© 2026 Strategickhaos DAO LLC – Internal Research Use Only"
+  ethical_constraints:
+    - "Do not claim decipherment of Codex Seraphinianus."
+    - "Use Codex-derived codon streams only in sandboxed environments."
+    - "Publish TRIG6 geometry and methodology openly; keep raw mappings under DAO governance until policy set."
+  audit:
+    log_dir: "${work_dir}/audit"
+    hash_algorithm: "sha256"
+    sign_with_gpg: true
+    gpg_key_id: "AE5519579584DEF5"
