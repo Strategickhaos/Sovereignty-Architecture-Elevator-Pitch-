@@ -1,0 +1,27 @@
+# Generated files - do not commit
+evolution_reports/
+neurographs/
+lab_format_*.json
+lab_handshake.yaml
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

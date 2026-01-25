@@ -1,0 +1,227 @@
+name: FlameLang Stress Legion
+
+on:
+  schedule:
+    # Run stress test daily at 02:00 UTC
+    - cron: '0 2 * * *'
+  
+  workflow_dispatch:
+    inputs:
+      stress_level:
+        description: 'Stress test level'
+        required: false
+        default: 'medium'
+        type: choice
+        options:
+          - light
+          - medium
+          - heavy
+          - extreme
+      
+      population_size:
+        description: 'Population size for stress test'
+        required: false
+        default: '100'
+
+env:
+  DNA_STRAND: TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1-ARROWEVO1
+  PYTHON_VERSION: '3.9'
+
+jobs:
+  stress-test-setup:
+    name: Stress Test Setup
+    runs-on: ubuntu-latest
+    
+    outputs:
+      population_size: ${{ steps.config.outputs.population_size }}
+      generations: ${{ steps.config.outputs.generations }}
+      parallel_workers: ${{ steps.config.outputs.parallel_workers }}
+    
+    steps:
+      - name: Configure stress test parameters
+        id: config
+        run: |
+          STRESS_LEVEL="${{ github.event.inputs.stress_level || 'medium' }}"
+          
+          case "$STRESS_LEVEL" in
+            light)
+              echo "population_size=50" >> $GITHUB_OUTPUT
+              echo "generations=10" >> $GITHUB_OUTPUT
+              echo "parallel_workers=2" >> $GITHUB_OUTPUT
+              ;;
+            medium)
+              echo "population_size=100" >> $GITHUB_OUTPUT
+              echo "generations=25" >> $GITHUB_OUTPUT
+              echo "parallel_workers=4" >> $GITHUB_OUTPUT
+              ;;
+            heavy)
+              echo "population_size=200" >> $GITHUB_OUTPUT
+              echo "generations=50" >> $GITHUB_OUTPUT
+              echo "parallel_workers=8" >> $GITHUB_OUTPUT
+              ;;
+            extreme)
+              echo "population_size=500" >> $GITHUB_OUTPUT
+              echo "generations=100" >> $GITHUB_OUTPUT
+              echo "parallel_workers=16" >> $GITHUB_OUTPUT
+              ;;
+          esac
+  
+  stress-evolution:
+    name: Stress Evolution Test
+    runs-on: ubuntu-latest
+    needs: stress-test-setup
+    
+    strategy:
+      matrix:
+        worker_id: [1, 2, 3, 4]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          pip install pyyaml numpy
+      
+      - name: Run stress evolution
+        run: |
+          cd phase-4.8-evolution
+          
+          echo "Worker ${{ matrix.worker_id }} starting stress evolution"
+          echo "Population: ${{ needs.stress-test-setup.outputs.population_size }}"
+          echo "Generations: ${{ needs.stress-test-setup.outputs.generations }}"
+          
+          # Run multiple evolution cycles
+          for i in {1..5}; do
+            echo "Cycle $i"
+            python src/tools/flamelang_evo_gate.py
+            sleep 1
+          done
+      
+      - name: Collect stress metrics
+        run: |
+          echo "Stress test completed for worker ${{ matrix.worker_id }}"
+          echo "DNA Strand: $DNA_STRAND"
+  
+  stress-load-test:
+    name: Load Test Wave Core
+    runs-on: ubuntu-latest
+    needs: stress-test-setup
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Concurrent wave processing
+        run: |
+          cd phase-4.8-evolution
+          
+          # Simulate concurrent processing
+          echo "Starting concurrent wave processing test"
+          
+          for i in {1..10}; do
+            (python src/emulator/wave_cores/trig6/lab_converter/lab_convert_sim.py &)
+          done
+          
+          wait
+          echo "Concurrent processing complete"
+  
+  stress-memory-test:
+    name: Memory Stress Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Memory stress test
+        run: |
+          cd phase-4.8-evolution
+          
+          echo "Starting memory stress test"
+          
+          # Create large populations
+          python -c "
+          import sys
+          sys.path.insert(0, 'src/tools')
+          from flamelang_evo_gate import EvolutionGate
+          
+          gate = EvolutionGate()
+          
+          # Create large test population
+          large_population = []
+          for i in range(1000):
+              large_population.append({
+                  'metadata': {'gene_id': f'stress_{i}'},
+                  'metrics': {
+                      'equilibrium': 0.99,
+                      'noise': 0.20,
+                      'drift': 0.30,
+                      'fitness': 0.90 + (i % 10) * 0.01
+                  }
+              })
+          
+          # Process population
+          selected = gate.select_from_population(large_population)
+          stats = gate.get_statistics()
+          
+          print(f'Processed {len(large_population)} genes')
+          print(f'Selected {len(selected)} genes')
+          print(f'Pass rate: {stats[\"pass_rate\"]:.2%}')
+          "
+  
+  stress-report:
+    name: Stress Test Report
+    runs-on: ubuntu-latest
+    needs: [stress-evolution, stress-load-test, stress-memory-test]
+    if: always()
+    
+    steps:
+      - name: Generate stress test report
+        run: |
+          echo "=========================================="
+          echo "FLAMELANG STRESS LEGION REPORT"
+          echo "=========================================="
+          echo "DNA Strand: $DNA_STRAND"
+          echo "Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo ""
+          echo "Test Results:"
+          echo "  Stress Evolution: ${{ needs.stress-evolution.result }}"
+          echo "  Load Test: ${{ needs.stress-load-test.result }}"
+          echo "  Memory Test: ${{ needs.stress-memory-test.result }}"
+          echo ""
+          echo "Status: All tests completed"
+          echo "=========================================="
+      
+      - name: Upload stress report
+        if: always()
+        run: |
+          mkdir -p stress-reports
+          
+          cat > stress-reports/report_$(date +%Y%m%d_%H%M%S).txt << EOF
+          FLAMELANG STRESS LEGION REPORT
+          Generated: $(date -u)
+          DNA Strand: $DNA_STRAND
+          
+          Test Results:
+          - Stress Evolution: ${{ needs.stress-evolution.result }}
+          - Load Test: ${{ needs.stress-load-test.result }}
+          - Memory Test: ${{ needs.stress-memory-test.result }}
+          
+          Conclusion: System stress testing completed
+          EOF

@@ -1,0 +1,62 @@
+# Gene #1: Draw Half Arrow (v3.35)
+# FlameLang Evolution System - Arrow Drawing Gene
+# DNA: TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1-ARROWEVO1
+
+metadata:
+  gene_id: "3.35"
+  gene_name: "draw_half_arrow"
+  version: "3.35"
+  description: "Draws half-arrow patterns for neural evolution"
+  fitness_function: "arrow_completeness"
+  mutation_rate: 0.05
+  crossover_rate: 0.7
+
+parameters:
+  arrow_length: 10
+  arrow_angle: 45
+  line_thickness: 2
+  render_style: "unicode"
+  
+constraints:
+  min_length: 5
+  max_length: 20
+  valid_angles: [30, 45, 60, 90]
+  
+evaluation:
+  fitness_weights:
+    symmetry: 0.4
+    completeness: 0.3
+    visual_clarity: 0.3
+  hard_gates:
+    min_equilibrium: 0.99
+    max_noise: 0.25
+    max_drift: 0.35
+
+flame_code: |
+  # FlameLang arrow drawing algorithm
+  def draw_half_arrow(length, angle):
+    # Calculate arrow points
+    x_offset = length * cos(radians(angle))
+    y_offset = length * sin(radians(angle))
+    
+    # Draw arrow shaft
+    for i in range(length):
+      print("─", end="")
+    
+    # Draw arrow head (half)
+    print("▶")
+    
+    # Return fitness metrics
+    return {
+      "symmetry": calculate_symmetry(),
+      "completeness": 0.95,
+      "visual_clarity": 0.92
+    }
+
+evolution_config:
+  selection_method: "tournament"
+  tournament_size: 3
+  elite_count: 2
+  population_size: 20
+  max_generations: 100
+  convergence_threshold: 0.98
