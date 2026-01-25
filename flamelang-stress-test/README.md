@@ -69,7 +69,7 @@ ATG-CGT-TAA-GCA-TCG
 
 Harmonics based on A4 (440 Hz):
 - **Rectangle Loop:** 880 Hz (octave up, harmonic 2)
-- **Triangle Loop:** 1320 Hz (perfect fifth, harmonic 3)
+- **Triangle Loop:** 1320 Hz (third harmonic)
 - **Validation:** 220 Hz (sub-octave, harmonic 0.5)
 
 ### Legion Council Validation
