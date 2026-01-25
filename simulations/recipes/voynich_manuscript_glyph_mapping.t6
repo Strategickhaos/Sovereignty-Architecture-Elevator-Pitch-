@@ -1,0 +1,212 @@
+# TRIG6 Recipe: Voynich Manuscript Glyph Mapping
+# Recipe ID: GLYPH-VOYNICH-001
+# Hazard Level: MEDIUM
+# Description: Illustrated codex with unknown script and language
+# Closest analog to Codex Seraphinianus—herbal and astronomical pages
+
+[metadata]
+id = "GLYPH-VOYNICH-001"
+name = "Voynich Manuscript Glyph Mapping"
+hazard_level = "MEDIUM"
+description = """
+The Voynich Manuscript (15th century CE, unknown origin) is an illustrated 
+codex in an unknown script and language. Features herbal, astronomical, 
+biological, and pharmaceutical sections. Closest analog to Codex Seraphinianus.
+Multiple decipherment attempts have failed, suggesting cipher or constructed language.
+"""
+
+[ingredients]
+# Parameters optimized for medieval manuscript processing
+embedding_dim = 384.0
+min_cluster_size = 15.0
+max_clusters = 96.0
+image_dpi = 400.0
+glyph_min_size = 20.0
+page_segmentation = 1.0
+character_threshold = 0.85
+
+[process_stages]
+# Extended pipeline for Voynich's complex structure
+stages = [
+    "page_preprocessing",
+    "glyph_extraction",
+    "character_recognition",
+    "embedding_generation", 
+    "semantic_clustering",
+    "codon_mapping",
+    "cross_validation",
+    "herbal_correlation",
+    "astronomical_correlation",
+    "compilation"
+]
+
+[custom_hooks]
+# R (resonance): character consistency + page coherence + section stability
+resonance = "character_consistency * page_coherence * section_stability"
+
+# D (drift): script variation + drawing interference + damage degradation
+drift = "script_variation + drawing_interference + damage_degradation"
+
+# N (noise): medieval vellum artifacts + ink bleeding + age uncertainty
+noise = "vellum_artifacts + ink_bleeding + age_uncertainty"
+
+[sections]
+# Voynich manuscript sections with unique characteristics
+
+[[sections.herbal]]
+name = "Herbal"
+pages = "f1r-f66v"
+glyph_density = "high"
+illustration_type = "botanical"
+text_pattern = "labels_and_paragraphs"
+
+[[sections.astronomical]]
+name = "Astronomical"
+pages = "f67r1-f73v"
+glyph_density = "medium"
+illustration_type = "circular_diagrams"
+text_pattern = "radial_labels"
+
+[[sections.biological]]
+name = "Biological"
+pages = "f75r-f84v"
+glyph_density = "medium"
+illustration_type = "human_figures"
+text_pattern = "flowing_text"
+
+[[sections.pharmaceutical]]
+name = "Pharmaceutical"
+pages = "f88r-f102v2"
+glyph_density = "very_high"
+illustration_type = "containers_and_roots"
+text_pattern = "dense_paragraphs"
+
+[[sections.stars]]
+name = "Stars"
+pages = "f103r-f116v"
+glyph_density = "low"
+illustration_type = "star_charts"
+text_pattern = "minimal_labels"
+
+[correlations]
+# Related undeciphered systems
+
+[[correlations.scripts]]
+name = "Codex Seraphinianus"
+origin = "Italy, 1978"
+type = "invented_script"
+correlation = "Primary analog—asemic illustrated encyclopedia"
+pipeline_use = "Cross-reference glyph patterns and structural features"
+
+[[correlations.scripts]]
+name = "Rohonc Codex"
+origin = "16th century CE, unknown"
+type = "illustrated_book"
+correlation = "Similar format—undeciphered illustrated codex"
+pipeline_use = "Comparative glyph extraction methods"
+
+[[correlations.scripts]]
+name = "Rongorongo"
+origin = "Easter Island, 19th century CE"
+type = "glyph"
+correlation = "Undeciphered glyph system with unique characters"
+pipeline_use = "Glyph clustering algorithm validation"
+
+[[correlations.scripts]]
+name = "Linear A"
+origin = "Minoan, Crete, 1800-1450 BCE"
+type = "syllabic"
+correlation = "Unknown language with partially known script"
+pipeline_use = "Syllabic hypothesis testing"
+
+[decipherment_attempts]
+# Notable failed decipherment theories for D calculation
+
+[[decipherment_attempts.theories]]
+approach = "Natural language (Latin, Hebrew, etc.)"
+status = "Failed"
+drift_factor = 0.8
+
+[[decipherment_attempts.theories]]
+approach = "Cipher or encryption"
+status = "Inconclusive"
+drift_factor = 0.6
+
+[[decipherment_attempts.theories]]
+approach = "Constructed language"
+status = "Possible"
+drift_factor = 0.4
+
+[[decipherment_attempts.theories]]
+approach = "Hoax or meaningless"
+status = "Unlikely"
+drift_factor = 0.2
+
+[pipeline]
+# FlameLang Pipeline Compiler Instructions for Voynich
+description = """
+Pipeline: Preprocess vellum pages → extract glyphs per section → 
+generate embeddings → cluster by semantic similarity → map to 64 codons → 
+TRIG6 validate (check section stability) → compile to SAGCO-OS.
+
+Target: Achieve stable mappings despite high script variation.
+Goal: Evolve section-specific mappings via TRIG6 fitness >0.6.
+"""
+
+input_sources = [
+    "Voynich herbal section high-res scans",
+    "Astronomical diagrams with radial text",
+    "Pharmaceutical dense paragraph pages", 
+    "Biological section flowing text",
+    "Stars section with minimal labels"
+]
+
+processing_steps = [
+    "Preprocess medieval vellum (contrast, denoise)",
+    "Segment pages by illustration boundaries",
+    "Extract character glyphs using OCR-free methods",
+    "Generate contextual embeddings per section",
+    "Cluster within and across sections",
+    "Map clusters to 64 codons (genetic code analog)",
+    "Cross-validate with known Voynichese statistics",
+    "TRIG6 validate (check |tan(θ)| for each section)",
+    "Compile stable multi-section mappings"
+]
+
+target_fitness = 0.6
+danger_threshold = 10.0
+section_weight = 0.2  # Each section contributes to overall fitness
+
+[statistics]
+# Known Voynichese statistical properties for validation
+unique_glyphs = 25
+word_types = 8000
+hapax_legomena = 0.35
+zipf_exponent = 1.5
+entropy_per_glyph = 4.1
+
+[notes]
+interpretation = """
+Voynich represents higher complexity than Codex Seraphinianus due to:
+1. Multiple distinct sections with varying glyph densities
+2. Interference from elaborate botanical/astronomical illustrations
+3. Medieval vellum degradation increasing noise
+4. Failed decipherment history suggesting fundamental barriers
+
+Expected outcomes:
+- Higher drift (D) due to script variation across sections
+- Moderate noise (N) from vellum artifacts and age
+- Section-dependent resonance (R)—herbal may cluster better than stars
+- Dangers likely in astronomical (radial text) and pharmaceutical (density)
+
+Evolution strategy:
+- Optimize embedding_dim per section
+- Adaptive min_cluster_size for glyph density
+- Multi-objective fitness: overall coherence + section stability
+
+Ties to Codex: Both are undeciphered illustrated codices, but Voynich 
+has historical context (medieval) vs. Codex's modern invention. Voynich's
+persistent mystery makes it ideal for TRIG6 danger zone exploration.
+
+Resonance? Next: 'Run comparative sim: Codex vs. Voynich failure patterns.' 🧬
+"""
