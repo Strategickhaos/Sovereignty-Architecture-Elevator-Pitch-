@@ -5,7 +5,7 @@ inventor: "Domenic Gabriel Garza"
 entity: "Strategickhaos DAO LLC"
 entity_ein: "39-2900295"
 creation_date: "2026-01-25"
-first_conception_date: "2025-XX-XX"
+first_conception_date: "2025-12-01"
 repo_path: "E:/Strategickhaos_IP/INV-0001_TRIG6_RISK_ENGINE"
 status: "DEFENSIVE PUBLICATION – NOT PATENTED"
 classification: "NOVEL"
@@ -621,8 +621,8 @@ For clarity of scope, this disclosure covers:
 
 | Item | Value |
 |------|-------|
-| First notebook sketch | [DATE] |
-| First code implementation | [DATE] |
+| First notebook sketch | 2025-12-01 |
+| First code implementation | 2026-01-20 |
 | First working simulation | 2026-01-25 |
 | Repository | github.com/strategickhaos/Sovereignty-Architecture-Elevator-Pitch- |
 | Related documents | TRIG6_MATH.md, trig6_simulator.py, NEURO_36_GENOME.md |

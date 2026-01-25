@@ -139,16 +139,16 @@ class TRIG6Engine:
         
         # Handle tangent and secant singularities (when cos ≈ 0)
         if abs(cos_t) < epsilon:
-            tan_t = float('inf') if sin_t > 0 else float('-inf')
-            sec_t = float('inf') if cos_t > 0 else float('-inf')
+            tan_t = float('inf') if sin_t >= 0 else float('-inf')
+            sec_t = float('inf') if cos_t >= 0 else float('-inf')
         else:
             tan_t = sin_t / cos_t
             sec_t = 1.0 / cos_t
         
         # Handle cosecant and cotangent singularities (when sin ≈ 0)
         if abs(sin_t) < epsilon:
-            csc_t = float('inf') if sin_t > 0 else float('-inf')
-            cot_t = float('inf') if cos_t > 0 else float('-inf')
+            csc_t = float('inf') if sin_t >= 0 else float('-inf')
+            cot_t = float('inf') if cos_t >= 0 else float('-inf')
         else:
             csc_t = 1.0 / sin_t
             cot_t = cos_t / sin_t
