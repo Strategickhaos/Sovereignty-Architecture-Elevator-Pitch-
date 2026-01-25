@@ -38,12 +38,12 @@ digraph TRIG6_NEUROGRAPH {
     style=filled;
     fillcolor="#FF634720";
     innovation [label="Innovation\n(Creative solution ge...)", fillcolor="#FF6347"];
-    focus [label="Focus\n(Task concentration...)", fillcolor="#FF6347"];
+    focus [label="Focus\n(Task concentration)", fillcolor="#FF6347"];
     noise [label="Noise\n(Signal-to-noise rati...)", fillcolor="#FF6347"];
-    stability [label="Stability\n(Output consistency...)", fillcolor="#FF6347"];
+    stability [label="Stability\n(Output consistency)", fillcolor="#FF6347"];
     accuracy [label="Accuracy\n(Correctness of resul...)", fillcolor="#FF6347"];
-    balance [label="Balance\n(Trade-off management...)", fillcolor="#FF6347"];
-    adaptability [label="Adaptability\n(Response to change...)", fillcolor="#FF6347"];
+    balance [label="Balance\n(Trade-off management)", fillcolor="#FF6347"];
+    adaptability [label="Adaptability\n(Response to change)", fillcolor="#FF6347"];
   }
 
   subgraph cluster_organs {

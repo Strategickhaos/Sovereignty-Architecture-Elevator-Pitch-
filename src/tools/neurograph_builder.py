@@ -18,6 +18,13 @@ import argparse
 import os
 import sys
 
+# Configuration constants
+LABEL_MAX_LENGTH = 20
+DOT_FILLCOLOR_OPACITY = "20"  # Hex opacity value (20 = ~12%)
+MIN_PENWIDTH = 0.5
+PENWIDTH_SCALE = 3.5
+
+
 
 def load_configs(trig_yaml='config/trig6.yaml', neuro_yaml='config/trig6_neurograph.yaml'):
     """Load and parse YAML configuration files."""
@@ -105,9 +112,16 @@ def build_dynamic_graph(trig_config, neuro_config):
         for metric, m_conf in conf.get('metrics', {}).items():
             metric_id = metric
             if not node_exists(metric_id):
+                # Safely handle description with fallback
+                description = m_conf.get('description', '')
+                if len(description) > LABEL_MAX_LENGTH:
+                    label_desc = description[:LABEL_MAX_LENGTH] + "..."
+                else:
+                    label_desc = description
+                
                 nodes.append({
                     'id': metric_id,
-                    'label': f"{metric.capitalize()}\n({m_conf['description'][:20]}...)",
+                    'label': f"{metric.capitalize()}\n({label_desc})",
                     'group': 'metrics'
                 })
             
@@ -162,7 +176,7 @@ def emit_dot(graph_data, output_file):
         dot += f'    label="{group.replace("_", " ").title()}";\n'
         dot += f'    color="{color}";\n'
         dot += f'    style=filled;\n'
-        dot += f'    fillcolor="{color}20";\n'  # 20% opacity
+        dot += f'    fillcolor="{color}{DOT_FILLCOLOR_OPACITY}";\n'
         for node in [n for n in graph_data['nodes'] if n.get('group') == group]:
             label = node['label'].replace('\n', '\\n')
             dot += f'    {node["id"]} [label="{label}", fillcolor="{color}"];\n'
@@ -172,7 +186,7 @@ def emit_dot(graph_data, output_file):
     for edge in graph_data['edges']:
         weight = edge.get('weight', 0.5)
         # Vary edge thickness based on weight
-        penwidth = 0.5 + (weight * 3.5)  # Range: 0.5 to 4.0
+        penwidth = MIN_PENWIDTH + (weight * PENWIDTH_SCALE)
         dot += f'  {edge["from"]} -> {edge["to"]} '
         dot += f'[weight={weight:.2f}, penwidth={penwidth:.2f}, '
         dot += f'label="{weight:.2f}"];\n'

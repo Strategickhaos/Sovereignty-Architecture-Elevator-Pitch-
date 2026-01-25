@@ -70,7 +70,7 @@
     },
     {
       "id": "focus",
-      "label": "Focus\n(Task concentration...)",
+      "label": "Focus\n(Task concentration)",
       "group": "metrics"
     },
     {
@@ -80,7 +80,7 @@
     },
     {
       "id": "stability",
-      "label": "Stability\n(Output consistency...)",
+      "label": "Stability\n(Output consistency)",
       "group": "metrics"
     },
     {
@@ -90,12 +90,12 @@
     },
     {
       "id": "balance",
-      "label": "Balance\n(Trade-off management...)",
+      "label": "Balance\n(Trade-off management)",
       "group": "metrics"
     },
     {
       "id": "adaptability",
-      "label": "Adaptability\n(Response to change...)",
+      "label": "Adaptability\n(Response to change)",
       "group": "metrics"
     }
   ],
