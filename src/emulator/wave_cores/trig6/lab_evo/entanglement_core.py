@@ -9,6 +9,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# Constants
+CORRELATION_THRESHOLD = 0.5  # Threshold for identifying correlated codon pairs
+
 
 class EncodingCorrelator:
     """
@@ -62,7 +65,7 @@ class EncodingCorrelator:
         correlated_pairs = []
         for i in range(n):
             for j in range(i+1, n):
-                if correlation_matrix[i][j] > 0.5:
+                if correlation_matrix[i][j] > CORRELATION_THRESHOLD:
                     correlated_pairs.append({
                         'codon1': codons[i],
                         'codon2': codons[j],

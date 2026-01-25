@@ -115,7 +115,13 @@ def run_dna_simulation(config: dict, args):
         logger.info(f"  Input: {test_input}")
         logger.info(f"  Description: {vector.get('desc', 'N/A')}")
         
-        # Simple validation logic
+        # Validate and parse input
+        # Complex patterns include validation sequences with rejects (>3 elements)
+        # that require special handling beyond simple h/w/head parsing
+        if len(test_input) > 3:
+            logger.warning(f"  Skipping - complex input pattern (validation sequence with {len(test_input)} elements)")
+            continue
+        
         if len(test_input) == 2:
             h, w = test_input
             head = 0

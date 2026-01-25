@@ -9,6 +9,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# Seed random for reproducibility in tests
+random.seed(42)
+
 
 class MutationSequencer:
     """

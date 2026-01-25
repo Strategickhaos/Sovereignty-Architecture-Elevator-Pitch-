@@ -28,6 +28,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Constants
+MAX_TAN_THETA = 100  # Maximum tan(θ) value before clamping for numerical stability
+
 
 class DNAExplorer:
     """
@@ -100,7 +103,7 @@ class DNAExplorer:
         
         return dot_product / (mag1 * mag2)
     
-    def dna_encode_operation(self, operation: str, lines: List[str]) -> Tuple[str, float]:
+    def dna_encode_operation(self, operation: str) -> Tuple[str, float]:
         """
         Map code operation to DNA codon sequence.
         
@@ -110,7 +113,6 @@ class DNAExplorer:
         
         Args:
             operation: Operation name (e.g., 'nested_rect_loop')
-            lines: Code lines to analyze
             
         Returns:
             Tuple of (codon, weight)
@@ -130,8 +132,8 @@ class DNAExplorer:
             
             # Weight by tan(θ) - clamped to avoid infinity at π/2
             tan_theta = math.tan(self.theta)
-            if abs(tan_theta) > 100:  # Clamp for stability
-                tan_theta = 100 if tan_theta > 0 else -100
+            if abs(tan_theta) > MAX_TAN_THETA:  # Clamp for stability
+                tan_theta = MAX_TAN_THETA if tan_theta > 0 else -MAX_TAN_THETA
             
             p_tan = 1.0 / (1.0 + abs(tan_theta))  # Probability weighting
             weight = p_tan * cos_sim
@@ -167,8 +169,8 @@ class DNAExplorer:
         
         # Calculate enhancement factor
         tan_theta = math.tan(self.theta)
-        if abs(tan_theta) > 100:
-            tan_theta = 100 if tan_theta > 0 else -100
+        if abs(tan_theta) > MAX_TAN_THETA:
+            tan_theta = MAX_TAN_THETA if tan_theta > 0 else -MAX_TAN_THETA
         
         tanh_tan = math.tanh(tan_theta)
         eq = config.get('equivalence', {}).get('threshold', 0.99)
