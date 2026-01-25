@@ -2,7 +2,6 @@
 evolution_reports/
 neurographs/
 lab_format_*.json
-lab_handshake.yaml
 
 # Python cache
 __pycache__/
