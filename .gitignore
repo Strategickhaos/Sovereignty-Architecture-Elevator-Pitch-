@@ -35,3 +35,8 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameBench cache and results
+bench_cache/
+results.json
+__pycache__/flamebench.cpython-*.pyc
