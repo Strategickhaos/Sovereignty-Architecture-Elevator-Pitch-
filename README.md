@@ -2,6 +2,8 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> 🧬 **New to the ecosystem?** Check out **[STRATEGICKHAOS_CONTEXT.md](STRATEGICKHAOS_CONTEXT.md)** for the complete context package including FlameLang v2, SAGCO OS, all current inventions (INV-088 through INV-091+), and the unified geometry system. Perfect for onboarding new team members or AI assistants.
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -279,6 +281,20 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
+
+## 📚 Essential Documentation
+
+### Core Documentation
+- **[STRATEGICKHAOS_CONTEXT.md](STRATEGICKHAOS_CONTEXT.md)** - 🔥 Complete ecosystem context package (start here!)
+- **[FLAMELANG_SPECIFICATION.md](FLAMELANG_SPECIFICATION.md)** - Sovereign programming language specification
+- **[STRATEGICKHAOS_EMPIRE_REPORT.md](STRATEGICKHAOS_EMPIRE_REPORT.md)** - Full infrastructure report
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deployment procedures and best practices
+
+### Quick Reference
+- **Entity:** Strategickhaos DAO LLC (Wyoming Entity 2025-001708194, EIN 39-2900295)
+- **Operator:** Dom (Me10101) - 72+ patent portfolio
+- **DNA Strand:** `SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-NET1-ORB1`
+- **Philosophy:** *"Gold in = God out. Sovereignty through mathematical truth."*
 
 ## 📄 License & Support
 
