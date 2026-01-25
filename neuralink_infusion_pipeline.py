@@ -97,7 +97,7 @@ class TRIG6Evaluator:
         burst_variance = self._calculate_burst_variance(embeddings, cluster_labels)
         
         # eq - Symbol count match (1.0 = perfect)
-        eq = 1.0 if n_clusters == 36 else abs(36 - n_clusters) / 36
+        eq = 1.0 if n_clusters == 36 else 1.0 - min(abs(36 - n_clusters) / 36, 1.0)
         
         # danger - Safe operating regime
         danger = burst_variance > 0.3 or D > 0.5
@@ -122,11 +122,11 @@ class TRIG6Evaluator:
         """Neural synchronization measure"""
         # Normalized cross-correlation across channels
         if len(embeddings) < 2:
-            return 0.65
+            return 0.65  # Default phase lock for ADHD/autism baseline
         normalized = embeddings / (np.std(embeddings) + 1e-10)
         # Calculate coefficient of variation as phase lock proxy
         phase_lock = 1.0 / (1.0 + np.std(normalized))
-        return min(0.65, phase_lock)  # Cap at observed value
+        return min(0.65, phase_lock)  # Cap at baseline observed value
     
     def _calculate_resonance(self, embeddings, cluster_labels):
         """Bio-resonance with stochastic peaks"""
@@ -160,6 +160,7 @@ class TRIG6Evaluator:
                 cluster_embeddings = embeddings[cluster_mask]
                 variances.append(np.var(cluster_embeddings))
         
+        # Default variance for ADHD/autism burst patterns
         return np.std(variances) if len(variances) > 1 else 0.275
 
 
@@ -264,8 +265,11 @@ class NeuralinkInfusionPipeline:
                 # Spike rate: mean amplitude
                 spike_rate = np.mean(np.abs(window))
                 
-                # Coherence: correlation across channels
-                coherence = np.mean(np.corrcoef(window.T))
+                # Coherence: correlation across channels (handle NaN)
+                corr_matrix = np.corrcoef(window.T)
+                # Extract off-diagonal elements only
+                mask = ~np.eye(corr_matrix.shape[0], dtype=bool)
+                coherence = np.nanmean(corr_matrix[mask]) if not np.all(np.isnan(corr_matrix[mask])) else 0.0
                 
                 # Duration: effective window size
                 duration = 10
