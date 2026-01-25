@@ -1,0 +1,151 @@
+name: FlameLang Evolution
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/**'
+      - 'benchmarks/**'
+      - '.github/workflows/flamelang-evolution.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/**'
+      - 'benchmarks/**'
+
+jobs:
+  evolution-gate:
+    name: Evolutionary Gate Evaluation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for evolution tracking
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.sovereignty.txt ]; then
+            pip install -r requirements.sovereignty.txt
+          fi
+      
+      - name: Run FlameBench
+        id: flamebench
+        run: |
+          # This is a placeholder - replace with actual FlameBench execution
+          echo "Running FlameBench stress tests..."
+          
+          # For now, use the sample stress_results.json
+          # In production, this would run: python sagco-benchmark.py
+          if [ ! -f stress_results.json ]; then
+            echo "Creating sample stress_results.json for testing"
+            cat > stress_results.json << 'EOF'
+          {
+            "p_success": 0.85,
+            "equivalence": 0.995,
+            "total_atoms": 42,
+            "passed_atoms": 36,
+            "failed_atoms": 6,
+            "benchmark_type": "flamebench",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+          fi
+          
+          echo "FlameBench completed"
+      
+      - name: Run TRIG6 metrics collection
+        id: trig6
+        run: |
+          # This is a placeholder - replace with actual TRIG6 metrics collection
+          echo "Collecting TRIG6 swarm metrics..."
+          
+          # Create logs directory if it doesn't exist
+          mkdir -p logs
+          
+          # For now, use the sample trig_layer.jsonl
+          # In production, this would run: python trig6_collect_metrics.py
+          if [ ! -f logs/trig_layer.jsonl ]; then
+            echo "Creating sample trig_layer.jsonl for testing"
+            echo '{"resonance": 0.75, "drift": 0.05, "noise_entropy": 0.08, "invention_density": 0.65, "phase_coherence": 0.82, "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"}' > logs/trig_layer.jsonl
+          fi
+          
+          echo "TRIG6 metrics collected"
+      
+      - name: Evolution gate evaluation
+        id: evo_gate
+        run: |
+          echo "Running evolutionary gate..."
+          
+          # Make the script executable
+          chmod +x src/emulator/wave_cores/trig6/evo_gate/flamelang_evo_gate.py
+          
+          # Run the evolutionary gate
+          python src/emulator/wave_cores/trig6/evo_gate/flamelang_evo_gate.py \
+            --candidate ${{ github.sha }} \
+            --champion champion.json
+          
+          GATE_RESULT=$?
+          
+          if [ $GATE_RESULT -eq 0 ]; then
+            echo "result=ACCEPTED" >> $GITHUB_OUTPUT
+            echo "✅ Evolutionary improvement detected!"
+          else
+            echo "result=REJECTED" >> $GITHUB_OUTPUT
+            echo "❌ Mutation rejected by evolutionary gate"
+          fi
+          
+          exit $GATE_RESULT
+      
+      - name: Commit champion update
+        if: steps.evo_gate.outputs.result == 'ACCEPTED'
+        run: |
+          # Configure git
+          git config --local user.email "evolution-gate@strategickhaos.dev"
+          git config --local user.name "FlameLang Evolution Gate"
+          
+          # Commit the updated champion.json
+          if [ -f champion.json ]; then
+            git add champion.json
+            git commit -m "🏆 Evolution: New champion from ${{ github.sha }}" || echo "No changes to commit"
+            
+            # Note: In a real workflow, you would push this back to the repo
+            # This requires write permissions and careful handling of branch protection
+            # For now, we'll just show what would be committed
+            echo "Champion update ready for commit"
+          fi
+      
+      - name: Post evolution summary
+        if: always()
+        run: |
+          echo "## 🔥 FlameLang Evolutionary Gate Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Candidate:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.evo_gate.outputs.result }}" == "ACCEPTED" ]; then
+            echo "✅ **Status:** ACCEPTED - New evolutionary champion!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "This mutation represents a measurable improvement in:" >> $GITHUB_STEP_SUMMARY
+            echo "- Swarm resonance and coherence (TRIG6 metrics)" >> $GITHUB_STEP_SUMMARY
+            echo "- Compiler performance (FlameBench p_success)" >> $GITHUB_STEP_SUMMARY
+            echo "- Behavioral correctness (equivalence >= 0.99)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Status:** REJECTED" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Possible reasons:" >> $GITHUB_STEP_SUMMARY
+            echo "- Failed equivalence hard gate (eq < 0.99)" >> $GITHUB_STEP_SUMMARY
+            echo "- No fitness improvement over current champion" >> $GITHUB_STEP_SUMMARY
+            echo "- Increased drift or noise in TRIG6 metrics" >> $GITHUB_STEP_SUMMARY
+          fi

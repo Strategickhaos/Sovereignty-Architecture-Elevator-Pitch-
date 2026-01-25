@@ -35,3 +35,7 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameLang Evolutionary Gate
+# Champion file - contains current best fitness (regenerated on each evolution)
+champion.json

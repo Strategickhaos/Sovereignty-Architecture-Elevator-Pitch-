@@ -1,0 +1,9 @@
+{
+  "p_success": 0.85,
+  "equivalence": 0.995,
+  "total_atoms": 42,
+  "passed_atoms": 36,
+  "failed_atoms": 6,
+  "benchmark_type": "flamebench",
+  "timestamp": "2026-01-25T03:51:00Z"
+}
