@@ -1,0 +1,39 @@
+{
+  "event": "boot",
+  "timestamp": 1769349172.077989,
+  "timestamp_iso": "2026-01-25T13:52:52.077989",
+  "baseline": {
+    "cpu": 0.48,
+    "load": [
+      0.0,
+      0.075732421875,
+      0.078466796875
+    ],
+    "memory": 11.1,
+    "io": 0.18446253233309412,
+    "network": 0.00380896863361979
+  },
+  "initial_health": {
+    "f": 0.9527634193116794,
+    "mode": "FULL",
+    "proof_threshold": 0.3,
+    "opt_aggression": 1.0,
+    "params": {
+      "R": 0.9556,
+      "D": 0.0019199999999999998,
+      "N": 0.0010313679829602755,
+      "eq": 0.9999809549754755
+    },
+    "timestamp": 1769349171.9766119
+  },
+  "compiler_config": {
+    "mode": "FULL",
+    "proof_threshold": 0.3,
+    "opt_level": 3,
+    "parallel_jobs": 7.6448,
+    "enable_aggressive_opts": true,
+    "memory_limit_mb": 8192,
+    "aggressive_inlining": true,
+    "enable_lto": true
+  }
+}
