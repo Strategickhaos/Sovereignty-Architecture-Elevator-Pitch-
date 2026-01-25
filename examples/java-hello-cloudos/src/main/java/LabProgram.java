@@ -12,5 +12,6 @@ public class LabProgram {
          }
       }
       System.out.println(count);
+      scnr.close();
    }
 }
