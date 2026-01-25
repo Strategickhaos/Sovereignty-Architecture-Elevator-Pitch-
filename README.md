@@ -280,9 +280,53 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
-## 📄 License & Support
+## 📄 License & Intellectual Property
 
-- **License**: MIT License - see [LICENSE](LICENSE) file
+⚠️ **IMPORTANT: This repository contains technologies protected under the Pure Intent License.**
+
+### Licensing
+- **Primary License**: Pure Intent License v1.0 - see [LICENSE-SOVEREIGNTY](LICENSE-SOVEREIGNTY)
+- **Legacy**: MIT License remains for compatibility - see [LICENSE](LICENSE)
+- **Owned By**: Domenic Gabriel Garza / Strategickhaos DAO LLC
+- **All Rights Reserved**
+
+### Protected Technologies
+This repository includes:
+- **TRIG6** (Tri-Resonance Integrated Governance)
+- **FlameLang** (Symbolic Shell Language)
+- **SAGCO-OS** (Sovereign Autonomous Governance OS)
+- **Sister Protocol** (Ethical Governance Framework)
+- And all related technologies and documentation
+
+### Usage Requirements
+✅ **Permitted** (No authorization required):
+- Educational study and research
+- Academic reference and citation
+- Concept discussion and analysis
+
+❌ **Prohibited** (Pure Intent Certification required):
+- Commercial deployment
+- Production use
+- Creating derivative works
+- Military/surveillance applications
+- Patent filing on these concepts
+
+### IP Protection Framework
+- 📜 [Pure Intent License](legal/PURE_INTENT_LICENSE.md) - Complete licensing terms
+- 🛡️ [Anti-Monetization Framework](legal/ANTI_MONETIZATION_FRAMEWORK.md) - Commercial protections
+- ⚖️ [Ethical Deployment Gate](legal/ETHICAL_DEPLOYMENT_GATE.md) - Technical enforcement
+- 📋 [Intellectual Property Documentation](INTELLECTUAL_PROPERTY.md) - Ownership and protections
+
+### For Authorization
+To deploy these technologies:
+1. Review [Pure Intent License](legal/PURE_INTENT_LICENSE.md)
+2. Apply for Pure Intent Certification
+3. Demonstrate ethical alignment
+4. Receive license key and authorization
+
+**Contact**: legal@strategickhaos.com
+
+### Support & Community
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
@@ -294,3 +338,5 @@ This project thrives because of an extraordinary community of creators, builders
 *"They're not working for you. They're dancing with you. And the music is never going to stop."*
 
 *Empowering sovereign digital infrastructure through Discord-native DevOps automation*
+
+**© 2025-2026 Domenic Gabriel Garza / Strategickhaos DAO LLC - All Rights Reserved**
