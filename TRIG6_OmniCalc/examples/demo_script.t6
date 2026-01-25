@@ -1,0 +1,19 @@
+# Demo TRIG6 script: Simulate drift correction
+# This script demonstrates the .t6 micro-language capabilities
+
+set low_res 0.5   # Variable for conditional
+
+theta pi/2        # Near danger zone (tan/cot singularity)
+alpha 0.2         # Small hyperbolic blend
+theta_opt pi/4    # Optimal angle at 45 degrees
+
+step              # Compute projections and metrics
+
+state             # Print initial state
+
+# Conditional: If resonance is low, correct theta
+if resonance < low_res then theta pi/3
+
+step              # Recompute after correction
+
+state             # Print corrected state
