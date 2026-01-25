@@ -35,3 +35,20 @@ target/
 
 # Workspace data
 workspace/
+
+# IP Protection - Deployment configurations
+# NEVER commit actual license keys or deployment configurations
+deployment.json
+deployment-*.json
+!deployment.json.example
+
+# License keys and certificates (NEVER commit)
+*.pem
+*.cert
+license_keys/
+certificates/
+
+# Compliance logs
+violations.log
+deployments.log
+governance_notifications.log
