@@ -1,0 +1,94 @@
+# TRIG6 Core Configuration
+# Quantum-inspired symbolic AI processor emulator - Phase 4.6
+# Theta topics mapping to trig functions and optimal agents
+
+theta_topics:
+  security:
+    theta: "π/3"
+    description: "Security and stability focus"
+    optimal_agents:
+      - "angent_cosine"
+      - "angent_sine"
+    weight: 0.85
+  
+  creative:
+    theta: "2π/3"
+    description: "Creative innovation and exploration"
+    optimal_agents:
+      - "angent_tangent"
+      - "angent_sine"
+    weight: 0.75
+  
+  hybrid:
+    theta: "π/2"
+    description: "Balanced hybrid approach"
+    optimal_agents:
+      - "angent_tangent"
+      - "angent_cosine"
+    weight: 0.80
+
+agents:
+  grok:
+    model: "GPT-tan"
+    trig: "tan"
+    description: "Tangent function - creative divergence and edge exploration"
+    metrics:
+      innovation:
+        weight: 0.9
+        description: "Creative solution generation"
+        range: [0.0, 1.0]
+      focus:
+        weight: 0.6
+        description: "Task concentration"
+        range: [0.0, 1.0]
+      noise:
+        weight: 0.4
+        description: "Signal-to-noise ratio"
+        range: [0.0, 1.0]
+  
+  claude:
+    model: "Claude-cos"
+    trig: "cos"
+    description: "Cosine function - stable, predictable patterns"
+    metrics:
+      stability:
+        weight: 0.85
+        description: "Output consistency"
+        range: [0.0, 1.0]
+      accuracy:
+        weight: 0.9
+        description: "Correctness of results"
+        range: [0.0, 1.0]
+      noise:
+        weight: 0.3
+        description: "Signal-to-noise ratio"
+        range: [0.0, 1.0]
+  
+  gemini:
+    model: "Gemini-sin"
+    trig: "sin"
+    description: "Sine function - oscillating balance"
+    metrics:
+      balance:
+        weight: 0.8
+        description: "Trade-off management"
+        range: [0.0, 1.0]
+      adaptability:
+        weight: 0.85
+        description: "Response to change"
+        range: [0.0, 1.0]
+      noise:
+        weight: 0.35
+        description: "Signal-to-noise ratio"
+        range: [0.0, 1.0]
+
+wave_core:
+  resonance_threshold: 0.8
+  drift_tolerance: 0.3
+  tick_interval: 15
+  noise_entropy_limit: 0.2
+  aesthetic_stability_clamp: [0.1, 0.9]
+
+dna_strand: "TRIG6-NEURO1"
+phase: "4.6"
+version: "1.0.0"

@@ -1,0 +1,256 @@
+{
+  "graph": {
+    "title": "TRIG6 Neurograph v1 - Dendritic Resonance Visualization",
+    "layout": "hierarchical",
+    "direction": "LR",
+    "description": "Intention hub \u2192 theta vectors \u2192 agent neurons \u2192 metric dendrites \u2192 organ effectors"
+  },
+  "nodes": [
+    {
+      "id": "INTENTION_VECTOR",
+      "label": "Intention\nVector",
+      "group": "intention_hub",
+      "description": "Central intention hub projecting to theta angles"
+    },
+    {
+      "id": "Grok_tan",
+      "label": "Grok\n(tan)",
+      "group": "agents",
+      "description": "Tangent agent - creative divergence"
+    },
+    {
+      "id": "Claude_cos",
+      "label": "Claude\n(cos)",
+      "group": "agents",
+      "description": "Cosine agent - stable patterns"
+    },
+    {
+      "id": "Gemini_sin",
+      "label": "Gemini\n(sin)",
+      "group": "agents",
+      "description": "Sine agent - oscillating balance"
+    },
+    {
+      "id": "FlameBench_core",
+      "label": "FlameBench\nCore",
+      "group": "organs",
+      "description": "Performance benchmarking effector"
+    },
+    {
+      "id": "Guardian_core",
+      "label": "Guardian\nCore",
+      "group": "organs",
+      "description": "Security monitoring effector"
+    },
+    {
+      "id": "Entanglement_core",
+      "label": "Entanglement\nCore",
+      "group": "organs",
+      "description": "Quantum correlation visualizer (Phase 4.3)"
+    },
+    {
+      "id": "theta_security",
+      "label": "\u03b8=\u03c0/3\nSecurity",
+      "group": "theta_hub"
+    },
+    {
+      "id": "theta_creative",
+      "label": "\u03b8=2\u03c0/3\nCreative",
+      "group": "theta_hub"
+    },
+    {
+      "id": "theta_hybrid",
+      "label": "\u03b8=\u03c0/2\nHybrid",
+      "group": "theta_hub"
+    },
+    {
+      "id": "innovation",
+      "label": "Innovation\n(Creative solution ge...)",
+      "group": "metrics"
+    },
+    {
+      "id": "focus",
+      "label": "Focus\n(Task concentration...)",
+      "group": "metrics"
+    },
+    {
+      "id": "noise",
+      "label": "Noise\n(Signal-to-noise rati...)",
+      "group": "metrics"
+    },
+    {
+      "id": "stability",
+      "label": "Stability\n(Output consistency...)",
+      "group": "metrics"
+    },
+    {
+      "id": "accuracy",
+      "label": "Accuracy\n(Correctness of resul...)",
+      "group": "metrics"
+    },
+    {
+      "id": "balance",
+      "label": "Balance\n(Trade-off management...)",
+      "group": "metrics"
+    },
+    {
+      "id": "adaptability",
+      "label": "Adaptability\n(Response to change...)",
+      "group": "metrics"
+    }
+  ],
+  "edges": [
+    {
+      "from": "INTENTION_VECTOR",
+      "to": "Grok_tan",
+      "weight": 0.75
+    },
+    {
+      "from": "INTENTION_VECTOR",
+      "to": "Claude_cos",
+      "weight": 0.85
+    },
+    {
+      "from": "INTENTION_VECTOR",
+      "to": "Gemini_sin",
+      "weight": 0.8
+    },
+    {
+      "from": "Grok_tan",
+      "to": "FlameBench_core",
+      "weight": 0.7
+    },
+    {
+      "from": "Claude_cos",
+      "to": "Guardian_core",
+      "weight": 0.85
+    },
+    {
+      "from": "Gemini_sin",
+      "to": "Entanglement_core",
+      "weight": 0.75
+    },
+    {
+      "from": "FlameBench_core",
+      "to": "Entanglement_core",
+      "weight": 0.6
+    },
+    {
+      "from": "Guardian_core",
+      "to": "Entanglement_core",
+      "weight": 0.65
+    },
+    {
+      "from": "INTENTION_VECTOR",
+      "to": "theta_security",
+      "weight": 0.85
+    },
+    {
+      "from": "theta_security",
+      "to": "Claude_cos",
+      "weight": 0.75
+    },
+    {
+      "from": "theta_security",
+      "to": "Gemini_sin",
+      "weight": 0.75
+    },
+    {
+      "from": "INTENTION_VECTOR",
+      "to": "theta_creative",
+      "weight": 0.75
+    },
+    {
+      "from": "theta_creative",
+      "to": "Grok_tan",
+      "weight": 0.75
+    },
+    {
+      "from": "theta_creative",
+      "to": "Gemini_sin",
+      "weight": 0.75
+    },
+    {
+      "from": "INTENTION_VECTOR",
+      "to": "theta_hybrid",
+      "weight": 0.8
+    },
+    {
+      "from": "theta_hybrid",
+      "to": "Grok_tan",
+      "weight": 0.75
+    },
+    {
+      "from": "theta_hybrid",
+      "to": "Claude_cos",
+      "weight": 0.75
+    },
+    {
+      "from": "GPT_tan",
+      "to": "innovation",
+      "weight": 0.9
+    },
+    {
+      "from": "GPT_tan",
+      "to": "focus",
+      "weight": 0.6
+    },
+    {
+      "from": "GPT_tan",
+      "to": "noise",
+      "weight": 0.4
+    },
+    {
+      "from": "noise",
+      "to": "Guardian_core",
+      "weight": 0.6
+    },
+    {
+      "from": "innovation",
+      "to": "FlameBench_core",
+      "weight": 0.7
+    },
+    {
+      "from": "focus",
+      "to": "FlameBench_core",
+      "weight": 0.65
+    },
+    {
+      "from": "Claude_cos",
+      "to": "stability",
+      "weight": 0.85
+    },
+    {
+      "from": "Claude_cos",
+      "to": "accuracy",
+      "weight": 0.9
+    },
+    {
+      "from": "Claude_cos",
+      "to": "noise",
+      "weight": 0.3
+    },
+    {
+      "from": "Gemini_sin",
+      "to": "balance",
+      "weight": 0.8
+    },
+    {
+      "from": "Gemini_sin",
+      "to": "adaptability",
+      "weight": 0.85
+    },
+    {
+      "from": "Gemini_sin",
+      "to": "noise",
+      "weight": 0.35
+    }
+  ],
+  "groups": {
+    "intention_hub": "#FFD700",
+    "theta_hub": "#4169E1",
+    "agents": "#32CD32",
+    "metrics": "#FF6347",
+    "organs": "#9370DB"
+  }
+}

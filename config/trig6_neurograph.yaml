@@ -1,0 +1,115 @@
+# TRIG6 Neurograph Configuration
+# Dendritic graph manifold extensions for Phase 4.6
+# Maps trig projections to neural-inspired graph structures
+
+graph:
+  title: "TRIG6 Neurograph v1 - Dendritic Resonance Visualization"
+  layout: "hierarchical"  # force, hierarchical, radial
+  direction: "LR"  # Left to Right
+  description: "Intention hub → theta vectors → agent neurons → metric dendrites → organ effectors"
+
+groups:
+  - name: "intention_hub"
+    color: "#FFD700"  # Gold
+    description: "Root axons - θ vectors originating from intention"
+  
+  - name: "theta_hub"
+    color: "#4169E1"  # Royal Blue
+    description: "Theta angle nodes representing trig projections"
+  
+  - name: "agents"
+    color: "#32CD32"  # Lime Green
+    description: "Agent neurons - trig functions as soma"
+  
+  - name: "metrics"
+    color: "#FF6347"  # Tomato
+    description: "Metric dendrites - fan-out scores as branches"
+  
+  - name: "organs"
+    color: "#9370DB"  # Medium Purple
+    description: "Organ effectors - synaptic terminals (FlameBench, Guardian)"
+
+nodes:
+  # Intention vector - root hub
+  - id: "INTENTION_VECTOR"
+    label: "Intention\nVector"
+    group: "intention_hub"
+    description: "Central intention hub projecting to theta angles"
+  
+  # Agent neurons
+  - id: "Grok_tan"
+    label: "Grok\n(tan)"
+    group: "agents"
+    description: "Tangent agent - creative divergence"
+  
+  - id: "Claude_cos"
+    label: "Claude\n(cos)"
+    group: "agents"
+    description: "Cosine agent - stable patterns"
+  
+  - id: "Gemini_sin"
+    label: "Gemini\n(sin)"
+    group: "agents"
+    description: "Sine agent - oscillating balance"
+  
+  # Organ effectors
+  - id: "FlameBench_core"
+    label: "FlameBench\nCore"
+    group: "organs"
+    description: "Performance benchmarking effector"
+  
+  - id: "Guardian_core"
+    label: "Guardian\nCore"
+    group: "organs"
+    description: "Security monitoring effector"
+  
+  - id: "Entanglement_core"
+    label: "Entanglement\nCore"
+    group: "organs"
+    description: "Quantum correlation visualizer (Phase 4.3)"
+
+edges:
+  # Intention to agents (base connections, auto-generated from theta topics)
+  - from: "INTENTION_VECTOR"
+    to: "Grok_tan"
+    weight: 0.75
+  
+  - from: "INTENTION_VECTOR"
+    to: "Claude_cos"
+    weight: 0.85
+  
+  - from: "INTENTION_VECTOR"
+    to: "Gemini_sin"
+    weight: 0.80
+  
+  # Agents to organs (effector connections)
+  - from: "Grok_tan"
+    to: "FlameBench_core"
+    weight: 0.7
+  
+  - from: "Claude_cos"
+    to: "Guardian_core"
+    weight: 0.85
+  
+  - from: "Gemini_sin"
+    to: "Entanglement_core"
+    weight: 0.75
+  
+  # Cross-connections for resonance
+  - from: "FlameBench_core"
+    to: "Entanglement_core"
+    weight: 0.6
+  
+  - from: "Guardian_core"
+    to: "Entanglement_core"
+    weight: 0.65
+
+render_options:
+  node_recolor_drift_threshold: 0.3  # Recolor nodes if drift > 0.3
+  edge_thickness_resonance_min: 0.8  # Thicken edges if resonance > 0.8
+  update_interval_ticks: 15  # Render updates every 15 neural ticks
+  
+visualization:
+  format: ["dot", "json"]  # Output formats
+  obsidian_export: true  # Enable JSON export for Obsidian
+  networkx_compatible: true  # Ensure NetworkX compatibility
