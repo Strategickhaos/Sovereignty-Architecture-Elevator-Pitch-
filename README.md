@@ -346,7 +346,8 @@ This repository contains comprehensive USPTO-ready patent documentation for the 
 
 ## 📄 License & Support
 
-- **License**: MIT License - see [LICENSE](LICENSE) file (Note: Patent rights reserved for SAGCO-OS invention)
+- **License**: MIT License - see [LICENSE](LICENSE) file
+  - *Note: The SAGCO-OS invention concepts and methods described in the patent documents are subject to pending patent rights. The MIT license applies to the code implementation, while patent protection is sought for the novel methods and systems.*
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
