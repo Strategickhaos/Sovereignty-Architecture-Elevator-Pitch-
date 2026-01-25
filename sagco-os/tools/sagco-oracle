@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""
+SAGCO-ORACLE - Guardian Layer Analysis Command
+Version: 1.0.0
+Part of CMD27 Arsenal
+
+Runs the Guardian Oracle System (ORB1) to analyze text for:
+- Hallucination patterns (SignatureOracle)
+- Behavioral anomalies (NetworkOracle)
+- Character distribution (SearchSpaceOracle)
+- Information entropy (EntropyOracle)
+
+Usage:
+    sagco-oracle "text to analyze"
+    sagco-oracle --file input.txt
+    sagco-oracle --interactive
+"""
+
+import sys
+from pathlib import Path
+
+# Add guardian module to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "guardian" / "src"))
+
+try:
+    from sagco_oracles import GuardianEnsemble, format_ensemble_result, ThreatLevel
+except ImportError:
+    print("Error: Cannot import Guardian Oracle System")
+    print("Make sure sagco_oracles.py is in sagco-os/guardian/src/")
+    sys.exit(1)
+
+
+def analyze_text(text: str):
+    """Analyze text using Guardian Oracle System"""
+    print("\n🛡️  Initializing SAGCO Guardian Oracle System (ORB1)...")
+    print("=" * 80)
+    
+    guardian = GuardianEnsemble()
+    result = guardian.analyze(text)
+    
+    print(format_ensemble_result(result))
+    
+    # Return exit code based on threat level
+    return result.overall_threat.value
+
+
+def interactive_mode():
+    """Interactive REPL mode"""
+    print("=" * 80)
+    print("SAGCO ORACLE - INTERACTIVE MODE")
+    print("=" * 80)
+    print("Enter text to analyze (Ctrl+D or 'exit' to quit)")
+    print()
+    
+    guardian = GuardianEnsemble()
+    
+    while True:
+        try:
+            print("oracle> ", end="")
+            text = input()
+            
+            if text.lower() in ('exit', 'quit', 'q'):
+                break
+            
+            if not text.strip():
+                continue
+            
+            print()
+            result = guardian.analyze(text)
+            
+            # Brief output for interactive mode
+            print(f"Threat Level: {result.overall_threat.name}")
+            print(f"Confidence:   {result.consensus_confidence:.2%}")
+            
+            total_findings = sum(len(r.findings) for r in result.oracle_results)
+            if total_findings > 0:
+                print(f"Findings:     {total_findings}")
+                for oracle_result in result.oracle_results:
+                    if oracle_result.findings:
+                        print(f"  [{oracle_result.oracle_name}]")
+                        for finding in oracle_result.findings[:2]:  # Show first 2
+                            print(f"    - {finding}")
+            else:
+                print("Findings:     None - text appears safe")
+            
+            print()
+            
+        except EOFError:
+            break
+        except KeyboardInterrupt:
+            print("\n\nInterrupted. Exiting...")
+            break
+    
+    print("\nGoodbye!")
+
+
+def show_help():
+    """Show help information"""
+    print("=" * 80)
+    print("SAGCO-ORACLE - Guardian Layer Analysis")
+    print("=" * 80)
+    print(__doc__)
+    print()
+    print("ORACLES:")
+    print("  SignatureOracle   - Pattern matching (Snort/Yara-style)")
+    print("  NetworkOracle     - Behavioral analysis (Nmap/Wireshark-style)")
+    print("  SearchSpaceOracle - Character distribution (Hashcat-style)")
+    print("  EntropyOracle     - Shannon entropy measurement")
+    print()
+    print("THREAT LEVELS:")
+    print("  NONE     (0) - No threats detected")
+    print("  LOW      (1) - Minor issues")
+    print("  MEDIUM   (2) - Moderate threats")
+    print("  HIGH     (3) - Significant threats")
+    print("  CRITICAL (4) - Critical threats")
+    print()
+    print("EXIT CODES:")
+    print("  Exit code equals threat level (0-4)")
+    print("=" * 80)
+
+
+def main():
+    if len(sys.argv) < 2:
+        show_help()
+        sys.exit(1)
+    
+    arg = sys.argv[1]
+    
+    if arg in ("--help", "-h"):
+        show_help()
+        sys.exit(0)
+    elif arg in ("--interactive", "-i"):
+        interactive_mode()
+        sys.exit(0)
+    elif arg in ("--file", "-f"):
+        if len(sys.argv) < 3:
+            print("Error: --file requires a filename argument")
+            sys.exit(1)
+        
+        filepath = Path(sys.argv[2])
+        if not filepath.exists():
+            print(f"Error: File not found: {filepath}")
+            sys.exit(1)
+        
+        with open(filepath, 'r') as f:
+            text = f.read()
+        
+        exit_code = analyze_text(text)
+        sys.exit(exit_code)
+    else:
+        # Treat all arguments as text to analyze
+        text = " ".join(sys.argv[1:])
+        exit_code = analyze_text(text)
+        sys.exit(exit_code)
+
+
+if __name__ == "__main__":
+    main()

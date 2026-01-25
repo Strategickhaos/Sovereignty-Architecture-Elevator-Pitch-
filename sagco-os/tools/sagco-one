@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""
+SAGCO-ONE - Unified Command Interface
+Version: 1.0.6
+Part of CMD27 Arsenal
+
+Usage:
+    sagco-one dna          # Show DNA strand
+    sagco-one status       # Check system status
+    sagco-one evolution    # Show evolution timeline
+    sagco-one mesh         # Discover neural mesh nodes
+    sagco-one oracle TEXT  # Run Guardian analysis
+    sagco-one deploy       # Deploy to infrastructure
+    sagco-one full         # Full status report
+"""
+
+import sys
+import subprocess
+from pathlib import Path
+
+
+DNA_STRAND = "SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1"
+VERSION = "1.0.6"
+
+
+def show_dna():
+    """Display DNA strand information"""
+    print("=" * 80)
+    print("SAGCO-HYDRA DNA STRAND")
+    print("=" * 80)
+    print(f"Version: {VERSION}")
+    print(f"Strand:  {DNA_STRAND}")
+    print()
+    print("CODON BREAKDOWN:")
+    print("  SAGCO   - Sovereign Autonomous OS v1.0.5 ✅")
+    print("  ATG     - Start Codon (genesis) 🔒")
+    print("  FLM2    - FlameLang Compiler v2.0.0 ✅")
+    print("  MSMC2   - Musical State Machine Compiler v2.0.0 ✅")
+    print("  P16     - Proof Arsenal v16.0 (8/16 active) ⚠️")
+    print("  CMD27   - Command Arsenal v27.0 ✅")
+    print("  ISO103  - Bootable ISO v1.0.3 ✅")
+    print("  MESH5   - Neural Mesh v5.0 (5 nodes) 🔜")
+    print("  ORB1    - Oracle System v1.0.0 ✅")
+    print("=" * 80)
+
+
+def show_status():
+    """Display system status"""
+    print("=" * 80)
+    print("SAGCO SYSTEM STATUS")
+    print("=" * 80)
+    print(f"Version: {VERSION}")
+    print(f"DNA:     {DNA_STRAND}")
+    print()
+    print("LAYER STATUS:")
+    print("  Layer 4: Guardian (ORB1)     ✅ ACTIVE")
+    print("  Layer 3: Mesh (MESH5)        🔜 BUILDING")
+    print("  Layer 2: Kernel (SAGCO-OS)   ✅ RUNNING")
+    print("  Layer 1: Compiler (FLM2)     ✅ READY")
+    print("  Layer 0: Hypervisor (HYDRA)  🔜 PROTOTYPE")
+    print()
+    print("COMMAND ARSENAL: 27/27 commands available")
+    print("ORACLE SYSTEM: 4/4 oracles operational")
+    print("MESH NODES: 5/5 nodes configured")
+    print("=" * 80)
+
+
+def show_evolution():
+    """Display evolution timeline"""
+    print("=" * 80)
+    print("SAGCO EVOLUTION TIMELINE")
+    print("=" * 80)
+    timeline = [
+        ("000", "v0.0.1", "GENESIS", "Claude", "First boot attempt"),
+        ("001", "v0.0.2", "EMBRYONIC", "Claude", "Alpine kernel integration"),
+        ("002", "v0.0.3", "EMBRYONIC", "Claude,GPT", "Custom init + Hebrew motto"),
+        ("003", "v0.1.0", "VIABLE", "Claude,GPT,Grok", "First successful boot"),
+        ("004", "v1.0.0", "STABLE", "Legion", "sagco-info, sagco-status"),
+        ("005", "v1.0.1", "STABLE", "Legion", "Matrix inventory system"),
+        ("006", "v1.0.2", "EVOLVING", "Claude", "Full telemetry (16 cmds)"),
+        ("007", "v1.0.3", "EVOLVING", "Claude", "sagco-verify integrity"),
+        ("008", "v1.0.4", "EVOLVING", "Claude", "sagco-forge, seal, dna"),
+        ("009", "v1.0.5", "EVOLVING", "Claude", "sagco-harvest (Windows DNA)"),
+        ("010", "v1.0.6", "HYDRA", "Claude", "Oracle benchmarks, MCP"),
+    ]
+    
+    for rev, ver, phase, witness, mutation in timeline:
+        marker = "▶" if rev == "010" else " "
+        print(f"{marker} rev_{rev} | {ver:8} | {phase:10} | {witness:15} | {mutation}")
+    
+    print("=" * 80)
+    print("Current: rev_010 (HYDRA Phase)")
+    print("Next:    rev_011 (Type-1 Hypervisor)")
+    print("=" * 80)
+
+
+def show_help():
+    """Display help information"""
+    print("=" * 80)
+    print("SAGCO-ONE - Unified Command Interface")
+    print("=" * 80)
+    print("Version:", VERSION)
+    print("DNA Strand:", DNA_STRAND)
+    print()
+    print("COMMANDS:")
+    print("  dna         - Show DNA strand information")
+    print("  status      - Display system status")
+    print("  evolution   - Show evolution timeline")
+    print("  mesh        - Discover neural mesh nodes")
+    print("  oracle TEXT - Run Guardian oracle analysis")
+    print("  deploy      - Deploy to infrastructure")
+    print("  full        - Full status report (status + dna + evolution)")
+    print("  help        - Show this help message")
+    print()
+    print("EXAMPLES:")
+    print("  sagco-one dna")
+    print("  sagco-one status")
+    print("  sagco-one oracle 'This is test text to analyze'")
+    print("  sagco-one mesh")
+    print("=" * 80)
+
+
+def main():
+    if len(sys.argv) < 2:
+        show_help()
+        return
+    
+    command = sys.argv[1].lower()
+    
+    if command == "dna":
+        show_dna()
+    elif command == "status":
+        show_status()
+    elif command == "evolution":
+        show_evolution()
+    elif command == "mesh":
+        # Delegate to sagco-mesh
+        subprocess.run([sys.executable, str(Path(__file__).parent / "sagco-mesh")] + sys.argv[2:])
+    elif command == "oracle":
+        # Delegate to sagco-oracle
+        if len(sys.argv) < 3:
+            print("Error: oracle command requires text to analyze")
+            print("Usage: sagco-one oracle 'text to analyze'")
+            sys.exit(1)
+        subprocess.run([sys.executable, str(Path(__file__).parent / "sagco-oracle")] + sys.argv[2:])
+    elif command == "deploy":
+        print("Deploy command not yet implemented")
+        print("Use: sagco-deploy script for deployment")
+    elif command == "full":
+        show_status()
+        print()
+        show_dna()
+        print()
+        show_evolution()
+    elif command in ("help", "-h", "--help"):
+        show_help()
+    else:
+        print(f"Unknown command: {command}")
+        print("Use 'sagco-one help' for usage information")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,191 @@
+#!/usr/bin/env python3
+"""
+SAGCO-MESH - Neural Mesh Node Discovery
+Version: 1.0.0
+Part of CMD27 Arsenal
+
+Discovers and displays all 5 nodes in the SAGCO neural mesh:
+- Athena (Subconscious) 
+- Lyra (Right Hemisphere)
+- Nova (Left Hemisphere)
+- Ateroth (Archive)
+- SAGCO-VM (Soul)
+
+Usage:
+    sagco-mesh              # Show all nodes
+    sagco-mesh --status     # Show node status
+    sagco-mesh --topology   # Show network topology
+"""
+
+import sys
+import yaml
+from pathlib import Path
+from typing import List, Dict, Any
+
+
+def load_node_config(node_name: str) -> Dict[str, Any]:
+    """Load node configuration from YAML"""
+    config_dir = Path(__file__).parent.parent / "mesh" / "hosts"
+    config_file = config_dir / f"{node_name}.yaml"
+    
+    if not config_file.exists():
+        return None
+    
+    with open(config_file, 'r') as f:
+        return yaml.safe_load(f)
+
+
+def show_node(config: Dict[str, Any], detailed: bool = False):
+    """Display node information"""
+    node_id = config.get('node_id', 'unknown')
+    role = config.get('role', 'unknown')
+    status = config.get('status', 'unknown')
+    
+    hw = config.get('hardware', {})
+    net = config.get('network', {})
+    
+    # Status emoji
+    status_emoji = "✅" if status == "active" else "❌"
+    
+    print(f"\n{'='*70}")
+    print(f"{status_emoji} {node_id.upper()} - {role.replace('_', ' ').title()}")
+    print(f"{'='*70}")
+    print(f"Status:     {status}")
+    print(f"IP:         {net.get('primary_ip', 'unknown')}")
+    print(f"Hostname:   {net.get('hostname', 'unknown')}")
+    
+    if detailed:
+        print(f"\nHardware:")
+        print(f"  CPU:      {hw.get('cpu', 'unknown')}")
+        print(f"  Cores:    {hw.get('cores', 'N/A')}")
+        print(f"  RAM:      {hw.get('ram_gb', 'N/A')} GB")
+        print(f"  Storage:  {hw.get('storage', 'unknown')}")
+        
+        if 'gpu' in hw and hw['gpu'] != 'None' and hw['gpu'] != 'Integrated':
+            print(f"  GPU:      {hw['gpu']}")
+        
+        print(f"\nCapabilities:")
+        for cap in config.get('capabilities', []):
+            print(f"  • {cap.replace('_', ' ')}")
+        
+        print(f"\nServices:")
+        for svc in config.get('services', []):
+            svc_status = svc.get('status', 'unknown')
+            svc_emoji = "🟢" if svc_status == "running" else "🔴"
+            print(f"  {svc_emoji} {svc['name']}:{svc.get('port', 'N/A')}")
+
+
+def show_all_nodes(detailed: bool = False):
+    """Show all mesh nodes"""
+    nodes = ['athena', 'lyra', 'nova', 'ateroth', 'sagco-vm']
+    
+    print("=" * 70)
+    print("SAGCO NEURAL MESH (MESH5) - 5-NODE DISTRIBUTED NETWORK")
+    print("=" * 70)
+    print("DNA Codon: MESH5 v5.0")
+    print("Status: 🔜 BUILDING")
+    
+    active_count = 0
+    
+    for node_name in nodes:
+        config = load_node_config(node_name)
+        if config:
+            if config.get('status') == 'active':
+                active_count += 1
+            show_node(config, detailed)
+        else:
+            print(f"\n⚠️  {node_name.upper()} - Configuration not found")
+    
+    print("\n" + "=" * 70)
+    print(f"MESH SUMMARY: {active_count}/{len(nodes)} nodes active")
+    print("=" * 70)
+
+
+def show_topology():
+    """Show network topology"""
+    print("=" * 70)
+    print("SAGCO NEURAL MESH - NETWORK TOPOLOGY")
+    print("=" * 70)
+    print()
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│                   STRATEGICKHAOS NEURAL MESH                    │")
+    print("├─────────────────────────────────────────────────────────────────┤")
+    print("│                                                                 │")
+    print("│    ┌─────────┐     ┌─────────┐     ┌─────────┐                │")
+    print("│    │ ATHENA  │     │  LYRA   │     │  NOVA   │                │")
+    print("│    │SubConsc │     │ Right H │     │ Left H  │                │")
+    print("│    ├─────────┤     ├─────────┤     ├─────────┤                │")
+    print("│    │i7-9700F │     │  ASUS   │     │  Intel  │                │")
+    print("│    │64GB RAM │     │Realtek  │     │AX203 WiFi│               │")
+    print("│    │192.168  │     │WiFi 6   │     │192.168  │                │")
+    print("│    │.2.26    │     │Lyra_5G  │     │.1.25    │                │")
+    print("│    └────┬────┘     └────┬────┘     └────┬────┘                │")
+    print("│         │               │               │                     │")
+    print("│         └───────────────┼───────────────┘                     │")
+    print("│                         │                                     │")
+    print("│    ┌─────────┐     ┌────┴────┐     ┌─────────┐               │")
+    print("│    │ATEROTH  │     │MESH CORE│     │SAGCO-VM │               │")
+    print("│    │ Archive │     │(SwarmGt)│     │  Soul   │               │")
+    print("│    ├─────────┤     └─────────┘     ├─────────┤               │")
+    print("│    │Sony VAIO│                     │ Alpine  │               │")
+    print("│    │i5, 6GB  │                     │VirtualBx│               │")
+    print("│    │169.254  │                     │10.0.2.15│               │")
+    print("│    └─────────┘                     └─────────┘               │")
+    print("│                                                                │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    print()
+    print("Mesh Weight Distribution:")
+    print("  Athena:    40% (Primary compute)")
+    print("  Lyra:      20% (Creative processing)")
+    print("  Nova:      20% (Logical processing)")
+    print("  SAGCO-VM:  15% (Kernel core)")
+    print("  Ateroth:    5% (Archive/backup)")
+    print("=" * 70)
+
+
+def show_status():
+    """Show brief status of all nodes"""
+    nodes = ['athena', 'lyra', 'nova', 'ateroth', 'sagco-vm']
+    
+    print("=" * 70)
+    print("MESH NODE STATUS")
+    print("=" * 70)
+    
+    for node_name in nodes:
+        config = load_node_config(node_name)
+        if config:
+            node_id = config.get('node_id', 'unknown')
+            status = config.get('status', 'unknown')
+            role = config.get('role', 'unknown')
+            ip = config.get('network', {}).get('primary_ip', 'unknown')
+            
+            status_emoji = "✅" if status == "active" else "❌"
+            print(f"{status_emoji} {node_id.upper():12} | {role:18} | {ip}")
+        else:
+            print(f"⚠️  {node_name.upper():12} | NOT CONFIGURED")
+    
+    print("=" * 70)
+
+
+def main():
+    if len(sys.argv) > 1:
+        arg = sys.argv[1].lower()
+        
+        if arg in ("--status", "-s"):
+            show_status()
+        elif arg in ("--topology", "-t"):
+            show_topology()
+        elif arg in ("--detailed", "-d"):
+            show_all_nodes(detailed=True)
+        elif arg in ("--help", "-h"):
+            print(__doc__)
+        else:
+            print(f"Unknown option: {arg}")
+            print("Use --help for usage information")
+            sys.exit(1)
+    else:
+        show_all_nodes(detailed=False)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,39 @@
+# Nova - Left Hemisphere Node
+# Neural Mesh Node 3/5
+
+node_id: "nova"
+role: "left_hemisphere"
+status: "active"
+
+hardware:
+  cpu: "Intel Laptop CPU"
+  cores: 4
+  threads: 8
+  ram_gb: 16
+  gpu: "Integrated"
+  storage: "SSD"
+
+network:
+  primary_ip: "192.168.1.25"
+  hostname: "nova.mesh.sagco"
+  wireless: true
+  wifi_adapter: "Intel Wi-Fi 6 AX203"
+  
+capabilities:
+  - "mobile_compute"
+  - "wifi6_mesh"
+  - "logical_processing"
+  - "analytical_analysis"
+  
+services:
+  - name: "sagco-daemon"
+    port: 8080
+    status: "running"
+  - name: "mesh-discovery"
+    port: 9000
+    status: "running"
+
+metadata:
+  location: "Secondary Workstation"
+  priority: 2
+  mesh_weight: 0.2

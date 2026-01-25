@@ -1,0 +1,40 @@
+# Ateroth - Archive Node
+# Neural Mesh Node 4/5
+
+node_id: "ateroth"
+role: "archive"
+status: "active"
+
+hardware:
+  cpu: "Intel Core i5 (older gen)"
+  cores: 2
+  threads: 4
+  ram_gb: 6
+  gpu: "Integrated"
+  storage: "HDD (slow)"
+
+network:
+  primary_ip: "169.254.x.x"
+  hostname: "ateroth.mesh.sagco"
+  wireless: true
+  connection_type: "fallback_link_local"
+  
+capabilities:
+  - "long_term_storage"
+  - "historical_data"
+  - "backup_node"
+  - "cold_storage"
+  
+services:
+  - name: "sagco-archive"
+    port: 8080
+    status: "running"
+  - name: "mesh-discovery"
+    port: 9000
+    status: "running"
+
+metadata:
+  location: "Archive Station (Sony VAIO)"
+  priority: 4
+  mesh_weight: 0.05
+  notes: "Slow HDD, use for archival only"

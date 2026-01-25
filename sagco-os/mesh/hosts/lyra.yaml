@@ -1,0 +1,40 @@
+# Lyra - Right Hemisphere Node
+# Neural Mesh Node 2/5
+
+node_id: "lyra"
+role: "right_hemisphere"
+status: "active"
+
+hardware:
+  cpu: "ASUS Laptop CPU"
+  cores: 4
+  threads: 8
+  ram_gb: 16
+  gpu: "Integrated"
+  storage: "SSD"
+
+network:
+  primary_ip: "192.168.1.x"
+  hostname: "lyra.mesh.sagco"
+  wireless: true
+  wifi_adapter: "Realtek RTL8852AE"
+  ssid: "Lyra_5G_Ctrl"
+  
+capabilities:
+  - "mobile_compute"
+  - "wifi6_mesh"
+  - "creative_processing"
+  - "intuitive_analysis"
+  
+services:
+  - name: "sagco-daemon"
+    port: 8080
+    status: "running"
+  - name: "mesh-discovery"
+    port: 9000
+    status: "running"
+
+metadata:
+  location: "Mobile Workstation"
+  priority: 2
+  mesh_weight: 0.2
