@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass, asdict, field
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple, Optional, Any, Union
 import hashlib
 import math
 
@@ -62,7 +62,7 @@ STATIC_GISTS = [
 class TestCase:
     test_id: str
     case_index: int
-    input_val: any
+    input_val: Union[int, List[int], str]
     expected: str
     actual: str
     passed: bool
@@ -441,7 +441,7 @@ def find_flm_file(gist_path: Path) -> Path:
         raise FileNotFoundError(f"No .flm file in {gist_path}")
     return flm_files[0]
 
-def run_single_case(flm_path: Path, input_val: any, expected: str, 
+def run_single_case(flm_path: Path, input_val: Union[int, List[int], str], expected: str, 
                     compile_only: bool = False) -> TestCase:
     """Run a single test case through FlameLang compiler/runtime"""
     import time
