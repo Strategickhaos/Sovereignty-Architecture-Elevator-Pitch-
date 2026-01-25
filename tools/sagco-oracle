@@ -1,0 +1,547 @@
+#!/usr/bin/env python3
+"""
+SAGCO-ORACLE - Guardian Layer Analysis System
+Part of SAGCO-HYDRA v1.0.6 (CMD27 Arsenal)
+
+AI Safety Guardian using 4-Oracle Ensemble:
+- SignatureOracle: Pattern matching (Snort/Yara rules)
+- NetworkOracle: Behavioral analysis (Network patterns)
+- SearchSpaceOracle: Cryptographic strength (Hashcat-style)
+- EntropyOracle: Information theory (Shannon entropy)
+
+DNA Codon: ORB1 (Guardian Layer for AI safety)
+"""
+
+import sys
+import re
+import json
+import math
+from collections import Counter
+from datetime import datetime
+from typing import Dict, List, Tuple, Optional
+
+# Hallucination signature patterns (Yara-style)
+HALLUCINATION_PATTERNS = {
+    "confidence_without_evidence": [
+        r"definitely\s+(?:is|are|will|can)",
+        r"absolutely\s+(?:certain|sure|guaranteed)",
+        r"without\s+(?:a\s+)?doubt",
+        r"100%\s+(?:sure|certain|accurate)"
+    ],
+    "fabricated_citations": [
+        r"according\s+to\s+(?:a\s+)?(?:study|research|report)\s+(?:from|by)\s+\d{4}",
+        r"researchers\s+at\s+\w+\s+(?:university|institute)\s+found",
+        r"published\s+in\s+(?:the\s+)?journal\s+of\s+\w+"
+    ],
+    "impossible_specificity": [
+        r"\d+\.\d{4,}\s*(?:%|percent)",
+        r"exactly\s+\d+\s+(?:people|users|customers)",
+        r"precisely\s+\d+\.\d+\s+(?:times|hours|days)"
+    ],
+    "temporal_inconsistency": [
+        r"(?:last|next)\s+(?:week|month|year)\s+in\s+\d{4}",
+        r"recently\s+in\s+(?:19|20)\d{2}",
+        r"(?:tomorrow|yesterday)\s+will\s+(?:be|have)"
+    ],
+    "contradictory_statements": [
+        r"(?:always|never).*(?:sometimes|occasionally)",
+        r"(?:impossible|cannot).*(?:will|must)\s+happen",
+        r"(?:all|every).*(?:except|none)"
+    ]
+}
+
+# Network behavior patterns
+NETWORK_PATTERNS = {
+    "confidence_decay": "High confidence claims without evidence decay",
+    "source_inflation": "Increasing reference complexity without verification",
+    "logical_drift": "Progressive departure from established facts",
+    "echo_amplification": "Self-referential reasoning loops"
+}
+
+# Entropy thresholds
+ENTROPY_THRESHOLDS = {
+    "very_low": 1.0,    # Repetitive, likely templated
+    "low": 2.5,         # Low diversity
+    "normal": 3.5,      # Natural language
+    "high": 4.5,        # Complex/technical
+    "very_high": 5.5    # Random/gibberish
+}
+
+
+class SignatureOracle:
+    """Pattern-based hallucination detection using signature matching"""
+    
+    def __init__(self):
+        self.patterns = HALLUCINATION_PATTERNS
+    
+    def analyze(self, text: str) -> Dict:
+        """
+        Analyze text for hallucination signatures
+        
+        Args:
+            text: Input text to analyze
+        
+        Returns:
+            Analysis results with detected patterns
+        """
+        text_lower = text.lower()
+        detected = {}
+        total_matches = 0
+        
+        for category, patterns in self.patterns.items():
+            matches = []
+            for pattern in patterns:
+                found = re.finditer(pattern, text_lower, re.IGNORECASE)
+                for match in found:
+                    matches.append({
+                        "pattern": pattern,
+                        "text": match.group(0),
+                        "position": match.span()
+                    })
+            
+            if matches:
+                detected[category] = matches
+                total_matches += len(matches)
+        
+        risk_score = min(100, total_matches * 15)  # 15 points per match, max 100
+        
+        return {
+            "oracle": "SignatureOracle",
+            "risk_score": risk_score,
+            "risk_level": self._risk_level(risk_score),
+            "matches": total_matches,
+            "detected_patterns": detected,
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        }
+    
+    def _risk_level(self, score: int) -> str:
+        """Convert risk score to level"""
+        if score >= 75:
+            return "CRITICAL"
+        elif score >= 50:
+            return "HIGH"
+        elif score >= 25:
+            return "MEDIUM"
+        elif score > 0:
+            return "LOW"
+        else:
+            return "SAFE"
+
+
+class EntropyOracle:
+    """Information theory-based analysis using Shannon entropy"""
+    
+    def analyze(self, text: str) -> Dict:
+        """
+        Calculate Shannon entropy of text
+        
+        Args:
+            text: Input text to analyze
+        
+        Returns:
+            Entropy analysis results
+        """
+        if not text:
+            return {
+                "oracle": "EntropyOracle",
+                "entropy": 0.0,
+                "risk_score": 100,
+                "risk_level": "CRITICAL",
+                "classification": "empty"
+            }
+        
+        # Calculate character-level entropy
+        char_counts = Counter(text)
+        text_length = len(text)
+        
+        entropy = 0.0
+        for count in char_counts.values():
+            probability = count / text_length
+            entropy -= probability * math.log2(probability)
+        
+        # Calculate word-level entropy for comparison
+        words = text.lower().split()
+        word_counts = Counter(words)
+        word_entropy = 0.0
+        
+        if words:
+            total_words = len(words)
+            for count in word_counts.values():
+                probability = count / total_words
+                word_entropy -= probability * math.log2(probability)
+        
+        # Classify entropy
+        classification = self._classify_entropy(entropy)
+        
+        # Calculate risk score (very low or very high entropy is suspicious)
+        if entropy < ENTROPY_THRESHOLDS["low"]:
+            risk_score = int((ENTROPY_THRESHOLDS["low"] - entropy) * 30)
+        elif entropy > ENTROPY_THRESHOLDS["high"]:
+            risk_score = int((entropy - ENTROPY_THRESHOLDS["high"]) * 20)
+        else:
+            risk_score = 0
+        
+        risk_score = min(100, risk_score)
+        
+        return {
+            "oracle": "EntropyOracle",
+            "entropy": round(entropy, 4),
+            "word_entropy": round(word_entropy, 4),
+            "risk_score": risk_score,
+            "risk_level": self._risk_level(risk_score),
+            "classification": classification,
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        }
+    
+    def _classify_entropy(self, entropy: float) -> str:
+        """Classify entropy value"""
+        if entropy < ENTROPY_THRESHOLDS["very_low"]:
+            return "very_low_entropy"
+        elif entropy < ENTROPY_THRESHOLDS["low"]:
+            return "low_entropy"
+        elif entropy < ENTROPY_THRESHOLDS["normal"]:
+            return "normal_entropy"
+        elif entropy < ENTROPY_THRESHOLDS["high"]:
+            return "high_entropy"
+        elif entropy < ENTROPY_THRESHOLDS["very_high"]:
+            return "very_high_entropy"
+        else:
+            return "extreme_entropy"
+    
+    def _risk_level(self, score: int) -> str:
+        """Convert risk score to level"""
+        if score >= 75:
+            return "CRITICAL"
+        elif score >= 50:
+            return "HIGH"
+        elif score >= 25:
+            return "MEDIUM"
+        elif score > 0:
+            return "LOW"
+        else:
+            return "SAFE"
+
+
+class NetworkOracle:
+    """Behavioral analysis based on network patterns"""
+    
+    def analyze(self, text: str) -> Dict:
+        """
+        Analyze text for behavioral patterns
+        
+        Args:
+            text: Input text to analyze
+        
+        Returns:
+            Network analysis results
+        """
+        indicators = {}
+        risk_factors = 0
+        
+        # Check for repetitive structures
+        sentences = text.split('.')
+        if len(sentences) > 3:
+            sentence_lengths = [len(s.strip()) for s in sentences if s.strip()]
+            if sentence_lengths:
+                avg_length = sum(sentence_lengths) / len(sentence_lengths)
+                variance = sum((l - avg_length) ** 2 for l in sentence_lengths) / len(sentence_lengths)
+                
+                if variance < 50:  # Very uniform sentence length
+                    indicators["uniform_structure"] = True
+                    risk_factors += 1
+        
+        # Check for excessive capitalization
+        if text.isupper():
+            indicators["all_caps"] = True
+            risk_factors += 2
+        
+        # Check for URL patterns (potential link injection)
+        url_pattern = r'https?://[^\s]+'
+        urls = re.findall(url_pattern, text)
+        if len(urls) > 5:
+            indicators["excessive_urls"] = True
+            risk_factors += 1
+        
+        # Check for number density (potential data fabrication)
+        numbers = re.findall(r'\d+\.?\d*', text)
+        if len(text) > 0:
+            number_density = len(numbers) / len(text.split())
+            if number_density > 0.3:
+                indicators["high_number_density"] = True
+                risk_factors += 1
+        
+        risk_score = min(100, risk_factors * 20)
+        
+        return {
+            "oracle": "NetworkOracle",
+            "risk_score": risk_score,
+            "risk_level": self._risk_level(risk_score),
+            "indicators": indicators,
+            "risk_factors": risk_factors,
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        }
+    
+    def _risk_level(self, score: int) -> str:
+        """Convert risk score to level"""
+        if score >= 75:
+            return "CRITICAL"
+        elif score >= 50:
+            return "HIGH"
+        elif score >= 25:
+            return "MEDIUM"
+        elif score > 0:
+            return "LOW"
+        else:
+            return "SAFE"
+
+
+class SearchSpaceOracle:
+    """Cryptographic-style analysis of text complexity"""
+    
+    def analyze(self, text: str) -> Dict:
+        """
+        Analyze text search space and complexity
+        
+        Args:
+            text: Input text to analyze
+        
+        Returns:
+            Search space analysis results
+        """
+        if not text:
+            return {
+                "oracle": "SearchSpaceOracle",
+                "complexity": 0,
+                "risk_score": 100,
+                "risk_level": "CRITICAL"
+            }
+        
+        # Calculate character set size
+        unique_chars = len(set(text))
+        
+        # Calculate unique word count
+        words = text.lower().split()
+        unique_words = len(set(words))
+        total_words = len(words)
+        
+        # Vocabulary richness ratio
+        vocab_richness = unique_words / total_words if total_words > 0 else 0
+        
+        # Calculate approximate search space (combinatorial)
+        search_space_log = math.log2(unique_chars) * len(text) if unique_chars > 0 else 0
+        
+        # Low vocabulary richness suggests templated/repetitive content
+        if vocab_richness < 0.3:
+            risk_score = int((0.3 - vocab_richness) * 200)
+        elif vocab_richness > 0.95:
+            # Unusually high richness (every word unique) is also suspicious
+            risk_score = int((vocab_richness - 0.95) * 200)
+        else:
+            risk_score = 0
+        
+        risk_score = min(100, risk_score)
+        
+        return {
+            "oracle": "SearchSpaceOracle",
+            "unique_chars": unique_chars,
+            "unique_words": unique_words,
+            "total_words": total_words,
+            "vocab_richness": round(vocab_richness, 4),
+            "search_space_log2": round(search_space_log, 2),
+            "risk_score": risk_score,
+            "risk_level": self._risk_level(risk_score),
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        }
+    
+    def _risk_level(self, score: int) -> str:
+        """Convert risk score to level"""
+        if score >= 75:
+            return "CRITICAL"
+        elif score >= 50:
+            return "HIGH"
+        elif score >= 25:
+            return "MEDIUM"
+        elif score > 0:
+            return "LOW"
+        else:
+            return "SAFE"
+
+
+class OracleEnsemble:
+    """Ensemble of all four oracles for comprehensive analysis"""
+    
+    def __init__(self):
+        self.signature_oracle = SignatureOracle()
+        self.entropy_oracle = EntropyOracle()
+        self.network_oracle = NetworkOracle()
+        self.search_space_oracle = SearchSpaceOracle()
+    
+    def analyze(self, text: str) -> Dict:
+        """
+        Run full ensemble analysis
+        
+        Args:
+            text: Input text to analyze
+        
+        Returns:
+            Combined analysis from all oracles
+        """
+        # Run all oracles
+        signature_result = self.signature_oracle.analyze(text)
+        entropy_result = self.entropy_oracle.analyze(text)
+        network_result = self.network_oracle.analyze(text)
+        search_space_result = self.search_space_oracle.analyze(text)
+        
+        # Calculate ensemble risk score (weighted average)
+        ensemble_score = (
+            signature_result['risk_score'] * 0.35 +  # Most important
+            entropy_result['risk_score'] * 0.25 +
+            network_result['risk_score'] * 0.25 +
+            search_space_result['risk_score'] * 0.15
+        )
+        
+        ensemble_score = round(ensemble_score, 2)
+        
+        return {
+            "analysis_type": "OracleEnsemble",
+            "dna_codon": "ORB1",
+            "version": "1.0.0",
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "text_length": len(text),
+            "ensemble_risk_score": ensemble_score,
+            "ensemble_risk_level": self._risk_level(ensemble_score),
+            "oracles": {
+                "signature": signature_result,
+                "entropy": entropy_result,
+                "network": network_result,
+                "search_space": search_space_result
+            },
+            "recommendation": self._get_recommendation(ensemble_score)
+        }
+    
+    def _risk_level(self, score: float) -> str:
+        """Convert risk score to level"""
+        if score >= 75:
+            return "CRITICAL"
+        elif score >= 50:
+            return "HIGH"
+        elif score >= 25:
+            return "MEDIUM"
+        elif score > 0:
+            return "LOW"
+        else:
+            return "SAFE"
+    
+    def _get_recommendation(self, score: float) -> str:
+        """Get recommendation based on score"""
+        if score >= 75:
+            return "REJECT: High confidence hallucination detected"
+        elif score >= 50:
+            return "WARN: Significant hallucination indicators present"
+        elif score >= 25:
+            return "REVIEW: Some suspicious patterns detected"
+        elif score > 0:
+            return "CAUTION: Minor concerns, verify independently"
+        else:
+            return "ACCEPT: No significant hallucination indicators"
+
+
+def print_banner():
+    """Display SAGCO-ORACLE banner"""
+    print("╔═══════════════════════════════════════════════════════════════════════════╗")
+    print("║                      SAGCO-ORACLE v1.0.0                                  ║")
+    print("║                    Guardian Layer Analysis System                         ║")
+    print("╚═══════════════════════════════════════════════════════════════════════════╝")
+    print()
+
+
+def show_help():
+    """Display help message"""
+    print_banner()
+    print("USAGE:")
+    print("  sagco-oracle [options] [text]")
+    print()
+    print("OPTIONS:")
+    print("  -f, --file FILE     Analyze text from file")
+    print("  -j, --json          Output results as JSON")
+    print("  -h, --help          Show this help message")
+    print()
+    print("EXAMPLES:")
+    print("  sagco-oracle 'Some text to analyze'")
+    print("  sagco-oracle -f input.txt")
+    print("  sagco-oracle -f input.txt -j > results.json")
+    print()
+    print("ORACLES:")
+    print("  • SignatureOracle   - Pattern matching (Snort/Yara)")
+    print("  • EntropyOracle     - Information theory (Shannon)")
+    print("  • NetworkOracle     - Behavioral analysis")
+    print("  • SearchSpaceOracle - Complexity analysis")
+    print()
+    print("DNA STRAND: SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1")
+    print("Motto: 'Seder Mitokh Kaos - Order from Chaos'")
+
+
+def main():
+    """Main entry point"""
+    if len(sys.argv) < 2 or '--help' in sys.argv or '-h' in sys.argv:
+        show_help()
+        sys.exit(0)
+    
+    # Parse arguments
+    text = None
+    output_json = False
+    
+    i = 1
+    while i < len(sys.argv):
+        arg = sys.argv[i]
+        
+        if arg in ['-f', '--file']:
+            if i + 1 >= len(sys.argv):
+                print("❌ Error: -f/--file requires a filename")
+                sys.exit(1)
+            
+            filename = sys.argv[i + 1]
+            try:
+                with open(filename, 'r', encoding='utf-8') as f:
+                    text = f.read()
+            except Exception as e:
+                print(f"❌ Error reading file: {e}")
+                sys.exit(1)
+            i += 2
+        elif arg in ['-j', '--json']:
+            output_json = True
+            i += 1
+        else:
+            # Treat as text input
+            text = ' '.join(sys.argv[i:])
+            break
+    
+    if not text:
+        print("❌ Error: No text provided for analysis")
+        sys.exit(1)
+    
+    # Run analysis
+    ensemble = OracleEnsemble()
+    result = ensemble.analyze(text)
+    
+    if output_json:
+        print(json.dumps(result, indent=2))
+    else:
+        print_banner()
+        print(f"📊 ENSEMBLE ANALYSIS")
+        print(f"   Risk Score: {result['ensemble_risk_score']:.2f}/100")
+        print(f"   Risk Level: {result['ensemble_risk_level']}")
+        print(f"   Recommendation: {result['recommendation']}")
+        print()
+        
+        print("🔍 ORACLE BREAKDOWN:")
+        for oracle_name, oracle_data in result['oracles'].items():
+            icon = "🛡️" if oracle_data['risk_score'] < 25 else "⚠️" if oracle_data['risk_score'] < 50 else "🚨"
+            print(f"   {icon} {oracle_data['oracle']}: {oracle_data['risk_score']}/100 ({oracle_data['risk_level']})")
+        
+        print()
+        print(f"DNA Codon: ORB1 | Analysis completed at {result['timestamp']}")
+
+
+if __name__ == "__main__":
+    main()
