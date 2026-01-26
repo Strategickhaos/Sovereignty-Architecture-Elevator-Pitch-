@@ -158,8 +158,8 @@ def check_danger(theta: float, threshold: float = 10.0) -> bool:
     try:
         tan_val = abs(math.tan(theta))
         return tan_val > threshold
-    except:
-        # tan is undefined at π/2, 3π/2, etc.
+    except (ValueError, ZeroDivisionError, OverflowError):
+        # tan is undefined at π/2, 3π/2, etc. or results in overflow
         return True
 
 
