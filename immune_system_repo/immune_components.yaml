@@ -1,0 +1,334 @@
+# Immune System Brain-OS Component Mappings
+# This file maps 36 immune system components to compiler passes, OS modules, and TRIG6 traits
+# Based on Physarum-style flow simulation with 50 generations per component
+
+metadata:
+  simulation_version: "1.0"
+  generations: 50
+  base_mutation_rate: 0.01
+  initial_dna: "ATGGCATGCCAAGGTATCTTACCG"
+  danger_threshold: 10.0
+  description: "Mapping immune system components to cognitive architecture traits"
+  survival_threshold: 0.5  # H > 0.5 = survivor, H ≤ 0.5 = wasted
+
+# Components categorized by survival status
+survivors:
+  # Core survivors (H > 0.5) - These are dynamic, regulatory, flow and gating mechanisms
+  - component_id: 6
+    component_name: "Inheleten exhibition"
+    ecosystem_mapping: "OS Module: Scheduler"
+    mapping_type: "os_module"
+    final_H: 0.52
+    final_fitness: 0.524
+    description: "Process scheduling and resource allocation"
+
+  - component_id: 10
+    component_name: "Coughing"
+    ecosystem_mapping: "TRIG6 Trait: Equilibrium Balancer"
+    mapping_type: "trig6_trait"
+    final_H: 0.52
+    final_fitness: 0.511
+    description: "Maintains system equilibrium and stability"
+
+  - component_id: 11
+    component_name: "Innate Immune System"
+    ecosystem_mapping: "Compiler Pass: IR Generation"
+    mapping_type: "compiler_pass"
+    final_H: 0.51
+    final_fitness: 0.507
+    description: "Intermediate representation generation in compilation"
+
+  - component_id: 13
+    component_name: "Cilia"
+    ecosystem_mapping: "TRIG6 Trait: Danger Reset"
+    mapping_type: "trig6_trait"
+    final_H: 0.59
+    final_fitness: 0.581
+    description: "Reset mechanism when danger threshold exceeded"
+
+  - component_id: 15
+    component_name: "Lucoside"
+    ecosystem_mapping: "OS Module: Control Unit"
+    mapping_type: "os_module"
+    final_H: 0.62
+    final_fitness: 0.614
+    description: "Central control unit for instruction execution"
+
+  - component_id: 23
+    component_name: "Asymmetric"
+    ecosystem_mapping: "Compiler Pass: Optimization"
+    mapping_type: "compiler_pass"
+    final_H: 0.57
+    final_fitness: 0.562
+    description: "Code optimization and transformation"
+
+  - component_id: 24
+    component_name: "Synthe cells"
+    ecosystem_mapping: "OS Module: Cognitive Mapping"
+    mapping_type: "os_module"
+    final_H: 0.61
+    final_fitness: 0.602
+    description: "Maps cognitive states and transitions"
+
+  - component_id: 27
+    component_name: "Progenitor cell"
+    ecosystem_mapping: "OS Module: Quantum Gate Array"
+    mapping_type: "os_module"
+    final_H: 0.82
+    final_fitness: 0.812
+    description: "Quantum-inspired computation gates"
+
+  - component_id: 28
+    component_name: "Stem cells"
+    ecosystem_mapping: "TRIG6 Trait: Bio-Sim Integrator"
+    mapping_type: "trig6_trait"
+    final_H: 0.52
+    final_fitness: 0.517
+    description: "Integrates biological simulation data"
+
+  - component_id: 30
+    component_name: "Bacteria"
+    ecosystem_mapping: "OS Module: Processor Emulation"
+    mapping_type: "os_module"
+    final_H: 0.54
+    final_fitness: 0.537
+    description: "Emulates different processor architectures"
+
+  - component_id: 32
+    component_name: "Nutritional"
+    ecosystem_mapping: "Compiler Pass: Debug Gate"
+    mapping_type: "compiler_pass"
+    final_H: 0.57
+    final_fitness: 0.564
+    description: "Debugging and verification gates"
+
+  - component_id: 34
+    component_name: "Antigens"
+    ecosystem_mapping: "TRIG6 Trait: Life Protocol"
+    mapping_type: "trig6_trait"
+    final_H: 0.54
+    final_fitness: 0.535
+    description: "Core life cycle protocol management"
+
+wasted:
+  # Wasted paths (H ≤ 0.5) - Mostly coarse structural labels and context/anatomy
+  - component_id: 1
+    component_name: "Skin"
+    ecosystem_mapping: "TRIG6 Trait: Resonance Gate"
+    mapping_type: "trig6_trait"
+    final_H: 0.50
+    final_fitness: 0.458
+    description: "Resonance-based filtering (borderline)"
+
+  - component_id: 2
+    component_name: "Sebum"
+    ecosystem_mapping: "Compiler Pass: Parsing"
+    mapping_type: "compiler_pass"
+    final_H: 0.29
+    final_fitness: 0.257
+    description: "Syntax parsing and tokenization"
+
+  - component_id: 3
+    component_name: "Anti-microbial elements"
+    ecosystem_mapping: "OS Module: Wave Core"
+    mapping_type: "os_module"
+    final_H: 0.15
+    final_fitness: 0.133
+    description: "Wave-based computation core"
+
+  - component_id: 4
+    component_name: "Probiotics"
+    ecosystem_mapping: "TRIG6 Trait: Drift Detector"
+    mapping_type: "trig6_trait"
+    final_H: 0.29
+    final_fitness: 0.263
+    description: "Detects parameter drift over time"
+
+  - component_id: 5
+    component_name: "Holistic organ nose mouth throat"
+    ecosystem_mapping: "Compiler Pass: Codegen"
+    mapping_type: "compiler_pass"
+    final_H: 0.49
+    final_fitness: 0.443
+    description: "Code generation from IR"
+
+  - component_id: 7
+    component_name: "Harmonious Coexistens Symbosis"
+    ecosystem_mapping: "TRIG6 Trait: Noise Filter"
+    mapping_type: "trig6_trait"
+    final_H: 0.47
+    final_fitness: 0.425
+    description: "Filters out noise from signals"
+
+  - component_id: 8
+    component_name: "Pathogens"
+    ecosystem_mapping: "Compiler Pass: AST Building"
+    mapping_type: "compiler_pass"
+    final_H: 0.35
+    final_fitness: 0.316
+    description: "Abstract syntax tree construction"
+
+  - component_id: 9
+    component_name: "Mucus membrane"
+    ecosystem_mapping: "OS Module: Memory Manager"
+    mapping_type: "os_module"
+    final_H: 0.39
+    final_fitness: 0.353
+    description: "Memory allocation and management"
+
+  - component_id: 12
+    component_name: "Adaptive Immune System"
+    ecosystem_mapping: "OS Module: ALU Agent"
+    mapping_type: "os_module"
+    final_H: 0.47
+    final_fitness: 0.425
+    description: "Arithmetic logic unit agent"
+
+  - component_id: 14
+    component_name: "Oral cavity"
+    ecosystem_mapping: "Compiler Pass: Proof Gate"
+    mapping_type: "compiler_pass"
+    final_H: 0.30
+    final_fitness: 0.271
+    description: "Formal verification gates"
+
+  - component_id: 16
+    component_name: "Neutrophil"
+    ecosystem_mapping: "TRIG6 Trait: Heritability Boost"
+    mapping_type: "trig6_trait"
+    final_H: 0.06
+    final_fitness: 0.053
+    description: "Boosts heritability of successful patterns"
+
+  - component_id: 17
+    component_name: "Bone marrow"
+    ecosystem_mapping: "Compiler Pass: Lexer"
+    mapping_type: "compiler_pass"
+    final_H: 0.47
+    final_fitness: 0.426
+    description: "Lexical analysis and tokenization"
+
+  - component_id: 18
+    component_name: "Immune cell"
+    ecosystem_mapping: "OS Module: Entanglement Core"
+    mapping_type: "os_module"
+    final_H: 0.43
+    final_fitness: 0.389
+    description: "Quantum entanglement simulation"
+
+  - component_id: 19
+    component_name: "Blood stream"
+    ecosystem_mapping: "TRIG6 Trait: Flow Adapter"
+    mapping_type: "trig6_trait"
+    final_H: 0.32
+    final_fitness: 0.288
+    description: "Adapts flow between different modules"
+
+  - component_id: 20
+    component_name: "Weak adhesion"
+    ecosystem_mapping: "Compiler Pass: Semantic Analysis"
+    mapping_type: "compiler_pass"
+    final_H: 0.25
+    final_fitness: 0.225
+    description: "Semantic correctness checking"
+
+  - component_id: 21
+    component_name: "Strong adhesion"
+    ecosystem_mapping: "OS Module: Register Memory"
+    mapping_type: "os_module"
+    final_H: 0.34
+    final_fitness: 0.307
+    description: "Fast register-level memory"
+
+  - component_id: 22
+    component_name: "Receptor"
+    ecosystem_mapping: "TRIG6 Trait: Mutation Engine"
+    mapping_type: "trig6_trait"
+    final_H: 0.32
+    final_fitness: 0.289
+    description: "Generates mutations for evolution"
+
+  - component_id: 25
+    component_name: "Division and maturation of neutrophils"
+    ecosystem_mapping: "TRIG6 Trait: Pivot Shifter"
+    mapping_type: "trig6_trait"
+    final_H: 0.29
+    final_fitness: 0.261
+    description: "Shifts pivot points in decision trees"
+
+  - component_id: 26
+    component_name: "Nucleosides"
+    ecosystem_mapping: "Compiler Pass: Linker"
+    mapping_type: "compiler_pass"
+    final_H: 0.50
+    final_fitness: 0.450
+    description: "Links compiled modules together"
+
+  - component_id: 29
+    component_name: "Connective Tissue"
+    ecosystem_mapping: "Compiler Pass: Runtime Check"
+    mapping_type: "compiler_pass"
+    final_H: 0.32
+    final_fitness: 0.289
+    description: "Runtime validation and checks"
+
+  - component_id: 31
+    component_name: "Toxins"
+    ecosystem_mapping: "TRIG6 Trait: Nervisticism Model"
+    mapping_type: "trig6_trait"
+    final_H: 0.25
+    final_fitness: 0.226
+    description: "Models nervous system behavior"
+
+  - component_id: 33
+    component_name: "Tumor Necrosis"
+    ecosystem_mapping: "OS Module: Soul Execution"
+    mapping_type: "os_module"
+    final_H: 0.47
+    final_fitness: 0.425
+    description: "Core execution engine"
+
+  - component_id: 35
+    component_name: "Thymus"
+    ecosystem_mapping: "Compiler Pass: Prior Eval"
+    mapping_type: "compiler_pass"
+    final_H: 0.41
+    final_fitness: 0.371
+    description: "Evaluates prior probabilities"
+
+  - component_id: 36
+    component_name: "Transition/Run/Gain/Advance/Set back"
+    ecosystem_mapping: "OS Module: Physarum Evolver"
+    mapping_type: "os_module"
+    final_H: 0.23
+    final_fitness: 0.207
+    description: "Physarum polycephalum evolution simulator"
+
+# Analysis and insights
+analysis:
+  total_components: 36
+  survivors_count: 12
+  wasted_count: 24
+  
+  survivor_pattern: |
+    Survivors are dynamic, regulatory, flow and gating mechanisms:
+    - Control logic (Scheduler, Control Unit, Cognitive Mapping)
+    - Safety mechanisms (Danger Reset, Equilibrium Balancer)
+    - Core processing (Quantum Gate Array, Processor Emulation)
+    - Optimization (Optimization pass, Debug Gate)
+    
+  wasted_pattern: |
+    Wasted paths are mostly coarse structural labels:
+    - Anatomy labels (Skin, Sebum, Mucus membrane)
+    - Holistic organs (nose/mouth/throat, Oral cavity)
+    - Generic categories (Immune cell, Connective Tissue)
+    - Big nouns without fine-grained control
+    
+  interpretation: |
+    The system reinforces micro-dynamics and control logic,
+    and prunes coarse category labels unless they're doing real work.
+    
+    This matches a thought pattern that cares about:
+    - flows, gates, pivots, error-checks
+    - prior evals, emulation
+    - NOT official category names unless they plug into causal circuits
