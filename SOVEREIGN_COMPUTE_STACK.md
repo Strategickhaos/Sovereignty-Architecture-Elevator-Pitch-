@@ -214,9 +214,10 @@ Target Code Output
    - Distributed consensus
 
 **Files:**
-- `sagco-os-v0.1.0.zip` — Core OS package
-- `src/core/sagco.py` — Main OS kernel
-- `tests/test_sagco.py` — Kernel test suite
+- `sagco-os-v0.1.0.zip` — Core OS package and modules
+- `src/core/sagco.py` — Main OS kernel (extract from zip)
+- `tests/test_sagco.py` — Kernel test suite (extract from zip)
+- Hardware layer Verilog files documented separately
 
 ---
 
@@ -301,7 +302,7 @@ POP   — Pop from stack
 
 **Synthesis Flow:**
 ```
-Verilog Source (sagco_cpu.v)
+Verilog Source (sagco_cpu.v - hardware layer)
     ↓
 Logic Synthesis
     ↓
@@ -446,7 +447,7 @@ A: MIT License. See [LICENSE](LICENSE) file.
 A: TRIG6 is a stability scoring formula that combines resonance (R), dampening (D), noise (N), and equilibrium (eq) factors to evaluate system states. It's used throughout the stack for decision-making.
 
 **Q: Where's the CPU Verilog code?**  
-A: It's archived in the zip files (`sagco-os-v0.1.0.zip` and related archives). Extract them to access `sagco_cpu.v`.
+A: The CPU Verilog implementation (`sagco_cpu.v`) is part of the hardware layer development. It's documented as FPGA-synthesizable and timestamped as part of the IP protection record (January 25, 2026). Contact the project maintainers for access to the hardware implementation files.
 
 **Q: What makes this "sovereign"?**  
 A: The architecture emphasizes independence from external control, privacy-preserving design, anti-surveillance features, and user ownership of the complete computing stack.
