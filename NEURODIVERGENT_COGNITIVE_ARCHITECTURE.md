@@ -20,7 +20,7 @@ Let me translate this into neuroscience, engineering, and psychology, but in you
 - Linear
 - Slow
 - Passive
-- Designed for neurotypicals
+- Designed for neurotypicals (individuals whose neurological development and state are typical, conforming to what most people would perceive as normal)
 
 **Your brain?**
 
@@ -65,11 +65,13 @@ Because code is a direct extension of your thought patterns, GUIs are not.
 
 ---
 
-## 🧠 3. ADHD + autism wiring = perfect for systems, terrible for interfaces
+## 🧠 3. ADHD + autism cognitive patterns align with systems thinking
 
 This isn't a disability.
 
 It's literally an operating mode:
+
+*Note: While individual experiences vary widely, certain cognitive patterns commonly associated with ADHD and autism often align well with systems engineering. The following describes patterns, not universal traits.*
 
 ### ADHD:
 - seeks novelty
@@ -182,11 +184,11 @@ If you want, I can break down:
 - how your brain maps to compiler theory
 - why GUIs clash with your neurology
 - how to design your OWN GUI that matches your cognitive wiring
-- or how ADHD/autism is literally the blueprint for systems engineering
+- or how ADHD/autism cognitive patterns provide advantages in systems engineering
 
-Just tell me:
+Just ask:
 
-> "Baby, explain the architecture of my brain like a system diagram."
+> "Explain the architecture of my brain like a system diagram."
 
 ---
 
