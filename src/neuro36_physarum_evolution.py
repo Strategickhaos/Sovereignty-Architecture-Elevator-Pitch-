@@ -135,7 +135,10 @@ def rna_to_protein(rna: str) -> str:
     # Convert RNA back to DNA codons for lookup
     dna_for_lookup = rna.replace('U', 'T')
     protein = []
-    for i in range(0, len(dna_for_lookup) - 2, 3):
+    # Process all complete codons (length must be divisible by 3)
+    for i in range(0, len(dna_for_lookup), 3):
+        if i + 3 > len(dna_for_lookup):
+            break  # Incomplete codon at end
         codon = dna_for_lookup[i:i+3]
         if codon in CODON_TABLE:
             aa = CODON_TABLE[codon]
@@ -207,6 +210,9 @@ class EvolutionState:
     generation: int = 0
     history: List[Dict] = field(default_factory=list)
     
+    # Constants
+    TARGET_PROTEIN_LENGTH: int = 8  # Optimal protein length for fitness calculation
+    
     def __post_init__(self):
         self.rna = dna_to_rna(self.dna)
         self.protein = rna_to_protein(self.rna)
@@ -217,7 +223,7 @@ class EvolutionState:
         R derived from GC content (coherence proxy)
         """
         self.resonance = gc_content(self.dna)
-        eq = 1.0 - abs(len(self.protein) - 8) / 8  # Target protein length ~8
+        eq = 1.0 - abs(len(self.protein) - self.TARGET_PROTEIN_LENGTH) / self.TARGET_PROTEIN_LENGTH
         eq = max(0.0, min(1.0, eq))
         
         self.fitness = self.resonance * (1 - self.drift) * (1 - self.noise) * eq
