@@ -21,7 +21,6 @@ inherit as core traits versus which get pruned.
 import json
 import random
 import yaml
-import os
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Any, Tuple
@@ -112,11 +111,14 @@ class PhysarumComponent:
     
     def calculate_fitness(self) -> float:
         """
-        Calculate fitness (flow) based on multiple factors:
-        - Protein stability
-        - Resonance with ecosystem
+        Calculate fitness (flow 'f') based on multiple factors.
+        In this model, fitness represents the flow through this cognitive pathway.
+        
+        Factors:
+        - Protein stability from DNA translation
+        - Resonance with ecosystem mapping
         - Mapping type bias (OS/TRIG6 traits tend to be more useful)
-        - Random variation (simulates real-world flow)
+        - Random variation (simulates real-world episodic usefulness)
         """
         # Base fitness from protein length and diversity
         protein = self.dna.translate()
@@ -304,6 +306,40 @@ class BioPhysarumSimulator:
         
         return results
     
+    def _get_snapshot_indices(self, history: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Get snapshot indices from history based on generation count.
+        Returns snapshots at strategic points: start, ~20%, ~40%, ~60%, ~80%, end.
+        """
+        if not history:
+            return []
+        
+        total_gens = len(history)
+        if total_gens <= 6:
+            # Return all if too few generations
+            return history
+        
+        # Calculate dynamic indices
+        indices = [
+            0,                              # Start
+            total_gens // 5,                # ~20%
+            (total_gens * 2) // 5,          # ~40%
+            (total_gens * 3) // 5,          # ~60%
+            (total_gens * 4) // 5,          # ~80%
+            -1                              # End
+        ]
+        
+        # Remove duplicates and ensure valid indices
+        seen = set()
+        result = []
+        for idx in indices:
+            actual_idx = idx if idx >= 0 else total_gens + idx
+            if actual_idx not in seen and 0 <= actual_idx < total_gens:
+                seen.add(actual_idx)
+                result.append(history[actual_idx])
+        
+        return result
+    
     def _compile_results(self) -> Dict[str, Any]:
         """Compile simulation results from all components."""
         results = {
@@ -332,7 +368,7 @@ class BioPhysarumSimulator:
                 'final_protein': component.dna.translate(),
                 'final_fitness': round(component.fitness, 3),
                 'final_H': round(component.H, 2),
-                'summaries': [component.history[i] for i in [0, 10, 20, 30, 40, -1] if i < len(component.history)]
+                'summaries': self._get_snapshot_indices(component.history)
             }
             
             results['components'].append(component_result)
@@ -361,8 +397,17 @@ class BioPhysarumSimulator:
         
         # Also save individual component logs
         for component_data in results['components']:
-            # Sanitize filename by replacing spaces and slashes
-            safe_name = component_data['component_name'].replace(' ', '_').replace('/', '_')
+            # Sanitize filename by removing/replacing problematic characters
+            safe_name = component_data['component_name']
+            # Replace problematic characters with underscores
+            for char in [' ', '/', '\\', ':', '*', '?', '"', '<', '>', '|']:
+                safe_name = safe_name.replace(char, '_')
+            # Remove any consecutive underscores
+            while '__' in safe_name:
+                safe_name = safe_name.replace('__', '_')
+            # Remove leading/trailing underscores
+            safe_name = safe_name.strip('_')
+            
             comp_file = self.output_dir / f"component_{component_data['component_id']:02d}_{safe_name}.json"
             with open(comp_file, 'w') as f:
                 json.dump(component_data, f, indent=2)

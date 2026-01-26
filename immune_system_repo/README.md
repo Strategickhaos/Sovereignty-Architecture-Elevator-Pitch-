@@ -54,8 +54,8 @@ python3 src/bio_physarum_sim.py --config immune_components.yaml --output-dir /pa
 ### From Repository Root
 
 ```bash
-# Run from the main repository
-cd /home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-
+# Run from the main repository root
+cd <your-repo-path>
 
 python3 immune_system_repo/src/bio_physarum_sim.py \
   --config immune_system_repo/immune_components.yaml \
