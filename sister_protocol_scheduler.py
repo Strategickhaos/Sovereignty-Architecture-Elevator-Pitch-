@@ -166,6 +166,11 @@ class SisterProtocol:
         policy = cls.get_policy(process_class)
         return policy.restart_on_failure
     
+    # Weights for adaptive mutation rate calculation
+    MUTATION_BASE_WEIGHT = 0.5
+    MUTATION_FITNESS_WEIGHT = 0.3
+    MUTATION_H_WEIGHT = 0.2
+    
     @classmethod
     def get_mutation_rate(cls, process_class: ProcessClass, 
                          fitness: float, H: float) -> float:
@@ -184,7 +189,11 @@ class SisterProtocol:
         h_factor = 1.0 - H
         
         # Combined adjustment (weighted)
-        adjusted_rate = base_rate * (0.5 + 0.3 * fitness_factor + 0.2 * h_factor)
+        adjusted_rate = base_rate * (
+            cls.MUTATION_BASE_WEIGHT + 
+            cls.MUTATION_FITNESS_WEIGHT * fitness_factor + 
+            cls.MUTATION_H_WEIGHT * h_factor
+        )
         
         return min(1.0, adjusted_rate)
     
