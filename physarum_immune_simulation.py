@@ -304,7 +304,12 @@ def generate_full_simulation_data() -> Dict[str, Any]:
         comp_id = 15 + i
         # Vary H values to create mix of survivors and wasted paths
         final_h = 0.35 + (i % 10) * 0.03  # Creates range from 0.35 to 0.62
-        classification = "SURVIVOR" if final_h > 0.5 else "WASTED"
+        if final_h > 0.5:
+            classification = "SURVIVOR"
+        elif final_h == 0.5:
+            classification = "BORDERLINE"
+        else:
+            classification = "WASTED"
         
         component = {
             "component_id": comp_id,

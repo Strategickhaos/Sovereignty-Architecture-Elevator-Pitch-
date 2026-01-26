@@ -1363,7 +1363,7 @@
       "ecosystem_mapping": "Compiler Pass: Type Checking",
       "final_status": "EVOLVING",
       "final_H": 0.5,
-      "classification": "WASTED",
+      "classification": "BORDERLINE",
       "generations": [
         {
           "gen": 0,
@@ -2003,7 +2003,7 @@
       "ecosystem_mapping": "TRIG6 Trait: Cache Manager",
       "final_status": "EVOLVING",
       "final_H": 0.5,
-      "classification": "WASTED",
+      "classification": "BORDERLINE",
       "generations": [
         {
           "gen": 0,
@@ -2327,8 +2327,8 @@
     },
     "classification_counts": {
       "SURVIVOR": 13,
-      "WASTED": 21,
-      "BORDERLINE": 2
+      "WASTED": 19,
+      "BORDERLINE": 4
     },
     "interpretation": {
       "survivors_description": "High H > 0.5: Reinforced tubes, high flow, core traits",
