@@ -115,6 +115,7 @@ class PhysarumComponent:
         Calculate fitness (flow) based on multiple factors:
         - Protein stability
         - Resonance with ecosystem
+        - Mapping type bias (OS/TRIG6 traits tend to be more useful)
         - Random variation (simulates real-world flow)
         """
         # Base fitness from protein length and diversity
@@ -122,22 +123,37 @@ class PhysarumComponent:
         protein_score = min(len(set(protein)) / 8.0, 1.0) if protein else 0.0
         
         # Resonance factor (how well it maps to ecosystem)
-        resonance = 0.5 + random.gauss(0, 0.1)
+        # More variation to distinguish components
+        resonance = 0.5 + random.gauss(0, 0.15)
         resonance = max(0.0, min(1.0, resonance))
+        
+        # Mapping type bias - certain types are more useful
+        type_bias = {
+            'os_module': 0.08,      # OS modules favored
+            'trig6_trait': 0.04,    # TRIG6 traits slightly favored
+            'compiler_pass': -0.02  # Compiler passes slightly disfavored
+        }
+        bias = type_bias.get(self.mapping_type, 0.0)
         
         # Flow variation (simulates episodic usefulness)
         flow_noise = random.gauss(0, 0.15)
         
-        fitness = (protein_score * 0.3 + resonance * 0.5 + self.H * 0.2) + flow_noise
+        fitness = (protein_score * 0.2 + resonance * 0.5 + self.H * 0.2 + bias) + flow_noise
         return max(0.0, min(1.0, fitness))
     
     def update_heritability(self, fitness: float, drift: float):
         """
         Update tube strength (H) based on fitness and drift.
         High fitness reinforces pathways, high drift weakens them.
+        Balanced to achieve ~33% survivors, ~67% wasted distribution.
         """
-        # H increases with good fitness, decreases with drift
-        delta_H = (fitness - 0.5) * 0.1 - drift * 0.2
+        # H increases with good fitness, decreases with excessive drift
+        # Tuned for approximately 1/3 survival rate
+        delta_H = (fitness - 0.5) * 0.10 - max(0, drift - 0.12) * 0.10
+        
+        # Add slight momentum for stability
+        delta_H *= 0.85
+        
         self.H = max(0.0, min(1.0, self.H + delta_H))
     
     def detect_danger(self, drift: float, noise: float) -> bool:
