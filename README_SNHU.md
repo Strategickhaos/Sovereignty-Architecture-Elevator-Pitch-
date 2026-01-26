@@ -1,7 +1,7 @@
 # README for SNHU
 ## Strategickhaos DAO LLC - Sovereignty Architecture Portfolio
 
-**Student**: [Your Name]  
+**Student**: [Your Name] *(Replace with your actual name)*  
 **University**: Southern New Hampshire University (SNHU)  
 **Organization**: Strategickhaos DAO LLC  
 **Purpose**: Academic Portfolio & Capstone Project Repository
@@ -21,10 +21,12 @@ This repository serves as both a **professional development portfolio** and an *
 ## 🎓 SNHU Program Alignment
 
 ### Program(s)
+*(List your specific SNHU program(s). Examples include:)*
 - Computer Science (BS/MS)
 - Software Engineering
 - Information Technology
-- [Your specific program]
+- Cybersecurity
+- Data Analytics
 
 ### Competencies Demonstrated
 This repository demonstrates mastery of SNHU program competencies including:
@@ -60,10 +62,10 @@ This repository demonstrates mastery of SNHU program competencies including:
 **Business Focus**: AI Research, Proprietary Systems Development
 
 ### My Role
-- **Title**: [Your Role/Title]
+- **Title**: [Your Role/Title] *(Replace with your actual role, e.g., "Junior Systems Developer")*
 - **Authorization**: Authorized member with IP usage rights
-- **Responsibilities**: [Your specific responsibilities]
-- **Start Date**: [When you joined]
+- **Responsibilities**: [Your specific responsibilities] *(Describe your actual responsibilities)*
+- **Start Date**: [When you joined] *(Replace with actual date)*
 
 ### Why This Matters for SNHU Work
 SNHU emphasizes **competency-based education** and **real-world application**. This organizational involvement provides:

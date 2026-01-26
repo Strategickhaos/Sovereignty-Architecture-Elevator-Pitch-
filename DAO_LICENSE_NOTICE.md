@@ -7,6 +7,9 @@
 
 Use this notice on all work products, submissions, and deliverables:
 
+**Note**: The proprietary systems list below should be customized to include only the 
+systems actually used in your work. The full list is provided as a reference.
+
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║              STRATEGICKHAOS DAO LLC                          ║
@@ -193,6 +196,8 @@ For verification requests, see ACADEMIC_INTEGRITY_STATEMENT.md
 
 ═══════════════════════════════════════════════════════════════
 ```
+
+**Note**: Customize the systems listed to match those actually used in the work product.
 
 ---
 

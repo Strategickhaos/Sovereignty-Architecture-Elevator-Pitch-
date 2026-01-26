@@ -276,13 +276,17 @@ For any given work product, use this matrix to document agent contributions:
 
 | Component | Primary Agent | Human Involvement | AI Involvement | IP Owner |
 |-----------|---------------|-------------------|----------------|----------|
-| Architecture | Human Architect | 90% | 10% | Strategickhaos DAO LLC |
-| Initial Code | Code Gen Agent | 40% | 60% | Strategickhaos DAO LLC |
-| Optimization | Optimization Agent | 30% | 70% | Strategickhaos DAO LLC |
-| Testing | Testing Agent | 50% | 50% | Strategickhaos DAO LLC |
-| Documentation | Doc Agent | 40% | 60% | Strategickhaos DAO LLC |
-| Integration | Human Developer | 80% | 20% | Strategickhaos DAO LLC |
+| Architecture | Human Architect | 80-100% | 0-20% | Strategickhaos DAO LLC |
+| Initial Code | Code Gen Agent | 30-50% | 50-70% | Strategickhaos DAO LLC |
+| Optimization | Optimization Agent | 20-40% | 60-80% | Strategickhaos DAO LLC |
+| Testing | Testing Agent | 40-60% | 40-60% | Strategickhaos DAO LLC |
+| Documentation | Doc Agent | 30-50% | 50-70% | Strategickhaos DAO LLC |
+| Integration | Human Developer | 70-90% | 10-30% | Strategickhaos DAO LLC |
 | Final Review | Human QA | 100% | 0% | Strategickhaos DAO LLC |
+
+**Note**: Percentages are representative examples and vary by project complexity, system 
+maturity, and specific requirements. Actual contribution ratios should be documented 
+honestly for each specific work product.
 
 **Critical Point**: Regardless of the human/AI percentage, ALL outputs are owned by Strategickhaos DAO LLC because:
 1. All AI agents run on Organization-owned enterprise accounts

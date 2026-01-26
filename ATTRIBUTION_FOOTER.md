@@ -190,6 +190,7 @@ Supporting documentation available upon request:
   • IP_CHAIN_OF_CUSTODY.json - Legal IP ownership documentation
   • DAO_LICENSE_NOTICE.md - Organization licensing framework
   • Repository history - Git commits showing development evolution
+  • GitHub Repository: https://github.com/Strategickhaos/[repository-name]
 
 HONOR CODE STATEMENT:
 I affirm that:
