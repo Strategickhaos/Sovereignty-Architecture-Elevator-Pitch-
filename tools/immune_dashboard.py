@@ -57,8 +57,13 @@ class ImmuneDashboard:
         if policy_path is None:
             policy_path = Path(__file__).parent.parent / "config" / "neuro36_policy.yaml"
         
-        with open(policy_path, 'r') as f:
-            self.policy = yaml.safe_load(f)
+        try:
+            with open(policy_path, 'r') as f:
+                self.policy = yaml.safe_load(f)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Policy configuration not found at: {policy_path}")
+        except yaml.YAMLError as e:
+            raise ValueError(f"Invalid YAML in policy configuration: {e}")
         
         self.components = self._load_components()
     
@@ -198,7 +203,8 @@ class ImmuneDashboard:
         print("=" * 60)
         
         # Danger zones are at π/2 (90°) and 3π/2 (270°)
-        danger_nodes = [c for c in self.components if c.theta_deg in [90, 270]]
+        # Use tolerance for floating point comparison
+        danger_nodes = [c for c in self.components if abs(c.theta_deg - 90) < 1e-6 or abs(c.theta_deg - 270) < 1e-6]
         
         print("\nNodes at tan(θ) = ∞:")
         for n in danger_nodes:
@@ -239,8 +245,8 @@ class ImmuneDashboard:
                 "sandboxes": len(self.get_by_classification(Classification.SANDBOX)),
                 "champions": len(self.get_by_classification(Classification.CHAMPION)),
                 "hardware_candidates": len(self.get_hardware_candidates()),
-                "avg_H": sum(c.final_H for c in self.components) / len(self.components),
-                "avg_fitness": sum(c.final_fitness for c in self.components) / len(self.components),
+                "avg_H": sum(c.final_H for c in self.components) / len(self.components) if self.components else 0,
+                "avg_fitness": sum(c.final_fitness for c in self.components) / len(self.components) if self.components else 0,
             }
         }
         
