@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **IP Protection** - Multi-platform timestamped prior art defense system
 
 ## 🚀 Quick Start
 
@@ -271,6 +272,48 @@ kubectl logs -f deployment/event-gateway -n ops
 # Verify HMAC signature
 curl -X POST https://events.strategickhaos.com/health
 ```
+
+## 🛡️ IP Protection System
+
+This repository includes a comprehensive **multi-platform timestamped prior art defense system** that creates "iron armor" IP protection through cryptographically-verified evidence.
+
+### Quick Start: Protect Your Innovations
+
+```bash
+# Automatically create timestamped IP record
+./scripts/ip_protection.sh \
+  --innovation "Your Innovation Name" \
+  --description "What you invented" \
+  --files "relevant_files.py" \
+  --create-tag
+```
+
+### What You Get
+
+✅ **Multi-platform timestamps** - GitHub, Academic (SNHU), AI logs  
+✅ **Cryptographic verification** - SHA-256 hashes, GPG signatures  
+✅ **Legal defense ready** - Court-accepted evidence standards  
+✅ **Prevents patent theft** - Public prior art establishment  
+✅ **Automated workflow** - One command creates complete IP record  
+
+### Documentation
+
+- **[IP Protection System](legal/README.md)** - Complete system overview
+- **[Invention Disclosure Form](legal/INVENTION_DISCLOSURE_FORM.md)** - Formal invention records
+- **[Prior Art Bundle](legal/PRIOR_ART_BUNDLE.md)** - Evidence compilation
+- **[Defensive Publication](legal/DEFENSIVE_PUBLICATION.md)** - Public prior art
+- **[Proof of Origin Dossier](legal/PROOF_OF_ORIGIN_DOSSIER.md)** - Legal defense package
+
+### Key Protected Innovations
+
+1. **TRIG6 Fitness Function** - Multi-dimensional AI agent evaluation
+2. **FlameLang DSL** - Swarm intelligence programming language
+3. **Negative-Balance Training** - AI training under resource constraints
+4. **Sovereignty Architecture** - Complete hardware-independent AI platform
+
+**Learn more:** See [legal/README.md](legal/README.md) for complete documentation.
+
+---
 
 ## 👥 Community & Contributors
 
