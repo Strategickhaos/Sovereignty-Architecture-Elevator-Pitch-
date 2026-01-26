@@ -32,6 +32,7 @@ This document presents the results of a Physarum Machine Learning simulation tha
 
 - **DNA**: Genetic sequence (24 nucleotides)
 - **RNA**: Transcribed sequence (T→U transformation)
+  - *Note: Some RNA sequences show mutations/transcriptional errors that occurred during simulation*
 - **Protein**: Translated amino acid sequence (8 residues)
 - **Fitness (f)**: Success metric (0.3-0.7 range indicates viability)
 - **Heritability (H)**: Tube strength/trait reinforcement (>0.5 = survivor, ≤0.5 = wasted)

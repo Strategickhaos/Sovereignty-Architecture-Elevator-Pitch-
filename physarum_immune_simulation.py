@@ -53,6 +53,7 @@ COMPONENT_DATA = [
         "final_H": 0.38,
         "classification": "WASTED",  # H < 0.5
         "generations": [
+            # Note: Some RNA sequences show mutations/transcriptional errors from simulation
             {"gen": 0, "dna": "ATGGCATACCAAGGTATCTTACCG", "rna": "AUGGCAUGCCAAGGUAUCUUACCG", "protein": "MACQGILP", "f": 0.329, "H": 0.49, "danger": False},
             {"gen": 10, "dna": "ATGGCATGCCAAGGTATCTTACCG", "rna": "AUGGCAUGCCAAGGUAUCUUACCG", "protein": "MACQGILP", "f": 0.344, "H": 0.46, "danger": False},
             {"gen": 20, "dna": "ATGGCATGCCAAGGTATCTTACCG", "rna": "AUGGCAUGCCAAGGUAUCUUACCG", "protein": "MACQGILP", "f": 0.352, "H": 0.49, "danger": False},
@@ -118,6 +119,7 @@ COMPONENT_DATA = [
         "classification": "SURVIVOR",  # H > 0.5
         "generations": [
             {"gen": 0, "dna": "ATGGCATGCCAAGGTATCTTACCG", "rna": "AUGGCAUGCCAAGGUAUCUUACCG", "protein": "MACQGILP", "f": 0.47, "H": 0.51, "danger": False},
+            # Note: Gen 10 shows mutation in RNA (AG→CG at end) and missing H value from original data
             {"gen": 10, "dna": "ATGGCATGCCAAGGTAGCTAACAG", "rna": "AUGGCAUGCCAAGGUAGCUAACCG", "protein": "MACQGS", "f": 0.451, "H": None, "danger": False},  # H missing in original
             {"gen": 20, "dna": "ATGGCATGCCTAGGTATCTTACCG", "rna": "AUGGCAUGCCUAGGUAUCUUACCG", "protein": "MACLGILP", "f": 0.444, "H": 0.49, "danger": False},
             {"gen": 30, "dna": "ATGGTATGCCTAGGTATCTTACCG", "rna": "AUGGUAUGCCUAGGUAUCUUACCG", "protein": "MVCLGILP", "f": 0.31, "H": 0.41, "danger": False},
