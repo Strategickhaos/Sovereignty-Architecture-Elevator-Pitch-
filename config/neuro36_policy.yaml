@@ -1,0 +1,432 @@
+metadata:
+  version: "1.0"
+  author: "Domenic Gabriel Garza"
+  organization: "Strategickhaos DAO LLC"
+  system: "NEURO-36 Immune System"
+  description: "Immune policy configuration for Sister Protocol execution and node classification"
+  timestamp: "2026-01-26"
+
+components:
+  # RAIL Nodes - Core Infrastructure
+  - id: 1
+    name: "Memory Allocator"
+    bio_role: "T Cell"
+    theta_deg: 0
+    mapping:
+      domain: "Kernel"
+      trait: "Memory Management"
+    simulation:
+      final_H: 0.95
+      final_fitness: 0.920
+      danger_rate: 0.05
+    classification: "RAIL"
+    policy:
+      execution: "always_run"
+      mutation_allowed: false
+      hardware_candidate: true
+    notes: "Critical memory allocation system"
+
+  - id: 2
+    name: "Process Scheduler"
+    bio_role: "T Cell"
+    theta_deg: 45
+    mapping:
+      domain: "Kernel"
+      trait: "Task Scheduling"
+    simulation:
+      final_H: 0.92
+      final_fitness: 0.910
+      danger_rate: 0.08
+    classification: "RAIL"
+    policy:
+      execution: "always_run"
+      mutation_allowed: false
+      hardware_candidate: true
+    notes: "Core process scheduler"
+
+  - id: 3
+    name: "File System Driver"
+    bio_role: "T Cell"
+    theta_deg: 30
+    mapping:
+      domain: "Kernel"
+      trait: "I/O Operations"
+    simulation:
+      final_H: 0.88
+      final_fitness: 0.895
+      danger_rate: 0.12
+    classification: "RAIL"
+    policy:
+      execution: "always_run"
+      mutation_allowed: false
+      hardware_candidate: false
+    notes: "File system operations"
+
+  # GATE Nodes - Access Control
+  - id: 4
+    name: "Authentication Module"
+    bio_role: "B Cell"
+    theta_deg: 60
+    mapping:
+      domain: "Security"
+      trait: "User Authentication"
+    simulation:
+      final_H: 0.85
+      final_fitness: 0.880
+      danger_rate: 0.15
+    classification: "GATE"
+    policy:
+      execution: "on_demand"
+      mutation_allowed: true
+      hardware_candidate: false
+    notes: "User authentication and verification"
+
+  - id: 5
+    name: "Authorization Engine"
+    bio_role: "B Cell"
+    theta_deg: 75
+    mapping:
+      domain: "Security"
+      trait: "Access Control"
+    simulation:
+      final_H: 0.82
+      final_fitness: 0.870
+      danger_rate: 0.18
+    classification: "GATE"
+    policy:
+      execution: "on_demand"
+      mutation_allowed: true
+      hardware_candidate: false
+    notes: "Permission and access control"
+
+  - id: 6
+    name: "Network Firewall"
+    bio_role: "B Cell"
+    theta_deg: 90
+    mapping:
+      domain: "Security"
+      trait: "Packet Filtering"
+    simulation:
+      final_H: 0.78
+      final_fitness: 0.850
+      danger_rate: 0.95
+    classification: "GATE"
+    policy:
+      execution: "always_run"
+      mutation_allowed: false
+      hardware_candidate: true
+    notes: "Network packet filtering - DANGER ZONE at tan(90°)"
+
+  # SANDBOX Nodes - Experimental Features
+  - id: 7
+    name: "ML Model Trainer"
+    bio_role: "Dendritic Cell"
+    theta_deg: 120
+    mapping:
+      domain: "AI"
+      trait: "Pattern Recognition"
+    simulation:
+      final_H: 0.65
+      final_fitness: 0.720
+      danger_rate: 0.35
+    classification: "SANDBOX"
+    policy:
+      execution: "isolated"
+      mutation_allowed: true
+      hardware_candidate: false
+    notes: "Machine learning model training"
+
+  - id: 8
+    name: "Code Analyzer"
+    bio_role: "Dendritic Cell"
+    theta_deg: 135
+    mapping:
+      domain: "Development"
+      trait: "Static Analysis"
+    simulation:
+      final_H: 0.70
+      final_fitness: 0.750
+      danger_rate: 0.30
+    classification: "SANDBOX"
+    policy:
+      execution: "isolated"
+      mutation_allowed: true
+      hardware_candidate: false
+    notes: "Static code analysis tool"
+
+  - id: 9
+    name: "Experimental Optimizer"
+    bio_role: "Dendritic Cell"
+    theta_deg: 150
+    mapping:
+      domain: "Performance"
+      trait: "Optimization"
+    simulation:
+      final_H: 0.60
+      final_fitness: 0.680
+      danger_rate: 0.40
+    classification: "SANDBOX"
+    policy:
+      execution: "isolated"
+      mutation_allowed: true
+      hardware_candidate: false
+    notes: "Experimental performance optimization"
+
+  # CHAMPION Nodes - Proven Excellence
+  - id: 10
+    name: "Encryption Engine"
+    bio_role: "Antibody"
+    theta_deg: 180
+    mapping:
+      domain: "Security"
+      trait: "Cryptography"
+    simulation:
+      final_H: 0.98
+      final_fitness: 0.980
+      danger_rate: 0.02
+    classification: "CHAMPION"
+    policy:
+      execution: "always_run"
+      mutation_allowed: false
+      hardware_candidate: true
+    notes: "High-performance encryption"
+
+  - id: 11
+    name: "Compression Algorithm"
+    bio_role: "Antibody"
+    theta_deg: 210
+    mapping:
+      domain: "Performance"
+      trait: "Data Compression"
+    simulation:
+      final_H: 0.96
+      final_fitness: 0.970
+      danger_rate: 0.04
+    classification: "CHAMPION"
+    policy:
+      execution: "on_demand"
+      mutation_allowed: false
+      hardware_candidate: true
+    notes: "Optimized compression algorithm"
+
+  # CHAMPION_CANDIDATE Nodes
+  - id: 12
+    name: "Cache Manager"
+    bio_role: "Memory Cell"
+    theta_deg: 225
+    mapping:
+      domain: "Performance"
+      trait: "Caching"
+    simulation:
+      final_H: 0.89
+      final_fitness: 0.900
+      danger_rate: 0.11
+    classification: "CHAMPION_CANDIDATE"
+    policy:
+      execution: "on_demand"
+      mutation_allowed: true
+      hardware_candidate: true
+    notes: "High-performance cache management"
+
+  - id: 13
+    name: "Query Optimizer"
+    bio_role: "Memory Cell"
+    theta_deg: 240
+    mapping:
+      domain: "Database"
+      trait: "Query Optimization"
+    simulation:
+      final_H: 0.87
+      final_fitness: 0.890
+      danger_rate: 0.13
+    classification: "CHAMPION_CANDIDATE"
+    policy:
+      execution: "on_demand"
+      mutation_allowed: true
+      hardware_candidate: false
+    notes: "Database query optimization"
+
+  # MUTANT Nodes - Concerning Behavior
+  - id: 14
+    name: "Legacy API Handler"
+    bio_role: "Macrophage"
+    theta_deg: 270
+    mapping:
+      domain: "Compatibility"
+      trait: "Legacy Support"
+    simulation:
+      final_H: 0.45
+      final_fitness: 0.520
+      danger_rate: 0.98
+    classification: "MUTANT"
+    policy:
+      execution: "quarantine"
+      mutation_allowed: false
+      hardware_candidate: false
+    notes: "Legacy code with security concerns - DANGER ZONE at tan(270°)"
+
+  - id: 15
+    name: "Deprecated Module"
+    bio_role: "Macrophage"
+    theta_deg: 285
+    mapping:
+      domain: "Compatibility"
+      trait: "Backward Compatibility"
+    simulation:
+      final_H: 0.50
+      final_fitness: 0.550
+      danger_rate: 0.65
+    classification: "MUTANT"
+    policy:
+      execution: "quarantine"
+      mutation_allowed: false
+      hardware_candidate: false
+    notes: "Deprecated module requiring replacement"
+
+  # CULL Nodes - Marked for Removal
+  - id: 16
+    name: "Vulnerable Parser"
+    bio_role: "Pathogen"
+    theta_deg: 300
+    mapping:
+      domain: "Data Processing"
+      trait: "Parsing"
+    simulation:
+      final_H: 0.25
+      final_fitness: 0.320
+      danger_rate: 0.75
+    classification: "CULL"
+    policy:
+      execution: "disabled"
+      mutation_allowed: false
+      hardware_candidate: false
+    notes: "Known security vulnerability - scheduled for removal"
+
+  - id: 17
+    name: "Broken Integration"
+    bio_role: "Pathogen"
+    theta_deg: 315
+    mapping:
+      domain: "Integration"
+      trait: "External API"
+    simulation:
+      final_H: 0.20
+      final_fitness: 0.280
+      danger_rate: 0.80
+    classification: "CULL"
+    policy:
+      execution: "disabled"
+      mutation_allowed: false
+      hardware_candidate: false
+    notes: "Failed integration - marked for removal"
+
+  - id: 18
+    name: "Obsolete Driver"
+    bio_role: "Pathogen"
+    theta_deg: 330
+    mapping:
+      domain: "Hardware"
+      trait: "Device Driver"
+    simulation:
+      final_H: 0.15
+      final_fitness: 0.250
+      danger_rate: 0.85
+    classification: "CULL"
+    policy:
+      execution: "disabled"
+      mutation_allowed: false
+      hardware_candidate: false
+    notes: "Obsolete hardware driver"
+
+sister_protocol:
+  rail_policy:
+    description: "Core infrastructure nodes that must always run"
+    nodes: [1, 2, 3]
+    rules:
+      - "Execute at system startup"
+      - "Never quarantine or disable"
+      - "Monitor for performance degradation"
+      - "Maintain high availability (>99.9%)"
+      - "Log all critical operations"
+
+  gate_policy:
+    description: "Security and access control nodes"
+    nodes: [4, 5, 6]
+    rules:
+      - "Validate all inputs"
+      - "Enforce least privilege principle"
+      - "Log all access attempts"
+      - "Alert on suspicious patterns"
+      - "Maintain audit trail"
+
+  sandbox_policy:
+    description: "Experimental nodes running in isolation"
+    nodes: [7, 8, 9]
+    rules:
+      - "Execute in isolated environment"
+      - "Limit resource consumption"
+      - "Monitor for anomalous behavior"
+      - "Allow controlled mutation"
+      - "Require explicit approval for promotion"
+
+  champion_policy:
+    description: "Proven high-performance nodes"
+    nodes: [10, 11]
+    rules:
+      - "Prioritize for hardware synthesis"
+      - "Maintain strict version control"
+      - "Prevent unauthorized modifications"
+      - "Optimize for performance"
+      - "Document all interfaces"
+
+  threat_policy:
+    description: "Nodes requiring special attention or removal"
+    nodes: [14, 15, 16, 17, 18]
+    rules:
+      - "Quarantine MUTANT nodes"
+      - "Disable CULL nodes"
+      - "Monitor for exploit attempts"
+      - "Plan replacement strategies"
+      - "Document migration paths"
+
+hardware_candidates:
+  priority_1:
+    - id: 1
+      name: "Memory Allocator"
+      reason: "Critical performance bottleneck - FPGA acceleration"
+    - id: 2
+      name: "Process Scheduler"
+      reason: "High-frequency operations - ASIC implementation"
+    - id: 6
+      name: "Network Firewall"
+      reason: "Packet processing speed - Network processor"
+    - id: 10
+      name: "Encryption Engine"
+      reason: "Cryptographic operations - Hardware security module"
+
+  priority_2:
+    - id: 11
+      name: "Compression Algorithm"
+      reason: "CPU-intensive operations - GPU acceleration"
+    - id: 12
+      name: "Cache Manager"
+      reason: "Memory access patterns - Custom cache controller"
+
+kernel_ligand:
+  amino_acids:
+    M: "Memory - Manage allocation and deallocation"
+    A: "Access - Control permissions and authentication"
+    C: "Compute - Execute calculations and processing"
+    Q: "Queue - Handle task scheduling and ordering"
+    G: "Guard - Protect against threats and intrusions"
+    I: "Integrate - Connect components and systems"
+    L: "Log - Record events and audit trails"
+    P: "Process - Transform and manipulate data"
+
+  instruction_biases:
+    memory_intensive: "Favor M, Q operations for data structures"
+    security_critical: "Emphasize G, A, L for protection"
+    performance_critical: "Optimize C, P, Q for speed"
+    integration_focused: "Prioritize I, L for connectivity"
+
+  default_profile: "Balanced MACQGILP profile with emphasis on security (G, A) and performance (C, P)"
