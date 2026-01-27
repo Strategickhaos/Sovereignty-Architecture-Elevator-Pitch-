@@ -146,7 +146,7 @@ class ProtoElamiteSimulator:
         self.edge_counter += 1
         edge_id = f"e{self.edge_counter:04d}"
         
-        timestamp = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
+        timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         
         return {
             "id": edge_id,
@@ -240,7 +240,7 @@ class ProtoElamiteSimulator:
             "max_mutations_per_symbol": self.max_mutations_per_symbol,
             "trig_layer": "TRIG6-proto-elamite-sim",
             "alpha_default": self.alpha,
-            "created_at": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+            "created_at": datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
             "run_id": self.run_id,
             "notes": "Instrumented probe run; no mappings promoted to canonical."
         }

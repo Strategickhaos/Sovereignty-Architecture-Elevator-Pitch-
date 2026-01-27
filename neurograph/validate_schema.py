@@ -57,7 +57,7 @@ def validate_schema(filepath='proto_elamite_pelsim1_dendrites.json'):
         try:
             datetime.fromisoformat(data['meta']['created_at'].replace('Z', '+00:00'))
             print(f"✓ created_at is valid ISO 8601")
-        except:
+        except (ValueError, AttributeError):
             warnings.append("created_at may not be valid ISO 8601 format")
     
     # Validate nodes section
