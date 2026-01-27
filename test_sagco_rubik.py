@@ -10,6 +10,10 @@ from sagco_rubik import (
     apply_scramble, pot_feedback, PI, EPS
 )
 
+# Test constants
+NORM_SQ_PI_4_MIN = 6.0   # Minimum expected norm² at π/4
+NORM_SQ_PI_4_MAX = 10.0  # Maximum expected norm² at π/4
+
 def test_trig6_basic():
     """Test TRIG6 function basic properties"""
     print("Testing TRIG6 basic properties...")
@@ -42,8 +46,9 @@ def test_norm_sq():
     theta = PI / 4
     ns = norm_sq(theta)
     
-    # Minimum norm² at π/4 is 7 (as documented)
-    assert ns > 6 and ns < 10, f"norm²(π/4) should be ~7, got {ns}"
+    # Minimum norm² at π/4 is 7 (as documented in TRIG6 theory)
+    assert ns > NORM_SQ_PI_4_MIN and ns < NORM_SQ_PI_4_MAX, \
+        f"norm²(π/4) should be ~7, got {ns}"
     
     print(f"✓ norm²(π/4) = {ns:.2f} (expected ~7)")
 
