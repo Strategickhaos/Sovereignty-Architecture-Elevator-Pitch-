@@ -26,8 +26,17 @@
         },
         "codon": {
           "type": "string",
-          "description": "DNA codon identifier for the agent",
+          "description": "DNA codon identifier for the agent (deprecated: use codons array)",
           "pattern": "^[A-Z0-9]+$"
+        },
+        "codons": {
+          "type": "array",
+          "description": "DNA codon identifiers for the agent",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9]+$"
+          },
+          "minItems": 1
         },
         "status": {
           "type": "string",

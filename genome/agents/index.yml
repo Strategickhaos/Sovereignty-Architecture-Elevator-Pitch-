@@ -39,7 +39,7 @@ agents:
     name: "Biological Trigger System v6"
     type: "fitness_validator"
     status: "ACTIVE"
-    codon: "TRIG6"
+    codons: ["TRIG6"]
     issues:
       - "#1062: Add genome layout for Agents cortex in YAML architecture"
     capabilities:
@@ -52,7 +52,7 @@ agents:
     name: "Neuro-Immune Response System"
     type: "defense_coordinator"
     status: "INITIALIZING"
-    codon: "NEURO36"
+    codons: ["NEURO36"]
     issues:
       - "#1060: Add genome layer for agents in repository"
     capabilities:
@@ -66,7 +66,7 @@ agents:
     name: "Documentation & IP Management"
     type: "knowledge_keeper"
     status: "INITIALIZING"
-    codon: "GENOME1"
+    codons: ["GENOME1"]
     issues:
       - "#1059: Transform Sovereignty Architecture into single source of truth"
     capabilities:
@@ -80,7 +80,7 @@ agents:
     name: "Proto-Elamite Script Benchmark"
     type: "probe_simulator"
     status: "ACTIVE"
-    codon: "ELAMSIM2"
+    codons: ["SCRIPT16", "ELAMSIM2"]
     issues:
       - "#1058: Proto-Elamite mutation dendrite simulator"
       - "#1057: Proto-Elamite dendritic visualization probe"

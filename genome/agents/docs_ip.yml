@@ -9,7 +9,7 @@
 metadata:
   agent_id: "docs_ip"
   version: "1.0.0"
-  codon: "GENOME1"
+  codons: ["GENOME1"]
   status: "INITIALIZING"
   created: "2025-01-27"
   github_issue: "#1059"
@@ -141,7 +141,7 @@ knowledge_graph:
         
   storage:
     database: "pgvector"
-    connection: "vault://kv/pgvector/conn"
+    connection_ref: "vault://kv/pgvector/conn"  # Reference to secure vault storage
     namespaces:
       - name: "sovereignty_architecture"
         embeddings: "openai_text-embedding-3"

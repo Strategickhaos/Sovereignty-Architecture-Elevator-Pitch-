@@ -9,7 +9,7 @@
 metadata:
   agent_id: "bio_trig6"
   version: "6.0.0"
-  codon: "TRIG6"
+  codons: ["TRIG6"]
   status: "ACTIVE"
   created: "2025-01-27"
   github_issue: "#1062"

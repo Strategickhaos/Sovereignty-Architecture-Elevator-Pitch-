@@ -10,7 +10,7 @@
 metadata:
   agent_id: "neuro_immune"
   version: "36.0.0"
-  codon: "NEURO36"
+  codons: ["NEURO36"]
   status: "INITIALIZING"
   created: "2025-01-27"
   github_issue: "#1060"
@@ -100,7 +100,7 @@ immune_system:
       
     coordination:
       orchestrator: "legion_orchestrator.py"
-      command_bus: "redis://redis.internal.strategickhaos:6379"
+      command_bus_ref: "vault://kv/redis/url"  # Reference to secure vault storage
       backup_channel: "discord:#alerts"
 
 threat_intelligence:
