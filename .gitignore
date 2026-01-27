@@ -41,3 +41,5 @@ vault_map_report.md
 vault_nodes.json
 cortex_graph.dot
 cortex_graph.svg
+# Python cache
+__pycache__/
