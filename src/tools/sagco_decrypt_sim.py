@@ -81,8 +81,8 @@ class LinearElamiteSimulator:
             if sign in sign_map:
                 total += sign_map[sign]
             else:
-                # Unknown signs get random value 1-100
-                total += random.randint(1, 100)
+                # Use deterministic fallback based on sign hash for consistency
+                total += (hash(sign) % 100) + 1
         
         return total
     
