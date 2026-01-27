@@ -1,77 +1,85 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "SovereignAgent",
-  "description": "Schema for Sovereign Agent Cortex definitions ensuring consistency across Discord bot, neurograph, and TRIG6 engine",
+  "title": "SovereignAgentFile",
+  "description": "Schema for Sovereign Agent Cortex YAML files ensuring consistency across Discord bot, neurograph, and TRIG6 engine",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "string",
-      "description": "Unique identifier for the agent"
-    },
-    "supersedes": {
-      "type": "array",
-      "description": "List of GitHub issues or previous agents this agent replaces",
-      "items": {
-        "type": "string"
-      }
-    },
-    "upstream_deps": {
-      "type": "array",
-      "description": "List of upstream dependencies this agent requires",
-      "items": {
-        "type": "string"
-      }
-    },
-    "capabilities": {
-      "type": "array",
-      "description": "List of capabilities this agent provides",
-      "items": {
-        "type": "string"
-      }
-    },
-    "focus": {
-      "type": "string",
-      "description": "Primary focus area of the agent"
-    },
-    "state": {
+    "agent": {
       "type": "object",
-      "description": "Current state metrics of the agent",
+      "description": "The agent definition",
       "properties": {
-        "f_score": {
-          "type": "number",
-          "description": "Fitness score of the agent (0.0 to 1.0)",
-          "minimum": 0,
-          "maximum": 1
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the agent"
         },
-        "danger_level": {
-          "type": "number",
-          "description": "Risk or danger level (0.0 to 1.0)",
-          "minimum": 0,
-          "maximum": 1
+        "supersedes": {
+          "type": "array",
+          "description": "List of GitHub issues or previous agents this agent replaces",
+          "items": {
+            "type": "string"
+          }
         },
-        "current_theta": {
-          "type": "number",
-          "description": "Current theta value for wave-based agents"
+        "upstream_deps": {
+          "type": "array",
+          "description": "List of upstream dependencies this agent requires",
+          "items": {
+            "type": "string"
+          }
         },
-        "coherence_threshold": {
-          "type": "number",
-          "description": "Coherence threshold for wave-based agents"
+        "capabilities": {
+          "type": "array",
+          "description": "List of capabilities this agent provides",
+          "items": {
+            "type": "string"
+          }
+        },
+        "focus": {
+          "type": "string",
+          "description": "Primary focus area of the agent"
+        },
+        "state": {
+          "type": "object",
+          "description": "Current state metrics of the agent",
+          "properties": {
+            "f_score": {
+              "type": "number",
+              "description": "Fitness score of the agent (0.0 to 1.0)",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "danger_level": {
+              "type": "number",
+              "description": "Risk or danger level (0.0 to 1.0)",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "current_theta": {
+              "type": "number",
+              "description": "Current theta value for wave-based agents"
+            },
+            "coherence_threshold": {
+              "type": "number",
+              "description": "Coherence threshold for wave-based agents"
+            }
+          },
+          "required": ["f_score", "danger_level"],
+          "additionalProperties": true
+        },
+        "active_sims": {
+          "type": "array",
+          "description": "List of active simulations",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metrics": {
+          "type": "object",
+          "description": "Agent-specific metrics",
+          "additionalProperties": true
         }
       },
-      "additionalProperties": true
-    },
-    "active_sims": {
-      "type": "array",
-      "description": "List of active simulations",
-      "items": {
-        "type": "string"
-      }
-    },
-    "metrics": {
-      "type": "object",
-      "description": "Agent-specific metrics",
-      "additionalProperties": true
+      "required": ["id", "state"]
     }
   },
-  "required": ["id", "state"]
+  "required": ["agent"]
 }
