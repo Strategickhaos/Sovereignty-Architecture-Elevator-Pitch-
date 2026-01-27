@@ -1,0 +1,394 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strategickhaos.com/schemas/agent.json",
+  "title": "Sovereignty Architecture Agent Schema",
+  "description": "JSON schema for defining agents in the Sovereignty Architecture genome cortex",
+  "version": "1.0.0",
+  
+  "type": "object",
+  "required": ["metadata", "architecture", "integration"],
+  
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Agent metadata and identification",
+      "required": ["agent_id", "version", "status"],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Unique identifier for the agent",
+          "pattern": "^[a-z_][a-z0-9_]*$"
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of the agent",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "codon": {
+          "type": "string",
+          "description": "DNA codon identifier for the agent",
+          "pattern": "^[A-Z0-9]+$"
+        },
+        "status": {
+          "type": "string",
+          "description": "Current operational status",
+          "enum": ["ACTIVE", "INITIALIZING", "DORMANT", "DEPRECATED"]
+        },
+        "created": {
+          "type": "string",
+          "format": "date",
+          "description": "Creation date in YYYY-MM-DD format"
+        },
+        "github_issue": {
+          "type": "string",
+          "description": "Associated GitHub issue reference",
+          "pattern": "^#\\d+$"
+        },
+        "github_issues": {
+          "type": "array",
+          "description": "Multiple associated GitHub issues",
+          "items": {
+            "type": "string",
+            "pattern": "^#\\d+:"
+          }
+        }
+      }
+    },
+    
+    "architecture": {
+      "type": "object",
+      "description": "Agent architecture and design",
+      "required": ["type", "core_functions"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Agent architectural type",
+          "enum": [
+            "fitness_validator",
+            "defense_coordinator",
+            "knowledge_keeper",
+            "probe_simulator",
+            "coordinator",
+            "executor",
+            "monitor"
+          ]
+        },
+        "paradigm": {
+          "type": "string",
+          "description": "Design paradigm or approach"
+        },
+        "core_functions": {
+          "type": "array",
+          "description": "List of core functions the agent performs",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    
+    "integration": {
+      "type": "object",
+      "description": "Integration points with other agents and systems",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "description": "Input signals the agent receives",
+          "items": {
+            "type": "object",
+            "required": ["source", "signal"],
+            "properties": {
+              "source": {
+                "type": "string",
+                "description": "Source agent or system"
+              },
+              "signal": {
+                "type": "string",
+                "description": "Type of signal received"
+              },
+              "format": {
+                "type": "string",
+                "enum": ["json", "yaml", "xml", "binary"]
+              },
+              "action": {
+                "type": "string",
+                "description": "Action taken on signal receipt"
+              }
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "description": "Output signals the agent produces",
+          "items": {
+            "type": "object",
+            "required": ["target", "signal"],
+            "properties": {
+              "target": {
+                "type": "string",
+                "description": "Target agent or system"
+              },
+              "signal": {
+                "type": "string",
+                "description": "Type of signal sent"
+              },
+              "format": {
+                "type": "string",
+                "enum": ["json", "yaml", "xml", "binary"]
+              },
+              "frequency": {
+                "type": "string",
+                "description": "Frequency of signal transmission"
+              },
+              "trigger": {
+                "type": "string",
+                "description": "Condition that triggers signal"
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "capabilities": {
+      "type": "array",
+      "description": "Specific capabilities of the agent",
+      "items": {
+        "type": "string"
+      }
+    },
+    
+    "monitoring": {
+      "type": "object",
+      "description": "Monitoring and observability configuration",
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "target": {
+                "type": "number"
+              },
+              "acceptable_range": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        },
+        "health_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "interval": {
+                "type": "string",
+                "pattern": "^\\d+[smh]$"
+              },
+              "threshold": {
+                "type": "object"
+              },
+              "action": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "learning": {
+      "type": "object",
+      "description": "Learning and adaptation capabilities",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["continuous", "periodic", "on_demand", "none"]
+        },
+        "adaptation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "frequency": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "memory": {
+          "type": "object",
+          "properties": {
+            "short_term": {
+              "type": "string"
+            },
+            "long_term": {
+              "type": "string"
+            },
+            "consolidation": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    
+    "security": {
+      "type": "object",
+      "description": "Security and protection mechanisms",
+      "properties": {
+        "authentication": {
+          "type": "string",
+          "enum": ["token", "certificate", "none"]
+        },
+        "authorization": {
+          "type": "string",
+          "enum": ["rbac", "abac", "none"]
+        },
+        "encryption": {
+          "type": "object",
+          "properties": {
+            "at_rest": {
+              "type": "boolean"
+            },
+            "in_transit": {
+              "type": "boolean"
+            },
+            "algorithm": {
+              "type": "string"
+            }
+          }
+        },
+        "threat_detection": {
+          "type": "boolean"
+        }
+      }
+    },
+    
+    "resources": {
+      "type": "object",
+      "description": "Resource requirements and limits",
+      "properties": {
+        "cpu": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "string"
+            },
+            "max": {
+              "type": "string"
+            }
+          }
+        },
+        "memory": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "string"
+            },
+            "max": {
+              "type": "string"
+            }
+          }
+        },
+        "storage": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "string"
+            },
+            "max": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    
+    "deployment": {
+      "type": "object",
+      "description": "Deployment configuration",
+      "properties": {
+        "replicas": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "strategy": {
+          "type": "string",
+          "enum": ["recreate", "rolling", "blue_green", "canary"]
+        },
+        "health_check_path": {
+          "type": "string"
+        },
+        "readiness_probe": {
+          "type": "object"
+        },
+        "liveness_probe": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  
+  "definitions": {
+    "signal": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "object"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"]
+        }
+      }
+    },
+    
+    "metric": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
