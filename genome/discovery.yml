@@ -2,7 +2,7 @@ meta:
   id: "SOVEREIGN-ORGANISM-V1"
   version: "1.0.0"
   status: "active"
-  prime_directive: "love_invariant.yaml"
+  prime_directive: "ai_constitution.yaml"
 
 organism:
   name: "Strategickhaos Sovereignty Stack"
@@ -11,5 +11,5 @@ organism:
     path: "genome/agents/"
     registry: "agents/index.yml"
   benchmarks:
-    - "script_bench.yml"
-    - "trig6_lineage_v0.1.md"
+    - "benchmarks/benchmark_config.yaml"
+    - "benchmarks_config.yaml"

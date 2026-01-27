@@ -7,5 +7,7 @@ agent:
     - "CRISPR-sequence to Gematria mapping"
     - "TRIG6 fitness evaluation"
   state:
+    f_score: 0.67
+    danger_level: 0.32
     current_theta: 0.32
     coherence_threshold: 0.67
