@@ -40,6 +40,35 @@ def format_trig6(result):
     return "\n".join(output)
 
 
+def parse_theta_expr(expr):
+    """Safely parse theta expression.
+    
+    Supports:
+    - Numeric values: '1.5708', '0.785398'
+    - Math constants: 'math.pi', 'math.e'
+    - Math operations: 'math.pi/4', 'math.pi/2', etc.
+    """
+    import re
+    
+    # Allow only safe characters and patterns
+    if not re.match(r'^[0-9math\.\+\-\*/\(\) piePI]+$', expr):
+        raise ValueError("Invalid theta expression. Use numeric values or math.pi operations.")
+    
+    # Create a safe namespace with only math constants and basic operations
+    safe_dict = {
+        'math': math,
+        'pi': math.pi,
+        'e': math.e,
+        'PI': math.pi,
+        '__builtins__': {}
+    }
+    
+    try:
+        return eval(expr, safe_dict, {})
+    except Exception as e:
+        raise ValueError(f"Could not evaluate theta expression: {e}")
+
+
 def main():
     """Main CLI entry point."""
     if len(sys.argv) < 3 or sys.argv[1] != '--theta':
@@ -57,8 +86,8 @@ def main():
     theta_expr = sys.argv[2]
     
     try:
-        # Evaluate theta expression (supports math.pi, etc.)
-        theta = eval(theta_expr, {"__builtins__": {}, "math": math})
+        # Parse theta expression safely
+        theta = parse_theta_expr(theta_expr)
         
         print(f"Computing TRIG6 for θ = {theta_expr}")
         print(f"(θ ≈ {theta:.8f} radians)")

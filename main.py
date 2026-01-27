@@ -52,9 +52,11 @@ def vector_trig6(thetas):
     s = np.sin(thetas)
     c = np.cos(thetas)
     t = np.tan(thetas)
-    cs = 1 / s
-    sc = 1 / c
-    ct = 1 / t
+    # Handle singularities - set divide to 'ignore' to suppress warnings
+    with np.errstate(divide='ignore', invalid='ignore'):
+        cs = 1 / s
+        sc = 1 / c
+        ct = 1 / t
     return np.stack([s, c, t, cs, sc, ct], axis=1)
 
 

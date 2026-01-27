@@ -15,11 +15,18 @@
 Use Numba JIT compilation for approximately 1.5x performance gain:
 ```python
 from numba import jit
+import math
 
 @jit(nopython=True)
 def trig6_optimized(theta):
-    # Optimized implementation
-    pass
+    """Numba-optimized TRIG6."""
+    s = math.sin(theta)
+    c = math.cos(theta)
+    t = s / c if c != 0 else float('inf')
+    cs = 1 / s if s != 0 else float('inf')
+    sc = 1 / c if c != 0 else float('inf')
+    ct = c / s if s != 0 else float('inf')
+    return [s, c, t, cs, sc, ct]
 ```
 
 ---

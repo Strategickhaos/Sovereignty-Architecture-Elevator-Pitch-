@@ -39,11 +39,13 @@ def run_benchmarks():
     if time_trig6 > 0:
         factor_py = time_py / time_trig6
         if factor_py < 1:
-            efficiency = 100 * factor_py
-            status = f"{efficiency:.1f}% efficient (slower)"
-        else:
-            efficiency = 100 * (factor_py - 1)
+            # TRIG6 is faster than Python
+            efficiency = 100 * (1 - factor_py)
             status = f"{efficiency:.1f}% faster"
+        else:
+            # TRIG6 is slower than Python
+            efficiency = 100 / factor_py
+            status = f"{efficiency:.1f}% efficient (slower)"
         
         print(f"TRIG6 vs Python: {factor_py:.2f}x ({status})")
     
