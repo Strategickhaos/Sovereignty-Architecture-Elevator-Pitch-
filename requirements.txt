@@ -1,0 +1,3 @@
+numpy  # vectorized ops
+scipy  # advanced math
+matplotlib  # plot curves (optional for viz)
