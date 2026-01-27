@@ -166,9 +166,36 @@ Key research questions:
 
 ## 📁 Files
 
-- `proto_elamite_pelsim1_dendrites.json` - Generated dendrite graph
+- `proto_elamite_pelsim1_dendrites.json` - Generated dendrite graph (117KB, 200 edges)
 - `proto_elamite_simulator.py` - Simulation engine
+- `analyze_neurograph.py` - Analysis and demonstration script
+- `validate_schema.py` - JSON schema validation tool
 - `README.md` - This file
+
+### Helper Scripts
+
+**Analyze Neurograph** (`analyze_neurograph.py`)
+```bash
+python3 analyze_neurograph.py
+```
+Demonstrates how to:
+- Load and query the neurograph
+- Analyze symbol evolution patterns
+- Find mutation chains
+- Filter by classification
+- Calculate statistics
+
+**Validate Schema** (`validate_schema.py`)
+```bash
+python3 validate_schema.py [filepath]
+```
+Validates:
+- JSON syntax and structure
+- Required fields in meta/nodes/edges
+- Data types
+- Rails compliance
+- Classification values
+- ISO 8601 timestamps
 
 ## 🔗 Integration
 
