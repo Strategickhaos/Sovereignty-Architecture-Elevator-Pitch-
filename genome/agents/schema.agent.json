@@ -1,0 +1,305 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strategickhaos.com/schemas/genome/agent.json",
+  "title": "Genome Agent Schema",
+  "description": "JSON Schema for validating genome agent cortex definitions in the Sovereignty Architecture",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["metadata", "function"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["id", "version", "type", "health"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the agent",
+          "pattern": "^[a-z_]+$",
+          "examples": ["bio_trig6", "neuro_immune", "docs_ip"]
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of the agent",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "examples": ["1.0.0", "2.1.3"]
+        },
+        "codon": {
+          "type": "string",
+          "description": "DNA codon identifier",
+          "pattern": "^[A-Z0-9_]+$",
+          "examples": ["TRIG6", "NEURO36", "SCRIPT16"]
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of agent creation"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "validation_probe",
+            "adaptive_defense",
+            "knowledge_synthesis",
+            "performance_validation",
+            "orchestration",
+            "monitoring"
+          ],
+          "description": "Category of agent function"
+        },
+        "health": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Health score of the agent (0.0 to 1.0)"
+        }
+      },
+      "additionalProperties": true
+    },
+    "function": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "description": "Primary function of the agent",
+          "examples": ["genome_fitness_validation", "threat_pattern_recognition"]
+        },
+        "secondary": {
+          "type": "string",
+          "description": "Secondary function of the agent"
+        },
+        "tertiary": {
+          "type": "string",
+          "description": "Tertiary function of the agent"
+        }
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "description": "Event triggers that activate agent behavior",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "condition", "action"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique trigger identifier"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["continuous", "event", "temporal", "threshold"],
+            "description": "Type of trigger mechanism"
+          },
+          "condition": {
+            "type": "string",
+            "description": "Condition expression that activates the trigger"
+          },
+          "action": {
+            "type": "string",
+            "description": "Action to take when trigger fires"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low", "info"],
+            "description": "Severity level of the trigger"
+          }
+        }
+      }
+    },
+    "probes": {
+      "type": "array",
+      "description": "Diagnostic probes for monitoring agent state",
+      "items": {
+        "type": "object",
+        "required": ["name", "frequency", "metrics"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Probe name"
+          },
+          "frequency": {
+            "type": "string",
+            "description": "How often the probe runs",
+            "examples": ["per_mutation", "hourly", "daily"]
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of metrics collected by this probe"
+          },
+          "threshold": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Threshold value for probe alerting"
+          }
+        }
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "description": "Integration points with external systems",
+      "properties": {
+        "github_issues": {
+          "type": "object",
+          "properties": {
+            "transform": {
+              "type": "boolean"
+            },
+            "filter": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "pr_system": {
+          "type": "object",
+          "properties": {
+            "validate_before_merge": {
+              "type": "boolean"
+            }
+          }
+        },
+        "ci_cd": {
+          "type": "object",
+          "properties": {
+            "trigger_on_mutation": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "agent_coordination": {
+      "type": "object",
+      "description": "Coordination patterns with other agents",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "type": "object",
+          "properties": {
+            "share": {
+              "type": "string",
+              "description": "Data shared with this agent"
+            },
+            "receive": {
+              "type": "string",
+              "description": "Data received from this agent"
+            }
+          }
+        }
+      }
+    },
+    "alerts": {
+      "type": "object",
+      "description": "Alert routing configuration",
+      "properties": {
+        "channels": {
+          "type": "object",
+          "properties": {
+            "critical": {
+              "type": "string"
+            },
+            "warning": {
+              "type": "string"
+            },
+            "info": {
+              "type": "string"
+            }
+          }
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "discord": {
+              "type": "boolean"
+            },
+            "email": {
+              "type": "boolean"
+            },
+            "pagerduty": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Metrics tracking configuration",
+      "properties": {
+        "track": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of metrics to track"
+        },
+        "dashboards": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Dashboard names for visualization"
+        },
+        "retention_days": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of days to retain metrics data"
+        }
+      }
+    },
+    "self_optimization": {
+      "type": "object",
+      "description": "Self-optimization capabilities",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "adjust_thresholds": {
+          "type": "boolean"
+        },
+        "learn_from_history": {
+          "type": "boolean"
+        },
+        "adaptive_probe_frequency": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"]
+    },
+    "health_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "examples": [
+    {
+      "metadata": {
+        "id": "bio_trig6",
+        "version": "1.0.0",
+        "codon": "TRIG6",
+        "type": "validation_probe",
+        "health": 0.85
+      },
+      "function": {
+        "primary": "genome_fitness_validation",
+        "secondary": "mutation_fitness_testing"
+      }
+    }
+  ]
+}
