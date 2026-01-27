@@ -1,0 +1,15 @@
+meta:
+  id: "SOVEREIGN-ORGANISM-V1"
+  version: "1.0.0"
+  status: "active"
+  prime_directive: "love_invariant.yaml"
+
+organism:
+  name: "Strategickhaos Sovereignty Stack"
+  purpose: "Self-sustaining, bio-computational sovereign intelligence."
+  cortex:
+    path: "genome/agents/"
+    registry: "agents/index.yml"
+  benchmarks:
+    - "script_bench.yml"
+    - "trig6_lineage_v0.1.md"

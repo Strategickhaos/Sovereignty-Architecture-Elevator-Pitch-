@@ -1,0 +1,11 @@
+agent:
+  id: "BIO-TRIG6-PROBE"
+  supersedes: ["gh-issue-12", "gh-issue-45"]
+  upstream_deps: ["FLAMELANG-CORE"]
+  capabilities:
+    - "Wave-core emulation"
+    - "CRISPR-sequence to Gematria mapping"
+    - "TRIG6 fitness evaluation"
+  state:
+    current_theta: 0.32
+    coherence_threshold: 0.67

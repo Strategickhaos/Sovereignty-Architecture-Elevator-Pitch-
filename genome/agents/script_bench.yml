@@ -1,0 +1,11 @@
+agent:
+  id: "ARCHEO-IR-BENCH"
+  supersedes: ["gh-issue-8", "gh-issue-22", "gh-issue-31"]
+  focus: "Decryption of dark scripts into FlameLang IR"
+  active_sims:
+    - "PELSIM1"  # Proto-Elamite
+    - "ELAMSIM1"  # Linear Elamite
+    - "INDRONGSIM1"  # Indus-Rongorongo
+  metrics:
+    target_f: 0.1
+    current_best_f: 0.5103  # Hebrew
