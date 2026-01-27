@@ -1,0 +1,66 @@
+# schema:
+#   id: GitHub issue/PR number
+#   status: [open, in_progress, done, dropped]
+#   subsystem: maps into genome.subsystems
+#   domain: free-tags for search/routing
+#   trig6: optional TRIG6-mode metadata
+#   deps/supersedes: relational graph for planning
+
+track: "neuro_immune"
+description: "NEURO-36, Physarum evolution, immune dashboard & mapping"
+
+agents:
+  - id: 1058
+    title: "Add Proto-Elamite dendrite probe for neuronal evolution mapping"
+    status: "open"
+    github_issue: "#1058"
+    subsystem: "dendrite_mapping"
+    domain: ["proto_elamite", "dendrite", "neuronal_evolution"]
+    trig6:
+      mode: "archaeological_probe"
+      potentiometer: "ancient_script_binding"
+
+  - id: 1057
+    title: "Implement Proto-Elamite dendrite probe framework"
+    status: "open"
+    github_issue: "#1057"
+    subsystem: "dendrite_framework"
+    domain: ["proto_elamite", "dendrite", "framework"]
+    upstream_deps: [1058]
+
+  - id: 1055
+    title: "Add TRIG6 potentiometer gene-min binding specification"
+    status: "open"
+    github_issue: "#1055"
+    subsystem: "gene_min_binding"
+    domain: ["trig6", "gene_optimization", "binding"]
+    trig6:
+      mode: "binding_optimizer"
+      potentiometer: "gene_min"
+
+  - id: 1054
+    title: "Implement Physarum cognitive architecture simulation"
+    status: "open"
+    github_issue: "#1054"
+    subsystem: "physarum_cognitive"
+    domain: ["physarum", "cognitive_architecture", "simulation"]
+    related_files:
+      - "physarum_evolution_36.json"
+
+  - id: 1053
+    title: "Add Physarum → immune system specification mapping"
+    status: "open"
+    github_issue: "#1053"
+    subsystem: "immune_mapping"
+    domain: ["physarum", "immune_system", "mapping"]
+    notes: "Maps Physarum evolution patterns to immune response mechanisms"
+
+  - id: 1052
+    title: "Implement NEURO-36 dashboard for neuromorphic monitoring"
+    status: "open"
+    github_issue: "#1052"
+    subsystem: "neuro_dashboard"
+    domain: ["neuro36", "dashboard", "monitoring"]
+    trig6:
+      mode: "visualization"
+      potentiometer: "neural_monitoring"

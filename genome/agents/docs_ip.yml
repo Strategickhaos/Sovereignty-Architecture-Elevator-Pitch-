@@ -1,0 +1,58 @@
+# schema:
+#   id: GitHub issue/PR number
+#   status: [open, in_progress, done, dropped]
+#   subsystem: maps into genome.subsystems
+#   domain: free-tags for search/routing
+#   trig6: optional TRIG6-mode metadata
+#   deps/supersedes: relational graph for planning
+
+track: "docs_ip"
+description: "TRIG6 documentation, Sister Protocol book, IP shield"
+
+agents:
+  - id: 1043
+    title: "Create paper trail shield for IP self-defense"
+    status: "open"
+    github_issue: "#1043"
+    subsystem: "ip_defense"
+    domain: ["ip_protection", "legal", "documentation"]
+    notes: "Establishes comprehensive documentation trail for intellectual property protection"
+
+  - id: 1014
+    title: "Implement IP protection framework with crypto deploy gates"
+    status: "open"
+    github_issue: "#1014"
+    subsystem: "ip_framework"
+    domain: ["ip_protection", "cryptography", "deployment"]
+    upstream_deps: [1043]
+    trig6:
+      mode: "security_gate"
+      potentiometer: "deployment_control"
+
+  - id: 1013
+    title: "Design Sister Protocol book structure"
+    status: "open"
+    github_issue: "#1013"
+    subsystem: "sister_protocol"
+    domain: ["documentation", "book_structure", "protocol"]
+    notes: "Comprehensive documentation of the Sister Protocol framework"
+
+  - id: 1012
+    title: "Draft counsel cover letter & glossary"
+    status: "open"
+    github_issue: "#1012"
+    subsystem: "legal_docs"
+    domain: ["legal", "documentation", "glossary"]
+    related_files:
+      - "Legal_Proof_Dossier_Attorney_Submission.md"
+
+  - id: 1011
+    title: "Create comprehensive TRIG6 technical documentation"
+    status: "open"
+    github_issue: "#1011"
+    subsystem: "trig6_docs"
+    domain: ["trig6", "documentation", "technical"]
+    trig6:
+      mode: "documentation"
+      potentiometer: "knowledge_capture"
+    notes: "Full technical specification and implementation guide for TRIG6 system"

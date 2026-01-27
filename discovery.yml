@@ -322,3 +322,18 @@ refinory:
       - "architecture_ready"
       - "build_passed"
       - "deploy_succeeded"
+
+# Agent Cortex - Sovereign Compute Stack cognitive map
+agents:
+  repo: "Sovereignty-Architecture-Elevator-Pitch"
+  total_open: 50        # update as you like
+  taxonomy:
+    - track: "bio_trig6"
+      desc: "TRIG6 + CRISPR + neuromorphic evolution"
+    - track: "neuro_immune"
+      desc: "NEURO-36, Physarum, immune↔compiler mapping"
+    - track: "docs_ip"
+      desc: "Technical docs, IP shield, Sister Protocol"
+    - track: "script_bench"
+      desc: "Ancient scripts, TRIG6 diagnostics, Codex/Voynich"
+  index_file: "genome/agents/index.yml"

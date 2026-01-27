@@ -1,0 +1,72 @@
+# Sovereignty Architecture Genome - Organism Summary
+# This file provides a high-level overview of the entire Sovereignty Architecture organism
+# For detailed agent catalog, see genome/agents/index.yml
+
+organism:
+  name: "Sovereignty Architecture"
+  repo: "Sovereignty-Architecture-Elevator-Pitch"
+  description: "Neuromorphic evolutionary computation framework with TRIG6 safety potentiometer"
+  
+subsystems:
+  core:
+    - "TRIG6"              # Trigonometric safety potentiometer
+    - "NEURO-36"           # Neuromorphic monitoring dashboard
+    - "Physarum"           # Evolutionary computation engine
+    - "CRISPR"             # Gene optimization toolkit
+    
+  infrastructure:
+    - "Refinory"           # AI agent orchestration platform
+    - "ReflexShell"        # Cognitive architecture shell
+    - "Discord Integration" # Communication and monitoring
+    
+  security:
+    - "IP Shield"          # Intellectual property protection
+    - "Vault Integration"  # Secrets management
+    - "Crypto Gates"       # Deployment control
+
+agents:
+  repo: "Sovereignty-Architecture-Elevator-Pitch"
+  total_open: 50        # Approximate count of active agents/issues
+  taxonomy:
+    - track: "bio_trig6"
+      desc: "TRIG6 + CRISPR + neuromorphic evolution"
+    - track: "neuro_immune"
+      desc: "NEURO-36, Physarum, immune↔compiler mapping"
+    - track: "docs_ip"
+      desc: "Technical docs, IP shield, Sister Protocol"
+    - track: "script_bench"
+      desc: "Ancient scripts, TRIG6 diagnostics, Codex/Voynich"
+  index_file: "genome/agents/index.yml"
+
+love_invariant:
+  description: "Core safety constraints that must hold across all transformations"
+  principles:
+    - "L1: Energy conservation across transformations"
+    - "L2: Information preservation in evolution"
+    - "L3: Consciousness continuity guarantee"
+
+trig6:
+  mode_types:
+    - "tan-layer"           # Theorem proving and mathematical guarantees
+    - "binding_optimizer"   # Gene-min binding optimization
+    - "security_gate"       # Deployment and access control
+    - "documentation"       # Knowledge capture and transfer
+    - "simulation"          # Validation and testing
+    - "glyph_evolution"     # Ancient script analysis
+  potentiometer_functions:
+    - "theorem_proof"       # Mathematical safety verification
+    - "gene_min"            # Genetic optimization bounds
+    - "deployment_control"  # Release gate management
+    - "knowledge_capture"   # Documentation completeness
+    - "glyph_validation"    # Pattern matching accuracy
+
+physarum:
+  cognitive_architecture: "enabled"
+  evolution_pipeline: "TREO"
+  immune_mapping: "active"
+  simulation_framework: "neuromorphic"
+
+metadata:
+  version: "1.0"
+  last_updated: "2025-01-27"
+  schema_version: "genome-v1"
