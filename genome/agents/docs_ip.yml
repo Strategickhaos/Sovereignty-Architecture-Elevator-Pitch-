@@ -133,6 +133,8 @@ intellectual_property:
     prior_art_search: true
   
   trademark_registry:
+    # NOTE: Trademark information should be externalized to a separate configuration
+    # file (e.g., ip_registry.yml) to facilitate updates without code changes
     - mark: "FlameLang"
       status: "pending"
       class: "software"

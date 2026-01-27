@@ -147,7 +147,7 @@ test_suites:
       iterations: 1000000
     
     - name: "binding_code_resolution"
-      description: "Test [999], [777], [137] code routing"
+      description: "Test [999], [777], [137] code routing (FlameLang binding codes: 999=Glyphos Resonance, 777=Notepad Fixer, 137=Sovereign Defense)"
       iterations: 100000
     
     - name: "temporal_modifier_overhead"

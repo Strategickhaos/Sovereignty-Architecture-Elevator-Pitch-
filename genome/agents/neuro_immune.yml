@@ -87,7 +87,7 @@ interfaces:
 
 neuromorphic_architecture:
   processor_type: "spiking_neural_network"
-  neuron_count: 1000000
+  neuron_count: 1000000  # Configurable based on available neuromorphic hardware (e.g., Intel Loihi, IBM TrueNorth)
   synapse_plasticity: "stdp_enabled"
   temporal_encoding: "rate_and_timing"
   

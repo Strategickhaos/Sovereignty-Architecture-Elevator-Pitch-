@@ -56,7 +56,7 @@ stress_test_categories:
           - "state_save_restore_overhead"
           - "cache_invalidation_impact"
         success_criteria:
-          - "transition_latency < 100 microseconds"
+          - "transition_latency < 100 microseconds"  # Configurable based on target hardware
           - "overhead < 5% of execution time"
       
       - name: "optimization_effectiveness"
