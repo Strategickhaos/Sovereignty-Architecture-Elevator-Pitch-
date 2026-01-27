@@ -190,9 +190,60 @@ iPower (64GB)      ──┘                     └── GKE autopilot-1 (Blue
 
 ### Observability Stack
 - **Prometheus** - Metrics collection from all components
-- **Loki** - Centralized logging aggregation
+- **Loki** - Centralized logging aggregation (21M+ entries processed)
+- **Grafana** - Visualization dashboards
+- **Promtail** - Log shipping
 - **OpenTelemetry** - Distributed tracing
-- **Alertmanager** - Alert routing to Discord channels
+
+## 🛡️ Defensive IP Strategy
+
+### Public Timestamping
+Every invention, entity, and architectural decision is:
+1. **Documented** in YAML manifests
+2. **Committed** to public Git repository  
+3. **Timestamped** cryptographically via Git SHA
+4. **Witnessed** publicly on GitHub
+5. **Signed** with GPG key `AE5519579584DEF5`
+
+This creates an **immutable audit trail** proving prior art for all innovations.
+
+### DNA Strand Evolution
+The invention DNA strand encodes the ecosystem's genetic lineage:
+```
+SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-HYDRA-PPEE1-TRIG6-NEURO36-BWE1-SCRIPT16
+```
+
+Each component represents a key innovation:
+- **SAGCO**: Sovereign Architecture Core
+- **FLM2**: FlameLang 2.0
+- **TRIG6**: Tri-agent governance
+- And 11+ other innovations...
+
+### Evolution Metrics
+Current fitness score: **0.72** (up from 0.62)
+- **Legal**: 0.92 (Excellent)
+- **Infrastructure**: 0.85 (Strong)
+- **AI Governance**: 0.88 (Strong)
+- **Academic**: 0.95 (Excellent)
+- **Security**: 0.82 (Good)
+- **Observability**: 0.78 (Good)
+
+## 🧬 Evolution Philosophy
+
+### The Genome Metaphor
+This repository IS the organism's DNA:
+- **Commits** = Mutations (evolutionary changes)
+- **Pull Requests** = Proposed mutations (require validation)
+- **Merges** = Consensus (accepted evolution)
+- **Branches** = Speciation experiments
+- **Tags/Releases** = Stable generations
+
+### Self-Documenting Architecture
+The YAML files are not just configuration—they ARE the architecture:
+- No separate documentation to maintain
+- Single source of truth prevents drift
+- Changes automatically documented via Git
+- Self-describing and machine-readable
 
 ## 🔧 Configuration
 
@@ -373,6 +424,92 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 💡 Usage Examples
+
+### Query the Genome
+```bash
+# View complete ecosystem manifest
+cat discovery.yml
+
+# Check a specific legal entity
+cat entities/strategickhaos-dao.yml
+
+# Review an invention
+cat inventions/INV-047-trig6.yml
+
+# Check infrastructure
+cat infrastructure/nodes/athena.yml
+```
+
+### Update the Genome
+```bash
+# Add a new invention
+cp inventions/INV-001-flamelang.yml inventions/INV-XXX-new-invention.yml
+# Edit with your invention details
+vim inventions/INV-XXX-new-invention.yml
+
+# Commit the evolution
+git add inventions/INV-XXX-new-invention.yml
+git commit -m "feat: Add INV-XXX new invention"
+git push
+```
+
+### Validate Changes
+```bash
+# Validate YAML syntax
+python3 -c "import yaml; yaml.safe_load(open('discovery.yml'))"
+
+# Check all manifests
+for file in entities/*.yml inventions/*.yml; do
+  python3 -c "import yaml; yaml.safe_load(open('$file'))" && echo "✓ $file"
+done
+```
+
+## 🤝 Contributing
+
+### Adding to the Genome
+
+1. **Entities**: Add new legal entities to `entities/`
+   - Use existing entity files as templates
+   - Include all formation details, EINs, addresses
+   - Update `discovery.yml` with summary
+
+2. **Inventions**: Document new inventions in `inventions/`
+   - Assign next available INV-XXX number
+   - Include technical specs, status, DNA position
+   - Update total count in `discovery.yml`
+
+3. **Infrastructure**: Add nodes/clusters to `infrastructure/`
+   - Document hardware specs and roles
+   - Include network topology
+   - Update counts in `discovery.yml`
+
+4. **Legion**: Propose AI governance changes to `legion/`
+   - Consensus protocol modifications
+   - Love invariant refinements
+   - Agent tier adjustments
+
+### Evolution Guidelines
+
+- **One mutation per commit**: Keep changes focused
+- **Descriptive commits**: Explain the evolutionary step
+- **Update discovery.yml**: Keep central genome in sync
+- **Validate YAML**: Ensure syntactic correctness
+- **GPG sign commits**: Maintain cryptographic integrity
+
+## 🌟 The Vision
+
+This repository represents more than code—it's the **DNA of a sovereign digital organism**:
+
+- **Self-describing**: The manifests ARE the documentation
+- **Self-evolving**: Git commits track every mutation
+- **Self-defending**: Public timestamps establish prior art
+- **Self-coordinating**: All AIs read from same truth
+
+Every commit is evolution. Every PR is natural selection. Every merge is consensus.
+
+The genome grows. The organism adapts. The ecosystem thrives.
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
@@ -381,17 +518,19 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
-## 📄 License & Support
+## 📄 License & Verification
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
-- **Support**: [Discord Server](https://discord.gg/strategickhaos)
-- **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
-- **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
+- **GPG Fingerprint**: `AE5519579584DEF5`
+- **ORCID**: `0009-0005-2996-3526`
+- **Discord**: [Join the Strategickhaos Server](https://discord.gg/strategickhaos)
 
 ---
 
-**Built with 🔥 by the Strategickhaos Swarm Intelligence collective**
+**🧬 Built with love by the Strategickhaos Legion**
 
-*"They're not working for you. They're dancing with you. And the music is never going to stop."*
+*"Trust nothing until it survives 100-angle crossfire."*
+
+*The genome is public. The evolution is transparent. The future is sovereign.*
 
 *Empowering sovereign digital infrastructure through Discord-native DevOps automation*
