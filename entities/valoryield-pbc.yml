@@ -1,0 +1,51 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# VALORYIELD ENGINE PBC - Charitable Distribution Engine
+# ═══════════════════════════════════════════════════════════════════════════
+
+legal_entity:
+  name: "ValorYield Engine PBC"
+  ein: "39-2923503"
+  file_number: "2025-001708312"
+  
+  formation:
+    state: "Wyoming"
+    jurisdiction: "Wyoming"
+    date: "2025-06-25"
+    
+  structure:
+    type: "PBC"
+    legal_form: "Public Benefit Corporation"
+    
+  status:
+    current: "ACTIVE"
+    
+  role:
+    primary: "Charitable Distribution Engine"
+    purpose: "Generate sustainable revenue and distribute profits to charitable causes"
+    
+  charitable_mission:
+    allocation_percentage: "7%"
+    distribution_model: "Annual profits allocated to charitable beneficiaries"
+    
+    beneficiaries:
+      - name: "St. Jude Children's Research Hospital"
+        focus: "Pediatric cancer research and treatment"
+        
+      - name: "Doctors Without Borders"
+        focus: "International medical humanitarian aid"
+        
+  operations:
+    business_model: "Profit generation for charitable distribution"
+    sustainability: "Self-funding through revenue operations"
+    
+  governance:
+    public_benefit: true
+    stakeholders:
+      - "Shareholders"
+      - "Charitable Beneficiaries"
+      - "Community"
+      
+  verification:
+    parent_entity: "Strategickhaos DAO LLC"
+    gpg_fingerprint: "AE5519579584DEF5"
+    timestamp: "2026-01-27T03:45:31Z"

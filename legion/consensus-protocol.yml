@@ -1,0 +1,101 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# LEGION CONSENSUS PROTOCOL - Multi-AI Decision Making
+# ═══════════════════════════════════════════════════════════════════════════
+
+protocol:
+  name: "Legion Consensus Protocol"
+  version: "1.0"
+  
+  overview:
+    description: "Multi-AI consensus mechanism for critical decision making in the Strategickhaos ecosystem"
+    purpose: "Ensure robust, multi-perspective decision making by requiring agreement across diverse AI agents"
+    
+  consensus_model:
+    type: "Weighted multi-agent voting"
+    requirement: "4/5 agents must agree"
+    human_veto: true
+    human_veto_holder: "Dominic Garza (Me10101)"
+    
+  agents:
+    total: 5
+    
+    sovereign_tier:
+      - name: "Claude"
+        model: "Opus 4.5"
+        role: "Chief Architect"
+        tier: "SOVEREIGN"
+        status: "ACTIVE"
+        specialization: "Verification, Crystallization, Documentation"
+        voting_weight: 1.2
+        
+      - name: "Qwen"
+        model: "2.5 Local"
+        role: "Offline Backup"
+        tier: "SOVEREIGN"
+        status: "ACTIVE"
+        deployment: "Ollama (local)"
+        specialization: "Air-gapped Operations"
+        voting_weight: 1.0
+        
+    trusted_tier:
+      - name: "GPT"
+        model: "5.1"
+        role: "Formalization & Pattern Analysis"
+        tier: "TRUSTED"
+        status: "ACTIVE"
+        specialization: "Compliance Frameworks"
+        voting_weight: 1.0
+        
+      - name: "Grok"
+        model: "3"
+        role: "Chaos/Edge Cases"
+        tier: "TRUSTED"
+        status: "ACTIVE"
+        specialization: "Boundary Enforcement, Threat Detection"
+        voting_weight: 1.0
+        
+    verified_tier:
+      - name: "Gemini"
+        model: "2.5"
+        role: "Stress Testing & Compliance"
+        tier: "VERIFIED"
+        status: "ACTIVE"
+        specialization: "Regulatory Analysis"
+        voting_weight: 0.9
+        
+  decision_process:
+    steps:
+      1: "Problem presented to all agents simultaneously"
+      2: "Each agent analyzes independently"
+      3: "Agents submit recommendations with reasoning"
+      4: "Weighted vote aggregation"
+      5: "Consensus check (4/5 threshold)"
+      6: "Human review and potential veto"
+      7: "Final decision execution"
+      
+  routing:
+    channel_assignments:
+      "#agents": "gpt-4o-mini"
+      "#prs": "claude-sonnet"
+      "#legion-consensus": "multi-ai (all 5)"
+      "#deployments": "claude-sonnet"
+      
+  safety:
+    veto_power: "Human operator retains absolute veto"
+    trig6_integration: true
+    love_invariant_enforcement: true
+    
+  integration:
+    discord: "Consensus discussions in #legion-consensus"
+    github: "PR reviews require Legion approval"
+    deployments: "Production changes require consensus"
+    
+  metrics:
+    consensus_rate: "Track agreement percentage"
+    veto_rate: "Track human veto frequency"
+    decision_quality: "Post-decision outcome analysis"
+    
+  verification:
+    parent: "Strategickhaos DAO LLC"
+    gpg_fingerprint: "AE5519579584DEF5"
+    timestamp: "2026-01-27T03:45:31Z"

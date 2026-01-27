@@ -1,0 +1,48 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# Node: Lyra - Mobile Operations Node
+# ═══════════════════════════════════════════════════════════════════════════
+
+node:
+  name: "Lyra"
+  
+  type: "mobile_node"
+  
+  hardware:
+    model: "Acer Nitro V15"
+    ram: "64GB"
+    category: "Gaming Laptop / Mobile Workstation"
+    
+  status:
+    operational: "ONLINE"
+    health: "HEALTHY"
+    
+  role:
+    primary: "Mobile Operations"
+    description: "Portable development and operations capability"
+    
+  capabilities:
+    - "Mobile development workstation"
+    - "On-the-go operations"
+    - "Kubernetes cluster node"
+    - "Obsidian vault synchronization"
+    - "Emergency backup system"
+    
+  software:
+    os: "Windows 11"
+    containers: "Docker + Kubernetes"
+    
+  services:
+    - "Mobile development environment"
+    - "Kubernetes worker node"
+    - "Obsidian vault replica"
+    - "Backup operations console"
+    
+  network:
+    vpn: "Tailscale (tail97edc9.ts.net)"
+    cluster_membership: "Local K8s Mesh"
+    mobility: "Full cluster access from any location"
+    
+  verification:
+    parent: "Strategickhaos DAO LLC"
+    gpg_fingerprint: "AE5519579584DEF5"
+    timestamp: "2026-01-27T03:45:31Z"
