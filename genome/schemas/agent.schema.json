@@ -60,7 +60,7 @@
               "items": {
                 "type": "string"
               },
-              "description": "List of agent IDs or '*' for all agents"
+              "description": "List of agent IDs. Use '*' as sole item to depend on all agents in the track"
             }
           }
         }

@@ -83,7 +83,7 @@ tracks:
     file: "./script_bench.yml"
     description: |
       Agents benchmarking ancient scripts (Hebrew, Greek, Sanskrit), analyzing
-      the Codex Seraphinus, Voynich manuscript, and testing symbolic resonance
+      the Codex Seraphinianus, Voynich manuscript, and testing symbolic resonance
       in computation.
     domains:
       - "Ancient script pattern analysis"

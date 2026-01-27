@@ -12,15 +12,15 @@ from typing import Dict, List, Set
 
 def load_yaml(filepath: Path) -> Dict:
     """Load and parse a YAML file"""
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
 def load_json(filepath: Path) -> Dict:
     """Load and parse a JSON file"""
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def validate_agent(agent: Dict, track_id: str) -> List[str]:
+def validate_agent(agent: Dict) -> List[str]:
     """Validate a single agent definition"""
     errors = []
     required_fields = ['id', 'name', 'state', 'priority', 'description', 'domains', 'capabilities']
@@ -110,7 +110,7 @@ def validate_genome(genome_dir: Path) -> bool:
                     all_agent_ids.add(agent_id)
                 
                 # Validate agent
-                errors = validate_agent(agent, track_id)
+                errors = validate_agent(agent)
                 if errors:
                     print(f"  ✗ Agent {agent_id} has errors:")
                     for error in errors:
