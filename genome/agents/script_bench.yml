@@ -9,3 +9,7 @@ agent:
   metrics:
     target_f: 0.1
     current_best_f: 0.5103  # Hebrew
+  state:
+    f_score: 0.5103
+    danger_level: 0.25
+    active_simulations: 3
