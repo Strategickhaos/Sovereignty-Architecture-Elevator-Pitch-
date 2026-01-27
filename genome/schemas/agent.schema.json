@@ -1,0 +1,247 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strategickhaos.com/schemas/agent.schema.json",
+  "title": "Agent Definition Schema",
+  "description": "JSON Schema for Sovereignty Architecture agent definitions",
+  "version": "1.0.0",
+  
+  "definitions": {
+    "agent_state": {
+      "type": "string",
+      "enum": ["PROPOSED", "DEVELOPING", "TESTING", "ACTIVE", "EVOLVED", "DEPRECATED"],
+      "description": "Current lifecycle state of the agent"
+    },
+    
+    "priority": {
+      "type": "string",
+      "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"],
+      "description": "Priority level for agent development"
+    },
+    
+    "output": {
+      "type": "object",
+      "required": ["type", "format", "description"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of output produced"
+        },
+        "format": {
+          "type": "string",
+          "description": "Output format (e.g., JSON, CSV, PDF)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the output"
+        },
+        "example": {
+          "type": "string",
+          "description": "Example file or data"
+        }
+      }
+    },
+    
+    "dependency": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Agent ID within same track"
+        },
+        {
+          "type": "object",
+          "required": ["track", "agents"],
+          "properties": {
+            "track": {
+              "type": "string",
+              "description": "Track ID containing the dependency"
+            },
+            "agents": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of agent IDs or '*' for all agents"
+            }
+          }
+        }
+      ]
+    }
+  },
+  
+  "type": "object",
+  "required": ["id", "name", "state", "priority", "description", "domains", "capabilities"],
+  
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier for the agent (kebab-case)",
+      "examples": ["trig6-resonance-gate", "neuro36-evolution-engine"]
+    },
+    
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name for the agent"
+    },
+    
+    "state": {
+      "$ref": "#/definitions/agent_state"
+    },
+    
+    "priority": {
+      "$ref": "#/definitions/priority"
+    },
+    
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Detailed description of the agent's purpose and function"
+    },
+    
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "List of domain areas this agent operates in"
+    },
+    
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Specific capabilities and features of the agent"
+    },
+    
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/dependency"
+      },
+      "default": [],
+      "description": "Agents this agent depends on within the same track"
+    },
+    
+    "upstream_deps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/dependency"
+      },
+      "default": [],
+      "description": "Dependencies on agents from other tracks"
+    },
+    
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs that this agent replaces or evolves from"
+    },
+    
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs that are mutually exclusive with this agent"
+    },
+    
+    "synergies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs that amplify or complement this agent"
+    },
+    
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/output"
+      },
+      "description": "Outputs produced by this agent"
+    },
+    
+    "github_issues": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "default": [],
+      "description": "GitHub issue numbers related to this agent"
+    },
+    
+    "config": {
+      "type": "object",
+      "description": "Agent-specific configuration parameters",
+      "additionalProperties": true
+    },
+    
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata about the agent",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  
+  "examples": [
+    {
+      "id": "trig6-resonance-gate",
+      "name": "TRIG6 Resonance Gate Engine",
+      "state": "ACTIVE",
+      "priority": "CRITICAL",
+      "description": "Implements the TRIG6 trait resonance system...",
+      "domains": [
+        "TRIG6 trait mapping",
+        "Resonance frequency analysis"
+      ],
+      "capabilities": [
+        "Maps 36-letter primordial vectors to computation gates",
+        "Tracks resonance threshold (10/36 = spark of life)"
+      ],
+      "dependencies": [],
+      "upstream_deps": [
+        {
+          "track": "script_bench",
+          "agents": ["ancient-script-analyzer"]
+        }
+      ],
+      "outputs": [
+        {
+          "type": "resonance_map",
+          "format": "JSON",
+          "description": "Real-time resonance frequency mappings"
+        }
+      ],
+      "github_issues": [42, 57],
+      "config": {
+        "resonance_threshold": 10,
+        "primordial_vectors": 36
+      }
+    }
+  ]
+}

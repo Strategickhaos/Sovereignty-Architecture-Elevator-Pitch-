@@ -1,0 +1,193 @@
+# 🧬 AGENT CATALOG INDEX
+# Track Listing and Overview
+# Version: 1.0.0
+
+metadata:
+  catalog_version: "1.0.0"
+  last_updated: "2025-01-27"
+  maintainer: "Strategickhaos DAO LLC"
+  schema_ref: "../schemas/agent.schema.json"
+
+overview:
+  description: |
+    This catalog organizes agents into coherent tracks based on domain expertise
+    and cognitive function. Each track contains agents that work together to solve
+    specific aspects of the Sovereign Compute Stack.
+  
+  total_tracks: 4
+  total_agents: null  # Populated by summing track agent counts
+  
+  philosophy: |
+    Agents are not tasks. They are state in the organism.
+    Each agent represents a collapsed possibility in quantum computation space.
+    Review requests = uncollapsed branches awaiting measurement.
+
+tracks:
+  - id: "bio_trig6"
+    name: "Biological Computing & TRIG6 Resonance"
+    file: "./bio_trig6.yml"
+    description: |
+      Agents focused on TRIG6 resonance gates, CRISPR genetic computing,
+      neuromorphic hardware integration, and biological computing paradigms.
+    domains:
+      - "TRIG6 trait resonance"
+      - "CRISPR genetic algorithms"
+      - "Neuromorphic computing"
+      - "DNA-based information storage"
+      - "Biological signal processing"
+    primary_outputs:
+      - "Resonance gate implementations"
+      - "Genetic algorithm optimizations"
+      - "Neuromorphic chip interfaces"
+    dependencies: ["neuro_immune"]
+  
+  - id: "neuro_immune"
+    name: "Neuromorphic & Immune System Mapping"
+    file: "./neuro_immune.yml"
+    description: |
+      Agents implementing NEURO-36 evolution framework, Physarum-inspired
+      network optimization, and immune system pattern recognition.
+    domains:
+      - "NEURO-36 evolution model"
+      - "Physarum polycephalum network optimization"
+      - "Immune system pattern recognition"
+      - "Adaptive defense mechanisms"
+      - "Self-organizing neural networks"
+    primary_outputs:
+      - "Adaptive network topologies"
+      - "Immune-inspired security patterns"
+      - "Self-healing system architectures"
+    dependencies: []
+  
+  - id: "docs_ip"
+    name: "Documentation, Legal & IP Protection"
+    file: "./docs_ip.yml"
+    description: |
+      Agents handling legal documentation, intellectual property protection,
+      Sister Protocol governance, and regulatory compliance.
+    domains:
+      - "Legal entity governance"
+      - "Patent and IP protection"
+      - "Sister Protocol framework"
+      - "Compliance and regulatory"
+      - "Documentation and knowledge management"
+    primary_outputs:
+      - "Patent claims"
+      - "Legal frameworks"
+      - "Governance documents"
+      - "Technical documentation"
+    dependencies: []
+  
+  - id: "script_bench"
+    name: "Ancient Scripts & Symbolic Benchmarking"
+    file: "./script_bench.yml"
+    description: |
+      Agents benchmarking ancient scripts (Hebrew, Greek, Sanskrit), analyzing
+      the Codex Seraphinus, Voynich manuscript, and testing symbolic resonance
+      in computation.
+    domains:
+      - "Ancient script pattern analysis"
+      - "Symbolic computation benchmarks"
+      - "Codex Seraphinianus decoding"
+      - "Voynich manuscript analysis"
+      - "Cross-cultural symbolic resonance"
+    primary_outputs:
+      - "Symbolic computation benchmarks"
+      - "Pattern recognition metrics"
+      - "Resonance frequency maps"
+    dependencies: ["bio_trig6"]
+
+routing:
+  description: |
+    Agents route based on domain expertise and dependency graphs.
+    The Discord bot parses this YAML to route requests to the right Legion member.
+  
+  rules:
+    - pattern: "*.trig6.*|*.crispr.*|*.neuromorphic.*"
+      route_to: "bio_trig6"
+    
+    - pattern: "*.neuro36.*|*.physarum.*|*.immune.*"
+      route_to: "neuro_immune"
+    
+    - pattern: "*.legal.*|*.patent.*|*.sister.*|*.ip.*"
+      route_to: "docs_ip"
+    
+    - pattern: "*.script.*|*.codex.*|*.voynich.*|*.ancient.*"
+      route_to: "script_bench"
+
+relational_graph:
+  enabled: true
+  
+  relationships:
+    - deps: "Agent dependencies within same track"
+    - supersedes: "Agent replaces or evolves from another agent"
+    - upstream_deps: "Dependencies on agents from other tracks"
+    - conflicts: "Mutually exclusive agents"
+    - synergies: "Agents that amplify each other"
+  
+  visualization:
+    - type: "neurograph"
+      endpoint: "http://neurograph.strategickhaos.local:3000"
+    - type: "mermaid"
+      output: "roadmaps and documentation"
+
+state_management:
+  philosophy: |
+    Agents maintain state in the organism. They are not ephemeral tasks.
+    State transitions are tracked through GitHub PR reviews and Discord events.
+  
+  states:
+    - PROPOSED: "Agent concept proposed but not yet implemented"
+    - DEVELOPING: "Agent under active development"
+    - TESTING: "Agent in testing/validation phase"
+    - ACTIVE: "Agent deployed and operational"
+    - EVOLVED: "Agent superseded by evolved version"
+    - DEPRECATED: "Agent retired or replaced"
+  
+  transitions:
+    - event: "PR opened"
+      from: "PROPOSED"
+      to: "DEVELOPING"
+    
+    - event: "Review requested"
+      description: "Uncollapsed branch awaiting measurement"
+      action: "Route to appropriate Legion member"
+    
+    - event: "PR merged"
+      from: "DEVELOPING"
+      to: "ACTIVE"
+    
+    - event: "Agent evolved"
+      from: "ACTIVE"
+      to: "EVOLVED"
+
+integration:
+  discord_bot:
+    enabled: true
+    parses: "This YAML for routing logic"
+    channel_mapping:
+      bio_trig6: "#bio-computing"
+      neuro_immune: "#neuro-immune"
+      docs_ip: "#legal-ip"
+      script_bench: "#ancient-scripts"
+  
+  github:
+    enabled: true
+    issue_templating: true
+    auto_labeling:
+      - track_labels: ["bio_trig6", "neuro_immune", "docs_ip", "script_bench"]
+      - state_labels: ["proposed", "developing", "testing", "active"]
+  
+  refinory:
+    enabled: true
+    uses: "Agent definitions for architecture requests"
+    expert_mapping:
+      bio_trig6: ["ai_ml", "backend"]
+      neuro_immune: ["ai_ml", "data_science"]
+      docs_ip: ["architecture", "security"]
+      script_bench: ["ai_ml", "frontend"]
+
+# The Insight:
+# Before: 50+ scattered GitHub issues
+# After: Structured YAML genome with relational graph
+# Result: Bots parse, agents reason, organism evolves
