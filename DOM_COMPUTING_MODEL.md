@@ -261,7 +261,7 @@ python vault_mapper.py --scan ~/ --depth 3 --visualize
 The recommended directory structure that preserves emergent style while making it navigable:
 
 ```
-~/sovereignity-cortex/
+~/sovereignty-cortex/
 │
 ├── 🧠 cognitive-core/          # Primary knowledge nodes
 │   ├── active-projects/         # Current work

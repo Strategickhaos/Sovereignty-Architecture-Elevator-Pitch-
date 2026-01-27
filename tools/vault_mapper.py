@@ -15,6 +15,7 @@ Usage:
 import os
 import json
 import argparse
+import datetime
 from pathlib import Path
 from typing import List, Dict, Set, Optional
 from dataclasses import dataclass, asdict
@@ -231,7 +232,6 @@ class VaultMapper:
     def _get_last_modified(self, path: Path) -> str:
         """Get last modification time"""
         try:
-            import datetime
             timestamp = path.stat().st_mtime
             return datetime.datetime.fromtimestamp(timestamp).isoformat()
         except Exception:
