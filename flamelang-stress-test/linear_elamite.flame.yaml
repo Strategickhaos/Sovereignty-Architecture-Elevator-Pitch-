@@ -175,8 +175,9 @@ metrics:
     invention: 0.55
     
 export:
-  absolute_path: "/home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-/flamelang-stress-test/linear_elamite.flame.yaml"
+  relative_path: "flamelang-stress-test/linear_elamite.flame.yaml"
   format: "yaml"
+  note: "Use relative path for portability across environments"
   
 simulation_results:
   description: "Reference outputs from initial simulation runs"

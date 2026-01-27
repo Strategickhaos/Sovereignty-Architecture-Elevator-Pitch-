@@ -7,7 +7,8 @@ This module simulates gematria mappings for ancient scripts (Linear Elamite, Pro
 and projects them to TRIG6 metrics for structure detection and evolution.
 
 Mathematical Formalization:
-- Gematria Mapping: G(l) = Σ v(l_j), where v(l_j) = tanh(tan θ) · cos(e_sym, e_hebrew)
+- Gematria Mapping: G(l) = Σ v(l_j), where v(l_j) are pre-computed sign values
+  (Full formula with tanh(tan θ) · cos(e_sym, e_hebrew) scaling reserved for future enhancement)
 - TRIG6 Projection: m = r · (1-d) · (1-n) · eq, θ = G(l) mod (2π)
 """
 
@@ -106,8 +107,9 @@ class LinearElamiteSimulator:
         theta = (gematria_sum % (2 * math.pi * 100)) / 100.0  # Scale to 2π range
         
         # Compute base metrics
-        r = abs(math.cos(theta))  # Resonance (pattern alignment)
-        d = abs(math.sin(theta))  # Drift (temporal shift)
+        # Note: Using raw cos/sin values to preserve trigonometric relationships
+        r = (math.cos(theta) + 1) / 2  # Resonance (pattern alignment), normalized to [0,1]
+        d = (math.sin(theta) + 1) / 2  # Drift (temporal shift), normalized to [0,1]
         
         # Noise estimation (random for undeciphered portions)
         # Lower for structured scripts, higher for proto-writing
@@ -120,7 +122,12 @@ class LinearElamiteSimulator:
         fitness = r * (1 - d) * (1 - n) * eq
         
         # Danger metric (tan infinity risk at π/2)
-        danger = abs(math.tan(theta)) if abs(theta - math.pi/2) > 0.1 else 10.0
+        # Higher danger when theta is near π/2 (where tan approaches infinity)
+        distance_from_singularity = min(abs(theta - math.pi/2), abs(theta - 3*math.pi/2))
+        if distance_from_singularity < 0.1:
+            danger = 10.0  # Maximum danger near singularity
+        else:
+            danger = min(abs(math.tan(theta)), 10.0)  # Cap at 10.0
         
         return {
             'theta': round(theta, 2),
@@ -186,12 +193,17 @@ class LinearElamiteSimulator:
         """
         sign_map = self.elamite_signs if script_type == 'elamite' else self.proto_cuneiform_signs
         explanation = []
+        total = 0
         
         for sign in signs:
-            value = sign_map.get(sign, random.randint(1, 100))
+            if sign in sign_map:
+                value = sign_map[sign]
+            else:
+                # Use a deterministic fallback based on sign hash for consistency
+                value = (hash(sign) % 100) + 1
             explanation.append(f"{sign}={value}")
+            total += value
         
-        total = self.compute_gematria(signs, script_type)
         breakdown = " + ".join(explanation)
         reduced = total % 9 if total % 9 != 0 else 9
         
@@ -238,7 +250,7 @@ def main():
         
         print(f"Simulated Linear Elamite text: {result['signs']}")
         print(f"Gematria sum: {result['gematria_sum']}")
-        print(f"Theta: {result['metrics']['theta']} (low tan)")
+        print(f"Theta: {result['metrics']['theta']}")
         print(f"Metrics: R={result['metrics']['resonance']}, "
               f"D={result['metrics']['drift']}, "
               f"N={result['metrics']['noise']}, "
