@@ -35,3 +35,9 @@ target/
 
 # Workspace data
 workspace/
+
+# DCM Vault Mapper outputs (generated files)
+vault_map_report.md
+vault_nodes.json
+cortex_graph.dot
+cortex_graph.svg
