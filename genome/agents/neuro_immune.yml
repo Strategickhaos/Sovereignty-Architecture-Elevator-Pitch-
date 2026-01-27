@@ -1,0 +1,70 @@
+# schema: SovereignAgent list
+track: "TRACK-NEURO-IMMUNE"
+description: "NEURO-36, Physarum evolution, immune dashboard & compiler mapping."
+
+agents:
+  - id: "AG-1052"
+    github_issue: 1052
+    title: "Implement NEURO-36 Immune Dashboard monitoring system"
+    status: "open"
+    subsystem: ["NEURO36", "OS"]
+    domain: ["monitoring", "immune", "bci"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1053"
+    github_issue: 1053
+    title: "Transform physarum_evolution_36.json into immune system architecture spec"
+    status: "open"
+    subsystem: ["NEURO36"]
+    domain: ["physarum", "architecture"]
+    upstream_deps: ["AG-1052"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1054"
+    github_issue: 1054
+    title: "Implement Physarum-based cognitive architecture simulator for immune→compiler mapping"
+    status: "open"
+    subsystem: ["NEURO36", "LANG"]
+    domain: ["simulation", "compiler", "physarum"]
+    upstream_deps: ["AG-1053"]
+    trig6:
+      mode: "fitness_probe"
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1055"
+    github_issue: 1055
+    title: "Implement TRIG6 potentiometer simulation for gene-min binding analysis"
+    status: "open"
+    subsystem: ["TRIG6", "BIO"]
+    domain: ["simulation", "binding", "safety"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1057"
+    github_issue: 1057
+    title: "Add Proto-Elamite dendritic visualization probe with evolutionary gates"
+    status: "open"
+    subsystem: ["TRIG6"]
+    domain: ["ancient_scripts", "viz", "safety"]
+    upstream_deps: ["AG-1053"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1058"
+    github_issue: 1058
+    title: "Add Proto-Elamite mutation dendrite simulator with safety rails"
+    status: "open"
+    subsystem: ["TRIG6"]
+    domain: ["ancient_scripts", "evolution", "safety"]
+    upstream_deps: ["AG-1057"]
+    state:
+      f_score: null
+      danger_level: null

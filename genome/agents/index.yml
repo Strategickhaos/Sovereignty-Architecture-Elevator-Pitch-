@@ -1,0 +1,29 @@
+meta:
+  id: "AGENT-CORTEX-INDEX"
+  description: "Routing index for the Sovereign Agents Cortex."
+  schema: "genome/agents/schema.agent.json"
+
+tracks:
+  - id: "TRACK-BIO-TRIG6"
+    file: "genome/agents/bio_trig6.yml"
+    focus: "CRISPR, neuromorphic chips, TRIG6 evolutionary probes."
+
+  - id: "TRACK-NEURO-IMMUNE"
+    file: "genome/agents/neuro_immune.yml"
+    focus: "NEURO-36, Physarum evolution, immune↔compiler mapping."
+
+  - id: "TRACK-DOCS-IP"
+    file: "genome/agents/docs_ip.yml"
+    focus: "TRIG6 technical docs, Sister Protocol, IP / legal shield."
+
+  - id: "TRACK-SCRIPT-BENCH"
+    file: "genome/agents/script_bench.yml"
+    focus: "TRIG6 script fitness league: Codex, Voynich, Indus, etc."
+
+defaults:
+  status_field: "status"
+  allowed_status:
+    - "open"
+    - "in_progress"
+    - "done"
+    - "dropped"

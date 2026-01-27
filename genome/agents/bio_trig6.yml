@@ -1,0 +1,68 @@
+# schema:
+#   each entry is a SovereignAgent (see schema.agent.json)
+track: "TRACK-BIO-TRIG6"
+description: "TRIG6 + neuromorphic + CRISPR / gene-min binding stack."
+
+agents:
+  - id: "AG-1036"
+    github_issue: 1036
+    title: "Implement TRIG6 evolutionary optimization theorems with classical, quantum, and fractal guarantees"
+    status: "open"
+    subsystem: ["TRIG6", "LANG"]
+    domain: ["math", "evolution", "safety"]
+    trig6:
+      mode: "tan-layer"
+      potentiometer_role: "theorem_proof"
+    state:
+      f_score: null
+      danger_level: null
+    notes: "Formal kernel guarantees; feeds into all other TRIG6 uses."
+
+  - id: "AG-1035"
+    github_issue: 1035
+    title: "Add neuromorphic CRISPR gRNA optimizer for beta thalassemia"
+    status: "open"
+    subsystem: ["BIO", "TRIG6"]
+    domain: ["crispr", "gRNA", "optimization"]
+    upstream_deps: ["AG-1036"]
+    trig6:
+      mode: "fitness_gate"
+      safety_layer: ["L1", "L3"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1034"
+    github_issue: 1034
+    title: "Add TREO evolutionary algorithm pipeline for CRISPR sickle cell simulation"
+    status: "open"
+    subsystem: ["BIO", "NEURO36"]
+    domain: ["crispr", "simulation", "physarum"]
+    upstream_deps: ["AG-1035"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1033"
+    github_issue: 1033
+    title: "Add neuromorphic chip integration for seizure detection and blood science analysis"
+    status: "open"
+    subsystem: ["BIO"]
+    domain: ["eeg", "blood", "neuromorphic"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1032"
+    github_issue: 1032
+    title: "Add neuromorphic chip integration for seizure detection and blood science with TRIG6 fusion"
+    status: "open"
+    subsystem: ["BIO", "TRIG6"]
+    domain: ["eeg", "blood", "trig6_fusion"]
+    supersedes: ["AG-1033"]
+    trig6:
+      mode: "potentiometer"
+      channel: "seizure_detection"
+    state:
+      f_score: null
+      danger_level: null

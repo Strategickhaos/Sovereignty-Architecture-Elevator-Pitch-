@@ -1,0 +1,88 @@
+track: "TRACK-DOCS-IP"
+description: "TRIG6 / Sovereign Stack documentation and IP / legal self-defense."
+
+agents:
+  - id: "AG-1011"
+    github_issue: 1011
+    title: "Add comprehensive TRIG6 technical documentation"
+    status: "open"
+    subsystem: ["TRIG6", "LANG"]
+    domain: ["docs", "math_spec"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1012"
+    github_issue: 1012
+    title: "Add technical glossary and counsel cover letter for legal/IP review"
+    status: "open"
+    subsystem: ["VERIF"]
+    domain: ["ip", "glossary", "legal"]
+    upstream_deps: ["AG-1011"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1013"
+    github_issue: 1013
+    title: "Add Sister Protocol book structure with TRIG6 failure vectorization"
+    status: "open"
+    subsystem: ["TRIG6", "VERIF"]
+    domain: ["books", "failure_modes"]
+    upstream_deps: ["AG-1011"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1014"
+    github_issue: 1014
+    title: "Implement IP protection framework with cryptographic deployment gates"
+    status: "open"
+    subsystem: ["OS", "VERIF"]
+    domain: ["crypto", "ip", "deployment"]
+    upstream_deps: ["AG-1012"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1043"
+    github_issue: 1043
+    title: "[WIP] Add paper trail shield for intellectual self-defense"
+    status: "open"
+    subsystem: ["VERIF"]
+    domain: ["paper_trail", "defensive_publication"]
+    upstream_deps: ["AG-1011", "AG-1012"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1044"
+    github_issue: 1044
+    title: "Add formal Sovereign Compute Stack documentation"
+    status: "open"
+    subsystem: ["OS", "LANG", "TRIG6", "NEURO36"]
+    domain: ["docs", "architecture"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1045"
+    github_issue: 1045
+    title: "Add neurodivergent cognitive architecture documentation"
+    status: "open"
+    subsystem: ["NEURO36"]
+    domain: ["docs", "cognitive_architecture"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1046"
+    github_issue: 1046
+    title: "Document cognitive architecture and neurodivergent systems engineering approach"
+    status: "open"
+    subsystem: ["NEURO36", "VERIF"]
+    domain: ["docs", "systems_engineering"]
+    upstream_deps: ["AG-1045"]
+    state:
+      f_score: null
+      danger_level: null
