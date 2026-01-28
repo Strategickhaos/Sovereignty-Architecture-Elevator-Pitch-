@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "solver": "TRIG6-pruned IDA*",
+    "theta_gate": "depth * \u03c0/32 + move_idx * \u03c0/18",
+    "prune_rule": "abs(tan) > 10 OR norm\u00b2 > 50",
+    "total_moves": 7
+  },
+  "solution": "D U' U' D D D B'",
+  "steps": [
+    {
+      "depth": 0,
+      "move": "D",
+      "move_idx": 2,
+      "theta_rad": 0.3490658503988659,
+      "theta_deg": 20.0,
+      "sin_val": 0.3420201433256687,
+      "cos_val": 0.9396926207859084,
+      "tan_val": 0.36397023426620234,
+      "norm_sq": 18.362213003689654,
+      "pruned": false,
+      "midi_root": 61,
+      "midi_chord": [
+        61,
+        63,
+        72
+      ],
+      "velocity": 69,
+      "chord_type": "minor"
+    },
+    {
+      "depth": 1,
+      "move": "U'",
+      "move_idx": 1,
+      "theta_rad": 0.272707695624114,
+      "theta_deg": 15.625000000000002,
+      "sin_val": 0.269340053953226,
+      "cos_val": 0.9630451367077627,
+      "tan_val": 0.2796754208987378,
+      "norm_sq": 28.72588718473027,
+      "pruned": false,
+      "midi_root": 61,
+      "midi_chord": [
+        61,
+        63,
+        73
+      ],
+      "velocity": 63,
+      "chord_type": "minor"
+    },
+    {
+      "depth": 2,
+      "move": "U'",
+      "move_idx": 1,
+      "theta_rad": 0.37088246604879505,
+      "theta_deg": 21.25,
+      "sin_val": 0.36243803828370164,
+      "cos_val": 0.9320078692827986,
+      "tan_val": 0.38887873185298966,
+      "norm_sq": 16.52763395604848,
+      "pruned": false,
+      "midi_root": 61,
+      "midi_chord": [
+        61,
+        64,
+        72
+      ],
+      "velocity": 71,
+      "chord_type": "minor"
+    },
+    {
+      "depth": 3,
+      "move": "D",
+      "move_idx": 2,
+      "theta_rad": 0.643590161672909,
+      "theta_deg": 36.87499999999999,
+      "sin_val": 0.6000712399244809,
+      "cos_val": 0.7999465651001297,
+      "tan_val": 0.7501391544188575,
+      "norm_sq": 7.679654034601661,
+      "pruned": false,
+      "midi_root": 62,
+      "midi_chord": [
+        62,
+        66,
+        72
+      ],
+      "velocity": 92,
+      "chord_type": "minor"
+    },
+    {
+      "depth": 4,
+      "move": "D",
+      "move_idx": 2,
+      "theta_rad": 0.7417649320975901,
+      "theta_deg": 42.5,
+      "sin_val": 0.6755902076156602,
+      "cos_val": 0.737277336810124,
+      "tan_val": 0.9163311740174235,
+      "norm_sq": 7.0612341299644195,
+      "pruned": false,
+      "midi_root": 63,
+      "midi_chord": [
+        63,
+        68,
+        72
+      ],
+      "velocity": 98,
+      "chord_type": "minor"
+    },
+    {
+      "depth": 5,
+      "move": "D",
+      "move_idx": 2,
+      "theta_rad": 0.839939702522271,
+      "theta_deg": 48.12499999999999,
+      "sin_val": 0.7446028722923261,
+      "cos_val": 0.6675077247298474,
+      "tan_val": 1.1154970118041414,
+      "norm_sq": 7.095953208607088,
+      "pruned": false,
+      "midi_root": 63,
+      "midi_chord": [
+        63,
+        68,
+        71
+      ],
+      "velocity": 104,
+      "chord_type": "major"
+    },
+    {
+      "depth": 6,
+      "move": "B'",
+      "move_idx": 11,
+      "theta_rad": 2.5089107997418485,
+      "theta_deg": 143.75,
+      "sin_val": 0.5913096483635826,
+      "cos_val": -0.8064446042674824,
+      "tan_val": -0.7332303362618275,
+      "norm_sq": 7.795306610148428,
+      "pruned": false,
+      "midi_root": 60,
+      "midi_chord": [
+        60,
+        70,
+        74
+      ],
+      "velocity": 91,
+      "chord_type": "major"
+    }
+  ]
+}
