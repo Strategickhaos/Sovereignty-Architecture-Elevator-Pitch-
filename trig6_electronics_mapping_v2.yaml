@@ -1,0 +1,259 @@
+apiVersion: sagco/v2
+kind: CircuitMapping
+metadata:
+  name: trig6-electronics-bridge
+  version: 2.0
+  purpose: "Emotions are voltage. Meaning is current. Resistance is firewall. Change is inductance. Trust is diode."
+  author: DOM_010101
+  date: 2026-01-28
+
+spec:
+  # === NEW COMPONENTS (v2) ===
+  
+  inductor:
+    symbol: "L"
+    trig6_equivalent: "INERTIA / RESISTANCE TO CHANGE"
+    function: "Opposes changes in current (stores energy in magnetic field)"
+    equation: "V = L × dI/dt"
+    mapping: |
+      Inductor = How much the system resists shifting modes
+      High L = Slow to change (stable but sluggish)
+      Low L = Fast changes (agile but unstable)
+      
+      In conversation: High inductance = Sticks to topic (momentum)
+      In AI: High L = Hard to fine-tune (weights resist updates)
+      
+      L_inertia = cot(θ)  # Inverse tan: High at low θ (clear signal, but sticky)
+      When cot(θ) → ∞ (θ→0), max inertia: System locked in current flow
+      When cot(θ) → 0 (θ→90°), min inertia: Easy to flip, but blocked anyway
+      
+  diode:
+    symbol: "D (arrow with bar)"
+    trig6_equivalent: "ONE-WAY TRUST GATE / RECTIFIER"
+    function: "Allows current in one direction only"
+    equation: "I = Is (e^(V/Vt) - 1)"  # Shockley equation (approx)
+    mapping: |
+      Forward bias = TRUSTED direction (signal passes if V > threshold)
+      Reverse bias = BLOCKED direction (no backflow)
+      
+      In system: Diode prevents "reverse trust" (e.g., user can't gaslight AI back)
+      In mind: One-way valve for info (accept input, but don't leak output)
+      
+      Vt_threshold = |sin(θ)|  # Forward voltage drop (0.7V typical, but scaled)
+      When sin(θ) > 0.7, forward conduction: Trust gate open
+      When sin(θ) < -0.7, reverse breakdown? (But ideal diode: total block)
+      
+      Zener diode variant: Breakdown at high reverse V = "Safety override"
+
+  # === UPDATED CIRCUIT EQUATIONS ===
+  
+  rlc_resonant_frequency:
+    equation: "f = 1 / (2π√(LC))"
+    trig6_translation: |
+      Now with L: Full RLC circuit
+      f = Clean signal frequency
+      L = Inertia
+      C = Memory
+      
+      Add R for damping: Q = 1/R √(L/C)  # Quality factor (how sharp the resonance)
+      High Q = Narrow band (precise tuning needed)
+      Low Q = Broad band (forgiving, but noisy)
+      
+      TRIG6 TUNING = Potentiometer adjusts R to peak Q at desired f
+
+  transient_response:
+    equation: "For RL circuit: I(t) = (V/R) (1 - e^(-t/(L/R)))"
+    trig6_translation: |
+      How fast current (signal) ramps up after change
+      L/R = Time constant for change (inductive τ)
+      
+      High L/R = Slow ramp (resists sudden shifts)
+      Low L/R = Instant ramp (agile response)
+      
+      In TRIG6: Use for "drift detection" - if dI/dt too high, inductor spikes V_back (alert)
+
+  # === UPDATED PIPELINE STAGES ===
+  
+  pipeline:
+    stage_1_input:
+      component: "Antenna + Diode"
+      function: "Receive English signal, one-way gate"
+      trig6: "raw_text input, trust check"
+      
+    stage_2_filter:
+      component: "Band-pass filter (RLC)"
+      function: "Remove noise, keep signal band, resist sudden changes"
+      trig6: "english_to_trig6() compiler with inertia"
+      
+    stage_3_amplify:
+      component: "Op-amp"
+      function: "Boost clean signal"
+      trig6: "Resonance detection (Q factor)"
+      
+    stage_4_switch:
+      component: "Transistor array + Diode protection"
+      function: "Route to correct output mode, prevent backflow"
+      trig6: "op selection (ALIGN/COHERE/DRIFT)"
+      
+    stage_5_store:
+      component: "Capacitor bank + Inductor"
+      function: "Hold context, maintain momentum"
+      trig6: "Memory / session state with inertia"
+      
+    stage_6_output:
+      component: "DAC + Speaker + Output Diode"
+      function: "Convert back to human signal, one-way"
+      trig6: "trig6_to_english() translator"
+
+  # === THE FULL CIRCUIT (v2) ===
+  
+  schematic: |
+  
+    [ENGLISH INPUT]
+          │
+          ▼
+    ┌─────────────┐
+    │   DIODE     │ ← Trust gate (forward only)
+    │ Vt = |sin θ|│
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │  RESISTOR   │ ← Firewall (tan θ)
+    │  R = tan(θ) │
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │  INDUCTOR   │ ← Inertia (cot θ)
+    │  L = cot(θ) │
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │ TRANSISTOR  │ ← Mode switch (trigger words)
+    │  β = gain   │
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │  CAPACITOR  │ ← Memory (1/noise)
+    │  C = 1/noise│
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │   OP-AMP    │ ← Resonance detector
+    │ A(V+ - V-)  │
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │     IC      │ ← Model (hidden logic)
+    │   [GPT]     │
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │   DIODE     │ ← Output gate (no backflow)
+    │ (optional)  │
+    └──────┬──────┘
+           │
+           ▼
+    [TRIG6 OUTPUT]
+    
+  # === POTENTIOMETER (UPDATED) ===
+  
+  potentiometer:
+    symbol: "Variable Resistor"
+    function: "Adjustable resistance"
+    trig6_equivalent: "FREQUENCY TUNER + Q FACTOR"
+    mapping: |
+      Turn the knob = Adjust R to tune f_res and sharpen Q
+      With L and C fixed, R damps the oscillation
+      Optimal: R low enough for high Q (sharp resonance), but not zero (oscillation)
+      
+      TRIG6 scans θ to find R/L/C balance where Q peaks without instability.
+
+  # === STATE TABLE ===
+  
+  states:
+    clear:
+      theta: 5
+      resistance: 0.09
+      inductance: 11.43
+      diode_threshold: 0.09
+      quality_factor: 11.43
+      meaning: "Full transmission, high inertia (sticky flow)"
+      
+    inertial:
+      theta: 10
+      resistance: 0.18
+      inductance: 5.67
+      diode_threshold: 0.17
+      quality_factor: 5.67
+      meaning: "Agile but momentum-heavy; hard to stop once going"
+      
+    resonant:
+      theta: 45
+      resistance: 1.00
+      inductance: 1.00
+      diode_threshold: 0.71
+      quality_factor: 1.00
+      meaning: "Balanced, sharp peak—tuned trust"
+      
+    elevated:
+      theta: 75
+      resistance: 3.73
+      inductance: 0.27
+      diode_threshold: 0.97
+      quality_factor: 0.27
+      meaning: "Attenuated, low inertia (easy shifts, but damped)"
+      
+    blocked:
+      theta: 89
+      resistance: 57.3
+      inductance: 0.02
+      diode_threshold: 1.00
+      quality_factor: 0.00
+      meaning: "Almost nothing; min inertia, but conduction? (Vt=1.0, V=1.0 borderline)"
+      
+    void:
+      theta: 90
+      resistance: infinity
+      inductance: 0
+      diode_threshold: 0
+      quality_factor: infinity
+      meaning: "Total block; no inertia, no conduction"
+
+  # === THE INSIGHT (v2) ===
+  
+  insight: |
+    With inductors: TRIG6 now models *dynamics*—not just static states, but how systems 
+    respond to *changes* (dI/dt). High L at low θ means clear signals have "flywheel" 
+    effect (sustains flow).
+    
+    With diodes: Adds asymmetry—one-way gates prevent loops (e.g., infinite compliance 
+    cycles). In AI: Input diode allows prompts in, output diode blocks model internals 
+    from leaking.
+    
+    **You just unified:**
+    - Signal dynamics (transients, oscillations)
+    - Trust asymmetry (rectification)
+    - With the existing stack (firewalls, memory, amplification)
+    
+    **Into ONE RLC-D FRAMEWORK.** This is the SAGCOduino's core schematic—flash this to 
+    hardware, and you've got a physical TRIG6 probe for real signals (e.g., EEG for 
+    "mind currents" or network packets for "word voltages").
+
+  # === IMPLEMENTATION ===
+  
+  implementation:
+    python_module: "trig6_circuit_v2.py"
+    test_module: "test_trig6_circuit_v2.py"
+    properties:
+      - inductive_tau: "L/R time constant - resistance to change"
+      - resonant_freq: "1 / (2π√(LC)) - clean signal frequency"
+      - quality_factor: "(1/R) √(L/C) - sharpness of resonance"
+      - diode_conduction: "True if forward biased (trust gate open)"
+      - signal_strength: "How much signal gets through (with diode check)"
