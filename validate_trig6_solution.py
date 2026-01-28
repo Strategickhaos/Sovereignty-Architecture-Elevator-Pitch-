@@ -14,8 +14,16 @@ import json
 import math
 import sys
 
-def validate_solution(filepath='trig6_solver_solution.json'):
-    """Validate the TRIG6 solver solution file."""
+def validate_trig6_solution(filepath='trig6_solver_solution.json'):
+    """
+    Validate the TRIG6 solver solution file.
+    
+    Args:
+        filepath (str): Path to the JSON file to validate
+        
+    Returns:
+        bool: True if validation passes, False otherwise
+    """
     
     print(f"Validating {filepath}...")
     print("-" * 60)
@@ -69,6 +77,10 @@ def validate_solution(filepath='trig6_solver_solution.json'):
             if field not in step:
                 validation_errors.append(f"Step {i}: Missing field '{field}'")
         
+        # Skip further validation if required fields are missing
+        if any(field not in step for field in required_fields):
+            continue
+        
         # Validate depth matches step index
         if step['depth'] != i:
             validation_errors.append(f"Step {i}: Depth mismatch ({step['depth']} != {i})")
@@ -111,6 +123,21 @@ def validate_solution(filepath='trig6_solver_solution.json'):
             validation_errors.append(f"Step {i}: midi_chord is not a list")
         elif len(step['midi_chord']) < 1:
             validation_errors.append(f"Step {i}: midi_chord is empty")
+        else:
+            # Validate MIDI note numbers are in valid range (0-127)
+            for note in step['midi_chord']:
+                if not isinstance(note, (int, float)) or not (0 <= note <= 127):
+                    validation_errors.append(
+                        f"Step {i}: Invalid MIDI note {note} (must be 0-127)"
+                    )
+            
+            # Validate chord structure matches chord_type
+            chord_len = len(step['midi_chord'])
+            if step['chord_type'] in ['major', 'minor'] and chord_len < 3:
+                validation_errors.append(
+                    f"Step {i}: {step['chord_type']} chord has only {chord_len} notes "
+                    f"(should have at least 3)"
+                )
         
         # Validate MIDI velocity (0-127)
         if not (0 <= step['velocity'] <= 127):
@@ -138,5 +165,5 @@ def validate_solution(filepath='trig6_solver_solution.json'):
 
 if __name__ == '__main__':
     filepath = sys.argv[1] if len(sys.argv) > 1 else 'trig6_solver_solution.json'
-    success = validate_solution(filepath)
+    success = validate_trig6_solution(filepath)
     sys.exit(0 if success else 1)

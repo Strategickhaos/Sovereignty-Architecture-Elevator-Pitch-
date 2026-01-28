@@ -121,7 +121,8 @@
       "midi_root": 64,
       "midi_chord": [
         64,
-        70
+        68,
+        71
       ],
       "velocity": 113,
       "chord_type": "major"
@@ -131,7 +132,7 @@
       "move": "D2",
       "move_idx": 4,
       "theta_rad": 1.287180323345818,
-      "theta_deg": 73.74999999999999,
+      "theta_deg": 73.75,
       "sin_val": 0.9600498543859286,
       "cos_val": 0.2798290140309922,
       "tan_val": 3.4308445738210662,
