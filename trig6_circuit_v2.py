@@ -11,6 +11,9 @@ Inductors add "inertia" (resistance to rapid shifts), diodes enforce directional
 import math
 from dataclasses import dataclass
 
+# Constant for near-infinite values in edge cases
+NEAR_INFINITE = 1000000
+
 
 @dataclass
 class CircuitStateV2:
@@ -81,12 +84,14 @@ class CircuitStateV2:
         """
         True if forward biased (trust gate open).
         
-        Forward bias = TRUSTED direction (signal passes if V > threshold)
+        Forward bias = TRUSTED direction (signal passes if V >= threshold)
         Reverse bias = BLOCKED direction (no backflow)
         
         In system: Diode prevents "reverse trust" (e.g., user can't gaslight AI back)
+        
+        Note: Uses >= to allow conduction at borderline threshold voltage.
         """
-        return abs(self.voltage) > self.diode_threshold
+        return abs(self.voltage) >= self.diode_threshold
     
     @property
     def signal_strength(self) -> float:
@@ -124,7 +129,7 @@ def trig6_to_circuit_v2(theta_degrees: float, noise: float = 0.1) -> CircuitStat
     
     # tan(θ) = resistance (firewall strength)
     if abs(math.cos(theta)) < 0.01:
-        resistance = 1000000  # Near infinite
+        resistance = NEAR_INFINITE  # Near infinite
     else:
         resistance = abs(math.tan(theta))
     
@@ -132,7 +137,7 @@ def trig6_to_circuit_v2(theta_degrees: float, noise: float = 0.1) -> CircuitStat
     # High at low θ (clear signal, but sticky)
     # Low at high θ (easy to flip, but blocked anyway)
     if abs(math.sin(theta)) < 0.01:
-        inductance = 1000000  # Near infinite
+        inductance = NEAR_INFINITE  # Near infinite
     else:
         inductance = abs(1 / math.tan(theta))  # cot = 1/tan
     
@@ -150,7 +155,7 @@ def trig6_to_circuit_v2(theta_degrees: float, noise: float = 0.1) -> CircuitStat
     
     # Diode threshold = |sin(θ)|
     # When sin(θ) > 0.7, forward conduction: Trust gate open
-    # When sin(θ) < -0.7, reverse breakdown (but ideal diode: total block)
+    # For angles 0-90°, sin(θ) ranges from 0 to 1
     diode_threshold = abs(math.sin(theta))
     
     return CircuitStateV2(

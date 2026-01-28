@@ -25,7 +25,7 @@ spec:
       
       L_inertia = cot(θ)  # Inverse tan: High at low θ (clear signal, but sticky)
       When cot(θ) → ∞ (θ→0), max inertia: System locked in current flow
-      When cot(θ) → 0 (θ→90°), min inertia: Easy to flip, but blocked anyway
+      When cot(θ) → 0 (θ→90°), min inertia: Low inductance, but system blocked by infinite resistance
       
   diode:
     symbol: "D (arrow with bar)"
@@ -41,7 +41,7 @@ spec:
       
       Vt_threshold = |sin(θ)|  # Forward voltage drop (0.7V typical, but scaled)
       When sin(θ) > 0.7, forward conduction: Trust gate open
-      When sin(θ) < -0.7, reverse breakdown? (But ideal diode: total block)
+      For angles 0-90°, sin(θ) ranges from 0 to 1 (always positive)
       
       Zener diode variant: Breakdown at high reverse V = "Safety override"
 
