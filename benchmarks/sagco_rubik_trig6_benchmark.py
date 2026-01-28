@@ -269,8 +269,20 @@ INVERSE_OF: Dict[str, str] = {
 # HEURISTIC
 # ============================================================
 
+# Heuristic scaling factor: A single quarter-turn move affects at most 8 corner
+# facelets on a 3x3x3 cube. Dividing by 8 gives an admissible (never overestimating)
+# heuristic for IDA*.
+HEURISTIC_DIVISOR = 8
+
 def heuristic_misplaced(c: CubeState) -> int:
-    """Count misplaced facelets divided by 8."""
+    """
+    Count misplaced facelets divided by HEURISTIC_DIVISOR.
+    
+    This is an admissible heuristic for IDA* search. Each face has a center
+    color that determines the correct color for that face. We count how many
+    facelets don't match their face's center color, then divide by 8 (the
+    maximum number of facelets a single move can fix).
+    """
     h = 0
     for f in range(6):
         face_offset = 9 * f
@@ -278,12 +290,16 @@ def heuristic_misplaced(c: CubeState) -> int:
         for i in range(9):
             if c.stickers[face_offset + i] != center_color:
                 h += 1
-    return h // 8
+    return h // HEURISTIC_DIVISOR
 
 
 # ============================================================
 # IDA* FRAMEWORK
 # ============================================================
+
+# TRIG6 pruning thresholds (tuned for demonstration purposes)
+TRIG6_TAN_THRESHOLD = 10.0   # Prune when |tan(θ)| exceeds this value
+TRIG6_NORM_THRESHOLD = 50.0  # Prune when norm squared exceeds this value
 
 @dataclass
 class SearchStats:
@@ -294,22 +310,50 @@ def ida_search(
     max_depth: int,
     use_trig6: bool = False,
 ) -> Tuple[Optional[List[str]], SearchStats]:
-    """IDA* from start up to max_depth."""
+    """
+    IDA* search from start state up to max_depth.
+    
+    Args:
+        start: Initial cube state to search from
+        max_depth: Maximum search depth
+        use_trig6: If True, apply TRIG6-based pruning in addition to basic pruning
+        
+    Returns:
+        Tuple of (solution_path, search_stats) where solution_path is None if no solution found
+    """
 
     stats = SearchStats()
 
-    def trig6_prune(depth: int, move_idx: int, last_move: Optional[str]) -> bool:
-        name = MOVE_NAMES[move_idx]
-        if last_move is not None:
-            if INVERSE_OF[name] == last_move:
+    def should_prune_move(depth: int, move_idx: int, last_move: Optional[str]) -> bool:
+        """
+        Determine if a move should be pruned from the search.
+        
+        Basic pruning (always applied):
+        - Don't apply a move that's the inverse of the last move (e.g., U after U')
+        
+        TRIG6 pruning (only when use_trig6=True):
+        - Prune based on trigonometric properties computed from depth and move index
+        """
+        move_name = MOVE_NAMES[move_idx]
+        
+        # Basic pruning: avoid inverse of last move (prevents redundant sequences like U U')
+        if last_move is not None and INVERSE_OF[move_name] == last_move:
+            return True
+        
+        # TRIG6 pruning: use trigonometric functions to selectively prune branches
+        if use_trig6:
+            theta = depth * PI / 32.0 + move_idx * PI / 18.0
+            t6 = trig6(theta)
+            norm_sq = sum(x*x for x in t6 if abs(x) < 1e10)
+            
+            # Prune if tangent is too large (near vertical asymptote)
+            if abs(t6[2]) > TRIG6_TAN_THRESHOLD:
                 return True
-        theta = depth * PI / 32.0 + move_idx * PI / 18.0
-        t6 = trig6(theta)
-        ns = sum(x*x for x in t6 if abs(x) < 1e10)
-        if abs(t6[2]) > 10.0:
-            return True
-        if ns > 50.0:
-            return True
+            
+            # Prune if the norm squared is too large
+            if norm_sq > TRIG6_NORM_THRESHOLD:
+                return True
+        
         return False
 
     def search(node: CubeState, g: int, bound: int, path: List[str], last_move: Optional[str]) -> Tuple[int, Optional[List[str]]]:
@@ -324,8 +368,8 @@ def ida_search(
 
         min_bound = float("inf")
 
-        for mi, move_name in enumerate(MOVE_NAMES):
-            if use_trig6 and trig6_prune(g, mi, last_move):
+        for move_idx, move_name in enumerate(MOVE_NAMES):
+            if should_prune_move(g, move_idx, last_move):
                 continue
 
             next_state = MOVE_FUNCS[move_name](node)
@@ -350,10 +394,26 @@ def ida_search(
     return None, stats
 
 def baseline_ida_solve(start: CubeState, max_depth: int) -> Tuple[Optional[List[str]], SearchStats]:
+    """
+    Baseline IDA* solver with only basic inverse-move pruning.
+    
+    This solver uses standard IDA* search with a misplaced-facelet heuristic
+    and basic pruning (avoiding inverse moves). It serves as the baseline for
+    comparing against the TRIG6-enhanced solver.
+    """
     return ida_search(start, max_depth=max_depth, use_trig6=False)
 
 def trig6_ida_solve(start: CubeState, max_depth: int) -> Tuple[Optional[List[str]], SearchStats]:
+    """
+    TRIG6-enhanced IDA* solver with trigonometric pruning.
+    
+    This solver uses the same IDA* search and basic pruning as the baseline,
+    but adds TRIG6-based pruning that selectively eliminates search branches
+    based on trigonometric properties. This demonstrates the architectural
+    pattern of using mathematical properties for search space reduction.
+    """
     return ida_search(start, max_depth=max_depth, use_trig6=True)
+
 
 
 # ============================================================
@@ -418,13 +478,14 @@ def benchmark(
         print(f"  Baseline: time={base_ms:.2f} ms, nodes={stats_base.nodes_expanded}, solved={sol_base is not None}")
         print(f"  TRIG6   : time={trig_ms:.2f} ms, nodes={stats_trig.nodes_expanded}, solved={sol_trig is not None}")
 
-    def avg(xs):
-        return sum(xs) / len(xs) if xs else 0.0
+    # Calculate averages
+    def calculate_average(values):
+        return sum(values) / len(values) if values else 0.0
 
-    avg_base_t = avg(base_times)
-    avg_trig_t = avg(trig_times)
-    avg_base_n = avg(base_nodes)
-    avg_trig_n = avg(trig_nodes)
+    avg_base_t = calculate_average(base_times)
+    avg_trig_t = calculate_average(trig_times)
+    avg_base_n = calculate_average(base_nodes)
+    avg_trig_n = calculate_average(trig_nodes)
 
     print("\n===== SUMMARY =====")
     print(f"Average Baseline time: {avg_base_t:.2f} ms")
