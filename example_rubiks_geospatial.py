@@ -6,6 +6,7 @@ Demonstrates the 6-Face Geospatial Computing System
 
 from rubiks_geospatial_mapper import RubiksGeospatialMapper
 import json
+import math
 
 
 def example_basic_usage():
@@ -34,9 +35,9 @@ def example_basic_usage():
     print(f"  sin(θ) = {u5.trig6['sin']:.6f}")
     print(f"  cos(θ) = {u5.trig6['cos']:.6f}")
     print(f"  tan(θ) = {u5.trig6['tan']:.6f}")
-    print(f"  csc(θ) = {u5.trig6['csc']:.6f}" if not str(u5.trig6['csc']).startswith('inf') else f"  csc(θ) = inf")
+    print(f"  csc(θ) = {u5.trig6['csc']:.6f}" if math.isfinite(u5.trig6['csc']) else f"  csc(θ) = inf")
     print(f"  sec(θ) = {u5.trig6['sec']:.6f}")
-    print(f"  cot(θ) = {u5.trig6['cot']:.6f}" if not str(u5.trig6['cot']).startswith('inf') else f"  cot(θ) = inf")
+    print(f"  cot(θ) = {u5.trig6['cot']:.6f}" if math.isfinite(u5.trig6['cot']) else f"  cot(θ) = inf")
 
 
 def example_face_mapping():

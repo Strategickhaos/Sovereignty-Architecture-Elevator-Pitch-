@@ -38,7 +38,7 @@ class DMSCoordinate:
     
     def to_string(self) -> str:
         """Format as human-readable DMS string"""
-        return f"{abs(self.degrees)}°{self.minutes}'{self.seconds:.1f}\"{self.direction}"
+        return f"{self.degrees}°{self.minutes}'{self.seconds:.1f}\"{self.direction}"
 
 
 @dataclass
@@ -178,7 +178,7 @@ class RubiksGeospatialMapper:
         tan_val = math.tan(theta_rad) if abs(cos_val) > 1e-10 else float('inf')
         csc_val = 1 / sin_val if abs(sin_val) > 1e-10 else float('inf')
         sec_val = 1 / cos_val if abs(cos_val) > 1e-10 else float('inf')
-        cot_val = 1 / tan_val if abs(tan_val) > 1e-10 else float('inf')
+        cot_val = 1 / tan_val if not math.isinf(tan_val) and abs(tan_val) > 1e-10 else (0.0 if math.isinf(tan_val) else float('inf'))
         
         return {
             'sin': sin_val,
