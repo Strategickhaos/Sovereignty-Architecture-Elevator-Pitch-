@@ -19,6 +19,7 @@ import math
 import argparse
 import json
 import csv
+import random
 from typing import List, Tuple, Optional
 from dataclasses import dataclass, asdict
 
@@ -43,16 +44,16 @@ PI = math.pi
 def trig6(theta: float) -> Tuple[float, float, float, float, float, float]:
     s = math.sin(theta)
     c = math.cos(theta)
-    eps = 1e-12
-    t = s / c if abs(c) > eps else float("inf")
-    csc = 1 / s if abs(s) > eps else float("inf")
-    sec = 1 / c if abs(c) > eps else float("inf")
-    cot = c / s if abs(s) > eps else float("inf")
+    epsilon = 1e-12  # Threshold for avoiding division by zero
+    t = s / c if abs(c) > epsilon else float("inf")
+    csc = 1 / s if abs(s) > epsilon else float("inf")
+    sec = 1 / c if abs(c) > epsilon else float("inf")
+    cot = c / s if abs(s) > epsilon else float("inf")
     return (s, c, t, csc, sec, cot)
 
 def trig6_norm_sq(theta: float) -> float:
     v = trig6(theta)
-    return sum(x * x for x in v if abs(x) < 1e10)
+    return sum(x * x for x in v if math.isfinite(x))
 
 def theta_gate(depth: int, move_idx: int) -> float:
     """EXACT same θ encoding as the bench gate"""
@@ -153,9 +154,13 @@ def chord_from_trig6(theta: float, base_note: int = 60) -> List[int]:
     return [max(0, min(127, n)) for n in notes]
 
 def theta_to_chord_type(theta: float) -> str:
-    """Determine if chord is major or minor based on θ"""
+    """Determine if chord is major or minor based on θ.
+    
+    Major chords: angles outside the 45-315 degree range (more dissonant regions)
+    Minor chords: angles within 45-315 degree range (smoother regions)
+    """
     theta_deg = math.degrees(theta) % 360
-    if theta_deg > 45 and theta_deg < 315:
+    if theta_deg <= 45 or theta_deg >= 315:
         return "major"
     return "minor"
 
@@ -311,12 +316,12 @@ def print_solve_visualization(solution: List[str]):
         theta = theta_gate(depth, move_idx)
         theta_deg = math.degrees(theta) % 360
         t6 = trig6(theta)
-        tan_val = t6[2] if abs(t6[2]) < 100 else float('inf')
+        tan_val = t6[2] if abs(t6[2]) < 10.0 else float('inf')  # Use same threshold as pruning
         chord = chord_from_trig6(theta)
         chord_type = theta_to_chord_type(theta)
         
-        # Visual indicator for danger zones
-        danger = "⚠️" if abs(tan_val) > 10 else "  "
+        # Visual indicator for danger zones (matches pruning threshold)
+        danger = "⚠️" if abs(tan_val) > 10.0 else "  "
         
         tan_str = f"{tan_val:.2f}" if tan_val != float('inf') else "∞"
         chord_str = "-".join(str(n) for n in chord)
@@ -353,7 +358,6 @@ def main():
     args = ap.parse_args()
 
     if args.seed is not None:
-        import random
         random.seed(args.seed)
 
     # Boot verification
@@ -382,10 +386,10 @@ def main():
     # Visualization
     print_solve_visualization(solution)
 
-    # Export data
-    if args.export_csv or args.export_json:
-        csv_path = args.export_csv or "sovereign_solve.csv"
-        json_path = args.export_json or "sovereign_solve.json"
+    # Export data only if user requested it
+    if args.export_csv is not None or args.export_json is not None:
+        csv_path = args.export_csv if args.export_csv else "sovereign_solve.csv"
+        json_path = args.export_json if args.export_json else "sovereign_solve.json"
         export_solve_data(solution, csv_path, json_path)
         print(f"\n[EXPORT] CSV: {csv_path}")
         print(f"[EXPORT] JSON: {json_path}")
