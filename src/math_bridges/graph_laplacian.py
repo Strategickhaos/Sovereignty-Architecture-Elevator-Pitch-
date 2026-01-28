@@ -16,7 +16,6 @@ Now:
 
 import numpy as np
 from typing import List, Tuple, Optional
-from scipy.sparse import csgraph
 
 
 class GraphLaplacian:

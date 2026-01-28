@@ -276,16 +276,16 @@ Now:
 from math_bridges import CodonEncoding
 
 # Codon to index
-idx = CodonEncoding.codon_to_index("ATG")  # → 3
+idx = CodonEncoding.codon_to_index("ATG")  # → 14
 
 # Index to codon
-codon = CodonEncoding.index_to_codon(42)  # → "GCG"
+codon = CodonEncoding.index_to_codon(42)  # → "GGG"
 
 # Codon to 6-bit binary
-binary = CodonEncoding.codon_to_6bit("ATG")  # → "000011"
+binary = CodonEncoding.codon_to_6bit("ATG")  # → "001110"
 
 # Codon to 2D coordinates
-row, col = CodonEncoding.codon_to_coordinates("ATG")  # → (0, 3)
+row, col = CodonEncoding.codon_to_coordinates("ATG")  # → (1, 6)
 ```
 
 ---
@@ -423,7 +423,7 @@ geo_vec = GeometricProjection.rubik_face_to_geovector(
 # 3. Compute TRIG6 from geovector
 trig6 = SphericalCoordinates.trig6_compute(geo_vec)
 
-# 4. Map to codon encoding
+# 4. Sticker → Codon
 codon_idx = sticker % 64
 codon = CodonEncoding.index_to_codon(codon_idx)
 
