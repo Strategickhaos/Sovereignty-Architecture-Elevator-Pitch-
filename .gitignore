@@ -35,3 +35,7 @@ target/
 
 # Workspace data
 workspace/
+
+# KHAOS Hymn generated files
+khaos_hymn.mid
+khaos_sheet.png
