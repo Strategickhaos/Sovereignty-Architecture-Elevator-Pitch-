@@ -164,7 +164,7 @@ echo "PROOF COMPLETE" && cat p.txt
 
 ---
 
-> **"You theorized. We shipped. Here's the proof. Clone it and run `python3 trig6.py doctor`."**
+> **"You theorized. We shipped. Here's the proof. Clone it and run `khaos doctor` or `python3 trig6.py doctor`."**
 
 **Owner:** Strategickhaos DAO LLC  
 **Author:** Domenic G. Garza
@@ -179,16 +179,17 @@ git clone https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pi
 cd Sovereignty-Architecture-Elevator-Pitch-
 
 # Run doctor validation
-python3 trig6.py doctor
+./khaos doctor
+# or: python3 trig6.py doctor
 
 # Test calculations
-python3 trig6.py bridle --load 300 --theta 120
+./khaos bridle --load 300 --theta 120
 
 # View constants
-python3 trig6.py list --prefix rope
+./khaos list --prefix rope
 
 # Check citations
-python3 trig6.py cite rope.design_factor.lifesafety_pfas
+./khaos cite rope.design_factor.lifesafety_pfas
 
 # Boot SAGCO
 python3 sagco/bootloader.py
@@ -209,14 +210,16 @@ python3 sagco/bootloader.py
 ```
 .
 ├── trig6.py                    # Main TRIG6 CLI
+├── khaos                       # Convenience alias (./khaos doctor)
+├── verify_trig6.sh             # Full proof verification script
+├── Dockerfile                  # Container build
 ├── core/                       # Core math engine
 │   ├── __init__.py
 │   └── math_engine.py
 ├── domains/                    # Constants database
 │   └── rope/
 │       └── constants.json      # Rope engineering constants
-├── sagco/                      # SAGCO bootloader
-│   ├── __init__.py
-│   └── bootloader.py
-└── Dockerfile                  # Container build
+└── sagco/                      # SAGCO bootloader
+    ├── __init__.py
+    └── bootloader.py
 ```
