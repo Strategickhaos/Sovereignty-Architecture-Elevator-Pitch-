@@ -2,6 +2,16 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 📋 Organization
+
+**Strategickhaos DAO LLC** is a Member-Managed Limited Liability Company with an AI Advisory Council. For complete organizational details, credentials, and governance structure, see [`organization_metadata.json`](./organization_metadata.json).
+
+### Key Information
+- **Entity**: Strategickhaos DAO LLC (Member-Managed with AI Advisory Council)
+- **Founder**: Domenic G. Garza (Node 137)
+- **AI Advisory Council**: Multi-AI consensus system ("Legion of Minds") for verification and strategic analysis
+- **Charitable Partner**: ValorYield Engine (7% net revenue allocation)
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
