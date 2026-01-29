@@ -119,29 +119,36 @@ class Doctor:
         results.append(DoctorResult(f"load:{path}", True))
         
         constants = data.get("constants", [])
-        for c in constants:
+        for constant in constants:
             # Required fields
             for field in ["key", "value", "units", "provenance", "entered_by"]:
-                if field not in c:
+                if field not in constant:
                     results.append(DoctorResult(
-                        f"required_field:{c.get('key', 'unknown')}", 
+                        f"required_field:{constant.get('key', 'unknown')}", 
                         False, f"Missing {field}"
                     ))
             
             # Provenance must exist
-            if "provenance" in c and len(c["provenance"]) == 0:
+            if "provenance" in constant and len(constant["provenance"]) == 0:
                 results.append(DoctorResult(
-                    f"provenance:{c['key']}", 
+                    f"provenance:{constant.get('key', 'unknown')}", 
                     False, "No provenance sources"
                 ))
             
             # Range validation
-            if "range" in c and "value" in c:
-                min_v, max_v = c["range"]
-                result = self.validate_constant_bounds(
-                    c["key"], c["value"], min_v, max_v
-                )
-                results.append(result)
+            if "range" in constant and "value" in constant:
+                # Validate range structure
+                if not isinstance(constant["range"], (list, tuple)) or len(constant["range"]) != 2:
+                    results.append(DoctorResult(
+                        f"range_format:{constant.get('key', 'unknown')}",
+                        False, "Range must be a list/tuple with exactly 2 values"
+                    ))
+                else:
+                    min_v, max_v = constant["range"]
+                    result = self.validate_constant_bounds(
+                        constant.get("key", "unknown"), constant["value"], min_v, max_v
+                    )
+                    results.append(result)
         
         return results
     
@@ -183,7 +190,7 @@ class Doctor:
                     test.__name__, False, f"Exception: {e}"
                 ))
         
-        passed = sum(1 for r in self.results if r.passed)
+        passed = sum(1 for result in self.results if result.passed)
         return passed, len(self.results)
     
     def report(self) -> str:
@@ -193,9 +200,9 @@ class Doctor:
         passed = 0
         failed = 0
         
-        for r in self.results:
-            lines.append(str(r))
-            if r.passed:
+        for result in self.results:
+            lines.append(str(result))
+            if result.passed:
                 passed += 1
             else:
                 failed += 1

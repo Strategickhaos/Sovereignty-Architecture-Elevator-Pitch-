@@ -52,7 +52,7 @@ class TestDoctorResult:
 class TestDoctorCoreMath:
     """Test built-in math validation tests."""
     
-    def test_core_tests_registered(self):
+    def test_core_tests_count(self):
         """Test that core math tests are automatically registered."""
         doc = Doctor()
         assert len(doc.tests) == 5  # 5 core math tests
@@ -349,6 +349,54 @@ class TestDoctorConstantsFile:
         assert len(results) == 1
         assert results[0].passed is False
         assert "load:" in results[0].name
+    
+    def test_malformed_range(self):
+        """Test detecting malformed range fields."""
+        doc = Doctor()
+        
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            data = {
+                "constants": [
+                    {
+                        "key": "bad_range_single",
+                        "value": 5.0,
+                        "units": "meters",
+                        "provenance": ["test"],
+                        "entered_by": "test_user",
+                        "range": [1.0]  # Only one value instead of two
+                    },
+                    {
+                        "key": "bad_range_triple",
+                        "value": 5.0,
+                        "units": "meters",
+                        "provenance": ["test"],
+                        "entered_by": "test_user",
+                        "range": [1.0, 5.0, 10.0]  # Three values instead of two
+                    },
+                    {
+                        "key": "bad_range_string",
+                        "value": 5.0,
+                        "units": "meters",
+                        "provenance": ["test"],
+                        "entered_by": "test_user",
+                        "range": "not a list"  # String instead of list
+                    }
+                ]
+            }
+            json.dump(data, f)
+            temp_path = f.name
+        
+        try:
+            results = doc.validate_constants_file(temp_path)
+            
+            # Should have failures for malformed ranges
+            range_format_errors = [r for r in results if "range_format:" in r.name]
+            assert len(range_format_errors) == 3
+            for error in range_format_errors:
+                assert error.passed is False
+                assert "exactly 2 values" in error.message
+        finally:
+            os.unlink(temp_path)
 
 
 class TestDoctorPackValidation:
@@ -513,7 +561,11 @@ class TestDoctorReporting:
         assert f"PASSED: {passed}" in report
         assert "FAILED: 0" in report
         assert "ALL SYSTEMS NOMINAL ✓" in report
-        assert "✗" not in report or "FAIL" not in report.split("STATUS:")[0]
+        
+        # Check no failures in the test results section (before STATUS)
+        report_sections = report.split("STATUS:")
+        test_results_section = report_sections[0]
+        assert "✗ FAIL" not in test_results_section
     
     def test_report_with_failures(self):
         """Test report generation with failures."""
