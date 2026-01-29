@@ -157,6 +157,18 @@ class InventionRegistry:
         """Get all circle positions (1-64)."""
         return [inv for inv in self.inventions if inv["id"] <= 64]
     
+    def _generate_next_inv_id(self) -> str:
+        """Generate the next sequential invention ID."""
+        max_inv = 0
+        for i in self.inventions:
+            if i.get("inv_id"):
+                try:
+                    num = int(i["inv_id"].split("-")[1])
+                    max_inv = max(max_inv, num)
+                except (ValueError, IndexError):
+                    pass
+        return f"INV-{max_inv + 1:03d}"
+    
     def seal_invention(
         self,
         invention_id: int,
@@ -183,17 +195,12 @@ class InventionRegistry:
         if inv["status"] == "sealed":
             return False  # Already sealed
         
+        # Store original status before updating
+        original_status = inv["status"]
+        
         # Generate inv_id if not provided
         if inv_id is None:
-            max_inv = 0
-            for i in self.inventions:
-                if i.get("inv_id"):
-                    try:
-                        num = int(i["inv_id"].split("-")[1])
-                        max_inv = max(max_inv, num)
-                    except (ValueError, IndexError):
-                        pass
-            inv_id = f"INV-{max_inv + 1:03d}"
+            inv_id = self._generate_next_inv_id()
         
         # Use today's date if not provided
         if sealed_date is None:
@@ -207,7 +214,7 @@ class InventionRegistry:
         
         # Update stats
         self.data["stats"]["sealed"] += 1
-        if inv["status"] == "in_progress":
+        if original_status == "in_progress":
             self.data["stats"]["in_progress"] -= 1
         else:
             self.data["stats"]["unsealed"] -= 1
@@ -240,15 +247,7 @@ class InventionRegistry:
         
         # Generate inv_id if not provided
         if inv_id is None:
-            max_inv = 0
-            for i in self.inventions:
-                if i.get("inv_id"):
-                    try:
-                        num = int(i["inv_id"].split("-")[1])
-                        max_inv = max(max_inv, num)
-                    except (ValueError, IndexError):
-                        pass
-            inv_id = f"INV-{max_inv + 1:03d}"
+            inv_id = self._generate_next_inv_id()
         
         # Update the invention
         inv["invention"] = name
@@ -276,7 +275,7 @@ class InventionRegistry:
         for inv in self.inventions:
             if (query in inv["angel"].lower() or
                 query in inv["meaning"].lower() or
-                (inv["invention"] and query in inv["invention"].lower())):
+                (inv["invention"] is not None and query in inv["invention"].lower())):
                 results.append(inv)
         return results
     
@@ -296,6 +295,12 @@ class InventionRegistry:
         print(f"  Total:       {self.meta['total_slots']:3d} positions")
         print(f"{'='*70}\n")
     
+    def _format_theta(self, theta: Union[int, float, str]) -> str:
+        """Format theta value with appropriate suffix."""
+        if isinstance(theta, (int, float)):
+            return f"{theta}°"
+        return str(theta)  # For infinity symbol or other strings
+    
     def print_sealed(self) -> None:
         """Print all sealed inventions."""
         sealed = self.get_sealed_inventions()
@@ -304,7 +309,7 @@ class InventionRegistry:
         for inv in sorted(sealed, key=lambda x: x['id']):
             print(f"[{inv['inv_id']}] {inv['invention']}")
             print(f"  Position: {inv['id']} - {inv['angel']} ({inv['meaning']})")
-            print(f"  Theta: {inv['theta']}°")
+            print(f"  Theta: {self._format_theta(inv['theta'])}")
             print(f"  Sealed: {inv['sealed_date']}")
             print()
     
@@ -316,7 +321,7 @@ class InventionRegistry:
         for inv in sorted(in_progress, key=lambda x: x['id']):
             print(f"[{inv['inv_id']}] {inv['invention']}")
             print(f"  Position: {inv['id']} - {inv['angel']} ({inv['meaning']})")
-            print(f"  Theta: {inv['theta']}")
+            print(f"  Theta: {self._format_theta(inv['theta'])}")
             print()
 
 

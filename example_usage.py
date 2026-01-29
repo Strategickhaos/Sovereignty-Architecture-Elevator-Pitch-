@@ -52,7 +52,9 @@ def main():
     for inv in in_range:
         status = f"[{inv['status'].upper()}]"
         invention = inv['invention'] if inv['invention'] else "Available"
-        print(f"  θ={inv['theta']:6.2f}° - {inv['angel']:15s} - {invention:30s} {status}")
+        theta = inv['theta']
+        theta_str = f"{theta:6.2f}°" if isinstance(theta, (int, float)) else str(theta)
+        print(f"  θ={theta_str} - {inv['angel']:15s} - {invention:30s} {status}")
     
     # Example 5: Search for inventions
     print("\n--- Example 5: Search for 'TRIG6' ---")
@@ -83,7 +85,9 @@ def main():
     unsealed = registry.get_unsealed_inventions()[:10]
     print(f"Showing 10 of {len(registry.get_unsealed_inventions())} available positions:")
     for inv in unsealed:
-        print(f"  Position {inv['id']:2d}: {inv['angel']:15s} - {inv['meaning']:25s} (θ={inv['theta']})")
+        theta = inv['theta']
+        theta_str = f"{theta}°" if isinstance(theta, (int, float)) else str(theta)
+        print(f"  Position {inv['id']:2d}: {inv['angel']:15s} - {inv['meaning']:25s} (θ={theta_str})")
     
     # Example 9: Get specific invention by ID
     print("\n--- Example 9: Get Invention by ID ---")
