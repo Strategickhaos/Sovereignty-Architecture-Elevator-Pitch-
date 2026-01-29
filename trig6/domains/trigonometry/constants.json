@@ -1,0 +1,51 @@
+{
+  "domain": "trigonometry",
+  "version": "1.0.0",
+  "constants": [
+    {
+      "key": "pi",
+      "value": 3.141592653589793,
+      "units": "radians",
+      "description": "The ratio of a circle's circumference to its diameter",
+      "range": [3.14, 3.15],
+      "provenance": [
+        {
+          "source_title": "Mathematical Constants",
+          "author": "Various",
+          "year": 2024
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "e",
+      "value": 2.718281828459045,
+      "units": "dimensionless",
+      "description": "Euler's number, base of natural logarithm",
+      "range": [2.71, 2.72],
+      "provenance": [
+        {
+          "source_title": "Mathematical Constants",
+          "author": "Euler",
+          "year": 1736
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "golden_ratio",
+      "value": 1.618033988749895,
+      "units": "dimensionless",
+      "description": "The golden ratio, phi",
+      "range": [1.61, 1.62],
+      "provenance": [
+        {
+          "source_title": "Elements",
+          "author": "Euclid",
+          "year": -300
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    }
+  ]
+}

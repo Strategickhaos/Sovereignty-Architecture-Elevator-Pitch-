@@ -1,0 +1,20 @@
+{
+  "pack_name": "standard",
+  "version": "1.0.0",
+  "description": "Standard TRIG6 constants pack with basic validation",
+  "settings": {
+    "strict_provenance": false,
+    "require_entered_by": false,
+    "fail_on_missing_citation": false
+  },
+  "domains": {
+    "trigonometry": {
+      "enabled": true,
+      "constants_file": "domains/trigonometry/constants.json"
+    },
+    "mechanics": {
+      "enabled": true,
+      "constants_file": "domains/mechanics/constants.json"
+    }
+  }
+}
