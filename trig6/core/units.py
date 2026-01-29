@@ -65,6 +65,10 @@ class Angle(Unit):
         if self.unit_type == 'radians':
             return self.value
         return math.radians(self.value)
+    
+    def __format__(self, format_spec):
+        """Support formatting"""
+        return format(self.value, format_spec)
 
 
 class Length(Unit):
