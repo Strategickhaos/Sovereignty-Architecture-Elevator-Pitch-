@@ -272,6 +272,34 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🎯 Interactive Demos
+
+Explore interactive tools and calculators built for the Sovereignty Architecture ecosystem:
+
+### 🪢 TRIG6 Knot Efficiency Calculator
+**Location:** `demos/knot-efficiency-calculator.html`
+
+An interactive web-based calculator for rope mechanics analysis. Calculate effective rope strength based on knot type, Maximum Breaking Strength (MBS), and anchor angle.
+
+**Features:**
+- 6 common knots with efficiency ratings (Figure 8, Bowline, Alpine Butterfly, Double Fisherman's, Clove Hitch, Prusik Hitch)
+- Real-time strength calculations with trigonometric angle compensation
+- Interactive SVG visualizations with hover effects
+- Field guidance for safety thresholds
+- kN to lbf conversion
+
+**Usage:**
+```bash
+# Open directly in browser
+open demos/knot-efficiency-calculator.html
+
+# Or serve via HTTP
+cd demos && python3 -m http.server 8080
+# Navigate to http://localhost:8080/knot-efficiency-calculator.html
+```
+
+See [`demos/README.md`](demos/README.md) for detailed documentation.
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
