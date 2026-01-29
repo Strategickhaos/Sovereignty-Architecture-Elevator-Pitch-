@@ -46,10 +46,10 @@ def trig6_vector(theta_deg: float) -> dict:
         "theta_deg": theta_deg,
         "sin": s,
         "cos": c,
-        "tan": t if abs(c) > 1e-12 else float("inf"),
+        "tan": t,
         "csc": safe_div(1.0, s) if abs(s) > 1e-12 else float("inf"),
         "sec": safe_div(1.0, c) if abs(c) > 1e-12 else float("inf"),
-        "cot": safe_div(1.0, t) if abs(t) > 1e-12 else float("inf"),
+        "cot": safe_div(c, s) if abs(s) > 1e-12 else float("inf"),
         "assumption": "theta measured in degrees"
     }
 
@@ -345,9 +345,9 @@ def main():
             out = equal_leg_tension(args.load, args.n, args.theta)
         elif args.cmd in ["constant", "cite", "list"]:
             registry = ConstantsRegistry()
-            registry.load_pack(args.pack)
-            
-            if args.cmd == "constant":
+            if not registry.load_pack(args.pack):
+                out = {"error": f"Failed to load constants pack: {args.pack}"}
+            elif args.cmd == "constant":
                 out = registry.get(args.key) or {"error": f"Unknown: {args.key}"}
             elif args.cmd == "cite":
                 print(registry.cite(args.key))
