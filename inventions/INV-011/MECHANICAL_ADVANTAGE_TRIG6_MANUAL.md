@@ -680,4 +680,4 @@ He operates Strategickhaos DAO LLC, a Wyoming-registered company focused on cybe
 **END OF PREVIEW**
 
 *Full publication: Coming 2026*
-*Pre-orders: Contact strategickhaos.ai*
+*Pre-orders: contact@strategickhaos.ai*

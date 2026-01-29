@@ -202,7 +202,7 @@ Where applicable, inventions comply with:
 
 **General Inquiries:** Contact through Strategickhaos DAO LLC  
 **Technical Questions:** Submit GitHub issues  
-**Licensing Requests:** Email licensing inquiries to strategickhaos.ai  
+**Licensing Requests:** Email licensing inquiries to contact@strategickhaos.ai  
 **Collaboration:** Open to partnerships with aligned organizations
 
 ---
