@@ -2,6 +2,20 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🏢 About Strategickhaos DAO LLC
+
+**Entity:** Strategickhaos DAO LLC  
+**EIN:** 39-2900295  
+**Primary NAICS:** 561611
+
+We provide comprehensive technology and security services including:
+- 🛡️ **Cybersecurity Consulting** - Red Team • Blue Team • Purple Team
+- 🤖 **AI Infrastructure** - Sovereign Multi-Agent Systems
+- ⚙️ **Software Development** - Custom Tools • Sovereign Systems
+- 🔍 **Private Investigation** - OSINT • Digital Forensics • Background Checks
+
+[**View Full Service Offerings →**](docs/SERVICES.md)
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:

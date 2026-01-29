@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "entity": "Strategickhaos DAO LLC",
+    "naics_primary": "561611",
+    "ein": "39-2900295"
+  },
+  "services": [
+    {
+      "id": "cybersec",
+      "name": "Cybersecurity Consulting",
+      "tagline": "Red Team • Blue Team • Purple Team",
+      "icon": "🛡️",
+      "naics": "561611",
+      "description": "Comprehensive security services including penetration testing, vulnerability assessments, red team operations, and defensive security architecture.",
+      "offerings": [
+        "Penetration Testing",
+        "Vulnerability Assessment",
+        "Red Team Operations",
+        "Security Architecture Review",
+        "Incident Response",
+        "Security Training"
+      ],
+      "credentials": [
+        "TWIC Federal Credential (TSA/DHS)",
+        "SPRAT Level 3 Rope Access"
+      ],
+      "pricing": "Contact for quote"
+    },
+    {
+      "id": "ai-infra",
+      "name": "AI Infrastructure",
+      "tagline": "Sovereign Multi-Agent Systems",
+      "icon": "🤖",
+      "description": "Design and deployment of distributed AI systems, multi-agent orchestration, and sovereign compute infrastructure with zero vendor lock-in.",
+      "offerings": [
+        "Multi-Agent System Design",
+        "Legion of Minds Council Setup",
+        "Kubernetes Cluster Architecture",
+        "Vector Database Integration",
+        "Local LLM Deployment (Ollama)",
+        "AI Governance Frameworks"
+      ],
+      "tech_stack": [
+        "Kubernetes",
+        "Ollama",
+        "Qdrant",
+        "Redis",
+        "Tailscale"
+      ],
+      "pricing": "Contact for quote"
+    },
+    {
+      "id": "software",
+      "name": "Software Development",
+      "tagline": "Custom Tools • Sovereign Systems",
+      "icon": "⚙️",
+      "description": "Custom software development including FlameLang implementations, TRIG6 integrations, automation tools, and sovereign operating systems.",
+      "offerings": [
+        "Custom Tool Development",
+        "FlameLang Implementations",
+        "TRIG6 Framework Integration",
+        "Automation Pipelines",
+        "API Development",
+        "DevOps Infrastructure"
+      ],
+      "languages": [
+        "Python",
+        "Rust",
+        "JavaScript/TypeScript",
+        "FlameLang",
+        "Shell/Bash"
+      ],
+      "pricing": "Contact for quote"
+    },
+    {
+      "id": "investigation",
+      "name": "Private Investigation",
+      "tagline": "OSINT • Digital Forensics • Background Checks",
+      "icon": "🔍",
+      "naics": "561611",
+      "description": "Licensed private investigation services including OSINT research, digital forensics, background checks, and lawful investigative support.",
+      "offerings": [
+        "OSINT Research",
+        "Digital Forensics",
+        "Background Checks",
+        "Asset Searches",
+        "Social Media Analysis",
+        "Due Diligence"
+      ],
+      "credentials": [
+        "ORCID iD: 0009-0005-2996-3526",
+        "TWIC Federal Credential"
+      ],
+      "pricing": "Contact for quote"
+    }
+  ],
+  "engagement_models": [
+    {
+      "type": "project",
+      "name": "Project-Based",
+      "description": "Fixed scope, fixed price engagements"
+    },
+    {
+      "type": "retainer",
+      "name": "Monthly Retainer",
+      "description": "Ongoing support and consultation"
+    },
+    {
+      "type": "hourly",
+      "name": "Hourly Consulting",
+      "description": "Ad-hoc expert consultation"
+    }
+  ]
+}
