@@ -4,7 +4,7 @@ import { env, loadConfig } from "./config.js";
 
 const cfg = loadConfig();
 const token = env("DISCORD_TOKEN");
-const appId = env("APP_ID", false) || cfg.discord?.bot?.app_id || "";
+const appId = env("APP_ID", false) || (cfg.discord?.bot as any)?.app_id || "";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
