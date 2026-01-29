@@ -1,0 +1,215 @@
+{
+  "metadata": {
+    "domain": "pipe",
+    "description": "Pipefitting constants with ASME/API provenance",
+    "owner": "Strategickhaos DAO LLC",
+    "maintainer": "Domenic G. Garza",
+    "certifications_held": ["Pipefitter Journeyman", "Turner Industries"],
+    "version": "1.0.0",
+    "created": "2026-01-29",
+    "last_updated": "2026-01-29",
+    "regulatory_frameworks": ["ASME B31.1", "ASME B31.3", "API 570", "AWS D1.1"]
+  },
+  "constants": [
+    {
+      "key": "pipe.thermal_expansion.carbon_steel",
+      "value": 6.5e-6,
+      "units": "in/in/°F",
+      "range": [6.0e-6, 7.0e-6],
+      "context": "Coefficient of thermal expansion for carbon steel pipe (A106, A53). Use for calculating expansion loop requirements.",
+      "jurisdiction": "global",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "ASME B31.1 Power Piping",
+          "publisher": "American Society of Mechanical Engineers",
+          "edition_or_rev": "2020 Edition",
+          "date": "2020",
+          "section_or_page": "Table C-3",
+          "notes": "Mean coefficient from 70°F to 400°F"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.thermal_expansion_in_range",
+        "constraints": ["1e-6 <= value <= 20e-6"]
+      }
+    },
+    {
+      "key": "pipe.thermal_expansion.stainless_304",
+      "value": 9.6e-6,
+      "units": "in/in/°F",
+      "range": [9.0e-6, 10.0e-6],
+      "context": "Coefficient of thermal expansion for 304 stainless steel. Higher than carbon steel - requires larger expansion provisions.",
+      "jurisdiction": "global",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "ASME B31.3 Process Piping",
+          "publisher": "American Society of Mechanical Engineers",
+          "edition_or_rev": "2022 Edition",
+          "date": "2022",
+          "section_or_page": "Table C-3",
+          "notes": "Mean coefficient for austenitic stainless"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.thermal_expansion_in_range",
+        "constraints": ["1e-6 <= value <= 20e-6"]
+      }
+    },
+    {
+      "key": "pipe.schedule.40.wall_thickness.2inch",
+      "value": 0.154,
+      "units": "inches",
+      "range": [0.150, 0.160],
+      "context": "Wall thickness for 2\" NPS Schedule 40 pipe. Standard weight.",
+      "jurisdiction": "global",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "ASME B36.10M Welded and Seamless Wrought Steel Pipe",
+          "publisher": "American Society of Mechanical Engineers",
+          "edition_or_rev": "2018",
+          "date": "2018",
+          "section_or_page": "Table 1",
+          "notes": "2\" NPS, OD = 2.375\", Wall = 0.154\""
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.wall_thickness_positive",
+        "constraints": ["value > 0"]
+      }
+    },
+    {
+      "key": "pipe.schedule.80.wall_thickness.2inch",
+      "value": 0.218,
+      "units": "inches",
+      "range": [0.215, 0.225],
+      "context": "Wall thickness for 2\" NPS Schedule 80 pipe. Extra strong.",
+      "jurisdiction": "global",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "ASME B36.10M Welded and Seamless Wrought Steel Pipe",
+          "publisher": "American Society of Mechanical Engineers",
+          "edition_or_rev": "2018",
+          "date": "2018",
+          "section_or_page": "Table 1",
+          "notes": "2\" NPS, OD = 2.375\", Wall = 0.218\""
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.wall_thickness_positive",
+        "constraints": ["value > 0"]
+      }
+    },
+    {
+      "key": "pipe.fitting.takeout.90_elbow_lr.2inch",
+      "value": 3.0,
+      "units": "inches",
+      "range": [2.875, 3.125],
+      "context": "Center-to-face dimension for 2\" long radius 90° elbow. Takeout = fitting dimension - weld gap.",
+      "jurisdiction": "global",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "ASME B16.9 Factory-Made Wrought Buttwelding Fittings",
+          "publisher": "American Society of Mechanical Engineers",
+          "edition_or_rev": "2018",
+          "date": "2018",
+          "section_or_page": "Table 1",
+          "notes": "Long radius = 1.5 x NPS, center-to-end = 3\""
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.takeout_positive",
+        "constraints": ["value > 0"]
+      }
+    },
+    {
+      "key": "pipe.fitting.takeout.45_elbow_lr.2inch",
+      "value": 1.5,
+      "units": "inches",
+      "range": [1.375, 1.625],
+      "context": "Center-to-face dimension for 2\" long radius 45° elbow.",
+      "jurisdiction": "global",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "ASME B16.9 Factory-Made Wrought Buttwelding Fittings",
+          "publisher": "American Society of Mechanical Engineers",
+          "edition_or_rev": "2018",
+          "date": "2018",
+          "section_or_page": "Table 1",
+          "notes": "45° elbow center-to-end"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.takeout_positive",
+        "constraints": ["value > 0"]
+      }
+    },
+    {
+      "key": "pipe.weld_gap.standard",
+      "value": 0.09375,
+      "units": "inches",
+      "range": [0.0625, 0.125],
+      "context": "Standard root gap for butt weld (3/32\" = 0.09375\"). Actual gap per WPS.",
+      "jurisdiction": "global",
+      "confidence": "medium",
+      "provenance": [
+        {
+          "source_title": "AWS D1.1 Structural Welding Code",
+          "publisher": "American Welding Society",
+          "edition_or_rev": "2020",
+          "date": "2020",
+          "section_or_page": "Figure 3.4",
+          "notes": "Typical root opening; verify with applicable WPS"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.weld_gap_in_range",
+        "constraints": ["0 <= value <= 0.25"]
+      }
+    },
+    {
+      "key": "pipe.circumference_factor",
+      "value": 3.14159,
+      "units": "ratio",
+      "range": [3.14159, 3.14159],
+      "context": "Pi - used for circumference = π × diameter. Not a heuristic, it's math.",
+      "jurisdiction": "global",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "Mathematical Constant",
+          "publisher": "Mathematics",
+          "edition_or_rev": "Eternal",
+          "date": "Ancient",
+          "section_or_page": "The Unit Circle",
+          "notes": "π is π"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "validation": {
+        "doctor_test": "pipe.pi_is_pi",
+        "constraints": ["abs(value - 3.14159) < 0.001"]
+      }
+    }
+  ]
+}
