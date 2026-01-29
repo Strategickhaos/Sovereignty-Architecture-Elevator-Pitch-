@@ -43,13 +43,13 @@ echo ""
 echo "Step 4: Runtime Proof"
 if command -v docker &> /dev/null; then
     docker run --rm strategickhaos/trig6:proof doctor > proof_runtime.log
-    docker run --rm strategickhaos/trig6:proof bridle --load 300 --theta 120 >> proof_runtime.log
+    docker run --rm strategickhaos/trig6:proof bridle --load 300 --theta 30 >> proof_runtime.log
     docker run --rm strategickhaos/trig6:proof cite rope.knot.figure_8_on_bight >> proof_runtime.log
     echo "✓ Container runtime verified"
 else
     echo "⊘ Docker not available, skipping container runtime"
     python3 trig6.py doctor > proof_runtime.log
-    python3 trig6.py bridle --load 300 --theta 120 >> proof_runtime.log
+    python3 trig6.py bridle --load 300 --theta 30 >> proof_runtime.log
     python3 trig6.py cite rope.knot.figure_8_on_bight >> proof_runtime.log
     echo "✓ Local runtime verified"
 fi
@@ -81,6 +81,8 @@ echo ""
 
 # Step 8: Sovereignty Proof
 echo "Step 8: Sovereignty Proof"
+# Temporarily disable exit on error for this check
+set +e
 if grep -r "requests\|urllib\|http\|curl\|wget" trig6.py core/*.py sagco/*.py 2>/dev/null | grep -v "^#" > proof_network.log; then
     echo "⚠ Warning: Found network-related code"
     cat proof_network.log
@@ -88,6 +90,7 @@ else
     echo "CLEAN - No network dependencies found" > proof_network.log
     echo "✓ Zero network dependencies confirmed"
 fi
+set -e
 head -20 trig6.py | grep "import" > proof_imports.log
 echo "✓ Sovereignty verified"
 echo ""

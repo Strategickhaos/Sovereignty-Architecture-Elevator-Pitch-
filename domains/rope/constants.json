@@ -4,7 +4,7 @@
       "value": 10.0,
       "citation": "SPRAT PFA Standard",
       "source": "SPRAT Safe Practices for Rope Access Work, Section 5.2.1",
-      "description": "Design factor for life safety systems (PFAS - Personal Fall Arrest Systems)"
+      "description": "Design factor for life safety systems (Personal Fall Arrest - PFA in rope access industry context)"
     },
     "lifesafety_general": {
       "value": 5.0,

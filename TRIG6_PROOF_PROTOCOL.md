@@ -53,7 +53,7 @@ docker images | grep trig6 > proof_images.txt
 
 ```bash
 docker run --rm strategickhaos/trig6:proof doctor > proof_runtime.log
-docker run --rm strategickhaos/trig6:proof bridle --load 300 --theta 120 >> proof_runtime.log
+docker run --rm strategickhaos/trig6:proof bridle --load 300 --theta 30 >> proof_runtime.log
 docker run --rm strategickhaos/trig6:proof cite rope.knot.figure_8_on_bight >> proof_runtime.log
 ```
 
@@ -146,7 +146,7 @@ date -u >> proof_hash.txt
 ```bash
 git rev-parse HEAD > p.txt && \
 python3 trig6.py doctor >> p.txt && \
-python3 trig6.py bridle --load 300 --theta 120 >> p.txt && \
+python3 trig6.py bridle --load 300 --theta 30 >> p.txt && \
 sha256sum trig6.py >> p.txt && \
 echo "PROOF COMPLETE" && cat p.txt
 ```
@@ -183,7 +183,7 @@ cd Sovereignty-Architecture-Elevator-Pitch-
 # or: python3 trig6.py doctor
 
 # Test calculations
-./khaos bridle --load 300 --theta 120
+./khaos bridle --load 300 --theta 30
 
 # View constants
 ./khaos list --prefix rope

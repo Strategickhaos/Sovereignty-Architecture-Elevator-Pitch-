@@ -81,7 +81,7 @@ class SAGCOBootloader:
         print("Self-Adapting Genetic Code Orchestrator")
         print("=" * 60)
         print(f"Boot #: {self.boot_count}")
-        print(f"Timestamp: {datetime.now(timezone.utc).isoformat()}Z")
+        print(f"Timestamp: {datetime.now(timezone.utc).isoformat()}")
         print(f"DNA Strand: {self.strand}")
         print()
         

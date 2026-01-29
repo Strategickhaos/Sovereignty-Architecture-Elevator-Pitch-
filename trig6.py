@@ -76,21 +76,36 @@ class TRIG6:
         return passed == total
     
     def bridle(self, load, theta):
-        """Calculate load vectors and safety factors"""
+        """Calculate load vectors and safety factors
+        
+        Args:
+            load: Load in lbs
+            theta: Angle from vertical in degrees (0-89 degrees)
+        """
         print(f"TRIG6 Bridle Calculation")
         print("=" * 50)
         print(f"Input Load: {load} lbs")
-        print(f"Angle (theta): {theta}°")
+        print(f"Angle (theta): {theta}° from vertical")
         print()
+        
+        # Validate angle
+        if theta < 0 or theta >= 90:
+            print(f"ERROR: Invalid angle. Theta must be between 0 and 89 degrees.")
+            print(f"       Theta >= 90° results in invalid bridle geometry.")
+            return None
         
         # Convert to radians
         theta_rad = math.radians(theta)
         
         # Calculate force components
+        # For angle from vertical:
+        # - Vertical component uses cos(theta)
+        # - Horizontal component uses sin(theta)
         vertical_component = load * math.cos(theta_rad)
         horizontal_component = load * math.sin(theta_rad)
         
         # Calculate resultant leg force (assuming symmetric bridle)
+        # Each leg supports: load / (2 * cos(theta))
         leg_force = load / (2 * math.cos(theta_rad))
         
         # Get design factor if available
