@@ -1,0 +1,72 @@
+{
+  "pack_name": "default",
+  "version": "1.0.0",
+  "description": "Default TRIG6 domain configuration",
+  "domains": {
+    "rope": {
+      "enabled": true,
+      "constants": 11,
+      "standards": ["SPRAT", "OSHA", "NFPA"],
+      "description": "Rope access and rescue operations"
+    },
+    "pipe": {
+      "enabled": true,
+      "constants": 8,
+      "standards": ["ASME B31.3", "API"],
+      "description": "Pressure vessel and piping calculations"
+    },
+    "rigging": {
+      "enabled": true,
+      "constants": 8,
+      "standards": ["ASME B30.9", "ASME B30.20", "ASME B30.23"],
+      "description": "Rigging and lifting operations"
+    },
+    "khaos": {
+      "enabled": true,
+      "glyphs": 64,
+      "description": "64-glyph symbolic quantum state system"
+    }
+  },
+  "models": {
+    "vector": {
+      "enabled": true,
+      "description": "6 trigonometric functions"
+    },
+    "bridle_two_leg_equal_angle": {
+      "enabled": true,
+      "description": "Two-leg bridle tension calculation"
+    },
+    "highline_tension": {
+      "enabled": true,
+      "description": "Highline tension based on sag"
+    },
+    "fall_impact_force": {
+      "enabled": true,
+      "description": "Fall impact force calculation"
+    },
+    "mechanical_advantage": {
+      "enabled": true,
+      "description": "Mechanical advantage systems"
+    },
+    "beam_deflection": {
+      "enabled": true,
+      "description": "Simple beam deflection"
+    },
+    "pendulum": {
+      "enabled": true,
+      "description": "Simple pendulum period"
+    }
+  },
+  "system": {
+    "validation_required": true,
+    "doctor_tests": 8,
+    "zero_dependencies": true,
+    "deterministic": true
+  },
+  "metadata": {
+    "author": "Domenic G. Garza",
+    "organization": "Strategickhaos DAO LLC",
+    "license": "MIT",
+    "created": "2026-01-29"
+  }
+}
