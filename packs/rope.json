@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "domain": "rope",
+    "description": "Rope, knot, and rigging constants with regulatory citations",
+    "version": "1.0.0",
+    "last_updated": "2026-01-29"
+  },
+  "constants": [
+    {
+      "key": "rope.knot.figure_8_on_bight",
+      "value": 0.75,
+      "units": "dimensionless (strength retention)",
+      "context": "Figure 8 on a bight knot retains approximately 75% of rope strength",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "NFPA 1983: Standard on Life Safety Rope",
+          "publisher": "National Fire Protection Association",
+          "edition_or_rev": "2017 Edition",
+          "section_or_page": "Section 4.3",
+          "date": "2017"
+        },
+        {
+          "source_title": "On Rope: North American Vertical Rope Techniques",
+          "publisher": "National Speleological Society",
+          "edition_or_rev": "2nd Edition",
+          "section_or_page": "Chapter 3",
+          "date": "1996"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "rope.knot.figure_8_follow_through",
+      "value": 0.75,
+      "units": "dimensionless (strength retention)",
+      "context": "Figure 8 follow-through (trace-8) retains approximately 75% of rope strength",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "NFPA 1983: Standard on Life Safety Rope",
+          "publisher": "National Fire Protection Association",
+          "edition_or_rev": "2017 Edition",
+          "section_or_page": "Section 4.3",
+          "date": "2017"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "rope.knot.double_fisherman",
+      "value": 0.70,
+      "units": "dimensionless (strength retention)",
+      "context": "Double fisherman's knot retains approximately 70% of rope strength",
+      "confidence": "medium",
+      "provenance": [
+        {
+          "source_title": "Knots and Ropes for Climbers",
+          "publisher": "Falcon Press",
+          "edition_or_rev": "1998",
+          "section_or_page": "Chapter 2",
+          "date": "1998"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "rope.knot.bowline",
+      "value": 0.60,
+      "units": "dimensionless (strength retention)",
+      "context": "Bowline knot retains approximately 60% of rope strength",
+      "confidence": "medium",
+      "provenance": [
+        {
+          "source_title": "The Complete Guide to Rope Techniques",
+          "publisher": "Mountaineers Books",
+          "section_or_page": "Part 2",
+          "date": "2004"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "rope.knot.water_knot",
+      "value": 0.60,
+      "units": "dimensionless (strength retention)",
+      "context": "Water knot (ring bend) in webbing retains approximately 60% of strength",
+      "confidence": "medium",
+      "provenance": [
+        {
+          "source_title": "CMC Rope Rescue Manual",
+          "publisher": "CMC Rescue",
+          "edition_or_rev": "4th Edition",
+          "section_or_page": "Chapter 5",
+          "date": "2005"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "rope.dynamic.elongation_max",
+      "value": 0.10,
+      "units": "dimensionless (strain at 80kg load)",
+      "context": "UIAA standard: dynamic rope max elongation at 80kg is 10%",
+      "confidence": "regulatory",
+      "provenance": [
+        {
+          "source_title": "UIAA 101: Dynamic Ropes",
+          "publisher": "International Climbing and Mountaineering Federation",
+          "edition_or_rev": "2019 Revision",
+          "section_or_page": "Section 3.2",
+          "date": "2019"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "rope.static.elongation_max",
+      "value": 0.05,
+      "units": "dimensionless (strain at 300kg load)",
+      "context": "NFPA standard: static rope max elongation at 300kg is 5%",
+      "confidence": "regulatory",
+      "provenance": [
+        {
+          "source_title": "NFPA 1983: Standard on Life Safety Rope",
+          "publisher": "National Fire Protection Association",
+          "edition_or_rev": "2017 Edition",
+          "section_or_page": "Section 8.2.3",
+          "date": "2017"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "rope.life_safety.safety_factor",
+      "value": 15.0,
+      "units": "dimensionless (ratio)",
+      "context": "NFPA mandated safety factor of 15:1 for life safety rope systems",
+      "confidence": "regulatory",
+      "provenance": [
+        {
+          "source_title": "NFPA 1983: Standard on Life Safety Rope",
+          "publisher": "National Fire Protection Association",
+          "edition_or_rev": "2017 Edition",
+          "section_or_page": "Section 4.1.2",
+          "date": "2017"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "carabiner.aluminum.min_strength_major",
+      "value": 20.0,
+      "units": "kN",
+      "context": "UIAA minimum strength requirement for aluminum carabiner major axis",
+      "confidence": "regulatory",
+      "provenance": [
+        {
+          "source_title": "UIAA 121: Mountaineering and Climbing Equipment - Carabiners",
+          "publisher": "International Climbing and Mountaineering Federation",
+          "edition_or_rev": "2018 Revision",
+          "section_or_page": "Section 4.1",
+          "date": "2018"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "carabiner.steel.min_strength_major",
+      "value": 50.0,
+      "units": "kN",
+      "context": "NFPA minimum strength for steel carabiner major axis (life safety)",
+      "confidence": "regulatory",
+      "provenance": [
+        {
+          "source_title": "NFPA 1983: Standard on Life Safety Rope",
+          "publisher": "National Fire Protection Association",
+          "edition_or_rev": "2017 Edition",
+          "section_or_page": "Section 7.2.1",
+          "date": "2017"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    }
+  ]
+}
