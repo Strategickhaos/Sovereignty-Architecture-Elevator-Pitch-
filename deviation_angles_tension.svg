@@ -176,7 +176,7 @@
     <text x="180" y="50" class="label" text-anchor="middle" font-weight="bold">θ/2</text>
     <text x="280" y="50" class="label" text-anchor="middle" font-weight="bold">cos(θ/2)</text>
     <text x="400" y="50" class="label" text-anchor="middle" font-weight="bold">Multiplier</text>
-    <text x="550" y="50" class="label" text-anchor="middle" font-weight="bold">100 lb Load</text>
+    <text x="550" y="50" class="label" text-anchor="middle" font-weight="bold">100 lbs Load</text>
     
     <!-- Data rows -->
     <text x="80" y="75" class="small" text-anchor="middle">30°</text>
