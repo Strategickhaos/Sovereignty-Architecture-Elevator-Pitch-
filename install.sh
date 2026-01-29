@@ -43,6 +43,7 @@ detect_os() {
     BIN_DIR="$HOME/.local/bin"
     
     if [ -f /etc/os-release ]; then
+        # shellcheck disable=SC1091
         . /etc/os-release
         OS=$ID
     elif [ "$(uname)" = "Darwin" ]; then
@@ -66,6 +67,7 @@ check_python() {
         PYTHON="python3"
         echo "${GREEN}✓${NC} Python3 found: $(python3 --version)"
     elif command -v python >/dev/null 2>&1; then
+        # shellcheck disable=SC2034
         PYTHON="python"
         echo "${GREEN}✓${NC} Python found: $(python --version)"
     else
@@ -238,9 +240,11 @@ update_path() {
             for RC in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile"; do
                 if [ -f "$RC" ]; then
                     if ! grep -q ".local/bin" "$RC" 2>/dev/null; then
-                        echo "" >> "$RC"
-                        echo "# KHAOS Sovereign OS" >> "$RC"
-                        echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> "$RC"
+                        {
+                            echo ""
+                            echo "# KHAOS Sovereign OS"
+                            echo "export PATH=\"\$HOME/.local/bin:\$PATH\""
+                        } >> "$RC"
                         echo "${GREEN}✓${NC} Added to $RC"
                     fi
                 fi
