@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <title>Mechanical Advantage Systems Comparison</title>
+  <style>
+    .title { font: bold 18px Arial; fill: #333; }
+    .label { font: 12px Arial; fill: #333; }
+    .small { font: 10px Arial; fill: #666; }
+    .formula { font: italic 11px 'Times New Roman'; fill: #8b5cf6; }
+    .rope { stroke: #2563eb; stroke-width: 3; fill: none; }
+    .anchor { fill: #333; }
+    .pulley { fill: #f59e0b; stroke: #333; stroke-width: 1; }
+    .load { fill: #ef4444; stroke: #333; stroke-width: 1; }
+    .arrow { fill: #333; }
+  </style>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#fafafa"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">
+    MECHANICAL ADVANTAGE SYSTEMS
+  </text>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 1:1 REDIRECT -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(100, 80)">
+    <text x="50" y="0" class="label" text-anchor="middle" font-weight="bold">1:1 Redirect</text>
+    
+    <!-- Anchor -->
+    <rect x="30" y="20" width="40" height="10" class="anchor"/>
+    <text x="50" y="18" class="small" text-anchor="middle">Anchor</text>
+    
+    <!-- Pulley at anchor -->
+    <circle cx="50" cy="50" r="12" class="pulley"/>
+    <circle cx="50" cy="50" r="3" fill="#333"/>
+    
+    <!-- Rope path -->
+    <path d="M 20,180 L 20,50 Q 20,38 50,38 Q 80,38 80,50 L 80,180" class="rope"/>
+    
+    <!-- Load -->
+    <rect x="65" y="180" width="30" height="30" class="load"/>
+    <text x="80" y="200" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Pull arrow -->
+    <line x1="20" y1="180" x2="20" y2="220" stroke="#333" stroke-width="2"/>
+    <polygon points="15,220 20,230 25,220" class="arrow"/>
+    <text x="20" y="245" class="small" text-anchor="middle">Pull: W</text>
+    
+    <!-- Tension labels -->
+    <text x="8" y="120" class="formula">T=W</text>
+    <text x="85" y="120" class="formula">T=W</text>
+    
+    <!-- MA label -->
+    <text x="50" y="280" class="label" text-anchor="middle">MA = 1:1</text>
+    <text x="50" y="295" class="small" text-anchor="middle">(Direction change only)</text>
+    
+    <!-- Anchor load -->
+    <text x="50" y="315" class="formula" text-anchor="middle">Anchor sees: 2W</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 2:1 SYSTEM -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(280, 80)">
+    <text x="50" y="0" class="label" text-anchor="middle" font-weight="bold">2:1 System</text>
+    
+    <!-- Anchor -->
+    <rect x="30" y="20" width="40" height="10" class="anchor"/>
+    
+    <!-- Anchor pulley -->
+    <circle cx="50" cy="50" r="12" class="pulley"/>
+    <circle cx="50" cy="50" r="3" fill="#333"/>
+    
+    <!-- Traveling pulley (on load) -->
+    <circle cx="50" cy="150" r="12" class="pulley"/>
+    <circle cx="50" cy="150" r="3" fill="#333"/>
+    
+    <!-- Load -->
+    <rect x="35" y="170" width="30" height="30" class="load"/>
+    <text x="50" y="190" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Rope path -->
+    <path d="M 20,220 L 20,50 Q 20,38 50,38 Q 80,38 80,50 L 80,150 Q 80,162 50,162 Q 20,162 20,150 L 20,50" 
+          class="rope" stroke-dasharray="none"/>
+    <!-- Fixed end at anchor -->
+    <circle cx="80" cy="30" r="4" fill="#333"/>
+    
+    <!-- Simplified rope showing both strands -->
+    <line x1="38" y1="50" x2="38" y2="138" stroke="#2563eb" stroke-width="3"/>
+    <line x1="62" y1="50" x2="62" y2="138" stroke="#2563eb" stroke-width="3"/>
+    
+    <!-- Pull arrow -->
+    <line x1="20" y1="80" x2="20" y2="120" stroke="#333" stroke-width="2"/>
+    <polygon points="15,120 20,130 25,120" class="arrow"/>
+    <text x="5" y="105" class="formula">W/2</text>
+    
+    <!-- Strand labels -->
+    <text x="30" y="100" class="formula">W/2</text>
+    <text x="70" y="100" class="formula">W/2</text>
+    
+    <!-- MA label -->
+    <text x="50" y="280" class="label" text-anchor="middle">MA = 2:1</text>
+    <text x="50" y="295" class="small" text-anchor="middle">(2 strands support load)</text>
+    
+    <!-- Formula -->
+    <text x="50" y="315" class="formula" text-anchor="middle">Pull = W ÷ 2</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 3:1 Z-RIG -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(460, 80)">
+    <text x="60" y="0" class="label" text-anchor="middle" font-weight="bold">3:1 Z-Rig</text>
+    
+    <!-- Anchor -->
+    <rect x="40" y="20" width="40" height="10" class="anchor"/>
+    
+    <!-- Top pulley -->
+    <circle cx="60" cy="50" r="12" class="pulley"/>
+    <circle cx="60" cy="50" r="3" fill="#333"/>
+    
+    <!-- Middle pulley (traveling) -->
+    <circle cx="60" cy="120" r="12" class="pulley"/>
+    <circle cx="60" cy="120" r="3" fill="#333"/>
+    
+    <!-- Bottom pulley -->
+    <circle cx="60" cy="180" r="12" class="pulley"/>
+    <circle cx="60" cy="180" r="3" fill="#333"/>
+    
+    <!-- Load -->
+    <rect x="45" y="200" width="30" height="30" class="load"/>
+    <text x="60" y="220" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Rope showing Z pattern -->
+    <path d="M 25,50 L 25,180 Q 25,192 60,192 Q 95,192 95,180 L 95,120 
+             Q 95,108 60,108 Q 25,108 25,120 L 25,50 
+             Q 25,38 60,38 Q 95,38 95,50 L 95,30" 
+          class="rope"/>
+    
+    <!-- Pull arrow -->
+    <line x1="25" y1="60" x2="25" y2="90" stroke="#333" stroke-width="2"/>
+    <polygon points="20,90 25,100 30,90" class="arrow"/>
+    <text x="10" y="80" class="formula">W/3</text>
+    
+    <!-- MA label -->
+    <text x="60" y="280" class="label" text-anchor="middle">MA = 3:1</text>
+    <text x="60" y="295" class="small" text-anchor="middle">(Classic rescue system)</text>
+    
+    <!-- Formula -->
+    <text x="60" y="315" class="formula" text-anchor="middle">Pull = W ÷ 3</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 4:1 SYSTEM -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(640, 80)">
+    <text x="60" y="0" class="label" text-anchor="middle" font-weight="bold">4:1 System</text>
+    
+    <!-- Anchor -->
+    <rect x="40" y="20" width="40" height="10" class="anchor"/>
+    
+    <!-- Pulleys -->
+    <circle cx="50" cy="50" r="10" class="pulley"/>
+    <circle cx="70" cy="50" r="10" class="pulley"/>
+    <circle cx="50" cy="150" r="10" class="pulley"/>
+    <circle cx="70" cy="150" r="10" class="pulley"/>
+    
+    <!-- Load -->
+    <rect x="45" y="170" width="30" height="30" class="load"/>
+    <text x="60" y="190" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- 4 strands -->
+    <line x1="42" y1="60" x2="42" y2="140" stroke="#2563eb" stroke-width="2"/>
+    <line x1="54" y1="60" x2="54" y2="140" stroke="#2563eb" stroke-width="2"/>
+    <line x1="66" y1="60" x2="66" y2="140" stroke="#2563eb" stroke-width="2"/>
+    <line x1="78" y1="60" x2="78" y2="140" stroke="#2563eb" stroke-width="2"/>
+    
+    <!-- Pull arrow -->
+    <line x1="20" y1="80" x2="20" y2="110" stroke="#333" stroke-width="2"/>
+    <polygon points="15,110 20,120 25,110" class="arrow"/>
+    <text x="5" y="100" class="formula">W/4</text>
+    
+    <!-- MA label -->
+    <text x="60" y="280" class="label" text-anchor="middle">MA = 4:1</text>
+    <text x="60" y="295" class="small" text-anchor="middle">(4 strands support load)</text>
+    
+    <!-- Formula -->
+    <text x="60" y="315" class="formula" text-anchor="middle">Pull = W ÷ 4</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- KEY FORMULAS -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(50, 420)">
+    <rect x="0" y="0" width="700" height="150" fill="#f0f9ff" stroke="#2563eb" rx="5"/>
+    
+    <text x="350" y="25" class="label" text-anchor="middle" font-weight="bold">
+      KEY FORMULAS
+    </text>
+    
+    <text x="20" y="55" class="formula">
+      Theoretical MA = Number of strands supporting the load
+    </text>
+    
+    <text x="20" y="80" class="formula">
+      Actual MA = Theoretical MA × (Pulley Efficiency)^(number of pulleys)
+    </text>
+    
+    <text x="20" y="105" class="formula">
+      Pull Force = Load ÷ MA
+    </text>
+    
+    <text x="20" y="130" class="formula">
+      Rope Travel = Load Travel × MA    (trade-off: more MA = more rope to pull)
+    </text>
+    
+    <text x="400" y="55" class="small">
+      Example: 90% efficient pulleys
+    </text>
+    <text x="400" y="75" class="small">
+      3:1 with 2 pulleys:
+    </text>
+    <text x="400" y="95" class="small">
+      Actual MA = 3 × 0.9 × 0.9 = 2.43
+    </text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="400" y="590" class="small" text-anchor="middle">
+    TRIG6 Rope Mechanics | StrategicKhaos DAO LLC | SPRAT Level 3
+  </text>
+  
+</svg>
