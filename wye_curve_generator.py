@@ -24,7 +24,7 @@ def generate_wye_curve_points(
     diameter: float, 
     angle: float, 
     num_points: int
-) -> List[Tuple[float, float]]:
+) -> Tuple[List[Tuple[float, float]], float, float]:
     """
     Generate digitized points for a wye curve branch end template.
     
@@ -60,7 +60,12 @@ def generate_wye_curve_points(
     return points, amplitude, unwrap_length
 
 
-def catmull_rom_to_bezier(p0, p1, p2, p3):
+def catmull_rom_to_bezier(
+    p0: Tuple[float, float],
+    p1: Tuple[float, float],
+    p2: Tuple[float, float],
+    p3: Tuple[float, float]
+) -> Tuple[Tuple[float, float], Tuple[float, float]]:
     """
     Convert a Catmull-Rom spline segment to cubic Bézier control points.
     
@@ -138,7 +143,7 @@ def generate_svg(
      width="{unwrap_length:.6f}in" height="{2 * amplitude:.6f}in"
      viewBox="0 0 {unwrap_length:.6f} {2 * amplitude:.6f}">
   <!-- {angle:.0f}° true-wye branch-end curve (equal diameters)
-       D={diameter:.0f}in, N={len(points) - 1}.  h(phi)= (D/2)*tan({angle/2:.0f}°)*cos(phi)
+       D={diameter:.0f}in, N={len(points) - 1}.  h(phi)= (D/2)*tan({angle/2}°)*cos(phi)
        Y is shifted up by +A so min is 0. -->
 
   <path d="{path_data}"
