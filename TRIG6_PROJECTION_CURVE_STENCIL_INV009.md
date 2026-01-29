@@ -226,7 +226,8 @@ invention:
   
   inventor: "Dominic Garza (Me10101)"
   entity: "Strategickhaos DAO LLC"
-  date_conceived: "2026-01-29"
+  date_documented: "2026-01-29"
+  date_conceived: "Unknown (documented 2026-01-29)"
   
   notes: |
     Physical tool embodiment of TRIG6 framework.
