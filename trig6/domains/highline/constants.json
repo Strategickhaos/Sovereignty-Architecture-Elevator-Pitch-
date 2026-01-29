@@ -1,0 +1,33 @@
+{
+  "domain": "highline",
+  "description": "Highline tension and sag calculations",
+  "constants": [
+    {
+      "key": "max_sag_angle",
+      "value": 15.0,
+      "units": "degrees",
+      "description": "Maximum recommended sag angle for highline systems",
+      "range": [5.0, 20.0],
+      "provenance": [
+        {
+          "source_title": "Technical Rope Rescue Manual",
+          "author": "CMC Rescue Inc."
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "min_sag_angle",
+      "value": 2.0,
+      "units": "degrees",
+      "description": "Minimum recommended sag angle to avoid excessive tension",
+      "range": [1.0, 5.0],
+      "provenance": [
+        {
+          "source_title": "Rigging for Rescue Manual"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    }
+  ]
+}
