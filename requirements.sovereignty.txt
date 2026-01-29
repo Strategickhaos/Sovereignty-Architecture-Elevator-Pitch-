@@ -89,5 +89,4 @@ websockets>=11.0.3         # WebSocket connections for real-time data
 aiohttp>=3.8.5             # Async HTTP client/server
 
 # Audio encoding and processing
-numpy>=1.24.0              # Already listed above, but required for audio
 scipy>=1.10.0              # Audio file I/O and signal processing

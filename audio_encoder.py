@@ -56,6 +56,29 @@ class AudioEncoder:
         self.config = config
         self.sample_rate = sample_rate
         
+    def _parse_sample_expression(self, expression: str) -> int:
+        """
+        Safely parse sample rate expressions like 'sample_rate * 0.1'.
+        
+        Args:
+            expression: String expression to parse
+            
+        Returns:
+            Calculated integer value
+        """
+        # Simple parser for "sample_rate * number" expressions
+        expr = expression.strip()
+        if "sample_rate" in expr:
+            parts = expr.split("*")
+            if len(parts) == 2:
+                multiplier = float(parts[1].strip())
+                return int(self.sample_rate * multiplier)
+        # Fallback for numeric expressions
+        try:
+            return int(float(expr))
+        except ValueError:
+            raise ValueError(f"Cannot parse expression: {expression}")
+    
     def encode_dna_strand(self, dna_sequence: str) -> np.ndarray:
         """
         Encode DNA strand using frequency_micro_shift method.
@@ -69,8 +92,8 @@ class AudioEncoder:
             Audio signal with encoded DNA data
         """
         method_config = self.config.encoding.get("dna_strand", {})
-        samples_per_char = int(eval(method_config.get("samples_per_char", "sample_rate * 0.1")
-                                   .replace("sample_rate", str(self.sample_rate))))
+        samples_per_char = self._parse_sample_expression(
+            method_config.get("samples_per_char", "sample_rate * 0.1"))
         freq_range = method_config.get("range_hz", [-1.0, 1.0])
         
         # Generate carrier signal
@@ -108,8 +131,8 @@ class AudioEncoder:
             Tuple of (left_channel, right_channel) audio signals
         """
         method_config = self.config.encoding.get("source_hash", {})
-        samples_per_char = int(eval(method_config.get("samples_per_char", "sample_rate * 0.05")
-                                   .replace("sample_rate", str(self.sample_rate))))
+        samples_per_char = self._parse_sample_expression(
+            method_config.get("samples_per_char", "sample_rate * 0.05"))
         
         # Verify hash is SHA256
         if len(source_hash) != 64:
@@ -153,8 +176,8 @@ class AudioEncoder:
         """
         method_config = self.config.encoding.get("periodic_table", {})
         frequency_hz = method_config.get("frequency_hz", 19000)
-        samples_per_bit = int(eval(method_config.get("samples_per_bit", "sample_rate * 0.01")
-                                  .replace("sample_rate", str(self.sample_rate))))
+        samples_per_bit = self._parse_sample_expression(
+            method_config.get("samples_per_bit", "sample_rate * 0.01"))
         
         # Convert data to JSON and then to binary
         json_str = json.dumps(periodic_data, separators=(',', ':'))
