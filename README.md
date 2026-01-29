@@ -30,6 +30,14 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🔥 TRIG6 Compute Engine
+- **Deterministic Physics**: Zero dependencies, cited calculations
+- **Self-Validating**: 8 doctor tests that run on every boot
+- **Domain Expertise**: Rope (11 constants), Pipe (8), Rigging (8), KHAOS (64 glyphs)
+- **Chess Debate**: Logic validation engine with 33 fallacy detection
+- **SAGCO Bootloader**: DNA strand runtime selection
+- **[Full Documentation](trig6/README.md)**
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
