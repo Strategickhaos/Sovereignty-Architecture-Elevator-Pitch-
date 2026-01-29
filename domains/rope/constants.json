@@ -1,0 +1,63 @@
+{
+  "design_factor": {
+    "lifesafety_pfas": {
+      "value": 10.0,
+      "citation": "SPRAT PFA Standard",
+      "source": "SPRAT Safe Practices for Rope Access Work, Section 5.2.1",
+      "description": "Design factor for life safety systems (PFAS - Personal Fall Arrest Systems)"
+    },
+    "lifesafety_general": {
+      "value": 5.0,
+      "citation": "OSHA 1926.502(d)(16)",
+      "source": "OSHA Construction Standards",
+      "description": "Minimum safety factor for life safety rope systems"
+    },
+    "working_load": {
+      "value": 5.0,
+      "citation": "ASME B30.26-2010",
+      "source": "ASME Rigging Hardware Standard",
+      "description": "Design factor for working load applications"
+    }
+  },
+  "knot": {
+    "figure_8_on_bight": {
+      "efficiency": 0.75,
+      "value": 75,
+      "citation": "Cordage Institute CI-2001",
+      "source": "Cordage Institute Standards",
+      "description": "Approximate efficiency of figure-8-on-a-bight knot (75% of rope strength)"
+    },
+    "double_fishermans": {
+      "efficiency": 0.65,
+      "value": 65,
+      "citation": "Cordage Institute CI-2001",
+      "source": "Cordage Institute Standards",
+      "description": "Approximate efficiency of double fisherman's knot (65% of rope strength)"
+    },
+    "bowline": {
+      "efficiency": 0.60,
+      "value": 60,
+      "citation": "Cordage Institute CI-2001",
+      "source": "Cordage Institute Standards",
+      "description": "Approximate efficiency of bowline knot (60% of rope strength)"
+    }
+  },
+  "material": {
+    "nylon": {
+      "mbs_per_diameter": {
+        "value": 9000,
+        "citation": "Cordage Institute CI-1801",
+        "source": "Nylon Rope Specifications",
+        "description": "Approximate MBS per inch of diameter (lbs) for kernmantle nylon"
+      }
+    },
+    "polyester": {
+      "mbs_per_diameter": {
+        "value": 8500,
+        "citation": "Cordage Institute CI-1801",
+        "source": "Polyester Rope Specifications",
+        "description": "Approximate MBS per inch of diameter (lbs) for polyester rope"
+      }
+    }
+  }
+}

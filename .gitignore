@@ -35,3 +35,12 @@ target/
 
 # Workspace data
 workspace/
+
+# TRIG6 Proof artifacts
+proof_*.txt
+proof_*.log
+proof_*.json
+proof.zip
+proof.tar.gz
+proof/
+sagco/.sagco_state.json
