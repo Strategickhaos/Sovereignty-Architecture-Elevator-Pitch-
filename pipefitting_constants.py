@@ -25,7 +25,7 @@ class PipefittingConstants:
     - ASME B36.10M: Welded and Seamless Wrought Steel Pipe
     - ASME B16.9: Factory-Made Wrought Buttwelding Fittings
     - API 570: Piping Inspection Code
-    - AWS D1.1: Structural Welding Code
+    - AWS (American Welding Society) D1.1: Structural Welding Code
     """
     
     def __init__(self, constants_file: Optional[str] = None):
@@ -141,15 +141,20 @@ class PipefittingConstants:
         messages = []
         
         # Validate against constraints
+        # Note: Using eval() with restricted namespace for constraint validation.
+        # The namespace is limited to only 'value' and 'abs' for safety.
+        # Constants file should be from trusted sources only.
+        safe_namespace = {'value': value, 'abs': abs, '__builtins__': {}}
+        
         for constraint in constraints:
             try:
-                # Evaluate constraint with the value
-                if not eval(constraint, {'value': value, 'abs': abs}):
+                # Evaluate constraint with restricted namespace
+                if not eval(constraint, safe_namespace):
                     is_valid = False
                     messages.append(f"Constraint failed: {constraint}")
-            except Exception as e:
+            except (NameError, SyntaxError, TypeError, ValueError) as e:
                 is_valid = False
-                messages.append(f"Error evaluating constraint '{constraint}': {e}")
+                messages.append(f"Error evaluating constraint '{constraint}': {str(e)}")
         
         # Validate value is within range
         value_range = constant.get('range')

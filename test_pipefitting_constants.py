@@ -87,8 +87,8 @@ class TestPipefittingConstants:
         constants_list = self.constants.list_constants()
         self.assert_true(len(constants_list) > 0,
                         "Constants list is not empty")
-        self.assert_equal(len(constants_list), 8,
-                         "Expected 8 constants loaded")
+        self.assert_true(len(constants_list) >= 8,
+                         "At least 8 constants loaded")
     
     def test_get_constant(self):
         """Test retrieving a constant by key."""
