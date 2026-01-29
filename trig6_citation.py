@@ -75,6 +75,11 @@ class ConstantRecord:
     confidence: str = "medium"        # "high", "medium", "low", "heuristic"
     validation: Optional[Validation] = None
     
+    def __post_init__(self):
+        """Validate that provenance list has at least one entry."""
+        if not self.provenance or len(self.provenance) == 0:
+            raise ValueError(f"ConstantRecord '{self.key}' must have at least one provenance entry")
+    
     def to_dict(self) -> dict:
         d = {
             "key": self.key,
@@ -137,19 +142,27 @@ class ConstantRecord:
 
 def load_constants_file(path: str) -> List[ConstantRecord]:
     """Load a constants.json file into ConstantRecord objects."""
-    with open(path, "r") as f:
-        data = json.load(f)
-    return [ConstantRecord.from_dict(d) for d in data.get("constants", [])]
+    try:
+        with open(path, "r") as f:
+            data = json.load(f)
+        return [ConstantRecord.from_dict(d) for d in data.get("constants", [])]
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Constants file not found: {path}")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in constants file {path}: {e}")
 
 
 def save_constants_file(path: str, constants: List[ConstantRecord], metadata: dict = None):
     """Save ConstantRecord objects to a constants.json file."""
-    data = {
-        "metadata": metadata or {},
-        "constants": [c.to_dict() for c in constants]
-    }
-    with open(path, "w") as f:
-        json.dump(data, f, indent=2)
+    try:
+        data = {
+            "metadata": metadata or {},
+            "constants": [c.to_dict() for c in constants]
+        }
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+    except IOError as e:
+        raise IOError(f"Failed to write constants file {path}: {e}")
 
 
 # Example usage / self-test

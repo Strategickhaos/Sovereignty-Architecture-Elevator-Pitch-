@@ -16,7 +16,8 @@ from pathlib import Path
 
 # Import the TRIG6 citation system
 import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from trig6_citation import (
     Provenance, 
     Validation, 
@@ -226,6 +227,20 @@ class TestConstantRecord(unittest.TestCase):
         self.assertIn("VALUE: 7.7 meters", formatted)
         self.assertIn("SOURCES:", formatted)
         self.assertIn("ENTERED BY: Formatter", formatted)
+        
+    def test_constant_record_requires_provenance(self):
+        """Test that constant record requires at least one provenance entry."""
+        with self.assertRaises(ValueError) as context:
+            ConstantRecord(
+                key="test.no_provenance",
+                value=1.0,
+                units="unit",
+                context="Should fail",
+                provenance=[],  # Empty provenance list should raise error
+                entered_by="Tester",
+                entered_date="2026-01-29"
+            )
+        self.assertIn("must have at least one provenance entry", str(context.exception))
 
 
 class TestFileOperations(unittest.TestCase):
@@ -284,7 +299,7 @@ class TestFileOperations(unittest.TestCase):
         """Test loading the example constants file."""
         # Find the example constants file
         example_path = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            os.path.dirname(os.path.abspath(__file__)),
             "data", "constants", "example_constants.json"
         )
         
