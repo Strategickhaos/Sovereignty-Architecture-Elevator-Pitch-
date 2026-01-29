@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "name": "default",
+    "version": "1.0.0",
+    "description": "Default constants pack for TRIG6 physics compiler",
+    "author": "Strategickhaos DAO LLC"
+  },
+  "domains": {
+    "rope": {
+      "enabled": true,
+      "constants_file": "packs/rope_constants.json",
+      "description": "Rope and rigging constants"
+    }
+  }
+}
