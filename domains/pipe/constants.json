@@ -1,0 +1,108 @@
+{
+  "domain": "pipe",
+  "description": "Pipefitting constants (ASME/API)",
+  "standards": ["ASME B31.3", "ASME B31.1", "API 570"],
+  "constants": {
+    "pipe_schedules": {
+      "schedule_40": {
+        "description": "Standard weight pipe",
+        "common_use": "Low to medium pressure applications"
+      },
+      "schedule_80": {
+        "description": "Extra strong pipe",
+        "common_use": "High pressure applications"
+      },
+      "schedule_160": {
+        "description": "Extra extra strong pipe",
+        "common_use": "Very high pressure applications"
+      }
+    },
+    "allowable_stresses": {
+      "carbon_steel_A106": {
+        "grade_b": {
+          "temp_100F": {
+            "value": 20000,
+            "unit": "psi",
+            "description": "Allowable stress at 100°F"
+          },
+          "temp_400F": {
+            "value": 20000,
+            "unit": "psi",
+            "description": "Allowable stress at 400°F"
+          },
+          "temp_650F": {
+            "value": 17100,
+            "unit": "psi",
+            "description": "Allowable stress at 650°F"
+          }
+        }
+      },
+      "stainless_316": {
+        "temp_100F": {
+          "value": 20000,
+          "unit": "psi",
+          "description": "Allowable stress at 100°F"
+        },
+        "temp_400F": {
+          "value": 18750,
+          "unit": "psi",
+          "description": "Allowable stress at 400°F"
+        }
+      }
+    },
+    "weld_joint_efficiencies": {
+      "seamless": 1.0,
+      "double_welded_butt_joint_rt": 1.0,
+      "single_welded_butt_joint_rt": 0.85,
+      "double_welded_butt_joint_spot_rt": 0.90,
+      "description": "Joint efficiency factors for pressure calculations"
+    },
+    "flange_ratings": {
+      "class_150": {
+        "pressure_rating": 285,
+        "unit": "psi",
+        "temp": "100F",
+        "description": "Class 150 flange at 100°F"
+      },
+      "class_300": {
+        "pressure_rating": 740,
+        "unit": "psi",
+        "temp": "100F",
+        "description": "Class 300 flange at 100°F"
+      },
+      "class_600": {
+        "pressure_rating": 1480,
+        "unit": "psi",
+        "temp": "100F",
+        "description": "Class 600 flange at 100°F"
+      }
+    },
+    "corrosion_allowance": {
+      "standard": {
+        "value": 0.0625,
+        "unit": "inches",
+        "description": "Standard 1/16 inch corrosion allowance"
+      },
+      "severe": {
+        "value": 0.125,
+        "unit": "inches",
+        "description": "Severe service 1/8 inch corrosion allowance"
+      }
+    },
+    "inspection_intervals": {
+      "visual_external": "Continuous during operation",
+      "thickness_measurement": "Based on calculated corrosion rate",
+      "nde_examination": "Per API 570 RBI assessment"
+    }
+  },
+  "certifications_required": [
+    "Pipefitter certification",
+    "Welding certification (ASME IX)",
+    "API 570 Piping Inspector"
+  ],
+  "provenance": {
+    "entered_by": "System",
+    "verified_by": "ASME/API Standards Committee",
+    "last_updated": "2026-01-29"
+  }
+}

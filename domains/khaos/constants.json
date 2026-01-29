@@ -1,0 +1,128 @@
+{
+  "domain": "khaos",
+  "description": "KHAOS glyph mappings and symbolic constants",
+  "standards": ["Internal Strategickhaos DAO specification"],
+  "constants": {
+    "glyph_mappings": {
+      "primordial": {
+        "symbol": "⚡",
+        "unicode": "U+26A1",
+        "meaning": "Energy, initialization, genesis",
+        "context": "System startup and primordial state"
+      },
+      "resonance": {
+        "symbol": "〰️",
+        "unicode": "U+3030",
+        "meaning": "Wave, resonance, frequency alignment",
+        "context": "Signal processing and harmonic systems"
+      },
+      "gate": {
+        "symbol": "🚪",
+        "unicode": "U+1F6AA",
+        "meaning": "Portal, transition, threshold",
+        "context": "State transitions and access control"
+      },
+      "shield": {
+        "symbol": "🛡️",
+        "unicode": "U+1F6E1",
+        "meaning": "Protection, defense, security",
+        "context": "Security systems and antibodies"
+      },
+      "swarm": {
+        "symbol": "🐝",
+        "unicode": "U+1F41D",
+        "meaning": "Collective intelligence, distributed systems",
+        "context": "Multi-agent coordination"
+      },
+      "sovereign": {
+        "symbol": "👑",
+        "unicode": "U+1F451",
+        "meaning": "Autonomy, sovereignty, self-governance",
+        "context": "Autonomous system control"
+      },
+      "dna": {
+        "symbol": "🧬",
+        "unicode": "U+1F9EC",
+        "meaning": "Code, genetics, evolution",
+        "context": "Genetic algorithms and system DNA"
+      },
+      "fire": {
+        "symbol": "🔥",
+        "unicode": "U+1F525",
+        "meaning": "Transformation, power, intensity",
+        "context": "High-energy operations"
+      }
+    },
+    "color_codes": {
+      "primordial": "#8B00FF",
+      "resonance": "#00CED1",
+      "gate": "#FFD700",
+      "shield": "#4169E1",
+      "swarm": "#FFB300",
+      "sovereign": "#9400D3",
+      "dna": "#32CD32",
+      "fire": "#FF4500"
+    },
+    "symbolic_constants": {
+      "PHI": {
+        "value": 1.618033988749895,
+        "symbol": "φ",
+        "description": "Golden ratio - used in resonance calculations"
+      },
+      "PLANCK": {
+        "value": 6.62607015e-34,
+        "unit": "J⋅s",
+        "symbol": "ℏ",
+        "description": "Planck constant - quantum state reference"
+      },
+      "KHAOS_ENTROPY_COEFFICIENT": {
+        "value": 0.314159,
+        "symbol": "κ",
+        "description": "Strategic chaos coefficient for system evolution"
+      }
+    },
+    "system_states": {
+      "GENESIS": {
+        "code": 0,
+        "glyph": "⚡",
+        "description": "Initial system state"
+      },
+      "RESONANCE": {
+        "code": 1,
+        "glyph": "〰️",
+        "description": "System in harmonic resonance"
+      },
+      "EVOLUTION": {
+        "code": 2,
+        "glyph": "🧬",
+        "description": "System undergoing evolution"
+      },
+      "SOVEREIGNTY": {
+        "code": 3,
+        "glyph": "👑",
+        "description": "Fully autonomous operation"
+      },
+      "SWARM": {
+        "code": 4,
+        "glyph": "🐝",
+        "description": "Multi-agent coordination active"
+      }
+    },
+    "ritual_sequences": {
+      "initialization": ["⚡", "🧬", "〰️"],
+      "authentication": ["🚪", "🛡️", "👑"],
+      "evolution": ["🧬", "🔥", "⚡"],
+      "coordination": ["🐝", "〰️", "🛡️"]
+    }
+  },
+  "usage_patterns": {
+    "logging": "Use glyphs as visual markers in logs",
+    "state_indication": "Map system states to glyphs",
+    "ritual_execution": "Execute glyph sequences for state transitions"
+  },
+  "provenance": {
+    "entered_by": "System",
+    "verified_by": "Strategickhaos DAO Architecture Council",
+    "last_updated": "2026-01-29"
+  }
+}

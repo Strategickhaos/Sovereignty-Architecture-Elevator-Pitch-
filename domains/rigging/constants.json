@@ -1,0 +1,80 @@
+{
+  "domain": "rigging",
+  "description": "Industrial rigging constants (ASME B30)",
+  "standards": ["ASME B30.9", "ASME B30.20", "ASME B30.26"],
+  "constants": {
+    "sling_angles": {
+      "vertical": {
+        "angle": 90,
+        "load_factor": 1.0,
+        "description": "Vertical lift configuration"
+      },
+      "60_degree": {
+        "angle": 60,
+        "load_factor": 1.15,
+        "description": "60 degree sling angle"
+      },
+      "45_degree": {
+        "angle": 45,
+        "load_factor": 1.41,
+        "description": "45 degree sling angle"
+      },
+      "30_degree": {
+        "angle": 30,
+        "load_factor": 2.0,
+        "description": "30 degree sling angle - avoid if possible"
+      }
+    },
+    "safety_factors": {
+      "synthetic_slings": 5,
+      "wire_rope_slings": 5,
+      "chain_slings": 4,
+      "description": "Design safety factors per ASME B30.9"
+    },
+    "d_to_d_ratios": {
+      "wire_rope": {
+        "value": 25,
+        "description": "Sheave diameter to rope diameter ratio"
+      },
+      "synthetic_slings": {
+        "value": 3,
+        "description": "Minimum bend radius to thickness ratio"
+      }
+    },
+    "inspection_criteria": {
+      "daily": "Visual inspection before use",
+      "periodic": "Detailed inspection every 12 months",
+      "frequent": "Monthly for normal service"
+    },
+    "rejection_criteria": {
+      "wire_rope": [
+        "10% broken wires in one lay",
+        "5% broken wires in one strand",
+        "Kinking, crushing, or core protrusion",
+        "Reduction of rope diameter by 1/3"
+      ],
+      "synthetic_slings": [
+        "Acid or caustic burns",
+        "Melting or charring",
+        "Holes, tears, cuts, or snags",
+        "Broken or worn stitching"
+      ],
+      "chain_slings": [
+        "Cracks or breaks",
+        "Excessive wear (>15% original link diameter)",
+        "Excessive stretch",
+        "Bent, twisted, or gouged links"
+      ]
+    }
+  },
+  "certifications_required": [
+    "Qualified Rigger",
+    "Signal Person certification",
+    "Load calculation competency"
+  ],
+  "provenance": {
+    "entered_by": "System",
+    "verified_by": "ASME B30 Committee",
+    "last_updated": "2026-01-29"
+  }
+}
