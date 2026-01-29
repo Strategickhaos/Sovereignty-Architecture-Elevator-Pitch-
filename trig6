@@ -47,16 +47,15 @@ def trig6_vector(theta_deg: float) -> dict:
     r = deg2rad(theta_deg)
     s = math.sin(r)
     c = math.cos(r)
-    t = safe_div(s, c)
     return {
         "model": "trig6_vector",
         "theta_deg": theta_deg,
         "sin": s,
         "cos": c,
-        "tan": t if abs(c) > 1e-12 else float("inf"),
-        "csc": safe_div(1.0, s) if abs(s) > 1e-12 else float("inf"),
-        "sec": safe_div(1.0, c) if abs(c) > 1e-12 else float("inf"),
-        "cot": safe_div(1.0, t) if abs(t) > 1e-12 else float("inf"),
+        "tan": safe_div(s, c),
+        "csc": safe_div(1.0, s),
+        "sec": safe_div(1.0, c),
+        "cot": safe_div(c, s),
         "assumption": "theta measured in degrees"
     }
 
@@ -138,6 +137,8 @@ def angle_amplify(force: float, theta_from_vertical_deg: float) -> dict:
 
 def ma_pull(load: float, ma: float) -> dict:
     """Mechanical advantage pull force."""
+    if ma <= 0:
+        raise ValueError("Mechanical advantage (ma) must be positive")
     return {
         "model": "mechanical_advantage_ideal",
         "load": load,
@@ -152,6 +153,8 @@ def ma_pull(load: float, ma: float) -> dict:
 
 def equal_leg_tension(load: float, n: int, theta_from_vertical_deg: float) -> dict:
     """Multi-leg equal share tension."""
+    if n <= 0:
+        raise ValueError("Number of legs (n) must be positive")
     c = math.cos(deg2rad(theta_from_vertical_deg))
     return {
         "model": "multi_leg_equal_share_equal_angle",
@@ -395,12 +398,14 @@ def main():
             if args.cmd == "constant":
                 out = registry.get(args.key) or {"error": f"Unknown: {args.key}"}
             elif args.cmd == "cite":
+                # Cite command always produces text output (ignores --json flag)
                 print(registry.cite(args.key))
                 return
             elif args.cmd == "list":
                 keys = registry.list_keys(args.prefix)
                 out = {"keys": keys, "count": len(keys)}
         elif args.cmd == "explain":
+            # Explain command always produces text output (ignores --json flag)
             if not HAS_REGISTRY:
                 print("Model registry not available. Run from trig6 directory.")
                 return
@@ -416,9 +421,11 @@ def main():
         else:
             out = {"error": "unknown command"}
     except Exception as e:
+        # For text-only commands that already returned, no need to handle errors here
         out = {"error": str(e), "model": "safe_fail"}
     
     # Output
+    # Note: 'constant' command always outputs JSON for consistency with data queries
     if args.json or args.cmd == "constant":
         print(json.dumps(out, indent=2))
     else:
