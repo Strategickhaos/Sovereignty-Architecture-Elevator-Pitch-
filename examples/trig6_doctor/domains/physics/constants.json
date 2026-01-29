@@ -1,0 +1,40 @@
+{
+  "constants": [
+    {
+      "key": "g",
+      "value": 9.8,
+      "units": "m/s²",
+      "provenance": [
+        "Standard gravitational acceleration",
+        "NIST SP 330"
+      ],
+      "entered_by": "physics_team",
+      "range": [9.0, 10.0],
+      "description": "Standard acceleration due to gravity at Earth's surface"
+    },
+    {
+      "key": "c",
+      "value": 299792458,
+      "units": "m/s",
+      "provenance": [
+        "Speed of light in vacuum",
+        "CODATA 2018"
+      ],
+      "entered_by": "physics_team",
+      "range": [299792457, 299792459],
+      "description": "Speed of light in vacuum (exact by definition)"
+    },
+    {
+      "key": "h",
+      "value": 6.62607015e-34,
+      "units": "J·s",
+      "provenance": [
+        "Planck constant",
+        "CODATA 2018"
+      ],
+      "entered_by": "physics_team",
+      "range": [6.6e-34, 6.7e-34],
+      "description": "Planck constant (exact by definition)"
+    }
+  ]
+}
