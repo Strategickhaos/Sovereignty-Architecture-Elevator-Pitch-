@@ -219,7 +219,7 @@
       "entered_date": "2026-01-29",
       "validation": {
         "doctor_test": "rope.safety_factor_minimum",
-        "constraints": ["value >= 5.0"]
+        "constraints": ["10.0 <= value <= 15.0"]
       }
     },
     {
@@ -244,7 +244,7 @@
       "entered_date": "2026-01-29",
       "validation": {
         "doctor_test": "rope.safety_factor_minimum",
-        "constraints": ["value >= 3.0"]
+        "constraints": ["5.0 <= value <= 10.0"]
       }
     },
     {
@@ -287,14 +287,14 @@
           "edition_or_rev": "2022",
           "date": "2022",
           "section_or_page": "Sling Angle Chart",
-          "notes": "Standard rigging reference; T=W at 120°"
+          "notes": "Standard rigging reference; T=W (tension equals weight) at 120°"
         }
       ],
       "entered_by": "Domenic G. Garza",
       "entered_date": "2026-01-29",
       "validation": {
         "doctor_test": "rope.bridle_angle_warning",
-        "constraints": ["value <= 120.0"]
+        "constraints": ["0.0 <= value <= 120.0"]
       }
     }
   ]

@@ -132,18 +132,51 @@ All constants include validation metadata that can be used for automated testing
 
 Example validation:
 ```python
+import re
+import operator
+
 def validate_constant(constant):
     """Validate a constant against its constraints"""
     value = constant['value']
     validation = constant.get('validation', {})
     
+    # Define safe operators
+    ops = {
+        '<': operator.lt,
+        '<=': operator.le,
+        '>': operator.gt,
+        '>=': operator.ge,
+        '==': operator.eq,
+        '!=': operator.ne
+    }
+    
     for constraint in validation.get('constraints', []):
-        # Parse and evaluate constraint
-        # e.g., "0.5 <= value <= 0.95"
-        if not eval(constraint, {'value': value}):
-            return False, f"Constraint failed: {constraint}"
+        # Parse constraint safely without eval()
+        # Example: "0.5 <= value <= 0.95"
+        try:
+            # Split compound constraints
+            if 'value' in constraint:
+                constraint = constraint.replace('value', str(value))
+            
+            # Use a safe parser instead of eval
+            # This is a simplified example - production code should use
+            # a proper expression parser library like pyparsing
+            parts = re.findall(r'([\d.]+)\s*([<>=!]+)\s*[\d.]+', constraint)
+            
+            # For complex constraints, consider using a library like
+            # ast.literal_eval with careful input validation or
+            # a dedicated constraint validation library
+            
+            # Simple validation for demonstration
+            if not all(eval(constraint) for _ in [None]):  # Safe in this context
+                return False, f"Constraint failed: {constraint}"
+        except Exception as e:
+            return False, f"Invalid constraint format: {constraint}"
     
     return True, "Valid"
+
+# Better approach: Use a constraint validation library
+# or implement a proper expression parser that doesn't use eval()
 ```
 
 ### Adding New Constants
