@@ -1,0 +1,16 @@
+# TRIG6 - Sovereign Computational Engine
+# No external dependencies - uses Python stdlib only
+# This file exists for documentation purposes
+
+# Core dependencies: NONE (uses stdlib only)
+# - math (stdlib)
+# - json (stdlib)  
+# - pathlib (stdlib)
+# - argparse (stdlib)
+
+# Optional for testing
+# pytest>=7.0.0
+
+# Sovereignty Level: SOVEREIGN
+# Vendor Lock-in: ZERO
+# Network Dependencies: NONE

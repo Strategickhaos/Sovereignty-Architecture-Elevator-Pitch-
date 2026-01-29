@@ -320,10 +320,62 @@ chromosomes:
         status: "DEPLOYED"
         coverage: ["GitHub Codespaces", "Docker", "Kubernetes"]
 
+  # ═══════════════════════════════════════════════════════════════════════════
+  # CHROMOSOME 8: COMPUTATIONAL SOVEREIGNTY
+  # ═══════════════════════════════════════════════════════════════════════════
+  COMPUTATIONAL_SOVEREIGNTY:
+    health: 0.95
+    weight: 0.10
+    status: "OPERATIONAL"
+    genes:
+      - id: "COMP-001"
+        name: "TRIG6 Engine"
+        expression_level: 100
+        version: "1.0.0"
+        status: "DEPLOYED"
+        role: "Sovereign Mathematics"
+        path: "trig6/"
+        sovereignty_level: "SOVEREIGN"
+        vendor_lockin: "ZERO"
+        
+      - id: "COMP-002"
+        name: "KHAOS Glyphs"
+        expression_level: 100
+        version: "1.0.0"
+        status: "DEPLOYED"
+        role: "Symbolic AI Framework"
+        path: "data/khaos/"
+        glyph_count: 8
+        
+      - id: "COMP-003"
+        name: "SAGCO Bootloader"
+        expression_level: 100
+        version: "1.0.0"
+        status: "DEPLOYED"
+        role: "Runtime Orchestration"
+        path: "bootstrap/sagco/"
+        
+      - id: "COMP-004"
+        name: "Fallacy Detection Engine"
+        expression_level: 100
+        version: "1.0.0"
+        status: "DEPLOYED"
+        role: "Debate & Argument Validation"
+        path: "trig6/fallacy.py"
+
 # ═══════════════════════════════════════════════════════════════════════════
 # MUTATION LOG (Last 72 Hours)
 # ═══════════════════════════════════════════════════════════════════════════
 mutations:
+  - id: "MUT-2026-01-29-001"
+    timestamp: "2026-01-29T20:00:00Z"
+    type: "INTEGRATION"
+    description: "TRIG6/KHAOS integration complete"
+    components: ["TRIG6 Engine", "KHAOS Glyphs", "SAGCO Bootloader", "Fallacy Engine"]
+    impact: "+25 Computational Sovereignty"
+    invention_number: 36
+    proof_hash: "7bf2785769f39633652ff45b7eef265c61cd43e6b60a3ae94efdc0333deecece"
+    
   - id: "MUT-2025-12-07-001"
     timestamp: "2025-12-07T06:00:00Z"
     type: "ENHANCEMENT"
@@ -392,7 +444,7 @@ mutations:
 # INVENTION REGISTRY SUMMARY
 # ═══════════════════════════════════════════════════════════════════════════
 inventions:
-  total_count: "35+"
+  total_count: "36+"
   key_inventions:
     - number: 1
       name: "Multi-AI Consensus Protocol"
@@ -418,6 +470,12 @@ inventions:
     - number: 35
       name: "KhaosOS Architecture"
       status: "NEW"
+      
+    - number: 36
+      name: "TRIG6/KHAOS Integration"
+      status: "DEPLOYED"
+      components: ["TRIG6", "SAGCO", "Fallacy Engine"]
+      proof_protocol: "generate-proof.sh"
 
 # ═══════════════════════════════════════════════════════════════════════════
 # NEXT EVOLUTION TARGETS

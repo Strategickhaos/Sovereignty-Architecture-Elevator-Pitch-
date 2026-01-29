@@ -1,0 +1,31 @@
+{
+  "name": "TRIG6 Mathematical Constants",
+  "version": "1.0.0",
+  "constants": {
+    "pi": {
+      "value": 3.141592653589793,
+      "description": "Ratio of circle circumference to diameter",
+      "sovereignty_level": "SOVEREIGN"
+    },
+    "e": {
+      "value": 2.718281828459045,
+      "description": "Euler's number, base of natural logarithm",
+      "sovereignty_level": "SOVEREIGN"
+    },
+    "phi": {
+      "value": 1.618033988749895,
+      "description": "Golden ratio",
+      "sovereignty_level": "SOVEREIGN"
+    },
+    "tau": {
+      "value": 6.283185307179586,
+      "description": "Ratio of circle circumference to radius (2π)",
+      "sovereignty_level": "SOVEREIGN"
+    }
+  },
+  "citations": {
+    "source": "TRIG6 Core Mathematical Library",
+    "provenance": "Strategickhaos DAO LLC",
+    "license": "MIT"
+  }
+}

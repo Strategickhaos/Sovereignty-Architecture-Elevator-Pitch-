@@ -35,3 +35,20 @@ target/
 
 # Workspace data
 workspace/
+
+# TRIG6/KHAOS Integration - Proof artifacts
+proof_artifacts/
+proof.tar.gz
+proof_*.txt
+proof_*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/

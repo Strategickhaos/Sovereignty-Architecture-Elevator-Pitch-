@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy TRIG6 modules
+COPY trig6/ /app/trig6/
+
+# Make scripts executable
+RUN chmod +x /app/trig6/*.py
+
+# Create non-root user for sovereignty
+RUN useradd -m -s /bin/bash trig6user
+USER trig6user
+
+# Set Python path
+ENV PYTHONPATH=/app:$PYTHONPATH
+
+# Health check using doctor module
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD python3 /app/trig6/doctor.py || exit 1
+
+# Default command
+CMD ["python3", "-m", "trig6.trig6", "version"]
