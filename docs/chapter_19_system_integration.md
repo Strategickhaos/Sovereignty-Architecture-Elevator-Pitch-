@@ -6,9 +6,9 @@ Real systems layer MA (force reduction) over deviations (tension amps). Friction
 
 **Integrated Pull Formula:**
 ```
-Integrated Pull = (Load / MA) × sec(θ/2) / 2
+Integrated Pull = (Load / MA) × sec(θ/2)
 ```
-*where θ = deviation angle; sec from TRIG6*
+*where θ = deviation angle; sec from TRIG6. For systems where the deviation applies to half the system, the effective pull per segment is this value divided by 2.*
 
 ### Example: 4:1 MA with 120° Deviation
 
@@ -19,7 +19,7 @@ Integrated Pull = (Load / MA) × sec(θ/2) / 2
 
 **Calculation:**
 1. **Theoretical pull (no deviation):** 400 / 4 = 100 lbs
-2. **Amplified pull (with deviation):** 100 × sec(60°) = 100 × 2 = 200 lbs
+2. **Amplified pull (with deviation):** 100 × sec(120°/2) = 100 × sec(60°) = 100 × 2 = 200 lbs
 
 **Field Application:** Calculate per segment—MA before deviation halves amp effect.
 
@@ -43,27 +43,22 @@ Share loads for stability/redundancy. Resolve vectors: Break tensions into compo
 **Given:**
 - Load: 300 lbs
 - Anchor 1: 0° (straight up)
-- Anchor 2: 45° from vertical
+- Anchor 2: 45° from vertical (assume pulling at an angle, creating horizontal and vertical components)
+
+**Note:** For a statically balanced system with one vertical anchor, the second anchor would need to provide only vertical support (no net horizontal force). In practice, this typically requires three anchors or the angled anchor must be part of a more complex geometry.
+
+**Simplified two-anchor scenario (assuming minimal horizontal offset):**
 
 **Equations:**
 ```
-T₁ cos(0°) + T₂ cos(45°) = 300
-T₁ sin(0°) + T₂ sin(45°) = 0
+T₁ cos(0°) + T₂ cos(45°) = 300  (vertical balance)
+T₁ sin(0°) = T₂ sin(45°)         (horizontal balance if symmetric opposing forces)
 ```
 
-**Solution:**
-- From horizontal: T₁ × 0 + T₂ × (√2/2) = 0
-  - For balance, need directional consideration
-  - Assume Anchor 2 pulls at angle (left/right)
-- From vertical: T₁ × 1 + T₂ × (√2/2) = 300
+**TRIG6 Application:** Use tan(θ) for ratios—T_horizontal / T_vertical = tan(θ)
 
-**TRIG6 Application:** Use tan(θ) for ratios—T_side / T_vertical = tan(θ)
-
-**Resolved approach:**
-```
-T₁ = 300 / (cos(0°) - tan(45°) sin(0°)) ≈ 300 lbs
-```
-*For multi-anchor systems, use matrix methods for precise resolution*
+**For practical multi-anchor resolution:**
+Use matrix methods or computational tools (Python/SymPy) to solve systems with more than 2 anchors at varying angles. Three-anchor systems provide better stability and clearer vector resolution.
 
 ---
 

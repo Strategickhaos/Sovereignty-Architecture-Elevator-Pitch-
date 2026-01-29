@@ -62,22 +62,25 @@ class TRIG6VM:
 
     def load_formulas(self):
         """Load all rigging calculation formulas."""
+        def safe_trig6_vector(theta_deg):
+            rad = self.constants['degrees_to_radians'](theta_deg)
+            sin_val = math.sin(rad)
+            cos_val = math.cos(rad)
+            tan_val = math.tan(rad) if abs(cos_val) > 1e-10 else float('inf')
+            csc_val = 1/sin_val if abs(sin_val) > 1e-10 else float('inf')
+            sec_val = 1/cos_val if abs(cos_val) > 1e-10 else float('inf')
+            cot_val = 1/tan_val if abs(tan_val) > 1e-10 and tan_val != float('inf') else float('inf')
+            return [sin_val, cos_val, tan_val, csc_val, sec_val, cot_val]
+        
         self.formulas = {
-            'trig6_vector': lambda theta_deg: [
-                math.sin(rad) if (rad := self.constants['degrees_to_radians'](theta_deg)) else 0,
-                math.cos(rad),
-                math.tan(rad) if math.cos(rad) != 0 else float('inf'),
-                1/math.sin(rad) if math.sin(rad) != 0 else float('inf'),
-                1/math.cos(rad) if math.cos(rad) != 0 else float('inf'),
-                1/math.tan(rad) if math.tan(rad) != 0 else float('inf')  # cot = 1/tan (fixed)
-            ],
+            'trig6_vector': safe_trig6_vector,
             'deviation_tension': lambda load, theta_deg: load / (2 * math.cos(self.constants['degrees_to_radians'](theta_deg / 2))),
             'highline_tension': lambda load, sag_deg: load / (2 * math.sin(self.constants['degrees_to_radians'](sag_deg))),
             'impact_force': lambda weight, ff: weight * (1 + math.sqrt(2 * ff)),
             'effective_impact': lambda impact, theta_deg: impact / math.cos(self.constants['degrees_to_radians'](theta_deg)) if math.cos(self.constants['degrees_to_radians'](theta_deg)) != 0 else float('inf'),
-            'ma_pull': lambda load, ma: load / ma,
+            'ma_pull': lambda load, ma: load / ma if ma != 0 else float('inf'),
             'knot_effective_strength': lambda mbs, efficiency, theta_deg: mbs * efficiency * math.cos(self.constants['degrees_to_radians'](theta_deg)),
-            'multi_anchor_tension': lambda load, n, theta_deg: (load / n) / math.cos(self.constants['degrees_to_radians'](theta_deg))
+            'multi_anchor_tension': lambda load, n, theta_deg: (load / n) / math.cos(self.constants['degrees_to_radians'](theta_deg)) if n != 0 else float('inf')
         }
 
     def compute(self, formula_name, **kwargs):

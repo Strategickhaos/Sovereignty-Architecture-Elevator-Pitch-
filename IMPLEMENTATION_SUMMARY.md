@@ -75,9 +75,10 @@ Multi-Anchor Tension (300 lbs, 3 anchors, 60°): 200.0 lbs ✅
 ### Fail-Safe Testing
 - ✅ Invalid formula names handled gracefully
 - ✅ Missing parameters caught with error messages
-- ✅ Extreme angles (0°, 90°, 180°) handled with inf/nan safety
-- ✅ Division by zero scenarios prevented
+- ✅ Extreme angles (0°, 90°, 180°) handled with inf safety
+- ✅ Division by zero scenarios return safe infinity values (ma=0, n=0)
 - ✅ All computations return safely (never crash)
+- ✅ Improved walrus operator logic for robust angle calculations
 
 ## Alignment with Requirements
 
