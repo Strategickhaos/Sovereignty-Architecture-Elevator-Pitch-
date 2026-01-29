@@ -6,7 +6,7 @@ Generates saddle curves for pipe wye/tee fabrication.
 
 Entity: Strategickhaos DAO LLC
 Invention: TRIG6 Projection Curve System
-Angel: Pending assignment (Physical Tool category)
+Patent: Pending assignment (Physical Tool category)
 
 Usage:
     python trig6_pipe_template.py --diameter 10 --angle 30 --output template.svg
@@ -167,7 +167,7 @@ def generate_svg(
         py = center_y - (p.y * scale)  # Invert Y for SVG coords
         path_points.append((px, py))
     
-    # Create smooth Bézier path
+    # Create polyline path
     path_d = f"M {path_points[0][0]:.2f},{path_points[0][1]:.2f}"
     for i in range(1, len(path_points)):
         path_d += f" L {path_points[i][0]:.2f},{path_points[i][1]:.2f}"
@@ -288,10 +288,18 @@ Entity: Strategickhaos DAO LLC
     
     args = parser.parse_args()
     
+    # Validate inputs
+    if args.diameter <= 0:
+        parser.error("Diameter must be positive")
+    if args.angle <= 0 or args.angle >= 90:
+        parser.error("Branch angle must be between 0 and 90 degrees")
+    if args.segments <= 0:
+        parser.error("Number of segments must be positive")
+    
     print(f"""
 ╔═══════════════════════════════════════════════════════════════════════════════╗
 ║                    TRIG6 PIPE TEMPLATE GENERATOR                              ║
-║                     StrategicKhaos DAO LLC                                    ║
+║                     Strategickhaos DAO LLC                                    ║
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║  Diameter: {args.diameter:>6.2f} inches                                              ║
 ║  Branch Angle: {args.angle:>6.2f}°                                                   ║
@@ -325,18 +333,18 @@ Entity: Strategickhaos DAO LLC
         print(f"  Amplitude factor (tan): {analysis['properties']['amplitude_factor']}")
     
     # Generate SVG
-    if args.output:
-        svg = generate_svg(points, args.diameter, args.angle)
-        with open(args.output, 'w') as f:
+    svg = generate_svg(points, args.diameter, args.angle)
+    output_file = args.output if args.output else f"wye_{int(args.angle)}deg_d{int(args.diameter)}.svg"
+    
+    try:
+        with open(output_file, 'w') as f:
             f.write(svg)
-        print(f"\n✅ SVG saved to: {args.output}")
-    else:
-        # Default output name
-        default_name = f"wye_{int(args.angle)}deg_d{int(args.diameter)}.svg"
-        svg = generate_svg(points, args.diameter, args.angle)
-        with open(default_name, 'w') as f:
-            f.write(svg)
-        print(f"\n✅ SVG saved to: {default_name}")
+        print(f"\n✅ SVG saved to: {output_file}")
+    except IOError as e:
+        print(f"\n❌ Error saving SVG: {e}")
+        return 1
+    
+    return 0
 
 if __name__ == "__main__":
-    main()
+    exit(main())
