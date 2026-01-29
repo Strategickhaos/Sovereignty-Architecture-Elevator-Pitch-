@@ -160,6 +160,20 @@ class TestAngleConversions:
         result = a.to_rad()
         assert abs(result - 1.5708) < 0.0001
     
+    def test_angle_convert_to_deg(self):
+        """Test Angle.convert() to degrees."""
+        a = Angle(math.pi, AngleUnit.RAD)
+        converted = a.convert(AngleUnit.DEG)
+        assert converted.unit == AngleUnit.DEG
+        assert abs(converted.value - 180.0) < 0.01
+    
+    def test_angle_convert_to_rad(self):
+        """Test Angle.convert() to radians."""
+        a = Angle(90, AngleUnit.DEG)
+        converted = a.convert(AngleUnit.RAD)
+        assert converted.unit == AngleUnit.RAD
+        assert abs(converted.value - math.pi/2) < 0.01
+    
     def test_angle_repr(self):
         """Test Angle string representation."""
         a = Angle(90.5, AngleUnit.DEG)

@@ -14,7 +14,7 @@ This module makes unit errors impossible to ignore.
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Union, Optional
+import math
 
 
 class ForceUnit(Enum):
@@ -39,12 +39,6 @@ class AngleUnit(Enum):
     RAD = "rad"      # Radians (internal math)
 
 
-class TempUnit(Enum):
-    """Temperature units for thermal expansion."""
-    F = "°F"         # Fahrenheit
-    C = "°C"         # Celsius
-
-
 # ============================================================
 # CONVERSION FACTORS
 # ============================================================
@@ -53,7 +47,7 @@ FORCE_TO_LBF = {
     ForceUnit.LBF: 1.0,
     ForceUnit.KN: 224.80894,      # 1 kN = 224.809 lbf
     ForceUnit.N: 0.22480894,      # 1 N = 0.2248 lbf
-    ForceUnit.KGF: 2.20462,       # 1 kgf = 2.205 lbf
+    ForceUnit.KGF: 2.20462,       # 1 kgf = 2.205 lbf (force units: 1 kgf = 9.80665 N)
 }
 
 FORCE_TO_KN = {
@@ -158,13 +152,21 @@ class Angle:
         """Convert to degrees."""
         if self.unit == AngleUnit.DEG:
             return self.value
-        return self.value * 180.0 / 3.14159265358979
+        return self.value * 180.0 / math.pi
     
     def to_rad(self) -> float:
         """Convert to radians."""
         if self.unit == AngleUnit.RAD:
             return self.value
-        return self.value * 3.14159265358979 / 180.0
+        return self.value * math.pi / 180.0
+    
+    def convert(self, target: AngleUnit) -> "Angle":
+        """Convert to a different unit."""
+        if target == AngleUnit.DEG:
+            return Angle(self.to_deg(), AngleUnit.DEG)
+        elif target == AngleUnit.RAD:
+            return Angle(self.to_rad(), AngleUnit.RAD)
+        raise ValueError(f"Unknown target unit: {target}")
     
     def __repr__(self):
         return f"{self.value:.2f} {self.unit.value}"
