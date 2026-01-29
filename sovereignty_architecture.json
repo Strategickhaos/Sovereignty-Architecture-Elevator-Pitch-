@@ -7,7 +7,7 @@
     "updated": "2026-01-29"
   },
   "home_cluster": {
-    "name": "StrategicKhaos Home Swarm",
+    "name": "Strategickhaos Home Swarm",
     "mesh_domain": "tail97edc9.ts.net",
     "total_ram": "320GB+",
     "nodes": [

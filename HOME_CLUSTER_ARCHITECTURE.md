@@ -1,5 +1,5 @@
 # 🏠 Home Cluster Architecture
-## StrategicKhaos Home Swarm - Distributed Sovereign Compute
+## Strategickhaos Home Swarm - Distributed Sovereign Compute
 
 **Entity:** Strategickhaos DAO LLC  
 **Mesh Network:** Tailscale (tail97edc9.ts.net)  
@@ -11,7 +11,7 @@
 
 ## Overview
 
-The StrategicKhaos Home Swarm is a distributed sovereign compute cluster built on the principles of zero vendor lock-in, multi-cloud redundancy, and self-hosted critical services. The architecture leverages a Tailscale mesh network to create a unified, encrypted control plane across geographically distributed nodes.
+The Strategickhaos Home Swarm is a distributed sovereign compute cluster built on the principles of zero vendor lock-in, multi-cloud redundancy, and self-hosted critical services. The architecture leverages a Tailscale mesh network to create a unified, encrypted control plane across geographically distributed nodes.
 
 ### Architecture Diagram
 
