@@ -136,11 +136,18 @@ import re
 import operator
 
 def validate_constant(constant):
-    """Validate a constant against its constraints"""
+    """
+    Validate a constant against its constraints safely without eval().
+    
+    This parser handles constraints like:
+    - "0.5 <= value <= 0.95"
+    - "value >= 5.0"
+    - "10.0 <= value <= 15.0"
+    """
     value = constant['value']
     validation = constant.get('validation', {})
     
-    # Define safe operators
+    # Define safe comparison operators
     ops = {
         '<': operator.lt,
         '<=': operator.le,
@@ -151,32 +158,43 @@ def validate_constant(constant):
     }
     
     for constraint in validation.get('constraints', []):
-        # Parse constraint safely without eval()
-        # Example: "0.5 <= value <= 0.95"
         try:
-            # Split compound constraints
-            if 'value' in constraint:
-                constraint = constraint.replace('value', str(value))
+            # Parse constraint pattern: "lower <= value <= upper" or "value >= minimum"
+            # Pattern 1: range constraint (e.g., "0.5 <= value <= 0.95")
+            range_match = re.match(r'([\d.]+)\s*([<>=]+)\s*value\s*([<>=]+)\s*([\d.]+)', constraint)
+            if range_match:
+                lower_str, lower_op, upper_op, upper_str = range_match.groups()
+                lower_val = float(lower_str)
+                upper_val = float(upper_str)
+                
+                if not (ops[lower_op](lower_val, value) and ops[upper_op](value, upper_val)):
+                    return False, f"Constraint failed: {constraint}"
+                continue
             
-            # Use a safe parser instead of eval
-            # This is a simplified example - production code should use
-            # a proper expression parser library like pyparsing
-            parts = re.findall(r'([\d.]+)\s*([<>=!]+)\s*[\d.]+', constraint)
+            # Pattern 2: single-bound constraint (e.g., "value >= 5.0")
+            single_match = re.match(r'value\s*([<>=]+)\s*([\d.]+)', constraint)
+            if single_match:
+                op_str, bound_str = single_match.groups()
+                bound_val = float(bound_str)
+                
+                if not ops[op_str](value, bound_val):
+                    return False, f"Constraint failed: {constraint}"
+                continue
             
-            # For complex constraints, consider using a library like
-            # ast.literal_eval with careful input validation or
-            # a dedicated constraint validation library
-            
-            # Simple validation for demonstration
-            if not all(eval(constraint) for _ in [None]):  # Safe in this context
-                return False, f"Constraint failed: {constraint}"
-        except Exception as e:
+            # If no pattern matched, constraint format is invalid
             return False, f"Invalid constraint format: {constraint}"
+            
+        except (ValueError, KeyError) as e:
+            return False, f"Error parsing constraint '{constraint}': {e}"
     
     return True, "Valid"
 
-# Better approach: Use a constraint validation library
-# or implement a proper expression parser that doesn't use eval()
+# Example usage:
+# result, message = validate_constant(constant)
+# if result:
+#     print(f"✓ {constant['key']} is valid")
+# else:
+#     print(f"✗ {constant['key']}: {message}")
 ```
 
 ### Adding New Constants
