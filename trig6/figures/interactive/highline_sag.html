@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Highline Sag Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .control-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .value-display {
+            font-size: 18px;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .result {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #0066cc;
+        }
+        .result h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #0066cc;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Highline Sag</h1>
+        <p>Explore the relationship between highline sag, tension, and deviation angle.</p>
+        
+        <div class="control-group">
+            <label for="span">Highline Span (meters): <span class="value-display" id="spanValue">30</span></label>
+            <input type="range" id="span" min="10" max="100" value="30" step="5">
+        </div>
+        
+        <div class="control-group">
+            <label for="sag">Sag (% of span): <span class="value-display" id="sagValue">5</span>%</label>
+            <input type="range" id="sag" min="1" max="20" value="5" step="0.5">
+        </div>
+        
+        <div class="control-group">
+            <label for="load">Load at Midpoint (kg): <span class="value-display" id="loadValue">100</span></label>
+            <input type="range" id="load" min="50" max="300" value="100" step="10">
+        </div>
+        
+        <div class="result-grid">
+            <div class="result">
+                <h3>Sag Distance</h3>
+                <p style="font-size: 20px; margin: 5px 0;"><strong id="sagDistance">1.5</strong> meters</p>
+            </div>
+            <div class="result">
+                <h3>Deviation Angle</h3>
+                <p style="font-size: 20px; margin: 5px 0;"><strong id="deviationAngle">10</strong>°</p>
+            </div>
+            <div class="result">
+                <h3>Line Tension (Est.)</h3>
+                <p style="font-size: 20px; margin: 5px 0;"><strong id="lineTension">500</strong> kg</p>
+            </div>
+            <div class="result">
+                <h3>Anchor Force (Est.)</h3>
+                <p style="font-size: 20px; margin: 5px 0;"><strong id="anchorForce">520</strong> kg</p>
+            </div>
+        </div>
+        
+        <canvas id="highlineCanvas" width="800" height="400"></canvas>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 5px;">
+            <strong>Key Insight:</strong> Less sag means higher tension but smaller deviation angles. More sag means lower tension but larger deviation angles. Finding the right balance is critical for highline safety.
+        </div>
+    </div>
+    
+    <script>
+        const spanInput = document.getElementById('span');
+        const sagInput = document.getElementById('sag');
+        const loadInput = document.getElementById('load');
+        const spanValue = document.getElementById('spanValue');
+        const sagValue = document.getElementById('sagValue');
+        const loadValue = document.getElementById('loadValue');
+        const sagDistance = document.getElementById('sagDistance');
+        const deviationAngle = document.getElementById('deviationAngle');
+        const lineTension = document.getElementById('lineTension');
+        const anchorForce = document.getElementById('anchorForce');
+        const canvas = document.getElementById('highlineCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function calculate() {
+            const span = parseFloat(spanInput.value);
+            const sagPercent = parseFloat(sagInput.value);
+            const load = parseFloat(loadInput.value);
+            
+            spanValue.textContent = span;
+            sagValue.textContent = sagPercent;
+            loadValue.textContent = load;
+            
+            // Calculate sag distance
+            const sagDist = (span * sagPercent) / 100;
+            sagDistance.textContent = sagDist.toFixed(2);
+            
+            // Calculate approximate deviation angle at midpoint
+            const halfSpan = span / 2;
+            const angleRad = Math.atan(sagDist / halfSpan);
+            const angleDeg = angleRad * 180 / Math.PI;
+            deviationAngle.textContent = angleDeg.toFixed(1);
+            
+            // Simplified tension estimate (actual calculation is more complex)
+            // T ≈ (Load / 2) / sin(angle)
+            const tension = (load / 2) / Math.sin(angleRad);
+            lineTension.textContent = Math.round(tension);
+            
+            // Anchor force includes both tension and vertical component
+            const anchorF = Math.sqrt(tension * tension + (load / 2) * (load / 2));
+            anchorForce.textContent = Math.round(anchorF);
+            
+            drawDiagram(span, sagDist, load, angleDeg);
+        }
+        
+        function drawDiagram(span, sagDist, load, angle) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Scale to fit canvas
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            const margin = 50;
+            const drawWidth = canvasWidth - 2 * margin;
+            const scale = drawWidth / span;
+            
+            // Anchor positions
+            const leftAnchorX = margin;
+            const rightAnchorX = canvasWidth - margin;
+            const anchorY = 100;
+            
+            // Sag position
+            const midX = canvasWidth / 2;
+            const midY = anchorY + sagDist * scale;
+            
+            // Draw title
+            ctx.font = 'bold 18px Arial';
+            ctx.fillStyle = '#333';
+            ctx.textAlign = 'center';
+            ctx.fillText('Highline Sag Visualization', canvasWidth / 2, 30);
+            
+            // Draw anchors
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(leftAnchorX, anchorY, 10, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(rightAnchorX, anchorY, 10, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Draw highline (catenary approximation as quadratic)
+            ctx.strokeStyle = '#0066cc';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(leftAnchorX, anchorY);
+            ctx.quadraticCurveTo(midX, midY, rightAnchorX, anchorY);
+            ctx.stroke();
+            
+            // Draw load at midpoint
+            ctx.fillStyle = '#cc0000';
+            ctx.fillRect(midX - 15, midY - 5, 30, 30);
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Load', midX, midY + 14);
+            
+            // Draw sag measurement
+            ctx.strokeStyle = '#999';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(midX, anchorY);
+            ctx.lineTo(midX, midY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Label sag
+            ctx.fillStyle = '#666';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'right';
+            ctx.fillText(`Sag: ${sagDist.toFixed(2)}m`, midX - 10, (anchorY + midY) / 2);
+            
+            // Draw angle indicator
+            ctx.strokeStyle = '#666';
+            ctx.lineWidth = 1;
+            const angleArcRadius = 30;
+            ctx.beginPath();
+            ctx.arc(midX, anchorY, angleArcRadius, 0, Math.atan2(midY - anchorY, (rightAnchorX - midX)));
+            ctx.stroke();
+            
+            ctx.fillStyle = '#666';
+            ctx.textAlign = 'left';
+            ctx.fillText(`${angle.toFixed(1)}°`, midX + angleArcRadius + 5, anchorY + 15);
+            
+            // Draw span measurement
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            const measureY = anchorY - 30;
+            ctx.beginPath();
+            ctx.moveTo(leftAnchorX, measureY);
+            ctx.lineTo(rightAnchorX, measureY);
+            ctx.stroke();
+            
+            // Span label
+            ctx.fillStyle = '#333';
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Span: ${span}m`, midX, measureY - 10);
+            
+            // Info box
+            ctx.fillStyle = '#555';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Smaller sag = Higher tension | Larger sag = Lower tension but higher anchor forces`, canvasWidth / 2, canvasHeight - 20);
+        }
+        
+        spanInput.addEventListener('input', calculate);
+        sagInput.addEventListener('input', calculate);
+        loadInput.addEventListener('input', calculate);
+        
+        calculate(); // Initial calculation
+    </script>
+</body>
+</html>
