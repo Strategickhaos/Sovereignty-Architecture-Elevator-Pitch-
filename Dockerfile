@@ -11,7 +11,7 @@
 #
 # Run:
 #   docker run --rm strategickhaos/trig6 doctor
-#   docker run --rm strategickhaos/trig6 bridle --load 300 --theta 120
+#   docker run --rm strategickhaos/trig6 bridle --load 300 --theta 30
 #   docker run --rm strategickhaos/trig6 cite rope.knot.figure_8_on_bight
 #
 # Owner: Strategickhaos DAO LLC

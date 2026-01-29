@@ -11,7 +11,7 @@ G_EARTH = 9.80665  # m/s^2 (standard gravity)
 PI = 3.141592653589793
 E = 2.718281828459045
 
-# Density values (Engineering Toolbox, 2024)
+# Density values (Engineering Toolbox)
 DENSITY_STEEL = 7850  # kg/m^3
 DENSITY_ROPE_NYLON = 1150  # kg/m^3
 DENSITY_ROPE_MANILA = 1310  # kg/m^3

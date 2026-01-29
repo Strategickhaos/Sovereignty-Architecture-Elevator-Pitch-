@@ -92,30 +92,40 @@ def cmd_bridle(load, theta):
     print("=" * 60)
     print("TRIG6 BRIDLE CALCULATION")
     print("=" * 60)
-    print(f"Load:  {load} lbs")
-    print(f"Angle: {theta}° from vertical")
-    print()
     
-    # Calculate tension
+    # Input validation
+    if load <= 0:
+        print("ERROR: Load must be positive")
+        return 1
+    
+    if theta < 0:
+        print("ERROR: Angle must be non-negative")
+        return 1
+    
     if theta >= 90:
         print("ERROR: Angle >= 90° results in unstable configuration")
         print("Citation: ASME B30.9-2018 Section 9-1.2.2")
         return 1
+    
+    print(f"Load:  {load} lbs")
+    print(f"Angle: {theta}° from vertical")
+    print()
     
     tension = physics.calculate_tension(load, theta)
     
     print(f"Tension per leg: {tension:.2f} lbs")
     print()
     
-    # Calculate working load limit with safety factor
-    wll = physics.calculate_working_load_limit(tension * constants.SAFETY_FACTOR_RIGGING)
-    print(f"Required rope breaking strength: {tension * constants.SAFETY_FACTOR_RIGGING:.2f} lbs")
+    # Calculate required breaking strength with safety factor
+    required_breaking_strength = tension * constants.SAFETY_FACTOR_RIGGING
+    print(f"Required rope breaking strength: {required_breaking_strength:.2f} lbs")
     print(f"  (5:1 safety factor per OSHA 1926.251)")
     print()
     
     # Efficiency warning
     if theta > 60:
-        efficiency = 100.0 / (tension / (load / 2.0))
+        ideal_tension = load / 2.0
+        efficiency = (ideal_tension / tension) * 100.0
         print(f"WARNING: Angle > 60° reduces efficiency to {efficiency:.1f}%")
         print("  Recommendation: Keep angles < 60° for optimal loading")
     

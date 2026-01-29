@@ -34,11 +34,18 @@ def calculate_tension(load, theta):
         
     Citation: ASME B30.9, Slings - Section 9-1.2
     """
+    # Check for unstable configuration before calculation
     if theta >= 90:
         return float('inf')  # Undefined - unstable configuration
     
+    cos_theta = cos(theta)
+    
+    # Additional check for near-zero cosine values
+    if abs(cos_theta) < 1e-10:
+        return float('inf')
+    
     # Tension = Load / (2 * cos(theta))
-    tension = load / (2.0 * cos(theta))
+    tension = load / (2.0 * cos_theta)
     return tension
 
 
