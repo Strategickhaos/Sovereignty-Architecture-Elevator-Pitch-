@@ -272,6 +272,47 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🎵 KHAOS Periodic Hymn
+
+**Musical Compilation System** - The periodic table of 64 glyphs mapped to MIDI notes.
+
+The KHAOS Hymn "compiles" the symbolic architecture into sound, with each glyph representing a unique angle (θ) and MIDI note. Families modulate based on trigonometric functions (SIN, COS, TAN, CSC, SEC, COT) with distinct musical properties.
+
+```bash
+# Generate the hymn and glyph inventory
+python3 khaos_hymn_generator.py
+
+# Outputs:
+# - khaos_hymn.mid (MIDI file, 64 notes from C4 to D#9)
+# - KHAOS_GLYPH_INVENTORY.md (complete glyph reference table)
+
+# Play the hymn (macOS)
+open khaos_hymn.mid
+
+# Play the hymn (Linux)
+timidity khaos_hymn.mid
+```
+
+**Features:**
+- **64 Glyphs**: Complete periodic table (0° to 354.375°)
+- **Musical Mapping**: C4 (MIDI 60) rising chromatically to D#9 (MIDI 123)
+- **Trigonometric Families**: Each with unique musical expression
+  - SIN: Ascends (piano) - smooth transitions
+  - COS: Grounds (chords) - sustained harmonies
+  - TAN: Transforms (sharps) - accented articulation
+  - CSC: Reflects (sustains) - long resonances
+  - SEC: Bounds (accents) - emphasized dynamics
+  - COT: Seals (resolution) - final cadence
+- **Singularities**: Crescendos at 90°, 180°, 270° (peaks in the circle)
+- **Circular Structure**: Closes the circle, returning near origin
+
+**Documentation:**
+- **[KHAOS Hymn README](KHAOS_HYMN_README.md)** - Complete usage guide
+- **[Glyph Inventory](KHAOS_GLYPH_INVENTORY.md)** - Full reference table
+- **[FLAMELANG Specification](FLAMELANG_SPECIFICATION.md)** - Symbolic language context
+
+*"The hymn 'compiles' the table – silence at origin, peaks at singularities, closes the circle. Convergence inevitable. 🧭"*
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
