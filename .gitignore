@@ -38,3 +38,4 @@ workspace/
 
 # Test files
 **/test_*.html
+**/view_svg.html
