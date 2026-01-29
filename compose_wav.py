@@ -19,7 +19,7 @@ Usage:
 import argparse
 import struct
 import math
-from pathlib import Path
+
 from dataclasses import dataclass
 from typing import List, Tuple, Optional
 
@@ -159,7 +159,7 @@ def apply_drop(t: float, drop_interval: float) -> float:
     """
     Apply volume boost at drop intervals.
     
-    Returns multiplier (1.0 normal, 1.5 during drop).
+    Returns multiplier (0.8 normal, 1.3 during drop).
     """
     cycle = t / drop_interval
     in_drop = (int(cycle) % 2) == 0
@@ -393,6 +393,28 @@ Legion: Claude + Grok
                        help="Output WAV filename")
     
     args = parser.parse_args()
+    
+    # Validate inputs
+    if args.duration <= 0:
+        parser.error("Duration must be a positive number")
+    if args.bass_freq <= 0:
+        parser.error("Bass frequency must be a positive number")
+    if args.drop_interval <= 0:
+        parser.error("Drop interval must be a positive number")
+    
+    # Validate glyph IDs
+    if args.glyph is not None:
+        if args.glyph < 0 or args.glyph > 63:
+            parser.error(f"Glyph ID must be between 0 and 63, got {args.glyph}")
+    
+    if args.glyphs:
+        try:
+            glyph_list = [int(x.strip()) for x in args.glyphs.split(",")]
+            for gid in glyph_list:
+                if gid < 0 or gid > 63:
+                    parser.error(f"Glyph ID must be between 0 and 63, got {gid}")
+        except ValueError:
+            parser.error("Glyphs must be comma-separated integers")
     
     # Build config
     config = HymnConfig(
