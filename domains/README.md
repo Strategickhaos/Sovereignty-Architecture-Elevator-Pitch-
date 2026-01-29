@@ -57,6 +57,23 @@ The pack enforces:
 
 ### Loading the Pack
 
+**Python Example:**
+```python
+import json
+
+# Load the pack configuration
+with open('trig6-pack.json', 'r') as f:
+    pack = json.load(f)
+
+# Check if a domain is enabled
+if pack['domains']['rope']['enabled']:
+    rope_file = pack['domains']['rope']['constants_file']
+    with open(rope_file, 'r') as f:
+        rope_constants = json.load(f)
+    # Use constants...
+```
+
+**JavaScript/Node.js Example:**
 ```javascript
 const pack = require('./trig6-pack.json');
 

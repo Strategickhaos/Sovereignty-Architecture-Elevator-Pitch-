@@ -72,7 +72,7 @@
       "PLANCK": {
         "value": 6.62607015e-34,
         "unit": "J⋅s",
-        "symbol": "ℏ",
+        "symbol": "h",
         "description": "Planck constant - quantum state reference"
       },
       "KHAOS_ENTROPY_COEFFICIENT": {

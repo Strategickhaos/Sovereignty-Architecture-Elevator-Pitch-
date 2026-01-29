@@ -18,8 +18,17 @@ def load_pack(pack_file="trig6-pack.json"):
             pack = json.load(f)
         print(f"✓ Loaded pack: {pack['metadata']['pack_name']} v{pack['metadata']['version']}")
         return pack
+    except FileNotFoundError:
+        print(f"✗ Error: Pack file not found: {pack_file}")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"✗ Error: Invalid JSON in pack file: {e}")
+        sys.exit(1)
+    except KeyError as e:
+        print(f"✗ Error: Missing required key in pack: {e}")
+        sys.exit(1)
     except Exception as e:
-        print(f"✗ Error loading pack: {e}")
+        print(f"✗ Unexpected error loading pack: {e}")
         sys.exit(1)
 
 
@@ -64,11 +73,17 @@ def validate_domain_files(pack):
                 prov = constants['provenance']
                 print(f"  📝 Verified by: {prov.get('verified_by', 'N/A')}")
                 
+        except FileNotFoundError:
+            print(f"  ✗ File not found")
+            all_valid = False
+        except PermissionError:
+            print(f"  ✗ Permission denied reading file")
+            all_valid = False
         except json.JSONDecodeError as e:
             print(f"  ✗ Invalid JSON: {e}")
             all_valid = False
         except Exception as e:
-            print(f"  ✗ Error: {e}")
+            print(f"  ✗ Unexpected error: {e}")
             all_valid = False
     
     return all_valid
