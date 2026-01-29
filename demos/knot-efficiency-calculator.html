@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Knot Efficiency - TRIG6</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #1a1a2e; 
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        h1 { text-align: center; color: #8b5cf6; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 20px; }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .controls {
+            background: #16213e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        label { font-size: 12px; color: #888; }
+        input[type="number"] {
+            background: #0f3460;
+            border: 1px solid #8b5cf6;
+            color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            width: 100px;
+        }
+        
+        .result {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .result-value {
+            font-size: 32px;
+            color: #8b5cf6;
+            font-weight: bold;
+        }
+        
+        .result-label {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        svg { 
+            background: #16213e; 
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .knot-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .knot-card:hover .knot-bg {
+            fill: #1e3a5f;
+        }
+        
+        .knot-card.selected .knot-bg {
+            fill: #8b5cf6;
+            fill-opacity: 0.3;
+        }
+        
+        .knot-rope {
+            stroke: #2563eb;
+            stroke-width: 4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: all 0.3s ease;
+        }
+        
+        .knot-card:hover .knot-rope {
+            stroke: #8b5cf6;
+            stroke-width: 5;
+        }
+        
+        .knot-label {
+            font: bold 12px Arial;
+            fill: #eee;
+        }
+        
+        .knot-eff {
+            font: 14px Arial;
+            fill: #8b5cf6;
+        }
+        
+        .knot-type {
+            font: 10px Arial;
+            fill: #888;
+        }
+        
+        .formula-box {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .formula { color: #8b5cf6; font-size: 14px; }
+        
+        .field-pattern {
+            background: #1e3a5f;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .field-pattern h3 { color: #f59e0b; margin-bottom: 10px; }
+        .field-pattern ul { margin-left: 20px; }
+        .field-pattern li { margin: 5px 0; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🪢 Knot Efficiency Calculator</h1>
+        <p class="subtitle">TRIG6 Rope Mechanics System | Click a knot to calculate</p>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label>Rope MBS (kN)</label>
+                <input type="number" id="mbs" value="22" min="1" max="100" step="0.1">
+            </div>
+            <div class="control-group">
+                <label>Anchor Angle (° from vertical)</label>
+                <input type="number" id="angle" value="0" min="0" max="90" step="5">
+            </div>
+        </div>
+        
+        <div class="result">
+            <div class="result-label">Effective Strength</div>
+            <div class="result-value" id="effective-strength">22.0 kN</div>
+            <div class="result-label" id="calc-breakdown">MBS × Efficiency × cos(θ)</div>
+        </div>
+        
+        <svg width="100%" height="400" viewBox="0 0 800 400">
+            <!-- Figure 8 -->
+            <g class="knot-card" data-knot="figure8" data-eff="0.78" data-name="Figure 8 on Bight" data-type="Loop">
+                <rect class="knot-bg" x="10" y="10" width="180" height="180" rx="8" fill="#0f3460"/>
+                <path class="knot-rope" d="M40,100 C60,60 80,60 100,100 C120,140 140,140 160,100 C140,60 120,60 100,100 C80,140 60,140 40,100"/>
+                <text class="knot-label" x="100" y="160" text-anchor="middle">Figure 8</text>
+                <text class="knot-eff" x="100" y="178" text-anchor="middle">75-80%</text>
+                <text class="knot-type" x="100" y="30" text-anchor="middle">LOOP</text>
+            </g>
+            
+            <!-- Bowline -->
+            <g class="knot-card" data-knot="bowline" data-eff="0.70" data-name="Bowline" data-type="Loop">
+                <rect class="knot-bg" x="210" y="10" width="180" height="180" rx="8" fill="#0f3460"/>
+                <path class="knot-rope" d="M250,150 L250,80 C250,50 280,50 300,70 C320,90 350,80 350,60 L350,40 M300,70 C280,90 250,100 250,80"/>
+                <circle cx="300" cy="100" r="25" fill="none" class="knot-rope"/>
+                <text class="knot-label" x="300" y="160" text-anchor="middle">Bowline</text>
+                <text class="knot-eff" x="300" y="178" text-anchor="middle">65-75%</text>
+                <text class="knot-type" x="300" y="30" text-anchor="middle">LOOP</text>
+            </g>
+            
+            <!-- Alpine Butterfly -->
+            <g class="knot-card" data-knot="butterfly" data-eff="0.68" data-name="Alpine Butterfly" data-type="Loop">
+                <rect class="knot-bg" x="410" y="10" width="180" height="180" rx="8" fill="#0f3460"/>
+                <path class="knot-rope" d="M440,100 L480,60 L520,100 L480,140 Z M480,60 L480,40 M480,140 L480,160"/>
+                <ellipse cx="500" cy="100" rx="30" ry="20" fill="none" class="knot-rope"/>
+                <text class="knot-label" x="500" y="160" text-anchor="middle">Alpine Butterfly</text>
+                <text class="knot-eff" x="500" y="178" text-anchor="middle">60-77%</text>
+                <text class="knot-type" x="500" y="30" text-anchor="middle">LOOP</text>
+            </g>
+            
+            <!-- Double Fisherman's -->
+            <g class="knot-card" data-knot="fisherman" data-eff="0.67" data-name="Double Fisherman's" data-type="Bend">
+                <rect class="knot-bg" x="610" y="10" width="180" height="180" rx="8" fill="#0f3460"/>
+                <path class="knot-rope" d="M640,90 L660,90 C680,90 680,110 660,110 C680,110 680,130 660,130 L640,130"/>
+                <path class="knot-rope" d="M760,90 L740,90 C720,90 720,110 740,110 C720,110 720,130 740,130 L760,130" stroke="#ef4444"/>
+                <text class="knot-label" x="700" y="160" text-anchor="middle">Double Fisherman's</text>
+                <text class="knot-eff" x="700" y="178" text-anchor="middle">65-70%</text>
+                <text class="knot-type" x="700" y="30" text-anchor="middle">BEND</text>
+            </g>
+            
+            <!-- Clove Hitch -->
+            <g class="knot-card" data-knot="clove" data-eff="0.62" data-name="Clove Hitch" data-type="Hitch">
+                <rect class="knot-bg" x="110" y="210" width="180" height="180" rx="8" fill="#0f3460"/>
+                <rect x="190" y="260" width="20" height="80" fill="#666" rx="3"/>
+                <path class="knot-rope" d="M140,340 L140,280 C140,260 170,260 200,280 C230,300 200,320 170,300 C140,280 140,260 170,260 L170,230"/>
+                <text class="knot-label" x="200" y="360" text-anchor="middle">Clove Hitch</text>
+                <text class="knot-eff" x="200" y="378" text-anchor="middle">60-65%</text>
+                <text class="knot-type" x="200" y="230" text-anchor="middle">HITCH</text>
+            </g>
+            
+            <!-- Prusik -->
+            <g class="knot-card" data-knot="prusik" data-eff="0.70" data-name="Prusik Hitch (3-wrap)" data-type="Hitch">
+                <rect class="knot-bg" x="310" y="210" width="180" height="180" rx="8" fill="#0f3460"/>
+                <rect x="390" y="250" width="15" height="100" fill="#666" rx="3"/>
+                <path class="knot-rope" d="M350,350 L350,320 C350,300 380,310 398,300 C380,290 350,300 350,280 C350,260 380,270 398,260 C380,250 350,260 350,240 L350,230" stroke="#f59e0b"/>
+                <text class="knot-label" x="400" y="360" text-anchor="middle">Prusik Hitch</text>
+                <text class="knot-eff" x="400" y="378" text-anchor="middle">~70% (3-wrap)</text>
+                <text class="knot-type" x="400" y="230" text-anchor="middle">FRICTION HITCH</text>
+            </g>
+            
+            <!-- TRIG6 Info Box -->
+            <g transform="translate(510, 210)">
+                <rect width="280" height="180" rx="8" fill="#0f3460" stroke="#8b5cf6" stroke-width="2"/>
+                <text x="140" y="30" text-anchor="middle" fill="#8b5cf6" font-weight="bold" font-size="14">TRIG6 INSIGHT</text>
+                <text x="20" y="55" fill="#888" font-size="11">Knots create bend angles that</text>
+                <text x="20" y="72" fill="#888" font-size="11">reduce strength via sec(θ) effects.</text>
+                <text x="20" y="100" fill="#eee" font-size="12">Effective = MBS × Eff × cos(θ)</text>
+                <text x="20" y="130" fill="#888" font-size="11">Where θ = anchor angle from vertical</text>
+                <text x="20" y="160" fill="#f59e0b" font-size="11">⚠️ Wet rope: -10-20% efficiency</text>
+            </g>
+        </svg>
+        
+        <div class="formula-box">
+            <div class="formula" id="formula-display">
+                Select a knot to see the calculation...
+            </div>
+        </div>
+        
+        <div class="field-pattern">
+            <h3>⚡ FIELD PATTERN — "Efficiency Threshold"</h3>
+            <ul>
+                <li><strong>Under 65%:</strong> Rescue only if backed up</li>
+                <li><strong>65-75%:</strong> Workhorse anchors</li>
+                <li><strong>Over 75%:</strong> Primary life support</li>
+            </ul>
+            <p style="margin-top: 10px; color: #888;">Rule: Bend radius > 4× rope diameter adds ~10% efficiency.</p>
+        </div>
+        
+        <p class="footer">TRIG6 Rope Mechanics | StrategicKhaos DAO LLC | INV-011</p>
+    </div>
+    
+    <script>
+        const mbsInput = document.getElementById('mbs');
+        const angleInput = document.getElementById('angle');
+        const effectiveStrength = document.getElementById('effective-strength');
+        const calcBreakdown = document.getElementById('calc-breakdown');
+        const formulaDisplay = document.getElementById('formula-display');
+        const knotCards = document.querySelectorAll('.knot-card');
+        
+        let selectedKnot = null;
+        
+        function calculate() {
+            const mbs = parseFloat(mbsInput.value) || 22;
+            const angle = parseFloat(angleInput.value) || 0;
+            const angleRad = angle * Math.PI / 180;
+            const cosAngle = Math.cos(angleRad);
+            
+            if (selectedKnot) {
+                const eff = parseFloat(selectedKnot.dataset.eff);
+                const name = selectedKnot.dataset.name;
+                const effective = mbs * eff * cosAngle;
+                
+                effectiveStrength.textContent = effective.toFixed(1) + ' kN';
+                calcBreakdown.textContent = `${mbs} kN × ${(eff*100).toFixed(0)}% × cos(${angle}°) = ${effective.toFixed(1)} kN`;
+                formulaDisplay.innerHTML = `
+                    <strong>${name}</strong><br>
+                    Effective Strength = ${mbs} × ${eff} × cos(${angle}°)<br>
+                    = ${mbs} × ${eff} × ${cosAngle.toFixed(3)}<br>
+                    = <span style="color: #8b5cf6; font-size: 18px;">${effective.toFixed(2)} kN</span>
+                    <span style="color: #888;"> (${(effective * 224.81).toFixed(0)} lbf)</span>
+                `;
+                
+                // Color code result
+                if (eff < 0.65) {
+                    effectiveStrength.style.color = '#ef4444';
+                } else if (eff < 0.75) {
+                    effectiveStrength.style.color = '#f59e0b';
+                } else {
+                    effectiveStrength.style.color = '#22c55e';
+                }
+            } else {
+                const effective = mbs * cosAngle;
+                effectiveStrength.textContent = effective.toFixed(1) + ' kN';
+                calcBreakdown.textContent = 'Select a knot to include efficiency';
+                effectiveStrength.style.color = '#8b5cf6';
+            }
+        }
+        
+        knotCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove selection from all
+                knotCards.forEach(c => c.classList.remove('selected'));
+                // Select this one
+                card.classList.add('selected');
+                selectedKnot = card;
+                calculate();
+                
+                // Animate the rope
+                const rope = card.querySelector('.knot-rope');
+                rope.style.strokeDasharray = '1000';
+                rope.style.strokeDashoffset = '1000';
+                rope.style.animation = 'none';
+                rope.offsetHeight; // Trigger reflow
+                rope.style.animation = 'draw 1s ease forwards';
+            });
+        });
+        
+        mbsInput.addEventListener('input', calculate);
+        angleInput.addEventListener('input', calculate);
+        
+        // Initial calculation
+        calculate();
+        
+        // Add draw animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes draw {
+                to { stroke-dashoffset: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
