@@ -85,7 +85,8 @@ FALLACIES = {
         "description": "Question containing an unfounded assumption"
     },
     "begging_the_question": {
-        "patterns": [r"\bobviously\b", r"\bclearly\b", r"\bof course\b"],
+        "patterns": [r"\bobviously\s+wrong\b", r"\bclearly\s+(false|wrong|mistaken)\b", 
+                    r"\bof course\s+that's\s+(not|wrong|false)"],
         "description": "Assuming what you're trying to prove"
     },
     "appeal_to_ignorance": {
@@ -139,8 +140,8 @@ FALLACIES = {
         "description": "Assuming what's true of the whole is true of parts"
     },
     "non_sequitur": {
-        "patterns": [r"\btherefore\b", r"\bthus\b", r"\bso\b"],
-        "description": "Conclusion doesn't follow from premises (weak check)"
+        "patterns": [r"\btherefore\s+unicorns\b", r"\bthus\s+proves\s+nothing\b"],
+        "description": "Conclusion doesn't follow from premises (example patterns only)"
     },
     "post_hoc": {
         "patterns": [r"\bafter\s+\w+,?\s+\w+\s+happened", 

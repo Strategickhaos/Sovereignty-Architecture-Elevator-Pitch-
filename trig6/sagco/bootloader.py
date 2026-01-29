@@ -109,10 +109,11 @@ def select_runtime():
     Returns (runtime_codon, runtime_name, score)
     """
     runtimes = []
+    iterations = 10000
     
     # Test pure Python (always available)
     try:
-        score = benchmark_runtime('python_pure', iterations=10000)
+        score = benchmark_runtime('python_pure', iterations=iterations)
         runtimes.append(('AAA', 'python_pure', score))
         print(f"[SAGCO]   python_pure: {score} score")
     except Exception as e:
@@ -121,7 +122,7 @@ def select_runtime():
     # Test NumPy if available
     try:
         import numpy as np
-        score = benchmark_runtime('python_numpy', iterations=20000)
+        score = benchmark_runtime('python_numpy', iterations=iterations)
         runtimes.append(('AAC', 'python_numpy', score))
         print(f"[SAGCO]   python_numpy: {score} score")
     except ImportError:

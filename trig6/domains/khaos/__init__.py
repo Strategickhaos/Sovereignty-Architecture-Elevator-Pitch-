@@ -32,7 +32,7 @@ KHAOS_GLYPHS = {
     0x13: {"glyph": "⚞", "name": "corner", "meaning": "boundary condition"},
     0x14: {"glyph": "⚟", "name": "anchor", "meaning": "fixed point"},
     0x15: {"glyph": "⚠", "name": "warning", "meaning": "unstable state"},
-    0x16: {"glyph": "⚡", "name": "bolt", "meaning": "energy transfer"},
+    0x16: {"glyph": "⚙", "name": "gear", "meaning": "mechanical process"},
     0x17: {"glyph": "⚢", "name": "union", "meaning": "combination"},
     0x18: {"glyph": "⚣", "name": "intersect", "meaning": "collision"},
     0x19: {"glyph": "⚤", "name": "balance", "meaning": "equilibrium"},

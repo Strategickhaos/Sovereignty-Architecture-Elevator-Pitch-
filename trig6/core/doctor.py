@@ -61,12 +61,10 @@ def test_tan_45():
     return abs(tan_val - 1.0) < 1e-10
 
 
-def test_bridle_120():
-    """Test: Bridle at 120° from vertical should equal load W"""
-    # At 120° from vertical (30° past horizontal), cos(120°) = -0.5
-    # T = W / (2 * cos(120°)) = W / (2 * -0.5) = W / -1 = -W
-    # But we're measuring from vertical, so 120° is actually impossible
-    # Let's test at 60° from vertical: T = W / (2 * cos(60°)) = W / (2 * 0.5) = W
+def test_bridle_60():
+    """Test: Bridle at 60° from vertical should equal load W"""
+    # At 60° from vertical, cos(60°) = 0.5
+    # T = W / (2 * cos(60°)) = W / (2 * 0.5) = W
     bridle_model = get_model('bridle_two_leg_equal_angle')
     load = 100  # lbf
     result = bridle_model.compute(load=load, theta=60)
@@ -131,7 +129,7 @@ DOCTOR_TESTS = [
     DoctorTest("sin²+cos²=1", test_sin_cos_identity),
     DoctorTest("sec(60)=2", test_sec_60),
     DoctorTest("tan(45)=1", test_tan_45),
-    DoctorTest("bridle(60)=W", test_bridle_120),
+    DoctorTest("bridle(60)=W", test_bridle_60),
     DoctorTest("highline(30)=~2.5W", test_highline_30),
     DoctorTest("pack_loads", test_pack_loads),
     DoctorTest("constant_exists", test_constant_exists),
