@@ -154,7 +154,7 @@ Day 165: 4-node K8s mesh, 320GB+ RAM, 2 GKE clusters,
 | **6** | SwarmGate Orchestrator | ✅ DEPLOYED | Multi-agent coordination layer |
 | **7** | ReflexShell Terminal | ✅ DEPLOYED | Custom terminal with empire-aware commands |
 | **8** | Empire Identity Capsule | ✅ DEPLOYED | YAML-based identity/context for AI agents |
-| **9** | DISCLAIMER.yaml | ✅ DEPLOYED | Operator cognitive architecture contract |
+| **9** | TRIG6 Projection Curve Stencil (PCS) | ✅ DOCUMENTED | Parametric trigonometric stencil - first physical product (INV-009) |
 | **10** | Sovereign Tax Engine | 🟡 PROTOTYPE | Automated tax calculation for multi-entity structure |
 
 ---
@@ -216,7 +216,6 @@ Day 165: 4-node K8s mesh, 320GB+ RAM, 2 GKE clusters,
 | **40** | 50/50 VM Strategy | 🟡 PLANNED | Kali + Parrot + KhaosOS virtualization |
 | **41** | Firefox Remote Debug Recon | ✅ DISCOVERED | Browser-based reconnaissance capability |
 | **42** | Distributed SOC Architecture | 🟡 DESIGN | Multi-node Security Operations Center |
-| **43** | TRIG6 Projection Curve Stencil (PCS) | ✅ DOCUMENTED | Parametric trigonometric stencil for pipe fabrication & drafting (INV-009) |
 
 ---
 

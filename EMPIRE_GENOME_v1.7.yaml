@@ -328,7 +328,7 @@ mutations:
     timestamp: "2026-01-29T14:31:00Z"
     type: "INVENTION"
     description: "TRIG6 Projection Curve Stencil (PCS) documented"
-    invention_number: 43
+    invention_number: 9
     inv_id: "INV-009"
     classification: "NOVEL"
     patent_class: "B43L 13/20"
@@ -437,12 +437,6 @@ inventions:
     - number: 35
       name: "KhaosOS Architecture"
       status: "NEW"
-      
-    - number: 43
-      name: "TRIG6 Projection Curve Stencil (PCS)"
-      status: "DOCUMENTED"
-      classification: "NOVEL"
-      notes: "Also catalogued as INV-009 - physical manifestation of TRIG6 framework"
 
 # ═══════════════════════════════════════════════════════════════════════════
 # NEXT EVOLUTION TARGETS
