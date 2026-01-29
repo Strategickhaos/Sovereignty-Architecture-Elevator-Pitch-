@@ -35,3 +35,12 @@ target/
 
 # Workspace data
 workspace/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
