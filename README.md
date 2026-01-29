@@ -10,6 +10,17 @@ This system creates a **sovereignty control plane** that bridges:
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
 
+### 🏠 Distributed Sovereign Compute
+
+The Strategickhaos infrastructure is built on a **distributed sovereign compute architecture** featuring:
+- **Home Swarm:** 4-node cluster (320GB+ RAM) with Tailscale mesh networking
+- **Multi-Cloud:** GKE, Azure, and DigitalOcean integration for redundancy
+- **Zero Vendor Lock-in:** Self-hosted critical services with cloud burst capability
+- **Sovereignty Principles:** Encrypted mesh, local LLM capability, multi-cloud redundancy
+
+📖 **[View Complete Home Cluster Architecture →](HOME_CLUSTER_ARCHITECTURE.md)**  
+📊 **[View Architecture Configuration →](sovereignty_architecture.json)**
+
 ## 🚀 Quick Start
 
 ```bash

@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "entity": "Strategickhaos DAO LLC",
+    "architecture": "Distributed Sovereign Compute",
+    "mesh": "Tailscale",
+    "version": "1.0",
+    "updated": "2026-01-29"
+  },
+  "home_cluster": {
+    "name": "StrategicKhaos Home Swarm",
+    "mesh_domain": "tail97edc9.ts.net",
+    "total_ram": "320GB+",
+    "nodes": [
+      {
+        "id": "athena",
+        "name": "ATHENA",
+        "role": "Primary Command",
+        "specs": {
+          "cpu": "Intel Core i7-9700F",
+          "ram": "128GB DDR4",
+          "gpu": ["NVIDIA GTX 1660 SUPER", "NVIDIA GT 1030"],
+          "storage": "WD_BLACK SN850X 2TB NVMe + 18TB external"
+        },
+        "services": [
+          "Docker (130 containers)",
+          "Kubernetes",
+          "Redis",
+          "Grafana",
+          "Prometheus",
+          "Vault",
+          "Code-Server"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "nova",
+        "name": "NOVA",
+        "role": "GPU Compute",
+        "specs": {
+          "cpu": "AMD/Intel",
+          "ram": "64GB DDR5",
+          "gpu": "NVIDIA RTX 3050",
+          "display": "144Hz Adaptive Sync"
+        },
+        "services": ["CUDA workloads", "Gaming tests"],
+        "status": "active"
+      },
+      {
+        "id": "lyra",
+        "name": "LYRA",
+        "role": "Starlink Gateway",
+        "specs": {
+          "model": "Acer Nitro V15",
+          "ram": "64GB DDR5",
+          "storage": "NVMe"
+        },
+        "services": ["Starlink USB gateway", "IPFS", "Docker", "SMB shares"],
+        "status": "active"
+      },
+      {
+        "id": "ipower",
+        "name": "iPOWER",
+        "role": "Edge Node",
+        "specs": {
+          "model": "Sony VAIO (Legacy)",
+          "ram": "8GB"
+        },
+        "services": ["SAGCO-OS Edge", "Lightweight tasks"],
+        "status": "active"
+      }
+    ]
+  },
+  "cloud_clusters": {
+    "gke": {
+      "provider": "Google Cloud",
+      "project": "jarvis-swarm-personal",
+      "region": "us-central1",
+      "clusters": [
+        {
+          "name": "jarvis-swarm-personal-001",
+          "endpoint": "34.29.28.27",
+          "type": "Autopilot",
+          "status": "sleeping"
+        },
+        {
+          "name": "red-team",
+          "endpoint": "34.122.65.92",
+          "type": "Autopilot",
+          "status": "sleeping"
+        },
+        {
+          "name": "autopilot-cluster-1",
+          "endpoint": "35.192.28.199",
+          "type": "Autopilot",
+          "status": "sleeping"
+        }
+      ]
+    },
+    "azure": {
+      "provider": "Microsoft Azure",
+      "tenant_id": "4287dbc6-2b62-4b37-a162-46e4cda79613",
+      "status": "configured"
+    },
+    "digitalocean": {
+      "provider": "DigitalOcean",
+      "region": "Frankfurt (FRA1)",
+      "status": "planned"
+    }
+  },
+  "networking": {
+    "vpn": {
+      "provider": "ProtonVPN",
+      "nodes": {
+        "athena": "Netherlands",
+        "lyra": "Mexico",
+        "nova": "United States"
+      }
+    },
+    "satellite": {
+      "provider": "Starlink",
+      "gateway": "lyra",
+      "ip_range": "192.168.2.x"
+    },
+    "mesh": {
+      "provider": "Tailscale",
+      "domain": "tail97edc9.ts.net"
+    }
+  },
+  "sovereignty_principles": [
+    "Zero vendor lock-in",
+    "Multi-cloud redundancy",
+    "Self-hosted critical services",
+    "Encrypted mesh networking",
+    "Local LLM capability"
+  ]
+}
