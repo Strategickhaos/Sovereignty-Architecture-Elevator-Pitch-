@@ -51,8 +51,9 @@ A highlighted blue box containing essential calculations:
 4. **Rope Travel** = Load Travel × MA
 
 ### Example Calculation
-- 3:1 system with 2 pulleys at 90% efficiency
-- Actual MA = 3 × 0.9 × 0.9 = 2.43
+- 3:1 Z-rig with 3 pulleys at 90% efficiency each
+- Actual MA = 3 × (0.9)³ = 2.187
+- (Each pulley reduces efficiency)
 
 ## Color Scheme
 - **Ropes**: Blue (#2563eb)
@@ -65,7 +66,7 @@ A highlighted blue box containing essential calculations:
 - **Formula box**: Light blue (#f0f9ff)
 
 ## Footer
-"TRIG6 Rope Mechanics | StrategicKhaos DAO LLC | SPRAT Level 3"
+"TRIG6 Rope Mechanics | Strategickhaos DAO LLC | SPRAT Level 3"
 
 ## Technical Validation
 - ✓ Valid XML/SVG structure

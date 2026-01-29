@@ -204,7 +204,7 @@
     </text>
     
     <text x="20" y="80" class="formula">
-      Actual MA = Theoretical MA × (Pulley Efficiency)^(number of pulleys)
+      Actual MA = Theoretical MA × η₁ × η₂ × ... × ηₙ (product of all pulley efficiencies)
     </text>
     
     <text x="20" y="105" class="formula">
@@ -219,16 +219,19 @@
       Example: 90% efficient pulleys
     </text>
     <text x="400" y="75" class="small">
-      3:1 with 2 pulleys:
+      3:1 Z-rig with 3 pulleys:
     </text>
     <text x="400" y="95" class="small">
-      Actual MA = 3 × 0.9 × 0.9 = 2.43
+      Actual MA = 3 × (0.9)³ = 2.187
+    </text>
+    <text x="400" y="115" class="small">
+      (Each pulley reduces efficiency)
     </text>
   </g>
   
   <!-- Footer -->
   <text x="400" y="590" class="small" text-anchor="middle">
-    TRIG6 Rope Mechanics | StrategicKhaos DAO LLC | SPRAT Level 3
+    TRIG6 Rope Mechanics | Strategickhaos DAO LLC | SPRAT Level 3
   </text>
   
 </svg>
