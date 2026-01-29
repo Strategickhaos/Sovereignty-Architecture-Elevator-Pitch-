@@ -40,7 +40,7 @@ class FallacyDetector:
             "description": "Using authority as evidence without logical backing",
             "patterns": [
                 r"\bexperts say\b",
-                r"\bstudies show\b(?! (that|how))",
+                r"\bstudies show\b(?! that| how)",
                 r"\beveryone knows\b"
             ]
         },

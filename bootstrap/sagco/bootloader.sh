@@ -17,19 +17,19 @@ check_runtime() {
     case $runtime in
         python3)
             if command -v python3 &> /dev/null; then
-                echo "✓ Python3 runtime available: $(python3 --version)"
+                echo "✓ Python3 runtime available: $(python3 --version)" >&2
                 return 0
             fi
             ;;
         docker)
             if command -v docker &> /dev/null; then
-                echo "✓ Docker runtime available: $(docker --version | head -1)"
+                echo "✓ Docker runtime available: $(docker --version | head -1)" >&2
                 return 0
             fi
             ;;
         kubernetes)
             if command -v kubectl &> /dev/null; then
-                echo "✓ Kubernetes runtime available: $(kubectl version --client --short 2>/dev/null || echo 'kubectl found')"
+                echo "✓ Kubernetes runtime available: $(kubectl version --client --short 2>/dev/null || echo 'kubectl found')" >&2
                 return 0
             fi
             ;;
@@ -39,19 +39,19 @@ check_runtime() {
 
 # Function to validate TRIG6 installation
 validate_trig6() {
-    echo ""
-    echo "Validating TRIG6 installation..."
+    echo "" >&2
+    echo "Validating TRIG6 installation..." >&2
     
     if [ -f "$REPO_ROOT/trig6/doctor.py" ]; then
         if python3 "$REPO_ROOT/trig6/doctor.py" > /dev/null 2>&1; then
-            echo "✓ TRIG6 health check: PASS"
+            echo "✓ TRIG6 health check: PASS" >&2
             return 0
         else
-            echo "✗ TRIG6 health check: FAIL"
+            echo "✗ TRIG6 health check: FAIL" >&2
             return 1
         fi
     else
-        echo "✗ TRIG6 not found at $REPO_ROOT/trig6/"
+        echo "✗ TRIG6 not found at $REPO_ROOT/trig6/" >&2
         return 1
     fi
 }
@@ -60,18 +60,31 @@ validate_trig6() {
 generate_manifest() {
     local manifest_file="$REPO_ROOT/bootstrap/sagco/boot_manifest.json"
     
+    # Check runtimes (return 0 or 1)
+    local python3_available="false"
+    local docker_available="false"
+    local kubernetes_available="false"
+    local trig6_available="false"
+    local khaos_available="false"
+    
+    check_runtime python3 && python3_available="true"
+    check_runtime docker && docker_available="true"
+    check_runtime kubernetes && kubernetes_available="true"
+    validate_trig6 && trig6_available="true"
+    [ -f "$REPO_ROOT/data/khaos/glyphs.json" ] && khaos_available="true"
+    
     cat > "$manifest_file" << MANIFEST
 {
   "sagco_version": "${SAGCO_VERSION}",
   "boot_time": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
   "runtime": {
-    "python3": $(check_runtime python3 && echo "true" || echo "false"),
-    "docker": $(check_runtime docker && echo "true" || echo "false"),
-    "kubernetes": $(check_runtime kubernetes && echo "true" || echo "false")
+    "python3": ${python3_available},
+    "docker": ${docker_available},
+    "kubernetes": ${kubernetes_available}
   },
   "components": {
-    "trig6": $(validate_trig6 && echo "true" || echo "false"),
-    "khaos_glyphs": $([ -f "$REPO_ROOT/data/khaos/glyphs.json" ] && echo "true" || echo "false")
+    "trig6": ${trig6_available},
+    "khaos_glyphs": ${khaos_available}
   },
   "sovereignty_level": "SOVEREIGN",
   "repo_root": "$REPO_ROOT"

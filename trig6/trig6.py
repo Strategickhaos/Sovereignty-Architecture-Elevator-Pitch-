@@ -34,7 +34,6 @@ class TRIG6:
         results = {
             "angle_degrees": angle_degrees,
             "angle_radians": angle_rad,
-            "timestamp": None,  # Would use datetime if needed
         }
         
         if operation in ["sin", "all"]:
@@ -42,9 +41,15 @@ class TRIG6:
         if operation in ["cos", "all"]:
             results["cos"] = math.cos(angle_rad)
         if operation in ["tan", "all"]:
+            # tan is undefined at 90, 270 degrees (pi/2, 3pi/2)
             try:
-                results["tan"] = math.tan(angle_rad)
-            except:
+                tan_value = math.tan(angle_rad)
+                # Check if result is very large (approaching infinity)
+                if abs(tan_value) > 1e10:
+                    results["tan"] = "undefined"
+                else:
+                    results["tan"] = tan_value
+            except (ValueError, ZeroDivisionError):
                 results["tan"] = "undefined"
                 
         return results
@@ -132,6 +137,9 @@ def main():
         result = trig6.cite(args.reference)
     elif args.command == "doctor":
         # Import and run doctor module
+        import os
+        import sys
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         from doctor import Doctor
         doctor = Doctor()
         result = doctor.run()

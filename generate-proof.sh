@@ -7,6 +7,12 @@ set -e
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROOF_DIR="$REPO_ROOT/proof_artifacts"
 
+# Check for required commands
+if ! command -v python3 &> /dev/null && ! command -v docker &> /dev/null; then
+    echo "Error: Neither python3 nor docker found. At least one is required." >&2
+    exit 1
+fi
+
 echo "═══════════════════════════════════════════════════════════"
 echo "🔥 TRIG6/KHAOS Irrefutable Proof Protocol"
 echo "⚓ Generating verification artifacts..."
@@ -39,9 +45,20 @@ echo ""
 # 3. Config Proof (YAML valid - irrefutable parse)
 echo "📋 Step 3: Validating configuration files..."
 if command -v python3 &> /dev/null; then
-    python3 -c "import yaml; yaml.safe_load(open('EMPIRE_GENOME_v1.7.yaml'))" && echo "Valid" > "$PROOF_DIR/proof_yaml.txt" 2>&1 || echo "YAML validation failed" > "$PROOF_DIR/proof_yaml.txt"
+    # Try to validate YAML, but don't fail if PyYAML not available (not part of stdlib)
+    python3 -c "
+try:
+    import yaml
+    yaml.safe_load(open('EMPIRE_GENOME_v1.7.yaml'))
+    print('Valid')
+except ImportError:
+    print('PyYAML not available (optional dependency)')
+except Exception as e:
+    print(f'YAML validation failed: {e}')
+" > "$PROOF_DIR/proof_yaml.txt" 2>&1
+    
     grep -R "DISCORD_TOKEN\|OPENAI_API_KEY" . --include="*.py" --include="*.sh" | grep -v ".git" > "$PROOF_DIR/proof_env_check.log" || echo "No hardcoded secrets found" > "$PROOF_DIR/proof_env_check.log"
-    echo "   ✓ YAML validation: $(cat $PROOF_DIR/proof_yaml.txt)"
+    echo "   ✓ Config validation: $(cat $PROOF_DIR/proof_yaml.txt)"
 fi
 echo ""
 

@@ -50,7 +50,6 @@ class Doctor:
         try:
             # Verify we can run without network
             # This is a design check - TRIG6 uses only stdlib
-            import sys
             prohibited_modules = ['requests', 'urllib3', 'httpx']
             loaded_prohibited = [mod for mod in prohibited_modules if mod in sys.modules]
             
