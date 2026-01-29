@@ -1,6 +1,7 @@
 {
   "name": "strategickhaos-website",
   "version": "1.0.0",
+  "private": true,
   "description": "StrategicKhaos Swarm Intelligence - Sovereign AI Infrastructure",
   "type": "module",
   "scripts": {
