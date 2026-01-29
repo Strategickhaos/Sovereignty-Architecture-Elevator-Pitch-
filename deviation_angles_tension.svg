@@ -22,7 +22,7 @@
   
   <!-- Formula -->
   <text x="400" y="55" class="formula" text-anchor="middle">
-    T = Load / (2 × cos(θ/2))   where θ = total deviation angle
+    T = Load / cos(θ/2)   where θ = total deviation angle
   </text>
   
   <!-- ═══════════════════════════════════════════════════════════════════ -->
@@ -220,7 +220,7 @@
   
   <!-- Footer -->
   <text x="400" y="490" class="small" text-anchor="middle">
-    TRIG6 Rope Mechanics | StrategicKhaos DAO LLC | T = W / (2 × cos(θ/2))
+    Rope Mechanics | StrategicKhaos DAO LLC | T = W / cos(θ/2)
   </text>
   
 </svg>
