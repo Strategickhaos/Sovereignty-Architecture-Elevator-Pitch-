@@ -16,11 +16,11 @@ Usage:
 """
 
 import json
-import math
 import argparse
 from pathlib import Path
 from dataclasses import dataclass, asdict
-from typing import List, Optional, Tuple
+from typing import List, Tuple
+import ast
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MIDI WRITER (Zero Dependencies - Pure Python)
@@ -464,16 +464,19 @@ Owner: Strategickhaos DAO LLC
     if args.source == "khaos":
         print(f"🎵 Compiling KHAOS Periodic Table...")
         composer.compile_periodic_table()
-    elif args.points:
+    elif args.source == "custom":
+        if not args.points:
+            print("❌ Custom source requires --points argument")
+            return 1
         print(f"🎵 Compiling custom geometry points...")
         try:
-            points = eval(args.points)  # Safe for controlled input
+            points = ast.literal_eval(args.points)
             composer.compile_custom_points(points)
         except Exception as e:
             print(f"❌ Error parsing points: {e}")
             return 1
     else:
-        print("❌ Custom source requires --points argument")
+        print("❌ Invalid source option")
         return 1
     
     # Write MIDI
@@ -497,7 +500,11 @@ Owner: Strategickhaos DAO LLC
     
     # Optional JSON audit
     if args.json:
-        json_file = args.outfile.replace(".mid", ".json")
+        outfile_path = Path(args.outfile)
+        if outfile_path.suffix.lower() in [".mid", ".midi"]:
+            json_file = str(outfile_path.with_suffix(".json"))
+        else:
+            json_file = str(outfile_path) + ".json"
         composer.to_json(json_file)
         print(f"  📋 Audit trail: {json_file}")
         print(f"")
