@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+  <key id="frequency" for="node" attr.name="frequency" attr.type="double"/>
+  <key id="emotion" for="node" attr.name="emotion" attr.type="string"/>
+  <key id="color" for="node" attr.name="color" attr.type="string"/>
+  <key id="theta" for="node" attr.name="theta" attr.type="double"/>
+  <key id="type" for="edge" attr.name="type" attr.type="string"/>
+  <key id="weight" for="edge" attr.name="weight" attr.type="double"/>
+  <graph id="resmon_ir" edgedefault="directed">
+    <node id="node_3668">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">350.0</data>
+    </node>
+    <node id="padawan-fw_3608">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">20.0</data>
+    </node>
+    <node id="python3_4118">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">305.0</data>
+    </node>
+    <node id="Runner.Worker_2030">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">125.0</data>
+    </node>
+    <node id="kworker/1:0-mm_percpu_wq_32">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">80.0</data>
+    </node>
+    <node id="kworker/2:1-events_55">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">2.5</data>
+    </node>
+    <node id="systemd_1">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">137.5</data>
+    </node>
+    <node id="kthreadd_2">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">275.0</data>
+    </node>
+    <node id="pool_workqueue_release_3">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">52.5</data>
+    </node>
+    <node id="kworker/R-rcu_gp_4">
+      <data key="frequency">396.0</data>
+      <data key="emotion">calm</data>
+      <data key="color">#FF0000</data>
+      <data key="theta">190.0</data>
+    </node>
+  </graph>
+</graphml>
