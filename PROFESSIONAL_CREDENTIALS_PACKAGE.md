@@ -163,7 +163,7 @@ The Isomorphism Framework is an **original mathematical and computational framew
 ### Attribution
 
 - **Not from coursework**: MAT-243 (Statistics) and IT-145 (Java) covered standard curriculum without formal algebraic structures
-- **Original research**: Independently derived through self-directed mathematical study
+- **Original research**: Independently derived through self-directed mathematical study before formal education in abstract algebra
 - **Portfolio material**: Represents approximately 2-3 years of graduate-level mathematics work
 
 ### Documentation

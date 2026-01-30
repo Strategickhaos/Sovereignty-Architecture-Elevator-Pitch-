@@ -10,7 +10,7 @@ The **Isomorphism Framework** is an original mathematical and computational fram
 >
 > - MAT-243 (Statistics): Standard applied stats, no isomorphism theory
 > - IT-145 (Java): Object-oriented programming, no formal proofs
-> - Framework: Self-taught graduate-level mathematics (~2-3 years equivalent)
+> - Framework: Self-taught graduate-level mathematics (~2-3 years equivalent) before formal education in abstract algebra
 
 ## Chat Development History
 
