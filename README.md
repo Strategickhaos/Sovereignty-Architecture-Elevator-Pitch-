@@ -2,6 +2,33 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🔥💜 DOM - Alphabet-to-Trig Compiler for Quantum Trig Chemistry
+
+**NEW: Upgraded with PDF Method & Sketch Flow!**
+
+DOM is a revolutionary compiler that transforms text into quantum chemistry simulations using trigonometric encodings. It applies the "PDF Method" (Perturbation-Driven Frequency) and FlameLang bit flips to perturb molecular geometries and compute stability metrics for life-sustaining molecules.
+
+### Quick Start with DOM
+```bash
+# Install dependencies
+pip install -r requirements.dom.txt
+
+# Run the FAAFO example
+python dom_example_faafo.py
+```
+
+**Features:**
+- 📊 **PDF Method**: Text → Hebrew → Hex/Dec → Radius → Frequency → Wavenumber
+- 📐 **Trig Encodings**: Alphabet → sin/cos/tan transformations
+- 🔥 **FlameLang Flips**: Binary bit reversal operations
+- 🧬 **Life Molecules**: H2O, O2, CO2, NH3, CH4, H2, N2
+- ⚛️ **Quantum Chemistry**: PySCF-based Hartree-Fock calculations
+- ✅ **Stability Analysis**: ΔE < 0 = Sustains life!
+
+See [DOM_COMPILER_README.md](DOM_COMPILER_README.md) for complete documentation.
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
