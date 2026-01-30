@@ -74,9 +74,9 @@ class TestFlameLangCompilerFixes(unittest.TestCase):
         self.assertGreater(wavenumber, 0)
         self.assertIsInstance(wavenumber, (int, float))
         
-        # Verify calculation: λ = radius * 1e-9, k = 2π/λ, wavenumber = k * 1e-2
+        # Verify calculation: λ = max(1e-9, radius * 1e-9), k = 2π/λ, wavenumber = k * 1e-2
         radius = params['radius']
-        lam = radius * 1e-9
+        lam = max(1e-9, radius * 1e-9)  # Include max() guard
         k = 2 * math.pi / lam
         expected_wavenumber = round(k * 1e-2)
         

@@ -19,6 +19,13 @@ from typing import List, Tuple, Dict
 
 from pyscf import gto, scf
 
+# Constants for perturbation geometry
+MAX_PERTURBATION = 0.02  # Maximum perturbation in Angstroms
+MEAN_SHIFT = 0.5  # Mean shift for cosine scaling
+TAN_SCALE_FACTOR = 0.05  # Scaling factor for tangent values
+HYDROGEN_SCALE = 1.0  # Perturbation scale for hydrogen atoms
+HEAVY_ATOM_SCALE = 0.4  # Perturbation scale for heavy atoms
+
 # RNA Codons (64 standard codons with U instead of T)
 CODONS = [
     "UUU", "UUC", "UUA", "UUG", "UCU", "UCC", "UCA", "UCG",
@@ -59,10 +66,13 @@ def text_to_pdf_params(text: str) -> Dict:
 def alphabet_to_trig(text: str, scale_deg: float = 1.0) -> List[Tuple]:
     """
     Convert alphabet characters to trigonometric values.
+    Note: Only processes ASCII alphabetic characters (A-Z).
+    Non-ASCII characters are skipped.
     """
     out = []
     for ch in text.upper():
-        if ch.isalpha():
+        # Only process ASCII alphabetic characters
+        if ch.isalpha() and ord('A') <= ord(ch) <= ord('Z'):
             pos = ord(ch) - ord('A') + 1
             th = pos * scale_deg
             r = math.radians(th)
@@ -147,36 +157,71 @@ class MoleculeSpec:
 
 def perturb_geometry(spec: MoleculeSpec, p: Dict[str, float]) -> MoleculeSpec:
     """
-    Perturb molecular geometry based on parameters.
+    Perturb molecular geometry based on trigonometric parameters.
+    
+    Perturbations are small (max 0.02 Å) and use tanh for boundedness.
+    Hydrogen atoms are perturbed more than heavy atoms for realistic behavior.
     """
-    dx = 0.02 * math.tanh(p['sin_mean'])
-    dy = 0.02 * math.tanh(p['cos_mean'] - 0.5)
-    dz = 0.02 * math.tanh(p['tan_sum'] * 0.05)
+    dx = MAX_PERTURBATION * math.tanh(p['sin_mean'])
+    dy = MAX_PERTURBATION * math.tanh(p['cos_mean'] - MEAN_SHIFT)
+    dz = MAX_PERTURBATION * math.tanh(p['tan_sum'] * TAN_SCALE_FACTOR)
     pert = []
     for el, x, y, z in spec.atoms:
-        scale = 1.0 if el == 'H' else 0.4
+        scale = HYDROGEN_SCALE if el == 'H' else HEAVY_ATOM_SCALE
         pert.append((el, x + scale * dx, y + scale * dy, z + scale * dz))
     return MoleculeSpec(spec.name, pert, spec.basis, spec.charge, spec.spin)
 
 
 def rhf_energy(spec: MoleculeSpec) -> float:
     """
-    Calculate Restricted Hartree-Fock energy for a molecule.
+    Calculate SCF energy for a molecule.
+    Uses RHF for closed-shell (spin=0) and ROHF for open-shell (spin>0).
+    
+    Raises:
+        RuntimeError: If SCF calculation fails to converge
     """
-    atom_str = '; '.join(f'{el} {x} {y} {z}' for el, x, y, z in spec.atoms)
-    m = gto.M(atom=atom_str, basis=spec.basis, charge=spec.charge, spin=spec.spin)
-    mf = scf.RHF(m)
-    return mf.kernel()
+    try:
+        atom_str = '; '.join(f'{el} {x} {y} {z}' for el, x, y, z in spec.atoms)
+        m = gto.M(atom=atom_str, basis=spec.basis, charge=spec.charge, spin=spec.spin)
+        
+        # Use appropriate method based on spin state
+        if spec.spin == 0:
+            mf = scf.RHF(m)  # Closed-shell
+        else:
+            mf = scf.ROHF(m)  # Open-shell (e.g., O2 triplet)
+        
+        energy = mf.kernel()
+        
+        if not mf.converged:
+            raise RuntimeError(f"SCF did not converge for {spec.name}")
+        
+        return energy
+    except Exception as e:
+        raise RuntimeError(f"SCF calculation failed for {spec.name}: {str(e)}")
 
 
 def compile_and_simulate(text: str, molecules: List[MoleculeSpec]) -> Dict:
     """
     Main compiler function - converts text to molecular perturbations.
     
+    Args:
+        text: Input text (ASCII characters recommended for alphabet_to_trig)
+        molecules: List of molecule specifications to simulate
+    
+    Returns:
+        Dictionary mapping molecule names to energy results
+    
     FIX 5: ΔE as sensitivity score
     - abs(dE) = perturbation magnitude (low = robust sustain)
     - sign(dE) = direction (negative = stabilizes, positive = destabilizes)
     """
+    # Input validation
+    if not text or not isinstance(text, str):
+        raise ValueError("Input text must be a non-empty string")
+    
+    if not molecules:
+        raise ValueError("Molecule list cannot be empty")
+    
     pdf_p = text_to_pdf_params(text)
     trigs = alphabet_to_trig(text)
     dna_codons = dna_codons_from_text(text)

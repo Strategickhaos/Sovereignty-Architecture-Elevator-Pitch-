@@ -99,13 +99,13 @@ results[spec.name] = {
 ### Data Flow
 
 ```
-Input Text (e.g., Hebrew)
+Input Text (any characters, e.g., Hebrew)
     ↓
-text_to_pdf_params() → radius, frequency, wavenumber
+text_to_pdf_params() → radius, frequency, wavenumber (from all chars)
     ↓
-alphabet_to_trig() → sin/cos/tan values
+alphabet_to_trig() → sin/cos/tan values (ASCII A-Z only)
     ↓
-dna_codons_from_text() → RNA codons
+dna_codons_from_text() → RNA codons (ACGU only)
     ↓
 trig_from_dna_codons() → codon angles
     ↓
@@ -113,7 +113,7 @@ params_from_trig() → aggregated parameters
     ↓
 perturb_geometry() → modified molecular coordinates
     ↓
-rhf_energy() → base & perturbed energies
+rhf_energy() / rohf_energy() → base & perturbed energies
     ↓
 Results: ΔE, sensitivity, wavenumber
 ```
@@ -125,7 +125,8 @@ Results: ΔE, sensitivity, wavenumber
 ```python
 from flamelang_quantum_compiler import compile_and_simulate, LIFE_MOLECULES
 
-# Input text (any language, any characters)
+# Input text (any characters supported)
+# Note: alphabet_to_trig processes ASCII A-Z only; other chars add to PDF params
 text = "לבריאה סתירה מכלום סכיזופרנית סיבה כנראה"
 
 # Run simulation
@@ -178,10 +179,16 @@ pip install pyscf>=2.3.0 scipy>=1.11.0
 
 ### Quantum Chemistry Backend
 
-Uses PySCF with Restricted Hartree-Fock (RHF) method and STO-3G basis set for efficiency. This provides:
+Uses PySCF with appropriate SCF methods:
+- **RHF (Restricted Hartree-Fock)**: For closed-shell molecules (spin=0)
+- **ROHF (Restricted Open-shell Hartree-Fock)**: For open-shell molecules (spin>0, e.g., O₂ triplet)
+- **STO-3G basis set**: For efficiency
+
+This provides:
 - Fast convergence for small molecules
 - Sufficient accuracy for perturbation analysis
 - Minimal computational resources required
+- Proper handling of both closed and open-shell systems
 
 ### Perturbation Strategy
 
