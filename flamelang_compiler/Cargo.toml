@@ -1,0 +1,15 @@
+[package]
+name = "flamelang"
+version = "0.1.0"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC"]
+description = "FlameLang compiler with KHAOS Script and TRIG6 transformation layer"
+
+[[bin]]
+name = "flamec"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = "0.4"

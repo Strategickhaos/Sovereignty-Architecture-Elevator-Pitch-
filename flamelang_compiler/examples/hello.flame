@@ -1,0 +1,5 @@
+print("Hello, FlameLang!");
+
+let x = 42;
+let y = x + 8;
+print(y);
