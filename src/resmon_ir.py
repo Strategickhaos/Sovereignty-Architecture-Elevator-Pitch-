@@ -266,7 +266,11 @@ def hz_to_theta(hz: float) -> float:
         return 0.0
     octave = math.log2(hz / 440.0)  # Relative to A4
     theta = (octave % 1.0) * 360.0
-    return theta % 360.0
+    # Ensure theta is always < 360.0 for validation consistency
+    result = theta % 360.0
+    if result == 360.0:
+        result = 0.0
+    return result
 
 def classify_emotion(cpu: float, memory: float, io_ops: int) -> str:
     """
@@ -279,7 +283,9 @@ def classify_emotion(cpu: float, memory: float, io_ops: int) -> str:
     - stressed: Very high usage
     - overwhelmed: Critical usage
     """
-    total_load = (cpu + memory) / 2.0
+    # Normalize IO operations (assume high is 1000+)
+    io_factor = min(io_ops / 1000.0, 1.0) * 10  # Scale to 0-10
+    total_load = (cpu + memory + io_factor) / 3.0
     
     if total_load < 20:
         return "calm"
@@ -382,6 +388,8 @@ class ResmonIRGraph:
     
     def to_graphml(self) -> str:
         """Export graph to GraphML format for Gephi/NetworkX"""
+        import xml.sax.saxutils as saxutils
+        
         xml = ['<?xml version="1.0" encoding="UTF-8"?>']
         xml.append('<graphml xmlns="http://graphml.graphdrawing.org/xmlns">')
         
@@ -398,21 +406,25 @@ class ResmonIRGraph:
         
         # Nodes
         for node in self.nodes:
-            xml.append(f'    <node id="{node.name}">')
+            # Escape node ID for XML
+            node_id = saxutils.escape(node.name)
+            xml.append(f'    <node id="{node_id}">')
             if node.frequency:
                 xml.append(f'      <data key="frequency">{node.frequency.hz}</data>')
-            xml.append(f'      <data key="emotion">{node.emotion}</data>')
+            xml.append(f'      <data key="emotion">{saxutils.escape(node.emotion)}</data>')
             if node.color:
-                xml.append(f'      <data key="color">{node.color.hex}</data>')
+                xml.append(f'      <data key="color">{saxutils.escape(node.color.hex)}</data>')
             xml.append(f'      <data key="theta">{node.theta}</data>')
             xml.append('    </node>')
         
         # Edges
         edge_id = 0
         for node in self.nodes:
+            node_id = saxutils.escape(node.name)
             for conn in node.connections:
-                xml.append(f'    <edge id="e{edge_id}" source="{node.name}" target="{conn.target}">')
-                xml.append(f'      <data key="type">{conn.type.value}</data>')
+                target_id = saxutils.escape(conn.target)
+                xml.append(f'    <edge id="e{edge_id}" source="{node_id}" target="{target_id}">')
+                xml.append(f'      <data key="type">{saxutils.escape(conn.type.value)}</data>')
                 xml.append(f'      <data key="weight">{conn.weight}</data>')
                 xml.append('    </edge>')
                 edge_id += 1

@@ -88,16 +88,16 @@ class TestResmonIR:
     def test_05_emotion_classification(self):
         """Test 5: Verify emotion classification based on resource usage"""
         test_cases = [
-            (10.0, 10.0, 5, "calm"),           # Low usage
-            (40.0, 40.0, 10, "balanced"),      # Moderate usage
-            (60.0, 60.0, 20, "excited"),       # High but stable
-            (80.0, 80.0, 50, "stressed"),      # Very high usage
-            (95.0, 95.0, 100, "overwhelmed"),  # Critical usage
+            (10.0, 10.0, 5, "calm"),               # Low usage: ~7
+            (40.0, 40.0, 100, "balanced"),         # Moderate: ~27
+            (70.0, 70.0, 1000, "excited"),         # High: 53
+            (100.0, 100.0, 2000, "stressed"),      # Very high: 70
+            (130.0, 130.0, 5000, "overwhelmed"),   # Critical: 90
         ]
         
         for cpu, memory, io_ops, expected_emotion in test_cases:
             emotion = classify_emotion(cpu, memory, io_ops)
-            assert emotion == expected_emotion, f"Expected {expected_emotion} for CPU={cpu}, MEM={memory}, got {emotion}"
+            assert emotion == expected_emotion, f"Expected {expected_emotion} for CPU={cpu}, MEM={memory}, IO={io_ops}, got {emotion}"
         
         return {"test": "emotion_classification", "status": "PASS"}
     

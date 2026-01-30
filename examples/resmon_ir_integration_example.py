@@ -51,7 +51,12 @@ def create_ir_from_process(proc: psutil.Process, index: int) -> ResmonIRNode:
         emotion = classify_emotion(cpu, (memory_mb / 1024) * 100, proc_info.get('num_threads', 0))
         
         # Determine energy level (0.0-1.0)
-        energy_level = min(1.0, cpu / 100.0 + (memory_mb / 2048))
+        # Normalize CPU (handle multi-core > 100%)
+        normalized_cpu = min(cpu / 100.0, 1.0)
+        # Normalize memory (2GB threshold)
+        normalized_memory = min(memory_mb / 2048.0, 1.0)
+        # Combine with 50/50 weight
+        energy_level = (normalized_cpu * 0.5 + normalized_memory * 0.5)
         
         # Create IR node
         node = ResmonIRNode(
