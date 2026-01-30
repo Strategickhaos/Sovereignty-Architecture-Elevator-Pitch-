@@ -35,3 +35,20 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# RESMON IR snapshot files (generated examples)
+resmon_ir_system_snapshot.json
+resmon_ir_system_snapshot.yaml
+resmon_ir_system_snapshot.graphml
