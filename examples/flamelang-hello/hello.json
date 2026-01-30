@@ -1,0 +1,45 @@
+{
+  "Module": {
+    "name": "hello",
+    "version": "0.1.0",
+    "items": [
+      {
+        "Extern": {
+          "name": "print",
+          "params": ["String"],
+          "return_type": "Unit"
+        }
+      },
+      {
+        "FnDef": {
+          "name": "main",
+          "params": [],
+          "return_type": "Unit",
+          "body": {
+            "Block": {
+              "statements": [
+                {
+                  "Call": {
+                    "target": "print",
+                    "args": [
+                      {
+                        "Const": {
+                          "String": "Hello, FlameLang!"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "Return": {
+                    "value": null
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}
