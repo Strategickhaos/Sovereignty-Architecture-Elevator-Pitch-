@@ -265,6 +265,11 @@ impl InvariantChecker {
                 Self::check_return_recursive(&b.left, in_fn, diags);
                 Self::check_return_recursive(&b.right, in_fn, diags);
             }
+            FlameIR::Return(r) => {
+                if let Some(v) = &r.value {
+                    Self::check_return_recursive(v, in_fn, diags);
+                }
+            }
             _ => {}
         }
     }
@@ -366,9 +371,18 @@ impl InvariantChecker {
                 }
             }
             FlameIR::FnDef(f) => {
-                let mut fn_scope: Vec<String> = f.params.iter()
-                    .map(|p| p.name.clone())
-                    .collect();
+                let mut fn_scope: Vec<String> = Vec::new();
+                // Check for duplicate parameter names
+                for param in &f.params {
+                    if fn_scope.contains(&param.name) {
+                        diags.push(Diagnostic {
+                            level: DiagnosticLevel::Error,
+                            message: format!("Duplicate parameter name: {}", param.name),
+                            location: None,
+                        });
+                    }
+                    fn_scope.push(param.name.clone());
+                }
                 Self::check_bindings_recursive(&f.body, &mut fn_scope, diags);
             }
             FlameIR::Block(b) => {
@@ -397,6 +411,11 @@ impl InvariantChecker {
                 Self::check_bindings_recursive(&b.left, scope, diags);
                 Self::check_bindings_recursive(&b.right, scope, diags);
             }
+            FlameIR::Return(r) => {
+                if let Some(v) = &r.value {
+                    Self::check_bindings_recursive(v, scope, diags);
+                }
+            }
             _ => {}
         }
     }
@@ -407,7 +426,56 @@ impl InvariantChecker {
         all.extend(Self::check_return_in_fndef(ir));
         all.extend(Self::check_call_targets(ir));
         all.extend(Self::check_unique_bindings(ir));
+        all.extend(Self::check_module_structure(ir));
+        all.extend(Self::check_fndef_bodies(ir));
         all
+    }
+    
+    /// INVARIANT 4: Module items must be FnDef or Extern only
+    pub fn check_module_structure(ir: &FlameIR) -> Vec<Diagnostic> {
+        let mut diagnostics = Vec::new();
+        if let FlameIR::Module(m) = ir {
+            for item in &m.items {
+                match item {
+                    FlameIR::FnDef(_) | FlameIR::Extern(_) => {},
+                    _ => {
+                        diagnostics.push(Diagnostic {
+                            level: DiagnosticLevel::Error,
+                            message: "Module can only contain FnDef or Extern items".into(),
+                            location: None,
+                        });
+                    }
+                }
+            }
+        }
+        diagnostics
+    }
+    
+    /// INVARIANT 5: FnDef body must be a Block
+    pub fn check_fndef_bodies(ir: &FlameIR) -> Vec<Diagnostic> {
+        let mut diagnostics = Vec::new();
+        Self::check_fndef_bodies_recursive(ir, &mut diagnostics);
+        diagnostics
+    }
+    
+    fn check_fndef_bodies_recursive(ir: &FlameIR, diags: &mut Vec<Diagnostic>) {
+        match ir {
+            FlameIR::Module(m) => {
+                for item in &m.items {
+                    Self::check_fndef_bodies_recursive(item, diags);
+                }
+            }
+            FlameIR::FnDef(f) => {
+                if !matches!(*f.body, FlameIR::Block(_)) {
+                    diags.push(Diagnostic {
+                        level: DiagnosticLevel::Error,
+                        message: format!("Function '{}' body must be a Block", f.name),
+                        location: None,
+                    });
+                }
+            }
+            _ => {}
+        }
     }
 }
 
@@ -633,5 +701,59 @@ mod tests {
         
         let diagnostics = InvariantChecker::check_unique_bindings(&ir);
         assert!(!diagnostics.is_empty(), "Should detect duplicate binding");
+    }
+    
+    /// Test invariant 4: Module items must be FnDef or Extern only
+    #[test]
+    fn test_invariant_module_structure() {
+        let ir = module("bad", vec![
+            FlameIR::Let(Let {
+                name: "x".into(),
+                value: Box::new(const_int(1)),
+                let_type: None,
+            }),  // Invalid - Let cannot be at module level!
+        ]);
+        
+        let diagnostics = InvariantChecker::check_module_structure(&ir);
+        assert!(!diagnostics.is_empty(), "Should detect non-FnDef/Extern in module");
+    }
+    
+    /// Test invariant 5: FnDef body must be Block
+    #[test]
+    fn test_invariant_fndef_body_must_be_block() {
+        let ir = FlameIR::Module(Module {
+            name: "bad".into(),
+            version: IR_VERSION.into(),
+            items: vec![
+                FlameIR::FnDef(FnDef {
+                    name: "main".into(),
+                    params: vec![],
+                    return_type: FlameType::Unit,
+                    body: Box::new(const_int(42)),  // Invalid - not a Block!
+                }),
+            ],
+        });
+        
+        let diagnostics = InvariantChecker::check_fndef_bodies(&ir);
+        assert!(!diagnostics.is_empty(), "Should detect non-Block function body");
+    }
+    
+    /// Test duplicate parameter names
+    #[test]
+    fn test_invariant_duplicate_parameters() {
+        let ir = module("bad", vec![
+            FlameIR::FnDef(FnDef {
+                name: "foo".into(),
+                params: vec![
+                    Param { name: "x".into(), param_type: FlameType::Int },
+                    Param { name: "x".into(), param_type: FlameType::Int },  // Invalid!
+                ],
+                return_type: FlameType::Unit,
+                body: Box::new(block(vec![ret(None)])),
+            }),
+        ]);
+        
+        let diagnostics = InvariantChecker::check_unique_bindings(&ir);
+        assert!(!diagnostics.is_empty(), "Should detect duplicate parameter names");
     }
 }
