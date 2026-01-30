@@ -51,6 +51,10 @@ A4_MIDI = 69
 QUANT_32 = 1/32
 QUANT_64 = 1/64
 
+# Display thresholds
+INFINITY_DISPLAY_THRESHOLD = 1e10  # Values above this are shown as ±∞
+MICROTONE_THRESHOLD_CENTS = 5  # Cents deviation to show microtonal notation
+
 # Rubik's cube colors as angular sectors (60° each)
 CUBE_COLORS = {
     'white':  0,    # 0° - 60°
@@ -136,7 +140,12 @@ def quantize(value: float, resolution: float = QUANT_64) -> float:
 
 
 def quantize_to_fraction(value: float, max_denom: int = 64) -> Tuple[int, int]:
-    """Convert decimal to nearest fraction with given max denominator."""
+    """
+    Convert decimal to nearest binary fraction (power-of-2 denominators).
+    
+    Only checks denominators that are powers of 2 (2, 4, 8, 16, 32, 64)
+    as per pipefitter standard for fractional inch measurements.
+    """
     # Normalize to 0-1 range if needed
     normalized = value % 1.0 if value > 1 else value
     
@@ -153,6 +162,13 @@ def quantize_to_fraction(value: float, max_denom: int = 64) -> Tuple[int, int]:
             best_error = error
             best_num = num
             best_denom = denom
+    
+    # Simplify fraction to lowest terms
+    if best_num > 0 and best_denom > 1:
+        from math import gcd
+        divisor = gcd(best_num, best_denom)
+        best_num //= divisor
+        best_denom //= divisor
     
     return (best_num, best_denom)
 
@@ -350,22 +366,28 @@ def get_note_name(midi: float) -> str:
     
     # Indicate if microtonal
     cents_off = (midi - midi_int) * 100
-    if abs(cents_off) > 5:
+    if abs(cents_off) > MICROTONE_THRESHOLD_CENTS:
         return f"{notes[note_idx]}{octave} {cents_off:+.0f}¢"
     return f"{notes[note_idx]}{octave}"
 
 
 def get_color_sector(theta_deg: float) -> str:
-    """Determine which Rubik's cube color sector the angle falls in."""
+    """
+    Determine which Rubik's cube color sector the angle falls in.
+    
+    Maps 360° into six 60° sectors corresponding to cube faces.
+    Note: CUBE_COLORS constant above shows reference positions,
+    but this function maps the full angular sweep sequentially.
+    """
     theta_normalized = theta_deg % 360
     
-    # 60° sectors
+    # 60° sectors mapped sequentially around the circle
     if 0 <= theta_normalized < 60:
         return 'white'
     elif 60 <= theta_normalized < 120:
         return 'blue'
     elif 120 <= theta_normalized < 180:
-        return 'red'  # adjusted for angular position
+        return 'red'
     elif 180 <= theta_normalized < 240:
         return 'yellow'
     elif 240 <= theta_normalized < 300:
@@ -474,10 +496,10 @@ def print_result(result: TRIG6Result):
     print(f"\n[TRIG6]")
     print(f"  sin(θ): {result.sin:+.6f}")
     print(f"  cos(θ): {result.cos:+.6f}")
-    print(f"  tan(θ): {result.tan:+.6f}" if abs(result.tan) < 1e10 else f"  tan(θ): ±∞")
-    print(f"  csc(θ): {result.csc:+.6f}" if abs(result.csc) < 1e10 else f"  csc(θ): ±∞")
-    print(f"  sec(θ): {result.sec:+.6f}" if abs(result.sec) < 1e10 else f"  sec(θ): ±∞")
-    print(f"  cot(θ): {result.cot:+.6f}" if abs(result.cot) < 1e10 else f"  cot(θ): ±∞")
+    print(f"  tan(θ): {result.tan:+.6f}" if abs(result.tan) < INFINITY_DISPLAY_THRESHOLD else f"  tan(θ): ±∞")
+    print(f"  csc(θ): {result.csc:+.6f}" if abs(result.csc) < INFINITY_DISPLAY_THRESHOLD else f"  csc(θ): ±∞")
+    print(f"  sec(θ): {result.sec:+.6f}" if abs(result.sec) < INFINITY_DISPLAY_THRESHOLD else f"  sec(θ): ±∞")
+    print(f"  cot(θ): {result.cot:+.6f}" if abs(result.cot) < INFINITY_DISPLAY_THRESHOLD else f"  cot(θ): ±∞")
     
     print(f"\n[FREQUENCY]")
     print(f"  MIDI:  {result.midi_note:.2f}")
@@ -536,7 +558,7 @@ if __name__ == "__main__":
     print("-" * 42)
     for angle in [0, 30, 45, 60, 90, 180, 270]:
         t = trig6_all(angle)
-        tan_str = f"{t['tan']:.4f}" if abs(t['tan']) < 1000 else "±∞"
+        tan_str = f"{t['tan']:.4f}" if abs(t['tan']) < INFINITY_DISPLAY_THRESHOLD else "±∞"
         print(f"{angle:<10} {t['sin']:<10.4f} {t['cos']:<10.4f} {tan_str:<12}")
     
     print("\n" + "=" * 60)
