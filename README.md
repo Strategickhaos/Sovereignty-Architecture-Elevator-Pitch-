@@ -71,6 +71,24 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🔥 FlameLang IR (`flamelang`)
+- **FlameIR v0.1.0**: FROZEN intermediate representation specification
+- **JSON Schema**: Complete type system with validation
+- **Examples**: Hello world, arithmetic, higher-order functions
+- **Testing**: Comprehensive schema validation test suite
+- **Documentation**: Full specification in `flamelang/README.md`
+
+```bash
+# Validate FlameIR documents
+cd flamelang
+python3 tests/validate.py examples/hello_world.json
+
+# Run test suite
+python3 tests/test_schema.py
+```
+
+See [FLAMELANG_SPECIFICATION.md](FLAMELANG_SPECIFICATION.md) and [flamelang/README.md](flamelang/README.md) for details.
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment

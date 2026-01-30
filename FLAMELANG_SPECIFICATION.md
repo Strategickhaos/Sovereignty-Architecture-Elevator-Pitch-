@@ -338,6 +338,74 @@ class FlameLangParser:
 
 ---
 
+## 11. FLAMEIR - INTERMEDIATE REPRESENTATION
+
+### 11.1 Overview
+
+FlameIR v0.1.0 is the FROZEN intermediate representation specification for FlameLang. It provides a structured, typed format for representing FlameLang programs in a machine-readable form suitable for compilation, interpretation, and analysis.
+
+**Location:** `flamelang/schemas/flame-ir-v0.1.0.json`
+
+### 11.2 Type System
+
+FlameIR supports a simple type system with:
+- **Primitive Types:** Int, Float, Bool, String, Unit
+- **Function Types:** Fn (with parameters and return type)
+
+### 11.3 Core Constructs
+
+- **Module** - Top-level program container
+- **FnDef** - Function definitions
+- **Block** - Statement sequences
+- **Let** - Variable bindings
+- **Const** - Literal constants
+- **Call** - Function calls
+- **Return** - Return statements
+- **Extern** - External function declarations
+- **Var** - Variable references
+- **BinOp** - Binary operations (arithmetic, comparison, logical)
+
+### 11.4 Usage
+
+```bash
+# Validate FlameIR documents
+cd flamelang
+python3 tests/validate.py examples/hello_world.json
+
+# Run test suite
+python3 tests/test_schema.py
+```
+
+### 11.5 Example
+
+```json
+{
+  "Module": {
+    "name": "hello_world",
+    "version": "0.1.0",
+    "items": [
+      {
+        "FnDef": {
+          "name": "main",
+          "params": [],
+          "return_type": "Unit",
+          "body": {
+            "Call": {
+              "target": "print",
+              "args": [{"Const": {"String": "Hello, World!"}}]
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+See `flamelang/README.md` for complete documentation.
+
+---
+
 ## COVENANT
 
 ```
