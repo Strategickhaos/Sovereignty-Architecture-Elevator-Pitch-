@@ -18,6 +18,19 @@ Date: January 2026
 import math
 from typing import List, Dict, Tuple, Optional
 
+# Constants for geometry perturbation
+PERTURBATION_SCALE = 0.02  # Base perturbation amplitude
+COS_OFFSET = 0.5           # Offset for cosine-based perturbation
+TAN_DAMPENING = 0.05       # Dampening factor for tangent-based perturbation
+H_ATOM_SCALE = 1.0         # Hydrogen atoms get full perturbation
+HEAVY_ATOM_SCALE = 0.4     # Heavy atoms get reduced perturbation
+
+# Constants for FlameLang bit flip
+BIT_FLIP_PRECISION = 10000  # Precision factor for binary conversion
+
+# Constants for PDF method
+WAVENUMBER_SCALING = 15  # Empirical scaling factor to match doc output (~5037 cm^-1)
+
 # PySCF will be imported only when needed to avoid hard dependency
 try:
     from pyscf import gto, scf
@@ -31,26 +44,28 @@ def text_to_pdf_params(text: str) -> Dict[str, float]:
     """
     Convert text to PDF (Perturbation-Driven Frequency) parameters.
     
-    Simulates Hebrew transformation (using document example for "creation contradiction"),
-    converts to hex/dec, uses first dec as radius, calculates c=2πr,
-    derives frequency and wavenumber.
+    Note: Currently uses a fixed Hebrew text example from documentation
+    ("creation contradiction") to ensure consistent PDF parameters for testing.
+    Future versions could implement dynamic text-to-Hebrew transformation.
+    
+    Pipeline: Hebrew → hex → dec → radius → c=2πr → freq → wavenumber
     
     Args:
-        text: Input text string
+        text: Input text string (currently not used; fixed Hebrew example)
         
     Returns:
         Dictionary with radius, freq_Hz, and wavenumber_cm-1
     """
-    # Sim Hebrew (use doc example for "creation contradiction")
-    hebrew = "לבריאה סתירה מכלום סכיזופרנית סיבה כנראה"  # Doc text
+    # Example Hebrew text from documentation: "creation contradiction from nothing schizophrenic cause probably"
+    hebrew = "לבריאה סתירה מכלום סכיזופרנית סיבה כנראה"
     hex_str = ' '.join(f'{ord(c):X}' for c in hebrew)  # To hex
     dec = [int(h, 16) for h in hex_str.split() if h]  # To dec
-    radius = dec[0] if dec else 1499.0  # First dec as radius
-    c = 2 * math.pi * radius
-    bits_sec = c * 8  # Doc-like freq proxy
+    radius = dec[0] if dec else 1499.0  # First decimal as radius parameter
+    circumference = 2 * math.pi * radius
+    bits_sec = circumference * 8  # Frequency proxy from bits/sec
     freq = bits_sec  # Hz
-    # Wavenumber using custom scaling to match doc output (~5037 cm^-1)
-    wavenumber = int(freq / 15)  # Empirical scaling factor from doc
+    # Wavenumber using empirical scaling to match doc output (~5037 cm^-1)
+    wavenumber = int(freq / WAVENUMBER_SCALING)
     
     return {
         'radius': radius,
@@ -90,8 +105,9 @@ def flamlang_flip(val: float) -> float:
     """
     FlameLang bit flip operation.
     
-    Converts value to binary representation, reverses it,
-    and converts back to float. This creates a perturbation effect.
+    Converts value to binary representation (scaled by BIT_FLIP_PRECISION),
+    reverses the bits, and converts back to float. This creates a 
+    perturbation effect based on binary structure.
     
     Args:
         val: Input floating point value
@@ -99,9 +115,9 @@ def flamlang_flip(val: float) -> float:
     Returns:
         Flipped floating point value
     """
-    bin_str = bin(int(abs(val) * 10000))[2:]
+    bin_str = bin(int(abs(val) * BIT_FLIP_PRECISION))[2:]
     flipped = bin_str[::-1]
-    return float(int(flipped, 2) / 10000) * (1 if val >= 0 else -1)
+    return float(int(flipped, 2) / BIT_FLIP_PRECISION) * (1 if val >= 0 else -1)
 
 
 def params_from_trig(trigs: List[Tuple], pdf_params: Dict[str, float]) -> Dict[str, float]:
@@ -118,9 +134,10 @@ def params_from_trig(trigs: List[Tuple], pdf_params: Dict[str, float]) -> Dict[s
     Returns:
         Dictionary of computed parameters
     """
-    sins = [s for *_, s, __, ___ in trigs]
-    coss = [c for *_, __, c, ___ in trigs]
-    tans = [t for *_, __, ___, t in trigs if abs(t) < 1e6]
+    # Extract sin, cos, tan values from tuples
+    sins = [trig[3] for trig in trigs]  # sin is at index 3
+    coss = [trig[4] for trig in trigs]  # cos is at index 4
+    tans = [trig[5] for trig in trigs if abs(trig[5]) < 1e6]  # tan at index 5, filter infinities
     flipped_sins = [flamlang_flip(s) for s in sins]
     
     sin_mean = sum(sins) / len(sins) if sins else 0.0
@@ -169,7 +186,8 @@ def perturb_geometry(spec: MoleculeSpec, p: Dict[str, float]) -> MoleculeSpec:
     Perturb molecular geometry based on trig parameters.
     
     Applies small displacements to atomic coordinates based on
-    sin_mean, cos_mean, and tan_sum values.
+    sin_mean, cos_mean, and tan_sum values. Hydrogen atoms receive
+    full perturbation while heavy atoms receive reduced perturbation.
     
     Args:
         spec: Original molecule specification
@@ -178,13 +196,15 @@ def perturb_geometry(spec: MoleculeSpec, p: Dict[str, float]) -> MoleculeSpec:
     Returns:
         New MoleculeSpec with perturbed geometry
     """
-    dx = 0.02 * math.tanh(p['sin_mean'])
-    dy = 0.02 * math.tanh(p['cos_mean'] - 0.5)
-    dz = 0.02 * math.tanh(p['tan_sum'] * 0.05)
+    # Calculate perturbations using tanh to bound values
+    dx = PERTURBATION_SCALE * math.tanh(p['sin_mean'])
+    dy = PERTURBATION_SCALE * math.tanh(p['cos_mean'] - COS_OFFSET)
+    dz = PERTURBATION_SCALE * math.tanh(p['tan_sum'] * TAN_DAMPENING)
     
     pert_atoms = []
     for el, x, y, z in spec.atoms:
-        scale = 1.0 if el == 'H' else 0.4
+        # Hydrogen gets full perturbation, heavy atoms get reduced
+        scale = H_ATOM_SCALE if el == 'H' else HEAVY_ATOM_SCALE
         pert_atoms.append((el, x + scale*dx, y + scale*dy, z + scale*dz))
     
     return MoleculeSpec(spec.name, pert_atoms, spec.basis, spec.charge, spec.spin)
@@ -192,13 +212,15 @@ def perturb_geometry(spec: MoleculeSpec, p: Dict[str, float]) -> MoleculeSpec:
 
 def rhf_energy(spec: MoleculeSpec) -> float:
     """
-    Calculate Restricted Hartree-Fock energy for a molecule.
+    Calculate quantum energy for a molecule using appropriate Hartree-Fock method.
+    
+    Uses RHF for closed-shell (spin=0) and ROHF for open-shell (spin!=0) systems.
     
     Args:
         spec: Molecule specification
         
     Returns:
-        Total RHF energy in Hartree
+        Total energy in Hartree
         
     Raises:
         RuntimeError: If PySCF is not available
@@ -208,7 +230,13 @@ def rhf_energy(spec: MoleculeSpec) -> float:
     
     atom_str = '; '.join(f'{el} {x} {y} {z}' for el, x, y, z in spec.atoms)
     m = gto.M(atom=atom_str, basis=spec.basis, charge=spec.charge, spin=spec.spin)
-    mf = scf.RHF(m)
+    
+    # Use ROHF for open-shell systems (spin != 0), RHF for closed-shell
+    if spec.spin != 0:
+        mf = scf.ROHF(m)
+    else:
+        mf = scf.RHF(m)
+    
     return mf.kernel()
 
 
