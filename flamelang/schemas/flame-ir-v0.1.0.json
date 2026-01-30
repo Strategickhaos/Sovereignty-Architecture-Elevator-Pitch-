@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strategickhaos.ai/flamelang/ir/v0.1.0",
+  "title": "FlameIR v0.1.0",
+  "description": "FROZEN Intermediate Representation for FlameLang. No modifications without version bump.",
+  "version": "0.1.0",
+  "type": "object",
+  "definitions": {
+    "FlameType": {
+      "oneOf": [
+        { "const": "Int" },
+        { "const": "Float" },
+        { "const": "Bool" },
+        { "const": "String" },
+        { "const": "Unit" },
+        {
+          "type": "object",
+          "properties": {
+            "Fn": {
+              "type": "object",
+              "properties": {
+                "params": { "type": "array", "items": { "$ref": "#/definitions/FlameType" } },
+                "return": { "$ref": "#/definitions/FlameType" }
+              },
+              "required": ["params", "return"]
+            }
+          },
+          "required": ["Fn"]
+        }
+      ]
+    },
+    "BinaryOperator": {
+      "enum": ["Add", "Sub", "Mul", "Div", "Mod", "Eq", "Ne", "Lt", "Le", "Gt", "Ge", "And", "Or"]
+    },
+    "Param": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "param_type": { "$ref": "#/definitions/FlameType" }
+      },
+      "required": ["name", "param_type"]
+    },
+    "Const": {
+      "oneOf": [
+        { "type": "object", "properties": { "Int": { "type": "integer" } }, "required": ["Int"] },
+        { "type": "object", "properties": { "Float": { "type": "number" } }, "required": ["Float"] },
+        { "type": "object", "properties": { "Bool": { "type": "boolean" } }, "required": ["Bool"] },
+        { "type": "object", "properties": { "String": { "type": "string" } }, "required": ["String"] },
+        { "const": "Unit" }
+      ]
+    },
+    "FlameIR": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "Module": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "items": { "type": "array", "items": { "$ref": "#/definitions/FlameIR" } },
+                "version": { "type": "string", "const": "0.1.0" }
+              },
+              "required": ["name", "items", "version"]
+            }
+          },
+          "required": ["Module"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "FnDef": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "params": { "type": "array", "items": { "$ref": "#/definitions/Param" } },
+                "return_type": { "$ref": "#/definitions/FlameType" },
+                "body": { "$ref": "#/definitions/FlameIR" }
+              },
+              "required": ["name", "params", "return_type", "body"]
+            }
+          },
+          "required": ["FnDef"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Block": {
+              "type": "object",
+              "properties": {
+                "statements": { "type": "array", "items": { "$ref": "#/definitions/FlameIR" } }
+              },
+              "required": ["statements"]
+            }
+          },
+          "required": ["Block"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Let": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "value": { "$ref": "#/definitions/FlameIR" },
+                "let_type": { "$ref": "#/definitions/FlameType" }
+              },
+              "required": ["name", "value"]
+            }
+          },
+          "required": ["Let"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Const": { "$ref": "#/definitions/Const" }
+          },
+          "required": ["Const"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Call": {
+              "type": "object",
+              "properties": {
+                "target": { "type": "string" },
+                "args": { "type": "array", "items": { "$ref": "#/definitions/FlameIR" } }
+              },
+              "required": ["target", "args"]
+            }
+          },
+          "required": ["Call"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Return": {
+              "type": "object",
+              "properties": {
+                "value": { "$ref": "#/definitions/FlameIR" }
+              }
+            }
+          },
+          "required": ["Return"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Extern": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "params": { "type": "array", "items": { "$ref": "#/definitions/FlameType" } },
+                "return_type": { "$ref": "#/definitions/FlameType" }
+              },
+              "required": ["name", "params", "return_type"]
+            }
+          },
+          "required": ["Extern"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Var": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" }
+              },
+              "required": ["name"]
+            }
+          },
+          "required": ["Var"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "BinOp": {
+              "type": "object",
+              "properties": {
+                "op": { "$ref": "#/definitions/BinaryOperator" },
+                "left": { "$ref": "#/definitions/FlameIR" },
+                "right": { "$ref": "#/definitions/FlameIR" }
+              },
+              "required": ["op", "left", "right"]
+            }
+          },
+          "required": ["BinOp"]
+        }
+      ]
+    }
+  },
+  "$ref": "#/definitions/FlameIR"
+}

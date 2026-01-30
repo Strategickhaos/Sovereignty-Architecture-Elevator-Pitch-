@@ -1,0 +1,127 @@
+{
+  "Module": {
+    "name": "arithmetic",
+    "version": "0.1.0",
+    "items": [
+      {
+        "Extern": {
+          "name": "print_int",
+          "params": ["Int"],
+          "return_type": "Unit"
+        }
+      },
+      {
+        "FnDef": {
+          "name": "add",
+          "params": [
+            {
+              "name": "a",
+              "param_type": "Int"
+            },
+            {
+              "name": "b",
+              "param_type": "Int"
+            }
+          ],
+          "return_type": "Int",
+          "body": {
+            "Return": {
+              "value": {
+                "BinOp": {
+                  "op": "Add",
+                  "left": {
+                    "Var": {
+                      "name": "a"
+                    }
+                  },
+                  "right": {
+                    "Var": {
+                      "name": "b"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "FnDef": {
+          "name": "main",
+          "params": [],
+          "return_type": "Unit",
+          "body": {
+            "Block": {
+              "statements": [
+                {
+                  "Let": {
+                    "name": "x",
+                    "value": {
+                      "Const": {
+                        "Int": 10
+                      }
+                    },
+                    "let_type": "Int"
+                  }
+                },
+                {
+                  "Let": {
+                    "name": "y",
+                    "value": {
+                      "Const": {
+                        "Int": 20
+                      }
+                    },
+                    "let_type": "Int"
+                  }
+                },
+                {
+                  "Let": {
+                    "name": "result",
+                    "value": {
+                      "Call": {
+                        "target": "add",
+                        "args": [
+                          {
+                            "Var": {
+                              "name": "x"
+                            }
+                          },
+                          {
+                            "Var": {
+                              "name": "y"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "let_type": "Int"
+                  }
+                },
+                {
+                  "Call": {
+                    "target": "print_int",
+                    "args": [
+                      {
+                        "Var": {
+                          "name": "result"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "Return": {
+                    "value": {
+                      "Const": "Unit"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}
