@@ -1,0 +1,9 @@
+# DOM Compiler - Quantum Trig Chemistry Requirements
+# For alphabet-to-trig compilation and quantum chemistry simulations
+
+# Core quantum chemistry library
+pyscf>=2.3.0              # Python-based Simulations of Chemistry Framework
+
+# Optional: Enhanced numerical performance
+numpy>=1.24.0             # Required by PySCF for numerical operations
+scipy>=1.10.0             # Required by PySCF for scientific computing
