@@ -86,11 +86,14 @@ LABELINGS = {
 def i_node(n: int) -> int:
     return (n + 1) % N
 
+# Create reverse mapping for UNIT to avoid floating-point comparison issues
+_UNIT_REVERSE = {v: k for k, v in LABELINGS["UNIT"].items()}
+
 INCREMENTS: Dict[str, Callable] = {
     "DNA": lambda codon: CODONS[(CODONS.index(codon) + 1) % N],
     "MIDI": lambda note: 60 + ((note - 60 + 1) % N),
     "THETA": lambda t: round((t + DEG_PER_STEP) % 360.0, 4),
-    "UNIT": lambda pos: unit_circle(i_node(list(LABELINGS["UNIT"].keys())[list(LABELINGS["UNIT"].values()).index(pos)])),
+    "UNIT": lambda pos: unit_circle(i_node(_UNIT_REVERSE[pos])),
 }
 
 def commute_check(labeling: str, n: int = None) -> bool:

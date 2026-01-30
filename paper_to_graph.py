@@ -36,7 +36,12 @@ CODONS = [
 def fraction_to_index(frac: str) -> int:
     if '/' not in frac:
         raise ValueError(f"Invalid fraction: {frac}")
-    num, den = map(int, frac.split('/'))
+    try:
+        num, den = map(int, frac.split('/'))
+    except ValueError:
+        raise ValueError(f"Invalid fraction format: {frac}. Expected format: 'numerator/denominator'")
+    if den == 0:
+        raise ValueError(f"Invalid fraction: {frac}. Denominator cannot be zero.")
     return round(num * N / den) % N
 
 def theta_deg(n: int) -> float:

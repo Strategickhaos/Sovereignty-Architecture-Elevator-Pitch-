@@ -36,13 +36,14 @@ def prune_demo(start: int = 0, goal: int = 32, prune_threshold: float = 0.5):
         current, path = queue.popleft()
         explored += 1
 
+        # Check if goal is reached before pruning
+        if current == goal:
+            return path, explored, pruned_count
+
         # TRIG6 prune: skip if sin(theta) <= threshold
         if trig6_sin(theta_deg(current)) <= prune_threshold:
             pruned_count += 1
             continue
-
-        if current == goal:
-            return path, explored, pruned_count
 
         for neighbor in G[current]:
             if neighbor not in visited:
