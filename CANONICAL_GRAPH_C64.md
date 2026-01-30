@@ -249,8 +249,10 @@ pytest test_canonical_graph_c64.py --cov=canonical_graph_c64 --cov-report=html
 
 - **Total Nodes**: 64
 - **Total Labelings**: 6 (DNA, TRIG6, MIDI, Geometry, Curves, Glyph)
-- **Commutativity Tests**: 320 (64 nodes × 5 testable labelings)
+- **Commutativity Tests**: 320 (64 nodes × 5 testable labelings*)
 - **Pass Rate**: 100%
+
+*Note: CurveLabeling provides interpolation functionality and is not directly tested for commutativity as it's derived from GeometryLabeling. The 5 testable labelings are DNA, TRIG6, MIDI, Geometry, and Glyph.
 
 All labelings are proven to be valid graph homomorphisms through automated verification.
 

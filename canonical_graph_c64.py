@@ -58,10 +58,12 @@ class CanonicalGraph64:
     
     def successor(self, n: int) -> int:
         """Get the successor of node n in the cycle."""
+        n = n % self.N  # Normalize to valid range
         return self.edges[n]
     
     def predecessor(self, n: int) -> int:
         """Get the predecessor of node n in the cycle."""
+        n = n % self.N  # Normalize to valid range
         return self.reverse_edges[n]
     
     def theta(self, n: int) -> float:
@@ -70,6 +72,7 @@ class CanonicalGraph64:
         
         Maps each node to its angular position on the unit circle.
         """
+        n = n % self.N  # Normalize to valid range
         return n * (360.0 / self.N)
     
     def theta_radians(self, n: int) -> float:
@@ -81,6 +84,8 @@ class CanonicalGraph64:
         Graph distance between two nodes (minimum path length).
         On a cycle, this is min(forward, backward) distance.
         """
+        n1 = n1 % self.N  # Normalize to valid range
+        n2 = n2 % self.N  # Normalize to valid range
         forward = (n2 - n1) % self.N
         backward = (n1 - n2) % self.N
         return min(forward, backward)
@@ -206,12 +211,19 @@ class CurveLabeling:
         
         Args:
             t: Parameter in [0, 1], where 0 = n_start, 1 = n_end
-            n_start: Starting node
-            n_end: Ending node
+            n_start: Starting node (will be normalized to [0, 63])
+            n_end: Ending node (will be normalized to [0, 63])
             
         Returns:
             Interpolated position on unit circle as complex number
         """
+        # Clamp t to valid range
+        t = max(0.0, min(1.0, t))
+        
+        # Normalize nodes to valid range
+        n_start = n_start % 64
+        n_end = n_end % 64
+        
         # Simple linear interpolation on the circle (geodesic)
         # For more sophisticated curves, could use Bézier or spline
         theta_start = n_start * 2 * math.pi / 64
@@ -495,6 +507,18 @@ class CanonicalGraphSystem:
     Complete system for the canonical 64-node cyclic graph.
     
     Provides unified interface to graph structure and all labelings.
+    
+    Novelty Statement:
+    ------------------
+    All artifacts are projections of the same 64-state cyclic graph; novelty lies
+    in enforcing commutativity across domains. Rather than proving N² pairwise
+    isomorphisms, we show one structure with many faithful projections, where
+    "survival under crossfire" becomes commutativity + invariance.
+    
+    The canonical graph C_64 unifies DNA codons, KHAOS glyphs, trigonometric angles,
+    MIDI notes, and geometric embeddings under a single quantized, cyclic structure.
+    Each domain is a homomorphic image—incrementing then mapping equals mapping then
+    incrementing—making cross-domain verification reducible to a single rule check.
     """
     
     def __init__(self):

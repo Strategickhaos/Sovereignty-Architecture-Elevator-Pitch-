@@ -232,16 +232,22 @@ def demo_export():
     data = system.export_graph_data()
     
     filename = "c64_graph_export.json"
-    with open(filename, 'w') as f:
-        # Custom serializer for complex numbers
-        def serialize(obj):
-            if isinstance(obj, complex):
-                return {"real": obj.real, "imag": obj.imag}
-            return str(obj)
-        
-        json.dump(data, f, indent=2, default=serialize)
     
-    print(f"  ✓ Exported to {filename}")
+    try:
+        with open(filename, 'w') as f:
+            # Custom serializer for complex numbers
+            def serialize(obj):
+                if isinstance(obj, complex):
+                    return {"real": obj.real, "imag": obj.imag}
+                return str(obj)
+            
+            json.dump(data, f, indent=2, default=serialize)
+        
+        print(f"  ✓ Exported to {filename}")
+    except IOError as e:
+        print(f"  ✗ Failed to export: {e}")
+        return
+    
     print()
     print("Export contains:")
     print(f"  - Graph metadata")
