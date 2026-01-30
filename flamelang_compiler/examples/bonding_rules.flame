@@ -1,0 +1,10 @@
+let state_a = 10;
+let state_b = 20;
+let compound = state_a + state_b;
+print(compound);
+
+let transform_mul = compound * 2;
+print(transform_mul);
+
+let final_state = transform_mul - 15;
+print(final_state);

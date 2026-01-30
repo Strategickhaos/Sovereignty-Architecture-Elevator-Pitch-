@@ -1,0 +1,6 @@
+let a = 0;
+let b = 1;
+print(a);
+print(b);
+let temp = a + b;
+print(temp);
