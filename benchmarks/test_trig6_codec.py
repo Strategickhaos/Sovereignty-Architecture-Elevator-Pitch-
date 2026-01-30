@@ -136,10 +136,13 @@ class TestQuantization:
     
     def test_quantize_to_fraction_complex(self):
         """Test fraction conversion for complex values."""
-        # 0.333... should be close to 1/3, but 1/3 is not in our denominator list
-        # So it should pick something like 21/64 ≈ 0.328125
-        num, denom = quantize_to_fraction(0.333)
-        # Verify it's reasonably close
+        # 0.333... should be approximated by the closest power-of-2 denominator
+        # For max_denom=64, the closest fractions are:
+        # 21/64 ≈ 0.328125 (error ≈ 0.005)
+        # 22/64 ≈ 0.34375 (error ≈ 0.011)
+        # So 21/64 should be selected
+        num, denom = quantize_to_fraction(0.333, max_denom=64)
+        assert num == 21 and denom == 64
         assert abs((num / denom) - 0.333) < 0.01
 
 

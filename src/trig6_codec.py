@@ -105,7 +105,7 @@ def trig6_all(theta_deg: float) -> Dict[str, float]:
     Compute all 6 trig functions for a given angle.
     
     Returns dict with sin, cos, tan, csc, sec, cot.
-    Handles undefined values (division by zero) as infinity.
+    Handles undefined values (division by zero) as signed infinity.
     """
     theta_rad = math.radians(theta_deg)
     
@@ -115,10 +115,22 @@ def trig6_all(theta_deg: float) -> Dict[str, float]:
     # Handle near-zero for reciprocals
     eps = 1e-10
     
-    tan_val = sin_val / cos_val if abs(cos_val) > eps else math.inf * (1 if sin_val >= 0 else -1)
-    csc_val = 1 / sin_val if abs(sin_val) > eps else math.inf * (1 if sin_val >= 0 else -1)
-    sec_val = 1 / cos_val if abs(cos_val) > eps else math.inf * (1 if cos_val >= 0 else -1)
-    cot_val = cos_val / sin_val if abs(sin_val) > eps else math.inf * (1 if cos_val >= 0 else -1)
+    # For tan and cot, sign is determined by sin/cos ratio
+    if abs(cos_val) > eps:
+        tan_val = sin_val / cos_val
+    else:
+        # tan(90°) = +inf, tan(270°) = -inf (based on approaching limit)
+        tan_val = math.copysign(math.inf, sin_val) if abs(sin_val) > eps else math.inf
+    
+    if abs(sin_val) > eps:
+        csc_val = 1 / sin_val
+        cot_val = cos_val / sin_val
+    else:
+        # csc and cot undefined at 0°, 180°, 360°
+        csc_val = math.copysign(math.inf, cos_val) if abs(cos_val) > eps else math.inf
+        cot_val = math.copysign(math.inf, cos_val) if abs(cos_val) > eps else math.inf
+    
+    sec_val = 1 / cos_val if abs(cos_val) > eps else math.copysign(math.inf, sin_val) if abs(sin_val) > eps else math.inf
     
     return {
         'sin': sin_val,
@@ -136,7 +148,16 @@ def quantize(value: float, resolution: float = QUANT_64) -> float:
 
 
 def quantize_to_fraction(value: float, max_denom: int = 64) -> Tuple[int, int]:
-    """Convert decimal to nearest fraction with given max denominator."""
+    """
+    Convert decimal to nearest fraction with given max denominator.
+    
+    Args:
+        value: Decimal value to convert. Values > 1 are reduced to 0-1 range using modulo.
+        max_denom: Maximum denominator (must be a power of 2, e.g., 2, 4, 8, 16, 32, 64)
+    
+    Returns:
+        Tuple of (numerator, denominator) representing the closest fraction
+    """
     # Normalize to 0-1 range if needed
     normalized = value % 1.0 if value > 1 else value
     
@@ -144,15 +165,16 @@ def quantize_to_fraction(value: float, max_denom: int = 64) -> Tuple[int, int]:
     best_denom = 1
     best_error = abs(normalized)
     
-    for denom in [2, 4, 8, 16, 32, 64]:
-        if denom > max_denom:
-            break
+    # Iterate through powers of 2 up to max_denom
+    denom = 2
+    while denom <= max_denom:
         num = round(normalized * denom)
         error = abs(normalized - num/denom)
         if error < best_error:
             best_error = error
             best_num = num
             best_denom = denom
+        denom *= 2
     
     return (best_num, best_denom)
 
@@ -356,16 +378,21 @@ def get_note_name(midi: float) -> str:
 
 
 def get_color_sector(theta_deg: float) -> str:
-    """Determine which Rubik's cube color sector the angle falls in."""
+    """
+    Determine which Rubik's cube color sector the angle falls in.
+    
+    Maps the circle into six 60° sectors based on Rubik's cube faces.
+    Note: This uses sector-based mapping rather than the center points in CUBE_COLORS.
+    """
     theta_normalized = theta_deg % 360
     
-    # 60° sectors
+    # 60° sectors mapped to Rubik's cube colors
     if 0 <= theta_normalized < 60:
         return 'white'
     elif 60 <= theta_normalized < 120:
         return 'blue'
     elif 120 <= theta_normalized < 180:
-        return 'red'  # adjusted for angular position
+        return 'red'
     elif 180 <= theta_normalized < 240:
         return 'yellow'
     elif 240 <= theta_normalized < 300:
@@ -388,8 +415,11 @@ def volume_to_frequency(
     Args:
         geometry: GeometryInput with radius (and height for cylinder)
         geometry_type: 'circle', 'sphere', or 'cylinder'
-        v_min, v_max: Volume range for linear mapping
-        use_log: Use logarithmic mapping (octave-based)
+        v_min: For linear mapping (use_log=False): minimum volume that maps to 0°.
+               For logarithmic mapping (use_log=True): reference volume for octaves.
+               Must be > 0 for logarithmic mapping; if <= 0, defaults to 1.0.
+        v_max: Maximum volume that maps to 360° (only used for linear mapping)
+        use_log: Use logarithmic mapping (octave-based) instead of linear
         base_midi: MIDI note at θ=0°
     
     Returns:
@@ -407,7 +437,12 @@ def volume_to_frequency(
     
     # Volume → θ
     if use_log and volume > 0:
-        theta_deg = volume_to_theta_log(volume, v_ref=v_min if v_min > 0 else 1.0)
+        # For log mapping, v_min becomes v_ref (reference volume)
+        v_ref = v_min if v_min > 0 else 1.0
+        if v_min <= 0:
+            # Note: When v_min <= 0, we default to v_ref=1.0
+            pass
+        theta_deg = volume_to_theta_log(volume, v_ref=v_ref)
     else:
         theta_deg = volume_to_theta(volume, v_min, v_max)
     
