@@ -8,7 +8,7 @@ import math
 from canonical_64_node_graph import (
     N, THETA_STEP, theta, unit, increment, G,
     f_dna, i_dna, f_glyph, i_glyph, f_trig6, i_trig6,
-    f_midi, i_midi, f_geo, i_geo, f_curve, f_rubik, i_rubik,
+    f_midi, i_midi, f_geo, i_geo, f_curve, i_curve, f_rubik, i_rubik,
     verify_all_commutativity, get_node_labels,
     CODONS, GLYPHS
 )
@@ -175,6 +175,25 @@ class TestCurves(unittest.TestCase):
         assert "arc_degrees" in curve
         assert "arc_radians" in curve
         assert curve["arc_degrees"] == THETA_STEP
+    
+    def test_i_curve(self):
+        """Test curve increment function."""
+        curve_0 = f_curve(0)
+        curve_1 = f_curve(1)
+        i_curve_0 = i_curve(curve_0)
+        # Check that incrementing curve 0 gives us curve 1
+        assert abs(i_curve_0["start"][0] - curve_1["start"][0]) < 1e-5
+        assert abs(i_curve_0["start"][1] - curve_1["start"][1]) < 1e-5
+    
+    def test_curve_commutativity(self):
+        """Test curve domain commutativity at sample nodes."""
+        for n in [0, 8, 16, 32, 48]:
+            f_then_i = f_curve(increment(n))
+            i_then_f = i_curve(f_curve(n))
+            assert abs(f_then_i["start"][0] - i_then_f["start"][0]) < 1e-5
+            assert abs(f_then_i["start"][1] - i_then_f["start"][1]) < 1e-5
+            assert abs(f_then_i["end"][0] - i_then_f["end"][0]) < 1e-5
+            assert abs(f_then_i["end"][1] - i_then_f["end"][1]) < 1e-5
 
 
 class TestRubik(unittest.TestCase):
@@ -191,6 +210,11 @@ class TestRubik(unittest.TestCase):
         phase_0 = f_rubik(0)
         phase_1 = f_rubik(1)
         assert "Phase 1" in i_rubik(phase_0)
+    
+    def test_rubik_commutativity(self):
+        """Test Rubik domain commutativity at sample nodes."""
+        for n in [0, 16, 32, 48, 63]:
+            assert f_rubik(increment(n)) == i_rubik(f_rubik(n))
 
 
 class TestCommutativity(unittest.TestCase):
@@ -206,6 +230,8 @@ class TestCommutativity(unittest.TestCase):
         assert "TRIG6" in results
         assert "MIDI" in results
         assert "Geometry" in results
+        assert "Curve" in results
+        assert "Rubik" in results
         
         # Check all domains pass
         for domain, data in results.items():

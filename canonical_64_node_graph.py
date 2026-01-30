@@ -93,8 +93,8 @@ BASE_VERTEBRAE = (
 
 # 31 duals to reach 64
 GLYPHS = (
-    [f"KHAOS_{v}" for v in BASE_VERTEBRAE] +  # 0-32: base
-    [f"Dual_{BASE_VERTEBRAE[i]}" for i in range(31)]  # 33-63: duals
+    [f"KHAOS_{v}" for v in BASE_VERTEBRAE] +  # 0-32: base (33 glyphs)
+    [f"Dual_{BASE_VERTEBRAE[i]}" for i in range(31)]  # 33-63: duals (31 glyphs)
 )
 
 def f_glyph(n: int) -> str:
@@ -192,6 +192,19 @@ def f_curve(n: int) -> Dict[str, Any]:
         "arc_radians": round(arc_length, 6),
     }
 
+def i_curve(curve: Dict[str, Any]) -> Dict[str, Any]:
+    """Curve increment: advance to next curve segment."""
+    # The curve's end becomes the start of the next curve
+    # Rotate both points by THETA_STEP
+    next_start = curve["end"]
+    next_end = i_geo(curve["end"])
+    return {
+        "start": next_start,
+        "end": next_end,
+        "arc_degrees": THETA_STEP,
+        "arc_radians": curve["arc_radians"],
+    }
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # DOMAIN 7: RUBIK-DERIVED PHASES
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -254,6 +267,23 @@ def check_commute_geo(n: int) -> CommutativityResult:
                 abs(f_then_i[1] - i_then_f[1]) < 1e-5)
     return CommutativityResult("Geometry", n, f_then_i, i_then_f, commutes)
 
+def check_commute_curve(n: int) -> CommutativityResult:
+    """Check f_curve ∘ i = i_curve ∘ f_curve at node n."""
+    f_then_i = f_curve(increment(n))
+    i_then_f = i_curve(f_curve(n))
+    # Compare start and end points with tolerance
+    commutes = (abs(f_then_i["start"][0] - i_then_f["start"][0]) < 1e-5 and 
+                abs(f_then_i["start"][1] - i_then_f["start"][1]) < 1e-5 and
+                abs(f_then_i["end"][0] - i_then_f["end"][0]) < 1e-5 and 
+                abs(f_then_i["end"][1] - i_then_f["end"][1]) < 1e-5)
+    return CommutativityResult("Curve", n, f_then_i, i_then_f, commutes)
+
+def check_commute_rubik(n: int) -> CommutativityResult:
+    """Check f_rubik ∘ i = i_rubik ∘ f_rubik at node n."""
+    f_then_i = f_rubik(increment(n))
+    i_then_f = i_rubik(f_rubik(n))
+    return CommutativityResult("Rubik", n, f_then_i, i_then_f, f_then_i == i_then_f)
+
 def verify_all_commutativity() -> Dict[str, Dict[str, Any]]:
     """Verify commutativity for all domains across all nodes."""
     results = {
@@ -262,6 +292,8 @@ def verify_all_commutativity() -> Dict[str, Dict[str, Any]]:
         "TRIG6": {"passed": 0, "failed": 0, "failures": []},
         "MIDI": {"passed": 0, "failed": 0, "failures": []},
         "Geometry": {"passed": 0, "failed": 0, "failures": []},
+        "Curve": {"passed": 0, "failed": 0, "failures": []},
+        "Rubik": {"passed": 0, "failed": 0, "failures": []},
     }
     
     checkers = {
@@ -270,6 +302,8 @@ def verify_all_commutativity() -> Dict[str, Dict[str, Any]]:
         "TRIG6": check_commute_trig6,
         "MIDI": check_commute_midi,
         "Geometry": check_commute_geo,
+        "Curve": check_commute_curve,
+        "Rubik": check_commute_rubik,
     }
     
     for domain, checker in checkers.items():
