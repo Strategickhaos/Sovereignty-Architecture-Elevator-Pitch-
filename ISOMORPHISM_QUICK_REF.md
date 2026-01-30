@@ -89,9 +89,9 @@ The **Isomorphism Framework** is an original mathematical and computational fram
 ## Timeline
 
 ```
-Pre-2024: Structural questions in notebooks (pre-CS education)
-2025:     Formal derivation and implementation (chat sessions)
-2026:     Complete documentation and attribution
+2024:     Structural questions in notebooks (before formal abstract algebra education)
+2025:     Formal derivation and implementation (chat sessions with AI assistance)
+Jan 2026: Complete documentation and attribution
 ```
 
 ## Contact
