@@ -1,6 +1,6 @@
 # FlameLang Hello World Example
 
-This directory contains a "Hello, World!" example program written in FlameLang's JSON-based intermediate representation (IR) format.
+This directory contains a "Hello, World!" example program in FlameLang's JSON-based module representation format.
 
 ## File Structure
 
@@ -70,11 +70,11 @@ Defines the `main` function that calls `print` with "Hello, FlameLang!" and retu
 
 ## About FlameLang
 
-FlameLang is a sovereign symbolic shell system designed as part of the Strategickhaos Sovereignty Architecture. For more information, see the [FlameLang Specification](../../FLAMELANG_SPECIFICATION.md).
+FlameLang is a sovereign symbolic shell system designed as part of the Strategickhaos Sovereignty Architecture. This JSON module format represents a structured code representation layer. For more information about FlameLang, see the [FlameLang Specification](../../FLAMELANG_SPECIFICATION.md).
 
-## JSON Schema
+## JSON Format
 
-The JSON format represents an Abstract Syntax Tree (AST) or Intermediate Representation (IR) of FlameLang code with the following key types:
+The JSON format represents a structured module definition with the following key types:
 
 - **Module**: Top-level container with name, version, and items
 - **Extern**: External function declarations
@@ -84,20 +84,20 @@ The JSON format represents an Abstract Syntax Tree (AST) or Intermediate Represe
 - **Const**: Constant values (String, Number, etc.)
 - **Return**: Return statements
 
-## Expected Output
+## Expected Behavior
 
-When executed by a FlameLang interpreter/compiler, this program should output:
+If processed by a compatible interpreter or compiler, this program would output:
 ```
 Hello, FlameLang!
 ```
 
 ## Usage
 
-This JSON file can be:
-1. Parsed by a FlameLang compiler to generate executable code
-2. Interpreted directly by a FlameLang runtime
-3. Used as input for code generation or transformation tools
-4. Validated against FlameLang's JSON schema
+This JSON file serves as:
+1. A structured module definition for FlameLang programs
+2. An example of the JSON-based code representation format
+3. A reference for tools that may process FlameLang modules
+4. Documentation of the module structure
 
 ## Sovereignty Note
 
