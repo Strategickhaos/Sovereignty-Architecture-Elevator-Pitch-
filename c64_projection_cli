@@ -30,6 +30,7 @@ from typing import Dict, Tuple, Callable
 
 N = 64
 DEG_PER_STEP = 360.0 / N
+FLOAT_TOLERANCE = 1e-6  # Tolerance for floating-point comparisons
 
 CODONS = [
     "UUU","UUC","UUA","UUG","UCU","UCC","UCA","UCG",
@@ -57,7 +58,9 @@ def trig6(theta_deg_val: float) -> Dict[str, float]:
         theta_deg_val: Angle in degrees
         
     Returns:
-        Dictionary with sin, cos, tan, csc, sec, cot values (rounded to 4 decimals)
+        Dictionary with sin, cos, tan, csc, sec, cot values.
+        Finite values are rounded to 4 decimal places.
+        Infinite values (from division by zero) are returned as inf or -inf.
     """
     r = math.radians(theta_deg_val % 360.0)
     s = math.sin(r)
@@ -99,7 +102,7 @@ def unit_increment(pos: Tuple[float, float]) -> Tuple[float, float]:
     # Find the node by searching for matching position (with tolerance for floating point)
     for n in range(N):
         curr_pos = LABELINGS["UNIT"][n]
-        if abs(curr_pos[0] - pos[0]) < 1e-6 and abs(curr_pos[1] - pos[1]) < 1e-6:
+        if abs(curr_pos[0] - pos[0]) < FLOAT_TOLERANCE and abs(curr_pos[1] - pos[1]) < FLOAT_TOLERANCE:
             return unit_circle(i_node(n))
     # Fallback: shouldn't happen with valid positions
     return pos
