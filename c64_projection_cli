@@ -26,7 +26,6 @@ Proves the structure exists and works without external deps.
 
 import sys
 import math
-import json
 from typing import Dict, Tuple, Callable
 
 N = 64
@@ -51,6 +50,15 @@ def unit_circle(n: int) -> Tuple[float, float]:
     return (round(math.cos(r), 8), round(math.sin(r), 8))
 
 def trig6(theta_deg_val: float) -> Dict[str, float]:
+    """
+    Compute all six trigonometric functions for a given angle in degrees.
+    
+    Args:
+        theta_deg_val: Angle in degrees
+        
+    Returns:
+        Dictionary with sin, cos, tan, csc, sec, cot values (rounded to 4 decimals)
+    """
     r = math.radians(theta_deg_val % 360.0)
     s = math.sin(r)
     c = math.cos(r)
@@ -86,14 +94,36 @@ LABELINGS = {
 def i_node(n: int) -> int:
     return (n + 1) % N
 
+def unit_increment(pos: Tuple[float, float]) -> Tuple[float, float]:
+    """Increment a unit circle position by finding its node and moving to next."""
+    # Find the node by searching for matching position (with tolerance for floating point)
+    for n in range(N):
+        curr_pos = LABELINGS["UNIT"][n]
+        if abs(curr_pos[0] - pos[0]) < 1e-6 and abs(curr_pos[1] - pos[1]) < 1e-6:
+            return unit_circle(i_node(n))
+    # Fallback: shouldn't happen with valid positions
+    return pos
+
 INCREMENTS: Dict[str, Callable] = {
     "DNA": lambda codon: CODONS[(CODONS.index(codon) + 1) % N],
     "MIDI": lambda note: 60 + ((note - 60 + 1) % N),
     "THETA": lambda t: round((t + DEG_PER_STEP) % 360.0, 4),
-    "UNIT": lambda pos: unit_circle(i_node(list(LABELINGS["UNIT"].keys())[list(LABELINGS["UNIT"].values()).index(pos)])),
+    "UNIT": unit_increment,
 }
 
 def commute_check(labeling: str, n: int = None) -> bool:
+    """
+    Check if labeling function commutes with node increment.
+    
+    Verifies: f(i(n)) == i'(f(n)) where i is node increment, i' is labeling increment.
+    
+    Args:
+        labeling: Name of the labeling to check (DNA, MIDI, THETA, UNIT)
+        n: Optional specific node to check, or None to check all nodes
+        
+    Returns:
+        True if commutativity holds, False otherwise
+    """
     f = LABELINGS[labeling]
     i_prime = INCREMENTS[labeling]
     if n is not None:
@@ -127,7 +157,7 @@ def main():
         try:
             n = int(sys.argv[2]) % N
         except ValueError:
-            print("Invalid node_id")
+            print("Invalid node_id. Please provide an integer (0-63).")
             return
         print(f"Node {n}:")
         for lab, f in LABELINGS.items():
@@ -150,7 +180,7 @@ def main():
                 result = commute_check(labeling, n)
                 print(f"Commutativity at node {n} for {labeling}: {result}")
             except ValueError:
-                print("Invalid node_id")
+                print("Invalid node_id. Please provide an integer (0-63).")
             return
         result = commute_check(labeling)
         print(f"Full commutativity for {labeling}: {result}")
@@ -176,13 +206,15 @@ def main():
         try:
             n = int(sys.argv[2]) % N
         except ValueError:
-            print("Invalid node_id")
+            print("Invalid node_id. Please provide an integer (0-63).")
             return
         print(f"TRIG6 for node {n} (theta={theta_deg(n):.4f}°): {trig6(theta_deg(n))}")
         return
 
-    print("Unknown command")
-    print_help()
+    print(f"Unknown command: {command}")
+    print("Available commands: node, commute, list, graph, trig6, help")
+    print("Use './c64_projection_cli help' for more information.")
+    sys.exit(1)
 
 if __name__ == "__main__":
     main()
