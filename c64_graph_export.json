@@ -1,0 +1,1481 @@
+{
+  "graph_type": "C_64 (64-node cycle graph)",
+  "node_count": 64,
+  "edge_count": 64,
+  "nodes": [
+    {
+      "node": 0,
+      "dna": "UUU",
+      "angle_deg": 0.0,
+      "angle_rad": 0.0,
+      "midi": 60,
+      "midi_note": "C4",
+      "geometry_complex": {
+        "real": 1.0,
+        "imag": 0.0
+      },
+      "geometry_xy": [
+        1.0,
+        0.0
+      ],
+      "geometry_polar": [
+        1.0,
+        0.0
+      ],
+      "glyph": "K00",
+      "successor": 1,
+      "predecessor": 63
+    },
+    {
+      "node": 1,
+      "dna": "UUC",
+      "angle_deg": 5.625,
+      "angle_rad": 0.09817477042468103,
+      "midi": 61,
+      "midi_note": "C#4",
+      "geometry_complex": {
+        "real": 0.9951847266721969,
+        "imag": 0.0980171403295606
+      },
+      "geometry_xy": [
+        0.9951847266721969,
+        0.0980171403295606
+      ],
+      "geometry_polar": [
+        1.0,
+        0.09817477042468103
+      ],
+      "glyph": "K01",
+      "successor": 2,
+      "predecessor": 0
+    },
+    {
+      "node": 2,
+      "dna": "UUA",
+      "angle_deg": 11.25,
+      "angle_rad": 0.19634954084936207,
+      "midi": 62,
+      "midi_note": "D4",
+      "geometry_complex": {
+        "real": 0.9807852804032304,
+        "imag": 0.19509032201612825
+      },
+      "geometry_xy": [
+        0.9807852804032304,
+        0.19509032201612825
+      ],
+      "geometry_polar": [
+        1.0,
+        0.19634954084936207
+      ],
+      "glyph": "K02",
+      "successor": 3,
+      "predecessor": 1
+    },
+    {
+      "node": 3,
+      "dna": "UUG",
+      "angle_deg": 16.875,
+      "angle_rad": 0.2945243112740431,
+      "midi": 63,
+      "midi_note": "D#4",
+      "geometry_complex": {
+        "real": 0.9569403357322088,
+        "imag": 0.29028467725446233
+      },
+      "geometry_xy": [
+        0.9569403357322088,
+        0.29028467725446233
+      ],
+      "geometry_polar": [
+        1.0,
+        0.2945243112740431
+      ],
+      "glyph": "K03",
+      "successor": 4,
+      "predecessor": 2
+    },
+    {
+      "node": 4,
+      "dna": "UCU",
+      "angle_deg": 22.5,
+      "angle_rad": 0.39269908169872414,
+      "midi": 64,
+      "midi_note": "E4",
+      "geometry_complex": {
+        "real": 0.9238795325112867,
+        "imag": 0.3826834323650898
+      },
+      "geometry_xy": [
+        0.9238795325112867,
+        0.3826834323650898
+      ],
+      "geometry_polar": [
+        1.0,
+        0.39269908169872414
+      ],
+      "glyph": "K04",
+      "successor": 5,
+      "predecessor": 3
+    },
+    {
+      "node": 5,
+      "dna": "UCC",
+      "angle_deg": 28.125,
+      "angle_rad": 0.4908738521234052,
+      "midi": 65,
+      "midi_note": "F4",
+      "geometry_complex": {
+        "real": 0.881921264348355,
+        "imag": 0.47139673682599764
+      },
+      "geometry_xy": [
+        0.881921264348355,
+        0.47139673682599764
+      ],
+      "geometry_polar": [
+        1.0,
+        0.4908738521234052
+      ],
+      "glyph": "K05",
+      "successor": 6,
+      "predecessor": 4
+    },
+    {
+      "node": 6,
+      "dna": "UCA",
+      "angle_deg": 33.75,
+      "angle_rad": 0.5890486225480862,
+      "midi": 66,
+      "midi_note": "F#4",
+      "geometry_complex": {
+        "real": 0.8314696123025452,
+        "imag": 0.5555702330196022
+      },
+      "geometry_xy": [
+        0.8314696123025452,
+        0.5555702330196022
+      ],
+      "geometry_polar": [
+        1.0,
+        0.5890486225480862
+      ],
+      "glyph": "K06",
+      "successor": 7,
+      "predecessor": 5
+    },
+    {
+      "node": 7,
+      "dna": "UCG",
+      "angle_deg": 39.375,
+      "angle_rad": 0.6872233929727672,
+      "midi": 67,
+      "midi_note": "G4",
+      "geometry_complex": {
+        "real": 0.773010453362737,
+        "imag": 0.6343932841636455
+      },
+      "geometry_xy": [
+        0.773010453362737,
+        0.6343932841636455
+      ],
+      "geometry_polar": [
+        1.0,
+        0.6872233929727672
+      ],
+      "glyph": "K07",
+      "successor": 8,
+      "predecessor": 6
+    },
+    {
+      "node": 8,
+      "dna": "UAU",
+      "angle_deg": 45.0,
+      "angle_rad": 0.7853981633974483,
+      "midi": 68,
+      "midi_note": "G#4",
+      "geometry_complex": {
+        "real": 0.7071067811865476,
+        "imag": 0.7071067811865475
+      },
+      "geometry_xy": [
+        0.7071067811865476,
+        0.7071067811865475
+      ],
+      "geometry_polar": [
+        1.0,
+        0.7853981633974483
+      ],
+      "glyph": "K08",
+      "successor": 9,
+      "predecessor": 7
+    },
+    {
+      "node": 9,
+      "dna": "UAC",
+      "angle_deg": 50.625,
+      "angle_rad": 0.8835729338221293,
+      "midi": 69,
+      "midi_note": "A4",
+      "geometry_complex": {
+        "real": 0.6343932841636455,
+        "imag": 0.773010453362737
+      },
+      "geometry_xy": [
+        0.6343932841636455,
+        0.773010453362737
+      ],
+      "geometry_polar": [
+        1.0,
+        0.8835729338221293
+      ],
+      "glyph": "K09",
+      "successor": 10,
+      "predecessor": 8
+    },
+    {
+      "node": 10,
+      "dna": "UAA",
+      "angle_deg": 56.25,
+      "angle_rad": 0.9817477042468103,
+      "midi": 70,
+      "midi_note": "A#4",
+      "geometry_complex": {
+        "real": 0.5555702330196023,
+        "imag": 0.8314696123025452
+      },
+      "geometry_xy": [
+        0.5555702330196023,
+        0.8314696123025452
+      ],
+      "geometry_polar": [
+        1.0,
+        0.9817477042468103
+      ],
+      "glyph": "K10",
+      "successor": 11,
+      "predecessor": 9
+    },
+    {
+      "node": 11,
+      "dna": "UAG",
+      "angle_deg": 61.875,
+      "angle_rad": 1.0799224746714915,
+      "midi": 71,
+      "midi_note": "B4",
+      "geometry_complex": {
+        "real": 0.4713967368259978,
+        "imag": 0.8819212643483549
+      },
+      "geometry_xy": [
+        0.4713967368259978,
+        0.8819212643483549
+      ],
+      "geometry_polar": [
+        1.0,
+        1.0799224746714913
+      ],
+      "glyph": "K11",
+      "successor": 12,
+      "predecessor": 10
+    },
+    {
+      "node": 12,
+      "dna": "UGU",
+      "angle_deg": 67.5,
+      "angle_rad": 1.1780972450961724,
+      "midi": 72,
+      "midi_note": "C5",
+      "geometry_complex": {
+        "real": 0.38268343236508984,
+        "imag": 0.9238795325112867
+      },
+      "geometry_xy": [
+        0.38268343236508984,
+        0.9238795325112867
+      ],
+      "geometry_polar": [
+        1.0,
+        1.1780972450961724
+      ],
+      "glyph": "K12",
+      "successor": 13,
+      "predecessor": 11
+    },
+    {
+      "node": 13,
+      "dna": "UGC",
+      "angle_deg": 73.125,
+      "angle_rad": 1.2762720155208536,
+      "midi": 73,
+      "midi_note": "C#5",
+      "geometry_complex": {
+        "real": 0.29028467725446233,
+        "imag": 0.9569403357322089
+      },
+      "geometry_xy": [
+        0.29028467725446233,
+        0.9569403357322089
+      ],
+      "geometry_polar": [
+        1.0,
+        1.2762720155208536
+      ],
+      "glyph": "K13",
+      "successor": 14,
+      "predecessor": 12
+    },
+    {
+      "node": 14,
+      "dna": "UGA",
+      "angle_deg": 78.75,
+      "angle_rad": 1.3744467859455345,
+      "midi": 74,
+      "midi_note": "D5",
+      "geometry_complex": {
+        "real": 0.19509032201612833,
+        "imag": 0.9807852804032304
+      },
+      "geometry_xy": [
+        0.19509032201612833,
+        0.9807852804032304
+      ],
+      "geometry_polar": [
+        1.0,
+        1.3744467859455345
+      ],
+      "glyph": "K14",
+      "successor": 15,
+      "predecessor": 13
+    },
+    {
+      "node": 15,
+      "dna": "UGG",
+      "angle_deg": 84.375,
+      "angle_rad": 1.4726215563702156,
+      "midi": 75,
+      "midi_note": "D#5",
+      "geometry_complex": {
+        "real": 0.09801714032956077,
+        "imag": 0.9951847266721968
+      },
+      "geometry_xy": [
+        0.09801714032956077,
+        0.9951847266721968
+      ],
+      "geometry_polar": [
+        1.0,
+        1.4726215563702154
+      ],
+      "glyph": "K15",
+      "successor": 16,
+      "predecessor": 14
+    },
+    {
+      "node": 16,
+      "dna": "CUU",
+      "angle_deg": 90.0,
+      "angle_rad": 1.5707963267948966,
+      "midi": 76,
+      "midi_note": "E5",
+      "geometry_complex": {
+        "real": 6.123233995736766e-17,
+        "imag": 1.0
+      },
+      "geometry_xy": [
+        6.123233995736766e-17,
+        1.0
+      ],
+      "geometry_polar": [
+        1.0,
+        1.5707963267948966
+      ],
+      "glyph": "K16",
+      "successor": 17,
+      "predecessor": 15
+    },
+    {
+      "node": 17,
+      "dna": "CUC",
+      "angle_deg": 95.625,
+      "angle_rad": 1.6689710972195777,
+      "midi": 77,
+      "midi_note": "F5",
+      "geometry_complex": {
+        "real": -0.09801714032956065,
+        "imag": 0.9951847266721969
+      },
+      "geometry_xy": [
+        -0.09801714032956065,
+        0.9951847266721969
+      ],
+      "geometry_polar": [
+        1.0,
+        1.6689710972195777
+      ],
+      "glyph": "K17",
+      "successor": 18,
+      "predecessor": 16
+    },
+    {
+      "node": 18,
+      "dna": "CUA",
+      "angle_deg": 101.25,
+      "angle_rad": 1.7671458676442586,
+      "midi": 78,
+      "midi_note": "F#5",
+      "geometry_complex": {
+        "real": -0.1950903220161282,
+        "imag": 0.9807852804032304
+      },
+      "geometry_xy": [
+        -0.1950903220161282,
+        0.9807852804032304
+      ],
+      "geometry_polar": [
+        1.0,
+        1.7671458676442586
+      ],
+      "glyph": "K18",
+      "successor": 19,
+      "predecessor": 17
+    },
+    {
+      "node": 19,
+      "dna": "CUG",
+      "angle_deg": 106.875,
+      "angle_rad": 1.8653206380689398,
+      "midi": 79,
+      "midi_note": "G5",
+      "geometry_complex": {
+        "real": -0.29028467725446216,
+        "imag": 0.9569403357322089
+      },
+      "geometry_xy": [
+        -0.29028467725446216,
+        0.9569403357322089
+      ],
+      "geometry_polar": [
+        1.0,
+        1.8653206380689396
+      ],
+      "glyph": "K19",
+      "successor": 20,
+      "predecessor": 18
+    },
+    {
+      "node": 20,
+      "dna": "CCU",
+      "angle_deg": 112.5,
+      "angle_rad": 1.9634954084936207,
+      "midi": 80,
+      "midi_note": "G#5",
+      "geometry_complex": {
+        "real": -0.3826834323650897,
+        "imag": 0.9238795325112867
+      },
+      "geometry_xy": [
+        -0.3826834323650897,
+        0.9238795325112867
+      ],
+      "geometry_polar": [
+        1.0,
+        1.9634954084936207
+      ],
+      "glyph": "K20",
+      "successor": 21,
+      "predecessor": 19
+    },
+    {
+      "node": 21,
+      "dna": "CCC",
+      "angle_deg": 118.125,
+      "angle_rad": 2.061670178918302,
+      "midi": 81,
+      "midi_note": "A5",
+      "geometry_complex": {
+        "real": -0.4713967368259977,
+        "imag": 0.881921264348355
+      },
+      "geometry_xy": [
+        -0.4713967368259977,
+        0.881921264348355
+      ],
+      "geometry_polar": [
+        1.0,
+        2.061670178918302
+      ],
+      "glyph": "K21",
+      "successor": 22,
+      "predecessor": 20
+    },
+    {
+      "node": 22,
+      "dna": "CCA",
+      "angle_deg": 123.75,
+      "angle_rad": 2.159844949342983,
+      "midi": 82,
+      "midi_note": "A#5",
+      "geometry_complex": {
+        "real": -0.555570233019602,
+        "imag": 0.8314696123025455
+      },
+      "geometry_xy": [
+        -0.555570233019602,
+        0.8314696123025455
+      ],
+      "geometry_polar": [
+        1.0,
+        2.1598449493429825
+      ],
+      "glyph": "K22",
+      "successor": 23,
+      "predecessor": 21
+    },
+    {
+      "node": 23,
+      "dna": "CCG",
+      "angle_deg": 129.375,
+      "angle_rad": 2.2580197197676637,
+      "midi": 83,
+      "midi_note": "B5",
+      "geometry_complex": {
+        "real": -0.6343932841636454,
+        "imag": 0.7730104533627371
+      },
+      "geometry_xy": [
+        -0.6343932841636454,
+        0.7730104533627371
+      ],
+      "geometry_polar": [
+        1.0,
+        2.2580197197676637
+      ],
+      "glyph": "K23",
+      "successor": 24,
+      "predecessor": 22
+    },
+    {
+      "node": 24,
+      "dna": "CAU",
+      "angle_deg": 135.0,
+      "angle_rad": 2.356194490192345,
+      "midi": 84,
+      "midi_note": "C6",
+      "geometry_complex": {
+        "real": -0.7071067811865475,
+        "imag": 0.7071067811865476
+      },
+      "geometry_xy": [
+        -0.7071067811865475,
+        0.7071067811865476
+      ],
+      "geometry_polar": [
+        1.0,
+        2.356194490192345
+      ],
+      "glyph": "K24",
+      "successor": 25,
+      "predecessor": 23
+    },
+    {
+      "node": 25,
+      "dna": "CAC",
+      "angle_deg": 140.625,
+      "angle_rad": 2.454369260617026,
+      "midi": 85,
+      "midi_note": "C#6",
+      "geometry_complex": {
+        "real": -0.773010453362737,
+        "imag": 0.6343932841636455
+      },
+      "geometry_xy": [
+        -0.773010453362737,
+        0.6343932841636455
+      ],
+      "geometry_polar": [
+        1.0,
+        2.454369260617026
+      ],
+      "glyph": "K25",
+      "successor": 26,
+      "predecessor": 24
+    },
+    {
+      "node": 26,
+      "dna": "CAA",
+      "angle_deg": 146.25,
+      "angle_rad": 2.552544031041707,
+      "midi": 86,
+      "midi_note": "D6",
+      "geometry_complex": {
+        "real": -0.8314696123025453,
+        "imag": 0.5555702330196022
+      },
+      "geometry_xy": [
+        -0.8314696123025453,
+        0.5555702330196022
+      ],
+      "geometry_polar": [
+        1.0,
+        2.552544031041707
+      ],
+      "glyph": "K26",
+      "successor": 27,
+      "predecessor": 25
+    },
+    {
+      "node": 27,
+      "dna": "CAG",
+      "angle_deg": 151.875,
+      "angle_rad": 2.650718801466388,
+      "midi": 87,
+      "midi_note": "D#6",
+      "geometry_complex": {
+        "real": -0.8819212643483549,
+        "imag": 0.47139673682599786
+      },
+      "geometry_xy": [
+        -0.8819212643483549,
+        0.47139673682599786
+      ],
+      "geometry_polar": [
+        1.0,
+        2.650718801466388
+      ],
+      "glyph": "K27",
+      "successor": 28,
+      "predecessor": 26
+    },
+    {
+      "node": 28,
+      "dna": "CGU",
+      "angle_deg": 157.5,
+      "angle_rad": 2.748893571891069,
+      "midi": 88,
+      "midi_note": "E6",
+      "geometry_complex": {
+        "real": -0.9238795325112867,
+        "imag": 0.3826834323650899
+      },
+      "geometry_xy": [
+        -0.9238795325112867,
+        0.3826834323650899
+      ],
+      "geometry_polar": [
+        1.0,
+        2.748893571891069
+      ],
+      "glyph": "K28",
+      "successor": 29,
+      "predecessor": 27
+    },
+    {
+      "node": 29,
+      "dna": "CGC",
+      "angle_deg": 163.125,
+      "angle_rad": 2.84706834231575,
+      "midi": 89,
+      "midi_note": "F6",
+      "geometry_complex": {
+        "real": -0.9569403357322088,
+        "imag": 0.2902846772544624
+      },
+      "geometry_xy": [
+        -0.9569403357322088,
+        0.2902846772544624
+      ],
+      "geometry_polar": [
+        1.0,
+        2.84706834231575
+      ],
+      "glyph": "K29",
+      "successor": 30,
+      "predecessor": 28
+    },
+    {
+      "node": 30,
+      "dna": "CGA",
+      "angle_deg": 168.75,
+      "angle_rad": 2.9452431127404313,
+      "midi": 90,
+      "midi_note": "F#6",
+      "geometry_complex": {
+        "real": -0.9807852804032304,
+        "imag": 0.1950903220161286
+      },
+      "geometry_xy": [
+        -0.9807852804032304,
+        0.1950903220161286
+      ],
+      "geometry_polar": [
+        1.0,
+        2.945243112740431
+      ],
+      "glyph": "K30",
+      "successor": 31,
+      "predecessor": 29
+    },
+    {
+      "node": 31,
+      "dna": "CGG",
+      "angle_deg": 174.375,
+      "angle_rad": 3.043417883165112,
+      "midi": 91,
+      "midi_note": "G6",
+      "geometry_complex": {
+        "real": -0.9951847266721968,
+        "imag": 0.09801714032956083
+      },
+      "geometry_xy": [
+        -0.9951847266721968,
+        0.09801714032956083
+      ],
+      "geometry_polar": [
+        1.0,
+        3.043417883165112
+      ],
+      "glyph": "K31",
+      "successor": 32,
+      "predecessor": 30
+    },
+    {
+      "node": 32,
+      "dna": "AUU",
+      "angle_deg": 180.0,
+      "angle_rad": 3.141592653589793,
+      "midi": 92,
+      "midi_note": "G#6",
+      "geometry_complex": {
+        "real": -1.0,
+        "imag": 1.2246467991473532e-16
+      },
+      "geometry_xy": [
+        -1.0,
+        1.2246467991473532e-16
+      ],
+      "geometry_polar": [
+        1.0,
+        3.141592653589793
+      ],
+      "glyph": "K32",
+      "successor": 33,
+      "predecessor": 31
+    },
+    {
+      "node": 33,
+      "dna": "AUC",
+      "angle_deg": 185.625,
+      "angle_rad": 3.2397674240144743,
+      "midi": 93,
+      "midi_note": "A6",
+      "geometry_complex": {
+        "real": -0.9951847266721969,
+        "imag": -0.09801714032956059
+      },
+      "geometry_xy": [
+        -0.9951847266721969,
+        -0.09801714032956059
+      ],
+      "geometry_polar": [
+        1.0,
+        3.2397674240144743
+      ],
+      "glyph": "K33",
+      "successor": 34,
+      "predecessor": 32
+    },
+    {
+      "node": 34,
+      "dna": "AUA",
+      "angle_deg": 191.25,
+      "angle_rad": 3.3379421944391554,
+      "midi": 94,
+      "midi_note": "A#6",
+      "geometry_complex": {
+        "real": -0.9807852804032304,
+        "imag": -0.19509032201612836
+      },
+      "geometry_xy": [
+        -0.9807852804032304,
+        -0.19509032201612836
+      ],
+      "geometry_polar": [
+        1.0,
+        3.3379421944391554
+      ],
+      "glyph": "K34",
+      "successor": 35,
+      "predecessor": 33
+    },
+    {
+      "node": 35,
+      "dna": "AUG",
+      "angle_deg": 196.875,
+      "angle_rad": 3.436116964863836,
+      "midi": 95,
+      "midi_note": "B6",
+      "geometry_complex": {
+        "real": -0.9569403357322089,
+        "imag": -0.2902846772544621
+      },
+      "geometry_xy": [
+        -0.9569403357322089,
+        -0.2902846772544621
+      ],
+      "geometry_polar": [
+        1.0,
+        3.436116964863836
+      ],
+      "glyph": "K35",
+      "successor": 36,
+      "predecessor": 34
+    },
+    {
+      "node": 36,
+      "dna": "ACU",
+      "angle_deg": 202.5,
+      "angle_rad": 3.5342917352885173,
+      "midi": 96,
+      "midi_note": "C7",
+      "geometry_complex": {
+        "real": -0.9238795325112868,
+        "imag": -0.38268343236508967
+      },
+      "geometry_xy": [
+        -0.9238795325112868,
+        -0.38268343236508967
+      ],
+      "geometry_polar": [
+        1.0,
+        3.5342917352885173
+      ],
+      "glyph": "K36",
+      "successor": 37,
+      "predecessor": 35
+    },
+    {
+      "node": 37,
+      "dna": "ACC",
+      "angle_deg": 208.125,
+      "angle_rad": 3.6324665057131984,
+      "midi": 97,
+      "midi_note": "C#7",
+      "geometry_complex": {
+        "real": -0.881921264348355,
+        "imag": -0.47139673682599764
+      },
+      "geometry_xy": [
+        -0.881921264348355,
+        -0.47139673682599764
+      ],
+      "geometry_polar": [
+        1.0,
+        3.6324665057131984
+      ],
+      "glyph": "K37",
+      "successor": 38,
+      "predecessor": 36
+    },
+    {
+      "node": 38,
+      "dna": "ACA",
+      "angle_deg": 213.75,
+      "angle_rad": 3.7306412761378795,
+      "midi": 98,
+      "midi_note": "D7",
+      "geometry_complex": {
+        "real": -0.8314696123025455,
+        "imag": -0.555570233019602
+      },
+      "geometry_xy": [
+        -0.8314696123025455,
+        -0.555570233019602
+      ],
+      "geometry_polar": [
+        1.0,
+        3.730641276137879
+      ],
+      "glyph": "K38",
+      "successor": 39,
+      "predecessor": 37
+    },
+    {
+      "node": 39,
+      "dna": "ACG",
+      "angle_deg": 219.375,
+      "angle_rad": 3.8288160465625602,
+      "midi": 99,
+      "midi_note": "D#7",
+      "geometry_complex": {
+        "real": -0.7730104533627371,
+        "imag": -0.6343932841636453
+      },
+      "geometry_xy": [
+        -0.7730104533627371,
+        -0.6343932841636453
+      ],
+      "geometry_polar": [
+        1.0,
+        3.8288160465625602
+      ],
+      "glyph": "K39",
+      "successor": 40,
+      "predecessor": 38
+    },
+    {
+      "node": 40,
+      "dna": "AAU",
+      "angle_deg": 225.0,
+      "angle_rad": 3.9269908169872414,
+      "midi": 100,
+      "midi_note": "E7",
+      "geometry_complex": {
+        "real": -0.7071067811865477,
+        "imag": -0.7071067811865475
+      },
+      "geometry_xy": [
+        -0.7071067811865477,
+        -0.7071067811865475
+      ],
+      "geometry_polar": [
+        1.0,
+        3.9269908169872414
+      ],
+      "glyph": "K40",
+      "successor": 41,
+      "predecessor": 39
+    },
+    {
+      "node": 41,
+      "dna": "AAC",
+      "angle_deg": 230.625,
+      "angle_rad": 4.025165587411922,
+      "midi": 101,
+      "midi_note": "F7",
+      "geometry_complex": {
+        "real": -0.6343932841636459,
+        "imag": -0.7730104533627367
+      },
+      "geometry_xy": [
+        -0.6343932841636459,
+        -0.7730104533627367
+      ],
+      "geometry_polar": [
+        1.0,
+        4.025165587411922
+      ],
+      "glyph": "K41",
+      "successor": 42,
+      "predecessor": 40
+    },
+    {
+      "node": 42,
+      "dna": "AAA",
+      "angle_deg": 236.25,
+      "angle_rad": 4.123340357836604,
+      "midi": 102,
+      "midi_note": "F#7",
+      "geometry_complex": {
+        "real": -0.5555702330196022,
+        "imag": -0.8314696123025452
+      },
+      "geometry_xy": [
+        -0.5555702330196022,
+        -0.8314696123025452
+      ],
+      "geometry_polar": [
+        1.0,
+        4.123340357836604
+      ],
+      "glyph": "K42",
+      "successor": 43,
+      "predecessor": 41
+    },
+    {
+      "node": 43,
+      "dna": "AAG",
+      "angle_deg": 241.875,
+      "angle_rad": 4.221515128261284,
+      "midi": 103,
+      "midi_note": "G7",
+      "geometry_complex": {
+        "real": -0.47139673682599786,
+        "imag": -0.8819212643483549
+      },
+      "geometry_xy": [
+        -0.47139673682599786,
+        -0.8819212643483549
+      ],
+      "geometry_polar": [
+        1.0,
+        4.221515128261284
+      ],
+      "glyph": "K43",
+      "successor": 44,
+      "predecessor": 42
+    },
+    {
+      "node": 44,
+      "dna": "AGU",
+      "angle_deg": 247.5,
+      "angle_rad": 4.319689898685966,
+      "midi": 104,
+      "midi_note": "G#7",
+      "geometry_complex": {
+        "real": -0.38268343236509034,
+        "imag": -0.9238795325112865
+      },
+      "geometry_xy": [
+        -0.38268343236509034,
+        -0.9238795325112865
+      ],
+      "geometry_polar": [
+        1.0,
+        4.319689898685965
+      ],
+      "glyph": "K44",
+      "successor": 45,
+      "predecessor": 43
+    },
+    {
+      "node": 45,
+      "dna": "AGC",
+      "angle_deg": 253.125,
+      "angle_rad": 4.417864669110647,
+      "midi": 105,
+      "midi_note": "A7",
+      "geometry_complex": {
+        "real": -0.29028467725446244,
+        "imag": -0.9569403357322088
+      },
+      "geometry_xy": [
+        -0.29028467725446244,
+        -0.9569403357322088
+      ],
+      "geometry_polar": [
+        1.0,
+        4.417864669110647
+      ],
+      "glyph": "K45",
+      "successor": 46,
+      "predecessor": 44
+    },
+    {
+      "node": 46,
+      "dna": "AGA",
+      "angle_deg": 258.75,
+      "angle_rad": 4.516039439535327,
+      "midi": 106,
+      "midi_note": "A#7",
+      "geometry_complex": {
+        "real": -0.19509032201612866,
+        "imag": -0.9807852804032303
+      },
+      "geometry_xy": [
+        -0.19509032201612866,
+        -0.9807852804032303
+      ],
+      "geometry_polar": [
+        1.0,
+        4.516039439535327
+      ],
+      "glyph": "K46",
+      "successor": 47,
+      "predecessor": 45
+    },
+    {
+      "node": 47,
+      "dna": "AGG",
+      "angle_deg": 264.375,
+      "angle_rad": 4.614214209960009,
+      "midi": 107,
+      "midi_note": "B7",
+      "geometry_complex": {
+        "real": -0.09801714032956045,
+        "imag": -0.9951847266721969
+      },
+      "geometry_xy": [
+        -0.09801714032956045,
+        -0.9951847266721969
+      ],
+      "geometry_polar": [
+        1.0,
+        4.614214209960009
+      ],
+      "glyph": "K47",
+      "successor": 48,
+      "predecessor": 46
+    },
+    {
+      "node": 48,
+      "dna": "GUU",
+      "angle_deg": 270.0,
+      "angle_rad": 4.71238898038469,
+      "midi": 108,
+      "midi_note": "C8",
+      "geometry_complex": {
+        "real": -1.8369701987210297e-16,
+        "imag": -1.0
+      },
+      "geometry_xy": [
+        -1.8369701987210297e-16,
+        -1.0
+      ],
+      "geometry_polar": [
+        1.0,
+        4.71238898038469
+      ],
+      "glyph": "K48",
+      "successor": 49,
+      "predecessor": 47
+    },
+    {
+      "node": 49,
+      "dna": "GUC",
+      "angle_deg": 275.625,
+      "angle_rad": 4.81056375080937,
+      "midi": 109,
+      "midi_note": "C#8",
+      "geometry_complex": {
+        "real": 0.09801714032956009,
+        "imag": -0.9951847266721969
+      },
+      "geometry_xy": [
+        0.09801714032956009,
+        -0.9951847266721969
+      ],
+      "geometry_polar": [
+        1.0,
+        4.81056375080937
+      ],
+      "glyph": "K49",
+      "successor": 50,
+      "predecessor": 48
+    },
+    {
+      "node": 50,
+      "dna": "GUA",
+      "angle_deg": 281.25,
+      "angle_rad": 4.908738521234052,
+      "midi": 110,
+      "midi_note": "D8",
+      "geometry_complex": {
+        "real": 0.1950903220161283,
+        "imag": -0.9807852804032304
+      },
+      "geometry_xy": [
+        0.1950903220161283,
+        -0.9807852804032304
+      ],
+      "geometry_polar": [
+        1.0,
+        4.908738521234052
+      ],
+      "glyph": "K50",
+      "successor": 51,
+      "predecessor": 49
+    },
+    {
+      "node": 51,
+      "dna": "GUG",
+      "angle_deg": 286.875,
+      "angle_rad": 5.006913291658733,
+      "midi": 111,
+      "midi_note": "D#8",
+      "geometry_complex": {
+        "real": 0.29028467725446205,
+        "imag": -0.9569403357322089
+      },
+      "geometry_xy": [
+        0.29028467725446205,
+        -0.9569403357322089
+      ],
+      "geometry_polar": [
+        1.0,
+        5.006913291658733
+      ],
+      "glyph": "K51",
+      "successor": 52,
+      "predecessor": 50
+    },
+    {
+      "node": 52,
+      "dna": "GCU",
+      "angle_deg": 292.5,
+      "angle_rad": 5.105088062083414,
+      "midi": 112,
+      "midi_note": "E8",
+      "geometry_complex": {
+        "real": 0.38268343236509,
+        "imag": -0.9238795325112866
+      },
+      "geometry_xy": [
+        0.38268343236509,
+        -0.9238795325112866
+      ],
+      "geometry_polar": [
+        1.0,
+        5.105088062083414
+      ],
+      "glyph": "K52",
+      "successor": 53,
+      "predecessor": 51
+    },
+    {
+      "node": 53,
+      "dna": "GCC",
+      "angle_deg": 298.125,
+      "angle_rad": 5.203262832508095,
+      "midi": 113,
+      "midi_note": "F8",
+      "geometry_complex": {
+        "real": 0.4713967368259976,
+        "imag": -0.881921264348355
+      },
+      "geometry_xy": [
+        0.4713967368259976,
+        -0.881921264348355
+      ],
+      "geometry_polar": [
+        1.0,
+        5.203262832508095
+      ],
+      "glyph": "K53",
+      "successor": 54,
+      "predecessor": 52
+    },
+    {
+      "node": 54,
+      "dna": "GCA",
+      "angle_deg": 303.75,
+      "angle_rad": 5.301437602932776,
+      "midi": 114,
+      "midi_note": "F#8",
+      "geometry_complex": {
+        "real": 0.5555702330196018,
+        "imag": -0.8314696123025455
+      },
+      "geometry_xy": [
+        0.5555702330196018,
+        -0.8314696123025455
+      ],
+      "geometry_polar": [
+        1.0,
+        5.301437602932776
+      ],
+      "glyph": "K54",
+      "successor": 55,
+      "predecessor": 53
+    },
+    {
+      "node": 55,
+      "dna": "GCG",
+      "angle_deg": 309.375,
+      "angle_rad": 5.399612373357457,
+      "midi": 115,
+      "midi_note": "G8",
+      "geometry_complex": {
+        "real": 0.6343932841636456,
+        "imag": -0.7730104533627369
+      },
+      "geometry_xy": [
+        0.6343932841636456,
+        -0.7730104533627369
+      ],
+      "geometry_polar": [
+        1.0,
+        5.399612373357457
+      ],
+      "glyph": "K55",
+      "successor": 56,
+      "predecessor": 54
+    },
+    {
+      "node": 56,
+      "dna": "GAU",
+      "angle_deg": 315.0,
+      "angle_rad": 5.497787143782138,
+      "midi": 116,
+      "midi_note": "G#8",
+      "geometry_complex": {
+        "real": 0.7071067811865474,
+        "imag": -0.7071067811865477
+      },
+      "geometry_xy": [
+        0.7071067811865474,
+        -0.7071067811865477
+      ],
+      "geometry_polar": [
+        1.0,
+        5.497787143782138
+      ],
+      "glyph": "K56",
+      "successor": 57,
+      "predecessor": 55
+    },
+    {
+      "node": 57,
+      "dna": "GAC",
+      "angle_deg": 320.625,
+      "angle_rad": 5.5959619142068195,
+      "midi": 117,
+      "midi_note": "A8",
+      "geometry_complex": {
+        "real": 0.7730104533627367,
+        "imag": -0.6343932841636459
+      },
+      "geometry_xy": [
+        0.7730104533627367,
+        -0.6343932841636459
+      ],
+      "geometry_polar": [
+        1.0,
+        5.595961914206819
+      ],
+      "glyph": "K57",
+      "successor": 58,
+      "predecessor": 56
+    },
+    {
+      "node": 58,
+      "dna": "GAA",
+      "angle_deg": 326.25,
+      "angle_rad": 5.6941366846315,
+      "midi": 118,
+      "midi_note": "A#8",
+      "geometry_complex": {
+        "real": 0.8314696123025452,
+        "imag": -0.5555702330196022
+      },
+      "geometry_xy": [
+        0.8314696123025452,
+        -0.5555702330196022
+      ],
+      "geometry_polar": [
+        1.0,
+        5.6941366846315
+      ],
+      "glyph": "K58",
+      "successor": 59,
+      "predecessor": 57
+    },
+    {
+      "node": 59,
+      "dna": "GAG",
+      "angle_deg": 331.875,
+      "angle_rad": 5.792311455056181,
+      "midi": 119,
+      "midi_note": "B8",
+      "geometry_complex": {
+        "real": 0.8819212643483548,
+        "imag": -0.4713967368259979
+      },
+      "geometry_xy": [
+        0.8819212643483548,
+        -0.4713967368259979
+      ],
+      "geometry_polar": [
+        1.0,
+        5.792311455056181
+      ],
+      "glyph": "K59",
+      "successor": 60,
+      "predecessor": 58
+    },
+    {
+      "node": 60,
+      "dna": "GGU",
+      "angle_deg": 337.5,
+      "angle_rad": 5.8904862254808625,
+      "midi": 120,
+      "midi_note": "C9",
+      "geometry_complex": {
+        "real": 0.9238795325112865,
+        "imag": -0.3826834323650904
+      },
+      "geometry_xy": [
+        0.9238795325112865,
+        -0.3826834323650904
+      ],
+      "geometry_polar": [
+        1.0,
+        5.890486225480862
+      ],
+      "glyph": "K60",
+      "successor": 61,
+      "predecessor": 59
+    },
+    {
+      "node": 61,
+      "dna": "GGC",
+      "angle_deg": 343.125,
+      "angle_rad": 5.988660995905543,
+      "midi": 121,
+      "midi_note": "C#9",
+      "geometry_complex": {
+        "real": 0.9569403357322088,
+        "imag": -0.2902846772544625
+      },
+      "geometry_xy": [
+        0.9569403357322088,
+        -0.2902846772544625
+      ],
+      "geometry_polar": [
+        1.0,
+        5.988660995905543
+      ],
+      "glyph": "K61",
+      "successor": 62,
+      "predecessor": 60
+    },
+    {
+      "node": 62,
+      "dna": "GGA",
+      "angle_deg": 348.75,
+      "angle_rad": 6.086835766330224,
+      "midi": 122,
+      "midi_note": "D9",
+      "geometry_complex": {
+        "real": 0.9807852804032303,
+        "imag": -0.19509032201612872
+      },
+      "geometry_xy": [
+        0.9807852804032303,
+        -0.19509032201612872
+      ],
+      "geometry_polar": [
+        1.0,
+        6.086835766330224
+      ],
+      "glyph": "K62",
+      "successor": 63,
+      "predecessor": 61
+    },
+    {
+      "node": 63,
+      "dna": "GGG",
+      "angle_deg": 354.375,
+      "angle_rad": 6.1850105367549055,
+      "midi": 123,
+      "midi_note": "D#9",
+      "geometry_complex": {
+        "real": 0.9951847266721969,
+        "imag": -0.0980171403295605
+      },
+      "geometry_xy": [
+        0.9951847266721969,
+        -0.0980171403295605
+      ],
+      "geometry_polar": [
+        1.0,
+        6.1850105367549055
+      ],
+      "glyph": "K63",
+      "successor": 0,
+      "predecessor": 62
+    }
+  ],
+  "commutative_diagram": "\nCOMMUTATIVE DIAGRAM FOR C_64\n============================\n\nThe following diagram shows that incrementing then mapping equals \nmapping then incrementing for all labelings:\n\n\n                    C_64\n                     |\n        +------------+------------+\n        |            |            |\n        v            v            v\n      DNA         TRIG6         MIDI\n     (codons)    (angles)      (notes)\n        |            |            |\n        v            v            v\n      +1 mod 64   +5.625\u00b0       +1 note\n        |            |            |\n        =            =            =\n        |            |            |\n    succ(n)      \u03b8(succ)      MIDI(succ)\n\n\nFor any node n \u2208 C_64:\n\n1. DNA homomorphism:\n   codon(n+1) = next_codon(codon(n))\n\n2. TRIG6 homomorphism:\n   \u03b8(n+1) = \u03b8(n) + 5.625\u00b0\n\n3. MIDI homomorphism:\n   midi(n+1) = midi(n) + 1 (mod 64 range)\n\n4. Geometry homomorphism:\n   z(n+1) = z(n) \u00d7 e^(2\u03c0i/64)\n\n5. Glyph homomorphism:\n   glyph(n+1) = next_glyph(glyph(n))\n\n\nAll paths commute:\n\n    C_64 ----map----> Target\n     |                  |\n   succ               next\n     |                  |\n     v                  v\n    C_64 ----map----> Target\n\nThis proves all domains are homomorphic images of C_64.\n",
+  "novelty_statement": "\n    Complete system for the canonical 64-node cyclic graph.\n    \n    Provides unified interface to graph structure and all labelings.\n    "
+}
