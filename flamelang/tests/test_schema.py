@@ -163,6 +163,7 @@ def test_invalid_documents():
         {"FnDef": {"name": "test"}},  # Missing params, return_type, body
         {"BinOp": {"op": "Add"}},  # Missing left and right
         {"Call": {"target": "f"}},  # Missing args
+        {"Return": {}},  # Missing value
         {"Var": {}},  # Missing name
         {"Let": {"name": "x"}},  # Missing value
         # Invalid types

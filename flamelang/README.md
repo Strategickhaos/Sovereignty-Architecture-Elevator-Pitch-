@@ -101,7 +101,7 @@ Represents a literal constant value.
   "Const": { "Bool": true }
 }
 {
-  "Const": "Unit" }
+  "Const": "Unit"
 }
 ```
 

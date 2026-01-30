@@ -38,9 +38,16 @@ def validate_flame_ir(document_path, schema=None):
     if schema is None:
         schema = load_schema()
     
-    # Load the document
-    with open(document_path) as f:
-        document = json.load(f)
+    # Load the document first (to check JSON syntax)
+    try:
+        with open(document_path) as f:
+            document = json.load(f)
+    except json.JSONDecodeError as e:
+        print(f"❌ Invalid JSON in {document_path}: {e}")
+        return False
+    except Exception as e:
+        print(f"❌ Error reading file: {e}")
+        return False
     
     try:
         if HAS_JSONSCHEMA:
@@ -61,14 +68,13 @@ def validate_flame_ir(document_path, schema=None):
                 print(f"✅ Valid FlameIR v0.1.0 document: {document_path}")
                 return True
         else:
-            # Basic validation without jsonschema
-            print(f"⚠️  Basic validation only (install jsonschema for full validation)")
+            # Warn that full validation is not possible
+            print(f"⚠️  Warning: jsonschema not installed - cannot perform schema validation")
+            print(f"⚠️  Install with: pip install jsonschema")
             print(f"✅ Document is valid JSON: {document_path}")
-            return True
+            print(f"⚠️  Schema validation was NOT performed")
+            return False  # Return False to indicate incomplete validation
             
-    except json.JSONDecodeError as e:
-        print(f"❌ Invalid JSON in {document_path}: {e}")
-        return False
     except Exception as e:
         print(f"❌ Validation error: {e}")
         return False
