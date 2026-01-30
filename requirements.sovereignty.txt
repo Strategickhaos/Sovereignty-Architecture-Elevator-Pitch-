@@ -87,3 +87,7 @@ pynput>=1.7.6              # Input monitoring and control
 asyncio-mqtt>=0.13.0       # MQTT for IoT device monitoring
 websockets>=11.0.3         # WebSocket connections for real-time data
 aiohttp>=3.8.5             # Async HTTP client/server
+
+# Quantum chemistry and molecular simulation (FlameLang Compiler)
+pyscf>=2.3.0               # Python-based Simulations of Chemistry Framework
+scipy>=1.11.0              # Scientific computing library (required by PySCF)
