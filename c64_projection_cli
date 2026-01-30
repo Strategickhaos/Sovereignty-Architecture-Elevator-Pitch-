@@ -1,0 +1,188 @@
+#!/usr/bin/env python3
+"""
+c64_projection_cli: CLI for Canonical 64-Node Cyclic Graph Projections
+
+Usage:
+    c64_projection_cli [OPTIONS] COMMAND [ARGS]...
+
+Commands:
+    node        Show labels for a specific node
+    commute     Check commutativity for a labeling
+    list        List all nodes with a specific labeling
+    graph       Show graph structure (nodes and edges)
+    trig6       Compute TRIG6 values for a node
+    help        Show this message
+
+Examples:
+    c64_projection_cli node 0
+    c64_projection_cli commute DNA
+    c64_projection_cli list MIDI
+    c64_projection_cli trig6 0
+
+This CLI makes the C64 graph touchable: query nodes, verify commutativity,
+and explore projections (DNA, MIDI, THETA, UNIT, TRIG6) independently.
+Proves the structure exists and works without external deps.
+"""
+
+import sys
+import math
+import json
+from typing import Dict, Tuple, Callable
+
+N = 64
+DEG_PER_STEP = 360.0 / N
+
+CODONS = [
+    "UUU","UUC","UUA","UUG","UCU","UCC","UCA","UCG",
+    "UAU","UAC","UAA","UAG","UGU","UGC","UGA","UGG",
+    "CUU","CUC","CUA","CUG","CCU","CCC","CCA","CCG",
+    "CAU","CAC","CAA","CAG","CGU","CGC","CGA","CGG",
+    "AUU","AUC","AUA","AUG","ACU","ACC","ACA","ACG",
+    "AAU","AAC","AAA","AAG","AGU","AGC","AGA","AGG",
+    "GUU","GUC","GUA","GUG","GCU","GCC","GCA","GCG",
+    "GAU","GAC","GAA","GAG","GGU","GGC","GGA","GGG"
+]
+
+def theta_deg(n: int) -> float:
+    return (n % N) * DEG_PER_STEP
+
+def unit_circle(n: int) -> Tuple[float, float]:
+    r = math.radians(theta_deg(n))
+    return (round(math.cos(r), 8), round(math.sin(r), 8))
+
+def trig6(theta_deg_val: float) -> Dict[str, float]:
+    r = math.radians(theta_deg_val % 360.0)
+    s = math.sin(r)
+    c = math.cos(r)
+    eps = 1e-12
+
+    def safe_div(num: float, den: float) -> float:
+        if abs(den) <= eps:
+            return float("inf") if num >= 0 else float("-inf")
+        return num / den
+
+    t = safe_div(s, c)
+    cs = safe_div(1.0, s)
+    sc = safe_div(1.0, c)
+    ct = safe_div(c, s)
+
+    def r4(x: float) -> float:
+        return x if math.isinf(x) else round(x, 4)
+
+    return {"sin": r4(s), "cos": r4(c), "tan": r4(t), "csc": r4(cs), "sec": r4(sc), "cot": r4(ct)}
+
+# Canonical graph: directed cycle
+G: Dict[int, int] = {n: (n + 1) % N for n in range(N)}
+
+# Labelings
+LABELINGS = {
+    "DNA": {n: CODONS[n] for n in range(N)},
+    "MIDI": {n: 60 + n for n in range(N)},
+    "THETA": {n: round(theta_deg(n), 4) for n in range(N)},
+    "UNIT": {n: unit_circle(n) for n in range(N)},
+}
+
+# Increment operators
+def i_node(n: int) -> int:
+    return (n + 1) % N
+
+INCREMENTS: Dict[str, Callable] = {
+    "DNA": lambda codon: CODONS[(CODONS.index(codon) + 1) % N],
+    "MIDI": lambda note: 60 + ((note - 60 + 1) % N),
+    "THETA": lambda t: round((t + DEG_PER_STEP) % 360.0, 4),
+    "UNIT": lambda pos: unit_circle(i_node(list(LABELINGS["UNIT"].keys())[list(LABELINGS["UNIT"].values()).index(pos)])),
+}
+
+def commute_check(labeling: str, n: int = None) -> bool:
+    f = LABELINGS[labeling]
+    i_prime = INCREMENTS[labeling]
+    if n is not None:
+        return f[i_node(n)] == i_prime(f[n])
+    return all(f[i_node(k)] == i_prime(f[k]) for k in range(N))
+
+def print_help():
+    print(__doc__)
+
+def main():
+    if len(sys.argv) < 2:
+        print_help()
+        sys.exit(1)
+
+    command = sys.argv[1].lower()
+
+    if command == "help":
+        print_help()
+        return
+
+    if command == "graph":
+        print("Canonical C64 Graph (nodes 0-63, edges n -> (n+1)%64):")
+        for n in range(N):
+            print(f"Node {n} -> {G[n]}")
+        return
+
+    if command == "node":
+        if len(sys.argv) < 3:
+            print("Usage: node <node_id>")
+            return
+        try:
+            n = int(sys.argv[2]) % N
+        except ValueError:
+            print("Invalid node_id")
+            return
+        print(f"Node {n}:")
+        for lab, f in LABELINGS.items():
+            print(f"  {lab}: {f[n]}")
+        print(f"  TRIG6: {trig6(theta_deg(n))}")
+        print(f"  Next: {G[n]}")
+        return
+
+    if command == "commute":
+        if len(sys.argv) < 3:
+            print("Usage: commute <labeling> [node_id]")
+            return
+        labeling = sys.argv[2].upper()
+        if labeling not in LABELINGS:
+            print(f"Invalid labeling. Available: {', '.join(LABELINGS.keys())}")
+            return
+        if len(sys.argv) > 3:
+            try:
+                n = int(sys.argv[3]) % N
+                result = commute_check(labeling, n)
+                print(f"Commutativity at node {n} for {labeling}: {result}")
+            except ValueError:
+                print("Invalid node_id")
+            return
+        result = commute_check(labeling)
+        print(f"Full commutativity for {labeling}: {result}")
+        return
+
+    if command == "list":
+        if len(sys.argv) < 3:
+            print("Usage: list <labeling>")
+            return
+        labeling = sys.argv[2].upper()
+        if labeling not in LABELINGS:
+            print(f"Invalid labeling. Available: {', '.join(LABELINGS.keys())}")
+            return
+        print(f"{labeling} labels for all nodes:")
+        for n in range(N):
+            print(f"  Node {n}: {LABELINGS[labeling][n]}")
+        return
+
+    if command == "trig6":
+        if len(sys.argv) < 3:
+            print("Usage: trig6 <node_id>")
+            return
+        try:
+            n = int(sys.argv[2]) % N
+        except ValueError:
+            print("Invalid node_id")
+            return
+        print(f"TRIG6 for node {n} (theta={theta_deg(n):.4f}°): {trig6(theta_deg(n))}")
+        return
+
+    print("Unknown command")
+    print_help()
+
+if __name__ == "__main__":
+    main()
