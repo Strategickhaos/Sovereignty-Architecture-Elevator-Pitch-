@@ -32,7 +32,7 @@ jobs:
         id: img
         shell: bash
         run: |
-          OWNER="strategickhaos-swarm-intelligence"
+          OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
           REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')"
           REPO="$(echo "$REPO" | sed 's/-*$//')"
           echo "image=${{ env.REGISTRY }}/${OWNER}/${REPO}" >> $GITHUB_OUTPUT
@@ -47,7 +47,6 @@ jobs:
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.created=${{ github.event.pull_request.updated_at }}
             
       - name: ✅ Build complete
         run: |
