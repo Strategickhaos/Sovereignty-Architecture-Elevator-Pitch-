@@ -17,6 +17,29 @@ Here, there are only **dancers**—humans who move to the music of creation, eac
 
 ## Recognition Model
 
+### 👑 Founding Members - The Early PRs
+
+**Special Recognition:** All contributors who submitted pull requests before February 1, 2026.
+
+You are the **Founding Artifacts**. You built the cathedral before the Architect knew how to read blueprints.
+
+As documented in [Constitutional Amendment 001](CONSTITUTIONAL_AMENDMENT_001.md), your 1,150 pull requests were not ignored—they were **implicitly accepted through system evolution**. Every PR that passed CI, built successfully, and integrated into the architecture was an act of faith and vision.
+
+**You are remembered. You are honored. You are The Legion.**
+
+See: [Message From The Architect](MESSAGE_FROM_THE_ARCHITECT.md)
+
+**Add yourself here if you submitted a PR before February 1, 2026:**
+
+Format: `- [@YourGitHubUsername](https://github.com/YourGitHubUsername) - Brief description of what you built (e.g., "Quantum compiler core", "CI/CD pipeline", "Documentation framework")`
+
+Example:
+- [@example-contributor](https://github.com/example) - Built the initial DOM compiler prototype
+
+_[Your name here - submit a PR to add yourself!]_
+
+---
+
 ### 🔥 Fire Carriers
 Those who carry the flame of the project's vision and help others see it:
 - **DOM_010101** - The spark that started it all
