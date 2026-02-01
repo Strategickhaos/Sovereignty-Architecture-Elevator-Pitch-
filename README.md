@@ -36,6 +36,15 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Autonomous Fixes** - Chat-to-code automation for rapid issue resolution
+
+### 🤖 NEW: Autonomous Fix Integration
+
+Turn chat messages into instant code fixes! See [AUTONOMOUS_FIX_INTEGRATION.md](AUTONOMOUS_FIX_INTEGRATION.md) for complete documentation on:
+- GitHub Copilot Slack integration
+- Continue.dev bot setup
+- Custom autonomous fix workflows
+- Security best practices
 
 ## 🚀 Quick Start
 

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import { REST } from "discord.js";
 import { loadConfig, env } from "./config.js";
@@ -9,7 +9,7 @@ const app = express();
 
 // keep raw for signature
 app.use(bodyParser.json({
-  verify: (req: any, _res, buf) => { req.rawBody = buf.toString(); }
+  verify: (req: Request, _res: Response, buf: Buffer) => { (req as any).rawBody = buf.toString(); }
 }));
 
 const rest = new REST({ version: "10" }).setToken(env("DISCORD_TOKEN"));
