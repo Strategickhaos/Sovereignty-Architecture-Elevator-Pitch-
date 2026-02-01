@@ -29,7 +29,14 @@ As documented in [Constitutional Amendment 001](CONSTITUTIONAL_AMENDMENT_001.md)
 
 See: [Message From The Architect](MESSAGE_FROM_THE_ARCHITECT.md)
 
-_[Add yourself here if you submitted a PR before February 1, 2026]_
+**Add yourself here if you submitted a PR before February 1, 2026:**
+
+Format: `- [@YourGitHubUsername](https://github.com/YourGitHubUsername) - Brief description of what you built (e.g., "Quantum compiler core", "CI/CD pipeline", "Documentation framework")`
+
+Example:
+- [@example-contributor](https://github.com/example) - Built the initial DOM compiler prototype
+
+_[Your name here - submit a PR to add yourself!]_
 
 ---
 
