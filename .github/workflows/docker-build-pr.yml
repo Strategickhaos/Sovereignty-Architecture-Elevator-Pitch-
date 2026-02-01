@@ -1,0 +1,56 @@
+name: Docker Build PR
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, ready_for_review]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 🔐 Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: 🏷️ Compute image name (sanitized)
+        id: img
+        shell: bash
+        run: |
+          OWNER="strategickhaos-swarm-intelligence"
+          REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')"
+          REPO="$(echo "$REPO" | sed 's/-*$//')"
+          echo "image=${{ env.REGISTRY }}/${OWNER}/${REPO}" >> $GITHUB_OUTPUT
+          
+      - name: 🏗️ Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.bot
+          push: true
+          tags: ${{ steps.img.outputs.image }}:sha-${{ github.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.html_url }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.pull_request.updated_at }}
+            
+      - name: ✅ Build complete
+        run: |
+          echo "🚀 Successfully built and pushed:"
+          echo "   Image: ${{ steps.img.outputs.image }}"
+          echo "   Tag: sha-${{ github.sha }}"
