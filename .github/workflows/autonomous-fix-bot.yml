@@ -65,6 +65,7 @@ jobs:
           
       - name: 🔐 Security scan
         if: steps.validate.outputs.valid == 'true'
+        id: security
         run: |
           # Run security checks
           echo "🔍 Running security scans..."
@@ -75,22 +76,23 @@ jobs:
           fi
           
           # Check for vulnerabilities in dependencies
-          npm audit --audit-level=moderate || true
+          AUDIT_OUTPUT=$(npm audit --audit-level=moderate 2>&1 || echo "AUDIT_FAILED")
           
-          echo "✅ Security scan completed"
+          if [[ "$AUDIT_OUTPUT" == *"AUDIT_FAILED"* ]]; then
+            echo "⚠️ Security vulnerabilities detected"
+            echo "audit_status=warning" >> $GITHUB_OUTPUT
+            echo "$AUDIT_OUTPUT" > audit_results.txt
+          else
+            echo "✅ No security vulnerabilities detected"
+            echo "audit_status=passed" >> $GITHUB_OUTPUT
+          fi
           
       - name: 🌿 Create branch and commit
         if: steps.validate.outputs.valid == 'true'
         run: |
           git config user.name "Autonomous Fix Bot"
           git config user.email "bot@strategickhaos.com"
-          
-          git checkout -b ${{ steps.parse.outputs.branch_name }}
           git add .
-          git commit -m "Auto-fix: Applied fix from ${{ steps.parse.outputs.source }}" \
-                     -m "Requested by: ${{ steps.parse.outputs.requester }}" \
-                     -m "Source: ${{ steps.parse.outputs.source }}"
-          git push origin ${{ steps.parse.outputs.branch_name }}
           
       - name: 📝 Create Pull Request
         if: steps.validate.outputs.valid == 'true'
@@ -99,6 +101,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ steps.parse.outputs.branch_name }}
           base: main
+          commit-message: |
+            Auto-fix: Applied fix from ${{ steps.parse.outputs.source }}
+            
+            Requested by: ${{ steps.parse.outputs.requester }}
+            Source: ${{ steps.parse.outputs.source }}
           title: "🤖 Auto-fix from ${{ steps.parse.outputs.source }}"
           body: |
             ## Automated Fix Applied
@@ -109,7 +116,9 @@ jobs:
             
             ### Validation Results
             - ✅ TypeScript build passed
-            - ✅ Security scan completed
+            - ${{ steps.security.outputs.audit_status == 'passed' && '✅' || '⚠️' }} Security scan ${{ steps.security.outputs.audit_status }}
+            
+            ${{ steps.security.outputs.audit_status == 'warning' && '**⚠️ Security Warning:** Vulnerabilities detected. Please review audit results before merging.' || '' }}
             
             ### Manual Review Required
             Please review the changes carefully before merging.
