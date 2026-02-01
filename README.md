@@ -303,8 +303,17 @@ curl -X POST https://events.strategickhaos.com/health
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
 
+### Core Documents
+
+- **[Message From The Architect](MESSAGE_FROM_THE_ARCHITECT.md)** - Dom's acknowledgment of The Legion and the 1,150 PRs 🔥
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
-- **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
+- **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible, including Founding Members
+- **[Constitutional Amendment 001](CONSTITUTIONAL_AMENDMENT_001.md)** - Recognition of early PRs as Founding Artifacts
+
+### Contributing to the Project
+
+- **[PR Standards](PR_STANDARDS.md)** - How to submit pull requests (with THOUGHT_PROCESS.md)
+- **[THOUGHT_PROCESS Template](templates/THOUGHT_PROCESS_TEMPLATE.md)** - Template for documenting your thinking
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
 ## 📄 License & Support
