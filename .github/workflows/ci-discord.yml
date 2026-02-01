@@ -42,6 +42,7 @@ jobs:
         id: img
         shell: bash
         run: |
+          # Use organization name for Docker registry (not GitHub repo owner)
           OWNER="strategickhaos-swarm-intelligence"
           REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')"
           REPO="$(echo "$REPO" | sed 's/-*$//')"

@@ -77,6 +77,7 @@ jobs:
       id: img
       shell: bash
       run: |
+        # Use repository owner for Docker registry
         OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
         REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')"
         REPO="$(echo "$REPO" | sed 's/-*$//')"
@@ -89,7 +90,6 @@ jobs:
       with:
         images: ${{ steps.img.outputs.image }}
         tags: |
-          type=ref,event=pr,prefix=pr-
           type=sha,format=short,prefix=sha-
           type=ref,event=branch
         
