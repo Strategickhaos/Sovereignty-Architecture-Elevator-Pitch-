@@ -9,7 +9,7 @@ const app = express();
 
 // keep raw for signature
 app.use(bodyParser.json({
-  verify: (req: any, _res, buf) => { req.rawBody = buf.toString(); }
+  verify: (req: any, _res: any, buf: any) => { req.rawBody = buf.toString(); }
 }));
 
 const rest = new REST({ version: "10" }).setToken(env("DISCORD_TOKEN"));
