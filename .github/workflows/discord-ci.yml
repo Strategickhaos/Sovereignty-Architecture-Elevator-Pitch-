@@ -19,7 +19,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
   DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
 jobs:
@@ -72,13 +71,27 @@ jobs:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: 🔧 Compute image name (sanitized)
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      id: img
+      shell: bash
+      run: |
+        OWNER="$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+        REPO="$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')"
+        REPO="$(echo "$REPO" | sed 's/-*$//')"
+        echo "image=${{ env.REGISTRY }}/${OWNER}/${REPO}" >> $GITHUB_OUTPUT
         
     - name: 📊 Extract metadata
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        images: ${{ steps.img.outputs.image }}
+        tags: |
+          type=ref,event=pr,prefix=pr-
+          type=sha,format=short,prefix=sha-
+          type=ref,event=branch
         
     - name: 🚀 Build and push Docker image
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
