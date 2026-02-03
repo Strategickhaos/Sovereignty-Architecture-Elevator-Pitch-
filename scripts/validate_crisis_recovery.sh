@@ -132,7 +132,7 @@ echo "-----------------"
 run_test "Crisis log file is created" "[ -f automation/logs/crisis_recovery.log ]"
 run_test "Crisis log contains entries" "[ -s automation/logs/crisis_recovery.log ]"
 run_test "Crisis log has timestamps" \
-    "grep -qE '\[20[0-9]{2}-[0-9]{2}-[0-9]{2}' automation/logs/crisis_recovery.log"
+    "grep -qE '\[20[0-9]{2}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\]' automation/logs/crisis_recovery.log"
 
 echo ""
 echo "8. Content Validation Tests"

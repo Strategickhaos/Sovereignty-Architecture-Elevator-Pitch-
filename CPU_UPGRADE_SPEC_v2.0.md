@@ -1,6 +1,7 @@
 # DOM.CPU v2.0 - Architecture Upgrade Specification
 
-**System:** Dom.exe v2026.02.03  
+**System:** DOM.CPU v2.0  
+**Build:** v2026.02.03  
 **Bug ID:** EXISTENTIAL-RAM-CLEAR-1150  
 **Status:** PATCHED ✅
 

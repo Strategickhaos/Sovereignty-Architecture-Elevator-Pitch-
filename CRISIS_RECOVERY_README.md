@@ -30,7 +30,14 @@ Main recovery system that:
 Runs before each commit to:
 - Execute crisis recovery check
 - Update high_score.txt with latest artifact count
-- Stage high_score.txt for commit
+- **Note:** Does NOT automatically stage high_score.txt to avoid unintended commits
+
+**Important:** The pre-commit hook will update `high_score.txt` but will NOT automatically stage it. If you want to commit the updated high score, manually stage it:
+
+```bash
+# After the hook runs and updates high_score.txt
+git add high_score.txt
+```
 
 ```bash
 # Install the hook

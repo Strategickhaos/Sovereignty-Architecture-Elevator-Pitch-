@@ -26,8 +26,8 @@ count_artifacts() {
     # Count branches (active work streams)
     BRANCH_COUNT=$(git branch -a | wc -l)
     
-    # Count files (inventory items)
-    FILE_COUNT=$(find . -type f | wc -l)
+    # Count files (inventory items - tracked files only)
+    FILE_COUNT=$(git ls-files | wc -l)
     
     # Count recent activity
     RECENT_COMMITS=$(git rev-list --since="7 days ago" --all --count 2>/dev/null || echo "0")
@@ -52,8 +52,8 @@ auto_diff_recovery() {
     log_message "📋 Recent Artifacts (git log):"
     git log --oneline --stat -10 | tee -a "${CRISIS_LOG}"
     
-    # Count unique file changes
-    CHANGED_FILES=$(git log --name-only --pretty=format: --since="30 days ago" | sort -u | wc -l)
+    # Count unique file changes (filter empty lines)
+    CHANGED_FILES=$(git log --name-only --pretty=format: --since="30 days ago" | grep -v '^$' | sort -u | wc -l)
     log_message "   Unique files changed (30d): ${CHANGED_FILES}"
     
     # Grep for invention patterns

@@ -10,10 +10,9 @@ if [ -x "${CRISIS_SCRIPT}" ]; then
     echo "🔍 Running crisis recovery check..."
     bash "${CRISIS_SCRIPT}"
     
-    # Stage high_score.txt if it changed
-    if [ -f "${REPO_ROOT}/high_score.txt" ]; then
-        git add "${REPO_ROOT}/high_score.txt" 2>/dev/null || true
-    fi
+    # Note: high_score.txt is NOT automatically staged by this hook
+    # This prevents unintended staging during commits
+    # To commit high_score.txt, manually stage it: git add high_score.txt
 else
     echo "⚠️  Crisis recovery script not found or not executable"
     echo "   Expected: ${CRISIS_SCRIPT}"
