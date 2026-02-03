@@ -7,7 +7,11 @@ Real-time cognitive load balancing system that routes, buffers, and processes
 inputs without emotional overhead or identity attachment.
 
 "You route." — Not absorb everything. Not block everything. Route.
+
+Requires: Python 3.9+
 """
+
+from __future__ import annotations
 
 import time
 from datetime import datetime, timezone
@@ -291,8 +295,10 @@ class BufferManager:
         source_boost = input_data.metadata.get('source_importance', 0)
         priority += source_boost
         
-        # Age factor - older items get slight priority boost
-        age_boost = int((time.time() - input_data.timestamp) / 3600)  # +1 per hour
+        # Age factor - older items get priority boost
+        # Calculation: +1 priority point per hour of age, capped at 5 points max
+        age_seconds = time.time() - input_data.timestamp
+        age_boost = int(age_seconds / 3600)  # Convert seconds to hours
         priority += min(age_boost, 5)  # Cap age boost at 5
         
         return priority

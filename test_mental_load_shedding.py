@@ -328,9 +328,10 @@ class TestLoadSheddingScheduler(unittest.TestCase):
         self.assertGreaterEqual(metrics['humor_index'], 0.7)
         
         # Fill buffer significantly (need to ensure buffer utilization > 0.5)
+        # Buffer max is 100 by default, so fill with 60 items to get >50% utilization
         # First, lower available resources to force buffering
         self.scheduler.update_context(focus_level=9, available_resources=[])
-        for i in range(500):  # Fill more than half of buffer
+        for i in range(60):  # Fill more than half of buffer
             input_data = InputData(
                 content=f"Task {i}",
                 source="test",
