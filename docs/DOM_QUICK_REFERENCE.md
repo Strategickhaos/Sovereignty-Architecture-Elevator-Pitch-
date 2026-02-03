@@ -147,9 +147,9 @@ if compiler.validate(innovation):
 
 ## Resources
 
-- **Full Play**: [DOM_OPERATING_SYSTEM.md](DOM_OPERATING_SYSTEM.md)
-- **Technical Docs**: [docs/COGNITIVE_OPERATING_SYSTEM.md](docs/COGNITIVE_OPERATING_SYSTEM.md)
-- **Architecture**: [README.md](README.md#-cognitive-architecture)
+- **Full Play**: [../DOM_OPERATING_SYSTEM.md](../DOM_OPERATING_SYSTEM.md)
+- **Technical Docs**: [COGNITIVE_OPERATING_SYSTEM.md](COGNITIVE_OPERATING_SYSTEM.md)
+- **Architecture**: [../README.md](../README.md#-cognitive-architecture)
 
 ---
 
