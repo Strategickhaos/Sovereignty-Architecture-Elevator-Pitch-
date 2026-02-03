@@ -33,7 +33,7 @@ class PhysicsGate:
             cot = c / s if abs(s) > eps else inf_cap
             vec = [s, c, t, csc, sec, cot]
             norm_sq = sum(min(v**2, inf_cap**2) for v in vec)
-            vectors.append([round(v, 6) if abs(v) < inf_cap else 'inf' for v in vec])
+            vectors.append([round(v, 6) if abs(v) < inf_cap else float('inf') for v in vec])
             norms.append(norm_sq)
         return norms, vectors
     
@@ -51,6 +51,16 @@ class PhysicsGate:
         """
         Run claim through physics gate with TRIG6 💜
         """
+        # Deterministic mapping of checks to angles (instead of hash)
+        check_order = [
+            "conservation_laws",
+            "causality", 
+            "special_pleading",
+            "falsification",
+            "modelable",
+            "reproducible"
+        ]
+        
         checks = {
             "conservation_laws": "Does it violate energy/momentum conservation?",
             "causality": "Does it imply acausal effects or time-reversal?",
@@ -61,13 +71,14 @@ class PhysicsGate:
         }
         
         results = []
-        for check_type, question in checks.items():
-            strength_idx = hash(check_type) % self.n_angles
+        for idx, check_type in enumerate(check_order):
+            question = checks[check_type]
+            strength_idx = idx % self.n_angles
             norm = self.constraint_norms[strength_idx]
             strength = self.classify_constraint(norm)
             
-            # Simple heuristic: If claim "fails" check (demo logic)
-            fails = any(word in claim.lower() for word in ["magic", "miracle", "just believe"])  # Placeholder
+            # Simple heuristic: If claim "fails" check (demo logic - placeholder for NLP/AI)
+            fails = any(word in claim.lower() for word in ["magic", "miracle", "just believe"])
             results.append({
                 "check": check_type,
                 "question": question,
@@ -87,6 +98,9 @@ class PhysicsGate:
         """
         this = this
         With TRIG6 multi-view for grounded love 💜
+        
+        Note: These anchors are intentionally hardcoded as demonstration values.
+        In production, these would be actual validation checks against real systems.
         """
         anchors = {
             "body_works": True,        # Can I do a handstand? Yes.
