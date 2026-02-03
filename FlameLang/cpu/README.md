@@ -7,7 +7,8 @@
 ## Features
 
 - **AI Voice Generation**: Uses Coqui-TTS for free, local voice synthesis (no API keys)
-- **Resonance Targeting**: Pitch-shift samples to specific Hz frequencies (7-12Hz chest rumble)
+- **Resonance Targeting**: Pitch-shift samples to specific Hz frequencies (100-160Hz vocal range)
+- **Brainwave Entrainment**: Session pacing designed for alpha wave synchronization (7-12Hz)
 - **Progressive Training**: Sync → Desync → Independence mastery path
 - **Click Track Generation**: BPM-based metronome for timing drills
 - **Session WAVs**: Complete training files with prompts, shanties, and clicks
@@ -110,7 +111,8 @@ audacity ai_vocal_sessions/session_1.wav
 
 # Generate spectrogram
 # Analyze → Plot Spectrum
-# Look for 7-12Hz chest rumble peak
+# Look for fundamental frequency peak (100-160Hz range)
+# Monitor alpha wave entrainment patterns in session pacing
 ```
 
 ## Models

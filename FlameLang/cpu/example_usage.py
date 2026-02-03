@@ -88,7 +88,10 @@ if __name__ == "__main__":
         print("📁 Check the 'ai_vocal_sessions' directory for output files")
         
     except ImportError as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\n❌ Import Error: {e}")
         print("💡 Install dependencies first: pip install -r requirements.vocal.txt")
+    except Exception as e:
+        print(f"\n❌ Error generating sessions: {e}")
+        print("💡 Ensure TTS is properly installed and models are available")
     except KeyboardInterrupt:
         print("\n\n👋 Session generation cancelled")

@@ -21,7 +21,9 @@ tts = TTS(model_name=MODEL, progress_bar=True)
 # Gen AI voice prompt
 def gen_voice(text, path):
     wav = tts.tts(text=text, speaker_wav=None, language="en")
-    write(path, SAMPLE_RATE, np.array(wav))
+    # Convert float32 [-1, 1] to int16 for WAV
+    wav_int16 = (np.array(wav) * 32767).astype(np.int16)
+    write(path, SAMPLE_RATE, wav_int16)
     return path
 
 # Gen pedal click track
@@ -34,17 +36,24 @@ def gen_clicks(bpm=BPM, duration=DURATION_SEC):
         clicks[start:start+int(SAMPLE_RATE*0.01)] = 1.0
     return clicks
 
-# Pitch shift for resonance (simple, no deps)
+# Pitch shift for resonance (simple resampling approach)
 def pitch_shift(wav_data, shift_semitones):
-    # Basic FFT shift (crude but works)
-    fft = np.fft.rfft(wav_data)
-    shifted = np.zeros_like(fft)
-    freq_bin_shift = int(len(fft) * (2**(shift_semitones/12) - 1))
-    if freq_bin_shift > 0:
-        shifted[freq_bin_shift:] = fft[:-freq_bin_shift]
-    else:
-        shifted[:freq_bin_shift] = fft[-freq_bin_shift:]
-    return np.fft.irfft(shifted).real.astype(np.int16)
+    # Calculate frequency ratio for semitone shift
+    freq_ratio = 2 ** (shift_semitones / 12)
+    
+    # Simple time-domain resampling (crude but functional)
+    # For production use, consider librosa or soundfile
+    indices = np.arange(0, len(wav_data), freq_ratio)
+    indices = indices[indices < len(wav_data)].astype(int)
+    
+    # Resample by indexing
+    shifted = wav_data[indices]
+    
+    # Ensure output is int16
+    if shifted.dtype != np.int16:
+        shifted = shifted.astype(np.int16)
+    
+    return shifted
 
 # Build session: AI prompt + shanty sample + clicks
 def build_session(session_id=1, text_prompt="Deep chest resonance, sync to beat then desync for independence. Hoist the Colors High.", target_hz=100):
@@ -60,7 +69,7 @@ def build_session(session_id=1, text_prompt="Deep chest resonance, sync to beat 
     gen_voice(shanty_text, shanty_path)
     
     # Pitch shift to target Hz (approx fundamental)
-    shanty_data, _ = read(shanty_path)
+    shanty_sample_rate, shanty_data = read(shanty_path)
     shift_semitones = 12 * math.log2(target_hz / 100)  # Assume base ~100Hz
     shifted_shanty = pitch_shift(shanty_data, shift_semitones)
     shifted_path = f"{OUTPUT_DIR}/shifted_shanty_{session_id}.wav"
@@ -72,9 +81,19 @@ def build_session(session_id=1, text_prompt="Deep chest resonance, sync to beat 
     # Merge: Prompt + shifted shanty + clicks overlay
     max_len = max(len(shifted_shanty), len(clicks))
     merged = np.zeros(max_len)
-    merged[:len(shifted_shanty)] += shifted_shanty / np.max(np.abs(shifted_shanty))
+    
+    # Normalize shanty (guard against silent audio)
+    shanty_max = np.max(np.abs(shifted_shanty))
+    if shanty_max > 0:
+        merged[:len(shifted_shanty)] += shifted_shanty / shanty_max
+    
     merged[:len(clicks)] += clicks * 0.3
-    merged = (merged / np.max(np.abs(merged))) * 32767
+    
+    # Final normalization (guard against all-zero audio)
+    merged_max = np.max(np.abs(merged))
+    if merged_max > 0:
+        merged = (merged / merged_max) * 32767
+    
     final_path = f"{OUTPUT_DIR}/session_{session_id}.wav"
     write(final_path, SAMPLE_RATE, merged.astype(np.int16))
     print(f"Session WAV: {final_path}")

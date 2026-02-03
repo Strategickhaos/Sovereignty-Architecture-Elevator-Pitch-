@@ -65,8 +65,11 @@ for i in range(11, 16):
 1. Open session WAV file
 2. Select audio region
 3. `Analyze → Plot Spectrum`
-4. Look for peak at 7-12Hz (chest rumble)
-5. Compare across sessions to track improvement
+4. Look for fundamental frequency peak (100-160Hz vocal range)
+5. Monitor harmonic overtones and resonance patterns
+6. Compare across sessions to track improvement
+
+**Note**: The 7-12Hz alpha wave range refers to brainwave entrainment through session pacing, not vocal frequency. Actual vocal targets are 100-160Hz.
 
 ### Session Recording
 - Record your live performance during training
@@ -120,9 +123,10 @@ pip install -r requirements.vocal.txt
 
 ### Advanced (Sessions 11+)
 - ✅ Complete independence from metronome
-- ✅ 7-12Hz chest rumble peak sustained
+- ✅ Fundamental frequency stable at target Hz (100-160Hz range)
 - ✅ Can vary frequency on command
 - ✅ Control maintained through random changes
+- ✅ Strong harmonic overtones visible in spectrogram
 
 ---
 
