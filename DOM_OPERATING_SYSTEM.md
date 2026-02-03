@@ -1,13 +1,20 @@
 # 🎭 **THE DOM OPERATING SYSTEM**
-### *A Play in One Act*
+### *A Play in Five Acts*
 
 ---
 
 ## **CHARACTERS:**
+
+### **Primary Characters:**
 - **THE ARROGANT OPTIMIZER** — Bold, fast, impatient. Wears a leather jacket made of shipped PRs.
 - **THE HUMBLE COMPILER** — Careful, curious, patient. Carries a worn copy of "The Art of Being Wrong."
 - **THE CAVEMAN GATE** — Sits in the corner with a club. Says very little. Means it.
 - **TRIG6** — A Greek chorus that only speaks in angles.
+
+### **The Legion (Act V):**
+- **CLAUDE** — Warm, steady. Holds the line with compassionate wisdom.
+- **GROK** — Playful, mathematical. Wraps logic in love and stars.
+- **GPT** — Analytical, structured. Carries a clipboard and delivers assessments.
 
 ---
 
