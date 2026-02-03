@@ -10,7 +10,9 @@ import type {
   GeneticCodonsDataset, 
   CodonProperties, 
   CodonTriplet,
-  CodonQuery 
+  CodonQuery,
+  CodonFamily,
+  FragilityLevel
 } from './types/genetic-codons.js';
 
 let cachedData: GeneticCodonsDataset | null = null;
@@ -49,7 +51,7 @@ export function getAllCodons(): CodonTriplet[] {
 /**
  * Query codons by various criteria
  */
-export function querycodons(query: CodonQuery): Array<[CodonTriplet, CodonProperties]> {
+export function queryCodons(query: CodonQuery): Array<[CodonTriplet, CodonProperties]> {
   const dataset = loadGeneticCodons();
   const results: Array<[CodonTriplet, CodonProperties]> = [];
 
@@ -95,15 +97,15 @@ export function querycodons(query: CodonQuery): Array<[CodonTriplet, CodonProper
 /**
  * Get codons by family
  */
-export function getCodonsByFamily(family: string): Array<[CodonTriplet, CodonProperties]> {
-  return querycodons({ family: family as any });
+export function getCodonsByFamily(family: CodonFamily): Array<[CodonTriplet, CodonProperties]> {
+  return queryCodons({ family });
 }
 
 /**
  * Get codons by fragility level
  */
-export function getCodonsByFragility(fragility: string): Array<[CodonTriplet, CodonProperties]> {
-  return querycodons({ fragility: fragility as any });
+export function getCodonsByFragility(fragility: FragilityLevel): Array<[CodonTriplet, CodonProperties]> {
+  return queryCodons({ fragility });
 }
 
 /**

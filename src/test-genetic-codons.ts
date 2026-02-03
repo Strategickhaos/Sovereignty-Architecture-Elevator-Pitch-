@@ -9,7 +9,7 @@ import {
   loadGeneticCodons,
   getCodon,
   getAllCodons,
-  querycodons,
+  queryCodons,
   getCodonsByFamily,
   getEventHorizonCodons,
   getCodonByAtomic,
@@ -17,7 +17,7 @@ import {
 } from './genetic-codons.js';
 
 console.log('🧬 Genetic Codons Dataset Test\n');
-console.log('=' .repeat(60));
+console.log('='.repeat(60));
 
 // Test 1: Load dataset
 console.log('\n1. Loading genetic codons dataset...');
@@ -53,12 +53,12 @@ console.log(`   First 3: ${sinCodons.slice(0, 3).map(([t]) => t).join(', ')}`);
 
 // Test 5: Query by fragility
 console.log('\n5. HIGH fragility codons:');
-const highFragilityCodons = querycodons({ fragility: 'HIGH' });
+const highFragilityCodons = queryCodons({ fragility: 'HIGH' });
 console.log(`   Found ${highFragilityCodons.length} HIGH fragility codons`);
 
 // Test 6: Query by angle range
 console.log('\n6. Codons in first quadrant (0-90°):');
-const firstQuadrant = querycodons({ minAngle: 0, maxAngle: 90 });
+const firstQuadrant = queryCodons({ minAngle: 0, maxAngle: 90 });
 console.log(`   Found ${firstQuadrant.length} codons in first quadrant`);
 
 // Test 7: Get by atomic number

@@ -69,16 +69,16 @@ console.log(`${aaa.hebrew} (${aaa.glyph}) - ${aaa.family}`);
 ### Querying Codons
 
 ```typescript
-import { querycodons } from './src/genetic-codons.js';
+import { queryCodons } from './src/genetic-codons.js';
 
 // Get all HIGH fragility codons in the SIN family
-const results = querycodons({
+const results = queryCodons({
   family: 'SIN (White)',
   fragility: 'HIGH'
 });
 
 // Get codons in a specific angle range
-const firstQuadrant = querycodons({
+const firstQuadrant = queryCodons({
   minAngle: 0,
   maxAngle: 90
 });
@@ -132,9 +132,9 @@ npx tsx src/test-genetic-codons.ts
 ### Find All Maximum Fragility Codons
 
 ```typescript
-import { querycodons } from './src/genetic-codons.js';
+import { queryCodons } from './src/genetic-codons.js';
 
-const maxFragility = querycodons({ fragility: 'MAX' });
+const maxFragility = queryCodons({ fragility: 'MAX' });
 // Returns 4 codons: AAA, CAA, GAA, TAA (all at Event Horizon)
 ```
 
@@ -150,9 +150,9 @@ console.log(`COS family has ${cosCodons.length} codons`);
 ### Filter by Multiple Criteria
 
 ```typescript
-import { querycodons } from './src/genetic-codons.js';
+import { queryCodons } from './src/genetic-codons.js';
 
-const results = querycodons({
+const results = queryCodons({
   schwarzschild: 'ISCO (stable)',
   minAtomic: 8,
   maxAtomic: 42
