@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.io.wavfile import write
+from scipy.io.wavfile import write, read
 import math
 import os
 
@@ -24,7 +24,9 @@ def generate_bwe(session_id, delta=ALPHA_DELTA, duration=DURATION_SEC):
     right = np.sin(2 * np.pi * (BASE_FREQ + delta) * t)
     pulse = (np.sin(2 * np.pi * delta * t) > 0).astype(float)  # Isochronic
     audio = np.vstack((left * pulse, right * pulse)).T
-    audio = (audio / np.abs(audio).max()) * 32767
+    max_val = np.abs(audio).max()
+    if max_val > 0:
+        audio = (audio / max_val) * 32767
     path = f"{OUTPUT_DIR}/bwe_{session_id}.wav"
     write(path, SAMPLE_RATE, audio.astype(np.int16))
     return path
@@ -39,7 +41,9 @@ def vocal_drill(session_id, bpm=140, duration=DURATION_SEC):
         start = int(i * beat_interval)
         clicks[start:start+int(SAMPLE_RATE*0.01)] = 1.0  # Short click
     audio = np.vstack((clicks, clicks)).T  # Stereo
-    audio = (audio / np.abs(audio).max()) * 32767
+    max_val = np.abs(audio).max()
+    if max_val > 0:
+        audio = (audio / max_val) * 32767
     path = f"{OUTPUT_DIR}/drill_{session_id}.wav"
     write(path, SAMPLE_RATE, audio.astype(np.int16))
     return path
@@ -55,9 +59,11 @@ def build_session(trig_entry, session_id=1):
     bwe_path = generate_bwe(session_id)
     drill_path = vocal_drill(session_id)
     # Merge: Overlay BWE + clicks (simple add, normalize)
-    bwe_data = np.fromfile(bwe_path, dtype=np.int16).reshape(-1, 2)
-    drill_data = np.fromfile(drill_path, dtype=np.int16).reshape(-1, 2)
-    merged = (bwe_data + drill_data * 0.3).astype(np.int16)  # Attenuate clicks
+    _, bwe_data = read(bwe_path)
+    _, drill_data = read(drill_path)
+    # Convert to float for safe arithmetic, then clip and convert back to int16
+    merged = bwe_data.astype(np.float32) + drill_data.astype(np.float32) * 0.3
+    merged = np.clip(merged, -32768, 32767).astype(np.int16)
     merged_path = f"{OUTPUT_DIR}/session_{session_id}.wav"
     write(merged_path, SAMPLE_RATE, merged)
     print(f"Session WAV: {merged_path}")
