@@ -39,16 +39,29 @@ class SurvivorsSimulation:
         self.T = T
         
     def get_family(self, bin_index: int) -> str:
-        """Determine the trigonometric family for a given bin."""
-        # Each family gets roughly N/6 bins
-        bins_per_family = self.N // len(self.FAMILIES)
-        family_index = bin_index // bins_per_family
+        """Determine the trigonometric family for a given bin.
         
-        # Handle remainder bins
-        if family_index >= len(self.FAMILIES):
-            family_index = len(self.FAMILIES) - 1
-            
-        return self.FAMILIES[family_index]
+        Families are assigned as follows for N=64:
+        - SIN: bins 0-10 (11 bins)
+        - COS: bins 11-21 (11 bins)
+        - TAN: bins 22-31 (10 bins)
+        - CSC: bins 32-42 (11 bins)
+        - SEC: bins 43-53 (11 bins)
+        - COT: bins 54-63 (10 bins)
+        """
+        # Define exact boundaries
+        if bin_index < 11:
+            return "SIN"
+        elif bin_index < 22:
+            return "COS"
+        elif bin_index < 32:
+            return "TAN"
+        elif bin_index < 43:
+            return "CSC"
+        elif bin_index < 54:
+            return "SEC"
+        else:
+            return "COT"
     
     def get_theta(self, bin_index: int) -> float:
         """Calculate theta (angle) for a given bin."""

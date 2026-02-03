@@ -98,7 +98,7 @@
     {
       "bin": 10,
       "theta": 56.25,
-      "family": "COS",
+      "family": "SIN",
       "note": 58,
       "velocity": 100,
       "amplitude": 0.198424138855491
@@ -178,7 +178,7 @@
     {
       "bin": 20,
       "theta": 112.5,
-      "family": "TAN",
+      "family": "COS",
       "note": 68,
       "velocity": 100,
       "amplitude": 0.19805411400920384
@@ -186,7 +186,7 @@
     {
       "bin": 21,
       "theta": 118.125,
-      "family": "TAN",
+      "family": "COS",
       "note": 69,
       "velocity": 100,
       "amplitude": 0.19809752405410988
@@ -258,7 +258,7 @@
     {
       "bin": 30,
       "theta": 168.75,
-      "family": "CSC",
+      "family": "TAN",
       "note": 54,
       "velocity": 100,
       "amplitude": 0.19831576108722102
@@ -266,7 +266,7 @@
     {
       "bin": 31,
       "theta": 174.375,
-      "family": "CSC",
+      "family": "TAN",
       "note": 55,
       "velocity": 100,
       "amplitude": 0.19823912643234742
@@ -338,7 +338,7 @@
     {
       "bin": 40,
       "theta": 225.0,
-      "family": "SEC",
+      "family": "CSC",
       "note": 64,
       "velocity": 100,
       "amplitude": 0.19831576108722102
@@ -346,7 +346,7 @@
     {
       "bin": 41,
       "theta": 230.625,
-      "family": "SEC",
+      "family": "CSC",
       "note": 65,
       "velocity": 100,
       "amplitude": 0.19838072881058497
@@ -354,7 +354,7 @@
     {
       "bin": 42,
       "theta": 236.25,
-      "family": "SEC",
+      "family": "CSC",
       "note": 66,
       "velocity": 100,
       "amplitude": 0.198424138855491
@@ -418,7 +418,7 @@
     {
       "bin": 50,
       "theta": 281.25,
-      "family": "COT",
+      "family": "SEC",
       "note": 50,
       "velocity": 100,
       "amplitude": 0.19805411400920384
@@ -426,7 +426,7 @@
     {
       "bin": 51,
       "theta": 286.875,
-      "family": "COT",
+      "family": "SEC",
       "note": 51,
       "velocity": 100,
       "amplitude": 0.19803887042857962
@@ -434,7 +434,7 @@
     {
       "bin": 52,
       "theta": 292.5,
-      "family": "COT",
+      "family": "SEC",
       "note": 52,
       "velocity": 100,
       "amplitude": 0.19805411400920384
@@ -442,7 +442,7 @@
     {
       "bin": 53,
       "theta": 298.125,
-      "family": "COT",
+      "family": "SEC",
       "note": 53,
       "velocity": 100,
       "amplitude": 0.19809752405410988
