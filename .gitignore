@@ -35,3 +35,15 @@ target/
 
 # Workspace data
 workspace/
+
+# Python generated files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# FlameLang CPU script outputs
+FlameLang/cpu/*.mid
+FlameLang/cpu/*_final_A.txt
