@@ -1,0 +1,23 @@
+#!/bin/bash
+# Pre-commit Crisis Check - Prevents "nobody mode" by tracking artifacts
+# Crisis hook runs before commit to ensure inventory is synchronized
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+CRISIS_SCRIPT="${REPO_ROOT}/scripts/crisis_recovery.sh"
+
+# Run crisis recovery check before commit
+if [ -x "${CRISIS_SCRIPT}" ]; then
+    echo "🔍 Running crisis recovery check..."
+    bash "${CRISIS_SCRIPT}"
+    
+    # Stage high_score.txt if it changed
+    if [ -f "${REPO_ROOT}/high_score.txt" ]; then
+        git add "${REPO_ROOT}/high_score.txt" 2>/dev/null || true
+    fi
+else
+    echo "⚠️  Crisis recovery script not found or not executable"
+    echo "   Expected: ${CRISIS_SCRIPT}"
+fi
+
+# Always allow commit to proceed
+exit 0

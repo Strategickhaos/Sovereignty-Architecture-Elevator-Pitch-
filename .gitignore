@@ -35,3 +35,7 @@ target/
 
 # Workspace data
 workspace/
+
+# Crisis recovery logs (keep directory structure but not detailed logs)
+automation/logs/*.log
+automation/logs/*.log.*
