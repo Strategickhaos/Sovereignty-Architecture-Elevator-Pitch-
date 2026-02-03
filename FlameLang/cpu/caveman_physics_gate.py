@@ -1,4 +1,3 @@
-import math
 from dataclasses import dataclass
 from typing import Optional, Dict, List, Tuple
 
@@ -36,10 +35,9 @@ class CavemanPhysicsGate:
     """
 
     def __init__(self):
-        # 6 angles (symbolic) used to label the 6 perspectives.
-        self.angles_deg = [0, 60, 120, 180, 240, 300]
-
         # Perspective names (these are your 6 "views")
+        # Note: Using 6 perspectives symbolically represents TRIG6 (hexagonal viewpoints)
+        # The 6 angles [0, 60, 120, 180, 240, 300] degrees represent this geometry conceptually
         self.views = [
             ("energy", "free energy / conservation"),
             ("causality", "cause->effect order"),
