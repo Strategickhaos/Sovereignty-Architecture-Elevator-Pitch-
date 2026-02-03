@@ -6,7 +6,6 @@ Validates emotion event compilation into safe, bounded protocols.
 """
 
 import unittest
-import time
 from emotion_compiler import (
     Emotion,
     EmotionEvent,

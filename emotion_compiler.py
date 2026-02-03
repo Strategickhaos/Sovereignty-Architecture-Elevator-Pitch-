@@ -45,7 +45,8 @@ class Action:
     """
     An action in the execution protocol.
     
-    Primitive operations: ACK, BUFFER, ANCHOR, QUERY, PATCH, EXEC
+    Primitive operations: ACK, BUFFER, ANCHOR, QUERY, PATCH, EXEC,
+    THREAT_MODEL, REWRITE, DENY_INPUT, SCOPE_CAP
     """
     op: str
     args: Dict[str, str] = field(default_factory=dict)
