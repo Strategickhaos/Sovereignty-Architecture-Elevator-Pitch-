@@ -12,7 +12,7 @@ import {
 } from '../caveman-logic.js';
 
 console.log("🔥 Caveman Logic System - Examples\n");
-console.log("=" .repeat(60) + "\n");
+console.log("=".repeat(60) + "\n");
 
 // ============================================================================
 // Example 1: Simple Physics Gate Check
