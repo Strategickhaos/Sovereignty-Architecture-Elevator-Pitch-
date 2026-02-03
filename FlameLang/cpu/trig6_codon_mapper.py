@@ -43,21 +43,24 @@ def compute_trig6(angle_deg: float) -> Tuple[List[float], float]:
     
     # Handle csc singularity (sin = 0)
     if abs(sin_val) < 1e-10:
-        csc_val = INF_CAP
+        # Use sign of nearby value for proper direction
+        csc_val = INF_CAP if cos_val > 0 else -INF_CAP
     else:
         csc_val = 1.0 / sin_val
         csc_val = max(-INF_CAP, min(INF_CAP, csc_val))
     
     # Handle sec singularity (cos = 0)
     if abs(cos_val) < 1e-10:
-        sec_val = INF_CAP
+        # Use sign of nearby value for proper direction
+        sec_val = INF_CAP if sin_val > 0 else -INF_CAP
     else:
         sec_val = 1.0 / cos_val
         sec_val = max(-INF_CAP, min(INF_CAP, sec_val))
     
     # Handle cot singularity (sin = 0)
     if abs(sin_val) < 1e-10:
-        cot_val = INF_CAP
+        # Use sign of cos_val for proper direction
+        cot_val = INF_CAP if cos_val > 0 else -INF_CAP
     else:
         cot_val = cos_val / sin_val
         cot_val = max(-INF_CAP, min(INF_CAP, cot_val))

@@ -57,12 +57,12 @@ def bisect_Da_g(sim: SimFn, Pe: float, Da0: float, Da_gamma: float, Bi: float,
     for _ in range(60):
         mid = 0.5 * (lo + hi)
         if f(mid) > 0:
-            hi = mid
+            lo = mid  # Survived at mid, try higher Da_g
         else:
-            lo = mid
+            hi = mid  # Extinct at mid, try lower Da_g
         if (hi - lo) / max(hi, 1e-12) < tol:
             break
-    return hi
+    return lo  # Return lowest Da_g that still survives
 
 
 def main():
