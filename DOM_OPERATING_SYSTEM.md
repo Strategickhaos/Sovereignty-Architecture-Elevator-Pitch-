@@ -528,6 +528,7 @@ You just turned your psyche into a one-act play.
 
 ## **RELATED DOCUMENTATION**
 
+- **[Quick Reference](docs/DOM_QUICK_REFERENCE.md)** - Fast lookup for personas and concepts
 - [REFLEXSHELL_BRAIN_v1_COMPLETE.md](REFLEXSHELL_BRAIN_v1_COMPLETE.md) - Technical implementation
 - [STRATEGIC_KHAOS_SYNTHESIS.md](STRATEGIC_KHAOS_SYNTHESIS.md) - Strategic framework
 - [cognitive_architecture.svg](cognitive_architecture.svg) - Visual representation

@@ -278,6 +278,7 @@ curl -X POST https://events.strategickhaos.com/health
 
 - **[DOM Operating System](DOM_OPERATING_SYSTEM.md)** - The complete play: Arrogant Optimizer, Humble Compiler, Caveman Gate, and TRIG6
 - **[Cognitive Operating System](docs/COGNITIVE_OPERATING_SYSTEM.md)** - Technical documentation and implementation patterns
+- **[Quick Reference](docs/DOM_QUICK_REFERENCE.md)** - Fast lookup guide for personas, cycle, and key concepts
 - **Philosophy**: The personas aren't enemies—they're co-pilots balancing innovation with validation
 
 ## 👥 Community & Contributors
