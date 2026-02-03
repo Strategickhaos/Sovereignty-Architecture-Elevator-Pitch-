@@ -63,7 +63,8 @@ class PhaseBoundary:
             u_prev: Previous time step state (for second order time derivative)
         
         Returns:
-            Current state (to be used as u_prev in next step)
+            np.ndarray: Current state array that should be passed as u_prev 
+                       in the next iteration of this method
         """
         if u_prev is None:
             u_prev = self.u.copy()

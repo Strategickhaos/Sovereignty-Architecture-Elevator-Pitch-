@@ -150,7 +150,8 @@ class VocalIndependenceTrainer:
         
         # Generate pitch sequence for exercise
         if exercise_type == 'scale':
-            # Major scale pattern
+            # Just intonation major scale: 1/1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2/1
+            # These ratios create pure harmonic intervals based on simple integer ratios
             intervals = [1.0, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2.0]
             pitches = [self.base_frequency * interval for interval in intervals]
             

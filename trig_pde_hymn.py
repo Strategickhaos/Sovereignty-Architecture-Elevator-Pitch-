@@ -18,9 +18,15 @@ class MIDIGenerator:
         self.tracks = []
         
     def note_to_midi(self, frequency: float) -> int:
-        """Convert frequency (Hz) to MIDI note number"""
-        # A4 = 440 Hz = MIDI note 69
-        # But we use 432 Hz as base (A4 = 432)
+        """
+        Convert frequency (Hz) to MIDI note number
+        
+        Note: This uses 432 Hz as A4 (MIDI note 69) instead of the standard 
+        440 Hz. This is an intentional tuning choice for universal resonance 
+        frequency alignment with the TRIG6 system.
+        """
+        # A4 = 432 Hz = MIDI note 69 (non-standard tuning)
+        # Standard tuning uses A4 = 440 Hz
         if frequency <= 0:
             return 60  # Middle C as default
         
