@@ -1,0 +1,386 @@
+{
+  "AAA": {
+    "Atomic #": 1,
+    "Symbol": "H",
+    "Norm^2": 12.5,
+    "L2_weight": 0.85
+  },
+  "AAC": {
+    "Atomic #": 2,
+    "Symbol": "He",
+    "Norm^2": 25.3,
+    "L2_weight": 0.92
+  },
+  "AAG": {
+    "Atomic #": 3,
+    "Symbol": "Li",
+    "Norm^2": 45.8,
+    "L2_weight": 0.78
+  },
+  "AAT": {
+    "Atomic #": 4,
+    "Symbol": "Be",
+    "Norm^2": 67.2,
+    "L2_weight": 0.65
+  },
+  "ACA": {
+    "Atomic #": 5,
+    "Symbol": "B",
+    "Norm^2": 89.4,
+    "L2_weight": 0.73
+  },
+  "ACC": {
+    "Atomic #": 6,
+    "Symbol": "C",
+    "Norm^2": 120.7,
+    "L2_weight": 0.88
+  },
+  "ACG": {
+    "Atomic #": 7,
+    "Symbol": "N",
+    "Norm^2": 156.3,
+    "L2_weight": 0.91
+  },
+  "ACT": {
+    "Atomic #": 8,
+    "Symbol": "O",
+    "Norm^2": 189.5,
+    "L2_weight": 0.95
+  },
+  "AGA": {
+    "Atomic #": 9,
+    "Symbol": "F",
+    "Norm^2": 220.0,
+    "L2_weight": 0.82
+  },
+  "AGC": {
+    "Atomic #": 10,
+    "Symbol": "Ne",
+    "Norm^2": 15.6,
+    "L2_weight": 0.67
+  },
+  "AGG": {
+    "Atomic #": 11,
+    "Symbol": "Na",
+    "Norm^2": 34.2,
+    "L2_weight": 0.71
+  },
+  "AGT": {
+    "Atomic #": 12,
+    "Symbol": "Mg",
+    "Norm^2": 52.8,
+    "L2_weight": 0.76
+  },
+  "ATA": {
+    "Atomic #": 13,
+    "Symbol": "Al",
+    "Norm^2": 74.1,
+    "L2_weight": 0.84
+  },
+  "ATC": {
+    "Atomic #": 14,
+    "Symbol": "Si",
+    "Norm^2": 98.3,
+    "L2_weight": 0.89
+  },
+  "ATG": {
+    "Atomic #": 15,
+    "Symbol": "P",
+    "Norm^2": 125.9,
+    "L2_weight": 0.93
+  },
+  "ATT": {
+    "Atomic #": 16,
+    "Symbol": "S",
+    "Norm^2": 148.7,
+    "L2_weight": 0.87
+  },
+  "CAA": {
+    "Atomic #": 17,
+    "Symbol": "Cl",
+    "Norm^2": 178.4,
+    "L2_weight": 0.81
+  },
+  "CAC": {
+    "Atomic #": 18,
+    "Symbol": "Ar",
+    "Norm^2": 19.2,
+    "L2_weight": 0.68
+  },
+  "CAG": {
+    "Atomic #": 19,
+    "Symbol": "K",
+    "Norm^2": 38.5,
+    "L2_weight": 0.72
+  },
+  "CAT": {
+    "Atomic #": 20,
+    "Symbol": "Ca",
+    "Norm^2": 61.3,
+    "L2_weight": 0.79
+  },
+  "CCA": {
+    "Atomic #": 21,
+    "Symbol": "Sc",
+    "Norm^2": 85.6,
+    "L2_weight": 0.83
+  },
+  "CCC": {
+    "Atomic #": 22,
+    "Symbol": "Ti",
+    "Norm^2": 112.4,
+    "L2_weight": 0.86
+  },
+  "CCG": {
+    "Atomic #": 23,
+    "Symbol": "V",
+    "Norm^2": 143.8,
+    "L2_weight": 0.90
+  },
+  "CCT": {
+    "Atomic #": 24,
+    "Symbol": "Cr",
+    "Norm^2": 167.2,
+    "L2_weight": 0.94
+  },
+  "CGA": {
+    "Atomic #": 25,
+    "Symbol": "Mn",
+    "Norm^2": 195.7,
+    "L2_weight": 0.88
+  },
+  "CGC": {
+    "Atomic #": 26,
+    "Symbol": "Fe",
+    "Norm^2": 23.4,
+    "L2_weight": 0.69
+  },
+  "CGG": {
+    "Atomic #": 27,
+    "Symbol": "Co",
+    "Norm^2": 42.7,
+    "L2_weight": 0.74
+  },
+  "CGT": {
+    "Atomic #": 28,
+    "Symbol": "Ni",
+    "Norm^2": 68.9,
+    "L2_weight": 0.80
+  },
+  "CTA": {
+    "Atomic #": 29,
+    "Symbol": "Cu",
+    "Norm^2": 92.3,
+    "L2_weight": 0.85
+  },
+  "CTC": {
+    "Atomic #": 30,
+    "Symbol": "Zn",
+    "Norm^2": 119.5,
+    "L2_weight": 0.89
+  },
+  "CTG": {
+    "Atomic #": 31,
+    "Symbol": "Ga",
+    "Norm^2": 151.2,
+    "L2_weight": 0.92
+  },
+  "CTT": {
+    "Atomic #": 32,
+    "Symbol": "Ge",
+    "Norm^2": 176.8,
+    "L2_weight": 0.96
+  },
+  "GAA": {
+    "Atomic #": 33,
+    "Symbol": "As",
+    "Norm^2": 28.6,
+    "L2_weight": 0.70
+  },
+  "GAC": {
+    "Atomic #": 34,
+    "Symbol": "Se",
+    "Norm^2": 47.9,
+    "L2_weight": 0.75
+  },
+  "GAG": {
+    "Atomic #": 35,
+    "Symbol": "Br",
+    "Norm^2": 73.5,
+    "L2_weight": 0.81
+  },
+  "GAT": {
+    "Atomic #": 36,
+    "Symbol": "Kr",
+    "Norm^2": 99.7,
+    "L2_weight": 0.86
+  },
+  "GCA": {
+    "Atomic #": 37,
+    "Symbol": "Rb",
+    "Norm^2": 127.3,
+    "L2_weight": 0.90
+  },
+  "GCC": {
+    "Atomic #": 38,
+    "Symbol": "Sr",
+    "Norm^2": 158.4,
+    "L2_weight": 0.93
+  },
+  "GCG": {
+    "Atomic #": 39,
+    "Symbol": "Y",
+    "Norm^2": 183.9,
+    "L2_weight": 0.87
+  },
+  "GCT": {
+    "Atomic #": 40,
+    "Symbol": "Zr",
+    "Norm^2": 32.1,
+    "L2_weight": 0.71
+  },
+  "GGA": {
+    "Atomic #": 41,
+    "Symbol": "Nb",
+    "Norm^2": 54.3,
+    "L2_weight": 0.76
+  },
+  "GGC": {
+    "Atomic #": 42,
+    "Symbol": "Mo",
+    "Norm^2": 81.7,
+    "L2_weight": 0.82
+  },
+  "GGG": {
+    "Atomic #": 43,
+    "Symbol": "Tc",
+    "Norm^2": 106.2,
+    "L2_weight": 0.87
+  },
+  "GGT": {
+    "Atomic #": 44,
+    "Symbol": "Ru",
+    "Norm^2": 134.6,
+    "L2_weight": 0.91
+  },
+  "GTA": {
+    "Atomic #": 45,
+    "Symbol": "Rh",
+    "Norm^2": 164.5,
+    "L2_weight": 0.94
+  },
+  "GTC": {
+    "Atomic #": 46,
+    "Symbol": "Pd",
+    "Norm^2": 192.3,
+    "L2_weight": 0.88
+  },
+  "GTG": {
+    "Atomic #": 47,
+    "Symbol": "Ag",
+    "Norm^2": 36.8,
+    "L2_weight": 0.72
+  },
+  "GTT": {
+    "Atomic #": 48,
+    "Symbol": "Cd",
+    "Norm^2": 58.4,
+    "L2_weight": 0.77
+  },
+  "TAA": {
+    "Atomic #": 49,
+    "Symbol": "In",
+    "Norm^2": 87.2,
+    "L2_weight": 0.83
+  },
+  "TAC": {
+    "Atomic #": 50,
+    "Symbol": "Sn",
+    "Norm^2": 113.9,
+    "L2_weight": 0.88
+  },
+  "TAG": {
+    "Atomic #": 51,
+    "Symbol": "Sb",
+    "Norm^2": 141.7,
+    "L2_weight": 0.92
+  },
+  "TAT": {
+    "Atomic #": 52,
+    "Symbol": "Te",
+    "Norm^2": 172.6,
+    "L2_weight": 0.95
+  },
+  "TCA": {
+    "Atomic #": 53,
+    "Symbol": "I",
+    "Norm^2": 41.2,
+    "L2_weight": 0.73
+  },
+  "TCC": {
+    "Atomic #": 54,
+    "Symbol": "Xe",
+    "Norm^2": 63.7,
+    "L2_weight": 0.78
+  },
+  "TCG": {
+    "Atomic #": 55,
+    "Symbol": "Cs",
+    "Norm^2": 94.5,
+    "L2_weight": 0.84
+  },
+  "TCT": {
+    "Atomic #": 56,
+    "Symbol": "Ba",
+    "Norm^2": 121.8,
+    "L2_weight": 0.89
+  },
+  "TGA": {
+    "Atomic #": 57,
+    "Symbol": "La",
+    "Norm^2": 149.3,
+    "L2_weight": 0.93
+  },
+  "TGC": {
+    "Atomic #": 58,
+    "Symbol": "Ce",
+    "Norm^2": 181.7,
+    "L2_weight": 0.86
+  },
+  "TGG": {
+    "Atomic #": 59,
+    "Symbol": "Pr",
+    "Norm^2": 45.6,
+    "L2_weight": 0.74
+  },
+  "TGT": {
+    "Atomic #": 60,
+    "Symbol": "Nd",
+    "Norm^2": 70.9,
+    "L2_weight": 0.79
+  },
+  "TTA": {
+    "Atomic #": 61,
+    "Symbol": "Pm",
+    "Norm^2": 102.4,
+    "L2_weight": 0.85
+  },
+  "TTC": {
+    "Atomic #": 62,
+    "Symbol": "Sm",
+    "Norm^2": 129.1,
+    "L2_weight": 0.90
+  },
+  "TTG": {
+    "Atomic #": 63,
+    "Symbol": "Eu",
+    "Norm^2": 160.8,
+    "L2_weight": 0.94
+  },
+  "TTT": {
+    "Atomic #": 64,
+    "Symbol": "Gd",
+    "Norm^2": 187.2,
+    "L2_weight": 0.87
+  }
+}
