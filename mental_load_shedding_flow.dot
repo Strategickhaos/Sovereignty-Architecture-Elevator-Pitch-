@@ -1,0 +1,97 @@
+digraph Mental_Load_Shedding {
+    rankdir=TB;
+    bgcolor="#0d1117";
+    fontname="Courier New";
+    fontsize=16;
+    node [fontname="Courier New", fontsize=12, style=filled, penwidth=2];
+    edge [color="#00ff99", penwidth=2, arrowsize=1.2];
+
+    // ==== INPUT LAYER ====
+    Input [label="INPUT\n(Data, Timing, Context)", fillcolor="#ff0066", fontcolor=white, shape=box, width=3];
+
+    // ==== CLASSIFICATION LAYER ====
+    subgraph cluster_classifier {
+        label="INPUT CLASSIFIER"; color="#ff3399"; fontcolor=white; style=filled;
+        ThreatCheck [label="Threat Check\n(Critical?)", fillcolor="#ff3300", fontcolor=white];
+        NoiseCheck [label="Noise Check\n(Poorly Framed?)", fillcolor="#ff6600", fontcolor=white];
+        TimingCheck [label="Timing Check\n(Good Timing?)", fillcolor="#ff9900", fontcolor=white];
+        ActionableCheck [label="Actionable Check\n(Can Execute?)", fillcolor="#ffcc00", fontcolor=black];
+    }
+
+    // ==== ROUTING DECISION ====
+    Router [label="ROUTER\nClassification Result", fillcolor="#00ccff", fontcolor=black, shape=diamond, width=3, height=2];
+
+    // ==== EXECUTION PATHS ====
+    subgraph cluster_paths {
+        label="EXECUTION PATHS"; color="#00ff99"; fontcolor=black; style=filled;
+        Immediate [label="IMMEDIATE\nProcess Now", fillcolor="#00ff00", fontcolor=black];
+        Buffer [label="BUFFER\nStore for Later", fillcolor="#ffff00", fontcolor=black];
+        Noise [label="NOISE\nDiscard", fillcolor="#666666", fontcolor=white];
+        Threat [label="THREAT\nEscalate", fillcolor="#ff0000", fontcolor=white];
+    }
+
+    // ==== CORE EXECUTOR ====
+    subgraph cluster_executor {
+        label="CORE EXECUTOR"; color="#0066ff"; fontcolor=white; style=filled;
+        Executor [label="Core Executor\nState: INTACT", fillcolor="#0099ff", fontcolor=white];
+        MaintainIntegrity [label="Maintain\nIntegrity", fillcolor="#00ccff", fontcolor=black];
+    }
+
+    // ==== BUFFER MANAGER ====
+    subgraph cluster_buffer {
+        label="BUFFER MANAGER"; color="#ff9900"; fontcolor=black; style=filled;
+        BufferStore [label="Store with\nPriority & Context", fillcolor="#ffcc00", fontcolor=black];
+        BufferQueue [label="Priority Queue\n[Items waiting]", fillcolor="#ffff00", fontcolor=black];
+        ResourceCheck [label="Resources\nAvailable?", fillcolor="#ccff00", fontcolor=black];
+    }
+
+    // ==== OUTPUT ====
+    Output [label="OUTPUT\n(Result, Metrics)", fillcolor="#00ff00", fontcolor=black, shape=box, width=3];
+    Discard [label="DISCARD", fillcolor="#333333", fontcolor=white, shape=box];
+    Escalate [label="ESCALATE\n(High Priority)", fillcolor="#ff0000", fontcolor=white, shape=box, width=3];
+
+    // ==== CONNECTIONS ====
+    Input -> ThreatCheck;
+    ThreatCheck -> NoiseCheck [label="Not Threat"];
+    NoiseCheck -> TimingCheck [label="Not Noise"];
+    TimingCheck -> ActionableCheck [label="Good Timing"];
+    
+    ThreatCheck -> Router [label="Is Threat", color="#ff0000"];
+    NoiseCheck -> Router [label="Is Noise", color="#666666"];
+    TimingCheck -> Router [label="Bad Timing", color="#ffff00"];
+    ActionableCheck -> Router [label="Not Actionable", color="#ffff00"];
+    ActionableCheck -> Router [label="All Pass", color="#00ff00"];
+
+    Router -> Immediate [label="IMMEDIATE", color="#00ff00"];
+    Router -> Buffer [label="BUFFER", color="#ffff00"];
+    Router -> Noise [label="NOISE", color="#666666"];
+    Router -> Threat [label="THREAT", color="#ff0000"];
+
+    Immediate -> Executor;
+    Executor -> MaintainIntegrity;
+    MaintainIntegrity -> Output;
+
+    Buffer -> BufferStore;
+    BufferStore -> BufferQueue;
+    BufferQueue -> ResourceCheck;
+    ResourceCheck -> Executor [label="Process Later", color="#00ccff"];
+    ResourceCheck -> BufferQueue [label="Wait More", style=dashed];
+
+    Noise -> Discard;
+    Threat -> Escalate;
+
+    // ==== FEEDBACK LOOPS ====
+    Output -> Input [label="Next Input", style=dashed, color="#00ff99"];
+    Escalate -> Input [label="May Re-enter", style=dashed, color="#ff6666"];
+
+    // ==== KEY INSIGHT BOX ====
+    Insight [label="KEY INSIGHT\n'You Route'\n\nNot absorb everything → overwhelm\nNot block everything → stagnate\nRoute → self-correct without self-destruct", 
+             fillcolor="#ff00ff", fontcolor=white, shape=note, width=5, height=2];
+
+    // ==== STATES ====
+    States [label="SYSTEM STATES\n\nIDLE: Ready\nACTIVE: Processing\nRECOVERY: Clearing Buffer\nINTACT: Core Healthy", 
+            fillcolor="#00ffff", fontcolor=black, shape=note, width=4, height=2];
+
+    // Position notes
+    {rank=same; Insight, States}
+}
