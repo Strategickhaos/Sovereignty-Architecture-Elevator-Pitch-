@@ -13,7 +13,7 @@ Based on Hoare logic and design-by-contract principles.
 
 import time
 import hashlib
-from typing import Dict, List, Optional, Callable, Any
+from typing import Dict, List, Optional, Callable, Any, Tuple
 from dataclasses import dataclass
 from enum import Enum
 
@@ -77,8 +77,8 @@ class TruthContract:
             name="non_contradiction",
             contract_type=ContractType.INVARIANT,
             predicate=lambda ctx: not (
-                ctx.get("claim_a") and ctx.get("claim_b") and
-                ctx.get("claim_a") == not ctx.get("claim_b")
+                ctx.get("claim_a") is not None and ctx.get("claim_b") is not None and
+                ctx.get("claim_a") == (not ctx.get("claim_b"))
             ),
             description="A claim cannot be both true and false simultaneously",
             severity=5
