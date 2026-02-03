@@ -8,7 +8,11 @@ echo ""
 
 # Check commit count
 COMMIT_COUNT=$(git rev-list --count HEAD 2>/dev/null)
-echo "📊 Total Commits: $COMMIT_COUNT"
+if [ -z "$COMMIT_COUNT" ]; then
+    echo "📊 Total Commits: Not in a git repository"
+else
+    echo "📊 Total Commits: $COMMIT_COUNT"
+fi
 echo ""
 
 # Show recent work
