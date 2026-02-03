@@ -4,7 +4,8 @@ trig_pde_sweep.py
 
 PDE on 64-bin trig/MIDI grid:
   - Spatial bins: i = 0..63, θ_i = i * 360/64
-  - PDE: ∂_t A = [ξ^2 (1 + S cos(6 Re t))] A_xx - Pe A_x + (Da_g - Da_0) A - Da_sat A^2
+  - PDE: ∂_t A = [ξ^2(x) (1 + S cos(ω Re t))] A_xx - Pe A_x + (Da_g - Da_0) A - Da_sat A^2
+    where ξ^2(x) = x^2 creates spatially-varying diffusion
   - Map final A(i,T) to MIDI note 60+i with velocity ∝ A(i,T)
 
 Requires: pip install numpy mido
@@ -27,6 +28,7 @@ Da_0 = 0.5
 Da_sat = 1.0
 S = 0.1
 Re = 1.0
+OMEGA = 12 * math.pi  # 6 * 2 * pi pre-computed
 
 T_final = 10.0
 dt = min(0.5 * dx**2 / D, dx / Pe) / 2  # CFL stability (factor 1/2 safety)
@@ -58,7 +60,7 @@ def pde_step(A, t):
     A_right = np.roll(A, -1)
 
     # Diffusion with trig mod
-    mod = 1 + S * math.cos(6 * 2 * math.pi * Re * t)
+    mod = 1 + S * math.cos(OMEGA * Re * t)
     D_eff = D * (x**2 * mod)
     A_xx = (A_left - 2 * A + A_right) / dx**2  # Central
 
@@ -83,6 +85,12 @@ def run_pde():
 # MIDI
 BASE_NOTE = 60
 
+def normalize_note(note):
+    """Wrap MIDI note to valid range by octave transposition."""
+    while note > 108:
+        note -= 12
+    return note
+
 def A_to_velocity(a, maxA):
     return int(max(0, min(127, round(127 * a / maxA)))) if maxA > 0 else 0
 
@@ -97,9 +105,7 @@ def write_midi(A_final, path="trig_pde_sweep.mid"):
     for i in range(N):
         if A_final[i] <= 1e-4:
             continue
-        note = BASE_NOTE + i
-        while note > 108:
-            note -= 12
+        note = normalize_note(BASE_NOTE + i)
         vel = A_to_velocity(A_final[i], maxA)
         track.append(mido.Message('note_on', note=note, velocity=vel, time=time_ticks))
         time_ticks = 0
@@ -110,9 +116,7 @@ def write_midi(A_final, path="trig_pde_sweep.mid"):
     for i in range(N):
         if A_final[i] <= 1e-4:
             continue
-        note = BASE_NOTE + i
-        while note > 108:
-            note -= 12
+        note = normalize_note(BASE_NOTE + i)
         track.append(mido.Message('note_off', note=note, velocity=0, time=time_ticks if first else 0))
         first = False
 
