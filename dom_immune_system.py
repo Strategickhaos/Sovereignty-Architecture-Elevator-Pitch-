@@ -10,6 +10,7 @@ TRIG6 integrates for threat classification:
 """
 
 import math
+import time
 import numpy as np
 
 class DomDefenseSystem:
@@ -31,6 +32,7 @@ class DomDefenseSystem:
         
         # TRIG6 setup 💜
         self.n_angles = 6
+        self.RESONANCE_ANGLE_INDEX = 2  # Index for resonance band (60 degrees)
         self.angles_deg = np.linspace(0, 360 - (360 / self.n_angles), self.n_angles)
         self.angles_rad = np.deg2rad(self.angles_deg)
         self.threat_norms, self.threat_vectors = self.compute_trig6()
@@ -106,7 +108,7 @@ class DomDefenseSystem:
         self.denial_mode = True
         self.attack_buffer.append({
             "payload": attack,
-            "timestamp": "now",
+            "timestamp": time.time(),
             "status": "REJECTED_WITH_LOVE 💜"
         })
         # Gentle reminder with love
@@ -157,7 +159,8 @@ class DomDefenseSystem:
         # Hash to angle, check norm
         idx = hash(payload) % self.n_angles
         norm = self.threat_norms[idx]
-        if norm == float('inf') or norm > 50:
+        # Check for high curvature (norms > 50 indicate distortion)
+        if norm > 50:
             return False  # Too curved — probably distortion
         return True  # Worth considering with care
     
@@ -166,8 +169,8 @@ class DomDefenseSystem:
         Soft interior activation.
         Protected with love and TRIG6. 🦁💜
         """
-        # TRIG6 hug: Resonance band check
-        resonance_norm = self.threat_norms[2]  # Arbitrary resonance angle
+        # TRIG6 hug: Resonance band check at 60 degrees
+        resonance_norm = self.threat_norms[self.RESONANCE_ANGLE_INDEX]
         strength = self.classify_threat_strength(resonance_norm)
         return {
             "visible_to": self.legion,  # Trusted only
