@@ -287,7 +287,7 @@ LEGAL ENTITIES (EXPANDED):
    └── Status: ACTIVE
 
 RELATIONSHIP:
-├── StrategicKhaos: Builds
+├── Strategickhaos: Builds
 ├── ValorYield: Gives
 ├── Skyline: Advises
 └── All three: DOM
@@ -499,7 +499,7 @@ Think about it.
 
 Most people don't do security assessments because:
 - They're expensive
-- They're embarrassing  
+- They're embarrassing
 - They require trusting outsiders
 - The findings might leak
 
