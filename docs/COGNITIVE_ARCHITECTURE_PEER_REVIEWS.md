@@ -241,7 +241,11 @@ A **multi-perspective stability analysis** system. TRIG6 suggests six trigonomet
 A component that translates high-level intentions into executable operations while maintaining **humility** - acknowledging its own limitations and explicitly handling edge cases rather than assuming omniscience.
 
 ### Optimizer
-The component responsible for improving performance while respecting bounds. The critique mentions "Cap at 1e6" - emphasizing that **unbounded optimization is not sophistication, it's a bug**.
+The component responsible for improving performance while respecting bounds. The critique mentions "Cap at 1e6" - a common engineering threshold (one million operations/items) that balances utility with resource constraints. This emphasizes that **unbounded optimization is not sophistication, it's a bug**. Bounds like 1e6 prevent:
+- Memory exhaustion from infinite loops
+- Stack overflow from unbounded recursion
+- Denial-of-service from resource consumption
+- Integer overflow in calculations
 
 ### Constraint-Driven Design
 The core philosophy: the system binds itself to **constraints**, not to authority figures or special insights. This ensures:
@@ -255,7 +259,7 @@ The core philosophy: the system binds itself to **constraints**, not to authorit
 ## Related Documentation
 
 - [Chess Council Architecture](../chess_council_architecture.txt) - Multi-dimensional AI research system
-- [Physarum Evolution](../physarum_evolution_36.json) - Biological-inspired constraint evolution
+- [Physarum Evolution](../physarum_evolution_36.json) - Biologically-inspired constraint evolution
 - [Sovereignty Architecture](../README.md) - Overall system design
 
 ---
