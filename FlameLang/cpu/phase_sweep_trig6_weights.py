@@ -1,4 +1,5 @@
 import json
+import math
 import numpy as np
 from scipy.optimize import bisect
 
@@ -42,7 +43,7 @@ def main():
     for codon, entry in flame_map.items():
         # Da_gamma from norm (capped)
         norm2 = entry.get("Norm^2", 0.0)
-        Da_gamma = NORM_CAP if norm2 == 'inf' or norm2 > NORM_CAP else float(norm2)
+        Da_gamma = NORM_CAP if (isinstance(norm2, float) and math.isinf(norm2)) or norm2 > NORM_CAP else float(norm2)
 
         # Sweep per Pe
         boundary = []
