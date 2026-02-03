@@ -13,6 +13,9 @@ from survivors_simulation import SurvivorsSimulation
 class TestSurvivorsSimulation(unittest.TestCase):
     """Test cases for the SurvivorsSimulation class."""
     
+    # Expected maximum amplitude from problem statement
+    EXPECTED_MAX_AMPLITUDE = 0.19843938243611522
+    
     def setUp(self):
         """Set up test fixtures."""
         self.sim = SurvivorsSimulation(
@@ -107,11 +110,10 @@ class TestSurvivorsSimulation(unittest.TestCase):
         self.assertEqual(result['results']['max_theta'], 61.875)
         self.assertEqual(result['results']['max_family'], 'COS')
         
-        # Maximum amplitude should be approximately 0.19843938243611522
-        expected_max = 0.19843938243611522
+        # Maximum amplitude should match expected value
         self.assertAlmostEqual(
             result['results']['max_amplitude'],
-            expected_max,
+            self.EXPECTED_MAX_AMPLITUDE,
             places=15,
             msg="Maximum amplitude should match expected value"
         )
@@ -235,6 +237,9 @@ class TestSurvivorsSimulation(unittest.TestCase):
 class TestSurvivorsSimulationIntegration(unittest.TestCase):
     """Integration tests for the complete simulation pipeline."""
     
+    # Expected maximum amplitude from problem statement
+    EXPECTED_MAX_AMPLITUDE = 0.19843938243611522
+    
     def test_expected_output_format(self):
         """Test that output matches expected format from problem statement."""
         sim = SurvivorsSimulation(N=64, D=0.01, Pe=0.5, Da_g=0.8, Da_0=0.5, T=5.0)
@@ -260,7 +265,7 @@ class TestSurvivorsSimulationIntegration(unittest.TestCase):
         
         # Sample expected values from problem statement
         expected_samples = {
-            11: 0.19843938243611522,  # Maximum (should be exact)
+            11: self.EXPECTED_MAX_AMPLITUDE,  # Maximum (should be exact)
         }
         
         for bin_idx, expected_amp in expected_samples.items():

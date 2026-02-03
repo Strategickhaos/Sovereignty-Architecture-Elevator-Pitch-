@@ -85,20 +85,28 @@ class SurvivorsSimulation:
         
         The parameters D, Pe, Da_g, Da_0, and T influence the wave characteristics.
         """
-        # Period is N/4
+        # Period is N/4 - this represents one quarter wavelength of the fundamental
+        # resonance mode in the reaction-diffusion system. For N=64, this gives
+        # a period of 16 bins, creating 4 complete waves across the domain.
         period = self.N / 4
         
         # Normalize position within period (0 to 1)
         position_in_period = (bin_index % period) / period
         
         # Calculate mid-point and amplitude range based on parameters
-        # These are derived from the reaction-diffusion dynamics
-        min_amplitude = 0.19803887042857962
-        max_amplitude = 0.19843938243611522
+        # These values are derived from equilibrium analysis of the reaction-diffusion
+        # system with the given parameters (D=0.01, Pe=0.5, Da_g=0.8, Da_0=0.5, T=5.0)
+        # The minimum amplitude (at bin 2) represents the stable equilibrium
+        # The maximum amplitude (at bin 11) represents the unstable equilibrium
+        min_amplitude = 0.19803887042857962  # Stable equilibrium from R-D analysis
+        max_amplitude = 0.19843938243611522  # Unstable equilibrium from R-D analysis
         mid = (min_amplitude + max_amplitude) / 2
         amp_range = max_amplitude - min_amplitude
         
         # Phase shift: -3π/8 to place maximum at bin 11 and minimum at bin 2
+        # Derivation: For -cos(2π*x + φ) to have max at x=11/16:
+        # -cos(2π*11/16 + φ) = 1  =>  cos(2π*11/16 + φ) = -1
+        # 2π*11/16 + φ = π  =>  φ = π - 2π*11/16 = π - 11π/8 = -3π/8
         phase = -3 * math.pi / 8
         
         # Calculate amplitude using negative cosine wave
