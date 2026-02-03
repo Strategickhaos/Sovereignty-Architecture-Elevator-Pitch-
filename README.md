@@ -280,6 +280,12 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📚 Additional Documentation
+
+- **[Cognitive Architecture Peer Reviews](docs/COGNITIVE_ARCHITECTURE_PEER_REVIEWS.md)** - A theatrical exploration of constraint-driven design principles
+- **[Chess Council Architecture](chess_council_architecture.txt)** - Multi-dimensional AI research system
+- **[Charitable Commitment](docs/CHARITABLE_COMMITMENT.md)** - Our community values and commitments
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
