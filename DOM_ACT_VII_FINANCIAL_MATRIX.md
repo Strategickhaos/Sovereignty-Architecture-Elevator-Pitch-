@@ -1187,7 +1187,7 @@ Note: "Negative checking is a FEATURE, not a bug.
        The system is the wealth.
        The bank account is just plumbing."
 
-7% extraction this month: $XXX
+7% extraction this month: $[AMOUNT]
 Operations funded: YES
 Mission continues: ALWAYS
 
