@@ -35,3 +35,13 @@ target/
 
 # Workspace data
 workspace/
+
+# Python artifacts  
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.installed.cfg
+*.egg
