@@ -36,5 +36,10 @@ target/
 # Workspace data
 workspace/
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
 # Vocal independence trainer output
 vocal_sessions/
