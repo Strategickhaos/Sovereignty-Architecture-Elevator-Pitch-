@@ -12,9 +12,12 @@ import shutil
 import subprocess
 from pathlib import Path
 
-# Add parent dir to path to import boot_digest
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'cpu'))
-import boot_digest
+# Add parent directory to path for imports
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+from cpu import boot_digest
 
 class BootDigestTests:
     def __init__(self):
@@ -91,11 +94,13 @@ class BootDigestTests:
         try:
             repo_root = boot_digest.find_repo_root()
             manifest = boot_digest.load_manifest(os.path.join(repo_root, boot_digest.MANIFEST_FILE))
-            digest = boot_digest.generate_digest(repo_root, manifest, fast_mode=True)
+            digest, stats = boot_digest.generate_digest(repo_root, manifest, fast_mode=True)
             assert digest is not None
             assert "# SAGCO BOOT DIGEST" in digest
             assert "Fast Mode: Stats Only" in digest
             assert "STATUS: CONFIDENCE_OK" in digest
+            assert stats is not None
+            assert 'commits' in stats
             print(f"✅ Fast mode digest: PASSED (length={len(digest)})")
             return True
         except Exception as e:
@@ -108,11 +113,13 @@ class BootDigestTests:
         try:
             repo_root = boot_digest.find_repo_root()
             manifest = boot_digest.load_manifest(os.path.join(repo_root, boot_digest.MANIFEST_FILE))
-            digest = boot_digest.generate_digest(repo_root, manifest, fast_mode=False)
+            digest, stats = boot_digest.generate_digest(repo_root, manifest, fast_mode=False)
             assert digest is not None
             assert "# SAGCO BOOT DIGEST" in digest
             assert "## Anchor Docs" in digest
             assert "STATUS: CONFIDENCE_OK" in digest
+            assert stats is not None
+            assert 'commits' in stats
             print(f"✅ Full mode digest: PASSED (length={len(digest)})")
             return True
         except Exception as e:

@@ -2,6 +2,7 @@ import os
 import subprocess
 import json
 import datetime
+import glob as glob_module
 
 # Config
 MANIFEST_FILE = "boot_manifest.json"  # In repo root
@@ -17,19 +18,19 @@ def find_repo_root(start_dir=os.getcwd()):
         current = os.path.dirname(current)
     raise FileNotFoundError("No .git found - not in repo?")
 
-def run_git_cmd(cmd, repo_root):
+def run_git_cmd(cmd_args, repo_root):
     """Run git cmd in repo"""
     try:
-        return subprocess.check_output(cmd, cwd=repo_root, shell=True, text=True).strip()
+        return subprocess.check_output(cmd_args, cwd=repo_root, text=True).strip()
     except subprocess.CalledProcessError:
         return "ERROR: Git cmd failed"
 
 def get_git_stats(repo_root):
     """Commit count, last commit, open PRs (local approx), recent changes"""
-    commits = run_git_cmd("git rev-list --all --count", repo_root)
-    last_commit = run_git_cmd("git log -1 --format='%ci'", repo_root)
-    open_prs_approx = run_git_cmd("git branch -r | grep pr/ | wc -l", repo_root)  # Approx; use API for real
-    files_changed_7d = run_git_cmd("git log --name-only --since='7 days ago' | grep -v '^commit' | sort | uniq | wc -l", repo_root)
+    commits = run_git_cmd(["git", "rev-list", "--all", "--count"], repo_root)
+    last_commit = run_git_cmd(["git", "log", "-1", "--format=%ci"], repo_root)
+    open_prs_approx = run_git_cmd(["sh", "-c", "git branch -r | grep pr/ | wc -l"], repo_root)  # Approx; use API for real
+    files_changed_7d = run_git_cmd(["sh", "-c", "git log --name-only --since='7 days ago' | grep -v '^commit' | sort | uniq | wc -l"], repo_root)
     return {
         "commits": int(commits) if commits.isdigit() else 0,
         "last_commit": last_commit,
@@ -55,7 +56,7 @@ def read_anchor(file_path):
 def generate_digest(repo_root, manifest, fast_mode=False):
     """Core digest gen"""
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    stats = get_git_stats(repo_root) if not fast_mode else get_git_stats(repo_root)  # Git always, even fast
+    stats = get_git_stats(repo_root)
 
     digest = f"# SAGCO BOOT DIGEST\nGenerated: {now}\nRepo: {os.path.basename(repo_root)}\n\n"
 
@@ -68,7 +69,7 @@ def generate_digest(repo_root, manifest, fast_mode=False):
 
     if fast_mode:
         digest += "## Fast Mode: Stats Only (No Doc Load)\nSTATUS: CONFIDENCE_OK\n"
-        return digest
+        return digest, stats
 
     # Anchors section
     anchors = manifest.get("anchors", [])
@@ -82,33 +83,43 @@ def generate_digest(repo_root, manifest, fast_mode=False):
     globs = manifest.get("globs", [])
     if globs:
         digest += "## Glob Matches\n"
-        for glob in globs:
-            # Simple glob sim (expand if needed)
-            matches = [f for f in os.listdir(repo_root) if f.endswith('.md')]  # Demo; use glob module
-            for match in matches[:manifest.get("max_files", 5)]:
-                full_path = os.path.join(repo_root, match)
-                content = read_anchor(full_path)
-                digest += f"### {match}\n{content}\n\n"
+        max_files = manifest.get("max_files", 5)
+        seen_files = set()
+        
+        for glob_pattern in globs:
+            # Convert glob pattern to full path
+            pattern_path = os.path.join(repo_root, glob_pattern)
+            matches = glob_module.glob(pattern_path, recursive=True)
+            
+            for match in matches:
+                # Skip if we've already included this file or hit max
+                if match in seen_files or len(seen_files) >= max_files:
+                    continue
+                    
+                # Get relative path for display
+                rel_path = os.path.relpath(match, repo_root)
+                content = read_anchor(match)
+                digest += f"### {rel_path}\n{content}\n\n"
+                seen_files.add(match)
 
     digest += "## STATUS: CONFIDENCE_OK\nNext: Merge open PRs + validate"
 
-    return digest
+    return digest, stats
 
 def main(fast_mode=False):
     repo_root = find_repo_root()
     manifest_path = os.path.join(repo_root, MANIFEST_FILE)
     manifest = load_manifest(manifest_path)
-    digest = generate_digest(repo_root, manifest, fast_mode)
+    digest, stats = generate_digest(repo_root, manifest, fast_mode)
 
     # Write report
     report_path = os.path.join(repo_root, REPORT_FILE)
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write(digest)
 
-    # Console summary (short)
+    # Console summary (short) - reuse stats from digest generation
     print("SAGCO BOOT DIGEST SUMMARY")
     print(f"Repo: {os.path.basename(repo_root)}")
-    stats = get_git_stats(repo_root)
     print(f"Commits: {stats['commits']}")
     print(f"Last: {stats['last_commit']}")
     print(f"Open PRs: {stats['open_prs_approx']}")
