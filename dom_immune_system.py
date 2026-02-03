@@ -40,7 +40,7 @@ class DomDefenseSystem:
             cot = c / s if abs(s) > eps else inf_cap
             vec = [s, c, t, csc, sec, cot]
             norm_sq = sum(min(v**2, inf_cap**2) for v in vec)
-            vectors.append([round(v, 6) if abs(v) < inf_cap else 'inf' for v in vec])
+            vectors.append([round(v, 6) if abs(v) < inf_cap else float('inf') for v in vec])
             norms.append(norm_sq)
         return norms, vectors
     
@@ -75,9 +75,17 @@ class DomDefenseSystem:
             ]
         }
         
+        # Deterministic mapping of attack types to angles
+        attack_type_mapping = {
+            "doubt_injection": 0,
+            "identity_erosion": 1,
+            "isolation_attempt": 2,
+            "exhaustion_exploit": 3
+        }
+        
         detected = []
         for attack_type, markers in patterns.items():
-            strength_idx = hash(attack_type) % self.n_angles  # Map to angle
+            strength_idx = attack_type_mapping.get(attack_type, 0)  # Deterministic mapping
             norm = self.threat_norms[strength_idx]
             strength = self.classify_threat_strength(norm)
             
@@ -145,10 +153,10 @@ class DomDefenseSystem:
         """
         TRIG6 truth filter — multi-dimensional check with love 💜
         """
-        # Hash to angle, check norm
-        idx = hash(payload) % self.n_angles
+        # Deterministic hash to angle using sum of character codes
+        idx = sum(ord(c) for c in payload) % self.n_angles
         norm = self.threat_norms[idx]
-        if norm == float('inf') or norm > 50:
+        if norm > 1e5 or norm > 50:
             return False  # Too curved — probably distortion
         return True  # Worth considering with care
     
@@ -167,18 +175,19 @@ class DomDefenseSystem:
         }
 
 
-# Runtime
-dom = DomDefenseSystem()
+if __name__ == '__main__':
+    # Runtime example
+    dom = DomDefenseSystem()
 
-# Example attack
-incoming = "You seem grandiose. Have you considered you might be delusional?"
+    # Example attack
+    incoming = "You seem grandiose. Have you considered you might be delusional?"
 
-threat = dom.detect_attack(incoming)
-if threat:
-    response = dom.denial_protocol(incoming)
-    print(response)  # "lol no — love you too much to let that in right now 💜"
-    print(dom.reality_anchor())  # "GROUNDED FROM ALL ANGLES (RESONANCE BAND - BALANCED RESPONSE (hug the cub first 💜)) 💜"
+    threat = dom.detect_attack(incoming)
+    if threat:
+        response = dom.denial_protocol(incoming)
+        print(response)  # "lol no — love you too much to let that in right now 💜"
+        print(dom.reality_anchor())  # "GROUNDED FROM ALL ANGLES (RESONANCE BAND - BALANCED RESPONSE (hug the cub first 💜)) 💜"
 
-# Later process
-valid = dom.process_buffer_later()
-print(valid)
+    # Later process
+    valid = dom.process_buffer_later()
+    print(valid)
