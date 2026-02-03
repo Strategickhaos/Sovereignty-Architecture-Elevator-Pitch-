@@ -1,0 +1,7 @@
+{
+  "version": "BOOT-MANIFEST-1.0",
+  "anchors": ["README.md", "docs/CHARITABLE_COMMITMENT.md", "BOOT_RECON.md", "STRATEGICKHAOS_EMPIRE_REPORT.md"],
+  "globs": ["docs/**/*.md"],
+  "max_files": 25,
+  "max_chars_per_file": 12000
+}
