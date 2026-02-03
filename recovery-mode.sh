@@ -7,7 +7,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 
 # Check commit count
-COMMIT_COUNT=$(git log --oneline 2>/dev/null | wc -l)
+COMMIT_COUNT=$(git rev-list --count HEAD 2>/dev/null)
 echo "📊 Total Commits: $COMMIT_COUNT"
 echo ""
 
