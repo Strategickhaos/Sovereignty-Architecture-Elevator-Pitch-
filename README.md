@@ -272,6 +272,12 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🎭 Creative & Cognitive Content
+
+Explore the inner workings of the Sovereignty Architecture through theatrical and creative expressions:
+
+- **[DOM OS: Reboot Edition](DOM_OS_REBOOT_EDITION.md)** - A one-act debug farce depicting Dom's internal cognitive processes as characters (Arrogant Optimizer, Humble Compiler, Caveman Gate, and TRIG6 Chorus). Experience the theatrical representation of the sovereignty architecture's decision-making process.
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
