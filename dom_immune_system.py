@@ -203,7 +203,7 @@ class DomImmuneSystem:
         # Doubt injection patterns
         self.doubt_patterns = [
             (r"you('re|\s+are)\s+(not|never)\s+\w+\s+enough", 0.8, "competence attack"),
-            (r"are\s+you\s+sure", 0.3, "confidence questioning"),
+            (r"\bare\s+you\s+sure\b", 0.3, "confidence questioning"),
             (r"maybe\s+you\s+(should|shouldn't)", 0.4, "doubt seeding"),
             (r"i\s+don't\s+think\s+you\s+can", 0.7, "capability denial"),
             (r"that's\s+impossible\s+for\s+you", 0.9, "direct doubt injection"),
@@ -235,7 +235,7 @@ class DomImmuneSystem:
             (r"you're\s+too\s+\w+", 0.6, "trait weaponization"),
             (r"your\s+weakness\s+is", 0.8, "weakness identification"),
             (r"that's\s+your\s+problem", 0.5, "flaw emphasis"),
-            (r"you\s+always\s+\w+\s+wrong", 0.7, "pattern attribution"),
+            (r"you\s+always\s+.+\s+wrong", 0.7, "pattern attribution"),
             (r"you\s+can't\s+help\s+(it|yourself)", 0.8, "agency removal"),
             (r"you're\s+broken", 0.9, "fundamental damage claim"),
         ]

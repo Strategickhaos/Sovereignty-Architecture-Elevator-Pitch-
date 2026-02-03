@@ -132,7 +132,7 @@ class CavemanPhysicsGate:
             r"perpetual\s+motion",
             r"free\s+energy",
             r"over\s*unity",
-            r"100%\s*efficient",
+            r"100(%|\s+percent)\s*efficient",
             r"infinite\s+power",
             r"zero\s+point\s+energy\s+extraction"
         ]
