@@ -1,6 +1,6 @@
 # Strategickhaos Sovereignty Architecture - Discord DevOps Control Plane
 
-**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
+**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, sovereign infrastructure management, and the Caveman Logic System for disciplined decision-making.**
 
 ## 🏛️ Architecture Overview
 
@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Caveman Logic System** - Physics-based decision-making framework for evaluating concepts and features
 
 ## 🚀 Quick Start
 
@@ -169,6 +170,17 @@ ai_agents:
 ```
 
 ## 🔐 Security & Governance
+
+### Caveman Logic System
+
+A physics-based decision-making framework for evaluating concepts, features, and architectural decisions. Based on fundamental constraints rather than belief or politics.
+
+**Core principle**: "Does this shit compute?"
+- If no → discard/sandbox
+- If maybe → TRIG6 it (test from 6 angles)
+- If yes → keep building
+
+**Read more**: [Caveman Logic Documentation](docs/CAVEMAN_LOGIC.md)
 
 ### Multi-Layer Security
 - **RBAC**: Kubernetes role-based access control
