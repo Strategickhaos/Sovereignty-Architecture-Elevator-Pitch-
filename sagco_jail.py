@@ -57,6 +57,10 @@ class JailConfig:
 
 DEFAULT_CONFIG = JailConfig()
 
+# Capsule mode constants
+CAPSULE_MAX_TIMEOUT_SECONDS = 10
+CAPSULE_MAX_MEMORY_MB = 256
+
 # ══════════════════════════════════════════════════════════════════════════════
 # EXECUTION RESULT
 # ══════════════════════════════════════════════════════════════════════════════
@@ -125,7 +129,8 @@ class SAGCOJail:
         self.session_id = hashlib.sha256(
             str(datetime.now()).encode()
         ).hexdigest()[:16]
-        self.log_dir = Path("/tmp/sagco-jail-logs")
+        # Use system temp directory for cross-platform compatibility
+        self.log_dir = Path(tempfile.gettempdir()) / "sagco-jail-logs"
         self.log_dir.mkdir(exist_ok=True)
         
     def _create_sandbox(self) -> Path:
@@ -209,8 +214,10 @@ class SAGCOJail:
             env["TMPDIR"] = str(sandbox)
             
             if not self.config.allow_network:
-                # Note: True network isolation requires namespaces (v2)
-                # This is a soft block via environment
+                # WARNING: This is NOT true network isolation!
+                # Setting proxy variables only affects well-behaved HTTP clients.
+                # Direct socket connections will still work.
+                # True network isolation requires Linux namespaces (planned for v2).
                 env["no_proxy"] = "*"
                 env["NO_PROXY"] = "*"
             
@@ -304,8 +311,8 @@ class SAGCOJail:
         try:
             # Run with capsule-mode restrictions
             capsule_config = JailConfig(
-                timeout_seconds=min(self.config.timeout_seconds, 10),
-                max_memory_mb=min(self.config.max_memory_mb, 256),
+                timeout_seconds=min(self.config.timeout_seconds, CAPSULE_MAX_TIMEOUT_SECONDS),
+                max_memory_mb=min(self.config.max_memory_mb, CAPSULE_MAX_MEMORY_MB),
                 allow_network=False,
                 allow_filesystem=False,
                 capsule_mode=True
@@ -353,14 +360,24 @@ def ethical_scaffolding_check(system_description: str) -> Dict:
     positive_score = sum(1 for p in positive_indicators if p in desc_lower)
     negative_score = sum(1 for n in negative_indicators if n in desc_lower)
     
-    is_ethical = positive_score > negative_score
+    total_indicators = positive_score + negative_score
+    
+    # Require minimum indicators and positive majority for ethical determination
+    has_sufficient_data = total_indicators >= 2
+    is_ethical = positive_score > negative_score and has_sufficient_data
+    
+    # Calculate confidence based on indicator separation
+    if total_indicators == 0:
+        confidence = 0.0
+    else:
+        confidence = abs(positive_score - negative_score) / total_indicators
     
     return {
         "system_description": system_description[:200],
         "positive_indicators_found": positive_score,
         "negative_indicators_found": negative_score,
-        "ethical_assessment": "ETHICAL SCAFFOLDING" if is_ethical else "POTENTIAL MANIPULATION",
-        "confidence": abs(positive_score - negative_score) / max(positive_score + negative_score, 1),
+        "ethical_assessment": "ETHICAL SCAFFOLDING" if is_ethical else "POTENTIAL MANIPULATION" if negative_score > 0 else "INSUFFICIENT DATA",
+        "confidence": confidence,
         "key_question": "Does this process aim to eventually remove itself?",
         "grounding_principle": "Influence is ethical when it trains someone to no longer need the influence."
     }
