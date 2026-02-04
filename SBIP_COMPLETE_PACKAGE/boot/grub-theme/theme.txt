@@ -1,0 +1,5 @@
+# SAGCO GRUB Theme
+title-text: "SAGCO OS - Ratio Ex Nihilo"
+title-color: "white"
+desktop-image: "ratio_ex_nihilo.png"
+desktop-color: "#000000"

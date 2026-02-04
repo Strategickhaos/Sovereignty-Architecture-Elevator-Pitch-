@@ -1,0 +1,11 @@
+[Unit]
+Description=SAGCO CPU Ioctl Interface
+After=sagco-compiler.service
+
+[Service]
+Type=simple
+ExecStart=/opt/sagco/sagco-cpu-ioctl-daemon
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

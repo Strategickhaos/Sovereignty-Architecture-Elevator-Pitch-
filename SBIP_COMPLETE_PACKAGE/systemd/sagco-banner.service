@@ -1,0 +1,11 @@
+[Unit]
+Description=SAGCO Boot Banner
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/echo -e "\n   ___________ \n  /           \\ \n /  RATIO EX   \\ \n|   NIHILO     | \n|    * EYE *   | \n|   / \\ / \\    | \n|  * MATH *    | \n|   \\ / \\ /    | \n \             / \n  \___________/ \n\nSAGCO OS v1.0 - From Nothing, Through Reason"
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
