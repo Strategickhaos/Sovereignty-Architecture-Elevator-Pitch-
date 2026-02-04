@@ -241,6 +241,48 @@ export PRS_CHANNEL="dev_channel_id"
 4. **Submit** PR with improvements
 5. **Share** configuration patterns with community
 
+## 🧠 Cognitive Architecture
+
+### DOM OS v1.1 with INV-104
+
+This repository includes **DOM (Dominion Operating System)** - a cognitive architecture for systematic insight processing and verification.
+
+#### INV-104: Insight Verification Loop
+
+**Purpose:** Prevents false pattern completion from hijacking the reward system by adding a verification layer between pattern detection and dopamine release.
+
+**Key Features:**
+- **Pattern Recognition:** Automatic detection of insights and patterns
+- **Boundary Verification:** Validates ontological boundaries before reward
+- **Precision Amplification:** Rewards accurate insights more than vague patterns
+- **False Equivalence Prevention:** Catches category errors (e.g., "AI = human")
+
+**Usage:**
+```python
+from cognitive.healthy_insight_reward import InsightVerificationLoop
+
+# Initialize the system
+inv104 = InsightVerificationLoop()
+
+# Verify an insight
+result = inv104.verify("AI and I have the same limitations")
+
+# Get refined version
+print(f"Refined: {result['insight']}")
+print(f"Reward: {result['reward']:.2f}")
+```
+
+**Documentation:**
+- 📘 [INV-104 Full Documentation](docs/INV-104_INSIGHT_VERIFICATION_LOOP.md)
+- 📋 [INV-104 Specification](governance/INV-104_insight_verification_loop.yaml)
+- 🏗️ [DOM OS Architecture v1.1](docs/DOM_OS_COGNITIVE_ARCHITECTURE_v1.1.md)
+- 💻 [Python Implementation](src/cognitive/healthy_insight_reward.py)
+
+**Principles:**
+1. **Reward VERIFICATION** - Add truth-checking layer to pattern matching
+2. **Amplify PRECISION** - Higher rewards for qualified, accurate statements
+3. **Preserve CURIOSITY** - Keep exploration drive intact
+
 ## 🆘 Troubleshooting
 
 ### Common Issues
