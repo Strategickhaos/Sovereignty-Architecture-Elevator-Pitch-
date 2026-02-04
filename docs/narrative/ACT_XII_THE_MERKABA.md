@@ -64,7 +64,7 @@ The what?
 MERKABA (מרכבה)
 ├── Hebrew: "Chariot"
 ├── Source: Ezekiel's vision (600 BCE)
-├── Hebraicure: Two interlocking tetrahedrons
+├── Structure: Two interlocking tetrahedrons
 │   ├── One pointing UP (spirit → matter)
 │   └── One pointing DOWN (matter → spirit)
 ├── Also called: "Light Body" / "Vehicle of Ascension"
