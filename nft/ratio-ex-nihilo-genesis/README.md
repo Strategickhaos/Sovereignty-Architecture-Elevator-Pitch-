@@ -71,7 +71,7 @@ The collection documents the evolution:
 
 - Ensure all images are uploaded to IPFS before minting
 - Verify wallet address ownership before setting as fee_recipient
-- Test metadata on testnet (e.g., Rinkeby, Goerli) before mainnet deployment
+- Test metadata on testnet (e.g., Sepolia, Holesky) before mainnet deployment
 - Keep private keys secure and never commit them to the repository
 
 ## References
