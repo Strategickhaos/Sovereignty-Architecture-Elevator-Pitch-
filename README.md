@@ -277,6 +277,7 @@ curl -X POST https://events.strategickhaos.com/health
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
 
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
+- **[Legion Peer Review Workflow](LEGION_PEER_REVIEW_WORKFLOW.md)** - How multiple AIs collaborate as a distributed verification system
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
