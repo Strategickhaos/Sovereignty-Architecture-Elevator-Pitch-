@@ -37,11 +37,11 @@ module.exports = {
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 11155111,
     },
-    // Mumbai Testnet (Polygon)
-    mumbai: {
-      url: process.env.MUMBAI_RPC_URL || "https://polygon-mumbai.g.alchemy.com/v2/YOUR-API-KEY",
+    // Amoy Testnet (Polygon)
+    amoy: {
+      url: process.env.AMOY_RPC_URL || "https://polygon-amoy.g.alchemy.com/v2/YOUR-API-KEY",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 80001,
+      chainId: 80002,
     },
   },
   etherscan: {
