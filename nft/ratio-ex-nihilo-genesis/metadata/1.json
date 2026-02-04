@@ -1,0 +1,32 @@
+{
+  "name": "Ratio Ex Nihilo #1 - Sacred Geometry Foundation",
+  "description": "The first piece in the Ratio Ex Nihilo Genesis Collection. Hand-drawn sacred geometry representing the foundational mathematical principles of the Strategickhaos sovereignty architecture. Legally tied to Wyoming entity 2025-001708194.",
+  "image": "ipfs://PIECE_1_IMAGE_CID",
+  "external_url": "https://strategickhaos.ai",
+  "attributes": [
+    {
+      "trait_type": "Series",
+      "value": "Ratio Ex Nihilo Genesis"
+    },
+    {
+      "trait_type": "Piece Number",
+      "value": "1"
+    },
+    {
+      "trait_type": "Evolution Stage",
+      "value": "Sacred Geometry Foundation"
+    },
+    {
+      "trait_type": "Medium",
+      "value": "Hand-drawn"
+    },
+    {
+      "trait_type": "Legal Entity",
+      "value": "Strategickhaos DAO LLC"
+    },
+    {
+      "trait_type": "Wyoming File Number",
+      "value": "2025-001708194"
+    }
+  ]
+}
