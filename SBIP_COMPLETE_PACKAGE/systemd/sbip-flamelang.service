@@ -1,0 +1,13 @@
+[Unit]
+Description=FlameLang Runtime Initialization
+After=sbip-verify.service network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/flamelang-init.sh
+RemainAfterExit=yes
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

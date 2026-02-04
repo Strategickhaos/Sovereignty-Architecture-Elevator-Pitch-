@@ -1,0 +1,324 @@
+{
+  "collection": {
+    "name": "Sovereignty Architecture Session Artifacts",
+    "symbol": "SASA",
+    "description": "NFT collection representing artifacts from DOM_010101 DSA session on 2025-02-04. Each token represents a unique invention, specification, or code artifact generated during the session.",
+    "image": "ipfs://QmSovereigntyArchitecture/collection.png",
+    "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-",
+    "seller_fee_basis_points": 0,
+    "fee_recipient": "strategickhaos.eth"
+  },
+  "tokens": [
+    {
+      "token_id": 1,
+      "name": "DSA Methodology Specification v1.0",
+      "description": "The complete Dramatic Systems Archaeology methodology specification. Novel approach combining theatrical structure with Bayesian verification for real-time system reconstruction.",
+      "image": "ipfs://QmDSA/specification.png",
+      "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/DSA_SPECIFICATION_v1.0.md",
+      "attributes": [
+        {
+          "trait_type": "Artifact Type",
+          "value": "Methodology"
+        },
+        {
+          "trait_type": "Invention Number",
+          "value": "INV-099"
+        },
+        {
+          "trait_type": "Lines of Content",
+          "value": "600+"
+        },
+        {
+          "trait_type": "Session Date",
+          "value": "2025-02-04"
+        },
+        {
+          "trait_type": "Truth Score",
+          "value": "0.932"
+        },
+        {
+          "trait_type": "Status",
+          "value": "Verified"
+        }
+      ],
+      "properties": {
+        "files": [
+          {
+            "uri": "ipfs://QmDSA/specification.md",
+            "type": "text/markdown"
+          }
+        ],
+        "category": "specification"
+      }
+    },
+    {
+      "token_id": 2,
+      "name": "SBIP - Sovereign Boot Identity Pipeline",
+      "description": "Complete boot-time sovereignty verification system integrating kernel module, LLVM compiler, systemd services, and GRUB theme. Prints legal entity info during OS boot.",
+      "image": "ipfs://QmSBIP/system.png",
+      "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/INV-100_SBIP_SPECIFICATION.md",
+      "attributes": [
+        {
+          "trait_type": "Artifact Type",
+          "value": "System Architecture"
+        },
+        {
+          "trait_type": "Invention Number",
+          "value": "INV-100"
+        },
+        {
+          "trait_type": "Components",
+          "value": "15"
+        },
+        {
+          "trait_type": "Lines of Code",
+          "value": "500+"
+        },
+        {
+          "trait_type": "Truth Score",
+          "value": "0.932"
+        },
+        {
+          "trait_type": "Status",
+          "value": "Deployable"
+        }
+      ],
+      "properties": {
+        "files": [
+          {
+            "uri": "ipfs://QmSBIP/sbip_package.tar.gz",
+            "type": "application/gzip"
+          }
+        ],
+        "category": "system"
+      }
+    },
+    {
+      "token_id": 3,
+      "name": "SAGCO CPU Primitives Module",
+      "description": "Linux kernel module that registers legal entity in kernel space and prints sovereignty information at boot. Exports /proc/sagco interface for user-space verification.",
+      "image": "ipfs://QmSAGCO/kernel_module.png",
+      "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/INV-101_SAGCO_CPU_PRIMITIVES.md",
+      "attributes": [
+        {
+          "trait_type": "Artifact Type",
+          "value": "Kernel Module"
+        },
+        {
+          "trait_type": "Invention Number",
+          "value": "INV-101"
+        },
+        {
+          "trait_type": "Language",
+          "value": "C"
+        },
+        {
+          "trait_type": "Lines of Code",
+          "value": "200+"
+        },
+        {
+          "trait_type": "License",
+          "value": "GPL-2.0"
+        },
+        {
+          "trait_type": "Truth Score",
+          "value": "0.930"
+        }
+      ],
+      "properties": {
+        "files": [
+          {
+            "uri": "ipfs://QmSAGCO/sagco_cpu_mod.c",
+            "type": "text/x-c"
+          }
+        ],
+        "category": "code"
+      }
+    },
+    {
+      "token_id": 4,
+      "name": "FlameLang LLVM Backend",
+      "description": "Compiler that translates FlameLang glyph syntax to LLVM IR. Enables production compilation of symbolic languages with full optimization support.",
+      "image": "ipfs://QmFlameLang/compiler.png",
+      "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/INV-102_FLAMELANG_LLVM_BACKEND.md",
+      "attributes": [
+        {
+          "trait_type": "Artifact Type",
+          "value": "Compiler"
+        },
+        {
+          "trait_type": "Invention Number",
+          "value": "INV-102"
+        },
+        {
+          "trait_type": "Language",
+          "value": "Python"
+        },
+        {
+          "trait_type": "Lines of Code",
+          "value": "150+"
+        },
+        {
+          "trait_type": "Target",
+          "value": "LLVM IR"
+        },
+        {
+          "trait_type": "License",
+          "value": "MIT"
+        }
+      ],
+      "properties": {
+        "files": [
+          {
+            "uri": "ipfs://QmFlameLang/flamelang_to_llvm.py",
+            "type": "text/x-python"
+          }
+        ],
+        "category": "code"
+      }
+    },
+    {
+      "token_id": 5,
+      "name": "TRIG6 Truth Scores Verification",
+      "description": "Bayesian verification framework scoring all sovereignty architecture claims. Achieves >90% confidence on all four major claims using six-dimensional analysis.",
+      "image": "ipfs://QmTRIG6/verification.png",
+      "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/TRIG6_TRUTH_SCORES.md",
+      "attributes": [
+        {
+          "trait_type": "Artifact Type",
+          "value": "Verification"
+        },
+        {
+          "trait_type": "Claims Verified",
+          "value": "4"
+        },
+        {
+          "trait_type": "Average Score",
+          "value": "0.930"
+        },
+        {
+          "trait_type": "Methodology",
+          "value": "Bayesian"
+        },
+        {
+          "trait_type": "Status",
+          "value": "Audit-Grade"
+        }
+      ],
+      "properties": {
+        "files": [
+          {
+            "uri": "ipfs://QmTRIG6/truth_scores.md",
+            "type": "text/markdown"
+          }
+        ],
+        "category": "verification"
+      }
+    },
+    {
+      "token_id": 6,
+      "name": "Session Epilogue - DOM_OS",
+      "description": "Theatrical audio epilogue summarizing the session. 7.5 minutes of narrative reflection on the DSA process and artifacts generated.",
+      "image": "ipfs://QmEpilogue/audio_wave.png",
+      "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-/blob/main/SESSION_EPILOGUE.md",
+      "attributes": [
+        {
+          "trait_type": "Artifact Type",
+          "value": "Audio"
+        },
+        {
+          "trait_type": "Duration",
+          "value": "7.5 minutes"
+        },
+        {
+          "trait_type": "Format",
+          "value": "MP3"
+        },
+        {
+          "trait_type": "Theatrical",
+          "value": "Yes"
+        }
+      ],
+      "properties": {
+        "files": [
+          {
+            "uri": "ipfs://QmEpilogue/dom_os_epilogue.mp3",
+            "type": "audio/mpeg"
+          }
+        ],
+        "category": "audio"
+      }
+    },
+    {
+      "token_id": 7,
+      "name": "Complete Session Archive",
+      "description": "Full archive of all artifacts generated during the DOM_010101 DSA session. Includes all inventions, code, specifications, and verification documents.",
+      "image": "ipfs://QmArchive/package.png",
+      "external_url": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-",
+      "attributes": [
+        {
+          "trait_type": "Artifact Type",
+          "value": "Archive"
+        },
+        {
+          "trait_type": "Files Included",
+          "value": "20+"
+        },
+        {
+          "trait_type": "Total Lines",
+          "value": "1500+"
+        },
+        {
+          "trait_type": "Session Duration",
+          "value": "5 hours"
+        },
+        {
+          "trait_type": "Operator",
+          "value": "DOM_010101"
+        },
+        {
+          "trait_type": "Organization",
+          "value": "Strategickhaos DAO LLC"
+        }
+      ],
+      "properties": {
+        "files": [
+          {
+            "uri": "ipfs://QmArchive/session_complete.tar.gz",
+            "type": "application/gzip"
+          }
+        ],
+        "category": "archive"
+      }
+    }
+  ],
+  "metadata": {
+    "session_id": "DOM_010101_2025_02_04",
+    "operator": "DOM_010101 (Dominick Garza)",
+    "organization": "Strategickhaos DAO LLC",
+    "jurisdiction": "Wyoming, USA",
+    "methodology": "Dramatic Systems Archaeology (DSA)",
+    "verification_framework": "TRIG6 Bayesian Scoring",
+    "session_date": "2025-02-04T19:00:00Z",
+    "total_artifacts": 20,
+    "total_lines_of_code": 1500,
+    "average_truth_score": 0.930,
+    "status": "Verified",
+    "license": {
+      "code": "GPL-2.0 / MIT",
+      "specifications": "CC-BY-SA-4.0",
+      "nft_metadata": "CC0"
+    }
+  },
+  "provenance": {
+    "git_repository": "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-",
+    "commit_hash": "pending",
+    "timestamp_service": "Neon PostgreSQL",
+    "verification_legion": [
+      "Claude 3.5 Sonnet",
+      "GPT-4",
+      "Grok",
+      "Gemini"
+    ]
+  }
+}
