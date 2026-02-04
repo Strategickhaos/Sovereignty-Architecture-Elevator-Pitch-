@@ -172,9 +172,14 @@ else
     LLVMLITE_AVAILABLE=false
 fi
 
-# Test 11: Test compiler help output (only if llvmlite is available or use --help-syntax-only)
-if python3 -c "import llvmlite" 2>/dev/null || python3 "${COMPILER_DIR}/flamelang_to_llvm.py" --help 2>&1 | grep -q "usage:"; then
-    print_pass "FlameLang compiler help output"
+# Test 11: Test compiler help output
+# The compiler requires llvmlite for import, so skip if not available
+if python3 -c "import llvmlite" 2>/dev/null; then
+    if python3 "${COMPILER_DIR}/flamelang_to_llvm.py" --help >/dev/null 2>&1; then
+        print_pass "FlameLang compiler help output"
+    else
+        print_fail "FlameLang compiler help output failed"
+    fi
 else
     print_skip "FlameLang compiler help output (requires llvmlite)"
 fi

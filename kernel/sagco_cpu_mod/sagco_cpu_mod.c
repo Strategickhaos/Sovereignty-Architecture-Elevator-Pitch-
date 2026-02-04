@@ -3,33 +3,45 @@
 #include <linux/fs.h>
 #include <linux/miscdevice.h>
 #include <linux/uaccess.h>
-#include <asm/io.h>  // For inline asm optimizations
 
 #define SAGCO_DEV_NAME "sagco_cpu"
 #define SAGCO_MAGIC 'S'
 #define SAGCO_EXEC_BYTECODE _IOW(SAGCO_MAGIC, 1, unsigned long)  // Ioctl for exec
+#define MAX_BYTECODE_SIZE 256  // Reduced buffer size to avoid stack pressure
 
 static long sagco_ioctl(struct file *file, unsigned int cmd, unsigned long arg) {
-    char bytecode[1024];  // Fixed buffer; production: kmalloc for dynamic
+    char bytecode[MAX_BYTECODE_SIZE];  // Smaller fixed buffer
+    unsigned long stack[16];
+    int sp = 0;
+    int i = 0;
+    
     if (cmd == SAGCO_EXEC_BYTECODE) {
+        // Clear buffer first
+        memset(bytecode, 0, sizeof(bytecode));
+        
         if (copy_from_user(bytecode, (char __user *)arg, sizeof(bytecode)))
             return -EFAULT;
 
-        // Optimized interpreter loop (stack machine with inline asm for push/pop/add)
-        unsigned long stack[16];
-        int sp = 0;
-        int i = 0;
-        while (i < sizeof(bytecode)) {
+        // Interpreter loop - use software stack only (not hardware stack)
+        // Terminate on null byte (0x00) or end of buffer
+        while (i < sizeof(bytecode) && bytecode[i] != 0x00) {
             unsigned char op = bytecode[i++];
+            
             if (op == 0x01) {  // PUSH
-                asm volatile("movb %1, %%al; push %%rax" : : "r"(sp), "m"(bytecode[i++]) : "rax");
+                if (sp >= 16) return -EOVERFLOW;
+                if (i >= sizeof(bytecode)) return -EINVAL;
                 stack[sp++] = bytecode[i++];
             } else if (op == 0x10) {  // ADD
-                asm volatile("pop %%rax; pop %%rbx; add %%rbx, %%rax; push %%rax" : : : "rax", "rbx");
-                stack[sp - 2] += stack[--sp];
-            }  // Add more ops as needed
+                if (sp < 2) return -EINVAL;
+                sp--;
+                stack[sp - 1] += stack[sp];
+            } else if (op == 0x00) {  // NOP/HALT
+                break;
+            }
+            // Add more ops as needed
         }
-        printk(KERN_INFO "SAGCO_CPU: Exec result: %lu\n", stack[0]);
+        
+        printk(KERN_INFO "SAGCO_CPU: Exec result: %lu\n", sp > 0 ? stack[sp-1] : 0);
         return 0;
     }
     return -EINVAL;
@@ -50,7 +62,7 @@ static struct miscdevice sagco_dev = {
 static int __init sagco_init(void) {
     int ret = misc_register(&sagco_dev);
     if (ret) printk(KERN_ERR "SAGCO_CPU: Device register failed\n");
-    printk(KERN_INFO "SAGCO_CPU: Loaded - Ratio Ex Nihilo\n");
+    else printk(KERN_INFO "SAGCO_CPU: Loaded - Ratio Ex Nihilo (device minor: %d)\n", sagco_dev.minor);
     return ret;
 }
 

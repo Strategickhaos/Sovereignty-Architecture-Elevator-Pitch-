@@ -8,4 +8,6 @@ clean:
 
 install:
 	sudo insmod sagco_cpu_mod.ko
-	sudo mknod /dev/sagco_cpu c 240 0  # Major 240 arbitrary
+	# Device node is automatically created by udev/devtmpfs at /dev/sagco_cpu
+	# If needed manually: sudo mknod /dev/sagco_cpu c 10 <dynamic_minor>
+	@echo "Note: Device node created automatically by kernel at /dev/sagco_cpu"

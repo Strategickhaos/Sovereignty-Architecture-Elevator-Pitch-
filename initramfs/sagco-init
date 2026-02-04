@@ -17,11 +17,19 @@ echo "[Stage 1] Loading SAGCO CPU primitives..."
 if modprobe sagco_cpu_mod 2>/dev/null; then
     echo "✅ SAGCO CPU module loaded"
     
-    # Create device node if needed
-    if [ ! -e /dev/sagco_cpu ]; then
-        mknod /dev/sagco_cpu c 240 0
+    # Wait for device node to be created by devtmpfs (misc device, major 10)
+    TIMEOUT=5
+    COUNT=0
+    while [ ! -e /dev/sagco_cpu ] && [ $COUNT -lt $TIMEOUT ]; do
+        sleep 0.1
+        COUNT=$((COUNT + 1))
+    done
+    
+    if [ -e /dev/sagco_cpu ]; then
         chmod 666 /dev/sagco_cpu
         echo "✅ Device node /dev/sagco_cpu created"
+    else
+        echo "⚠️  Warning: Device node not created within timeout"
     fi
 else
     echo "⚠️  Warning: SAGCO CPU module not available"

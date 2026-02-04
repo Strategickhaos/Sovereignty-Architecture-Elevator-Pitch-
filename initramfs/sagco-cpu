@@ -24,16 +24,20 @@ modprobe sagco_cpu_mod 2>/dev/null || {
     exit 0
 }
 
-# Create device node if not exists
-if [ ! -e /dev/sagco_cpu ]; then
-    echo "Creating /dev/sagco_cpu device node..."
-    mknod /dev/sagco_cpu c 240 0 || {
-        echo "Warning: Failed to create /dev/sagco_cpu device node" >&2
-        exit 0
-    }
-    chmod 666 /dev/sagco_cpu
-fi
+# Device node is automatically created by devtmpfs at /dev/sagco_cpu
+# Wait for device to appear (misc device with major 10, dynamic minor)
+TIMEOUT=5
+COUNT=0
+while [ ! -e /dev/sagco_cpu ] && [ $COUNT -lt $TIMEOUT ]; do
+    sleep 0.1
+    COUNT=$((COUNT + 1))
+done
 
-echo "✅ SAGCO CPU module loaded - Ratio Ex Nihilo"
+if [ -e /dev/sagco_cpu ]; then
+    chmod 666 /dev/sagco_cpu
+    echo "✅ SAGCO CPU module loaded - Ratio Ex Nihilo"
+else
+    echo "Warning: Device node /dev/sagco_cpu not created" >&2
+fi
 
 exit 0
