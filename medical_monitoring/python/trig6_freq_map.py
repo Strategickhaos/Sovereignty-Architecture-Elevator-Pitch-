@@ -17,12 +17,14 @@ from typing import Tuple, Dict
 
 
 # Brainwave frequency bands (Hz)
+# Note: 'THETA_BAND' refers to brainwave frequencies (4-8 Hz)
+# while 'theta' (lowercase) refers to angular position (0-90°)
 BRAINWAVE_BANDS = {
-    'DELTA': (0.5, 4.0),    # Deep sleep
-    'THETA': (4.0, 8.0),    # Meditation, drowsiness
-    'ALPHA': (8.0, 13.0),   # Relaxed, calm awareness
-    'BETA': (13.0, 30.0),   # Active thinking, focus
-    'GAMMA': (30.0, 100.0)  # High-level cognition
+    'DELTA': (0.5, 4.0),      # Deep sleep
+    'THETA_BAND': (4.0, 8.0), # Meditation, drowsiness (renamed to avoid confusion with theta angle)
+    'ALPHA': (8.0, 13.0),     # Relaxed, calm awareness
+    'BETA': (13.0, 30.0),     # Active thinking, focus
+    'GAMMA': (30.0, 100.0)    # High-level cognition
 }
 
 
@@ -173,9 +175,9 @@ def get_stabilizer_frequency(theta: float, signature: str) -> Tuple[float, str]:
         band = 'ALPHA'
     
     elif signature == 'ELEVATED':
-        # Calming lower alpha / upper theta
-        freq = theta_to_brainwave_freq(theta, 'THETA')
-        band = 'THETA'
+        # Calming lower alpha / upper theta band
+        freq = theta_to_brainwave_freq(theta, 'THETA_BAND')
+        band = 'THETA_BAND'
     
     elif signature == 'BLOCKED':
         # Deep calming delta
@@ -206,7 +208,7 @@ def frequency_to_color(freq_hz: float) -> Tuple[int, int, int]:
         tuple: (R, G, B) values (0-255)
     """
     # Map frequency range to color spectrum
-    # Delta/Theta (0-8 Hz) → Red/Orange
+    # Delta/Theta Band (0-8 Hz) → Red/Orange
     # Alpha (8-13 Hz) → Green (healthy!)
     # Beta/Gamma (13+ Hz) → Blue/Violet
     
@@ -281,7 +283,7 @@ if __name__ == "__main__":
     print("Brainwave Bands:")
     print("-" * 60)
     for band, (low, high) in BRAINWAVE_BANDS.items():
-        print(f"  {band:6s}: {low:5.1f} - {high:5.1f} Hz")
+        print(f"  {band:11s}: {low:5.1f} - {high:5.1f} Hz")
     print()
     
     # Test different brain states
@@ -309,9 +311,9 @@ if __name__ == "__main__":
     
     print("=" * 60)
     print("Therapeutic Frequencies:")
-    print("  Alpha (8-12 Hz): Relaxed awareness, optimal learning")
-    print("  Theta (4-8 Hz):  Deep meditation, healing")
-    print("  Delta (0.5-4 Hz): Deep sleep, restoration")
+    print("  Alpha (8-12 Hz):      Relaxed awareness, optimal learning")
+    print("  Theta Band (4-8 Hz):  Deep meditation, healing")
+    print("  Delta (0.5-4 Hz):     Deep sleep, restoration")
     print()
     print("Bentov Resonance (~7 Hz):")
     print("  Heart-brain coupling, consciousness standing wave")

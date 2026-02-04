@@ -146,12 +146,16 @@ def risk_to_led_color(risk: float) -> Tuple[str, Tuple[int, int, int]]:
         tuple: (color_name, (R, G, B))
     """
     if risk < 0.5:
+        # Low risk - solid green
         return 'GREEN', (0, 255, 0)
     elif risk < 0.7:
-        return 'GREEN', (0, 255, 0)  # Still green but watchful
+        # Watchful - green with slight yellow tint
+        return 'GREEN_YELLOW', (128, 255, 0)
     elif risk < 0.9:
+        # Elevated - yellow warning
         return 'YELLOW', (255, 255, 0)
     else:
+        # Critical - red alert
         return 'RED', (255, 0, 0)
 
 

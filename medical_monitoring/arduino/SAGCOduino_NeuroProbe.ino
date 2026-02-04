@@ -73,7 +73,6 @@ void parseSerialData() {
   data.trim();
   
   // Parse comma-separated values
-  int commaIndex = 0;
   int fieldIndex = 0;
   String field = "";
   
