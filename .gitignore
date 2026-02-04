@@ -35,3 +35,15 @@ target/
 
 # Workspace data
 workspace/
+
+# SBIP kernel module build artifacts
+*.o
+*.ko
+*.mod
+*.mod.c
+*.order
+*.symvers
+.*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
