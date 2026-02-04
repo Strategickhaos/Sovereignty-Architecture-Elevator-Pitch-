@@ -34,7 +34,7 @@ The eye at the center represents consciousness observing through sacred structur
 
 ## Collection Philosophy
 
-**Ratio Ex Nihilo** (Latin: "Order from Chaos") documents the journey from chaotic inspiration to structured manifestation. Each piece in the collection represents a key moment in the evolution of the Strategickhaos visual language, capturing the intersection of ancient geometric wisdom and modern computational thinking.
+**Ratio Ex Nihilo** (Latin: "Reason from Nothing") documents the journey from chaotic inspiration to structured manifestation. Each piece in the collection represents a key moment in the evolution of the Strategickhaos visual language, capturing the intersection of ancient geometric wisdom and modern computational thinking.
 
 ## IPFS Deployment
 
