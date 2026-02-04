@@ -199,6 +199,9 @@ def run_daemon(load_dir: str, debug: bool = False):
     Run VM as a daemon, monitoring directory for new bytecode files.
     
     This is intended to be started as a systemd service via SBIP.
+    
+    Note: Currently uses polling (1 second interval). For production,
+    consider using inotify or watchdog library for event-based monitoring.
     """
     print(f"SAGCO CPU VM daemon starting...")
     print(f"Monitoring directory: {load_dir}")
@@ -236,7 +239,7 @@ def run_daemon(load_dir: str, debug: bool = False):
             except Exception as e:
                 print(f"Error executing {bc_file}: {e}", file=sys.stderr)
         
-        time.sleep(1)  # Poll every second
+        time.sleep(1)  # Poll every second (consider inotify for production)
 
 
 def main():
