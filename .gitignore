@@ -35,3 +35,6 @@ target/
 
 # Workspace data
 workspace/
+sagco-os/scripts/__pycache__/
+*.pyc
+__pycache__/

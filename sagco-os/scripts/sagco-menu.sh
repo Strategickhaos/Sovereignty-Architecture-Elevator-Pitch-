@@ -15,6 +15,31 @@ if [ ! -f "$SPM" ]; then
     exit 1
 fi
 
+# Security: Check spm.yml file permissions
+# File should be owned by root and not world-writable
+check_spm_permissions() {
+    local owner
+    local perms
+    
+    owner=$(stat -c '%U' "$SPM" 2>/dev/null || stat -f '%Su' "$SPM" 2>/dev/null)
+    perms=$(stat -c '%a' "$SPM" 2>/dev/null || stat -f '%A' "$SPM" 2>/dev/null | cut -c 4-6)
+    
+    # Warn if not owned by root (non-fatal, as dev environments may differ)
+    if [ "$owner" != "root" ] && [ "$EUID" -eq 0 ]; then
+        echo "Warning: $SPM is not owned by root. This may be a security risk."
+        echo "Current owner: $owner"
+    fi
+    
+    # Check if world-writable (last digit should not be 2, 3, 6, or 7)
+    if [ "${perms: -1}" -gt 1 ] && [ "$((${perms: -1} % 2))" -eq 0 ]; then
+        echo "Error: $SPM is world-writable. This is a security risk."
+        echo "Run: sudo chmod 644 $SPM"
+        exit 1
+    fi
+}
+
+check_spm_permissions
+
 # Function to extract YAML values using Python (since yq might not be installed)
 get_yaml_value() {
     local key="$1"

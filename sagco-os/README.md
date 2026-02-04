@@ -82,11 +82,6 @@ sudo python3 scripts/sagco-spm.py spm.yml
 Enable and start services:
 
 ```bash
-### Post-Installation
-
-Enable and start services:
-
-```bash
 sudo systemctl daemon-reload
 sudo systemctl enable sagco-banner.service
 sudo systemctl enable sagco-runtime.service

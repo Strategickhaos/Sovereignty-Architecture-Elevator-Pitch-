@@ -114,6 +114,9 @@ class SPMRunner:
         print("=" * 60)
         
         try:
+            # NOTE: Core installation functions are commented out for v1.0
+            # These require root privileges and should be run via install.sh
+            # Uncomment these for full SPM functionality:
             # self.install_apt_packages()
             # self.install_pip_packages()
             # self.copy_files()
@@ -124,6 +127,8 @@ class SPMRunner:
             os.makedirs('/opt/sagco', exist_ok=True)
             shutil.copy(self.yaml_file, '/opt/sagco/spm.yml')
             
+            # NOTE: Verification commented out for v1.0
+            # Uncomment for full verification:
             # self.verify_installation()
             
             print("\n" + "=" * 60)
