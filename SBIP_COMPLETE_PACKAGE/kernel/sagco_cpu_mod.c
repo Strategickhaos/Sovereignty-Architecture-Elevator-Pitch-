@@ -17,6 +17,7 @@
 #include <linux/device.h>
 #include <linux/uaccess.h>
 #include <linux/ioctl.h>
+#include <linux/version.h>
 
 #define DEVICE_NAME "sagco_cpu"
 #define CLASS_NAME "sagco"
@@ -82,7 +83,7 @@ static int execute_bytecode(struct sagco_bytecode *bc)
     }
     
     /* Simple opcode execution (demonstration) */
-    for (i = 0; i < bc->length && i < MAX_BYTECODE_SIZE - 1; i++) {
+    for (i = 0; i < bc->length; i++) {
         switch (bc->code[i]) {
             case 0x01: /* ADD */
                 if (i + 2 < bc->length) {
@@ -177,7 +178,11 @@ static int __init sagco_init(void)
     }
     
     /* Register device class */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 4, 0)
+    sagco_class = class_create(CLASS_NAME);
+#else
     sagco_class = class_create(THIS_MODULE, CLASS_NAME);
+#endif
     if (IS_ERR(sagco_class)) {
         unregister_chrdev(major_number, DEVICE_NAME);
         printk(KERN_ALERT "SAGCO_CPU: Failed to register device class\n");

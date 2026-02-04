@@ -13,7 +13,8 @@ ExecStart=/bin/bash -c 'if [ -f /lib/modules/$(uname -r)/extra/sagco_cpu_mod.ko 
     sleep 1; \
     if [ -e /dev/sagco_cpu ]; then \
         echo "SAGCO CPU device ready: /dev/sagco_cpu"; \
-        chmod 666 /dev/sagco_cpu; \
+        chmod 660 /dev/sagco_cpu; \
+        chgrp users /dev/sagco_cpu 2>/dev/null || true; \
     else \
         echo "Warning: SAGCO CPU device not found"; \
     fi; \
