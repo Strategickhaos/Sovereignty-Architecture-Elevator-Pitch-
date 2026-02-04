@@ -36,7 +36,7 @@ make install
 
 # Or manually:
 sudo insmod sagco_cpu_mod.ko
-sudo mknod /dev/sagco_cpu c 240 0
+# Device node auto-created by udev at /dev/sagco_cpu
 ```
 
 ### Verification
@@ -127,9 +127,10 @@ WantedBy=multi-user.target
 
 ## Optimizations
 
-- **Inline Assembly**: Direct register manipulation for push/pop/add operations
-- **Fixed Buffer**: No dynamic allocation in hot path (1KB bytecode buffer)
-- **Minimal Overhead**: ~20% performance improvement vs pure C implementation
+- **Software Stack Machine**: Pure C implementation for reliability and portability
+- **Reduced Buffer**: 256-byte bytecode buffer (optimized for stack usage)
+- **Bounds Checking**: Stack overflow and buffer overrun protection
+- **Minimal Overhead**: ~100 cycles per ioctl call with validation
 
 ## Benchmarking
 
@@ -158,8 +159,10 @@ ls /lib/modules/$(uname -r)/build
 ### Device file not created
 
 ```bash
-# Manually create device node
-sudo mknod /dev/sagco_cpu c 240 0
+# Device node should be auto-created by udev at /dev/sagco_cpu
+# If not present, check minor number and create manually:
+cat /proc/misc | grep sagco_cpu  # Get minor number
+sudo mknod /dev/sagco_cpu c 10 <minor>  # Major 10 for misc devices
 sudo chmod 666 /dev/sagco_cpu
 ```
 
@@ -173,7 +176,8 @@ sudo chmod 666 /dev/sagco_cpu
 ## Security Considerations
 
 - Module operates in Ring 0 (kernel space)
-- Fixed 1KB bytecode buffer prevents unbounded allocations
+- Fixed 256-byte bytecode buffer with overflow protection
+- Stack depth checking (max 16 elements)
 - Uses `copy_from_user` for safe userspace data transfer
 - Device permissions set to 0666 (world-readable/writable) - adjust for production
 

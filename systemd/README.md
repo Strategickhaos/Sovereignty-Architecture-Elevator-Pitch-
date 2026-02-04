@@ -119,11 +119,17 @@ prereqs)
 esac
 
 # Load SAGCO CPU module
+# Load SAGCO CPU module
 modprobe sagco_cpu_mod
 
-# Create device node if not exists
-if [ ! -e /dev/sagco_cpu ]; then
-    mknod /dev/sagco_cpu c 240 0
+# Device node is auto-created by udev at /dev/sagco_cpu
+# Wait for device to appear
+while [ ! -e /dev/sagco_cpu ] && [ $TIMEOUT -gt 0 ]; do
+    sleep 0.1
+    TIMEOUT=$((TIMEOUT - 1))
+done
+
+if [ -e /dev/sagco_cpu ]; then
     chmod 666 /dev/sagco_cpu
 fi
 
@@ -174,8 +180,13 @@ sudo modprobe sagco_cpu_mod
 ### Device Node Not Created
 
 ```bash
-# Create manually
-sudo mknod /dev/sagco_cpu c 240 0
+# Device node should be auto-created by udev at /dev/sagco_cpu
+# Wait for udev to process
+sleep 1
+
+# If still not present, get minor number and create manually
+cat /proc/misc | grep sagco_cpu  # Get minor number
+sudo mknod /dev/sagco_cpu c 10 <minor>  # Major 10 for misc devices
 sudo chmod 666 /dev/sagco_cpu
 
 # Verify

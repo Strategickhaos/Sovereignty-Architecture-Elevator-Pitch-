@@ -341,7 +341,8 @@ sudo chmod 666 /dev/sagco_cpu
 ### Kernel Module
 
 - Runs in Ring 0 (full kernel privileges)
-- Fixed 1KB bytecode buffer (no unbounded allocations)
+- Fixed 256-byte bytecode buffer with overflow protection
+- Stack depth checking (max 16 elements)
 - Uses `copy_from_user` for safe userspace interaction
 - Device permissions: 0666 (adjust for production)
 
