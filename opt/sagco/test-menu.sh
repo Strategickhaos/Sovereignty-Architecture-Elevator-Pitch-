@@ -4,7 +4,9 @@
 
 set -e
 
-BASE_DIR="/home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-"
+# Dynamically determine repository root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 PY_SCRIPT="$BASE_DIR/opt/sagco/bin/sagco-menu.py"
 YAML_FILE="$BASE_DIR/opt/sagco/spm.yml"
 

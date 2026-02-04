@@ -1,8 +1,3 @@
-#!/bin/bash
-# SAGCO-MENU v1.1 Demo Visualization
-# Shows what the menu looks like (text-based demo)
-
-cat << 'EOF'
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                          SAGCO Tools Menu                                 ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
@@ -80,4 +75,3 @@ cat << 'EOF'
 ║  ✅ Zero new dependencies (Python + whiptail + jq)                        ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
-EOF
