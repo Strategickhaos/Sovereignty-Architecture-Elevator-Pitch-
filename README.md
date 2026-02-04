@@ -280,6 +280,30 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 🎨 Ratio Ex Nihilo NFT Collection
+
+**Official digital asset collection of Strategickhaos DAO LLC**
+
+The [Ratio Ex Nihilo NFT Collection](./nft/) represents the evolution of our sovereign symbol from hand-drawn sacred geometry to on-chain immortalization. This Genesis collection of 7 unique pieces documents:
+
+- **Token #0**: The Origin Sketch (Soulbound) — The original hand-drawn Metatron's Cube
+- **Token #1**: Trademark V2 — Official registered trademark of Strategickhaos DAO LLC
+- **Token #2**: Energy Sigil — Merkaba with lightning energy and circuit traces
+- **Token #3**: Metatron's Gate — Grok AI-generated geometric interpretation
+- **Token #4**: SAGCO Boot Splash — The actual SAGCO OS boot identity
+- **Token #5**: Legion Convergence — Multi-AI collaboration synthesis
+- **Token #6**: The Mathematician's Eye — Detail of the hand-drawn eye
+
+**Key Features:**
+- ERC-721 NFT standard with EIP-2981 royalty support (7%)
+- Soulbound token capability for provenance anchoring
+- On-chain legal metadata (EIN: 39-2923503, Wyoming Filing: 2025-001708194)
+- Ethereum mainnet / Polygon support
+
+**Learn More:** See [nft/README.md](./nft/README.md) for full details and deployment guide.
+
+🔥💜 *"Ratio Ex Nihilo — From nothing, through reason, everything."* 💜🔥
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
