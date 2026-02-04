@@ -8,7 +8,6 @@
 set -e
 
 SPM="/opt/sagco/spm.yml"
-YQ="/usr/bin/yq"
 
 # Check if spm.yml exists
 if [ ! -f "$SPM" ]; then
@@ -148,7 +147,8 @@ launch_tool() {
     echo "Command: $cmd"
     echo ""
     
-    # Execute the command
+    # Execute the command from trusted spm.yml configuration
+    # Note: eval is safe here as commands come from admin-controlled config file
     eval "$cmd"
     
     echo ""
