@@ -20,9 +20,9 @@ import argparse
 from datetime import datetime, timezone
 
 
-DISCLAIMER_MD = f"""# Disclaimer
+DISCLAIMER_MD_TEMPLATE = """# Disclaimer
 
-**Generated:** {datetime.now(timezone.utc).isoformat()}
+**Generated:** {timestamp}
 
 This repository contains a mix of **software artifacts**, **technical documentation**, and **narrative/theatrical writing**.  
 The intent is to support **constraint-driven engineering**, not to request belief or authority.
@@ -123,8 +123,8 @@ If it doesn't compile, reproduce, and pass constraints—treat it as **hypothesi
 """
 
 
-DISCLAIMER_TXT = f"""DISCLAIMER
-Generated: {datetime.now(timezone.utc).isoformat()}
+DISCLAIMER_TXT_TEMPLATE = """DISCLAIMER
+Generated: {timestamp}
 
 This repository contains software artifacts, technical documentation, and narrative/theatrical writing.
 It is intended for constraint-driven engineering, not belief or authority.
@@ -167,7 +167,8 @@ def main() -> None:
     ap.add_argument("--write", default=None, help="Write to a file path instead of stdout")
     args = ap.parse_args()
 
-    content = DISCLAIMER_MD if args.format == "md" else DISCLAIMER_TXT
+    timestamp = datetime.now(timezone.utc).isoformat()
+    content = DISCLAIMER_MD_TEMPLATE.format(timestamp=timestamp) if args.format == "md" else DISCLAIMER_TXT_TEMPLATE.format(timestamp=timestamp)
 
     if args.write:
         with open(args.write, "w", encoding="utf-8") as f:
