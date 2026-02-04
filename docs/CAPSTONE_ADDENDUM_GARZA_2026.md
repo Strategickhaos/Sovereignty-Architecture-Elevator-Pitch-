@@ -149,15 +149,15 @@ All project artifacts are maintained in version-controlled repositories with com
 The implementation follows a layered architecture:
 
 ```
-┌─────────────────────────────────────┐
-│   SAGCO-MENU (Navigation Layer)    │
-├─────────────────────────────────────┤
-│   SBIP (Boot Identity Pipeline)    │
-├─────────────────────────────────────┤
-│   DSA (Archaeological Framework)   │
-├─────────────────────────────────────┤
-│   SAGCO-OS (Operating System)      │
-└─────────────────────────────────────┘
++-------------------------------------+
+|   SAGCO-MENU (Navigation Layer)    |
++-------------------------------------+
+|   SBIP (Boot Identity Pipeline)    |
++-------------------------------------+
+|   DSA (Archaeological Framework)   |
++-------------------------------------+
+|   SAGCO-OS (Operating System)      |
++-------------------------------------+
 ```
 
 Each layer maintains its own artifact collection while adhering to shared verification principles.
