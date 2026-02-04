@@ -18,17 +18,19 @@ background_sprite.SetX(screen_width / 2 - image_width / 2);
 background_sprite.SetY(screen_height / 2 - image_height / 2);
 background_sprite.SetZ(-100000);
 
-# Optional: Add text below emblem
-text_sprite = Sprite();
-text_sprite.SetPosition(screen_width / 2, screen_height * 0.8, 10000);
+# Text below emblem
+text_image = Image.Text("SAGCO OS - Ratio Ex Nihilo", 1, 1, 1);
+text_sprite = Sprite(text_image);
+text_sprite.SetX(screen_width / 2 - text_image.GetWidth() / 2);
+text_sprite.SetY(screen_height * 0.75);
+text_sprite.SetZ(10000);
 
-# Boot progress indicator (spinning)
-progress_sprite = Sprite();
-progress_sprite.SetPosition(screen_width / 2, screen_height * 0.9, 10000);
+# Simple progress animation counter
+global.progress_count = 0;
 
 fun refresh_callback() {
-    # Rotate progress indicator
-    progress_sprite.SetZ(progress_sprite.GetZ() + 1);
+    # Increment progress counter for visual feedback
+    global.progress_count++;
 }
 
 Plymouth.SetRefreshFunction(refresh_callback);

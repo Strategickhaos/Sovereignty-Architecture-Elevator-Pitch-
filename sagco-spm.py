@@ -10,6 +10,7 @@ import os
 import shutil
 import json
 import sys
+import glob
 from pathlib import Path
 
 # Try to import rich, install if missing
@@ -111,10 +112,23 @@ def main(yaml_file):
             os.makedirs(dst_dir, exist_ok=True)
             
             try:
-                if '*' in src:  # Handle wildcards (e.g., theme dir)
-                    src_base = src.replace('/*', '')
-                    if os.path.exists(src_base):
-                        shutil.copytree(src_base, dst, dirs_exist_ok=True)
+                if '*' in src:  # Handle wildcards using glob
+                    # If source ends with /*, copy directory contents
+                    if src.endswith('/*'):
+                        src_base = src[:-2]
+                        if os.path.exists(src_base) and os.path.isdir(src_base):
+                            shutil.copytree(src_base, dst, dirs_exist_ok=True)
+                        else:
+                            console.print(f"[yellow]Warning:[/yellow] Source directory not found: {src_base}")
+                    else:
+                        # Use glob for file patterns
+                        matched_files = glob.glob(src)
+                        if matched_files:
+                            os.makedirs(dst, exist_ok=True)
+                            for matched_file in matched_files:
+                                shutil.copy(matched_file, dst)
+                        else:
+                            console.print(f"[yellow]Warning:[/yellow] No files matched pattern: {src}")
                 else:
                     if os.path.exists(src):
                         shutil.copy(src, dst)
