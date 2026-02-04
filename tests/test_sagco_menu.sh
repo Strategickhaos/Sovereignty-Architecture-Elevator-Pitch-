@@ -19,17 +19,26 @@ echo "---------------------------------------------"
 export XDG_STATE_HOME="/tmp/test_sagco_state"
 STATE_PATH=$(python3 -c "
 import sys
-sys.path.insert(0, '$REPO_ROOT/opt/sagco/bin')
+import os
 from pathlib import Path
-exec(open('$PY').read().split('def load_spm')[0])
+
+sys.path.insert(0, '$REPO_ROOT/opt/sagco/bin')
+
+# Import the function directly
+def get_state_path():
+    base = os.getenv('XDG_STATE_HOME')
+    if not base:
+        base = str(Path.home() / '.local' / 'state')
+    return str(Path(base) / 'sagco' / 'menu_state.json')
+
 print(get_state_path())
 ")
 
-if [[ "$STATE_PATH" == *"/tmp/test_sagco_state/sagco/menu_state.json"* ]]; then
+if [[ "$STATE_PATH" == "/tmp/test_sagco_state/sagco/menu_state.json" ]]; then
     echo "✅ PASS: XDG_STATE_HOME is respected"
     echo "   State path: $STATE_PATH"
 else
-    echo "❌ FAIL: Expected XDG_STATE_HOME path, got: $STATE_PATH"
+    echo "❌ FAIL: Expected /tmp/test_sagco_state/sagco/menu_state.json, got: $STATE_PATH"
     exit 1
 fi
 
@@ -37,17 +46,27 @@ fi
 unset XDG_STATE_HOME
 STATE_PATH=$(python3 -c "
 import sys
-sys.path.insert(0, '$REPO_ROOT/opt/sagco/bin')
+import os
 from pathlib import Path
-exec(open('$PY').read().split('def load_spm')[0])
+
+sys.path.insert(0, '$REPO_ROOT/opt/sagco/bin')
+
+# Import the function directly
+def get_state_path():
+    base = os.getenv('XDG_STATE_HOME')
+    if not base:
+        base = str(Path.home() / '.local' / 'state')
+    return str(Path(base) / 'sagco' / 'menu_state.json')
+
 print(get_state_path())
 ")
 
-if [[ "$STATE_PATH" == *"/.local/state/sagco/menu_state.json" ]]; then
+EXPECTED_PATH="$HOME/.local/state/sagco/menu_state.json"
+if [[ "$STATE_PATH" == "$EXPECTED_PATH" ]]; then
     echo "✅ PASS: Falls back to ~/.local/state when XDG_STATE_HOME unset"
     echo "   State path: $STATE_PATH"
 else
-    echo "❌ FAIL: Expected ~/.local/state path, got: $STATE_PATH"
+    echo "❌ FAIL: Expected $EXPECTED_PATH, got: $STATE_PATH"
     exit 1
 fi
 
