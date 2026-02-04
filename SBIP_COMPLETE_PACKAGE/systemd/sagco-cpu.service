@@ -1,0 +1,28 @@
+[Unit]
+Description=SAGCO CPU Kernel Module Interface
+Documentation=https://github.com/strategickhaos-swarm-intelligence
+After=sagco-runtime.service
+Requires=sagco-runtime.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c 'if [ -f /lib/modules/$(uname -r)/extra/sagco_cpu_mod.ko ]; then \
+    echo "Loading SAGCO CPU module..."; \
+    insmod /lib/modules/$(uname -r)/extra/sagco_cpu_mod.ko; \
+    sleep 1; \
+    if [ -e /dev/sagco_cpu ]; then \
+        echo "SAGCO CPU device ready: /dev/sagco_cpu"; \
+        chmod 666 /dev/sagco_cpu; \
+    else \
+        echo "Warning: SAGCO CPU device not found"; \
+    fi; \
+else \
+    echo "SAGCO CPU module not installed"; \
+fi'
+ExecStop=/bin/bash -c 'rmmod sagco_cpu_mod 2>/dev/null || true'
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

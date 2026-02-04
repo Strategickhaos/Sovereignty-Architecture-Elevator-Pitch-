@@ -1,0 +1,28 @@
+[Unit]
+Description=SAGCO Boot Identity Banner
+Documentation=https://github.com/strategickhaos-swarm-intelligence
+After=local-fs.target
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c 'echo -e "\n\
+   ██████╗  █████╗  ██████╗  ██████╗ ██████╗ \n\
+  ██╔════╝ ██╔══██╗██╔════╝ ██╔════╝██╔═══██╗\n\
+  ╚█████╗  ███████║██║  ███╗██║     ██║   ██║\n\
+   ╚═══██╗ ██╔══██║██║   ██║██║     ██║   ██║\n\
+  ██████╔╝ ██║  ██║╚██████╔╝╚██████╗╚██████╔╝\n\
+  ╚═════╝  ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝ \n\
+\n\
+  Sovereign Autonomous General Compute OS\n\
+  RATIO EX NIHILO - From Nothing, Through Reason\n\
+\n\
+  Entity: Strategickhaos DAO LLC | EIN: 39-2923503\n\
+  Wyoming: 2025-001708194\n\
+\n" | tee /dev/console'
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
