@@ -71,6 +71,25 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🎯 SAGCO-MENU v1.1 (`sagco-menu`)
+- **YAML-Driven**: Single source of truth for menu structure, icons, and commands
+- **Fuzzy Search**: Search tools by name or description across all categories
+- **State-Aware**: Per-user recency list with automatic deduplication (capped at 5)
+- **Zero Dependencies**: Python + whiptail (standard Linux tools)
+- **TTY-Gated**: Login-safe integration, only runs in interactive terminals
+- **Kali-Grade UX**: Professional TUI experience without maintenance burden
+
+> The post-login TUI is YAML-driven and state-aware, supporting ordered categories, iconography, fuzzy search, and a recency list—without hardcoding menu structure or introducing runtime dependencies.
+
+```bash
+# Launch the interactive menu
+./sagco-menu.sh
+
+# Manage recents from command line
+./sagco-menu.py get
+./sagco-menu.py clear
+```
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment

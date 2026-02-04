@@ -34,7 +34,7 @@ def load_state():
                 return json.load(f)
     except (OSError, PermissionError, json.JSONDecodeError):
         # Fallback to user home directory if /var/lib/sagco isn't writable
-        fallback_path = os.path.expanduser(f"~/.sagco_menu_state.json")
+        fallback_path = os.path.expanduser(f"~/.sagco_menu_state_{USER}.json")
         try:
             if os.path.exists(fallback_path):
                 with open(fallback_path, 'r') as f:
@@ -53,7 +53,7 @@ def save_state(state):
             json.dump(state, f, indent=2)
     except (OSError, PermissionError):
         # Fallback to user home directory
-        fallback_path = os.path.expanduser(f"~/.sagco_menu_state.json")
+        fallback_path = os.path.expanduser(f"~/.sagco_menu_state_{USER}.json")
         try:
             with open(fallback_path, 'w') as f:
                 json.dump(state, f, indent=2)
