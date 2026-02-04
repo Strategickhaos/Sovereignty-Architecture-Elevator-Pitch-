@@ -1,0 +1,20 @@
+# Neon Verification Proof Files
+# These contain database query results and may include sensitive information
+
+# All generated proof files (review before committing)
+neon_verification/*.txt
+neon_verification/*.csv
+neon_verification/*.json
+neon_verification/*.md
+
+# But keep the README
+!README.md
+
+# Database credentials and connection strings
+*.env
+*.credentials
+connection_string.txt
+
+# Temporary files
+*.tmp
+*.log
