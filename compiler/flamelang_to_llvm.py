@@ -41,8 +41,9 @@ entry:
     llvm_as = "llvm-as"
     llc = "llc"
     
-    # Check for versioned tools
-    for version in ["18", "17", "16", "15", "14"]:
+    # Check for versioned tools - try common versions and also search PATH
+    # NOTE: Update this list as new LLVM versions are released
+    for version in ["20", "19", "18", "17", "16", "15", "14"]:
         if subprocess.run(["which", f"llvm-as-{version}"], capture_output=True).returncode == 0:
             llvm_as = f"llvm-as-{version}"
             llc = f"llc-{version}"
@@ -56,6 +57,7 @@ entry:
     
     if result.returncode != 0:
         print(f"Error generating bitcode: {result.stderr}", file=sys.stderr)
+        print("Hint: Install LLVM tools: apt-get install llvm clang", file=sys.stderr)
         sys.exit(1)
     
     result = subprocess.run(

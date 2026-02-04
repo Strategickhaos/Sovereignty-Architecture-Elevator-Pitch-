@@ -51,7 +51,7 @@ SAGCO_CPU: Loaded - Ratio Ex Nihilo
 
 ## Usage
 
-The module creates `/dev/sagco_cpu` device node automatically with `rw-rw-rw-` permissions.
+The module creates `/dev/sagco_cpu` device node automatically with `rw-rw----` permissions (owner and group only for security).
 
 ### IOCTL Interface
 

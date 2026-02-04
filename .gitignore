@@ -35,3 +35,21 @@ target/
 
 # Workspace data
 workspace/
+
+# Kernel module build artifacts
+*.ko
+*.o
+*.mod
+*.mod.c
+.*.cmd
+Module.symvers
+modules.order
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# LLVM intermediate files
+*.ll
+*.bc

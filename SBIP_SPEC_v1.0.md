@@ -46,7 +46,7 @@ The SAGCO CPU module provides kernel-level bytecode interpretation with the foll
 - `0x01 PUSH <byte>` - Push value onto execution stack
 - `0x10 ADD` - Pop two values, push sum
 
-**Device**: `/dev/sagco_cpu` (auto-created, mode 0666)
+**Device**: `/dev/sagco_cpu` (auto-created, mode 0660 - owner and group only)
 
 **Build**:
 ```bash
@@ -58,7 +58,7 @@ make install  # Load into kernel (requires sudo)
 **Verification**:
 ```bash
 dmesg | grep SAGCO_CPU  # Should show "Loaded - Ratio Ex Nihilo"
-ls -l /dev/sagco_cpu    # Should exist with rw-rw-rw- permissions
+ls -l /dev/sagco_cpu    # Should exist with rw-rw---- permissions (owner and group)
 ```
 
 ### 2. FlameLang Compiler

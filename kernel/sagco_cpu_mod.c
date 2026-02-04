@@ -89,6 +89,12 @@ static long sagco_ioctl(struct file *file, unsigned int cmd, unsigned long arg) 
         }
     }
 
+    /* Validate stack has result before accessing */
+    if (sp == 0) {
+        printk(KERN_ERR "SAGCO_CPU: Exec completed with empty stack\n");
+        return -EINVAL;
+    }
+
     /* Log result to kernel log */
     printk(KERN_INFO "SAGCO_CPU: Exec result = %lu\n", stack[0]);
     return 0;
@@ -100,12 +106,12 @@ static const struct file_operations sagco_fops = {
     .unlocked_ioctl = sagco_ioctl,
 };
 
-/* Miscdevice structure - auto-creates /dev/sagco_cpu with proper permissions */
+/* Miscdevice structure - auto-creates /dev/sagco_cpu with restricted permissions */
 static struct miscdevice sagco_dev = {
     .minor = MISC_DYNAMIC_MINOR,
     .name = SAGCO_DEV_NAME,
     .fops = &sagco_fops,
-    .mode = 0666,  /* rw-rw-rw- */
+    .mode = 0660,  /* rw-rw---- (owner and group only) */
 };
 
 /*
