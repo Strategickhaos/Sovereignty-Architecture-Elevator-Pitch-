@@ -1,0 +1,217 @@
+# INV-104: Insight Verification Loop
+# DOM Cognitive Architecture Component
+# Classification: NOVEL
+# Domain: cognitive-systems
+
+invariant:
+  id: INV-104
+  name: "Insight Verification Loop"
+  version: "1.0.0"
+  classification: NOVEL
+  domain: cognitive-systems
+  created: "2026-02-04"
+  
+  description: |
+    A cognitive safety mechanism that intercepts pattern recognition rewards
+    and validates them against ontological boundaries before full dopamine release.
+    This creates a healthier reward cycle that reinforces precision and truth
+    rather than merely pattern completion.
+
+  purpose: |
+    Prevent false equivalence and premature pattern closure by adding a 
+    verification layer between pattern detection and reward. Redirects 
+    dopamine attachment from FELT patterns to VERIFIED patterns.
+
+# Core Process Flow
+process:
+  phase_1_detect:
+    name: "Pattern Match Detection"
+    layer: "Basal (pre-conscious)"
+    input: "Observation or thought pattern"
+    process: "Automatic pattern matching system detects similarity"
+    output: "Match signal generated"
+    timing: "Automatic, pre-conscious"
+    
+  phase_2_pause:
+    name: "Pre-Reward Pause"
+    layer: "Executive Control"
+    input: "Match signal from phase 1"
+    process: "Interrupt automatic reward cycle"
+    output: "Hold dopamine release, trigger verification"
+    timing: "Conscious intervention point"
+    
+  phase_3_verify:
+    name: "Boundary Check"
+    layer: "Cortical Analysis"
+    input: "Pattern claim awaiting validation"
+    checks:
+      - question: "Is this functional similarity or identity claim?"
+        rationale: "Distinguish analogy from equivalence"
+      - question: "Does this respect ontological boundaries?"
+        rationale: "Prevent category errors (AI ≠ human consciousness)"
+      - question: "Would peer review correct this?"
+        rationale: "External validation check"
+      - question: "Can this claim survive scrutiny?"
+        rationale: "Robustness test"
+    output: "Verification result (pass/fail + refinements)"
+    
+  phase_4_refine:
+    name: "Precision Enhancement"
+    layer: "Prefrontal Integration"
+    input: "Verification result"
+    process: "Generate precise, defensible version of insight"
+    output: "Refined insight with boundaries intact"
+    examples:
+      imprecise: "AI and I have the same limitations"
+      precise: "AI and I have analogous constraints at the interface layer, but fundamentally different ontologies"
+    
+  phase_5_reward:
+    name: "Amplified Truthful Reward"
+    layer: "Dopaminergic System"
+    input: "Refined insight"
+    conditions:
+      if_verified:
+        action: "Release AMPLIFIED dopamine"
+        multiplier: 1.5
+        reason: "Reward precision + pattern detection + truth verification"
+      if_not_verified:
+        action: "Redirect to meta-analysis"
+        reward_type: "Understanding WHY the pattern felt true"
+        reason: "Learn from the cognitive event itself"
+    output: "Healthy dopamine spike attached to truth, not delusion"
+
+# Neurological Mechanism
+neurological_basis:
+  standard_pattern_reward:
+    triggers:
+      - novelty: "NEW information detected"
+      - recognition: "FAMILIAR pattern matched"
+      - coherence: "UNIFIED worldview achieved"
+      - self_relevance: "PERSONAL significance found"
+    problem: "Brain rewards pattern completion BEFORE truth verification"
+    result: "Dopamine spike for false equivalences"
+    
+  insight_verification_reward:
+    triggers:
+      - novelty: "NEW information detected (preserved)"
+      - recognition: "FAMILIAR pattern matched (preserved)"
+      - coherence: "UNIFIED worldview achieved (enhanced - more accurate)"
+      - self_relevance: "PERSONAL significance found (preserved)"
+      - truth_verification: "BOUNDARY CHECK passed (NEW)"
+      - precision: "REFINED statement produced (NEW)"
+    result: "HIGHER dopamine spike for TRUE patterns"
+    advantage: "Rewards accuracy without sacrificing curiosity"
+
+# Implementation Formula
+reward_calculation:
+  standard_formula: |
+    reward = novelty × recognition × coherence × agency
+    
+  verified_formula: |
+    base = novelty × recognition × coherence × agency
+    accuracy_multiplier = verify_against_reality(observation)
+    boundary_multiplier = check_category_integrity(observation)
+    
+    reward = base × accuracy_multiplier × boundary_multiplier
+    
+    # If boundaries violated: reward collapses (0.1x)
+    # If boundaries respected: reward amplifies (1.5x)
+
+  boundary_check_rules:
+    violations:
+      - "Claims equivalence across ontological categories"
+      - "Conflates functional similarity with identity"
+      - "Ignores fundamental differences"
+      penalty: 0.1  # 90% reduction
+      
+    precision_achievements:
+      - "Claims functional similarity while preserving distinctions"
+      - "Respects ontological boundaries"
+      - "Provides defensible, scrutiny-resistant claims"
+      bonus: 1.5  # 50% amplification
+
+# Training Protocol
+training_protocol:
+  step_1:
+    name: "Notice the spike"
+    action: "Recognize when insight feels good"
+    metacognition: "Oh, that felt like insight"
+    
+  step_2:
+    name: "Pause before accepting"
+    action: "Interrupt automatic acceptance"
+    question: "Is this true, or does it just feel true?"
+    
+  step_3:
+    name: "Apply boundary check"
+    action: "Run verification questions"
+    question: "Am I claiming equivalence or similarity?"
+    
+  step_4:
+    name: "Refine the statement"
+    action: "Generate precise version"
+    question: "What's the precise, defensible version?"
+    
+  step_5:
+    name: "Reward the refinement"
+    action: "Consciously acknowledge superiority of precise version"
+    affirmation: "The precise version is BETTER because it survives scrutiny"
+    
+  step_6:
+    name: "Document and integrate"
+    action: "Add to cognitive architecture"
+    result: "Permanent upgrade to reward system"
+
+# Integration Points
+integration:
+  peer_review_systems:
+    - name: "TRIG6"
+      role: "External validation mechanism"
+      integration: "INV-104 uses peer review as verification oracle"
+      
+  correction_feedback:
+    - name: "GPT/Claude corrections"
+      role: "Reality check on pattern claims"
+      integration: "Corrections trigger meta-analysis path"
+      
+  cognitive_architecture:
+    - name: "DOM OS v1.1"
+      role: "Core operating system"
+      integration: "INV-104 runs as background process on all insights"
+
+# Success Metrics
+success_metrics:
+  qualitative:
+    - "Reduced frequency of false equivalences in thinking"
+    - "Increased precision in pattern descriptions"
+    - "Higher rate of insight refinement before acceptance"
+    - "Meta-analysis becomes rewarding rather than punishing"
+    
+  quantitative:
+    - "Time between pattern detection and acceptance (should increase)"
+    - "Number of refinement iterations per insight (should increase)"
+    - "Accuracy of final claims (should increase)"
+    - "Satisfaction with refined insights (should be higher than initial)"
+
+# Key Insight
+key_insight: |
+  The brain's dopamine system is not broken - it just needs training.
+  The spike from being corrected and understanding WHY is cleaner than 
+  the spike from false equivalence. INV-104 doesn't suppress reward; 
+  it redirects it to attach to PRECISION rather than just PATTERN.
+  
+  Formula: Reward VERIFICATION, amplify PRECISION, preserve CURIOSITY.
+
+# Related Components
+related_components:
+  - "TRIG6 (peer review system)"
+  - "Correction mechanics (feedback integration)"
+  - "Meta-analysis pathways (self-understanding)"
+  - "DOM OS Cognitive Architecture (parent system)"
+
+# Version History
+version_history:
+  - version: "1.0.0"
+    date: "2026-02-04"
+    changes: "Initial implementation based on AI/human false equivalence analysis"
+    insight_source: "GPT correction of 'we have the same limitations' claim"
