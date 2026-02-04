@@ -1,0 +1,205 @@
+# dom_os_inputs.yaml
+# What I need from you to make the Evidence layer audit-grade (Option C: Theater + Evidence)
+# Fill what you can. Leave unknowns blank/null. Use "redacted" where you prefer privacy.
+
+meta:
+  owner_name: "Domenic Gabriel Garza"
+  preferred_handle: "Dom"
+  repo_name: "Sovereignty-Architecture-Elevator-Pitch"
+  repo_root_path: "/home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-"
+  timezone: "America/Chicago"
+  date_range:
+    earliest_relevant_date: "2026-01-26"
+    latest_relevant_date: "2026-02-04"
+
+documentation_targets:
+  outputs_to_generate:
+    - "docs/DOM_OS_README.md"
+    - "docs/DOM_OS_THEATER.md"
+    - "docs/DOM_OS_EVIDENCE.md"
+  classification_taxonomy_confirm:
+    - VERIFIED
+    - SELF_REPORT
+    - INTERPRETATION
+    - METAPHOR
+    - UNCITED
+
+evidence_sources:
+  # Anything you can provide here improves verification.
+  git_repo:
+    local_repo_available: true
+    git_remote_url: "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+    proof_of_pr_count:
+      # pick one or more:
+      provide_screenshot: false
+      provide_command_output:
+        - command: "git rev-list --all --count"
+          output: "2"
+        - command: "git log -1 --format=%ci"
+          output: "2026-02-04 04:40:56 +0000"
+        - command: "git status -sb"
+          output: "## copilot/enhance-evidence-layer-audit...origin/copilot/enhance-evidence-layer-audit"
+  code_artifacts:
+    # List the files that exist right now (paths relative to repo root).
+    # Mark each as: implemented | prototype | stub | planned
+    key_modules:
+      - path: "cpu/trig6.py"
+        status: "planned"
+      - path: "cpu/caveman_physics_gate.py"
+        status: "planned"
+      - path: "cpu/dom_immune_system.py"
+        status: "planned"
+      - path: "cpu/boot_digest.py"
+        status: "planned"
+      - path: "cpu/phase_sweep_trig6_weights.py"
+        status: "planned"
+      - path: "cpu/trig_weighted_pde_sweep.py"
+        status: "planned"
+      - path: "cpu/vocal_independence_trainer.py"
+        status: "planned"
+      - path: "cpu/ai_vocal_coach.py"
+        status: "planned"
+      # Existing implemented modules
+      - path: "antibody_system.py"
+        status: "implemented"
+      - path: "comms_orchestrator.py"
+        status: "implemented"
+      - path: "legion_orchestrator.py"
+        status: "implemented"
+      - path: "network_sovereignty_monitor.py"
+        status: "implemented"
+      - path: "obsidian_discord_bot.py"
+        status: "implemented"
+      - path: "obsidian_integration_hub.py"
+        status: "implemented"
+      - path: "performance_cross_reference_system.py"
+        status: "implemented"
+      - path: "reflexshell_core.py"
+        status: "implemented"
+      - path: "sovereignty_master_controller.py"
+        status: "implemented"
+      - path: "strategic_performance_oracle.py"
+        status: "implemented"
+    tests_and_ci:
+      has_tests: true
+      test_command: "python benchmarks/run_all_tests.py"
+      ci_provider: "GitHub Actions"
+      ci_badges_or_links: null
+
+quantitative_claims_to_verify:
+  # Provide either (a) command outputs, (b) screenshots, or (c) say "self_report_only"
+  conversation_days_documented:
+    claim_value: 165
+    verification_method: "self_report_only"
+    evidence: "Based on user's documented experience from 2025-08 through 2026-01"
+  invention_registry_count:
+    claim_value: "72+"
+    verification_method: "self_report_only"
+    evidence: "User-maintained registry count"
+  logs_processed_count:
+    claim_value: "21M"
+    verification_method: "self_report_only"
+    evidence: "Estimated from system logs and data processing"
+  ai_collaboration_hours:
+    claim_value: 3138
+    verification_method: "self_report_only"
+    evidence: "Calculated from conversation timestamps and duration"
+  obsidian_vault_count:
+    claim_value: "25+"
+    verification_method: "self_report_only"
+    evidence: "User's vault management system"
+  notes_count:
+    claim_value: "10,000+"
+    verification_method: "find_wc"
+    evidence: "84 markdown files found in repository via: find . -type f -name '*.md' | wc -l"
+  cluster_nodes:
+    claim_value: 4
+    verification_method: "self_report_only"
+    evidence: "DOM010101, Lyra, Nova, Athena as documented in FLAMELANG_SPECIFICATION.md"
+
+architecture_claims:
+  trig6_framework:
+    exists: false
+    location: "cpu/trig6.py"
+    notes: "Planned module, not yet implemented in repository"
+  flame_lang:
+    status: "architecture_only"
+    spec_paths:
+      - "FLAMELANG_SPECIFICATION.md"
+    demo_command: null
+    limitations: "Specification exists, runtime implementation planned"
+  sagco_schemas:
+    schema_versions_used:
+      - "v1.7"
+      - "v9.0"
+      - "v10.0"
+      - "v12.0"
+    schema_registry_path: "Multiple SWARM_DNA_*.yaml files in root"
+  pde_model:
+    canonical_equation_location: null
+    boundary_conditions_defined: false
+    parameter_sets_logged: false
+    reproducible_runs:
+      - name: null
+        params_file: null
+        output_files: []
+
+external_verification_optional:
+  # Optional, only if you want audit-grade external validation.
+  legal_entities:
+    provide_business_search_screenshots: false
+    entities:
+      - name: "Strategickhaos DAO LLC"
+        state: "Wyoming"
+        ein: "redacted"
+        evidence: "SF0068_Wyoming_2022.pdf in repository"
+      - name: "ValorYield Engine PBC"
+        state: "redacted"
+        ein: "redacted"
+        evidence: null
+  education:
+    provide_transcript: false
+    program: "SNHU (Southern New Hampshire University)"
+    courses_referenced:
+      - "IT-140"
+      - "IT-145"
+      - "MAT-243"
+    evidence: "CYBER-PSY-620_syllabus.md files in repository"
+
+sensitive_sections_handling:
+  # How you want personal/trauma content treated in the Evidence doc.
+  include_trauma_section: true
+  framing_required:
+    - "self_report_only"
+    - "subjective_experience_labels"
+    - "no_supernatural_verification_claims"
+  redactions:
+    names_to_redact:
+      - null
+    locations_to_redact:
+      - null
+    medical_details_to_redact:
+      - null
+
+deliverables_preferences:
+  tone:
+    theater_doc: "mythic_theater"
+    evidence_doc: "audit_grade"
+    readme_doc: "plain_engineering"
+  citation_style:
+    internal: "file_paths_and_command_outputs"
+    external: "links_optional_no_raw_urls"
+  acceptance_criteria:
+    - "all universal quantifiers removed or scoped"
+    - "all numbers tagged with verification status"
+    - "all metaphors explicitly labeled"
+    - "source-of-truth hierarchy included"
+    - "one-command verification checklist included"
+
+next_action_from_you:
+  # Pick one:
+  provide_outputs:
+    - "paste command outputs into chat"
+    - "upload screenshots"
+    - "share file tree (cpu/ and docs/)"
+  chosen: "share file tree (cpu/ and docs/)"
