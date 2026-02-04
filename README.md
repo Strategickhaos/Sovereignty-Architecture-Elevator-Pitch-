@@ -2,6 +2,23 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🔥 SAGCO Boot Identity Pipeline (SBIP)
+
+**NEW:** SAGCO now includes a revolutionary boot system that integrates legal entity assertion, cryptographic verification, and runtime initialization into a unified pipeline.
+
+> **"SAGCO bootstraps its toolchain as part of the init sequence: the kernel boots into a SAGCO initramfs, which displays the system identity screen, verifies core artifacts, mounts the root filesystem, and starts the SAGCO runtime + compiler services automatically."**
+
+**Key Documentation:**
+- 📘 **[SAGCO Boot Identity Pipeline Specification](SAGCO_BOOT_IDENTITY_PIPELINE.md)** - Complete SBIP architecture
+- 🔬 **[INV-100: Invention Record](INV-100_SAGCO_BOOT_IDENTITY_PIPELINE.md)** - Novel system architecture patent disclosure
+- 🖥️ **[CPU Architecture Decision](SAGCO_CPU_ARCHITECTURE_DECISION.md)** - x86_64 vs bytecode VM analysis
+
+**Boot Stages:**
+1. **Stage 0 (Bootloader):** SAGCO™ trademark display with legal entity branding
+2. **Stage 1 (Kernel):** Ring 0 legal assertion via `sagco=1` parameter
+3. **Stage 2 (Initramfs):** Identity screen + cryptographic verification
+4. **Stage 3 (Systemd):** Auto-start runtime + FlameLang compiler services
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -9,6 +26,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Boot System** - SAGCO Boot Identity Pipeline with legal entity assertion
 
 ## 🚀 Quick Start
 
@@ -280,9 +298,27 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📚 Core Documentation
+
+### Architecture & Specifications
+- **[SAGCO Boot Identity Pipeline](SAGCO_BOOT_IDENTITY_PIPELINE.md)** - Revolutionary boot system with legal entity assertion
+- **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Symbolic language with DNA→LLVM compilation
+- **[Unified Sovereignty Architecture](UNIFIED_SOVEREIGNTY_ARCHITECTURE(2).md)** - Complete system integration
+- **[Boot Reconnaissance](BOOT_RECON.md)** - Boot sequence analysis and commands
+
+### Inventions & IP
+- **[INV-100: SBIP Invention Record](INV-100_SAGCO_BOOT_IDENTITY_PIPELINE.md)** - Patent disclosure for boot identity pipeline
+- **[CPU Architecture Decision](SAGCO_CPU_ARCHITECTURE_DECISION.md)** - x86_64 vs bytecode VM analysis
+
+### Operations & Deployment
+- **[Deployment Guide](DEPLOYMENT.md)** - Infrastructure deployment procedures
+- **[Security Playbook](VAULT_SECURITY_PLAYBOOK.md)** - Security hardening and vault management
+- **[GitLens Integration](GITLENS_INTEGRATION.md)** - VS Code and GitLens setup
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
+- **Entity**: Strategickhaos DAO LLC (EIN: 39-2923503)
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
