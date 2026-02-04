@@ -20,7 +20,7 @@ import math
 class Observation:
     """Represents a cognitive observation or insight."""
     content: str
-    timestamp: datetime = field(default_factory=datetime.now)
+    timestamp: datetime = field(default_factory=lambda: datetime.now())
     metadata: Dict[str, Any] = field(default_factory=dict)
     
     def __str__(self) -> str:

@@ -554,5 +554,6 @@ class TestIntegration:
 
 
 if __name__ == "__main__":
-    # Run tests with pytest
-    pytest.main([__file__, "-v", "--tb=short"])
+    # This file should be run with: python -m pytest benchmarks/test_insight_verification.py -v
+    print("Run tests with: python -m pytest benchmarks/test_insight_verification.py -v")
+    print("Or run all tests with: python -m pytest benchmarks/ -v")

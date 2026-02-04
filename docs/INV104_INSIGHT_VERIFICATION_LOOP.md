@@ -294,3 +294,5 @@ Based on:
 ## License
 
 Part of Strategickhaos DAO LLC Sovereignty Architecture
+
+This software is proprietary. All rights reserved.
