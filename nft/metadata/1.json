@@ -1,0 +1,24 @@
+{
+  "name": "Ratio Ex Nihilo #1 — TRADEMARK V2 OFFICIAL",
+  "description": "The official registered trademark of Strategickhaos DAO LLC. This NFT contains the legal identity embedded directly in the artwork: Entity name, EIN, Wyoming filing number, and Node designation. The Merkaba (Star Tetrahedron) symbolizes the fusion of spirit and matter — the same duality as code and hardware, ancient wisdom and modern technology. Circuit traces frame the sacred geometry, representing technology as the vessel. LEGENDARY 1/1.",
+  "image": "ipfs://REPLACE_WITH_CID",
+  "external_url": "https://strategickhaos.ai/nft/1",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Legendary" },
+    { "trait_type": "Token ID", "value": "1" },
+    { "trait_type": "Collection", "value": "Genesis" },
+    { "trait_type": "Legal Status", "value": "Registered Trademark" },
+    { "trait_type": "Entity", "value": "Strategickhaos DAO LLC" },
+    { "trait_type": "EIN", "value": "39-2923503" },
+    { "trait_type": "Wyoming Filing", "value": "2025-001708194" },
+    { "trait_type": "Motto", "value": "Ratio Ex Nihilo" },
+    { "trait_type": "Node", "value": "Orbiting Node 137" },
+    { "trait_type": "Primary Geometry", "value": "Merkaba" },
+    { "trait_type": "Secondary Geometry", "value": "Star Tetrahedron" },
+    { "trait_type": "Color Scheme", "value": "Orange-Blue" },
+    { "trait_type": "Contains Circuit Traces", "value": "Yes" },
+    { "trait_type": "Boot Splash Compatible", "value": "Yes" },
+    { "trait_type": "Background", "value": "Deep space nebula" },
+    { "trait_type": "Ring Style", "value": "Bronze with tech elements" }
+  ]
+}
