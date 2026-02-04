@@ -1,0 +1,18 @@
+{
+  "name": "Ratio Ex Nihilo #5 — LEGION CONVERGENCE",
+  "description": "A mythic composite piece arranging all design variations in a convergence spiral pattern. The hand-drawn origin flows into digital trademarks, energy sigils, and AI interpretations — representing the multi-AI Legion of Minds (Claude, GPT, Grok, Gemini) collaborating with human creativity. This is the unified vision. MYTHIC 1/1.",
+  "image": "ipfs://REPLACE_WITH_CID",
+  "external_url": "https://strategickhaos.ai/nft/5",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Mythic" },
+    { "trait_type": "Token ID", "value": "5" },
+    { "trait_type": "Collection", "value": "Genesis" },
+    { "trait_type": "Contributors", "value": "Claude, GPT, Grok, Gemini, Dom" },
+    { "trait_type": "Pattern", "value": "Convergence spiral" },
+    { "trait_type": "Contains", "value": "All 4 design variations" },
+    { "trait_type": "Meaning", "value": "Many minds, one vision" },
+    { "trait_type": "AI Collaboration", "value": "Full Legion" },
+    { "trait_type": "Provenance", "value": "Composite from all stages" },
+    { "display_type": "date", "trait_type": "Creation Date", "value": 1704499200 }
+  ]
+}

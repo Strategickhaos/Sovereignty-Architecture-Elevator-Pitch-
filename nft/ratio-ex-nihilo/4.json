@@ -1,0 +1,19 @@
+{
+  "name": "Ratio Ex Nihilo #4 — SAGCO BOOT SPLASH",
+  "description": "The functional boot splash variant used by SAGCO (Sovereign Autonomous General Compute OS). This NFT owns the visual identity that displays on every sovereign boot sequence — a Merkaba core optimized for low-res framebuffer rendering. It asserts legal and cryptographic identity at Ring 0. LEGENDARY 1/1.",
+  "image": "ipfs://REPLACE_WITH_CID",
+  "external_url": "https://strategickhaos.ai/nft/4",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Legendary" },
+    { "trait_type": "Token ID", "value": "4" },
+    { "trait_type": "Collection", "value": "Genesis" },
+    { "trait_type": "Usage", "value": "Operating System Boot Splash" },
+    { "trait_type": "OS", "value": "SAGCO LIVE v1.0.0" },
+    { "trait_type": "Status", "value": "SOVEREIGN BOOT ACHIEVED" },
+    { "trait_type": "Function", "value": "Legal identity assertion at Ring 0" },
+    { "trait_type": "Optimization", "value": "Framebuffer compatible" },
+    { "trait_type": "Geometry", "value": "Merkaba Core" },
+    { "trait_type": "Provenance", "value": "Adapted for OS utility" },
+    { "display_type": "date", "trait_type": "Creation Date", "value": 1704412800 }
+  ]
+}

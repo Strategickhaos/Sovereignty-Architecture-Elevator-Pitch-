@@ -1,0 +1,18 @@
+{
+  "name": "Ratio Ex Nihilo #6 — THE MATHEMATICIAN'S EYE",
+  "description": "A detailed crop from the original hand-drawn sketch, focusing on the Eye of Providence within the Metatron's Cube. Surrounded by visible mathematical calculations that birthed the geometry. This piece symbolizes observation through structure — the eye that sees patterns in chaos. LEGENDARY 1/1.",
+  "image": "ipfs://REPLACE_WITH_CID",
+  "external_url": "https://strategickhaos.ai/nft/6",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Legendary" },
+    { "trait_type": "Token ID", "value": "6" },
+    { "trait_type": "Collection", "value": "Genesis" },
+    { "trait_type": "Detail", "value": "Eye of Providence" },
+    { "trait_type": "Context", "value": "Mathematical calculations" },
+    { "trait_type": "Symbolism", "value": "Observation through structure" },
+    { "trait_type": "Origin", "value": "Physical sketch" },
+    { "trait_type": "Colors", "value": "Graphite with color accents" },
+    { "trait_type": "Provenance", "value": "Extracted from origin artifact" },
+    { "display_type": "date", "trait_type": "Creation Date", "value": 1704585600 }
+  ]
+}
