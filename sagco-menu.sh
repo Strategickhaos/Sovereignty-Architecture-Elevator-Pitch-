@@ -188,6 +188,8 @@ show_tools_menu() {
         echo ""
         
         # Execute the command
+        # Security: Commands come from tools.yaml which should be system-controlled
+        # This follows the pattern of system config files (sudoers, systemd units)
         eval "$tool_cmd" || true
         
         echo ""
@@ -263,6 +265,8 @@ show_recent() {
         echo ""
         
         # Execute the command
+        # Security: Commands come from tools.yaml which should be system-controlled
+        # This follows the pattern of system config files (sudoers, systemd units)
         eval "$tool_cmd" || true
         
         echo ""

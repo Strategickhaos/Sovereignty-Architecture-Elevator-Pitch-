@@ -17,9 +17,10 @@ STATE_PATH = f"{STATE_DIR}/menu_state_{USER}.json"
 def ensure_state_dir():
     """Ensure state directory exists with proper permissions"""
     Path(STATE_DIR).mkdir(parents=True, exist_ok=True)
-    # Set permissions to allow all users to write (for multi-user support)
+    # Set permissions to allow directory access but not world-writable (0o755)
+    # Individual state files are user-owned with default permissions
     try:
-        os.chmod(STATE_DIR, 0o777)
+        os.chmod(STATE_DIR, 0o755)
     except (OSError, PermissionError):
         # If we can't chmod (not root), that's okay - will use fallback
         pass

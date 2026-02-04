@@ -42,9 +42,11 @@ The menu is organized into categories defined in `tools.yaml`:
 ### State Management
 
 - State stored in `/var/lib/sagco/menu_state_<USER>.json`
-- Falls back to `~/.sagco_menu_state.json` if `/var/lib/sagco` isn't writable
+- Falls back to `~/.sagco_menu_state_<USER>.json` if `/var/lib/sagco` isn't writable
 - Recent tools capped at 5 unique items
 - Automatic deduplication
+
+**Security Note**: Commands are defined in `tools.yaml` which should be system-controlled and not user-editable. This file acts as a trusted configuration source similar to sudoers or systemd unit files.
 
 ## 🛡️ Micro-Hardening Features
 
@@ -133,6 +135,19 @@ sudo apt-get install whiptail
 Install PyYAML for better YAML parsing (optional):
 ```bash
 pip3 install pyyaml
+```
+
+### Security Considerations
+
+- **tools.yaml** should be system-controlled (root-owned, not user-editable)
+- Commands are executed via shell evaluation from tools.yaml configuration
+- This design follows the pattern of system configuration files like sudoers or systemd units
+- Ensure tools.yaml has appropriate permissions (e.g., 644, owned by root)
+
+```bash
+# Recommended permissions
+sudo chown root:root tools.yaml
+sudo chmod 644 tools.yaml
 ```
 
 ## 🎯 Design Philosophy
