@@ -28,6 +28,9 @@ SAGCO OS is a cognitive operating system designed for academic and engineering w
 ```
 sagco-os/
 ├── spm.yml                    # Main configuration file
+├── install.sh                 # Installation script (recommended)
+├── demo.sh                    # Demo script (shows features)
+├── README.md                  # This file
 ├── scripts/
 │   ├── sagco-spm.py          # SPM runner/installer
 │   └── sagco-menu.sh         # TUI menu launcher
@@ -41,22 +44,47 @@ sagco-os/
     └── issue                 # Login issue file
 ```
 
-## Installation
+## Quick Start
 
-### 1. Run SPM Installer
+### Demo (No Installation Required)
+
+See what SAGCO OS looks like without installing:
+
+```bash
+cd sagco-os
+./demo.sh
+```
+
+### Installation
+
+**Automated Installation (Recommended):**
+
+```bash
+cd sagco-os
+sudo ./install.sh
+```
+
+This will:
+- Install required packages (whiptail, jq, python3-yaml)
+- Copy files to `/opt/sagco/`
+- Install systemd services
+- Configure the TUI menu system
+
+**Manual Installation:**
 
 ```bash
 cd sagco-os
 sudo python3 scripts/sagco-spm.py spm.yml
 ```
 
-This will:
-- Install required packages (whiptail, jq, python3-yaml, etc.)
-- Copy assets to `/opt/sagco/`
-- Set up systemd services
-- Enable the banner + menu system
+### Post-Installation
 
-### 2. Enable Services
+Enable and start services:
+
+```bash
+### Post-Installation
+
+Enable and start services:
 
 ```bash
 sudo systemctl daemon-reload
@@ -64,7 +92,7 @@ sudo systemctl enable sagco-banner.service
 sudo systemctl enable sagco-runtime.service
 ```
 
-### 3. Test the Menu
+### Test the Menu
 
 You can test the menu without rebooting:
 
