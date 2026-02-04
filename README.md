@@ -71,6 +71,41 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🔧 SAGCO CPU Primitives Kernel Module (`sagco_cpu`)
+- **Version**: 1.2.0 (HARDENED)
+- **Pure C Implementation**: Portable bytecode interpreter, no assembly
+- **Security**: Bounds-checked operations with fixed-size struct input
+- **Ring 0 Execution**: Stack-based VM running in kernel space
+- **Device**: `/dev/sagco_cpu` via ioctl interface
+
+The SAGCO CPU module provides a safe, portable bytecode interpreter for executing simple stack-based operations in kernel space. It's designed with multiple security layers including bounds checking, stack overflow/underflow protection, and safe I/O.
+
+```bash
+# Build and load the kernel module
+cd kernel/sagco_cpu
+make
+sudo insmod sagco_cpu_mod.ko
+
+# Verify the module is loaded
+lsmod | grep sagco_cpu
+ls -l /dev/sagco_cpu
+
+# Run the test suite
+cd examples
+make
+sudo ./test_sagco
+
+# Unload the module
+sudo rmmod sagco_cpu_mod
+```
+
+**Supported Operations:**
+- Stack operations: PUSH, POP, NOP
+- Arithmetic: ADD, SUB, MUL, DIV
+- Control flow: HALT
+
+For complete documentation, see [`kernel/sagco_cpu/README.md`](kernel/sagco_cpu/README.md).
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment
