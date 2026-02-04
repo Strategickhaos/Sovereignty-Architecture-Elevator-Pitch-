@@ -1,0 +1,45 @@
+#!/bin/sh
+# SAGCO Boot Identity Pipeline (SBIP) - initramfs Hook
+# Part of Stage 2: Early Userspace
+# This script runs during initramfs to verify SAGCO artifacts
+
+PREREQ=""
+prereqs() { echo "$PREREQ"; }
+
+case $1 in
+prereqs)
+  prereqs
+  exit 0
+  ;;
+esac
+
+. /scripts/functions
+
+# Check if SAGCO boot mode is enabled via kernel parameter
+if [ "$(cat /proc/cmdline | grep sagco=1)" ]; then
+  log_begin_msg "SAGCO Boot Identity Pipeline: Starting"
+
+  # Display text splash if Plymouth not ready
+  if [ -e /dev/fb0 ]; then
+    echo "SAGCO OS - Ratio Ex Nihilo" > /dev/fb0
+  else
+    echo "SAGCO OS - Ratio Ex Nihilo"
+  fi
+
+  # Verify core artifacts (if verification files exist)
+  if [ -f /etc/sagco/core_artifact.sha256 ]; then
+    if sha256sum -c /etc/sagco/core_artifact.sha256 >/dev/null 2>&1; then
+      log_success_msg "SAGCO artifacts verified successfully"
+    else
+      log_failure_msg "SAGCO artifact verification failed!"
+      # Note: In production, you might want to halt boot here
+      # For now, we continue with a warning
+    fi
+  else
+    log_warning_msg "No SAGCO artifact verification file found, skipping verification"
+  fi
+
+  log_end_msg "SBIP early boot stage complete"
+fi
+
+exit 0

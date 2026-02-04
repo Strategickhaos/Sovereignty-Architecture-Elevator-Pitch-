@@ -1,0 +1,24 @@
+# SAGCO Plymouth Boot Splash Script
+# Part of SAGCO Boot Identity Pipeline (SBIP) v1.0
+# Displays the SAGCO emblem during boot
+
+# Load and display the SAGCO emblem
+emblem_image = Image("ratio_ex_nihilo.png");
+emblem_sprite = Sprite(emblem_image);
+
+# Center the emblem on screen
+emblem_sprite.SetPosition(
+  screen_width / 2 - emblem_image.GetWidth() / 2,
+  screen_height / 2 - emblem_image.GetHeight() / 2,
+  -100
+);
+
+emblem_sprite.SetOpacity(1);
+
+# Refresh callback (required by Plymouth)
+fun refresh_callback () {
+  return false;
+}
+
+# Register the callback
+Plymouth.SetRefreshFunction(refresh_callback);

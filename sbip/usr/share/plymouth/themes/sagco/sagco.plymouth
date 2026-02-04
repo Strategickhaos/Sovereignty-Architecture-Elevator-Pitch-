@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=SAGCO
+Description=SAGCO Boot Identity - Ratio Ex Nihilo
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/sagco
+ScriptFile=sagco.script

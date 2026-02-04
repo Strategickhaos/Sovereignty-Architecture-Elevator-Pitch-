@@ -1,0 +1,6 @@
+# SAGCO GRUB Theme
+# Part of SAGCO Boot Identity Pipeline (SBIP) v1.0
+title-text: "SAGCO OS - Ratio Ex Nihilo"
+title-color: "white"
+desktop-image: "ratio_ex_nihilo.png"
+desktop-color: "#000000"
