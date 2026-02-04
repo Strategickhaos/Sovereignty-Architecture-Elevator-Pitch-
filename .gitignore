@@ -35,3 +35,9 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameLang compiler artifacts
+*.o
+*_exec
+flamelang_exec
+flamelang.o
