@@ -5,8 +5,9 @@ import json
 import os
 from difflib import get_close_matches  # For fuzzy search
 
-SPM_PATH = "/opt/sagco/spm.yml"
-STATE_PATH = "/var/lib/sagco/menu_state.json"  # Recently used (global for v1; per-user future)
+# Allow override via environment variables for testing
+SPM_PATH = os.environ.get("SPM_PATH", "/opt/sagco/spm.yml")
+STATE_PATH = os.environ.get("STATE_PATH", "/var/lib/sagco/menu_state.json")  # Recently used (global for v1; per-user future)
 
 def load_spm():
     with open(SPM_PATH, "r", encoding="utf-8") as f:

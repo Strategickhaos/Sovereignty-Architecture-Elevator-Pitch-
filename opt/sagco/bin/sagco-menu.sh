@@ -1,8 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-PY="/opt/sagco/bin/sagco-menu.py"
-SPM="/opt/sagco/spm.yml"
+# Allow override via environment variables for testing
+PY="${PY:-/opt/sagco/bin/sagco-menu.py}"
+SPM="${SPM:-/opt/sagco/spm.yml}"
 
 # Only run in interactive TTY
 if [[ ! -t 0 ]]; then exit 0; fi

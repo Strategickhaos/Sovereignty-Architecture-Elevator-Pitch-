@@ -1,0 +1,83 @@
+#!/bin/bash
+# SAGCO-MENU v1.1 Demo Visualization
+# Shows what the menu looks like (text-based demo)
+
+cat << 'EOF'
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                          SAGCO Tools Menu                                 ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║                        Select category:                                   ║
+║                                                                           ║
+║  ┌─────────────────────────────────────────────────────────────────────┐ ║
+║  │  recent          🕒 Recently Used                                    │ ║
+║  │  core-tools      🛠️  Core Utilities                                  │ ║
+║  │  security-tools  🔒 Security Tools                                   │ ║
+║  │  ops-tools       ⚙️  Operations Tools                                │ ║
+║  └─────────────────────────────────────────────────────────────────────┘ ║
+║                                                                           ║
+║  <Select>                                        <Cancel>                ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+                             ↓ User selects "security-tools" ↓
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                        Search security-tools                              ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║  Enter search term (optional):                                            ║
+║  ┌─────────────────────────────────────────────────────────────────────┐ ║
+║  │ nmap                                                                  │ ║
+║  └─────────────────────────────────────────────────────────────────────┘ ║
+║                                                                           ║
+║  <OK>                                            <Cancel>                ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+                             ↓ User types "nmap" and presses OK ↓
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                      SAGCO: security-tools                                ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║                        Select tool:                                       ║
+║                                                                           ║
+║  ┌─────────────────────────────────────────────────────────────────────┐ ║
+║  │  Nmap          🌐 Network scanner                                    │ ║
+║  └─────────────────────────────────────────────────────────────────────┘ ║
+║                                                                           ║
+║  <Select>                                        <Cancel>                ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+                             ↓ User selects "Nmap" ↓
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ SAGCO ▶ Nmap                                                              ║
+║ CMD  ▶ nmap -h                                                            ║
+║                                                                           ║
+║ Nmap 7.80 ( https://nmap.org )                                           ║
+║ Usage: nmap [Scan Type(s)] [Options] {target specification}              ║
+║ TARGET SPECIFICATION:                                                     ║
+║   Can pass hostnames, IP addresses, networks, etc.                       ║
+║   Ex: scanme.nmap.org, microsoft.com/24, 192.168.0.1; 10.0.0-255.1-254   ║
+║ ...                                                                       ║
+║                                                                           ║
+║ Press Enter to return to menu...                                         ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+                             ↓ User presses Enter ↓
+
+                            (Returns to main menu)
+                      (Nmap is now in "Recently Used")
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                   SAGCO-MENU v1.1 FEATURES                                ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║                                                                           ║
+║  ✅ YAML-driven configuration (spm.yml)                                   ║
+║  ✅ Category ordering via "order" array                                   ║
+║  ✅ Emoji/ASCII icons for categories and tools                            ║
+║  ✅ Search/filter functionality (fuzzy match)                             ║
+║  ✅ Recently used tracking (last 5 tools)                                 ║
+║  ✅ Whiptail-based interactive UI                                         ║
+║  ✅ Auto-launch on interactive login                                      ║
+║  ✅ Zero new dependencies (Python + whiptail + jq)                        ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+EOF
