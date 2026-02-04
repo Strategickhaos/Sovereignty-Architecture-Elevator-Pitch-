@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FlameLang to LLVM Compiler - v2.0
+FlameLang to LLVM Compiler - v1.0
 Optimized x86_64 native binary compiler with LLVM backend
 """
 
@@ -31,7 +31,8 @@ def emit_ir(ops):
     block = func.append_basic_block("entry")
     builder = ir.IRBuilder(block)
     
-    result = ir.Constant(ir.IntType(32), 0)
+    # Initialize result only if there are operations
+    result = None
     
     for op in ops:
         if op[0] == 'add':
@@ -47,6 +48,9 @@ def emit_ir(ops):
             b = ir.Constant(ir.IntType(32), op[2])
             result = builder.mul(a, b)
     
+    # Return result or 0 if no operations
+    if result is None:
+        result = ir.Constant(ir.IntType(32), 0)
     builder.ret(result)
     return module
 
@@ -76,7 +80,7 @@ def optimize_and_compile(module, output_name="flamelang_exec"):
     # Create target machine with x86_64 optimizations
     target = llvm.Target.from_default_triple().create_target_machine(
         opt=3,  # -O3 optimization level
-        features="-mcpu=native"  # Native CPU features (AVX2 if available)
+        cpu='native'  # Native CPU features (AVX2 if available)
     )
     
     # Emit object file
