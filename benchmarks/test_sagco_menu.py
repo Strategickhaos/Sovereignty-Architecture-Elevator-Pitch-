@@ -7,15 +7,13 @@ Test YAML-driven tool catalog with search, ordering, icons, and recently used fu
 import sys
 import os
 import json
+import subprocess
 import tempfile
 import shutil
 from pathlib import Path
 
 # Add opt/sagco/bin to Python path for importing sagco-menu
 sys.path.insert(0, str(Path(__file__).parent.parent / "opt" / "sagco" / "bin"))
-
-# Import the sagco-menu module
-import subprocess
 
 
 class SAGCOMenuTests:
