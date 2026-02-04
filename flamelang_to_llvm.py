@@ -27,6 +27,7 @@ llvm.initialize_all_targets()
 llvm.initialize_all_asmprinters()
 
 VERSION = "1.0.0"
+DEFAULT_OPERATION = "add 0 0"  # Default FlameLang program
 BANNER = f"""
 ╔══════════════════════════════════════════════════════════╗
 ║  FlameLang Compiler v{VERSION}                              ║
@@ -50,7 +51,7 @@ def parse_flame(source: str) -> list:
     ops = []
     lines = source.strip().split('\n')
     
-    for line in lines:
+    for line_num, line in enumerate(lines, start=1):
         line = line.strip()
         if not line or line.startswith('#'):
             continue
@@ -64,9 +65,13 @@ def parse_flame(source: str) -> list:
                 ops.append((op, a, b))
             except ValueError:
                 # Variable references - future feature
+                print(f"Warning: Line {line_num}: Could not parse integers from '{line}'. Expected format: <op> <int> <int>")
                 ops.append((op, parts[1], parts[2]))
         elif len(parts) == 2 and parts[0].lower() == 'ret':
-            ops.append(('ret', int(parts[1]), None))
+            try:
+                ops.append(('ret', int(parts[1]), None))
+            except ValueError:
+                print(f"Warning: Line {line_num}: Could not parse return value from '{line}'. Expected format: ret <int>")
     
     return ops if ops else [('add', 0, 0)]  # Default: return 0
 
@@ -109,6 +114,10 @@ def emit_ir(ops: list) -> ir.Module:
         elif opcode == 'div':
             a = ir.Constant(ir.IntType(32), op[1])
             b = ir.Constant(ir.IntType(32), op[2])
+            # Check for division by zero
+            if isinstance(op[2], int) and op[2] == 0:
+                print("Warning: Division by zero detected. Using 1 as divisor to avoid undefined behavior.")
+                b = ir.Constant(ir.IntType(32), 1)
             result = builder.sdiv(a, b, name="div_result")
             
         elif opcode == 'ret':
@@ -164,9 +173,8 @@ def compile_to_object(module: ir.Module, output_path: str = "flamelang.o") -> st
     
     # Get host CPU type or use generic
     try:
-        from llvmlite import binding as llvm_binding
-        cpu = llvm_binding.get_host_cpu_name()
-    except:
+        cpu = llvm.get_host_cpu_name()
+    except Exception:
         cpu = "generic"
     
     target_machine = target.create_target_machine(
@@ -223,9 +231,9 @@ def main():
     
     # Parse arguments
     if sys.argv[1] == "--eval":
-        source = sys.argv[2] if len(sys.argv) > 2 else "add 0 0"
+        source = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_OPERATION
     elif sys.argv[1] == "--ir":
-        source = sys.argv[2] if len(sys.argv) > 2 else "add 0 0"
+        source = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_OPERATION
         ops = parse_flame(source)
         module = emit_ir(ops)
         print("=== LLVM IR ===")
