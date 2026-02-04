@@ -1,0 +1,98 @@
+# SAGCO-MENU v1.1 - Tool Configuration
+# YAML-driven menu structure with categories, icons, and commands
+
+categories:
+  - name: "Network Analysis"
+    icon: "🌐"
+    tools:
+      - name: "Network Mapper"
+        description: "Map network topology and identify devices"
+        command: "python3 network_sovereignty_monitor.py"
+        icon: "🗺️"
+      
+      - name: "Traffic Monitor"
+        description: "Monitor network traffic in real-time"
+        command: "python3 network_sovereignty_monitor.py --monitor"
+        icon: "📊"
+      
+      - name: "Port Scanner"
+        description: "Scan for open ports and services"
+        command: "bash ps5_neural_commands.sh scan"
+        icon: "🔍"
+
+  - name: "Security Analysis"
+    icon: "🔐"
+    tools:
+      - name: "Vulnerability Scanner"
+        description: "Scan for security vulnerabilities"
+        command: "python3 eval_redteam.py"
+        icon: "🛡️"
+      
+      - name: "Security Benchmarks"
+        description: "Run comprehensive security tests"
+        command: "python3 benchmarks/test_security_analytics.py"
+        icon: "📈"
+      
+      - name: "LLM Safety Test"
+        description: "Test LLM security and safety measures"
+        command: "python3 benchmarks/test_llm_safety.py"
+        icon: "🤖"
+
+  - name: "System Operations"
+    icon: "⚙️"
+    tools:
+      - name: "Legion Orchestrator"
+        description: "Orchestrate Legion swarm operations"
+        command: "python3 legion_orchestrator.py"
+        icon: "🦅"
+      
+      - name: "Performance Oracle"
+        description: "Monitor and analyze system performance"
+        command: "python3 strategic_performance_oracle.py"
+        icon: "🔮"
+      
+      - name: "Antibody System"
+        description: "Deploy defensive antibody mechanisms"
+        command: "python3 antibody_system.py"
+        icon: "💉"
+
+  - name: "Intelligence Gathering"
+    icon: "🕵️"
+    tools:
+      - name: "Web Crawler"
+        description: "Crawl and extract web intelligence"
+        command: "python3 crawler/crawl.py"
+        icon: "🕸️"
+      
+      - name: "Video Intelligence"
+        description: "Extract intelligence from video sources"
+        command: "python3 video_source_recon.py"
+        icon: "📹"
+      
+      - name: "XCOM Parser"
+        description: "Parse XCOM intelligence data"
+        command: "python3 xcom_intelligence_parser.py"
+        icon: "📡"
+
+  - name: "Deployment & Infrastructure"
+    icon: "🚀"
+    tools:
+      - name: "Quick Deploy"
+        description: "Rapid deployment of core infrastructure"
+        command: "bash quick-deploy.sh"
+        icon: "⚡"
+      
+      - name: "Deploy Empire"
+        description: "Deploy the full sovereignty empire"
+        command: "bash deploy-empire.sh"
+        icon: "👑"
+      
+      - name: "Deploy Legion"
+        description: "Deploy Legion swarm components"
+        command: "bash deploy_legion.sh"
+        icon: "🦅"
+      
+      - name: "Status Check"
+        description: "Check system and deployment status"
+        command: "bash status-check.sh"
+        icon: "✅"
