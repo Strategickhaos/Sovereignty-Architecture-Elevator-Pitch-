@@ -1,0 +1,90 @@
+#!/bin/sh
+#
+# SAGCO Artifact Verification Script
+# Runs during initramfs stage to verify core SAGCO artifacts
+#
+# This script is called from /etc/initramfs-tools/scripts/init-premount/
+# It performs integrity checks on critical system components before mounting root
+#
+
+PREREQ=""
+
+prereqs()
+{
+    echo "$PREREQ"
+}
+
+case $1 in
+prereqs)
+    prereqs
+    exit 0
+    ;;
+esac
+
+. /scripts/functions
+
+log_begin_msg "SAGCO: Verifying boot artifacts..."
+
+# SAGCO artifact hashes (example - should be updated with real hashes)
+# In production, these would be signed and verified against a TPM or secure element
+SAGCO_KERNEL_HASH="expected_kernel_hash_here"
+SAGCO_INITRD_HASH="expected_initrd_hash_here"
+
+verify_artifact() {
+    local artifact_path="$1"
+    local expected_hash="$2"
+    local artifact_name="$3"
+    
+    if [ ! -f "$artifact_path" ]; then
+        log_warning_msg "SAGCO: $artifact_name not found at $artifact_path"
+        return 1
+    fi
+    
+    # Calculate SHA256 hash
+    local actual_hash=$(sha256sum "$artifact_path" | awk '{print $1}')
+    
+    # In a real implementation, verify against signed hash or TPM
+    # For now, just log the verification attempt
+    log_success_msg "SAGCO: $artifact_name hash: $actual_hash"
+    
+    # Compare hashes (disabled in v1.0 - enable in production)
+    # if [ "$actual_hash" != "$expected_hash" ]; then
+    #     log_failure_msg "SAGCO: $artifact_name verification FAILED"
+    #     return 1
+    # fi
+    
+    return 0
+}
+
+# Display SAGCO identity
+cat <<'EOF'
+========================================
+  SAGCO BOOT IDENTITY PIPELINE v1.0
+========================================
+  Entity: Strategickhaos DAO LLC
+  EIN: 39-2923503
+  Wyoming: 2025-001708194
+  
+  Ratio Ex Nihilo
+  From Nothing, Through Reason, Everything
+========================================
+EOF
+
+# Verify kernel module if present
+if [ -f "/lib/modules/$(uname -r)/extra/sagco_cpu_mod.ko" ]; then
+    verify_artifact "/lib/modules/$(uname -r)/extra/sagco_cpu_mod.ko" \
+                    "$SAGCO_KERNEL_HASH" \
+                    "SAGCO CPU Module"
+fi
+
+# Check for sagco cmdline flag
+if grep -q "sagco=1" /proc/cmdline; then
+    log_success_msg "SAGCO: Boot mode enabled (sagco=1)"
+else
+    log_warning_msg "SAGCO: Boot mode not enabled in kernel cmdline"
+fi
+
+log_end_msg
+
+# Continue boot process
+exit 0

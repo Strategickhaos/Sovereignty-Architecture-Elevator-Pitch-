@@ -1,0 +1,21 @@
+[Unit]
+Description=SAGCO Identity Banner Display
+Documentation=https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
+After=multi-user.target
+PartOf=sagco.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sagco-banner
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+# Security hardening
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=sagco.target multi-user.target

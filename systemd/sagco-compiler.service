@@ -1,0 +1,28 @@
+[Unit]
+Description=SAGCO FlameLang Compiler Service
+Documentation=https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
+After=sagco-runtime.service
+Requires=sagco-runtime.service
+PartOf=sagco.target
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/sagco-compiler
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+
+# Environment
+Environment="SAGCO_COMPILER=flamelang"
+Environment="LLVM_PATH=/usr/lib/llvm-14"
+Environment="SAGCO_ROOT=/opt/sagco"
+
+# Security hardening
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/sagco
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=sagco.target multi-user.target

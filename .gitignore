@@ -35,3 +35,16 @@ target/
 
 # Workspace data
 workspace/
+
+# Kernel module build artifacts
+*.ko
+*.o
+*.mod
+*.mod.c
+*.cmd
+.tmp_versions/
+Module.symvers
+modules.order
+
+# SAGCO runtime data
+/opt/sagco/

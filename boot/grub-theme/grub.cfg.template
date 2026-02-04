@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# GRUB Configuration Template for SAGCO Boot Identity Pipeline
+# 
+# This file should be used to update /etc/default/grub
+# Run 'update-grub' after modifying /etc/default/grub
+#
+
+# Kernel command line options
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash sagco=1"
+
+# SAGCO GRUB theme
+GRUB_THEME="/boot/grub/themes/sagco/theme.txt"
+
+# Timeout (in seconds)
+GRUB_TIMEOUT=5
+
+# Boot menu resolution
+GRUB_GFXMODE=1024x768
+
+# Terminal settings
+GRUB_TERMINAL_OUTPUT="gfxterm"
+
+# Disable OS prober if you only have one OS
+#GRUB_DISABLE_OS_PROBER=true
+
+# Additional notes:
+# 1. Copy theme files to /boot/grub/themes/sagco/
+# 2. Merge these settings into /etc/default/grub
+# 3. Run: sudo update-grub
+# 4. Reboot to see SAGCO boot identity

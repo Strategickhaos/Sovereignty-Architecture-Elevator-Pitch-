@@ -1,0 +1,23 @@
+[Unit]
+Description=SAGCO CPU Kernel Module Interface
+Documentation=https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
+After=systemd-modules-load.service
+PartOf=sagco.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sagco-cpu-init
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+# Ensure kernel module is loaded
+ExecStartPre=/sbin/modprobe sagco_cpu_mod
+
+# Security
+PrivateTmp=yes
+ProtectSystem=strict
+NoNewPrivileges=no
+
+[Install]
+WantedBy=sagco.target multi-user.target

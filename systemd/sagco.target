@@ -1,0 +1,8 @@
+[Unit]
+Description=SAGCO Boot Identity Pipeline Target
+Documentation=https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
+After=multi-user.target
+Wants=sagco-banner.service sagco-cpu.service sagco-runtime.service sagco-compiler.service
+
+[Install]
+WantedBy=multi-user.target
