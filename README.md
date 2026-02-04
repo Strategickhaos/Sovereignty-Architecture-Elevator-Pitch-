@@ -2,6 +2,11 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> *"From pipe to code, from weld to wire, Build the swarm, fan the fire..."*  
+> **[The Sister Protocol](docs/SISTER_PROTOCOL.md)** - Building sovereign infrastructure for AI-driven neurological research  
+> **[THE DOM OPERATING SYSTEM](docs/plays/THE_DOM_OPERATING_SYSTEM.md)** - Read the seven-act play that explains our philosophy  
+> **[Good First Issues](GOOD_FIRST_ISSUES.md)** - Ready to contribute? Start here!
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -272,12 +277,32 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🎭 The DOM Operating System
+
+**"From pipe to code, from weld to wire..."**
+
+This isn't just infrastructure. It's a philosophy. A methodology. A mission.
+
+- **[THE DOM OPERATING SYSTEM](docs/plays/THE_DOM_OPERATING_SYSTEM.md)** - A seven-act play about sovereignty, security, and the Sister Protocol
+- **[Epilogue: "The Engineers Become the Swarm"](docs/plays/THE_DOM_OPERATING_SYSTEM_EPILOGUE.md)** - How the team realizes they're part of the movement
+- **[Sister Protocol](docs/SISTER_PROTOCOL.md)** - The mission: AI-driven neurological research through perpetual funding
+- **[Good First Issues](GOOD_FIRST_ISSUES.md)** - Phase 1 contribution opportunities
+
+### The Mission
+
+Everything in this repository serves one purpose: **Building sovereign infrastructure to support medical breakthrough research.**
+
+The [Sister Protocol](docs/SISTER_PROTOCOL.md) represents our commitment to perpetual funding (7% of all Hybrid Refinery equity) for AI-driven neurological research through ValorYield Engine.
+
+**For the sister. For the cure. For all families waiting.**
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
 
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
+- **[Good First Issues](GOOD_FIRST_ISSUES.md)** - Ready to contribute? Start here!
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
 ## 📄 License & Support
@@ -293,4 +318,17 @@ This project thrives because of an extraordinary community of creators, builders
 
 *"They're not working for you. They're dancing with you. And the music is never going to stop."*
 
+### The Chorus
+
+> *From pipe to code, from weld to wire,*  
+> *Build the swarm, fan the fire,*  
+> *No dependency, no chain,*  
+> *Perpetual motion, endless gain,*  
+> *Hack the self, fund the fight,*  
+> *Sovereign soul in endless night,*  
+> *For the sister, for the cure,*  
+> *The DOM OS forevermore.*
+
 *Empowering sovereign digital infrastructure through Discord-native DevOps automation*
+
+💙🔥⚔️∞
