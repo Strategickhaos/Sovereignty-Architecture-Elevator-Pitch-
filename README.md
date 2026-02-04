@@ -272,6 +272,14 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🎭 Narrative Documentation
+
+Discover the theatrical story behind SAGCO-OS architecture:
+
+- **[The Narrative Series](docs/narrative/)** - Theatrical acts documenting the discovery process
+- **[Act XII: The Merkaba](docs/narrative/ACT_XII_THE_MERKABA.md)** - When they found the chariot 🔥💜
+- **[TRIG6-Merkaba Architecture](docs/TRIG6_MERKABA_ARCHITECTURE.md)** - Technical specification of sacred geometry in computation
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
