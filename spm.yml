@@ -1,0 +1,131 @@
+spm_version: "1.0"
+identity:
+  name: "SAGCO OS"
+  codename: "Ratio Ex Nihilo"
+  version: "1.0.0"
+  motto: "Ratio Ex Nihilo"
+  build_id: "INV-099"
+  banner_ascii: "assets/banner.ascii"  # ASCII art file
+  wallpaper: "assets/ratio_ex_nihilo.png"  # Emblem image from your upload
+
+targets:
+  distro:
+    family: "debian"
+    base: "kali"
+    suite: "kali-rolling"
+  arch: ["amd64"]
+
+repos:
+  apt:
+    - name: "kali"
+      line: "deb http://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware"
+      keyring: "/usr/share/keyrings/kali-archive-keyring.gpg"
+
+packages:
+  apt:
+    core:
+      - git
+      - curl
+      - wget
+      - python3
+      - python3-venv
+      - python3-pip
+      - build-essential
+      - jq
+      - tmux
+      - zsh
+      - plymouth  # For boot splash
+      - plymouth-themes
+    security:
+      - nmap
+      - wireshark
+      - metasploit-framework
+      - sqlmap
+      - gobuster
+    ops:
+      - docker.io
+      - docker-compose
+      - podman
+      - qemu-system-x86
+  pip:
+    global:
+      - rich
+      - typer
+      - pyyaml
+      - requests
+
+groups:
+  sagco-core:
+    description: "Baseline SAGCO toolchain + UI"
+    includes: ["core", "ops"]
+  sagco-redteam:
+    description: "Offensive tool pack"
+    includes: ["security"]
+
+services:
+  systemd:
+    enable:
+      - sagco-banner.service
+      - sagco-runtime.service
+    files:
+      sagco-banner.service: "services/sagco-banner.service"
+      sagco-runtime.service: "services/sagco-runtime.service"
+
+ui:
+  boot:
+    splash:
+      enabled: true
+      method: "plymouth"
+      theme: "sagco"
+      theme_dir: "ui/plymouth/sagco"  # Where emblem PNG goes
+  login:
+    motd: "ui/motd"
+    issue: "ui/issue"
+  shell:
+    default: "zsh"
+    zshrc: "ui/zshrc"
+  terminal:
+    prompt_theme: "sagco"
+
+files:
+  copy:
+    - src: "assets/banner.ascii"
+      dst: "/opt/sagco/assets/banner.ascii"
+      mode: "0644"
+    - src: "assets/ratio_ex_nihilo.png"
+      dst: "/opt/sagco/assets/ratio_ex_nihilo.png"
+      mode: "0644"
+    - src: "ui/motd"
+      dst: "/etc/motd"
+      mode: "0644"
+    - src: "ui/issue"
+      dst: "/etc/issue"
+      mode: "0644"
+    - src: "ui/plymouth/sagco/*"
+      dst: "/usr/share/plymouth/themes/sagco/"
+      mode: "0755"  # For theme dir
+
+commands:
+  post_install:
+    - "update-alternatives --set editor /usr/bin/vim.basic || true"
+    - "python3 -m venv /opt/sagco/venv"
+    - "touch /opt/sagco/requirements.txt"
+    - "/opt/sagco/venv/bin/pip install rich typer pyyaml requests || true"
+    - "plymouth-set-default-theme -R sagco || true"  # Rebuild initramfs with theme
+    - "systemctl daemon-reload"
+    - "systemctl enable sagco-banner.service || true"
+    - "systemctl enable sagco-runtime.service || true"
+
+verification:
+  commands:
+    - "python3 --version"
+    - "nmap --version || echo 'nmap not installed'"
+    - "plymouth-set-default-theme || echo 'plymouth not configured'"
+    - "systemctl is-enabled sagco-banner.service || echo 'sagco-banner not enabled'"
+  output:
+    log: "/var/log/sagco/spm_verify.log"
+    manifest: "/var/lib/sagco/spm_installed.json"
+
+artifacts:
+  log_dir: "/var/log/sagco"
+  state_dir: "/var/lib/sagco"

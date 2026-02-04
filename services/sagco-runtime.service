@@ -1,0 +1,15 @@
+[Unit]
+Description=SAGCO Runtime
+After=network.target
+
+[Service]
+Type=simple
+# Placeholder - replace with actual runtime script path
+ExecStart=/bin/bash -c 'echo "SAGCO Runtime initialized"; while true; do sleep 3600; done'
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

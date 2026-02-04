@@ -1,0 +1,13 @@
+[Unit]
+Description=SAGCO Boot Banner
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'if [ -f /opt/sagco/assets/banner.ascii ]; then cat /opt/sagco/assets/banner.ascii; fi; echo "SAGCO OS v1.0 - Ratio Ex Nihilo"; command -v neofetch >/dev/null 2>&1 && neofetch || echo "System ready."'
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
