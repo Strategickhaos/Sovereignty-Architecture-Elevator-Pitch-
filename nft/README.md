@@ -43,14 +43,25 @@ Each NFT's metadata follows the ERC-721/ERC-1155 standard and is stored in `/nft
 - **Primary Geometry**: Metatron's Cube
 - **Rarity**: Epic (1/1)
 - **Description**: Electric blue Metatron's Cube suspended in a golden astronomical ring with six golden spheres marking vertices like celestial bodies
+- **Status**: ⚠️ Awaiting IPFS artwork upload (placeholder CID in metadata)
 
 ## Adding New Tokens
 
 1. Create a new JSON file in `/nft/metadata/` named `{token_id}.json`
 2. Follow the metadata structure shown in existing files
 3. Ensure all required fields are present
-4. Validate JSON syntax: `cat nft/metadata/{token_id}.json | python3 -m json.tool`
-5. Update this README with the new token information
+4. **Important**: Use `"ipfs://REPLACE_WITH_CID"` as a placeholder until artwork is uploaded to IPFS
+5. Validate JSON syntax: `cat nft/metadata/{token_id}.json | python3 -m json.tool`
+6. Update this README with the new token information
+
+### Pre-Deployment Checklist
+
+Before deploying metadata to production:
+- [ ] Replace `REPLACE_WITH_CID` with actual IPFS CID of the artwork
+- [ ] Verify IPFS link is accessible
+- [ ] Confirm all attributes are accurate
+- [ ] Test metadata on NFT marketplace testnet
+- [ ] Update external_url to match deployment
 
 ## Related Documents
 
