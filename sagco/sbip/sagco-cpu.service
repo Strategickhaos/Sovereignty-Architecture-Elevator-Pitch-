@@ -1,0 +1,50 @@
+[Unit]
+Description=SAGCO CPU VM Daemon
+Documentation=https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
+After=network.target
+Wants=network.target
+ConditionPathExists=/opt/sagco/vm/sagco_cpu_vm.py
+
+[Service]
+Type=simple
+User=sagco
+Group=sagco
+WorkingDirectory=/opt/sagco
+Environment="PYTHONUNBUFFERED=1"
+ExecStartPre=/bin/mkdir -p /opt/sagco/artifacts
+ExecStartPre=/bin/chown -R sagco:sagco /opt/sagco/artifacts
+ExecStart=/usr/bin/python3 /opt/sagco/vm/sagco_cpu_vm.py --daemon --load-dir /opt/sagco/artifacts
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/sagco/artifacts
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+
+# Resource limits
+MemoryLimit=512M
+TasksMax=10
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sagco-cpu-vm
+
+[Install]
+WantedBy=multi-user.target
