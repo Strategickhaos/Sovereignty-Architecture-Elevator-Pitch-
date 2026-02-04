@@ -52,3 +52,4 @@ modules.order
 *.ll
 *.bc
 *.s
+__pycache__/
