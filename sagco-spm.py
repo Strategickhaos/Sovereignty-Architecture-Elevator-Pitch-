@@ -47,6 +47,20 @@ def run_command(cmd, desc):
         raise
 
 
+def set_permissions_recursive(path, mode):
+    """Set permissions recursively for a directory and its contents."""
+    mode_int = int(mode, 8)
+    if os.path.isdir(path):
+        os.chmod(path, mode_int)
+        for root, dirs, files in os.walk(path):
+            for d in dirs:
+                os.chmod(os.path.join(root, d), mode_int)
+            for f in files:
+                os.chmod(os.path.join(root, f), mode_int)
+    else:
+        os.chmod(path, mode_int)
+
+
 def main(yaml_file):
     """Main provisioning logic."""
     console.print(f"[bold blue]SAGCO SPM Runner v1.0[/bold blue]")
@@ -119,12 +133,7 @@ def main(yaml_file):
                         if os.path.exists(src_base) and os.path.isdir(src_base):
                             shutil.copytree(src_base, dst, dirs_exist_ok=True)
                             # Set permissions for the directory and its contents
-                            os.chmod(dst, int(mode, 8))
-                            for root, dirs, files in os.walk(dst):
-                                for d in dirs:
-                                    os.chmod(os.path.join(root, d), int(mode, 8))
-                                for f in files:
-                                    os.chmod(os.path.join(root, f), int(mode, 8))
+                            set_permissions_recursive(dst, mode)
                         else:
                             console.print(f"[yellow]Warning:[/yellow] Source directory not found: {src_base}")
                     else:

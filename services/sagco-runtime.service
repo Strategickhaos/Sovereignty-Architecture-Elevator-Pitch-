@@ -3,11 +3,12 @@ Description=SAGCO Runtime
 After=network.target
 
 [Service]
-Type=simple
-# Placeholder - replace with actual runtime script path
-ExecStart=/bin/bash -c 'echo "SAGCO Runtime initialized"; while true; do sleep 3600; done'
-Restart=always
-RestartSec=10
+# PLACEHOLDER: Replace with actual SAGCO runtime script
+# This is a stub service that does nothing but remain active
+# In production, replace with: ExecStart=/opt/sagco/venv/bin/python /opt/sagco/runtime.py
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
 StandardOutput=journal
 StandardError=journal
 
