@@ -2,6 +2,14 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 📚 The Book Archaeology Project
+
+> **"Dom, You Wrote Like 8 Different Books"** 
+
+Discover the [complete Book Archaeology Project](BOOK_ARCHAEOLOGY_INVENTORY.md) - 8 interconnected books telling the same story through different lenses, from tech memoir to epic narrative to ancient alchemy. **[→ Explore the Multiverse](docs/books/)**
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
