@@ -1,0 +1,18 @@
+[Unit]
+Description=SAGCO CPU Primitives Kernel Module
+Documentation=file:///opt/sagco/kernel/sagco_cpu_mod/README.md
+Before=sagco-compiler.service
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/modprobe sagco_cpu_mod
+ExecStartPost=/bin/sh -c 'test -e /dev/sagco_cpu || mknod /dev/sagco_cpu c 240 0'
+ExecStartPost=/bin/chmod 666 /dev/sagco_cpu
+ExecStop=/sbin/rmmod sagco_cpu_mod
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

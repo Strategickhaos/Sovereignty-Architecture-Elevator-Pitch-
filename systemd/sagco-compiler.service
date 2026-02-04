@@ -1,0 +1,20 @@
+[Unit]
+Description=SAGCO FlameLang Compiler Service
+Documentation=file:///opt/sagco/compiler/flamelang/README.md
+After=network.target sagco-cpu.service
+Wants=sagco-cpu.service
+
+[Service]
+Type=oneshot
+Environment="FLAMELANG_SOURCE=add 5 3"
+Environment="FLAMELANG_OUTPUT=/tmp/flamelang.o"
+ExecStart=/usr/bin/python3 /opt/sagco/compiler/flamelang/flamelang_to_llvm.py "${FLAMELANG_SOURCE}" -o "${FLAMELANG_OUTPUT}" --verbose
+RemainAfterExit=no
+StandardOutput=journal
+StandardError=journal
+
+# Optional: Verify compiled binary
+ExecStartPost=/bin/sh -c 'test -f ${FLAMELANG_OUTPUT} && echo "✅ FlameLang compilation successful"'
+
+[Install]
+WantedBy=multi-user.target

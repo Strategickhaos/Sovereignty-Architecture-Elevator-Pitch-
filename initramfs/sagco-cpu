@@ -1,0 +1,39 @@
+#!/bin/sh
+# SAGCO CPU Module Loader for Initramfs
+# Install to: /etc/initramfs-tools/scripts/init-top/sagco-cpu
+# Usage: chmod +x sagco-cpu && update-initramfs -u
+
+PREREQ=""
+
+prereqs()
+{
+    echo "$PREREQ"
+}
+
+case $1 in
+prereqs)
+    prereqs
+    exit 0
+    ;;
+esac
+
+# Load SAGCO CPU primitives module
+echo "Loading SAGCO CPU primitives module..."
+modprobe sagco_cpu_mod 2>/dev/null || {
+    echo "Warning: Failed to load sagco_cpu_mod module" >&2
+    exit 0
+}
+
+# Create device node if not exists
+if [ ! -e /dev/sagco_cpu ]; then
+    echo "Creating /dev/sagco_cpu device node..."
+    mknod /dev/sagco_cpu c 240 0 || {
+        echo "Warning: Failed to create /dev/sagco_cpu device node" >&2
+        exit 0
+    }
+    chmod 666 /dev/sagco_cpu
+fi
+
+echo "✅ SAGCO CPU module loaded - Ratio Ex Nihilo"
+
+exit 0
