@@ -102,6 +102,7 @@ static long sagco_ioctl(struct file *file, unsigned int cmd, unsigned long arg) 
 
             case OP_SUB:
                 if (sp < 2) {
+                    printk(KERN_WARNING "SAGCO_CPU: Stack underflow on SUB\n");
                     return -EINVAL;
                 }
                 stack[sp - 2] -= stack[sp - 1];
@@ -110,6 +111,7 @@ static long sagco_ioctl(struct file *file, unsigned int cmd, unsigned long arg) 
 
             case OP_MUL:
                 if (sp < 2) {
+                    printk(KERN_WARNING "SAGCO_CPU: Stack underflow on MUL\n");
                     return -EINVAL;
                 }
                 stack[sp - 2] *= stack[sp - 1];
