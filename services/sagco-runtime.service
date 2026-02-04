@@ -1,0 +1,29 @@
+[Unit]
+Description=SAGCO Sovereign Runtime Environment
+Documentation=file:///usr/share/doc/sagco/SBIP_SPEC_v1.0.md
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/sagco-runtime
+Restart=on-failure
+RestartSec=10s
+StandardOutput=journal
+StandardError=journal
+User=root
+Group=root
+
+# Security hardening
+PrivateTmp=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/sagco /var/log/sagco
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target

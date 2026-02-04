@@ -1,0 +1,27 @@
+[Unit]
+Description=SAGCO Deterministic Compiler Service
+Documentation=file:///usr/share/doc/sagco/SBIP_SPEC_v1.0.md
+After=network.target sagco-runtime.service
+Requires=sagco-runtime.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sagco-compiler-bootstrap
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+User=root
+Group=root
+
+# Verify LLVM toolchain is available
+ExecStartPre=/usr/bin/which clang
+ExecStartPre=/usr/bin/which llvm-link
+ExecStartPre=/usr/bin/which opt
+
+# Security hardening
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/sagco /usr/local/lib/sagco
+
+[Install]
+WantedBy=multi-user.target
