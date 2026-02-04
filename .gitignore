@@ -35,3 +35,6 @@ target/
 
 # Workspace data
 workspace/
+
+# SAGCO menu state (user-specific data)
+opt/sagco/menu_state.json
