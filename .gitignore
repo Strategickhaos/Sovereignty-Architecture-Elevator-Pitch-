@@ -35,3 +35,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Invention Incubator outputs
+invention_synthesis_*.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
