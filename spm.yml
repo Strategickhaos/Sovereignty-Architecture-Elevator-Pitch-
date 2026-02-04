@@ -103,7 +103,7 @@ files:
       mode: "0644"
     - src: "ui/plymouth/sagco/*"
       dst: "/usr/share/plymouth/themes/sagco/"
-      mode: "0755"  # For theme dir
+      mode: "0644"  # Plymouth theme files should be readable, not executable
 
 commands:
   post_install:
