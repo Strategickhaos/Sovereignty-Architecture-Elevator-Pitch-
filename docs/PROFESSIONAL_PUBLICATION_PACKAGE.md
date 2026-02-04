@@ -160,12 +160,12 @@ Repository: https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-
 ### BibTeX Entry
 
 ```bibtex
-@mastersthesis{garza2026dsa,
+@phdthesis{garza2026dsa,
   author = {Garza, Domenic G.},
   title = {Dramatic Systems Archaeology (DSA) and the SAGCO Boot Identity Pipeline (SBIP): Artifact-driven discovery, verification, and bootstrapped toolchain initialization},
   school = {Southern New Hampshire University},
   year = {2026},
-  type = {Capstone project manuscript},
+  type = {Bachelor's Capstone Project Manuscript},
   keywords = {systems archaeology, software verification, boot security, provenance, artifact analysis, toolchain initialization, SAGCO-OS, cybersecurity, identity verification, development methodology},
   url = {https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-},
   note = {ORCID: 0009-0005-2996-3526}
