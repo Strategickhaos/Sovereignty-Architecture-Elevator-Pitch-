@@ -1,0 +1,38 @@
+tools:
+  order: ["core-tools", "security-tools", "ops-tools"]  # Category order
+  core-tools:
+    icon: "🛠️"
+    description: "Core Utilities"
+    items:
+      - name: "Git"
+        icon: "📂"
+        command: "git --version"
+        description: "Version control"
+      - name: "TMUX"
+        icon: "📺"
+        command: "tmux"
+        description: "Terminal multiplexer"
+  security-tools:
+    icon: "🔒"
+    description: "Security Tools"
+    items:
+      - name: "Nmap"
+        icon: "🌐"
+        command: "nmap -h"
+        description: "Network scanner"
+      - name: "Metasploit"
+        icon: "💥"
+        command: "msfconsole"
+        description: "Exploitation framework"
+  ops-tools:
+    icon: "⚙️"
+    description: "Operations Tools"
+    items:
+      - name: "Docker"
+        icon: "🐳"
+        command: "docker ps"
+        description: "Container management"
+      - name: "QEMU"
+        icon: "🖥️"
+        command: "qemu-system-x86_64 --version"
+        description: "VM emulator"
