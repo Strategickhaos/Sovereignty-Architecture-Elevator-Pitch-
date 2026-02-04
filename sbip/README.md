@@ -77,13 +77,13 @@ The SAGCO-CPU is a **bytecode interpreter/VM layer** (not hardware, not kernel m
 
 See [INSTALL.md](INSTALL.md) for complete instructions.
 
-Quick install (requires root):
+**Quick install (requires root):**
 ```bash
 cd sbip
-sudo ./install.sh  # TODO: Create automated install script
+sudo ./install.sh
 ```
 
-Manual install:
+**Automated install:**
 ```bash
 # 1. Install bootloader theme
 sudo cp -r boot/grub/themes/sagco /boot/grub/themes/
@@ -190,7 +190,6 @@ sbip/
 - Implement actual FlameLang compiler
 - Implement actual SAGCO-CPU VM
 - Add cryptographic signing
-- Create automated install script
 - Build full ISO with SBIP pre-configured
 
 ## Integration
