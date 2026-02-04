@@ -2,6 +2,8 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> **"I don't need to be right — I need the loop to work."** - [Architecture Philosophy](ARCHITECTURE_PHILOSOPHY.md)
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -276,6 +278,7 @@ curl -X POST https://events.strategickhaos.com/health
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
 
+- **[Architecture Philosophy](ARCHITECTURE_PHILOSOPHY.md)** - The core principle: "I don't need to be right — I need the loop to work."
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
