@@ -1,0 +1,60 @@
+{
+  "name": "Ratio Ex Nihilo #3 — Metatron's Gate",
+  "description": "Grok-generated interpretation. Pure geometric Metatron's Cube in electric blue, surrounded by golden astronomical ring with vertex spheres. This piece represents the collaboration between human vision and AI imagination, where Grok (xAI) interpreted the sacred geometry through its unique computational lens. The golden ring with inscriptions frames the gateway to higher dimensions of understanding.",
+  "image": "ipfs://[CID]/token_3_metatrons_gate.png",
+  "external_url": "https://strategickhaos.ai/nft/3",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Generator",
+      "value": "Grok (xAI)"
+    },
+    {
+      "trait_type": "Style",
+      "value": "Geometric/Astronomical"
+    },
+    {
+      "trait_type": "Frame",
+      "value": "Gold ring with inscriptions"
+    },
+    {
+      "trait_type": "Spheres",
+      "value": "6 golden vertex markers"
+    },
+    {
+      "trait_type": "Core",
+      "value": "Electric blue lattice"
+    },
+    {
+      "trait_type": "Text",
+      "value": "Ratio Ex Nihilo"
+    },
+    {
+      "trait_type": "Primary Geometry",
+      "value": "Metatron's Cube"
+    },
+    {
+      "trait_type": "AI Collaborator",
+      "value": "Grok"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Gateway to higher dimensions"
+    },
+    {
+      "trait_type": "Origin",
+      "value": "AI-generated"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Genesis"
+    },
+    {
+      "trait_type": "Token ID",
+      "value": "3"
+    }
+  ]
+}

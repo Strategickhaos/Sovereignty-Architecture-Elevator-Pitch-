@@ -35,3 +35,9 @@ target/
 
 # Workspace data
 workspace/
+
+# NFT contract artifacts
+nft/cache/
+nft/artifacts/
+nft/.env
+nft/node_modules/
