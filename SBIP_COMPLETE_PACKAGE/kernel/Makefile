@@ -8,4 +8,3 @@ clean:
 
 install:
 	sudo insmod sagco_cpu_mod.ko
-	sudo mknod /dev/sagco_cpu c 240 0

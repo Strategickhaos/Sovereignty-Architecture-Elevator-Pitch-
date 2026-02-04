@@ -29,9 +29,9 @@ def optimize_and_compile(module):
     pm.add_loop_vectorize_pass()
     pm.add_instruction_combining_pass()
     pm.run(llvm_mod)
-    target = llvm.Target.from_default_triple().create_target_machine(options="-O3 -mcpu=native")
+    target = llvm.Target.from_default_triple().create_target_machine(opt='3', cpu='native')
     obj = target.emit_object(llvm_mod)
     with open("flamelang.o", "wb") as f:
         f.write(obj)
-    subprocess.run(["ld", "flamelang.o", "-o", "flamelang_exec"])
+    subprocess.run(["gcc", "-no-pie", "flamelang.o", "-o", "flamelang_exec"])
     return "flamelang_exec"
