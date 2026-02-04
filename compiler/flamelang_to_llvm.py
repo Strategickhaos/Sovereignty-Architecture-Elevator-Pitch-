@@ -36,8 +36,20 @@ entry:
     
     # Step 2: Compile LLVM IR to object file
     print("Generating object file...")
+    
+    # Try to find LLVM tools (may have version suffix)
+    llvm_as = "llvm-as"
+    llc = "llc"
+    
+    # Check for versioned tools
+    for version in ["18", "17", "16", "15", "14"]:
+        if subprocess.run(["which", f"llvm-as-{version}"], capture_output=True).returncode == 0:
+            llvm_as = f"llvm-as-{version}"
+            llc = f"llc-{version}"
+            break
+    
     result = subprocess.run(
-        ["llvm-as", "flamelang.ll", "-o", "flamelang.bc"],
+        [llvm_as, "flamelang.ll", "-o", "flamelang.bc"],
         capture_output=True,
         text=True
     )
@@ -47,7 +59,7 @@ entry:
         sys.exit(1)
     
     result = subprocess.run(
-        ["llc", "-filetype=obj", "flamelang.bc", "-o", "flamelang.o"],
+        [llc, "-filetype=obj", "flamelang.bc", "-o", "flamelang.o"],
         capture_output=True,
         text=True
     )
