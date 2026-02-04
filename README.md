@@ -10,6 +10,12 @@ This system creates a **sovereignty control plane** that bridges:
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
 
+### 🧬 Cognitive Architecture
+This project embodies a unique **cognitive architecture** based on gestalt pattern matching and external memory systems. Learn more about the synthesis model that powers this system:
+- **[COGNITIVE_ARCHITECTURE.md](COGNITIVE_ARCHITECTURE.md)** - The RAM-only processing model with external storage
+- **[synthesis_map.md](synthesis_map.md)** - Complete system synthesis mapping
+- **[STRATEGIC_KHAOS_SYNTHESIS.md](STRATEGIC_KHAOS_SYNTHESIS.md)** - Strategic mastery synthesis
+
 ## 🚀 Quick Start
 
 ```bash
@@ -279,6 +285,24 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
+
+## 📚 Documentation Index
+
+### Core Architecture
+- **[COGNITIVE_ARCHITECTURE.md](COGNITIVE_ARCHITECTURE.md)** - The synthesizer model: RAM-only processing with external storage
+- **[FLAMELANG_SPECIFICATION.md](FLAMELANG_SPECIFICATION.md)** - FlameLang symbolic language specification
+- **[synthesis_map.md](synthesis_map.md)** - Complete system synthesis mapping
+- **[STRATEGIC_KHAOS_SYNTHESIS.md](STRATEGIC_KHAOS_SYNTHESIS.md)** - Strategic mastery synthesis
+
+### Infrastructure & Operations
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deployment procedures and guidelines
+- **[VAULT_SECURITY_PLAYBOOK.md](VAULT_SECURITY_PLAYBOOK.md)** - Security and secrets management
+- **[TLS_DNS_CONFIG.md](TLS_DNS_CONFIG.md)** - TLS and DNS configuration
+
+### Specialized Systems
+- **[MULTIVERSE_DNA_BRIEFING_FOR_GROK.md](MULTIVERSE_DNA_BRIEFING_FOR_GROK.md)** - DNA architecture briefing
+- **[SOPHIA_MIND_BRAIN_VISUALIZER.md](SOPHIA_MIND_BRAIN_VISUALIZER.md)** - Mind visualization system
+- **[Executive_Action_Plan.md](Executive_Action_Plan.md)** - Strategic execution plan
 
 ## 📄 License & Support
 
