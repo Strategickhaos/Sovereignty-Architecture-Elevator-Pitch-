@@ -280,6 +280,15 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📚 Academic & Research Documentation
+
+This repository includes formal academic documentation for novel methodologies developed within the Strategickhaos ecosystem:
+
+- **[DSA Capstone Introduction](docs/DSA_CAPSTONE_INTRODUCTION.md)** - Formal introduction to Dramatic Systems Archaeology (DSA), a methodological framework for artifact-driven discovery and verification of complex systems
+- **[DSA Formal Specification](docs/DSA_FORMAL_SPECIFICATION.md)** - Complete technical specification including grammar, validation constraints, and generation algorithms
+
+These documents are capstone-ready, lawyer-reviewable, and patent-adjacent while maintaining academic rigor suitable for faculty review and IP discussions.
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
