@@ -10,6 +10,26 @@ This system creates a **sovereignty control plane** that bridges:
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
 
+## 📖 Discovery Story Arc (DSA) Specification
+
+This repository includes the **Discovery Story Arc (DSA)** — a formal narrative protocol for documenting complex system discoveries through constrained, artifact-backed storytelling.
+
+**Quick Links:**
+- 📘 **[DSA Specification](./DSA_SPECIFICATION.md)** — Complete formal grammar and semantics
+- 🚀 **[Quick Start Guide](./DSA_QUICK_START.md)** — Learn DSA in 5 minutes
+- ✅ **[Linter Checklist](./DSA_LINTER_CHECKLIST.md)** — Validation reference
+- 💡 **[Hello World Example](./DSA_HELLO_WORLD_EXAMPLE.md)** — Canonical minimal DSA
+
+**Key Features:**
+- **Formal EBNF Grammar** — Precise syntax for 7-Act narrative structure
+- **Role-Bounded Narration** — No omniscient claims, only attributed observations
+- **Artifact Fidelity Tiers** — 3-tier evidence classification (Executable/Observable/Testimonial)
+- **Escalation Invariant** — Each Act deepens without contradicting previous Acts
+- **Chorus Checksum** — Semantic integrity verification through compressed synthesis
+- **Caveman Gate Detection** — Automatic failure mode identification
+
+**Use Cases:** Incident postmortems, security audits, legal discovery, medical case studies, system architecture documentation, scientific research narratives.
+
 ## 🚀 Quick Start
 
 ```bash
