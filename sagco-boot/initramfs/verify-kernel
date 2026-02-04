@@ -32,10 +32,12 @@ if [ ! -f "$PUBKEY_PATH" ]; then
 fi
 
 # Import public key (if not already imported)
-gpg --import "$PUBKEY_PATH" 2>/dev/null
+if ! gpg --import "$PUBKEY_PATH" 2>/dev/null; then
+    echo "WARNING: Failed to import GPG key, verification may fail"
+fi
 
-# Verify signature
-if gpg --verify "$SIGNATURE_PATH" "$KERNEL_PATH" 2>&1 | grep -q "Good signature"; then
+# Verify signature - check exit code directly instead of parsing output
+if gpg --verify "$SIGNATURE_PATH" "$KERNEL_PATH" 2>/dev/null; then
     exit 0
 else
     echo "ERROR: GPG verification failed"
