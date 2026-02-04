@@ -110,7 +110,7 @@ TRIG6 EVIDENCE VECTOR:
   R (Reproducible):  {scores.R:.2f}  {'█' * int(scores.R * 10)}{'░' * (10 - int(scores.R * 10))}
   I (Independent):   {scores.I:.2f}  {'█' * int(scores.I * 10)}{'░' * (10 - int(scores.I * 10))}
   C (Consistent):    {scores.C:.2f}  {'█' * int(scores.C * 10)}{'░' * (10 - int(scores.C * 10))}
-  E (Constraint-fit):{scores.E:.2f}  {'█' * int(scores.E * 10)}{'░' * (10 - int(scores.E * 10))}
+  E (Constraint-fit): {scores.E:.2f}  {'█' * int(scores.E * 10)}{'░' * (10 - int(scores.E * 10))}
   F (Falsifiable):   {scores.F:.2f}  {'█' * int(scores.F * 10)}{'░' * (10 - int(scores.F * 10))}
 
   Mean Score: {scores.mean():.2f}
@@ -169,9 +169,9 @@ def score_all_claims() -> str:
         F=0.75,  # Falsifiable: `python -c "import trig6"` or pytest
     )
     upgrades2 = {
-        "R → 0.80": "Show `python -c 'from cpu import trig6; print(trig6)'` output",
+        "R → 0.80": "Show `python -c 'import trig6_truth_score; print(trig6_truth_score)'` output",
         "I → 0.75": "Show pytest output or CI green badge",
-        "A → 0.95": "Show `ls -la cpu/trig6.py` with file size/timestamp",
+        "A → 0.95": "Show `ls -la trig6_truth_score.py` with file size/timestamp",
     }
     results.append(format_score_report(
         "TRIG6 framework exists (as working code)",
