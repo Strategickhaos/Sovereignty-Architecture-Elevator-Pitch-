@@ -118,6 +118,13 @@ def main(yaml_file):
                         src_base = src[:-2]
                         if os.path.exists(src_base) and os.path.isdir(src_base):
                             shutil.copytree(src_base, dst, dirs_exist_ok=True)
+                            # Set permissions for the directory and its contents
+                            os.chmod(dst, int(mode, 8))
+                            for root, dirs, files in os.walk(dst):
+                                for d in dirs:
+                                    os.chmod(os.path.join(root, d), int(mode, 8))
+                                for f in files:
+                                    os.chmod(os.path.join(root, f), int(mode, 8))
                         else:
                             console.print(f"[yellow]Warning:[/yellow] Source directory not found: {src_base}")
                     else:
@@ -126,7 +133,9 @@ def main(yaml_file):
                         if matched_files:
                             os.makedirs(dst, exist_ok=True)
                             for matched_file in matched_files:
-                                shutil.copy(matched_file, dst)
+                                dest_file = os.path.join(dst, os.path.basename(matched_file))
+                                shutil.copy(matched_file, dest_file)
+                                os.chmod(dest_file, int(mode, 8))
                         else:
                             console.print(f"[yellow]Warning:[/yellow] No files matched pattern: {src}")
                 else:
