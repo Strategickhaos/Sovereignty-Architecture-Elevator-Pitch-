@@ -280,6 +280,14 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📚 Documentation
+
+### Core Specifications
+- **[SAGCO Boot Identity Pipeline (SBIP)](SAGCO_BOOT_IDENTITY_PIPELINE.md)** - Technical specification for boot-integrated identity and provenance display
+- **[SAGCO Technical Wording Guide](SAGCO_TECHNICAL_WORDING_GUIDE.md)** - Drop-in language for capstone, legal, and technical documentation
+- **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Sovereign symbolic language specification
+- **[Unified Sovereignty Architecture](UNIFIED_SOVEREIGNTY_ARCHITECTURE(2).md)** - Complete system architecture
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
