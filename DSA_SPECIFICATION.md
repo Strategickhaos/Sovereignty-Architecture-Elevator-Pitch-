@@ -274,10 +274,9 @@ def caveman_gate_triggered(dsa: DSA) -> bool:
 **Pacing Ratio:**
 ```
 investigation_length[i] / findings_length[i] ≥ 2.0
-
-// Investigation should be ~2x longer than findings
-// Prevents assertion-heavy narratives
 ```
+
+*Rationale:* Investigation should be approximately 2x longer than findings to prevent assertion-heavy narratives. This ensures the discovery process is thoroughly documented.
 
 ### 4.2 Checksum Mechanism
 

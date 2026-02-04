@@ -186,7 +186,7 @@ Check for and flag:
 - [ ] **Claim/Artifact ratio** — Findings/Artifacts ratio > 3.0 in any Act (⚠️ warning)
 - [ ] **Missing questions** — Any Act without a genuine question (❌ error)
 - [ ] **Rhetorical questions** — Questions that are actually assertions in disguise (⚠️ warning)
-- [ ] **Assertion collapse** — More than 30% of Investigation is unnattributed claims (❌ error)
+- [ ] **Assertion collapse** — More than 30% of Investigation is unattributed claims (❌ error)
 
 ### 7.2 Discovery vs. Assertion Test
 
