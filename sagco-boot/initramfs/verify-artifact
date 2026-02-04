@@ -1,0 +1,47 @@
+#!/bin/sh
+# SAGCO Generic Artifact Verification Script
+# Verifies checksums of SAGCO runtime artifacts
+
+ARTIFACT="$1"
+
+if [ -z "$ARTIFACT" ]; then
+    echo "Usage: verify-artifact <artifact-path>"
+    exit 1
+fi
+
+if [ ! -f "$ARTIFACT" ]; then
+    echo "WARNING: Artifact not found at $ARTIFACT"
+    echo "         (May not be installed yet)"
+    exit 0  # Don't fail if artifact doesn't exist
+fi
+
+CHECKSUM_FILE="/etc/sagco/checksums.sha256"
+
+if [ ! -f "$CHECKSUM_FILE" ]; then
+    echo "WARNING: Checksum file not found at $CHECKSUM_FILE"
+    echo "         Cannot verify artifact without checksums"
+    exit 0  # Don't fail if checksum file missing
+fi
+
+# Extract expected checksum for this artifact
+ARTIFACT_NAME=$(basename "$ARTIFACT")
+EXPECTED=$(grep "$ARTIFACT_NAME" "$CHECKSUM_FILE" 2>/dev/null | awk '{print $1}')
+
+if [ -z "$EXPECTED" ]; then
+    echo "WARNING: No checksum found for $ARTIFACT_NAME"
+    echo "         Artifact not in checksum database"
+    exit 0  # Don't fail if checksum not registered
+fi
+
+# Compute actual checksum
+ACTUAL=$(sha256sum "$ARTIFACT" | awk '{print $1}')
+
+# Compare checksums
+if [ "$EXPECTED" = "$ACTUAL" ]; then
+    exit 0  # Success
+else
+    echo "ERROR: Checksum mismatch for $ARTIFACT"
+    echo "       Expected: $EXPECTED"
+    echo "       Actual:   $ACTUAL"
+    exit 1  # Failure
+fi

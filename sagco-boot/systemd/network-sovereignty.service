@@ -1,0 +1,64 @@
+# SAGCO Network Sovereignty Monitor Service
+# Part of the SAGCO Boot Identity Pipeline (SBIP)
+# Monitors network traffic for sovereignty violations (telemetry, tracking)
+
+[Unit]
+Description=SAGCO Network Sovereignty Monitor
+Documentation=https://github.com/Strategickhaos/SAGCO-Runtime
+After=network.target flamelang-compiler.service
+Wants=flamelang-compiler.service
+ConditionPathExists=/usr/local/bin/sovereignty-monitor
+
+[Service]
+Type=simple
+
+# Start monitoring
+ExecStartPre=/bin/sh -c 'echo "Starting network sovereignty monitoring" | systemd-cat -t sovereignty-monitor'
+ExecStart=/usr/local/bin/sovereignty-monitor \
+          --mode=monitor \
+          --block-telemetry \
+          --entity="Strategickhaos DAO LLC"
+
+# Stop monitoring
+ExecStop=/bin/kill -TERM $MAINPID
+
+# Restart policy
+Restart=always
+RestartSec=10s
+TimeoutStartSec=15s
+
+# User and group
+User=sagco
+Group=sagco
+
+# Environment
+Environment="SAGCO_MONITOR_MODE=active"
+Environment="SAGCO_BLOCK_TELEMETRY=true"
+Environment="SAGCO_LOG_VIOLATIONS=true"
+
+# Capabilities for network monitoring (requires NET_ADMIN)
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/sagco
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK AF_PACKET
+RestrictNamespaces=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sovereignty-monitor
+
+[Install]
+WantedBy=multi-user.target

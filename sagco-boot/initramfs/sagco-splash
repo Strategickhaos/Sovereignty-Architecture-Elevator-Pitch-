@@ -1,0 +1,33 @@
+#!/bin/sh
+# SAGCO Identity Splash Screen
+# Displays the SAGCO boot identity screen during initramfs
+
+cat <<'EOF'
+╔═════════════════════════════════════════════════════════════╗
+║                                                             ║
+║              🔥 SAGCO BOOT IDENTITY SCREEN 🔥              ║
+║                                                             ║
+║   Sovereignty Architecture Governance & Compute Orch.      ║
+║                                                             ║
+║   ═══════════════════════════════════════════════════════  ║
+║                                                             ║
+║   Legal Entity:  Strategickhaos DAO LLC                    ║
+║   EIN:           39-2923503                                 ║
+║   Jurisdiction:  Wyoming, USA                               ║
+║   Trademark:     SAGCO™ (Pending Registration)             ║
+║                                                             ║
+║   ═══════════════════════════════════════════════════════  ║
+║                                                             ║
+║   Boot Mode:     Identity Verification                      ║
+║   Kernel:        Linux (SAGCO-enabled)                      ║
+║   Architecture:  x86_64 via LLVM Backend                    ║
+║                                                             ║
+║   ═══════════════════════════════════════════════════════  ║
+║                                                             ║
+║   Initializing sovereign boot sequence...                  ║
+║                                                             ║
+╚═════════════════════════════════════════════════════════════╝
+EOF
+
+# Brief pause for readability
+sleep 2

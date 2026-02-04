@@ -1,0 +1,43 @@
+#!/bin/sh
+# SAGCO Kernel Signature Verification Script
+# Verifies the kernel signature using GPG
+
+KERNEL_PATH="$1"
+
+if [ -z "$KERNEL_PATH" ]; then
+    echo "Usage: verify-kernel <kernel-path>"
+    exit 1
+fi
+
+if [ ! -f "$KERNEL_PATH" ]; then
+    echo "ERROR: Kernel not found at $KERNEL_PATH"
+    exit 1
+fi
+
+SIGNATURE_PATH="${KERNEL_PATH}.sig"
+PUBKEY_PATH="/etc/sagco/keys/kernel-signing-key.pub"
+
+# Check if signature file exists
+if [ ! -f "$SIGNATURE_PATH" ]; then
+    echo "ERROR: Kernel signature not found at $SIGNATURE_PATH"
+    echo "       Expected GPG detached signature file"
+    exit 1
+fi
+
+# Check if public key exists
+if [ ! -f "$PUBKEY_PATH" ]; then
+    echo "ERROR: Public key not found at $PUBKEY_PATH"
+    echo "       Cannot verify kernel without public key"
+    exit 1
+fi
+
+# Import public key (if not already imported)
+gpg --import "$PUBKEY_PATH" 2>/dev/null
+
+# Verify signature
+if gpg --verify "$SIGNATURE_PATH" "$KERNEL_PATH" 2>&1 | grep -q "Good signature"; then
+    exit 0
+else
+    echo "ERROR: GPG verification failed"
+    exit 1
+fi

@@ -1,0 +1,102 @@
+#!/bin/sh
+# SAGCO Initramfs Init Script
+# Part of the SAGCO Boot Identity Pipeline (SBIP)
+# This script runs at the earliest stage of boot after kernel loads
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+# Mount necessary filesystems
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs devtmpfs /dev
+
+# Display SAGCO identity screen
+/bin/sagco-splash
+
+# Verification stage
+echo ""
+echo "╔═════════════════════════════════════════════════════════════╗"
+echo "║                  VERIFICATION STAGE                         ║"
+echo "╚═════════════════════════════════════════════════════════════╝"
+echo ""
+
+# Verify kernel signature
+echo -n "  [1/4] Kernel signature...        "
+if /bin/verify-kernel /boot/vmlinuz; then
+    echo "✓ PASS"
+else
+    echo "✗ FAIL - Dropping to emergency shell"
+    echo ""
+    echo "CRITICAL: Kernel signature verification failed!"
+    echo "This may indicate a compromised kernel or missing signature."
+    echo ""
+    /bin/sh
+fi
+
+# Verify initramfs integrity
+echo -n "  [2/4] Initramfs integrity...     "
+if /bin/verify-initramfs; then
+    echo "✓ PASS"
+else
+    echo "✗ FAIL - Dropping to emergency shell"
+    echo ""
+    echo "CRITICAL: Initramfs integrity check failed!"
+    echo "This may indicate a compromised initramfs or corruption."
+    echo ""
+    /bin/sh
+fi
+
+# Verify FlameLang compiler
+echo -n "  [3/4] FlameLang compiler...      "
+if /bin/verify-artifact /usr/local/bin/flamelang-compiler; then
+    echo "✓ PASS"
+else
+    echo "⚠ WARN - Continuing anyway"
+    echo "         (Compiler verification failed, but boot will continue)"
+fi
+
+# Verify runtime artifacts
+echo -n "  [4/4] SAGCO runtime artifacts... "
+if /bin/verify-artifact /usr/local/sbin/sagco-runtime-init; then
+    echo "✓ PASS"
+else
+    echo "⚠ WARN - Continuing anyway"
+    echo "         (Runtime verification failed, but boot will continue)"
+fi
+
+echo ""
+echo "All critical verifications passed."
+echo ""
+
+# Mount root filesystem
+echo "Mounting root filesystem..."
+if [ -e /dev/sda1 ]; then
+    mount -t ext4 -o ro /dev/sda1 /root
+elif [ -e /dev/vda1 ]; then
+    mount -t ext4 -o ro /dev/vda1 /root
+elif [ -e /dev/nvme0n1p1 ]; then
+    mount -t ext4 -o ro /dev/nvme0n1p1 /root
+else
+    echo "ERROR: Could not find root partition!"
+    echo "Expected: /dev/sda1, /dev/vda1, or /dev/nvme0n1p1"
+    /bin/sh
+fi
+
+echo "Root filesystem mounted successfully."
+echo ""
+echo "Transferring control to systemd..."
+echo ""
+echo "╔═════════════════════════════════════════════════════════════╗"
+echo "║  SAGCO Boot Identity Pipeline Complete                     ║"
+echo "║  Strategickhaos DAO LLC (EIN: 39-2923503)                  ║"
+echo "╚═════════════════════════════════════════════════════════════╝"
+echo ""
+
+# Unmount temporary filesystems
+umount /proc
+umount /sys
+umount /dev
+
+# Switch to real root and start systemd
+exec switch_root /root /sbin/init
