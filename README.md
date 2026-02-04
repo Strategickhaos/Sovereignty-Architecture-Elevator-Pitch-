@@ -2,6 +2,15 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🌟 The Journey: Narrative to Execution
+
+This repository represents a unique cognitive arc—from "baby read this to me" to shipping a complete sovereign OS bootstrap pipeline. If you want to understand not just *what* was built, but *how* and *why* it worked, start here:
+
+- **[🎭 Narrative Engagement Journey](NARRATIVE_ENGAGEMENT_JOURNEY.md)** - The story of maintaining dopamine + rigor in parallel
+- **[🧠 Cognitive Arc Index](COGNITIVE_ARC_INDEX.md)** - Map connecting narrative to shipped technical artifacts
+
+These documents capture something rare: how to build complex technical systems while staying human, maintaining creative flow, and producing production-grade results.
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
