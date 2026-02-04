@@ -64,14 +64,15 @@ def parse_flame(source: str) -> list:
                 b = int(parts[2])
                 ops.append((op, a, b))
             except ValueError:
-                # Variable references - future feature
-                print(f"Warning: Line {line_num}: Could not parse integers from '{line}'. Expected format: <op> <int> <int>")
-                ops.append((op, parts[1], parts[2]))
+                print(f"Error: Line {line_num}: Could not parse integers from '{line}'. Expected format: <op> <int> <int>")
+                print("Skipping invalid line.")
+                continue
         elif len(parts) == 2 and parts[0].lower() == 'ret':
             try:
                 ops.append(('ret', int(parts[1]), None))
             except ValueError:
-                print(f"Warning: Line {line_num}: Could not parse return value from '{line}'. Expected format: ret <int>")
+                print(f"Error: Line {line_num}: Could not parse return value from '{line}'. Expected format: ret <int>")
+                continue
     
     return ops if ops else [('add', 0, 0)]  # Default: return 0
 
@@ -97,8 +98,8 @@ def emit_ir(ops: list) -> ir.Module:
         opcode = op[0]
         
         if opcode == 'add':
-            a = ir.Constant(ir.IntType(32), op[1]) if isinstance(op[1], int) else op[1]
-            b = ir.Constant(ir.IntType(32), op[2]) if isinstance(op[2], int) else op[2]
+            a = ir.Constant(ir.IntType(32), op[1])
+            b = ir.Constant(ir.IntType(32), op[2])
             result = builder.add(a, b, name="add_result")
             
         elif opcode == 'sub':
@@ -116,8 +117,9 @@ def emit_ir(ops: list) -> ir.Module:
             b = ir.Constant(ir.IntType(32), op[2])
             # Check for division by zero
             if isinstance(op[2], int) and op[2] == 0:
-                print("Warning: Division by zero detected. Using 1 as divisor to avoid undefined behavior.")
-                b = ir.Constant(ir.IntType(32), 1)
+                print("Error: Division by zero detected. This is a compile-time error.")
+                print("Please fix your FlameLang source code.")
+                sys.exit(1)
             result = builder.sdiv(a, b, name="div_result")
             
         elif opcode == 'ret':

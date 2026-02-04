@@ -6,7 +6,7 @@ This directory contains example FlameLang programs demonstrating the language fe
 
 - **hello.flame** - Simple program returning 42
 - **math.flame** - Demonstrates all arithmetic operations
-- **fibonacci.flame** - Multi-step computation example
+- **fibonacci.flame** - Sequential computation example (returns last result)
 
 ## Usage
 
