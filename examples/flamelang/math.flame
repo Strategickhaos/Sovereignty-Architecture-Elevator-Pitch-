@@ -1,0 +1,14 @@
+# FlameLang Example: Math Operations
+# Demonstrates all supported arithmetic operations
+
+# Addition: 10 + 5 = 15
+add 10 5
+
+# Subtraction: 20 - 8 = 12
+sub 20 8
+
+# Multiplication: 7 * 6 = 42
+mul 7 6
+
+# Division: 100 / 10 = 10
+div 100 10
