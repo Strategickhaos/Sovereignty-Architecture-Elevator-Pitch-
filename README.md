@@ -71,6 +71,31 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🖥️ SAGCO Menu System v1.2 (`sagco-menu`)
+- **YAML-Driven TUI**: Post-login menu system for tool discovery and launching
+- **Global Fuzzy Search**: One search box for ALL tools across categories
+- **Per-User State**: Individual state tracking for each user
+- **Recent Items**: Maintains list of 5 most recently used tools
+- **Zero Dependencies**: Uses only Python stdlib (yaml, json, difflib) and bash
+- **Icon Support**: Emoji icons for visual tool/category identification
+
+**The post-login TUI is YAML-driven and state-aware, supporting ordered categories, iconography, fuzzy search, and a recency list—without hardcoding menu structure or introducing runtime dependencies.**
+
+```bash
+# Launch the interactive menu
+/opt/sagco/bin/sagco-menu.sh
+
+# The menu provides:
+# - Category browsing with ordered display
+# - Global fuzzy search across all tools
+# - Recent items tracking (per-user)
+# - Empty result handling
+# - Tool execution with automatic recent updates
+
+# See full documentation
+cat docs/SAGCO_MENU.md
+```
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment

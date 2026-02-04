@@ -1,0 +1,96 @@
+---
+# SAGCO System Package Manager (SPM) Configuration
+# Version: 1.2
+# Description: YAML-driven tool catalog for SAGCO menu system
+
+tools:
+  # Define category order (optional, defaults to alphabetical)
+  order:
+    - security-tools
+    - networking
+    - development
+    - system-admin
+
+  security-tools:
+    icon: "🔒"
+    description: "Security and penetration testing tools"
+    items:
+      - name: "Nmap"
+        icon: "🌐"
+        description: "Network discovery and security auditing"
+        command: "nmap --help"
+      - name: "Wireshark"
+        icon: "🦈"
+        description: "Network protocol analyzer"
+        command: "wireshark --version || echo 'Wireshark not installed'"
+      - name: "Metasploit"
+        icon: "🎯"
+        description: "Penetration testing framework"
+        command: "msfconsole --version || echo 'Metasploit not installed'"
+      - name: "Burp Suite"
+        icon: "🔥"
+        description: "Web application security testing"
+        command: "echo 'Launch Burp Suite from Applications menu'"
+
+  networking:
+    icon: "🌐"
+    description: "Network tools and utilities"
+    items:
+      - name: "Ping"
+        icon: "📡"
+        description: "Test network connectivity"
+        command: "ping -c 4 8.8.8.8"
+      - name: "Traceroute"
+        icon: "🗺️"
+        description: "Trace network path"
+        command: "traceroute 8.8.8.8"
+      - name: "Netstat"
+        icon: "📊"
+        description: "Network statistics"
+        command: "netstat -tuln"
+      - name: "ss"
+        icon: "🔌"
+        description: "Socket statistics"
+        command: "ss -tuln"
+
+  development:
+    icon: "💻"
+    description: "Development tools and environments"
+    items:
+      - name: "Python Shell"
+        icon: "🐍"
+        description: "Interactive Python interpreter"
+        command: "python3 -c 'import sys; print(f\"Python {sys.version}\"); import code; code.interact(banner=\"\", exitmsg=\"\")'"
+      - name: "Git Status"
+        icon: "📦"
+        description: "Check git repository status"
+        command: "git status"
+      - name: "Docker"
+        icon: "🐋"
+        description: "Docker container management"
+        command: "docker ps"
+      - name: "Node.js Version"
+        icon: "📗"
+        description: "Check Node.js version"
+        command: "node --version || echo 'Node.js not installed'"
+
+  system-admin:
+    icon: "⚙️"
+    description: "System administration tools"
+    items:
+      - name: "System Monitor"
+        icon: "📈"
+        description: "Monitor system resources"
+        command: "top -b -n 1 | head -20"
+      - name: "Disk Usage"
+        icon: "💾"
+        description: "Check disk space usage"
+        command: "df -h"
+      - name: "Memory Info"
+        icon: "🧠"
+        description: "Display memory information"
+        command: "free -h"
+      - name: "Process List"
+        icon: "📋"
+        description: "List running processes"
+        command: "ps aux | head -20"
