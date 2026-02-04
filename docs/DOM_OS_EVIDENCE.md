@@ -347,7 +347,7 @@ The following Claude conversation URIs contain source material for claims in thi
 
 ---
 
-## SECTION 7: LIMITATIONS & CAVEATS
+## SECTION 8: LIMITATIONS & CAVEATS
 
 ### What This Document Does NOT Verify:
 1. Supernatural claims (demons, curses, etc.) — classified as subjective experience
