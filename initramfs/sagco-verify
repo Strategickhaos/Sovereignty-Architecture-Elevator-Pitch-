@@ -1,0 +1,26 @@
+#!/bin/sh
+
+PREREQ=""
+prereqs() { echo "$PREREQ"; }
+
+case "$1" in
+  prereqs) prereqs; exit 0 ;;
+esac
+
+. /scripts/functions
+
+# Only run in SAGCO mode
+echo "$(cat /proc/cmdline)" | grep -q "sagco=1" || exit 0
+
+log_begin_msg "SAGCO: verifying core artifacts"
+
+# Example: verify a manifest file (bake /etc/sagco/manifest.sha256 into initramfs via conf-hook)
+if [ -f /etc/sagco/manifest.sha256 ]; then
+  (cd / && sha256sum -c /etc/sagco/manifest.sha256) \
+    && log_success_msg "SAGCO: artifact verification OK" \
+    || log_failure_msg "SAGCO: artifact verification FAILED"
+else
+  log_warning_msg "SAGCO: no manifest found; skipping verification"
+fi
+
+log_end_msg
