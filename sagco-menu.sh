@@ -106,8 +106,8 @@ show_main_menu() {
 # Function to browse tools by category
 browse_categories() {
     # Build category list
-    local categories=()
-    local cat_list=$(python3 -c '
+    local cat_list
+    cat_list=$(python3 -c '
 import yaml
 with open("'"$TOOLS_YAML"'", "r") as f:
     data = yaml.safe_load(f)
@@ -134,7 +134,8 @@ with open("'"$TOOLS_YAML"'", "r") as f:
         3>&1 1>&2 2>&3) || return
     
     # Show tools in selected category
-    local cat_tools=$(parse_tools | awk -F'|' -v cat="$choice" 'NR-1 == cat || cat == "0" {print}')
+    local cat_tools
+    cat_tools=$(parse_tools | awk -F'|' -v cat="$choice" 'NR-1 == cat || cat == "0" {print}')
     show_tools_menu "$cat_tools" "Category Tools"
 }
 
@@ -146,7 +147,7 @@ show_tools_menu() {
     local -a TOOL_ARGS=()
     local idx=0
     
-    while IFS='|' read -r name desc cmd cat; do
+    while IFS='|' read -r name desc _cmd _cat; do
         if [[ -n "$name" ]]; then
             TOOL_ARGS+=("$idx" "$name - $desc")
             idx=$((idx + 1))
@@ -166,9 +167,12 @@ show_tools_menu() {
         3>&1 1>&2 2>&3) || return
     
     # Get the selected tool command
-    local selected_tool=$(echo "$tools" | sed -n "$((choice + 1))p")
-    local tool_name=$(echo "$selected_tool" | cut -d'|' -f1)
-    local tool_cmd=$(echo "$selected_tool" | cut -d'|' -f3)
+    local selected_tool
+    selected_tool=$(echo "$tools" | sed -n "$((choice + 1))p")
+    local tool_name
+    tool_name=$(echo "$selected_tool" | cut -d'|' -f1)
+    local tool_cmd
+    tool_cmd=$(echo "$selected_tool" | cut -d'|' -f3)
     
     # Add to recent
     python3 "$MENU_PY" add "$tool_name" "$tool_cmd" 2>/dev/null || true
@@ -204,13 +208,15 @@ search_interface() {
         return
     fi
     
-    local results=$(search_tools "$query")
+    local results
+    results=$(search_tools "$query")
     show_tools_menu "$results" "Search Results: $query"
 }
 
 # Function to show recent tools
 show_recent() {
-    local recent=$(python3 "$MENU_PY" get 2>/dev/null || echo "")
+    local recent
+    recent=$(python3 "$MENU_PY" get 2>/dev/null || echo "")
     
     if [[ -z "$recent" ]] || [[ "$recent" == "No recent tools" ]]; then
         whiptail --title "Recent Tools" --msgbox "No recent tools found." 8 50
@@ -220,7 +226,7 @@ show_recent() {
     local -a TOOL_ARGS=()
     local idx=0
     
-    while IFS=$'\t' read -r name cmd; do
+    while IFS=$'\t' read -r name _cmd; do
         if [[ -n "$name" ]]; then
             TOOL_ARGS+=("$idx" "$name")
             idx=$((idx + 1))
@@ -239,9 +245,12 @@ show_recent() {
         3>&1 1>&2 2>&3) || return
     
     # Get the selected tool
-    local selected=$(echo "$recent" | sed -n "$((choice + 1))p")
-    local tool_name=$(echo "$selected" | cut -f1)
-    local tool_cmd=$(echo "$selected" | cut -f2)
+    local selected
+    selected=$(echo "$recent" | sed -n "$((choice + 1))p")
+    local tool_name
+    tool_name=$(echo "$selected" | cut -f1)
+    local tool_cmd
+    tool_cmd=$(echo "$selected" | cut -f2)
     
     # Confirm execution
     if whiptail --title "Confirm Execution" \
