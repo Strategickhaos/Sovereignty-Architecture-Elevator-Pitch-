@@ -35,3 +35,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Database
+database/.env
+database/node_modules/
+database/package-lock.json
+*.sql
+*.dump
+*.backup
