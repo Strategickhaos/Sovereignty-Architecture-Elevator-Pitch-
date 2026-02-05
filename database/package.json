@@ -7,7 +7,9 @@
   "scripts": {
     "deploy": "node deploy-schema.js",
     "test": "node test-db.js",
-    "import": "node import-genome.js"
+    "import": "node import-genome.js",
+    "cli": "node neon-cli.js",
+    "status": "node neon-cli.js status"
   },
   "dependencies": {
     "pg": "^8.11.3",
