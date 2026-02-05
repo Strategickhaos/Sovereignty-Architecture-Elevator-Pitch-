@@ -9,6 +9,18 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Connectivity** - Multi-layer sovereign connectivity with failure domain separation
+
+### 🔌 Sovereign Connectivity Architecture
+
+A comprehensive 4-layer connectivity architecture that eliminates single points of failure:
+
+- **[Layer 1: Terrestrial Primary](sovereign-connectivity-proof/01_layer_terrestrial_primary/)** - Verizon eSIM
+- **[Layer 2: Terrestrial Redundant](sovereign-connectivity-proof/02_layer_terrestrial_redundant/)** - T-Mobile pSIM  
+- **[Layer 3: Non-Terrestrial](sovereign-connectivity-proof/03_layer_non_terrestrial/)** - Starlink Direct-to-Cell
+- **[Layer 4: Local Mesh](sovereign-connectivity-proof/04_layer_local_mesh/)** - LAN/WiFi infrastructure
+
+**See [Sovereign Connectivity Proof](sovereign-connectivity-proof/00_readme.md) for complete documentation.**
 
 ## 🚀 Quick Start
 

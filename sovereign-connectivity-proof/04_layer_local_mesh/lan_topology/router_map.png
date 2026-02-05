@@ -1,0 +1,35 @@
+# Network Topology Diagram Placeholder
+
+This file would contain a visual network diagram showing:
+
+- Physical layout of routers, switches, and access points
+- Cable connections between devices
+- VLAN segmentation
+- WAN uplink connections to Layer 1/2/3
+- Device locations (physical layout)
+
+Tools to create this diagram:
+- Lucidchart
+- Draw.io (diagrams.net)
+- Microsoft Visio
+- Network topology mapping software (SolarWinds, Spiceworks)
+
+Example structure:
+
+```
+                  [Internet/WAN]
+                  via Layer 1/2/3
+                        |
+                  [Primary Router]
+                    10.0.0.1
+                        |
+        ┌───────────────┼───────────────┐
+        |               |               |
+   [Switch]        [Mesh AP]       [Backup Router]
+   10.0.1.1        10.0.0.10          10.0.0.2
+        |               |
+    ┌───┴───┐      ┌────┴────┐
+[Desktop] [NAS]  [Phone] [Laptop]
+```
+
+**TODO:** Create actual network diagram with tool of choice and replace this placeholder.
