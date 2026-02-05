@@ -1,0 +1,78 @@
+version: 1.0
+engine: "reflexshell-state-machine"
+
+globals:
+  poll_interval_seconds: 15
+  debounce_seconds: 30
+  confirm_fail_count: 3
+  recover_confirm_count: 4
+
+layers:
+  L1_verizon_esim:
+    type: terrestrial
+    priority: 1
+    detectors:
+      - name: signal_present
+        method: android_radio
+      - name: route_health
+        method: ping
+        targets: ["1.1.1.1", "8.8.8.8"]
+    actions:
+      on_fail:
+        - type: android_switch_data_sim
+          to_layer: L2_tmobile_psim
+      on_recover:
+        - type: android_prefer_sim
+          to_layer: L1_verizon_esim
+
+  L2_tmobile_psim:
+    type: terrestrial
+    priority: 2
+    detectors:
+      - name: signal_present
+        method: android_radio
+      - name: route_health
+        method: ping
+        targets: ["1.1.1.1", "8.8.8.8"]
+    actions:
+      on_fail:
+        - type: android_allow_satellite_fallback
+          to_layer: L3_non_terrestrial
+      on_recover:
+        - type: android_prefer_sim
+          to_layer: L2_tmobile_psim
+
+  L3_non_terrestrial:
+    type: non_terrestrial
+    priority: 3
+    detectors:
+      - name: satellite_banner_present
+        method: android_ui_probe
+        pattern: "SpaceX|Satellite|T-Satellite"
+      - name: emergency_text_capable
+        method: manual_attestation
+    actions:
+      on_fail:
+        - type: cluster_mesh_mode_enable
+          to_layer: L4_local_mesh
+
+  L4_local_mesh:
+    type: local
+    priority: 4
+    detectors:
+      - name: lan_reachable
+        method: ping
+        targets: ["192.168.101.1", "192.168.101.2"]
+      - name: cluster_health
+        method: k8s
+        namespace: "mesh-core"
+    actions:
+      on_fail:
+        - type: manual_alert
+          channel: "local-sound+visual"
+          message: "All layers degraded. Switch to preplanned physical comms."
+
+policies:
+  escalation_order: ["L1_verizon_esim", "L2_tmobile_psim", "L3_non_terrestrial", "L4_local_mesh"]
+  fail_closed: true
+  log_level: "INFO"
