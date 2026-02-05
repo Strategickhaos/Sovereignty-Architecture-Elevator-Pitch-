@@ -1,0 +1,21 @@
+# Verizon Billing Information
+
+**REDACTED FOR PRIVACY**
+
+This document would contain:
+- Account number
+- Billing cycle details
+- Payment method information
+- Service plan details
+- Activation receipt
+- IMEI/EID registration confirmation
+
+**Key Independence Proof:**
+- Separate billing entity from Layer 2 (T-Mobile)
+- No bundle discounts creating dependencies
+- Independent payment method
+- Individual service agreement
+
+---
+
+*Actual billing documents should be stored securely and only referenced here.*
