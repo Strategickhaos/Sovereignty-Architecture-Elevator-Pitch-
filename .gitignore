@@ -36,6 +36,11 @@ target/
 # Workspace data
 workspace/
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
 # Sensitive data - NEVER commit
 redactions/
 *.orig
