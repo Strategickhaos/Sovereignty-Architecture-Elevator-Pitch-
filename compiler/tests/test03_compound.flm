@@ -1,0 +1,4 @@
+// M1 Test 3: Compound expressions
+let a = 10;
+let b = a * 2;
+print(b);

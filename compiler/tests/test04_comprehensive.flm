@@ -1,0 +1,75 @@
+// ═══════════════════════════════════════════════════════
+// FlameLang M1 Comprehensive Test
+// Strategickhaos DAO LLC
+// ═══════════════════════════════════════════════════════
+
+// --- Arithmetic ---
+print(2 + 3);
+print(10 - 4);
+print(6 * 7);
+print(20 / 4);
+print(17 % 5);
+
+// --- Variables ---
+let x = 42;
+print(x);
+let y = x + 8;
+print(y);
+
+// --- Strings ---
+print("Hello, FlameLang!");
+let name = "SAGCO-OS";
+print("System: " + name);
+
+// --- Booleans ---
+print(true);
+print(false);
+print(5 > 3);
+print(5 == 5);
+print(5 != 3);
+
+// --- If/Else ---
+let health = 85;
+if (health > 70) {
+    print("NOMINAL");
+} else {
+    print("DEGRADED");
+}
+
+// --- While loop ---
+let i = 0;
+while (i < 5) {
+    i = i + 1;
+}
+print(i);
+
+// --- Functions ---
+fn add(a, b) {
+    return a + b;
+}
+print(add(3, 4));
+
+fn factorial(n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+print(factorial(6));
+
+// --- Nested functions ---
+fn greet(who) {
+    return "Hello, " + who + "!";
+}
+print(greet("Dom"));
+
+// --- KHAOS metric check ---
+fn khaos_health(h, d, r, f) {
+    let score = (h * 40) + (r * 30) + (f * 20) - (d * 10);
+    return score;
+}
+let result = khaos_health(0.95, 0.12, 0.88, 0.76);
+print(result);
+
+// --- FlameLang is real ---
+print("M1 COMPLETE. FlameLang is executable.");
