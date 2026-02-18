@@ -1,6 +1,6 @@
 # SAGCO Sovereign Control Plane
 
-SAGCO replaces $16,068,400/year of enterprise AI infrastructure with $8,073/year of sovereign compute — a 1,990× cost reduction, zero vendor lock-in, cryptographically auditable, deployable on-prem.
+SAGCO replaces $16,068,400/year of enterprise AI infrastructure with $8,073/year of sovereign compute — a 1,990× cost reduction, zero vendor lock-in, cryptographically auditable, deployable on-premises.
 
 ---
 
@@ -121,7 +121,7 @@ SAGCO includes a sovereign compiler stack.
 - Recursion verified
 
 **Architecture**
-- 5-layer IR: English → Hebrew → Unicode → Wave → DNA → LLVM
+- Multi-layer IR: English → Hebrew → Unicode → Wave → DNA → LLVM
 - Interpreter: `flamec.py` v0.1.0
 - Next gate: M2 type system.
 
