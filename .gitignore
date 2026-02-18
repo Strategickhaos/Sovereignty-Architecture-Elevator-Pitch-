@@ -35,3 +35,19 @@ target/
 
 # Workspace data
 workspace/
+
+# Python cache and temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# SAGCO temporary files
+*.flmc
+compiler_log.jsonl
+/tmp/
