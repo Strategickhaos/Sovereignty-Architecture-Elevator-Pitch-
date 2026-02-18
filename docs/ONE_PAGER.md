@@ -2,6 +2,8 @@
 
 SAGCO replaces $16M/year of enterprise AI infrastructure with $8,073/year of sovereign compute — 1,990× cost reduction, zero vendor lock-in, cryptographically auditable, and it runs in your basement.
 
+> See [PROOF_INDEX.md](PROOF_INDEX.md) for calculation details and verification methods.
+
 ## The hook
 
 - **Industry-equivalent annual ops**: $16,068,400

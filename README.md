@@ -13,7 +13,7 @@ Core proof artifacts (live):
 
 1. **SAGCO Compiler Pipeline v0.1**: Python frontend → Rust IR → FlameLang bytecode → FlameToken sealed output (token metadata + SHA-256 + audit log).
 
-2. **Cost multiple math**: $16,068,400 industry-equivalent annual ops vs $8,073 actual ops → 1,990× reduction.
+2. **Cost multiple math**: $16,068,400 industry-equivalent annual ops vs $8,073 actual ops → ~1,990× reduction.
 
 ## The Proof Standard
 
@@ -35,6 +35,8 @@ python3 sagco_compiler_pipeline.py status
 ```
 
 (Shows pipeline stages and count of sealed tokens.)
+
+> Note: `sagco_compiler_pipeline.py` is located in the `/src/` directory. Example FlameLang files can be created in any directory.
 
 ### Compile a FlameLang file
 

@@ -4,7 +4,7 @@
 
 **Source**: CPA/DEF itemized bill
 
-**Output**: 1,990× multiple = $16,068,400 / $8,073
+**Calculation**: $16,068,400 ÷ $8,073 = 1,990.07× (rounded to 1,990×)
 
 ## B) Compiler Pipeline Proof
 
