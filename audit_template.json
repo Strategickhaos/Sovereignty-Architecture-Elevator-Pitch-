@@ -1,0 +1,638 @@
+{
+  "metadata": {
+    "framework_version": "1.0",
+    "created_at": "2026-02-18T15:11:51.530898",
+    "system_name": "YOUR_SYSTEM_NAME",
+    "auditor_name": "YOUR_NAME",
+    "audit_id": "YOUR_AUDIT_ID"
+  },
+  "questions": [
+    {
+      "number": 1,
+      "section": "A",
+      "question": "Can this system run deterministically from scratch?",
+      "purpose": "Validate reproducibility and elimination of hidden dependencies.",
+      "criteria": [
+        "System can be initialized from zero state",
+        "All dependencies are explicitly declared",
+        "Process is documented and executable",
+        "No manual intervention required",
+        "Results are consistent across runs"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 2,
+      "section": "A",
+      "question": "What breaks first under scale?",
+      "purpose": "Identify the critical bottleneck that limits system growth.",
+      "criteria": [
+        "Bottleneck is identified and characterized",
+        "Load testing data exists",
+        "Breaking point is quantified",
+        "Mitigation strategies are defined",
+        "Scaling envelope is documented"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 3,
+      "section": "A",
+      "question": "What is the single point of failure?",
+      "purpose": "Expose architectural vulnerabilities that compromise reliability.",
+      "criteria": [
+        "SPOF is identified",
+        "Failure modes are documented",
+        "Blast radius is quantified",
+        "Mitigation exists or is planned",
+        "Failure recovery is tested"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 4,
+      "section": "A",
+      "question": "What assumption would collapse this architecture?",
+      "purpose": "Test the foundational premises for hidden fragility.",
+      "criteria": [
+        "Core assumptions are explicit",
+        "Dependencies between assumptions mapped",
+        "Sensitivity analysis performed",
+        "Assumption validation exists",
+        "Alternative approaches considered"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 5,
+      "section": "A",
+      "question": "What test disproves your main claim?",
+      "purpose": "Demonstrate falsifiability and scientific rigor.",
+      "criteria": [
+        "Falsifiable claim is stated",
+        "Disproving test is defined",
+        "Test is actually executable",
+        "Success criteria are quantifiable",
+        "Results are reproducible"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 6,
+      "section": "A",
+      "question": "Where does floating-point error accumulate?",
+      "purpose": "Identify numerical stability issues that compromise correctness.",
+      "criteria": [
+        "Numerical operations are catalogued",
+        "Error propagation is analyzed",
+        "Accumulation bounds are established",
+        "Mitigation strategies exist",
+        "Validation tests prove bounds"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 7,
+      "section": "A",
+      "question": "What external dependency silently invalidates sovereignty?",
+      "purpose": "Expose hidden vendor lock-in or control points.",
+      "criteria": [
+        "All external dependencies mapped",
+        "Control points identified",
+        "Sovereignty risks assessed",
+        "Exit strategies defined",
+        "Alternative implementations exist"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 8,
+      "section": "B",
+      "question": "What is the closest prior art?",
+      "purpose": "Establish the baseline for novelty claims.",
+      "criteria": [
+        "Prior art search conducted",
+        "Closest references identified",
+        "Differences are articulated",
+        "Advantages are quantified",
+        "Search strategy is documented"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 9,
+      "section": "B",
+      "question": "Why isn't this obvious under KSR v. Teleflex?",
+      "purpose": "Test non-obviousness under the Supreme Court standard.",
+      "criteria": [
+        "Predictable combination test applied",
+        "Teaching away documented",
+        "Unexpected results demonstrated",
+        "Problem-solution mismatch shown",
+        "Synergistic effects proven"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 10,
+      "section": "B",
+      "question": "What specific technical improvement exists?",
+      "purpose": "Identify concrete technical advancement over prior art.",
+      "criteria": [
+        "Improvement is quantified",
+        "Measurement methodology is sound",
+        "Comparison is fair and controlled",
+        "Results are reproducible",
+        "Causation is established"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 11,
+      "section": "B",
+      "question": "What claim language is too broad?",
+      "purpose": "Identify scope that will draw rejections or challenges.",
+      "criteria": [
+        "Claim scope is analyzed",
+        "Enabling disclosure assessed",
+        "Prior art boundaries mapped",
+        "Limitations are appropriate",
+        "Prosecution strategy defined"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 12,
+      "section": "B",
+      "question": "What claim language is too narrow?",
+      "purpose": "Ensure adequate protection and avoidance of design-arounds.",
+      "criteria": [
+        "Coverage analysis performed",
+        "Design-around scenarios tested",
+        "Claim dependencies mapped",
+        "Fallback positions identified",
+        "Scope optimization analyzed"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 13,
+      "section": "B",
+      "question": "What part fails Alice Step 1?",
+      "purpose": "Test for abstract idea rejection under patent eligibility.",
+      "criteria": [
+        "Abstract idea test applied",
+        "Mental process analysis done",
+        "Mathematical algorithm identified",
+        "Fundamental practice assessed",
+        "Concrete improvements articulated"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 14,
+      "section": "B",
+      "question": "What part rescues it under Alice Step 2?",
+      "purpose": "Establish significantly more than the abstract idea.",
+      "criteria": [
+        "Inventive concept identified",
+        "Technical improvement demonstrated",
+        "Unconventional steps shown",
+        "Computer functionality improved",
+        "Problem-solution documented"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 15,
+      "section": "C",
+      "question": "What invariant must always hold?",
+      "purpose": "Identify the core correctness properties that guarantee system integrity.",
+      "criteria": [
+        "Invariants are formally stated",
+        "Verification method exists",
+        "Violation detection implemented",
+        "Enforcement mechanisms active",
+        "Violation recovery defined"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 16,
+      "section": "C",
+      "question": "What metric proves it works?",
+      "purpose": "Define quantifiable success criteria.",
+      "criteria": [
+        "Metric is directly measurable",
+        "Measurement is automated",
+        "Baseline is established",
+        "Target is justified",
+        "Validation is continuous"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 17,
+      "section": "C",
+      "question": "What happens under packet loss?",
+      "purpose": "Test resilience to network failures.",
+      "criteria": [
+        "Packet loss scenarios tested",
+        "Recovery mechanisms exist",
+        "Data integrity maintained",
+        "Performance degradation characterized",
+        "User impact quantified"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 18,
+      "section": "C",
+      "question": "What happens under clock skew?",
+      "purpose": "Test resilience to distributed systems time inconsistencies.",
+      "criteria": [
+        "Clock skew scenarios tested",
+        "Time synchronization strategy exists",
+        "Ordering guarantees maintained",
+        "Causality violations prevented",
+        "Recovery mechanisms proven"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 19,
+      "section": "C",
+      "question": "How do you prove audit logs aren't mutable?",
+      "purpose": "Establish cryptographic proof of log integrity.",
+      "criteria": [
+        "Immutability mechanism exists",
+        "Cryptographic proof provided",
+        "Tamper detection implemented",
+        "Verification is independent",
+        "Chain of custody maintained"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 20,
+      "section": "C",
+      "question": "Can a junior engineer reproduce it?",
+      "purpose": "Test for documentation quality and knowledge transfer.",
+      "criteria": [
+        "Documentation is complete",
+        "Prerequisites are stated",
+        "Steps are unambiguous",
+        "Reproduction is tested",
+        "Time to reproduce is known"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 21,
+      "section": "C",
+      "question": "Can you rebuild it in 30 days without docs?",
+      "purpose": "Test for code clarity and architectural coherence.",
+      "criteria": [
+        "Code is self-documenting",
+        "Architecture is discoverable",
+        "Patterns are consistent",
+        "Dependencies are minimal",
+        "Rebuild estimate is realistic"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 22,
+      "section": "D",
+      "question": "What real cost is displaced?",
+      "purpose": "Quantify tangible economic value creation.",
+      "criteria": [
+        "Specific cost is identified",
+        "Displacement is quantified",
+        "Measurement methodology is sound",
+        "Comparison is fair",
+        "ROI is calculated"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 23,
+      "section": "D",
+      "question": "Is the 1,990\u00d7 reduction defensible?",
+      "purpose": "Validate extraordinary performance claims.",
+      "criteria": [
+        "Comparison methodology is documented",
+        "Baseline is fair and relevant",
+        "Measurement is reproducible",
+        "Factors are explained",
+        "Independent validation exists"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 24,
+      "section": "D",
+      "question": "What hidden costs did you ignore?",
+      "purpose": "Expose incomplete economic analysis.",
+      "criteria": [
+        "Operational costs assessed",
+        "Maintenance burden quantified",
+        "Training costs included",
+        "Migration costs estimated",
+        "Opportunity costs analyzed"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 25,
+      "section": "D",
+      "question": "What is the worst-case liability?",
+      "purpose": "Understand maximum financial exposure.",
+      "criteria": [
+        "Failure modes catalogued",
+        "Financial impact estimated",
+        "Mitigation strategies exist",
+        "Insurance is considered",
+        "Legal review completed"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 26,
+      "section": "D",
+      "question": "Where is vendor lock-in still hiding?",
+      "purpose": "Identify remaining dependencies that limit freedom.",
+      "criteria": [
+        "All vendors identified",
+        "Switching costs estimated",
+        "Alternative vendors exist",
+        "Exit strategy documented",
+        "Portability tested"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 27,
+      "section": "D",
+      "question": "Who benefits besides you?",
+      "purpose": "Assess broader value creation and ecosystem effects.",
+      "criteria": [
+        "Stakeholders identified",
+        "Value distribution mapped",
+        "Network effects analyzed",
+        "Ecosystem health assessed",
+        "Sustainability evaluated"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 28,
+      "section": "E",
+      "question": "What peer review would reject this?",
+      "purpose": "Anticipate and address scholarly criticism.",
+      "criteria": [
+        "Methodology weaknesses identified",
+        "Alternative explanations considered",
+        "Reviewer concerns anticipated",
+        "Responses prepared",
+        "Improvements documented"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 29,
+      "section": "E",
+      "question": "What academic standard does it satisfy?",
+      "purpose": "Establish scholarly rigor and contribution.",
+      "criteria": [
+        "Relevant standards identified",
+        "Compliance demonstrated",
+        "Contribution articulated",
+        "Novelty established",
+        "Impact quantified"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 30,
+      "section": "E",
+      "question": "What empirical evidence exists?",
+      "purpose": "Establish fact-based validation.",
+      "criteria": [
+        "Experiments are documented",
+        "Data is available",
+        "Analysis is sound",
+        "Results are reproducible",
+        "Conclusions are supported"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 31,
+      "section": "E",
+      "question": "What data set supports your claim?",
+      "purpose": "Validate claims with concrete data.",
+      "criteria": [
+        "Data set is described",
+        "Collection methodology documented",
+        "Data quality assessed",
+        "Analysis is appropriate",
+        "Data is available"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 32,
+      "section": "E",
+      "question": "What falsifies your thesis?",
+      "purpose": "Demonstrate scientific rigor through falsifiability.",
+      "criteria": [
+        "Thesis is clearly stated",
+        "Falsification criteria defined",
+        "Test is executable",
+        "Outcome is observable",
+        "Implications are understood"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    },
+    {
+      "number": 33,
+      "section": "E",
+      "question": "Why does this matter beyond ego?",
+      "purpose": "Establish genuine contribution and lasting impact.",
+      "criteria": [
+        "Problem significance established",
+        "Solution value articulated",
+        "Impact is measurable",
+        "Benefit is broad",
+        "Legacy is considered"
+      ],
+      "answer": null,
+      "evidence_level": null,
+      "evidence": [],
+      "gaps": [],
+      "improvements": [],
+      "notes": ""
+    }
+  ]
+}
