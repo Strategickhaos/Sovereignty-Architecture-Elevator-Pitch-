@@ -27,7 +27,7 @@ SAGCO bridges:
 - **Operator Interface** (Discord-native control surface)
 - **Audit Layer** (Structured logging + metrics)
 
-This is not a chat bot.  
+This is not a chat bot.
 It is a distributed command & telemetry surface.
 
 ---
@@ -166,7 +166,7 @@ SAGCO proves you can run an enterprise-grade control plane:
 
 ## What This Is Not
 
-- Not a Discord bot project
+- Not a simple Discord bot
 - Not a hobby integration
 - Not SaaS-dependent automation
 - Not a vendor-resale layer
