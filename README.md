@@ -37,7 +37,7 @@ The 1,990× multiple is derived from replacing commercial enterprise equivalents
 
 **Reduction Multiple: 1,990×**
 
-This is a displacement audit, not a marketing projection.
+*Industry costs based on enterprise-scale deployments (10,000+ daily API calls, 500GB vector storage, 24/7 SRE coverage). SAGCO costs exclude hardware depreciation and power consumption. This is a cost displacement comparison for equivalent capability.*
 
 ---
 
@@ -61,7 +61,9 @@ SAGCO eliminates SSH dependency for cross-hypervisor command execution.
 
 **Status: PATENT PENDING — INV-SAGCO-BRIDGE-001**
 
-No commercial cloud stack uses encrypted shared filesystem as an RPC wire.
+*Patent application in preparation. Filing anticipated Q2 2026.*
+
+No commercial cloud stack is known to use encrypted shared filesystem as an RPC wire.
 
 ---
 
@@ -146,7 +148,7 @@ It is an AI governance primitive.
 
 **Status: Operational.**
 
-No commercial enterprise product implements cross-AI voting as an infrastructure control mechanism.
+We are not aware of commercial enterprise products that implement cross-AI voting as an infrastructure control mechanism.
 
 ---
 
@@ -187,7 +189,7 @@ This stack is built and operated by:
 - SPRAT Level 3 certified rope access technician
 - Industrial pipefitter and radiography professional
 - TWIC cleared
-- Pursuing dual B.S. degrees in Computer Science and Cybersecurity
+- Computer Science and Cybersecurity education in progress
 
 The cross-domain synthesis — industrial safety systems + sovereign AI infrastructure + compiler design — is architectural, not incidental.
 
