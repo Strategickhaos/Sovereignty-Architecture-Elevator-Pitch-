@@ -494,14 +494,19 @@ class AuditFramework:
         
         self.metadata = data["metadata"]
         
-        for i, q_data in enumerate(data["questions"]):
-            q = self.questions[i]
-            q.answer = q_data.get("answer")
-            q.evidence_level = q_data.get("evidence_level")
-            q.evidence = q_data.get("evidence", [])
-            q.gaps = q_data.get("gaps", [])
-            q.improvements = q_data.get("improvements", [])
-            q.notes = q_data.get("notes", "")
+        # Create a mapping of question number to question data
+        question_data_map = {q_data["number"]: q_data for q_data in data["questions"]}
+        
+        # Update questions by matching their number
+        for q in self.questions:
+            if q.number in question_data_map:
+                q_data = question_data_map[q.number]
+                q.answer = q_data.get("answer")
+                q.evidence_level = q_data.get("evidence_level")
+                q.evidence = q_data.get("evidence", [])
+                q.gaps = q_data.get("gaps", [])
+                q.improvements = q_data.get("improvements", [])
+                q.notes = q_data.get("notes", "")
         
         print(f"\n✅ Audit loaded from: {filepath}")
     
