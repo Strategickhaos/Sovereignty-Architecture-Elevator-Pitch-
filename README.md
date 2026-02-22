@@ -1,6 +1,6 @@
 # Strategickhaos Sovereignty Architecture - Discord DevOps Control Plane
 
-**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
+**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, sovereign infrastructure management, and FLAMELANG musical notation.**
 
 ## 🏛️ Architecture Overview
 
@@ -9,6 +9,34 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **FLAMELANG Musical Notation** - Glyph-based musical composition system
+
+## 🎵 FLAMELANG Musical Notation System
+
+The FLAMELANG Musical Notation System extends the symbolic glyph language to represent musical compositions using trigonometric function families. Each glyph encodes musical parameters including timing, pitch, velocity, and duration.
+
+### Quick Start with Musical Notation
+
+```bash
+# Run the demo
+npm run demo
+
+# Run tests
+npm run test
+
+# Build the project
+npm run build
+```
+
+### Key Features
+
+- **6 Trigonometric Families**: SIN, COS, TAN, CSC, SEC, COT
+- **MIDI Mapping**: Full MIDI note and velocity support
+- **Precise Timing**: Beat-based timing with tempo control
+- **Validation**: Comprehensive data validation
+- **Singularities**: Special points marking key angles (90°, 180°, 270°)
+
+For detailed documentation, see [FLAMELANG Musical Notation Documentation](docs/FLAMELANG_MUSICAL_NOTATION.md).
 
 ## 🚀 Quick Start
 

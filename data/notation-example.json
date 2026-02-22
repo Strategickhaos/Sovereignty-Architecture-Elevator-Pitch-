@@ -1,0 +1,687 @@
+{
+  "meta": {
+    "tempo": 120,
+    "base_note": 60,
+    "beats_per_cycle": 16.0,
+    "note_count": 64
+  },
+  "events": [
+    {
+      "glyph_id": 0,
+      "glyph": "⟋",
+      "family": "SIN",
+      "theta": 0.0,
+      "midi_note": 60,
+      "velocity": 75,
+      "start_beat": 0.0,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 1,
+      "glyph": "⟋•",
+      "family": "SIN",
+      "theta": 5.625,
+      "midi_note": 61,
+      "velocity": 76,
+      "start_beat": 0.25,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 2,
+      "glyph": "⟋••",
+      "family": "SIN",
+      "theta": 11.25,
+      "midi_note": 62,
+      "velocity": 77,
+      "start_beat": 0.5,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 3,
+      "glyph": "⟋+",
+      "family": "SIN",
+      "theta": 16.875,
+      "midi_note": 63,
+      "velocity": 78,
+      "start_beat": 0.75,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 4,
+      "glyph": "⟋○",
+      "family": "SIN",
+      "theta": 22.5,
+      "midi_note": 64,
+      "velocity": 79,
+      "start_beat": 1.0,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 5,
+      "glyph": "⟋̅",
+      "family": "SIN",
+      "theta": 28.125,
+      "midi_note": 65,
+      "velocity": 80,
+      "start_beat": 1.25,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 6,
+      "glyph": "⟋_",
+      "family": "SIN",
+      "theta": 33.75,
+      "midi_note": 66,
+      "velocity": 81,
+      "start_beat": 1.5,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 7,
+      "glyph": "⟋⌐",
+      "family": "SIN",
+      "theta": 39.375,
+      "midi_note": 67,
+      "velocity": 82,
+      "start_beat": 1.75,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 8,
+      "glyph": "⟋◉",
+      "family": "SIN",
+      "theta": 45.0,
+      "midi_note": 68,
+      "velocity": 83,
+      "start_beat": 2.0,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 9,
+      "glyph": "⟋⌐⌐",
+      "family": "SIN",
+      "theta": 50.625,
+      "midi_note": 69,
+      "velocity": 84,
+      "start_beat": 2.25,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 10,
+      "glyph": "⟋~",
+      "family": "SIN",
+      "theta": 56.25,
+      "midi_note": 70,
+      "velocity": 85,
+      "start_beat": 2.5,
+      "duration_beats": 0.5
+    },
+    {
+      "glyph_id": 11,
+      "glyph": "—",
+      "family": "COS",
+      "theta": 61.875,
+      "midi_note": 71,
+      "velocity": 65,
+      "start_beat": 2.75,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 12,
+      "glyph": "—•",
+      "family": "COS",
+      "theta": 67.5,
+      "midi_note": 72,
+      "velocity": 66,
+      "start_beat": 3.0,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 13,
+      "glyph": "—••",
+      "family": "COS",
+      "theta": 73.125,
+      "midi_note": 73,
+      "velocity": 67,
+      "start_beat": 3.25,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 14,
+      "glyph": "—⌐",
+      "family": "COS",
+      "theta": 78.75,
+      "midi_note": 74,
+      "velocity": 68,
+      "start_beat": 3.5,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 15,
+      "glyph": "—∧",
+      "family": "COS",
+      "theta": 84.375,
+      "midi_note": 75,
+      "velocity": 69,
+      "start_beat": 3.75,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 16,
+      "glyph": "—◇",
+      "family": "COS",
+      "theta": 90.0,
+      "midi_note": 76,
+      "velocity": 100,
+      "start_beat": 4.0,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 17,
+      "glyph": "—○",
+      "family": "COS",
+      "theta": 95.625,
+      "midi_note": 77,
+      "velocity": 71,
+      "start_beat": 4.25,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 18,
+      "glyph": "—+",
+      "family": "COS",
+      "theta": 101.25,
+      "midi_note": 78,
+      "velocity": 72,
+      "start_beat": 4.5,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 19,
+      "glyph": "—~",
+      "family": "COS",
+      "theta": 106.875,
+      "midi_note": 79,
+      "velocity": 73,
+      "start_beat": 4.75,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 20,
+      "glyph": "—∨",
+      "family": "COS",
+      "theta": 112.5,
+      "midi_note": 80,
+      "velocity": 74,
+      "start_beat": 5.0,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 21,
+      "glyph": "—_",
+      "family": "COS",
+      "theta": 118.125,
+      "midi_note": 81,
+      "velocity": 75,
+      "start_beat": 5.25,
+      "duration_beats": 0.75
+    },
+    {
+      "glyph_id": 22,
+      "glyph": "╱",
+      "family": "TAN",
+      "theta": 123.75,
+      "midi_note": 82,
+      "velocity": 85,
+      "start_beat": 5.5,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 23,
+      "glyph": "╱•",
+      "family": "TAN",
+      "theta": 129.375,
+      "midi_note": 83,
+      "velocity": 86,
+      "start_beat": 5.75,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 24,
+      "glyph": "╱••",
+      "family": "TAN",
+      "theta": 135.0,
+      "midi_note": 60,
+      "velocity": 87,
+      "start_beat": 6.0,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 25,
+      "glyph": "╱+",
+      "family": "TAN",
+      "theta": 140.625,
+      "midi_note": 61,
+      "velocity": 88,
+      "start_beat": 6.25,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 26,
+      "glyph": "╱○",
+      "family": "TAN",
+      "theta": 146.25,
+      "midi_note": 62,
+      "velocity": 89,
+      "start_beat": 6.5,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 27,
+      "glyph": "╱̅",
+      "family": "TAN",
+      "theta": 151.875,
+      "midi_note": 63,
+      "velocity": 90,
+      "start_beat": 6.75,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 28,
+      "glyph": "╱_",
+      "family": "TAN",
+      "theta": 157.5,
+      "midi_note": 64,
+      "velocity": 91,
+      "start_beat": 7.0,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 29,
+      "glyph": "╱⌐",
+      "family": "TAN",
+      "theta": 163.125,
+      "midi_note": 65,
+      "velocity": 92,
+      "start_beat": 7.25,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 30,
+      "glyph": "╱∧",
+      "family": "TAN",
+      "theta": 168.75,
+      "midi_note": 66,
+      "velocity": 93,
+      "start_beat": 7.5,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 31,
+      "glyph": "╱◇",
+      "family": "TAN",
+      "theta": 174.375,
+      "midi_note": 67,
+      "velocity": 94,
+      "start_beat": 7.75,
+      "duration_beats": 0.375
+    },
+    {
+      "glyph_id": 32,
+      "glyph": "|",
+      "family": "CSC",
+      "theta": 180.0,
+      "midi_note": 68,
+      "velocity": 110,
+      "start_beat": 8.0,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 33,
+      "glyph": "|•",
+      "family": "CSC",
+      "theta": 185.625,
+      "midi_note": 69,
+      "velocity": 70,
+      "start_beat": 8.25,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 34,
+      "glyph": "|••",
+      "family": "CSC",
+      "theta": 191.25,
+      "midi_note": 70,
+      "velocity": 71,
+      "start_beat": 8.5,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 35,
+      "glyph": "|+",
+      "family": "CSC",
+      "theta": 196.875,
+      "midi_note": 71,
+      "velocity": 72,
+      "start_beat": 8.75,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 36,
+      "glyph": "|○",
+      "family": "CSC",
+      "theta": 202.5,
+      "midi_note": 72,
+      "velocity": 73,
+      "start_beat": 9.0,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 37,
+      "glyph": "|̅",
+      "family": "CSC",
+      "theta": 208.125,
+      "midi_note": 73,
+      "velocity": 74,
+      "start_beat": 9.25,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 38,
+      "glyph": "|_",
+      "family": "CSC",
+      "theta": 213.75,
+      "midi_note": 74,
+      "velocity": 75,
+      "start_beat": 9.5,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 39,
+      "glyph": "|⌐",
+      "family": "CSC",
+      "theta": 219.375,
+      "midi_note": 75,
+      "velocity": 76,
+      "start_beat": 9.75,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 40,
+      "glyph": "|∧",
+      "family": "CSC",
+      "theta": 225.0,
+      "midi_note": 76,
+      "velocity": 77,
+      "start_beat": 10.0,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 41,
+      "glyph": "|~",
+      "family": "CSC",
+      "theta": 230.625,
+      "midi_note": 77,
+      "velocity": 78,
+      "start_beat": 10.25,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 42,
+      "glyph": "|∨",
+      "family": "CSC",
+      "theta": 236.25,
+      "midi_note": 78,
+      "velocity": 79,
+      "start_beat": 10.5,
+      "duration_beats": 0.625
+    },
+    {
+      "glyph_id": 43,
+      "glyph": "]",
+      "family": "SEC",
+      "theta": 241.875,
+      "midi_note": 79,
+      "velocity": 90,
+      "start_beat": 10.75,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 44,
+      "glyph": "]•",
+      "family": "SEC",
+      "theta": 247.5,
+      "midi_note": 80,
+      "velocity": 80,
+      "start_beat": 11.0,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 45,
+      "glyph": "]••",
+      "family": "SEC",
+      "theta": 253.125,
+      "midi_note": 81,
+      "velocity": 81,
+      "start_beat": 11.25,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 46,
+      "glyph": "]+",
+      "family": "SEC",
+      "theta": 258.75,
+      "midi_note": 82,
+      "velocity": 82,
+      "start_beat": 11.5,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 47,
+      "glyph": "]○",
+      "family": "SEC",
+      "theta": 264.375,
+      "midi_note": 83,
+      "velocity": 83,
+      "start_beat": 11.75,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 48,
+      "glyph": "]◇",
+      "family": "SEC",
+      "theta": 270.0,
+      "midi_note": 60,
+      "velocity": 114,
+      "start_beat": 12.0,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 49,
+      "glyph": "]̅",
+      "family": "SEC",
+      "theta": 275.625,
+      "midi_note": 61,
+      "velocity": 85,
+      "start_beat": 12.25,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 50,
+      "glyph": "]_",
+      "family": "SEC",
+      "theta": 281.25,
+      "midi_note": 62,
+      "velocity": 86,
+      "start_beat": 12.5,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 51,
+      "glyph": "]⌐",
+      "family": "SEC",
+      "theta": 286.875,
+      "midi_note": 63,
+      "velocity": 87,
+      "start_beat": 12.75,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 52,
+      "glyph": "]∧",
+      "family": "SEC",
+      "theta": 292.5,
+      "midi_note": 64,
+      "velocity": 88,
+      "start_beat": 13.0,
+      "duration_beats": 0.25
+    },
+    {
+      "glyph_id": 53,
+      "glyph": "]~",
+      "family": "COT",
+      "theta": 298.125,
+      "midi_note": 65,
+      "velocity": 69,
+      "start_beat": 13.25,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 54,
+      "glyph": "╲",
+      "family": "COT",
+      "theta": 303.75,
+      "midi_note": 66,
+      "velocity": 70,
+      "start_beat": 13.5,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 55,
+      "glyph": "╲•",
+      "family": "COT",
+      "theta": 309.375,
+      "midi_note": 67,
+      "velocity": 60,
+      "start_beat": 13.75,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 56,
+      "glyph": "╲••",
+      "family": "COT",
+      "theta": 315.0,
+      "midi_note": 68,
+      "velocity": 61,
+      "start_beat": 14.0,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 57,
+      "glyph": "╲+",
+      "family": "COT",
+      "theta": 320.625,
+      "midi_note": 69,
+      "velocity": 62,
+      "start_beat": 14.25,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 58,
+      "glyph": "╲○",
+      "family": "COT",
+      "theta": 326.25,
+      "midi_note": 70,
+      "velocity": 63,
+      "start_beat": 14.5,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 59,
+      "glyph": "╲̅",
+      "family": "COT",
+      "theta": 331.875,
+      "midi_note": 71,
+      "velocity": 64,
+      "start_beat": 14.75,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 60,
+      "glyph": "╲_",
+      "family": "COT",
+      "theta": 337.5,
+      "midi_note": 72,
+      "velocity": 65,
+      "start_beat": 15.0,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 61,
+      "glyph": "╲⌐",
+      "family": "COT",
+      "theta": 343.125,
+      "midi_note": 73,
+      "velocity": 66,
+      "start_beat": 15.25,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 62,
+      "glyph": "╲∧",
+      "family": "COT",
+      "theta": 348.75,
+      "midi_note": 74,
+      "velocity": 67,
+      "start_beat": 15.5,
+      "duration_beats": 1.0
+    },
+    {
+      "glyph_id": 63,
+      "glyph": "╲∨",
+      "family": "COT",
+      "theta": 354.375,
+      "midi_note": 75,
+      "velocity": 68,
+      "start_beat": 15.75,
+      "duration_beats": 1.0
+    }
+  ],
+  "families": {
+    "SIN": {
+      "base_velocity": 80,
+      "duration_mult": 1.0,
+      "channel": 0
+    },
+    "COS": {
+      "base_velocity": 70,
+      "duration_mult": 1.5,
+      "channel": 0
+    },
+    "TAN": {
+      "base_velocity": 90,
+      "duration_mult": 0.75,
+      "channel": 0
+    },
+    "CSC": {
+      "base_velocity": 75,
+      "duration_mult": 1.25,
+      "channel": 0
+    },
+    "SEC": {
+      "base_velocity": 85,
+      "duration_mult": 0.5,
+      "channel": 0
+    },
+    "COT": {
+      "base_velocity": 65,
+      "duration_mult": 2.0,
+      "channel": 0
+    }
+  },
+  "singularities": [
+    16,
+    32,
+    48
+  ]
+}
