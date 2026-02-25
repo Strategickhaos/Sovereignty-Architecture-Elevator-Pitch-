@@ -4,11 +4,37 @@
 
 ## 🏛️ Architecture Overview
 
-This system creates a **sovereignty control plane** that bridges:
+### Ratio Ex Nihilo: "Reason from Nothing"
+
+This system embodies the **Ratio Ex Nihilo** principle — structured reason emerging from void, order from chaos. It integrates three fundamental layers:
+
+```
+RATIO EX NIHILO = "Reason from Nothing"
+                          │
+          ┌───────────────┼───────────────┐
+          │               │               │
+    LEGAL LAYER     TECHNICAL LAYER   SYMBOLIC LAYER
+          │               │               │
+   Wyoming DAO LLC   Chaos Engineering  Metatron's Cube
+   IRS EIN verified  NATS/K8s resilience  Sacred geometry
+   PBC structure     Antifragile proofs   Toruk sovereignty
+          │               │               │
+          └───────────────┼───────────────┘
+                          │
+              VALORYIELD ENGINE OUTPUT
+              - 7% irrevocable charity
+              - AI-governed distribution
+              - Cryptographic audit trail
+```
+
+**Core Components:**
 - **Discord** - Command & control interface
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Antifragile Audit** - Novel resilience verification system
+
+📚 **[Read the Full Integration →](RATIO_EX_NIHILO_INTEGRATION.md)**
 
 ## 🚀 Quick Start
 
@@ -280,6 +306,23 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📚 Key Documentation
+
+### Sovereignty Architecture
+- **[Ratio Ex Nihilo Integration](RATIO_EX_NIHILO_INTEGRATION.md)** - The complete sovereign operating system architecture
+- **[Antifragile Audit System](ANTIFRAGILE_AUDIT_SYSTEM.md)** - Novel methodology for cryptographically proving resilience
+- **[Trademark Filing Prep](TRADEMARK_FILING_PREP.md)** - USPTO filing preparation for Ratio Ex Nihilo brand
+
+### Legal & Governance
+- **[Wyoming DAO LLC Structure](legal/wyoming_sf0068/)** - Legal foundation documents
+- **[Provisional Patent Draft](provisional-patent-draft.md)** - Negative-Balance Training Protocol
+- **[Strategic Khaos Synthesis](STRATEGIC_KHAOS_SYNTHESIS.md)** - Business model and revenue architecture
+
+### Technical Deep Dives
+- **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Domain-specific language for chaos patterns
+- **[Vault Security Playbook](VAULT_SECURITY_PLAYBOOK.md)** - Secrets management and zero-trust architecture
+- **[Unified Sovereignty Architecture](UNIFIED_SOVEREIGNTY_ARCHITECTURE(1).md)** - Complete technical stack
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
@@ -292,5 +335,7 @@ This project thrives because of an extraordinary community of creators, builders
 **Built with 🔥 by the Strategickhaos Swarm Intelligence collective**
 
 *"They're not working for you. They're dancing with you. And the music is never going to stop."*
+
+*"From negative, to neutral, to nuclear — sovereignty through engineered adversity."*
 
 *Empowering sovereign digital infrastructure through Discord-native DevOps automation*
