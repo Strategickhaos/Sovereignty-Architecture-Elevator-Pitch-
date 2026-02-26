@@ -47,6 +47,32 @@ client.on("interactionCreate", async (i: Interaction) => {
         body: JSON.stringify({ service: svc, replicas })
       }).then(r => r.json());
       await i.reply({ embeds: [embed("Scale", `service: ${svc}\nreplicas: ${replicas}\nresult: ${r.status}`)] });
+    } else if (i.commandName === "profile") {
+      const profile = cfg.org?.profile;
+      if (!profile) {
+        await i.reply({ content: "Profile information not configured." });
+        return;
+      }
+      
+      const services = profile.services?.join("\n• ") || "Not specified";
+      const profileInfo = `**${cfg.org.name}**
+
+**Entity Information**
+• Legal Structure: ${profile.legal_structure}
+• Domicile: ${profile.domicile}
+• Formation: ${profile.formation_date}
+• EIN: ${profile.ein}
+
+**Founder: ${profile.founder?.name}**
+• Education: ${profile.founder?.education}
+• Credentials: ${profile.founder?.credentials}
+• Contact: ${profile.founder?.contact_email} | ${profile.founder?.contact_phone}
+
+**Services**
+• ${services}
+
+For detailed information, visit: [Professional Credentials](${profile.credentials_url})`;
+      await i.reply({ embeds: [embed("Organization Profile", profileInfo)] });
     }
   } catch (e: any) {
     await i.reply({ content: `Error: ${e.message}` });

@@ -13,7 +13,8 @@ export async function registerCommands(token: string, appId: string) {
       .addStringOption(o => o.setName("tag").setRequired(true)),
     new SlashCommandBuilder().setName("scale").setDescription("Scale service")
       .addStringOption(o => o.setName("service").setRequired(true))
-      .addIntegerOption(o => o.setName("replicas").setRequired(true))
+      .addIntegerOption(o => o.setName("replicas").setRequired(true)),
+    new SlashCommandBuilder().setName("profile").setDescription("Display organization and founder information")
   ].map(c => c.toJSON());
 
   const rest = new REST({ version: "10" }).setToken(token);

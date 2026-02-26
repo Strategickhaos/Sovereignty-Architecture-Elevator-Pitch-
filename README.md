@@ -31,10 +31,21 @@ export PRS_CHANNEL="channel_id"
 ## 📋 Core Components
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
-- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
+- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`, `/profile`
 - **AI Agent Integration**: GPT-4 powered assistance
 - **RBAC**: Role-based access control for production operations
 - **Audit Logging**: All interactions logged to CloudWatch
+
+#### Discord Slash Commands
+
+**Infrastructure Commands:**
+- `/status <service>` - Check the status of a service
+- `/logs <service> [tail]` - View recent logs from a service
+- `/deploy <env> <tag>` - Deploy a specific tag to an environment (dev/staging/prod)
+- `/scale <service> <replicas>` - Scale a service to the specified number of replicas
+
+**Information Commands:**
+- `/profile` - Display organization and founder information, credentials, and service offerings (configured in `discovery.yml`)
 
 ### 🌐 Event Gateway (`event-gateway`)
 - **Webhook Router**: GitHub/GitLab → Discord channel routing
@@ -101,6 +112,15 @@ org:
   name: "Strategickhaos DAO LLC / Valoryield Engine"
   contact:
     owner: "Domenic Garza"
+  profile:
+    legal_structure: "Limited Liability Company (Member-Managed)"
+    domicile: "Texas"
+    founder:
+      name: "Domenic Garza"
+      education: "B.S. Computer Science & Software Engineering (SNHU)"
+    services:
+      - "Cybersecurity Consulting"
+      - "Private Investigation Services"
 
 discord:
   guild_id: null  # Your Discord server ID
