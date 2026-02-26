@@ -31,7 +31,8 @@ export PRS_CHANNEL="channel_id"
 ## 📋 Core Components
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
-- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
+- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`, `/register`
+- **User Registration**: Users can register through Discord with the `/register` command
 - **AI Agent Integration**: GPT-4 powered assistance
 - **RBAC**: Role-based access control for production operations
 - **Audit Logging**: All interactions logged to CloudWatch
@@ -41,6 +42,7 @@ export PRS_CHANNEL="channel_id"
 - **HMAC Verification**: Cryptographic webhook validation
 - **Multi-tenant**: Support for multiple repositories and environments
 - **Rate Limiting**: API protection and burst control
+- **User API**: RESTful API for user registration and management
 
 ### 🔄 GitLens Integration
 - **VS Code Tasks**: One-click Discord notifications from GitLens
@@ -149,6 +151,47 @@ EVENTS_HMAC_KEY=your_64_char_hmac_key
 - **`#alerts`** - Critical system alerts, monitoring notifications
 - **`#agents`** - AI assistant interactions, automated responses
 - **`#dev-feed`** - Development activity, commit summaries
+
+## 👥 User Registration
+
+### Discord Command
+Users can register directly through Discord using the `/register` slash command:
+```
+/register username: your_username email: your@email.com
+```
+
+The email parameter is optional. Registration responses are ephemeral (only visible to the user).
+
+### REST API Endpoints
+The event gateway also exposes user registration via REST API:
+
+**Register a new user:**
+```bash
+POST /api/users/register
+Content-Type: application/json
+
+{
+  "username": "your_username",
+  "discordId": "123456789",
+  "email": "your@email.com"
+}
+```
+
+**Get user by Discord ID:**
+```bash
+GET /api/users/:discordId
+```
+
+**List all users:**
+```bash
+GET /api/users
+```
+
+### User Features
+- **Automatic Discord ID tracking**: Links Discord identity to user profile
+- **Role management**: Users can be assigned roles for access control
+- **Timestamp tracking**: Created and updated timestamps for audit trails
+- **Email validation**: Optional email with built-in validation
 
 ## 🤖 AI Agent Integration
 
