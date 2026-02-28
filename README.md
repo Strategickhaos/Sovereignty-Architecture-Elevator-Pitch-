@@ -42,6 +42,18 @@ export PRS_CHANNEL="channel_id"
 - **Multi-tenant**: Support for multiple repositories and environments
 - **Rate Limiting**: API protection and burst control
 
+### 🧠 RECON RAG API (`recon/retriever`)
+- **Semantic Search**: Vector-based code search across repositories
+- **LLM Integration**: AI-powered contextual responses
+- **Multi-Collection**: Support for multiple repository collections
+- **Prometheus Metrics**: Built-in observability
+
+### 🏗️ Refinory Orchestrator (`refinory`)
+- **AI Expert Teams**: Collaborative architecture design
+- **Request Management**: Track and manage architecture requests
+- **Artifact Generation**: Produce diagrams and documentation
+- **Expert Specialization**: Frontend, backend, security, DevOps, and more
+
 ### 🔄 GitLens Integration
 - **VS Code Tasks**: One-click Discord notifications from GitLens
 - **Review Workflows**: Automated PR lifecycle notifications
@@ -271,6 +283,18 @@ kubectl logs -f deployment/event-gateway -n ops
 # Verify HMAC signature
 curl -X POST https://events.strategickhaos.com/health
 ```
+
+## 📚 API Documentation
+
+Comprehensive API documentation for all services is available in **[API.md](API.md)**:
+
+- **[RECON RAG API](API.md#recon-rag-api)** - Semantic search and RAG queries
+- **[Event Gateway API](API.md#event-gateway-api)** - GitHub webhook integration
+- **[Refinory Orchestrator API](API.md#refinory-orchestrator-api)** - AI architecture design
+- **[Discord Bot Commands](API.md#discord-bot-commands)** - DevOps control plane
+
+Interactive API documentation is also available:
+- RECON RAG API Swagger UI: `http://localhost:7000/docs`
 
 ## 👥 Community & Contributors
 
