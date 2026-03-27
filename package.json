@@ -7,7 +7,9 @@
     "bot": "tsx watch src/bot.ts",
     "start": "node --enable-source-maps dist/event-gateway.js",
     "build": "tsc -p tsconfig.json",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:demystifier": "tsx src/demystifier.test.ts",
+    "demystify": "tsx src/demystify-cli.ts"
   },
   "dependencies": {
     "discord.js": "^14.16.3",
