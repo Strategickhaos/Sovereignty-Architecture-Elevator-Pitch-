@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import { REST } from "discord.js";
 import { loadConfig, env } from "./config.js";
 import { githubRoutes } from "./routes/github.js";
+import { setupSignupRoutes } from "./routes/signup.js";
 
 const cfg = loadConfig();
 const app = express();
@@ -19,6 +20,9 @@ const channelIds = {
   deployments: process.env.DEPLOYMENTS_CHANNEL_ID!,
   alerts: process.env.ALERTS_CHANNEL_ID!
 };
+
+// Setup signup routes
+setupSignupRoutes(app);
 
 app.post("/webhooks/github", githubRoutes(rest, channelIds, env("GITHUB_WEBHOOK_SECRET")));
 
