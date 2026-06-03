@@ -15,7 +15,6 @@ jobs:
       - name: Notify Discord
         if: success()
         env:
-          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-          CHANNEL_ID: ${{ secrets.DEPLOYMENTS_CHANNEL_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           bash scripts/gl2discord.sh "Build passed" "${{ github.repository }} @ ${{ github.sha }}"
