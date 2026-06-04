@@ -36,3 +36,16 @@ target/
 
 # Workspace data
 workspace/
+
+# Python generated files
+event_horizon_data.json
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
