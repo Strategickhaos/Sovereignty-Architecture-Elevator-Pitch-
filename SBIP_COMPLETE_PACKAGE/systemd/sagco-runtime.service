@@ -1,0 +1,21 @@
+[Unit]
+Description=SAGCO Runtime Bootstrap Service
+Documentation=https://github.com/strategickhaos-swarm-intelligence
+After=sagco-banner.service
+Requires=sagco-banner.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c 'echo "SAGCO Runtime: Initializing toolchain..." && \
+    if [ -f /usr/local/bin/flamelang_to_llvm.py ]; then \
+        /usr/local/bin/flamelang_to_llvm.py --banner; \
+    else \
+        echo "FlameLang compiler not found at /usr/local/bin/flamelang_to_llvm.py"; \
+    fi && \
+    echo "SAGCO Runtime: Bootstrap complete"'
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

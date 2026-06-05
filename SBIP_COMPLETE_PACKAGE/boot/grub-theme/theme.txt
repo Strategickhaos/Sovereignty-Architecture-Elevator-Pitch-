@@ -1,0 +1,76 @@
+# SAGCO GRUB Theme Configuration
+# Strategickhaos DAO LLC - RATIO EX NIHILO
+# 
+# Installation:
+# 1. Copy this file to /boot/grub/themes/sagco/theme.txt
+# 2. Copy ratio_ex_nihilo.png to /boot/grub/themes/sagco/
+# 3. Edit /etc/default/grub and add:
+#    GRUB_THEME="/boot/grub/themes/sagco/theme.txt"
+# 4. Run: sudo update-grub
+
+# General settings
+title-text: ""
+desktop-image: "ratio_ex_nihilo.png"
+desktop-color: "#000000"
+terminal-font: "Unifont Regular 16"
+
+# Boot menu
++ boot_menu {
+    left = 15%
+    top = 40%
+    width = 70%
+    height = 50%
+    
+    item_font = "Unifont Regular 16"
+    item_color = "#cccccc"
+    selected_item_color = "#ffffff"
+    selected_item_pixmap_style = "selected_*.png"
+    
+    item_height = 32
+    item_spacing = 8
+    item_padding = 10
+    
+    icon_width = 32
+    icon_height = 32
+}
+
+# Title text (SAGCO branding)
++ label {
+    top = 10%
+    left = 50%-200
+    width = 400
+    height = 50
+    text = "SAGCO OS - RATIO EX NIHILO"
+    color = "#ff00ff"
+    align = "center"
+    font = "Unifont Bold 20"
+}
+
+# Legal entity notice
++ label {
+    top = 15%
+    left = 50%-300
+    width = 600
+    height = 30
+    text = "Strategickhaos DAO LLC | EIN: 39-2923503"
+    color = "#8800ff"
+    align = "center"
+    font = "Unifont Regular 14"
+}
+
+# Progress bar
++ progress_bar {
+    id = "__timeout__"
+    left = 25%
+    top = 85%
+    width = 50%
+    height = 24
+    
+    fg_color = "#ff00ff"
+    bg_color = "#330033"
+    border_color = "#8800ff"
+    
+    font = "Unifont Regular 12"
+    text_color = "#ffffff"
+    text = "Boot timeout: %d"
+}

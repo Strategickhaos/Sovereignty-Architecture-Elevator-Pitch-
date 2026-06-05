@@ -1,0 +1,22 @@
+[Unit]
+Description=SAGCO FlameLang Compiler Daemon
+Documentation=https://github.com/strategickhaos-swarm-intelligence
+After=sagco-runtime.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/flamelang_to_llvm.py --banner
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log
+
+[Install]
+WantedBy=multi-user.target
