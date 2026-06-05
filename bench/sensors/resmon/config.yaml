@@ -1,0 +1,20 @@
+# ResMon Sensor Configuration
+# Monitors network watchdog state transitions
+
+sensor:
+  name: "resmon"
+  type: "network_watchdog"
+  description: "Resource Monitor - tracks Resonant/Dissonant/Collapsed states"
+
+inputs:
+  state_file: "/flamelang/membrane/net_watchdog/state.json"
+  poll_interval_s: 1
+
+outputs:
+  log_file: "/bench/sensors/resmon/log.jsonl"
+  log_format: "jsonl"
+
+states:
+  - "Resonant"
+  - "Dissonant"
+  - "Collapsed"

@@ -1,0 +1,19 @@
+id: vpn_drop
+description: "Drop tun0 for 10s, then restore"
+duration_s: 60
+
+timeline:
+  - t: 0
+    action: "baseline"
+  - t: 10
+    action: "vpn_down"
+  - t: 20
+    action: "vpn_up"
+
+metrics:
+  - name: detection_latency_ms
+    description: "time from fault start to system marking unhealthy"
+  - name: recovery_latency_ms
+    description: "time from fault end to system marking healthy"
+  - name: false_positive_rate
+    description: "unhealthy events outside fault window"

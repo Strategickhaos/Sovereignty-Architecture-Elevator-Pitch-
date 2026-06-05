@@ -1,0 +1,3 @@
+# Example Prometheus scraper log entries (JSONL format)
+# Each line represents a scrape result
+
