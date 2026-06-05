@@ -1,0 +1,63 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# STRATEGICKHAOS DAO LLC - Parent Entity
+# ═══════════════════════════════════════════════════════════════════════════
+
+legal_entity:
+  name: "Strategickhaos DAO LLC"
+  ein: "39-2900295"
+  file_number: "2025-001708194"
+  
+  formation:
+    state: "Wyoming"
+    jurisdiction: "Wyoming"
+    date: "2025-06-25"
+    
+  structure:
+    type: "DAO"
+    legal_form: "Limited Liability Company"
+    management: "Member-Managed"
+    
+  status:
+    current: "ACTIVE"
+    domicile_state: "Texas"
+    
+  role:
+    primary: "Parent/Holding Entity"
+    purpose: "To provide private investigation, cybersecurity, and security consulting services, including research, OSINT, red-team analysis, and lawful investigative support"
+    
+  contact:
+    principal_address:
+      street: "1216 S Fredonia St"
+      city: "Longview"
+      state: "TX"
+      zip: "75602-2544"
+    mailing_address:
+      street: "1216 S Fredonia St"
+      city: "Longview"
+      state: "TX"
+      zip: "75602-2544"
+    email: "domenic.garza@snhu.edu"
+    phone: "+1 346-263-2887"
+    
+  operations:
+    naics_code: "561611"
+    primary_service: "Private investigation and cybersecurity services including background checks, OSINT, digital forensics, and vulnerability assessments for individuals and businesses"
+    classifications:
+      - "Investigation Services"
+      - "Cybersecurity Consulting"
+      - "Security Services"
+      - "Research and Compliance"
+      
+  credentials:
+    founder_orcid: "0009-0005-2996-3526"
+    founder_twic: "Active (TSA/DHS)"
+    
+  compliance:
+    legal_actions: false
+    regulatory_status: "Good standing"
+    conduct_affirmation: "No criminal, civil, or regulatory actions pending or historical"
+    
+  verification:
+    source: "Harbor Compliance Profile + Manual Verification"
+    gpg_fingerprint: "AE5519579584DEF5"
+    timestamp: "2026-01-27T03:45:31Z"

@@ -1,0 +1,46 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# Node: iPower - Edge/Mobile Coordination Node
+# ═══════════════════════════════════════════════════════════════════════════
+
+node:
+  name: "iPower"
+  
+  type: "coordination_node"
+  
+  hardware:
+    ram: "64GB"
+    category: "Mobile / Edge Device"
+    
+  status:
+    operational: "ONLINE"
+    health: "HEALTHY"
+    
+  role:
+    primary: "Edge/Mobile Swarm Coordination"
+    description: "Lightweight coordination for edge computing and mobile swarm operations"
+    
+  capabilities:
+    - "Edge computing coordination"
+    - "Mobile swarm management"
+    - "Lightweight Kubernetes node"
+    - "Emergency communication relay"
+    
+  software:
+    os: "Mobile OS (iOS/iPadOS)"
+    containers: "Limited containerization"
+    
+  services:
+    - "Swarm coordination"
+    - "Edge computing tasks"
+    - "Communication relay"
+    - "Mobile monitoring"
+    
+  network:
+    vpn: "Tailscale (tail97edc9.ts.net)"
+    cluster_membership: "Local K8s Mesh"
+    mobility: "Full mobile access"
+    
+  verification:
+    parent: "Strategickhaos DAO LLC"
+    gpg_fingerprint: "AE5519579584DEF5"
+    timestamp: "2026-01-27T03:45:31Z"

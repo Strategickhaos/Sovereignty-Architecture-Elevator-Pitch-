@@ -1,0 +1,46 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# Local Kubernetes Mesh - Development & Testing
+# ═══════════════════════════════════════════════════════════════════════════
+
+cluster:
+  name: "Local K8s Mesh"
+  
+  provider:
+    platform: "Local"
+    type: "container_orchestration"
+    
+  infrastructure:
+    nodes: 4
+    distribution: "Distributed across Athena, Nova, Lyra, iPower"
+    
+  status:
+    operational: "RUNNING"
+    health: "HEALTHY"
+    
+  role:
+    primary: "Development & Testing"
+    purpose: "Local development, testing, and experimentation"
+    
+  configuration:
+    orchestration: "Kubernetes"
+    volumes: "45+"
+    networking: "Tailscale mesh interconnect"
+    
+  resources:
+    total_nodes: 4
+    total_ram: "320GB+"
+    
+  workloads:
+    - "Development environments"
+    - "Testing pipelines"
+    - "Experimental deployments"
+    - "Local AI model inference"
+    
+  networking:
+    mesh: "Tailscale VPN"
+    network_domain: "tail97edc9.ts.net"
+    
+  verification:
+    parent: "Strategickhaos DAO LLC"
+    gpg_fingerprint: "AE5519579584DEF5"
+    timestamp: "2026-01-27T03:45:31Z"

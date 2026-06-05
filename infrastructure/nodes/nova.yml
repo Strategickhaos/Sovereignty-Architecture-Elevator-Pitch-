@@ -1,0 +1,49 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# Node: Nova - GPU Compute Node
+# ═══════════════════════════════════════════════════════════════════════════
+
+node:
+  name: "Nova"
+  
+  type: "compute_node"
+  
+  hardware:
+    model: "ASUS TUF Gaming A15"
+    ram: "64GB"
+    gpu: "NVIDIA (Gaming grade)"
+    category: "Gaming Laptop / Compute"
+    
+  status:
+    operational: "ONLINE"
+    health: "HEALTHY"
+    
+  role:
+    primary: "GPU Compute"
+    description: "GPU-accelerated compute workloads and AI model inference"
+    
+  capabilities:
+    - "GPU-accelerated AI inference"
+    - "Machine learning training"
+    - "Parallel computation"
+    - "Kubernetes cluster node"
+    - "Gaming (when not in production mode)"
+    
+  software:
+    os: "Windows 11"
+    containers: "Docker + Kubernetes"
+    gpu_runtime: "NVIDIA Container Runtime"
+    
+  services:
+    - "AI model inference"
+    - "GPU compute workloads"
+    - "Kubernetes worker node"
+    - "Backup development environment"
+    
+  network:
+    vpn: "Tailscale (tail97edc9.ts.net)"
+    cluster_membership: "Local K8s Mesh"
+    
+  verification:
+    parent: "Strategickhaos DAO LLC"
+    gpg_fingerprint: "AE5519579584DEF5"
+    timestamp: "2026-01-27T03:45:31Z"
