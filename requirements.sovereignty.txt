@@ -87,3 +87,9 @@ pynput>=1.7.6              # Input monitoring and control
 asyncio-mqtt>=0.13.0       # MQTT for IoT device monitoring
 websockets>=11.0.3         # WebSocket connections for real-time data
 aiohttp>=3.8.5             # Async HTTP client/server
+
+# Quantum security and cryptography
+qiskit>=0.45.0             # Quantum computing framework (IBM)
+qiskit-aer>=0.13.0         # Aer quantum simulator backend
+scipy>=1.11.0              # Scientific computing for chaos analysis
+# Note: For production PQC, install liboqs-python (pip install liboqs-python)
