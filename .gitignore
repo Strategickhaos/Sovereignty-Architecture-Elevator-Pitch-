@@ -36,3 +36,10 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
