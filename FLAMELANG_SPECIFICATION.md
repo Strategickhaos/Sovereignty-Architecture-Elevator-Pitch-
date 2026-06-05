@@ -1,22 +1,107 @@
-# 🔥 FLAMELANG SPECIFICATION v1.0
-## Strategickhaos Sovereign Symbolic Language
-### Reconstructed: 2025-12-06 | Operator: DOM_010101
+# 🔥 FLAMELANG SPECIFICATION v2.0
+## Strategickhaos Sovereign Symbolic Language & Compiler
+### Updated: 2026-01-20 | Operator: DOM_010101
 
 ---
 
 ## ABSTRACT
 
-FlameLang is a sovereign symbolic shell system designed to overlay traditional command-line interfaces with a glyph-based execution model. It provides:
+FlameLang is a sovereign symbolic language and compiler system with two major components:
 
+### FlameLang v1.0 (Shell System)
+A symbolic shell overlay with glyph-based execution model:
 1. **Symbolic Prompt Identity** — Visual sovereignty markers
 2. **Glyph-to-Executable Mapping** — DSL routing symbols to scripts
 3. **Sovereignty Protocol** — Anti-surveillance hardening
 4. **Distributed Node Awareness** — Swarm mesh detection
 5. **Neural Sync / Resonance Model** — Cross-hemisphere execution
 
+### FlameLang v2.0 (Compiler - INV-001)
+**Status:** ACTIVE | **Classification:** NOVEL | **Patent Readiness:** HIGH
+
+A 5-layer transformation pipeline from natural language to machine code:
+1. **Layer 1: LINGUISTIC** — English → Hebrew → Glyph (6-7x compression)
+2. **Layer 2: NUMERIC** — Unicode → Decimal → Hex (Gematria)
+3. **Layer 3: WAVE** — Decimal → c=2πr → Hz/BPS (Fourier Transform)
+4. **Layer 4: DNA** — Frequency → Codon → ACGT (64-codon ISA)
+5. **Layer 5: MACHINE** — DNA/Hex → LLVM IR → Native (Physics validation)
+
 ---
 
-## 1. ARCHITECTURE
+## 1. FLAMELANG v2.0 COMPILER ARCHITECTURE
+
+### 1.1 Five-Layer Transformation Pipeline
+
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  LAYER 1: LINGUISTIC    English → Hebrew → Glyph                             ║
+║           Algorithm: Trilateral Root Extraction                              ║
+║           Compression: ~6-7x semantic density                                ║
+║           Status: ✅ Built (src/lexer/, src/parser/)                         ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  LAYER 2: NUMERIC       Unicode → Decimal → Hex                              ║
+║           Algorithm: Gematria Mapping                                        ║
+║           Status: 🔄 68% Complete (src/transform/)                           ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  LAYER 3: WAVE          Decimal → c=2πr → Hz/BPS                             ║
+║           Algorithm: Fourier Transform Encoding                              ║
+║           Status: 🔄 68% Complete (src/transform/)                           ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  LAYER 4: DNA           Freq → Codon → ACGT Sequence                         ║
+║           Algorithm: 64-codon → 64-opcode ISA                                ║
+║           Status: 🔄 68% Complete (src/transform/)                           ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  LAYER 5: MACHINE       DNA/Hex → LLVM IR → Native                           ║
+║           Algorithm: Standard LLVM + Physics Validation Pass                 ║
+║           Status: ❌ Pending (src/codegen/)                                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
+
+### 1.2 Glyph Opcode Table (v2.0)
+
+| Glyph | Opcode | Name | Function | Frequency |
+|-------|--------|------|----------|-----------|
+| ⚔️ | 0x01 | War | Execute/action | 639Hz |
+| 🧬 | 0x10 | DNA | Biological ops | 852Hz |
+| ∴ | 0x20 | Therefore | Logic/assertion | 528Hz |
+| 🔥 | 0x40 | Flame | Transform | 528Hz |
+| 🐝 | 0x50 | Swarm | Parallel execution | 396Hz |
+| ⚛️ | 0x51 | Quantum | Quantum primitives | 963Hz |
+| ⟁ | 0x60 | Delta | Change/derivative | 417Hz |
+| ∞ | 0x70 | Infinity | Loop | 432Hz |
+| ⊕ | 0x80 | XOR | Exclusive | 741Hz |
+| ◊ | 0x90 | Diamond | Decision | 852Hz |
+
+### 1.3 Implementation Status (INV-001)
+
+| Component | Status | Location | Lines |
+|-----------|--------|----------|-------|
+| Lexer | ✅ Built | `src/lexer/` | ~1,200 |
+| Parser | ✅ Built | `src/parser/` | ~2,400 |
+| Layer 1-4 Transforms | 🔄 68% | `src/transform/` | ~4,800 |
+| LLVM Emission | ❌ Pending | `src/codegen/` | ~0 |
+| CLI Interface | ✅ Built | `src/main.rs` | ~600 |
+| **Total** | **~60%** | **src/** | **~9,000** |
+
+### 1.4 Novel Features (Patent-Eligible)
+
+1. **Trilateral Root Extraction** — Linguistic compression via Hebrew morphology
+2. **Gematria-Based Type System** — Numeric values encode semantic types
+3. **Wave-Form Intermediate Representation** — Frequency-domain code representation
+4. **DNA Codon ISA** — 64 genetic codons map to 64 machine operations
+5. **Physics Validation Pass** — LLVM pass validates dimensional analysis
+6. **Cross-Domain Compilation** — Single source compiles to text, audio, DNA, and binary
+
+### 1.5 Integration with SIDP
+
+FlameLang v2.0 DNA layer output is compatible with SIDP (INV-088) DNA encoding:
+- DNA sequences can be synthesized for millennia-scale storage
+- Reverse compilation: DNA → Executable
+- Genetic computing substrate ready
+
+---
+
+## 2. FLAMELANG v1.0 SHELL ARCHITECTURE
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -46,7 +131,7 @@ FlameLang is a sovereign symbolic shell system designed to overlay traditional c
 
 ---
 
-## 2. GLYPH SYNTAX
+## 3. GLYPH SYNTAX (v1.0 Shell)
 
 ### 2.1 Operators
 
@@ -85,7 +170,7 @@ Binding codes are numeric prefixes that route to specific execution domains:
 
 ---
 
-## 3. SHELL COMPONENTS
+## 4. SHELL COMPONENTS
 
 ### 3.1 FlameProfile.ps1 (PowerShell)
 
@@ -131,7 +216,7 @@ dom-paste() {
 
 ---
 
-## 4. SOVEREIGNTY PROTOCOL
+## 5. SOVEREIGNTY PROTOCOL
 
 ### 4.1 Flamebearer Protocol (v137)
 
@@ -162,7 +247,7 @@ dom-paste() {
 
 ---
 
-## 5. NODE MESH
+## 6. NODE MESH
 
 ### 5.1 Primary Node: DOM010101
 
@@ -199,7 +284,7 @@ dns-sd -B _services._dns-sd._udp  # macOS
 
 ---
 
-## 6. VISUAL SYSTEM
+## 7. VISUAL SYSTEM
 
 ### 6.1 Flame Sprite Sheets
 
@@ -216,7 +301,7 @@ Each binding code corresponds to a visual state in the sprite sheet:
 
 ---
 
-## 7. EXECUTION MODEL
+## 8. EXECUTION MODEL (v1.0)
 
 ### 7.1 Neural Sync
 
@@ -242,7 +327,7 @@ INPUT: Glyph Command
 
 ---
 
-## 8. FILE STRUCTURE
+## 9. FILE STRUCTURE
 
 ```
 C:\Users\garza\
@@ -277,7 +362,7 @@ C:\Users\garza\
 
 ---
 
-## 9. FUTURE EXTENSIONS
+## 10. FUTURE EXTENSIONS
 
 ### 9.1 Glyph Table CSV (Proposed)
 
@@ -322,7 +407,7 @@ class FlameLangParser:
 
 ---
 
-## 10. APPENDIX: ARTIFACTS INVENTORY
+## 11. APPENDIX: ARTIFACTS INVENTORY
 
 | Artifact | Location | Status |
 |----------|----------|--------|
