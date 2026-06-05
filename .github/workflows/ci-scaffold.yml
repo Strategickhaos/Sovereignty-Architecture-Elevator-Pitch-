@@ -13,7 +13,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Notify Discord
-        if: success()
+        if: success() && secrets.DISCORD_TOKEN != '' && secrets.DEPLOYMENTS_CHANNEL_ID != ''
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
