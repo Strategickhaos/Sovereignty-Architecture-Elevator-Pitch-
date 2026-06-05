@@ -66,6 +66,9 @@ plotly>=5.17.0             # Interactive performance charts
 dash>=2.14.0               # Web dashboard for real-time monitoring
 bokeh>=3.2.0               # Statistical visualization
 
+# Music generation for KHAOS Periodic Hymn
+MIDIUtil>=1.2.1            # MIDI file creation for glyph table sonification
+
 # Network traffic analysis
 pypcap>=1.2.3              # Packet capture interface
 pcapy>=0.11.4              # Network packet capture
