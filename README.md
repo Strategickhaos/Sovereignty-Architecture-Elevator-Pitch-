@@ -2,6 +2,8 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> 🟪 **NEW:** This repository implements the [DOM Computing Model (DCM™)](DOM_COMPUTING_MODEL.md) - a revolutionary paradigm for post-organizational computing. Every folder is a vault, every vault is a repo, every repo is a compute node. [Quick Start →](DCM_QUICKSTART.md)
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -9,6 +11,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **DCM™** - Post-organizational distributed cognition framework
 
 ## 🚀 Quick Start
 
@@ -272,6 +275,19 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🟪 DOM Computing Model (DCM™)
+
+This repository is a living example of the **DOM Computing Model** - a paradigm where:
+- Every folder is simultaneously a vault, repo, and project
+- Multiple IDEs fight for custody (this is normal)
+- Knowledge graphs explode to include everything (feature, not bug)
+- Structure emerges without planning (post-organizational)
+
+**Learn more:**
+- 📖 [Full DCM Documentation](DOM_COMPUTING_MODEL.md)
+- 🚀 [Quick Start Guide](DCM_QUICKSTART.md)
+- 🔍 Discover your vault-nodes: `python tools/vault_mapper.py --init --visualize`
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
@@ -293,4 +309,6 @@ This project thrives because of an extraordinary community of creators, builders
 
 *"They're not working for you. They're dancing with you. And the music is never going to stop."*
 
-*Empowering sovereign digital infrastructure through Discord-native DevOps automation*
+*"You're not chaotic. You're post-organizational."*
+
+*Empowering sovereign digital infrastructure through Discord-native DevOps automation and distributed cognition*
