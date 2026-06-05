@@ -1,0 +1,82 @@
+# TREO CRISPR Sickle Cell Sim → TRIG6 → Loihi Neuromorphic Pipeline
+# V1.0.0 - Evolves gRNA for HBB edit using TREO; Loihi-spike embeds.
+
+meta:
+  id: PIPELINE-TREO-CRISPR-LOIHI-001
+  name: "TREO CRISPR Sickle Repair"
+  desc: >-
+    Sim gRNA evo for sickle (HBB A>T repair) with TREO algo; Loihi LIF spikes for embeds,
+    TRIG6 gates; output repair codons.
+  owner: "Strategickhaos DAO LLC"
+  eq_target: 0.95
+  tan_limit: 8.5
+
+inputs:
+  hbb_target: "GAAGAGCCATCTATTCTTAA"  # Sickle mutation site
+  work_dir: "artifacts/treo_crispr/"
+  pop_size: 20
+  gens: 10
+  seed: 2026
+
+stages:
+  - id: ingest
+    name: "DNA Target Ingest"
+    params: {format: "seq", len: 20}
+    outputs: {data_path: "${work_dir}/hbb_data.json"}
+
+  - id: anomaly_detect
+    name: "Mutation Detect"
+    params: {model: "var_thresh", contam: 0.1}
+    outputs: {anoms_path: "${work_dir}/anoms.json"}
+
+  - id: glyph_extract
+    name: "Gene Glyph Extract"
+    params: {feats: ["base_rate", "mut_var"]}
+    outputs: {glyphs_dir: "${work_dir}/glyphs/raw"}
+
+  - id: loihi_embed
+    name: "Loihi SNN Embed"
+    params: {model: "lif", tau: 0.02, thresh: 1.0, dim: 64}  # Spike bases
+    inputs: {glyphs_dir: "${work_dir}/glyphs/raw"}
+    outputs: {embeds_path: "${work_dir}/glyphs/embeds.npy"}
+
+  - id: treo_evo
+    name: "TREO gRNA Evolution"
+    treo:
+      top_k: 5
+      base_mut: 0.1
+      crossover_prob: "R"  # Gate by resonance
+    trig6:
+      theta_fn: "theta = 2*PI * (gen_progress)"
+      res_fn: "R = clamp(0.6*match + 0.4*eff, 0.0, 1.0)"
+      drift_fn: "D = off_target"
+      noise_fn: "N = mismatch_var"
+      eq_fn: "eq = edit_eff"
+      danger: "danger = abs(tan(theta)) > limit or off_target > 0.1"
+      fitness: "fitness = R*(1-D)*(1-N)*eq"
+    params: {gens: "${gens}", pop: "${pop_size}"}
+    inputs: {data_path: "${work_dir}/hbb_data.json"}
+    outputs: {champ_path: "${work_dir}/binding/champ_grna.json", log: "${work_dir}/binding/treo_log.json"}
+
+  - id: emit
+    name: "Repair Codon Emit"
+    params: {fmt: "v1"}
+    inputs: {champ: "${work_dir}/binding/champ_grna.json"}
+    outputs: {streams: "${work_dir}/binding/streams"}
+
+  - id: compile
+    name: "SAGCO Compile"
+    params: {mode: "sandbox"}
+    inputs: {streams: "${work_dir}/binding/streams"}
+    outputs: {bins: "${work_dir}/binding/bins"}
+
+trig6_global: {limit: "${tan_limit}", eq: "${eq_target}"}
+
+gov:
+  lic: "© 2026 Strategickhaos DAO LLC – Sim Only"
+  const: ["No real edits", "Ethical sim"]
+  audit: {dir: "${work_dir}/audit", hash: "sha256"}
+
+genome_inh:
+  genes: ["NEURO-36"]
+  homs: ["HOM-07"]  # Blood/gen recon
