@@ -1,0 +1,10 @@
+{
+  "params": {
+    "n_clusters": 36,
+    "strategy": "burst_weighted",
+    "burst_variance_threshold": 0.2,
+    "phase_lock_bias": 0.5
+  },
+  "fitness": 0.524,
+  "generation": 36
+}

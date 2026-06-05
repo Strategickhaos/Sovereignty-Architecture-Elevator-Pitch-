@@ -1,0 +1,372 @@
+[
+  {
+    "generation": 0,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 1,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 2,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 3,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 4,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 5,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.621622878739854
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 6,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.1,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 7,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.1687093380564157,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 8,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2763232188266634,
+      "phase_lock_bias": 0.3942949197107687
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 9,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 10,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 11,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 12,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5149553890556355
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 13,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 14,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 15,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.20578500957270432,
+      "phase_lock_bias": 0.33094107860956645
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 16,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 17,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 18,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 19,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 20,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.22115565704698295,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 21,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.1584203214977096,
+      "phase_lock_bias": 0.5262013278227702
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 22,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 23,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 24,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.6754610620915716
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 25,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2903607329846678,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 26,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5953147861006223
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 27,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 28,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.6619815418329102
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 29,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 30,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 31,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 32,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.24740125039311467,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 33,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 34,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.17891951789707927,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 35,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  },
+  {
+    "generation": 36,
+    "params": {
+      "n_clusters": 36,
+      "strategy": "burst_weighted",
+      "burst_variance_threshold": 0.2,
+      "phase_lock_bias": 0.5
+    },
+    "fitness": 0.524
+  }
+]

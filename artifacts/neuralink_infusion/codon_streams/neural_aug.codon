@@ -1,0 +1,35 @@
+# Neural Augmentation Codon Stream
+# Generated: 2026-01-25T11:11:29.054965
+# Source: Neuromorphic LIF embedding with TRIG6 evolution
+
+NEURAL_AUG_MODULE {
+    version: "1.0.0"
+    source: "neuralink_infusion_pipeline"
+    
+    # Cognitive Pattern Codons
+    HYPERFOCUS_BURST {
+        operation: "focus_boost"
+        target: "os_pipelines"
+        mode: "offload"
+    }
+    
+    MEMORY_GAP {
+        operation: "memory_export"
+        target: "external_logs"
+        mode: "bridge"
+    }
+    
+    DRIFT_DETECTION {
+        operation: "predict_crash"
+        target: "stability_monitor"
+        mode: "preemptive"
+    }
+    
+    SENSORY_OVERLOAD {
+        operation: "throttle_input"
+        target: "stimulus_controller"
+        mode: "rate_limit"
+    }
+}
+
+# Symbol mappings: 36 total codons
