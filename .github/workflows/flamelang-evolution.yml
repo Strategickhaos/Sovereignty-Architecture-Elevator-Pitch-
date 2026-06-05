@@ -1,0 +1,205 @@
+name: FlameLang Evolution Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - copilot/lock-arrow-evolution-extension
+    paths:
+      - 'phase-4.8-evolution/**'
+      - '.github/workflows/flamelang-evolution.yml'
+  
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'phase-4.8-evolution/**'
+  
+  workflow_dispatch:
+    inputs:
+      gene_filter:
+        description: 'Filter genes to evolve (comma-separated IDs, or "all")'
+        required: false
+        default: 'all'
+
+env:
+  DNA_STRAND: TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1-ARROWEVO1
+  PYTHON_VERSION: '3.9'
+
+jobs:
+  convert-genes:
+    name: Convert Genes to Lab Format
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          cd phase-4.8-evolution
+          if [ -f requirements-labconv.txt ]; then
+            pip install -r requirements-labconv.txt
+          else
+            pip install pyyaml
+          fi
+      
+      - name: Run SAGCO Lab Converter
+        run: |
+          cd phase-4.8-evolution
+          python src/tools/sagco_lab_converter.py
+      
+      - name: Upload lab format artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab-formats
+          path: |
+            phase-4.8-evolution/lab_format_*.json
+            phase-4.8-evolution/lab_handshake.yaml
+          retention-days: 30
+  
+  simulate-wave-processing:
+    name: Simulate Wave Core Processing
+    runs-on: ubuntu-latest
+    needs: convert-genes
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Download lab format artifacts
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: lab-formats
+          path: phase-4.8-evolution/
+      
+      - name: Run Lab Convert Simulator
+        run: |
+          cd phase-4.8-evolution
+          python src/emulator/wave_cores/trig6/lab_converter/lab_convert_sim.py
+      
+      - name: Upload simulation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulation-results
+          path: phase-4.8-evolution/simulation_*.json
+          retention-days: 30
+  
+  evolution-gate:
+    name: Evolution Gate Selection
+    runs-on: ubuntu-latest
+    needs: simulate-wave-processing
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          cd phase-4.8-evolution
+          if [ -f requirements-labconv.txt ]; then
+            pip install -r requirements-labconv.txt
+          else
+            pip install pyyaml
+          fi
+      
+      - name: Download simulation results
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: simulation-results
+          path: phase-4.8-evolution/
+      
+      - name: Run Evolution Gate
+        run: |
+          cd phase-4.8-evolution
+          python src/tools/flamelang_evo_gate.py
+      
+      - name: Generate Neurograph
+        run: |
+          cd phase-4.8-evolution
+          if [ -d neurographs ]; then
+            echo "Neurograph generated successfully"
+            ls -la neurographs/
+          fi
+      
+      - name: Upload evolution results
+        uses: actions/upload-artifact@v4
+        with:
+          name: evolution-results
+          path: |
+            phase-4.8-evolution/evolution_reports/**
+            phase-4.8-evolution/neurographs/**
+          retention-days: 90
+  
+  auto-commit-evolution:
+    name: Auto-Commit Evolution Success
+    runs-on: ubuntu-latest
+    needs: evolution-gate
+    if: success()
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Download evolution results
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: evolution-results
+          path: phase-4.8-evolution/
+      
+      - name: Commit evolution results
+        run: |
+          git config --global user.name "FlameLang Evolution Bot"
+          git config --global user.email "evolution@flamelang.sagco"
+          
+          cd phase-4.8-evolution
+          
+          if [ -d evolution_reports ] || [ -d neurographs ]; then
+            git add evolution_reports/ neurographs/ || true
+            
+            GENERATION=$(ls evolution_reports/ | wc -l)
+            git commit -m "🔥 Evolution: Generation ${GENERATION} - Auto-commit on success" || echo "No changes to commit"
+            
+            git push || echo "Push failed or no changes"
+          fi
+  
+  summary:
+    name: Evolution Summary
+    runs-on: ubuntu-latest
+    needs: [convert-genes, simulate-wave-processing, evolution-gate]
+    if: always()
+    
+    steps:
+      - name: Display Summary
+        run: |
+          echo "=========================================="
+          echo "FLAMELANG EVOLUTION PIPELINE SUMMARY"
+          echo "=========================================="
+          echo "DNA Strand: $DNA_STRAND"
+          echo "Python Version: $PYTHON_VERSION"
+          echo ""
+          echo "Pipeline Status:"
+          echo "  Convert Genes: ${{ needs.convert-genes.result }}"
+          echo "  Wave Processing: ${{ needs.simulate-wave-processing.result }}"
+          echo "  Evolution Gate: ${{ needs.evolution-gate.result }}"
+          echo "=========================================="

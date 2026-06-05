@@ -1,0 +1,56 @@
+# Lab Handshake Configuration
+# SAGCO Laboratory Integration for FlameLang Evolution
+
+protocol: SAGCO_LAB_v1.0
+dna_strand: TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1-ARROWEVO1
+
+system_config:
+  wave_core: trig6
+  converter_active: true
+  auto_evolution: true
+  neurograph_enabled: true
+
+experiments:
+  - gene_id: "3.35"
+    gene_name: "draw_half_arrow"
+    status: ready
+    priority: normal
+    wave_parameters:
+      resonance_mode: hybrid
+      wave_type: trig6
+    
+  - gene_id: "3.36"
+    gene_name: "count_input"
+    status: ready
+    priority: normal
+    wave_parameters:
+      resonance_mode: hybrid
+      wave_type: trig6
+
+processing_config:
+  batch_mode: true
+  parallel_experiments: 2
+  timeout_seconds: 300
+  retry_on_failure: true
+  max_retries: 3
+
+evaluation_gates:
+  hard_gates:
+    min_equilibrium: 0.99
+    max_noise: 0.25
+    max_drift: 0.35
+  soft_gates:
+    min_fitness: 0.90
+    convergence_threshold: 0.98
+
+output_config:
+  save_results: true
+  results_directory: "evolution_results"
+  neurograph_directory: "neurographs"
+  format: json
+  
+handshake_protocol:
+  version: "1.0"
+  authentication: "SAGCO_LAB_TOKEN"
+  heartbeat_interval_seconds: 60
+  status_reporting: true

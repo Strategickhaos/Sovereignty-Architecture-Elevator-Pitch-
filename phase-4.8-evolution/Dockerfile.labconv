@@ -1,0 +1,39 @@
+# FlameLang Lab Converter Docker Image
+# DNA: TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1-ARROWEVO1
+
+FROM python:3.9-slim
+
+LABEL maintainer="Strategickhaos DAO LLC"
+LABEL description="FlameLang Evolution Lab Converter"
+LABEL version="1.0"
+LABEL dna_strand="TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1-ARROWEVO1"
+
+# Set working directory
+WORKDIR /flamelang
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements-labconv.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements-labconv.txt
+
+# Copy source code
+COPY src/ ./src/
+COPY config/ ./config/
+COPY *.flame.yaml ./
+
+# Create necessary directories
+RUN mkdir -p evolution_reports neurographs lab_formats
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV DNA_STRAND=TRIG6-WAVE1-HYBRID1-NEURO1-LABCONV1-EVOGATE1-ARROWEVO1
+
+# Default command: run lab converter
+CMD ["python", "src/tools/sagco_lab_converter.py"]

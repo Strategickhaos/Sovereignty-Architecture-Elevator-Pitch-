@@ -1,0 +1,128 @@
+# TRIG6 Neurograph Configuration
+# Visualization and monitoring configuration for FlameLang evolution
+
+neurograph:
+  enabled: true
+  version: "1.0"
+  wave_core: trig6
+  
+visualization:
+  type: ascii
+  update_frequency: per_generation
+  max_history: 100
+  display_mode: detailed
+  
+  graphs:
+    - name: fitness_evolution
+      type: line
+      metric: fitness
+      color: cyan
+      
+    - name: equilibrium_tracker
+      type: line
+      metric: equilibrium
+      color: green
+      
+    - name: noise_monitor
+      type: line
+      metric: noise
+      color: yellow
+      
+    - name: drift_monitor
+      type: line
+      metric: drift
+      color: red
+
+rendering:
+  width: 80
+  height: 24
+  charset: unicode
+  symbols:
+    success: "✓"
+    failure: "✗"
+    in_progress: "●"
+    champion: "★"
+    
+metrics:
+  tracked_metrics:
+    - equilibrium
+    - noise
+    - drift
+    - fitness
+  
+  derived_metrics:
+    - name: stability
+      formula: "(1 - noise) * (1 - drift)"
+    
+    - name: quality
+      formula: "equilibrium * fitness"
+  
+  thresholds:
+    critical:
+      equilibrium: 0.95
+      noise: 0.30
+      drift: 0.40
+    warning:
+      equilibrium: 0.97
+      noise: 0.27
+      drift: 0.37
+    optimal:
+      equilibrium: 0.99
+      noise: 0.25
+      drift: 0.35
+
+evolution_tracking:
+  track_generations: true
+  track_champions: true
+  track_mutations: true
+  track_crossovers: true
+  
+  champion_history:
+    max_champions: 10
+    save_genes: true
+    
+  generation_snapshots:
+    enabled: true
+    frequency: 10
+    save_directory: "generation_snapshots"
+
+output:
+  console_output: true
+  file_output: true
+  output_directory: "neurographs"
+  file_format: txt
+  timestamp_format: "%Y%m%d_%H%M%S"
+  
+  real_time_display:
+    enabled: true
+    refresh_rate_ms: 1000
+    
+alerts:
+  enabled: true
+  
+  conditions:
+    - name: gate_failure
+      condition: "not all_gates_passed"
+      severity: warning
+      
+    - name: fitness_drop
+      condition: "fitness < previous_fitness * 0.95"
+      severity: warning
+      
+    - name: champion_achieved
+      condition: "is_new_champion"
+      severity: info
+      
+    - name: convergence
+      condition: "fitness >= 0.98"
+      severity: success
+
+export:
+  formats:
+    - json
+    - yaml
+    - csv
+  
+  include_metadata: true
+  include_timestamps: true
+  compress_output: false
