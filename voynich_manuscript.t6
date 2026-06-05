@@ -1,0 +1,202 @@
+# TRIG6 Recipe File (.t6)
+# Voynich Manuscript Glyph Mapping Simulation
+# ID: VOYNICH-008
+
+[metadata]
+id = VOYNICH-008
+name = Voynich Manuscript Glyph Mapping
+origin = Unknown (possibly Central Europe)
+period = 15th Century CE
+type = Illustrated Codex
+status = Undeciphered
+hazard_level = LOW
+
+[description]
+The Voynich Manuscript is an illustrated codex written in an unknown script and language.
+It contains herbal, astronomical, biological, cosmological, and pharmaceutical sections.
+Most similar to Codex Seraphinianus in being an asemic, illustrated manuscript with
+invented or undeciphered writing system.
+
+Correlation to Codex: HIGHEST - Both are illustrated codices with botanical/herbal 
+illustrations, unknown scripts, and encyclopedic structure. The Voynich is the closest 
+real-world parallel to the modern Codex Seraphinianus.
+
+[pipeline_use]
+- Primary glyph source for FlameLang compiler
+- Embed glyphs using computer vision (embedding_dim=280)
+- Cluster to 64 codons for genetic code mapping
+- TRIG6 validation ensures fitness >0.7 (stable mappings)
+- Compile to SAGCO-OS sovereign instruction set
+
+[ingredients]
+# Base parameters for glyph extraction and clustering
+embedding_dim = 280.0
+min_cluster_size = 18.0
+max_clusters = 128.0
+image_dpi = 340.0
+glyph_min_size = 30.0
+
+# Voynich-specific parameters
+page_segmentation_threshold = 0.85
+botanical_illustration_weight = 1.2
+astronomical_diagram_weight = 1.1
+text_line_extraction_min_length = 15.0
+
+[process_stages]
+# Define the stages through which glyph mapping evolves
+# Each stage is a step s ∈ [0,1] in the TRIG6 simulation
+stages = [
+    "page_extraction",
+    "glyph_segmentation", 
+    "feature_extraction",
+    "embedding_generation",
+    "clustering_initialization",
+    "cluster_refinement",
+    "codon_assignment",
+    "stability_validation",
+    "cross_page_validation",
+    "final_mapping"
+]
+
+[custom_hooks]
+# Custom resonance calculation for Voynich glyphs
+# R = cluster_purity × coverage × stability × herbal_coherence
+R_function = """
+def compute_voynich_resonance(ingredients, s):
+    # Voynich has 240+ pages with distinct sections
+    # Cluster purity increases as we process more pages
+    cluster_purity = 0.3 + (0.4 * s)  # Improves with progress
+    
+    # Coverage: How many unique glyphs mapped
+    # Voynich has ~20-30 unique characters
+    coverage = min(1.0, (ingredients['max_clusters'] / 128.0) * (0.6 + 0.4 * s))
+    
+    # Stability: Consistent mappings across pages
+    # Early stages unstable, improves with validation
+    stability = s ** 0.7  # Power law improvement
+    
+    # Herbal section coherence (Voynich-specific)
+    herbal_weight = ingredients.get('botanical_illustration_weight', 1.0)
+    herbal_coherence = min(1.0, herbal_weight * 0.8)
+    
+    R = cluster_purity * coverage * stability * herbal_coherence
+    return min(1.0, R)
+"""
+
+# Custom drift calculation for Voynich
+# D = reassignment_rate + outlier_fraction + cross_section_inconsistency
+D_function = """
+def compute_voynich_drift(ingredients, hazard_level):
+    # Voynich has sections with different glyph frequencies
+    # This creates drift between sections
+    
+    # Base drift from clustering instability
+    base_drift = 0.2
+    
+    # Section inconsistency (herbal vs. astronomical vs. pharmaceutical)
+    section_weight = ingredients.get('botanical_illustration_weight', 1.0)
+    astro_weight = ingredients.get('astronomical_diagram_weight', 1.0)
+    section_variance = abs(section_weight - astro_weight) * 0.3
+    
+    # Outlier glyphs (rare characters)
+    min_cluster = ingredients['min_cluster_size']
+    outlier_fraction = max(0.0, (20.0 - min_cluster) / 20.0) * 0.15
+    
+    D = base_drift + section_variance + outlier_fraction
+    return min(1.0, D)
+"""
+
+# Custom noise calculation for Voynich
+# N = embedding_variance + extraction_error + manuscript_damage
+N_function = """
+def compute_voynich_noise(s, ingredients):
+    # Voynich manuscript has page damage and ink degradation
+    
+    # Embedding dimension reduces uncertainty
+    embedding_dim = ingredients['embedding_dim']
+    dim_factor = max(0.1, 1.0 - (embedding_dim / 400.0))
+    
+    # Early extraction has high noise
+    temporal_noise = math.exp(-2.5 * s)
+    
+    # Manuscript damage (some pages damaged)
+    damage_factor = 0.15  # ~15% of pages have significant damage
+    
+    # DPI affects extraction quality
+    dpi = ingredients['image_dpi']
+    quality_factor = max(0.0, (350.0 - dpi) / 350.0) * 0.2
+    
+    N = dim_factor * temporal_noise + damage_factor + quality_factor
+    return min(1.0, N * 0.8)  # Voynich is well-preserved overall
+"""
+
+[expected_results]
+# Based on Codex Seraphinianus simulation pattern
+# Voynich should have similar low fitness due to undeciphered nature
+expected_mean_fitness = 0.05
+expected_fitness_range = [0.0, 0.15]
+expected_danger_rate_percent = 95.0
+
+# Evolution should find better configs but still low fitness
+# Note: Evolved parameters may improve slightly but fitness remains low
+evolved_fitness_range_min = 0.0
+evolved_fitness_range_max = 0.25
+evolved_danger_count_min = 4
+evolved_danger_count_max = 8
+
+[interpretation]
+# How to interpret simulation results
+failure_modes = [
+    "Low R: Glyph extraction yields undeciphered clusters (no semantic coherence)",
+    "High D: Cross-section drift (herbal vs. astronomical glyphs cluster differently)",
+    "Moderate N: Well-preserved manuscript reduces noise, but unknown script adds uncertainty",
+    "Danger zones: tan(θ) blow-ups during cluster validation (unstable assignments)"
+]
+
+mitigation_strategies = [
+    "Increase embedding_dim to capture more glyph features",
+    "Reduce min_cluster_size to handle rare characters",
+    "Increase max_clusters to distinguish between sections",
+    "Higher DPI scanning to reduce extraction errors"
+]
+
+success_criteria = [
+    "Fitness > 0.7: Stable glyph-to-codon mappings",
+    "Danger rate < 20%: Minimal instability during validation",
+    "R > 0.8: High cluster purity and coverage",
+    "D < 0.3: Low drift between manuscript sections"
+]
+
+[compiler_integration]
+# How Voynich glyphs feed into FlameLang/SAGCO-OS pipeline
+pipeline_steps = [
+    "1. Scan Voynich pages at high DPI (340+)",
+    "2. Extract individual glyphs using computer vision",
+    "3. Generate embeddings (CNN or SIFT features, dim=280)",
+    "4. Cluster glyphs into 64 codons (genetic code)",
+    "5. TRIG6 validation: Simulate fitness for each mapping",
+    "6. If fitness > 0.7, accept mapping",
+    "7. Compile codon sequences to SAGCO-OS instruction set",
+    "8. Execute as sovereign shell commands in FlameLang"
+]
+
+output_format = "FlameLang glyph_map.json with Voynich codon bindings"
+
+[references]
+# Academic and historical references
+sources = [
+    "Voynich MS (Beinecke Rare Book & Manuscript Library, Yale)",
+    "Codex Seraphinianus (1981) by Luigi Serafini",
+    "The Voynich Manuscript: An Elegant Enigma (2006) - D'Imperio",
+    "TRIG6 Framework - Sister Protocol Validation Engine"
+]
+
+[notes]
+# Additional observations
+- Voynich has ~170,000 characters across 240 pages
+- Character frequency follows Zipf's law (natural language property)
+- No spaces between words, but clear paragraph structures
+- Illustrations correlate with text sections (botanical, astronomical)
+- Statistical analysis suggests meaningful text, but undeciphered
+- TRIG6 simulation treats it as asemic for glyph mapping purposes
+- Pipeline goal: Map visual glyphs to executable codons without semantic decipherment

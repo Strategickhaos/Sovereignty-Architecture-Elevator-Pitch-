@@ -36,3 +36,19 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# TRIG6 simulation outputs (keep reports in repo)
+# trig6_report_*.txt
+# trig6_simulation_report.txt

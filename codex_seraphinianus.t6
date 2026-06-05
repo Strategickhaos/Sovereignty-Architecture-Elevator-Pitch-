@@ -1,0 +1,185 @@
+# TRIG6 Recipe File (.t6)
+# Codex Seraphinianus Glyph Mapping Simulation
+# ID: GLYPH-SERAPH-001
+
+[metadata]
+id = GLYPH-SERAPH-001
+name = Codex Seraphinianus Glyph Mapping
+origin = Italy
+period = 1981 (published)
+type = Illustrated Encyclopedia
+status = Asemic (invented, no meaning by design)
+hazard_level = LOW
+
+[description]
+The Codex Seraphinianus is an illustrated encyclopedia of an imaginary world,
+created by Italian artist Luigi Serafini. The writing system is asemic - 
+designed to appear like writing but without semantic content. It uses curves
+similar to Sinhala script and has a base-21 numbering system.
+
+Correlation to Reality: This is the reference case for "undeciphered failure basin"
+because it is INTENTIONALLY undecipherable. Low R (resonance) is expected and correct.
+
+[pipeline_use]
+- Baseline for asemic script simulation
+- Test case for "no meaning" glyph mappings
+- Comparison point for other undeciphered scripts
+- Validates TRIG6 can detect semantic void
+
+[ingredients]
+# Base parameters for glyph extraction and clustering
+embedding_dim = 256.0
+min_cluster_size = 15.0
+max_clusters = 120.0
+image_dpi = 300.0
+glyph_min_size = 30.0
+
+# Codex-specific parameters
+page_layout_complexity = 1.5
+illustration_density = 0.8
+script_curvature_factor = 1.3
+base_21_numbering = 21.0
+
+[process_stages]
+stages = [
+    "page_extraction",
+    "text_illustration_separation",
+    "glyph_segmentation",
+    "curvature_analysis",
+    "embedding_generation",
+    "clustering_initialization",
+    "cluster_refinement",
+    "semantic_validation",  # Always fails (asemic)
+    "numbering_extraction",
+    "final_mapping"
+]
+
+[custom_hooks]
+# Custom resonance for asemic script (should be very low)
+R_function = """
+def compute_codex_resonance(ingredients, s):
+    # Codex is asemic - no semantic resonance expected
+    # Resonance comes only from visual clustering
+    
+    # Visual cluster purity (shape-based only)
+    visual_purity = 0.2 + (0.1 * s)  # Very low baseline
+    
+    # Coverage (all glyphs can be extracted)
+    coverage = 0.8 + (0.2 * s)
+    
+    # Stability (consistent visual patterns)
+    stability = s ** 0.5
+    
+    # Semantic coherence (ZERO - asemic by design)
+    semantic = 0.0
+    
+    # R dominated by visual, not semantic
+    R = visual_purity * coverage * stability * 0.5
+    return min(1.0, R)
+"""
+
+# Drift is high due to no semantic anchoring
+D_function = """
+def compute_codex_drift(ingredients, hazard_level):
+    # Asemic scripts have high drift - no meaning to anchor clusters
+    
+    # Base drift from visual variation
+    base_drift = 0.4
+    
+    # Illustration complexity adds drift
+    illustration_factor = ingredients.get('illustration_density', 0.8) * 0.2
+    
+    # Curvature creates reassignment issues
+    curvature = ingredients.get('script_curvature_factor', 1.3)
+    curvature_drift = (curvature - 1.0) * 0.3
+    
+    D = base_drift + illustration_factor + curvature_drift
+    return min(1.0, D)
+"""
+
+# Noise moderate (well-illustrated modern book)
+N_function = """
+def compute_codex_noise(s, ingredients):
+    # Codex is a modern, high-quality publication
+    # Low noise from physical degradation
+    
+    embedding_dim = ingredients['embedding_dim']
+    dim_factor = max(0.1, 1.0 - (embedding_dim / 400.0))
+    
+    # Temporal noise (decreases with processing)
+    temporal_noise = math.exp(-2.0 * s)
+    
+    # Modern printing = low damage
+    damage_factor = 0.05
+    
+    # DPI quality
+    dpi = ingredients['image_dpi']
+    quality_factor = max(0.0, (350.0 - dpi) / 350.0) * 0.1
+    
+    N = dim_factor * temporal_noise * 0.5 + damage_factor + quality_factor
+    return min(1.0, N)
+"""
+
+[expected_results]
+# Codex should have VERY low fitness (asemic = no meaning)
+expected_mean_fitness = 0.02
+expected_fitness_range = [0.0, 0.10]
+expected_danger_rate_percent = 95.0
+
+# Evolution can optimize parameters but cannot create meaning
+# Note: Evolved parameters may change but fitness remains very low
+evolved_fitness_range_min = 0.0
+evolved_fitness_range_max = 0.15
+evolved_danger_count_min = 5
+evolved_danger_count_max = 8
+
+[interpretation]
+failure_modes = [
+    "Ultra-low R: Asemic script has no semantic resonance (by design)",
+    "High D: No semantic anchoring causes cluster drift",
+    "Low N: Modern printing reduces noise, but can't fix asemic void",
+    "Danger zones: Validation stages fail (no meaning to validate)"
+]
+
+mitigation_strategies = [
+    "CANNOT BE MITIGATED - script is asemic by design",
+    "Increasing parameters only optimizes visual clustering",
+    "Semantic void is fundamental property, not a bug",
+    "Use as negative control / baseline for comparison"
+]
+
+success_criteria = [
+    "Fitness should REMAIN low (<0.2) - confirms TRIG6 detects asemic",
+    "High danger rate expected (85-100%)",
+    "Low R expected (<0.3)",
+    "High D expected (>0.4)"
+]
+
+[compiler_integration]
+pipeline_steps = [
+    "1. Scan Codex pages (high quality scans available)",
+    "2. Separate text from illustrations",
+    "3. Extract glyphs (Sinhala-like curves)",
+    "4. Generate visual embeddings (no semantic features)",
+    "5. Cluster purely on shape (no meaning)",
+    "6. TRIG6 validation: EXPECT low fitness",
+    "7. Use as baseline: Other scripts should score HIGHER",
+    "8. If fitness > Codex baseline, suggests non-asemic structure"
+]
+
+output_format = "Visual glyph clusters only - no semantic codons"
+
+[references]
+sources = [
+    "Codex Seraphinianus (1981) by Luigi Serafini",
+    "Serafini's confirmation: Script is asemic (no meaning)",
+    "Base-21 numbering system decoded (1996)",
+    "Comparison to Voynich Manuscript (potentially meaningful vs. asemic)"
+]
+
+[notes]
+# Critical: Codex is the CONTROL GROUP
+- Other undeciphered scripts should have fitness > Codex
+- If Voynich fitness ≈ Codex fitness → likely asemic
+- If Linear A fitness >> Codex fitness → likely has structure
+- TRIG6 must correctly identify asemic void (low R, high D)

@@ -1,0 +1,187 @@
+# TRIG6 Recipe File (.t6)
+# Rongorongo Glyph Mapping Simulation
+# ID: RONGORONGO-003
+
+[metadata]
+id = RONGORONGO-003
+name = Rongorongo Script Glyph Mapping
+origin = Rapa Nui (Easter Island)
+period = 19th Century CE (possibly earlier)
+type = Glyph Script on Wood
+status = Undeciphered
+hazard_level = MEDIUM
+
+[description]
+Rongorongo is a system of glyphs carved on wooden tablets from Easter Island.
+Only ~25 tablets survive. The script is boustrophedon (alternating direction).
+Some glyphs resemble flora, fauna, and celestial objects. Undeciphered despite
+attempts to link to Polynesian languages.
+
+Correlation to Codex: Both are isolated systems with pictographic elements.
+Rongorongo is on wood (organic medium), Codex on paper. Both use visual metaphors.
+
+[pipeline_use]
+- Wood glyph extraction algorithms
+- Boustrophedon text flow analysis
+- Evolution of isolated writing systems
+- Pictographic to symbolic transitions
+
+[ingredients]
+# Base parameters
+embedding_dim = 190.0
+min_cluster_size = 14.0
+max_clusters = 95.0
+image_dpi = 320.0
+glyph_min_size = 28.0
+
+# Rongorongo-specific
+wood_texture_noise = 0.3
+boustrophedon_reversal_factor = 1.0
+pictographic_complexity = 1.4
+tablet_damage_rate = 0.5
+
+[process_stages]
+stages = [
+    "tablet_scanning",
+    "wood_texture_removal",
+    "glyph_extraction",
+    "boustrophedon_normalization",
+    "pictographic_analysis",
+    "embedding_generation",
+    "clustering_initialization",
+    "direction_reversal_handling",
+    "stability_validation",
+    "final_mapping"
+]
+
+[custom_hooks]
+R_function = """
+def compute_rongorongo_resonance(ingredients, s):
+    # Rongorongo has visual consistency but unknown semantics
+    
+    # Cluster purity from visual similarity
+    visual_purity = 0.3 + (0.3 * s)
+    
+    # Coverage (many glyphs, ~1000 unique)
+    coverage = min(1.0, (ingredients['max_clusters'] / 95.0) * (0.5 + 0.5 * s))
+    
+    # Stability affected by boustrophedon reversals
+    reversal_factor = ingredients.get('boustrophedon_reversal_factor', 1.0)
+    stability = (s ** 0.6) / reversal_factor
+    
+    # Pictographic coherence (similar motifs cluster)
+    pictographic = ingredients.get('pictographic_complexity', 1.4)
+    coherence = min(1.0, pictographic * 0.6)
+    
+    R = visual_purity * coverage * stability * coherence
+    return min(1.0, R)
+"""
+
+D_function = """
+def compute_rongorongo_drift(ingredients, hazard_level):
+    # Drift from boustrophedon and wood damage
+    
+    base_drift = 0.3
+    
+    # Boustrophedon creates left-right variations
+    reversal = ingredients.get('boustrophedon_reversal_factor', 1.0)
+    reversal_drift = (reversal - 1.0) * 0.2 + 0.15
+    
+    # Wood damage creates outliers
+    damage = ingredients.get('tablet_damage_rate', 0.5)
+    damage_drift = damage * 0.25
+    
+    # Small corpus (25 tablets) = high variance
+    corpus_drift = 0.2
+    
+    D = base_drift + reversal_drift + damage_drift + corpus_drift
+    return min(1.0, D)
+"""
+
+N_function = """
+def compute_rongorongo_noise(s, ingredients):
+    # Wood medium + age = moderate to high noise
+    
+    embedding_dim = ingredients['embedding_dim']
+    dim_factor = max(0.1, 1.0 - (embedding_dim / 400.0))
+    
+    temporal_noise = math.exp(-2.2 * s)
+    
+    # Wood texture is noisy substrate
+    wood_noise = ingredients.get('wood_texture_noise', 0.3)
+    
+    # Tablet damage (some severely damaged)
+    damage = ingredients.get('tablet_damage_rate', 0.5)
+    
+    # DPI quality for wood scanning
+    dpi = ingredients['image_dpi']
+    quality_factor = max(0.0, (350.0 - dpi) / 350.0) * 0.15
+    
+    N = dim_factor * temporal_noise + wood_noise + damage * 0.3 + quality_factor
+    return min(1.0, N * 0.9)
+"""
+
+[expected_results]
+# Expected results from simulations
+expected_mean_fitness = 0.15
+expected_fitness_range_min = 0.10
+expected_fitness_range_max = 0.30
+expected_danger_rate_percent = 80.0
+
+# Evolved configurations
+evolved_fitness_range_min = 0.15
+evolved_fitness_range_max = 0.40
+evolved_danger_count_min = 3
+evolved_danger_count_max = 6
+
+[interpretation]
+failure_modes = [
+    "Medium R: Visual patterns exist but semantics unknown",
+    "High D: Boustrophedon reversals + wood damage create drift",
+    "High N: Wood texture and tablet damage add noise",
+    "Corpus size: Only 25 tablets = limited data"
+]
+
+mitigation_strategies = [
+    "Increase embedding_dim to capture wood texture variations",
+    "Normalize boustrophedon before clustering (flip alternate lines)",
+    "Filter wood grain noise in preprocessing",
+    "Cross-tablet validation to improve stability"
+]
+
+success_criteria = [
+    "Fitness > 0.3: Suggests discoverable visual patterns",
+    "Fitness > Codex baseline: Confirms non-asemic structure",
+    "Low danger rate after evolution: Stable clustering achieved"
+]
+
+[compiler_integration]
+pipeline_steps = [
+    "1. High-res scans of wooden tablets (320+ DPI)",
+    "2. Wood grain removal (texture filtering)",
+    "3. Boustrophedon normalization (flip alternate lines)",
+    "4. Glyph extraction (pictographic elements)",
+    "5. Embedding generation (CNN features for shapes)",
+    "6. Cluster to codons (target 64-95 clusters)",
+    "7. TRIG6 validation (fitness > 0.3 target)",
+    "8. Compile to FlameLang wood glyph mappings"
+]
+
+output_format = "FlameLang glyph_map.json with Rongorongo codon bindings"
+
+[references]
+sources = [
+    "Rongorongo tablets - Easter Island Museum",
+    "Fischer, S. (1997) - Rongorongo: The Easter Island Script",
+    "Corpus of 25 surviving tablets",
+    "Boustrophedon writing system analysis"
+]
+
+[notes]
+# Rongorongo vs. Codex comparison
+- Rongorongo: Likely has meaning (cultural context)
+- Codex: Definitely asemic (artist confirmed)
+- Fitness difference should reveal this:
+  * Rongorongo fitness > Codex fitness → non-asemic
+  * If ≈ equal → Rongorongo might be decorative only
+- Wood medium unique: Tests pipeline robustness to substrate
