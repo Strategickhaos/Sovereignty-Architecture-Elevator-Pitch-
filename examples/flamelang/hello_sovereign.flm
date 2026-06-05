@@ -1,0 +1,67 @@
+// hello_sovereign.flm
+// The first sovereign FlameLang program
+// Tests: Rubik bound, pipe closure, codon bijection
+//
+// © 2025 Strategickhaos DAO LLC - Ratio Ex Nihilo
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PROOF 5 TEST: PIPE CLOSURE (Σθ = 360°)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// A closed pipe path: four 90° bends
+let theta1: angle = 90deg;
+let theta2: angle = 90deg;
+let theta3: angle = 90deg;
+let theta4: angle = 90deg;
+
+let r: float = 5.0;  // 5" radius (standard pipe)
+
+// Each bend computes arc length: s = r × θ
+bend theta1 radius r;  // First elbow
+bend theta2 radius r;  // Second elbow
+bend theta3 radius r;  // Third elbow
+bend theta4 radius r;  // Fourth elbow (closes the loop)
+
+// Total: 90 + 90 + 90 + 90 = 360° ✓ PROOF 5 PASSES
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PROOF 6 TEST: RUBIK BOUND (≤ 20 moves)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// A Rubik's cube scramble that's solvable in ≤20 moves
+let scramble: perm = 15;  // 15 moves from solved state
+
+perm scramble;  // ✓ PROOF 6 PASSES (15 ≤ 20)
+
+// This would FAIL to compile:
+// let impossible: perm = 25;  // ❌ FlameError::ProofViolation
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PROOF 4 TEST: CODON BIJECTION (64 ↔ 64)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Map a frequency to its codon
+let freq: freq = 440Hz;  // A4 tuning standard
+
+codon freq;  // Bijectively maps to one of 64 codons
+
+// The mapping is reversible:
+// codon(440Hz) → [A,T,G] → index 42 → 440Hz
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PROOF 2 TEST: GROUNDING (finite values only)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// All values must be finite and bounded
+let finite: float = 42.0;  // ✓ PROOF 2 PASSES
+
+// These would FAIL to compile:
+// let infinite: float = 1.0 / 0.0;  // ❌ FlameError::ProofViolation
+// let nan: float = 0.0 / 0.0;       // ❌ FlameError::ProofViolation
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// OUTPUT: THE ANSWER
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// If all proofs pass, return the answer
+42
