@@ -1,0 +1,98 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmb-detector-job
+  labels:
+    app: cmb-anomaly-detector
+    version: v1.0
+    component: analyzer
+spec:
+  parallelism: 3
+  completions: 3
+  template:
+    metadata:
+      labels:
+        app: cmb-anomaly-detector
+        version: v1.0
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: detector
+        image: gcr.io/project/cmb-detector:latest
+        imagePullPolicy: Always
+        command: ["python", "src/anomaly_detector.py"]
+        env:
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cmb-detector-cron
+  labels:
+    app: cmb-anomaly-detector
+spec:
+  schedule: "0 0 * * *"  # Run daily at midnight
+  jobTemplate:
+    spec:
+      parallelism: 3
+      completions: 3
+      template:
+        metadata:
+          labels:
+            app: cmb-anomaly-detector
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: detector
+            image: gcr.io/project/cmb-detector:latest
+            imagePullPolicy: Always
+            command: ["python", "src/anomaly_detector.py"]
+            env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "250m"
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+            volumeMounts:
+            - name: config
+              mountPath: /config
+          volumes:
+          - name: config
+            configMap:
+              name: cmb-detector-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cmb-detector-config
+data:
+  config.yaml: |
+    anomaly_detection:
+      lqg_model:
+        enabled: true
+        suppression_threshold: -2.0
+      string_model:
+        enabled: true
+        decay_rate: 0.5
+    evolution:
+      mutation_rate: 0.1
+      population_size: 10
+    logging:
+      level: ERROR
+      format: json

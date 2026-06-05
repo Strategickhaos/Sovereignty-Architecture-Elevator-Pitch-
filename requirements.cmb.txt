@@ -1,0 +1,24 @@
+# CMB Anomaly Detector Requirements
+# Production-ready dependencies for Loop Quantum Gravity and String Theory anomaly detection
+
+# Core scientific computing
+numpy>=1.24.0              # Numerical computations and array operations
+scipy>=1.10.0              # Scientific computing, curve fitting, optimization
+
+# Data analysis and visualization
+matplotlib>=3.7.0          # Plotting and visualization
+pandas>=2.0.0              # Data analysis (optional, for extended analysis)
+
+# Astronomy and cosmology (optional, for production data fetching)
+# astropy>=5.2.0           # FITS file handling for Planck data
+# healpy>=1.16.0           # HEALPix pixelization for CMB maps
+
+# Testing and quality assurance
+pytest>=7.3.0              # Testing framework
+pytest-cov>=4.0.0          # Coverage reporting
+flake8>=6.0.0              # Code linting
+pylint>=2.17.0             # Code analysis
+black>=23.0.0              # Code formatting
+
+# Logging and monitoring
+python-json-logger>=2.0.0  # JSON structured logging
