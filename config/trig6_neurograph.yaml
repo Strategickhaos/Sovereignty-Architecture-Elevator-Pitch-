@@ -1,0 +1,148 @@
+# TRIG6 Neurograph Configuration
+# Neural Network Visualization & Graph Theory Parameters
+# Strategickhaos DAO LLC
+
+version: "6.0.0"
+neurograph_protocol: "TRIG6-NEURO1"
+
+graph_structure:
+  type: "directed_acyclic_graph"
+  layout_engine: "graphviz"
+  default_rankdir: "TB"  # Top to Bottom
+  
+  node_types:
+    dendrite:
+      shape: "circle"
+      color: "#00ff88"
+      description: "Input/initialization nodes"
+      tier_level: 0
+      
+    synapse:
+      shape: "circle"
+      color: "#4488ff"
+      description: "Processing/transformation nodes"
+      tier_level: 1-999
+      
+    organ:
+      shape: "circle"
+      color: "#ff8844"
+      description: "Terminal/validation nodes"
+      tier_level: 1000
+      
+  edge_types:
+    activation:
+      weight: 1.0
+      color: "#ffffff"
+      style: "solid"
+      description: "Forward propagation"
+      
+    inhibition:
+      weight: -1.0
+      color: "#ff4444"
+      style: "dashed"
+      arrowhead: "tee"
+      description: "Suppression signal"
+      
+    modulation:
+      weight: 0.67
+      color: "#00ffaa"
+      style: "dotted"
+      description: "Regulatory influence"
+
+dna_to_graph_mapping:
+  enabled: true
+  codon_sequence_parse: true
+  
+  tier_assignment:
+    strategy: "sequential"
+    base_tier: 0
+    increment: 1
+    
+  node_naming:
+    format: "node_{index}_{codon}"
+    label_max_length: 12
+    
+  edge_creation:
+    sequential_flow: true
+    cross_layer_connections: false
+    
+  legion_integration:
+    attach_validators: true
+    validator_tier: "auto"  # len(codons) + 1
+    modulation_weight: 0.67
+
+output_configuration:
+  json:
+    enabled: true
+    path: "graph/trig6_neurograph.json"
+    indent: 2
+    include_metadata: true
+    
+  dot:
+    enabled: true
+    path: "graph/trig6_neurograph.dot"
+    rankdir: "TB"
+    node_styling: true
+    edge_styling: true
+    
+  svg:
+    enabled: false
+    path: "graph/trig6_neurograph.svg"
+    renderer: "graphviz"
+    
+  png:
+    enabled: false
+    path: "graph/trig6_neurograph.png"
+    dpi: 300
+
+visualization_features:
+  tier_grouping:
+    enabled: true
+    same_rank: true
+    
+  color_coding:
+    by_node_type: true
+    by_tier: false
+    
+  labels:
+    show_action: true
+    show_codon: false
+    truncate_length: 12
+    
+  legend:
+    enabled: false
+    position: "bottom"
+
+neural_semantics:
+  resonance_frequency: "432Hz"
+  quantum_entanglement: false
+  
+  consciousness_layers:
+    - layer: 1
+      name: "sensory_input"
+      type: "dendrite"
+      
+    - layer: 2
+      name: "pattern_recognition"
+      type: "synapse"
+      
+    - layer: 3
+      name: "semantic_processing"
+      type: "synapse"
+      
+    - layer: 4
+      name: "executive_function"
+      type: "organ"
+
+integration:
+  flamelang_specs: true
+  stress_test_results: false
+  legion_validators: true
+  
+  data_sources:
+    - "flamelang-stress-test/**/*.flame.yaml"
+    - "stress_results.json"
+    
+  artifacts:
+    upload: true
+    retention_days: 90

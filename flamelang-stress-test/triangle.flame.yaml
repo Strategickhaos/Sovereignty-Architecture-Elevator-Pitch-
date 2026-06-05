@@ -1,0 +1,65 @@
+# FlameLang v2.0.0 Test Specification
+# Triangle ASCII Art Generator - Nested Loop Validation
+
+meta:
+  id: "triangle_nested_loops_v1"
+  version: "2.0.0"
+  author: "Strategickhaos DAO LLC"
+  pipeline_layers:
+    - english
+    - hebrew
+    - unicode
+    - wave
+    - dna
+    - llvm
+
+intent:
+  english: |
+    Generate an ASCII triangle with dynamic validation.
+    Input: [height, base_width, ...candidates]
+    Logic: Find first candidate > base_width, then rows = height + head_width
+  hebrew: "משולש ASCII דינמי"
+  unicode: "▲ Dynamic Triangle ▲"
+  wave: "432Hz - Resonance Pattern"
+
+test_vectors:
+  - id: "basic_triangle"
+    input: [3, 2, 1, 4]
+    expected_rows: 7
+    validation_rejects: 1
+    description: "Reject 1, accept 4: 3 + 4 = 7 rows"
+
+  - id: "immediate_valid"
+    input: [5, 10, 15]
+    expected_rows: 20
+    validation_rejects: 0
+    description: "First candidate valid: 5 + 15 = 20 rows"
+
+  - id: "multiple_rejects"
+    input: [2, 5, 1, 2, 3, 4, 6]
+    expected_rows: 8
+    validation_rejects: 4
+    description: "Reject 1,2,3,4, accept 6: 2 + 6 = 8 rows"
+
+  - id: "edge_case_equal"
+    input: [4, 8, 8, 9]
+    expected_rows: 13
+    validation_rejects: 1
+    description: "Reject equal value, accept 9: 4 + 9 = 13 rows"
+
+dna_encoding:
+  sequence: "ATG-CCC-GAT-TAA"
+  codon_map:
+    ATG: "initialize_height"
+    CCC: "set_base_width"
+    GAT: "validate_candidates"
+    TAA: "compute_total_rows"
+  semantic_alignment: "nested_loop_validation"
+
+legion_council:
+  validators:
+    - claude_opus
+    - gemini_pro
+    - local_qwen
+  consensus_threshold: 0.67
+  ratification_policy: "majority_approval"

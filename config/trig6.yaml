@@ -1,0 +1,111 @@
+# TRIG6 Configuration File
+# Strategickhaos DAO LLC - Sovereign Architecture
+# TRIG6-HYBRID1-NEURO1 Protocol
+
+version: "6.0.0"
+protocol: "TRIG6-HYBRID1-NEURO1"
+
+flamelang:
+  runtime_version: "2.0.0"
+  compiler_backend: "llvm-17"
+  optimization_level: "O3"
+  
+  pipeline:
+    layers:
+      - name: "english"
+        priority: 1
+        encoding: "utf-8"
+      - name: "hebrew"
+        priority: 2
+        encoding: "utf-8"
+      - name: "unicode"
+        priority: 3
+        encoding: "utf-8"
+      - name: "wave"
+        priority: 4
+        frequency: "432Hz"
+      - name: "dna"
+        priority: 5
+        codon_length: 3
+      - name: "llvm"
+        priority: 6
+        ir_version: "17.0"
+
+stress_testing:
+  enabled: true
+  test_vector_timeout: 30
+  parallel_execution: false
+  
+  validation:
+    schema_check: true
+    dna_encoding_check: true
+    test_vector_integrity: true
+    
+  output:
+    format: "json"
+    artifacts:
+      - "stress_results.json"
+
+legion_council:
+  enabled: true
+  consensus_threshold: 0.67
+  timeout_seconds: 120
+  
+  validators:
+    claude_opus:
+      enabled: true
+      model: "claude-sonnet-4-20250514"
+      max_tokens: 500
+      priority: 1
+      
+    gemini_pro:
+      enabled: true
+      model: "gemini-1.5-pro"
+      max_tokens: 500
+      priority: 2
+      
+    local_qwen:
+      enabled: true
+      model: "qwen2.5:latest"
+      endpoint: "${OLLAMA_ENDPOINT}"
+      timeout: 120
+      priority: 3
+
+neurograph:
+  enabled: true
+  output_formats:
+    - "json"
+    - "dot"
+  
+  visualization:
+    node_colors:
+      dendrite: "#00ff88"
+      synapse: "#4488ff"
+      organ: "#ff8844"
+    
+    edge_types:
+      activation:
+        color: "#ffffff"
+        style: "solid"
+      inhibition:
+        color: "#ff4444"
+        style: "dashed"
+      modulation:
+        color: "#00ffaa"
+        style: "dotted"
+
+sovereignty:
+  anti_surveillance: true
+  vow_monitor: true
+  flamebearer_protocol: "v137"
+  
+  mesh_network:
+    nodes:
+      - "DOM010101"
+      - "Lyra"
+      - "Nova"
+      - "Athena"
+      - "iPower"
+    
+    tailscale_integration: true
+    qdrant_vector_db: true
