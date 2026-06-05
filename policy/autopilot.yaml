@@ -1,0 +1,212 @@
+# Autopilot Policy - Request = Limit Enforcement
+
+## Purpose
+Enforce `Request = Limit` logic to ensure no pod can burst beyond its allocated energy budget, preventing resource cannibalization.
+
+## The Problem
+
+Standard K8s allows:
+```yaml
+resources:
+  requests:
+    cpu: 1
+    memory: 1Gi
+  limits:
+    cpu: 4      # Can burst to 4 CPUs!
+    memory: 4Gi  # Can burst to 4 GB!
+```
+
+This creates **resource cannibalization**: pods steal resources from neighbors during bursts, causing instability.
+
+## The Solution
+
+**Autopilot Policy** enforces `Request = Limit`:
+
+```yaml
+# policy/autopilot.yaml
+apiVersion: policy.k8s.io/v1
+kind: PodSecurityPolicy
+metadata:
+  name: autopilot-no-burst
+spec:
+  # Admission controller rules
+  validation:
+    - rule: "resources.requests.cpu == resources.limits.cpu"
+      message: "CPU request must equal limit (no bursting allowed)"
+    
+    - rule: "resources.requests.memory == resources.limits.memory"
+      message: "Memory request must equal limit (no bursting allowed)"
+  
+  # Exceptions for specific workloads
+  exceptions:
+    - namespace: "dev"
+      reason: "Development environment allows bursting"
+    
+    - label: "burst-allowed: true"
+      reason: "Explicitly marked as burst-capable"
+
+---
+
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: autopilot-enforcer
+webhooks:
+  - name: autopilot.policy.k8s.io
+    clientConfig:
+      service:
+        name: autopilot-enforcer
+        namespace: kube-system
+        path: "/validate"
+    rules:
+      - operations: ["CREATE", "UPDATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
+    failurePolicy: Fail  # Fail closed for security
+```
+
+## Admission Controller
+
+```python
+#!/usr/bin/env python3
+"""
+Autopilot admission controller
+"""
+
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/validate', methods=['POST'])
+def validate_pod():
+    admission_review = request.json
+    pod = admission_review['request']['object']
+    
+    # Check all containers
+    violations = []
+    for container in pod['spec']['containers']:
+        resources = container.get('resources', {})
+        requests = resources.get('requests', {})
+        limits = resources.get('limits', {})
+        
+        # CPU check
+        if requests.get('cpu') != limits.get('cpu'):
+            violations.append({
+                'container': container['name'],
+                'resource': 'cpu',
+                'request': requests.get('cpu'),
+                'limit': limits.get('cpu'),
+                'message': 'CPU request must equal limit'
+            })
+        
+        # Memory check
+        if requests.get('memory') != limits.get('memory'):
+            violations.append({
+                'container': container['name'],
+                'resource': 'memory',
+                'request': requests.get('memory'),
+                'limit': limits.get('memory'),
+                'message': 'Memory request must equal limit'
+            })
+    
+    if violations:
+        return jsonify({
+            'apiVersion': 'admission.k8s.io/v1',
+            'kind': 'AdmissionReview',
+            'response': {
+                'uid': admission_review['request']['uid'],
+                'allowed': False,
+                'status': {
+                    'message': f"Autopilot policy violations: {violations}"
+                }
+            }
+        })
+    
+    return jsonify({
+        'apiVersion': 'admission.k8s.io/v1',
+        'kind': 'AdmissionReview',
+        'response': {
+            'uid': admission_review['request']['uid'],
+            'allowed': True
+        }
+    })
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8443, ssl_context='adhoc')
+```
+
+## Correct Pod Specification
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: autopilot-compliant
+spec:
+  containers:
+    - name: app
+      image: myapp:latest
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4Gi"
+        limits:
+          cpu: "2"      # Same as request ✅
+          memory: "4Gi" # Same as request ✅
+```
+
+## Benefits
+
+1. **Predictable Performance**: No neighbor interference
+2. **Fair Resource Allocation**: Everyone gets what they reserved
+3. **Simplified Capacity Planning**: Sum of requests = cluster capacity
+4. **Prevents OOM Kills**: Memory never exceeds limit
+5. **Energy Budget**: Like cellular ATP - fixed energy per pod
+
+## Monitoring
+
+```prometheus
+# Alert on policy violations (should never happen)
+- alert: AutopilotPolicyViolation
+  expr: autopilot_policy_violations_total > 0
+  for: 1m
+  annotations:
+    summary: "Autopilot policy was violated"
+    description: "A pod was admitted that violates Request=Limit"
+
+# Track compliance rate
+- record: autopilot_compliance_rate
+  expr: |
+    sum(rate(autopilot_pod_validations_allowed[5m])) /
+    sum(rate(autopilot_pod_validations_total[5m]))
+```
+
+## Exceptions
+
+Some workloads genuinely need bursting:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bursty-batch-job
+  labels:
+    burst-allowed: "true"
+  annotations:
+    autopilot-exception: "Batch job with unpredictable load"
+spec:
+  containers:
+    - name: batch
+      resources:
+        requests:
+          cpu: "1"
+          memory: "2Gi"
+        limits:
+          cpu: "4"      # Can burst ✅ (exception granted)
+          memory: "8Gi"
+```
+
+This creates **disciplined resource management** where energy budgets are strictly enforced.

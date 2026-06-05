@@ -1,0 +1,291 @@
+/**
+ * Feedback Control - The PID Controller
+ * 
+ * Implements a recursive module pattern where the 'Error Signal' is
+ * treated as 'Pain' that the system actively moves away from.
+ * 
+ * Biological Analogy:
+ * In biological systems, pain is a feedback mechanism that drives
+ * behavior away from harmful states. The body maintains homeostasis
+ * through negative feedback loops:
+ * 
+ * Temperature too high → Sweat → Temperature decreases → Stop sweating
+ * Blood sugar too low → Hunger → Eat → Blood sugar increases → Stop eating
+ * 
+ * A PID controller implements this same principle in engineering:
+ * - P (Proportional): React to current error
+ * - I (Integral): React to accumulated past errors
+ * - D (Derivative): React to rate of change of error
+ */
+
+namespace flame::control::feedback {
+    
+    use std::time::{Duration, Instant};
+    
+    /**
+     * PID Controller Configuration
+     */
+    pub struct PIDConfig {
+        kp: f64,  // Proportional gain
+        ki: f64,  // Integral gain
+        kd: f64,  // Derivative gain
+        
+        setpoint: f64,       // Target value
+        output_min: f64,     // Minimum control output
+        output_max: f64,     // Maximum control output
+        
+        pain_threshold: f64  // When error becomes "painful"
+    }
+    
+    /**
+     * PID Controller State
+     */
+    pub struct PIDController {
+        config: PIDConfig,
+        
+        // State variables
+        last_error: f64,
+        integral: f64,
+        last_time: Instant,
+        
+        // Pain tracking
+        pain_level: f64,
+        pain_history: Vec<f64>
+    }
+    
+    impl PIDController {
+        
+        pub fn new(config: PIDConfig) -> Self {
+            PIDController {
+                config,
+                last_error: 0.0,
+                integral: 0.0,
+                last_time: Instant::now(),
+                pain_level: 0.0,
+                pain_history: Vec::new()
+            }
+        }
+        
+        /**
+         * Compute control output based on current measurement
+         * 
+         * The "error signal" is the difference between setpoint and measurement.
+         * We treat this error as "pain" - the system wants to minimize it.
+         */
+        pub fn compute(&mut self, measurement: f64) -> ControlOutput {
+            let now = Instant::now();
+            let dt = (now - self.last_time).as_secs_f64();
+            
+            // Calculate error (this is the "pain")
+            let error = self.config.setpoint - measurement;
+            
+            // Assess pain level
+            self.pain_level = error.abs() / self.config.pain_threshold;
+            self.pain_history.push(self.pain_level);
+            
+            // If pain is severe, trigger emergency response
+            if self.pain_level > 2.0 {
+                return self.emergency_response(error);
+            }
+            
+            // P term: Proportional to current error
+            let p_term = self.config.kp * error;
+            
+            // I term: Accumulated error over time
+            self.integral += error * dt;
+            let i_term = self.config.ki * self.integral;
+            
+            // D term: Rate of change of error
+            let derivative = if dt > 0.0 {
+                (error - self.last_error) / dt
+            } else {
+                0.0
+            };
+            let d_term = self.config.kd * derivative;
+            
+            // Total control output
+            let mut output = p_term + i_term + d_term;
+            
+            // Clamp output to bounds (like the Na+/K+ pump!)
+            output = output.clamp(self.config.output_min, self.config.output_max);
+            
+            // Update state
+            self.last_error = error;
+            self.last_time = now;
+            
+            log::debug!(
+                "PID Control: Error={:.2}, P={:.2}, I={:.2}, D={:.2}, Output={:.2}, Pain={:.2}",
+                error, p_term, i_term, d_term, output, self.pain_level
+            );
+            
+            ControlOutput {
+                value: output,
+                error,
+                pain_level: self.pain_level,
+                response_type: ResponseType::Normal
+            }
+        }
+        
+        /**
+         * Emergency Response - Like Fight or Flight
+         * 
+         * When pain (error) becomes too severe, the system switches
+         * to emergency mode with more aggressive correction.
+         */
+        fn emergency_response(&mut self, error: f64) -> ControlOutput {
+            log::warn!("EMERGENCY: Pain level {:.2} exceeds threshold!", self.pain_level);
+            
+            // Aggressive correction (like fight-or-flight response)
+            let output = if error > 0.0 {
+                self.config.output_max  // Maximum positive correction
+            } else {
+                self.config.output_min  // Maximum negative correction
+            };
+            
+            // Reset integral to prevent windup
+            self.integral = 0.0;
+            
+            // Notify monitoring system
+            monitoring::alert(&format!(
+                "PID controller in emergency mode. Pain level: {:.2}",
+                self.pain_level
+            ));
+            
+            ControlOutput {
+                value: output,
+                error,
+                pain_level: self.pain_level,
+                response_type: ResponseType::Emergency
+            }
+        }
+        
+        /**
+         * Reset the controller (like "healing")
+         */
+        pub fn reset(&mut self) {
+            self.last_error = 0.0;
+            self.integral = 0.0;
+            self.pain_level = 0.0;
+            self.pain_history.clear();
+            self.last_time = Instant::now();
+            
+            log::info!("PID controller reset. System healed.");
+        }
+        
+        /**
+         * Analyze pain patterns
+         * 
+         * Like a doctor analyzing symptoms, we look for patterns
+         * in the pain history to diagnose systemic issues.
+         */
+        pub fn diagnose(&self) -> Diagnosis {
+            if self.pain_history.is_empty() {
+                return Diagnosis::Healthy;
+            }
+            
+            let avg_pain: f64 = self.pain_history.iter().sum::<f64>() 
+                              / self.pain_history.len() as f64;
+            
+            let max_pain = self.pain_history.iter()
+                .cloned()
+                .fold(0.0f64, f64::max);
+            
+            if max_pain > 3.0 {
+                Diagnosis::Critical {
+                    avg_pain,
+                    max_pain,
+                    recommendation: "System instability detected. Consider architectural changes."
+                }
+            } else if avg_pain > 1.5 {
+                Diagnosis::Chronic {
+                    avg_pain,
+                    recommendation: "Persistent elevated error. Tune PID parameters."
+                }
+            } else if avg_pain > 0.5 {
+                Diagnosis::Mild {
+                    avg_pain,
+                    recommendation: "Minor oscillations. System functioning normally."
+                }
+            } else {
+                Diagnosis::Healthy
+            }
+        }
+    }
+    
+    /**
+     * Control Output
+     */
+    pub struct ControlOutput {
+        pub value: f64,
+        pub error: f64,
+        pub pain_level: f64,
+        pub response_type: ResponseType
+    }
+    
+    pub enum ResponseType {
+        Normal,
+        Emergency
+    }
+    
+    /**
+     * System Diagnosis
+     */
+    pub enum Diagnosis {
+        Healthy,
+        Mild { avg_pain: f64, recommendation: &'static str },
+        Chronic { avg_pain: f64, recommendation: &'static str },
+        Critical { avg_pain: f64, max_pain: f64, recommendation: &'static str }
+    }
+    
+    /**
+     * Recursive Feedback Loop Pattern
+     * 
+     * The system continuously monitors itself and adjusts.
+     * This creates a recursive structure where each control cycle
+     * feeds back into the next.
+     */
+    pub fn feedback_loop<T, F>(
+        initial_state: T,
+        controller: &mut PIDController,
+        measure_fn: F,
+        max_iterations: usize
+    ) -> Result<T, ControlError>
+    where
+        F: Fn(&T) -> f64
+    {
+        let mut state = initial_state;
+        
+        for i in 0..max_iterations {
+            // Measure current state
+            let measurement = measure_fn(&state);
+            
+            // Compute control action
+            let control = controller.compute(measurement);
+            
+            // Check if we've reached homeostasis
+            if control.pain_level < 0.1 {
+                log::info!("Homeostasis achieved after {} iterations", i);
+                return Ok(state);
+            }
+            
+            // Apply control action (this would modify state)
+            // state = apply_control(state, control.value)?;
+            
+            // Prevent infinite loops
+            if i == max_iterations - 1 {
+                return Err(ControlError::FailedToConverge {
+                    iterations: max_iterations,
+                    final_pain: control.pain_level
+                });
+            }
+        }
+        
+        Ok(state)
+    }
+    
+    pub enum ControlError {
+        FailedToConverge { iterations: usize, final_pain: f64 },
+        MeasurementFailure,
+        ControlSaturation
+    }
+}

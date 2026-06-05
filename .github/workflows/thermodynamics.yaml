@@ -1,0 +1,153 @@
+name: Thermodynamics - Entropy Monitor
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches: [main, develop]
+
+jobs:
+  entropy-check:
+    name: "Global Entropy Validation"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for entropy calculation
+      
+      - name: Calculate Baseline Entropy
+        id: baseline
+        run: |
+          # Entropy Metrics:
+          # 1. Cyclomatic Complexity
+          # 2. Coupling/Cohesion Ratios
+          # 3. Technical Debt Index
+          # 4. Dependency Graph Complexity
+          
+          echo "Calculating repository entropy..."
+          
+          # File count entropy
+          FILE_COUNT=$(find src/ -type f | wc -l)
+          
+          # Lines of code entropy
+          LOC=$(find src/ -name "*.flame" -o -name "*.rs" -o -name "*.ts" | xargs wc -l | tail -1 | awk '{print $1}')
+          
+          # Cyclomatic complexity (simplified)
+          COMPLEXITY=$(grep -r "if\|while\|for\|case\|catch" src/ | wc -l)
+          
+          # Dependency count
+          DEP_COUNT=$(find quarantine/external -type f 2>/dev/null | wc -l || echo 0)
+          
+          # Calculate Global Entropy (weighted sum)
+          ENTROPY=$((FILE_COUNT + LOC/10 + COMPLEXITY*2 + DEP_COUNT*5))
+          
+          echo "entropy=$ENTROPY" >> $GITHUB_OUTPUT
+          echo "📊 Baseline Entropy: $ENTROPY units"
+      
+      - name: Calculate Changed Entropy
+        id: delta
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_SHA="HEAD~1"
+            HEAD_SHA="HEAD"
+          fi
+          
+          echo "Analyzing entropy change from $BASE_SHA to $HEAD_SHA..."
+          
+          # Files added/modified
+          CHANGED_FILES=$(git diff --name-only $BASE_SHA $HEAD_SHA | wc -l)
+          
+          # Lines added
+          LINES_ADDED=$(git diff --numstat $BASE_SHA $HEAD_SHA | awk '{sum+=$1} END {print sum}')
+          
+          # New complexity introduced
+          NEW_COMPLEXITY=$(git diff $BASE_SHA $HEAD_SHA | grep "^+" | grep -c "if\|while\|for\|case\|catch" || echo 0)
+          
+          # Calculate entropy delta
+          DELTA=$((CHANGED_FILES*10 + LINES_ADDED/5 + NEW_COMPLEXITY*3))
+          
+          echo "delta=$DELTA" >> $GITHUB_OUTPUT
+          echo "📈 Entropy Delta: +$DELTA units"
+      
+      - name: Entropy Threshold Check
+        id: threshold
+        env:
+          MAX_ENTROPY: 1000  # From lib.flame AXIOM 4
+          CURRENT_ENTROPY: ${{ steps.baseline.outputs.entropy }}
+          ENTROPY_DELTA: ${{ steps.delta.outputs.delta }}
+        run: |
+          NEW_ENTROPY=$((CURRENT_ENTROPY + ENTROPY_DELTA))
+          
+          echo "🔬 Thermodynamic Analysis:"
+          echo "   Current Entropy: $CURRENT_ENTROPY units"
+          echo "   Change Delta: +$ENTROPY_DELTA units"
+          echo "   Projected Entropy: $NEW_ENTROPY units"
+          echo "   Maximum Allowed: $MAX_ENTROPY units"
+          
+          if [ $NEW_ENTROPY -gt $MAX_ENTROPY ]; then
+            echo "❌ ENTROPY VIOLATION: System exceeds thermodynamic bounds!"
+            echo "::error::Global entropy ($NEW_ENTROPY) exceeds maximum ($MAX_ENTROPY). This PR increases technical debt beyond acceptable limits."
+            exit 1
+          else
+            HEADROOM=$((MAX_ENTROPY - NEW_ENTROPY))
+            echo "✅ Entropy within bounds. Headroom: $HEADROOM units"
+          fi
+      
+      - name: Generate Entropy Report
+        if: always()
+        run: |
+          cat > entropy_report.md << EOF
+          # 🌡️ Thermodynamic Analysis Report
+          
+          ## Current State
+          - **Baseline Entropy**: ${{ steps.baseline.outputs.entropy }} units
+          - **Entropy Delta**: +${{ steps.delta.outputs.delta }} units
+          - **Projected Entropy**: $((${{ steps.baseline.outputs.entropy }} + ${{ steps.delta.outputs.delta }})) units
+          - **Maximum Allowed**: 1000 units
+          
+          ## Entropy Sources
+          1. **Structural Complexity**: File count and directory depth
+          2. **Algorithmic Complexity**: Cyclomatic complexity of code
+          3. **Coupling**: External dependency count
+          4. **Technical Debt**: Lines changed without tests
+          
+          ## Recommendations
+          - Consider refactoring modules with high complexity
+          - Evaluate if new dependencies are necessary
+          - Add unit tests to reduce uncertainty
+          - Use the Dissolution Protocol (\`src/lifecycle/dissolve.rs\`) to clean up dead code
+          
+          ## Thermodynamic Principle
+          > "The Second Law of Thermodynamics: Entropy in a closed system always increases unless work is done to decrease it."
+          
+          This CI check ensures we continuously perform the "work" of refactoring and cleanup.
+          EOF
+          
+          cat entropy_report.md
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('entropy_report.md', 'utf8');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });
+      
+      - name: Legion of Minds Review Trigger
+        if: failure()
+        run: |
+          echo "🧠 Triggering Legion of Minds emergency review..."
+          echo "High entropy detected. Requiring multi-model consensus for merge."
+          # This would integrate with src/council/ for AI review

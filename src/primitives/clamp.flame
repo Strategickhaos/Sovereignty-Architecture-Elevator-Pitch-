@@ -1,0 +1,278 @@
+/**
+ * Clamp Primitive - The Sodium/Potassium Pump
+ * 
+ * Models the biological Na+/K+ pump that actively ejects malformed
+ * packets from the memory space to maintain equilibrium.
+ * 
+ * Biological Analogy:
+ * The sodium-potassium pump (Na+/K+-ATPase) is a critical membrane protein
+ * that actively transports ions against their concentration gradient:
+ * - Pumps 3 Na+ ions OUT of the cell
+ * - Pumps 2 K+ ions INTO the cell
+ * - Consumes 1 ATP (energy) per cycle
+ * 
+ * This maintains the electrical potential across the cell membrane,
+ * which is essential for nerve signaling and cellular homeostasis.
+ * 
+ * In this system, the Clamp primitive:
+ * - Ejects malformed data packets from memory
+ * - Maintains data integrity gradients
+ * - Consumes computational energy to enforce boundaries
+ * - Prevents "data leakage" across module boundaries
+ */
+
+namespace flame::primitives::clamp {
+    
+    use flame::homeostasis::gradient::{Gradient, GradientType};
+    use flame::bio_traits::{Membrane, ApiBoundary};
+    
+    /**
+     * Clamp Configuration
+     */
+    struct ClampConfig {
+        na_threshold: f64,    // Threshold for "sodium" (malformed data)
+        k_threshold: f64,     // Threshold for "potassium" (valid data)
+        atp_per_cycle: f64,   // Energy cost per clamp operation
+        max_cycles: u64       // Maximum cycles before exhaustion
+    }
+    
+    /**
+     * Data Packet Classification
+     */
+    enum PacketType {
+        Sodium(Vec<u8>),      // Malformed - needs ejection
+        Potassium(Vec<u8>),   // Valid - needs retention
+        Neutral(Vec<u8>)      // Uncertain - needs analysis
+    }
+    
+    /**
+     * The Clamp (Na+/K+ Pump)
+     */
+    pub struct Clamp {
+        config: ClampConfig,
+        cycles_performed: u64,
+        energy_consumed: f64,
+        ejected_count: u64,
+        retained_count: u64
+    }
+    
+    impl Clamp {
+        
+        pub fn new(config: ClampConfig) -> Self {
+            Clamp {
+                config,
+                cycles_performed: 0,
+                energy_consumed: 0.0,
+                ejected_count: 0,
+                retained_count: 0
+            }
+        }
+        
+        /**
+         * Perform one pump cycle
+         * 
+         * Analyzes data packets and actively ejects malformed ones
+         * while retaining valid ones.
+         */
+        pub fn pump_cycle(&mut self, packets: Vec<Vec<u8>>) 
+            -> Result<ClampResult, ClampError> {
+            
+            // Check if we have energy for this cycle
+            if self.cycles_performed >= self.config.max_cycles {
+                return Err(ClampError::Exhausted {
+                    cycles: self.cycles_performed,
+                    suggestion: "Replenish energy via ATP synthesis (garbage collection)"
+                });
+            }
+            
+            let mut ejected = Vec::new();
+            let mut retained = Vec::new();
+            
+            for packet in packets {
+                match self.classify_packet(&packet) {
+                    PacketType::Sodium(data) => {
+                        // EJECT malformed packet (like pumping Na+ out)
+                        self.eject_packet(data)?;
+                        self.ejected_count += 1;
+                        ejected.push(packet);
+                    },
+                    PacketType::Potassium(data) => {
+                        // RETAIN valid packet (like pumping K+ in)
+                        self.retain_packet(data)?;
+                        self.retained_count += 1;
+                        retained.push(packet);
+                    },
+                    PacketType::Neutral(data) => {
+                        // Analyze further or use default action
+                        if self.deep_analysis(&data)? {
+                            self.retain_packet(data)?;
+                            retained.push(packet);
+                        } else {
+                            self.eject_packet(data)?;
+                            ejected.push(packet);
+                        }
+                    }
+                }
+            }
+            
+            // Consume energy (ATP)
+            self.energy_consumed += self.config.atp_per_cycle;
+            self.cycles_performed += 1;
+            
+            log::debug!(
+                "Clamp cycle {}: Ejected {}, Retained {}. Energy: {:.2}",
+                self.cycles_performed, ejected.len(), retained.len(), self.energy_consumed
+            );
+            
+            Ok(ClampResult {
+                ejected,
+                retained,
+                energy_used: self.config.atp_per_cycle
+            })
+        }
+        
+        /**
+         * Classify packet as Sodium (bad) or Potassium (good)
+         */
+        fn classify_packet(&self, packet: &[u8]) -> PacketType {
+            // Malformed packet checks
+            let malformed_score = self.calculate_malformation_score(packet);
+            
+            if malformed_score > self.config.na_threshold {
+                PacketType::Sodium(packet.to_vec())
+            } else if malformed_score < self.config.k_threshold {
+                PacketType::Potassium(packet.to_vec())
+            } else {
+                PacketType::Neutral(packet.to_vec())
+            }
+        }
+        
+        /**
+         * Calculate how malformed a packet is
+         */
+        fn calculate_malformation_score(&self, packet: &[u8]) -> f64 {
+            let mut score = 0.0;
+            
+            // Check 1: Null bytes in unexpected positions
+            if packet.contains(&0u8) {
+                score += 0.3;
+            }
+            
+            // Check 2: Invalid UTF-8 sequences
+            if std::str::from_utf8(packet).is_err() {
+                score += 0.2;
+            }
+            
+            // Check 3: Entropy analysis (random noise has high entropy)
+            let entropy = calculate_entropy(packet);
+            if entropy > 7.5 {  // High entropy = likely noise
+                score += 0.3;
+            }
+            
+            // Check 4: Size anomalies
+            if packet.len() > 1024 * 1024 {  // Suspiciously large
+                score += 0.2;
+            }
+            
+            score
+        }
+        
+        /**
+         * Eject a malformed packet
+         * 
+         * This is the active transport mechanism - costs energy!
+         */
+        fn eject_packet(&mut self, data: Vec<u8>) -> Result<(), ClampError> {
+            // Log ejection for immunity ledger
+            log::warn!("Ejecting malformed packet: {} bytes", data.len());
+            
+            // Actually free the memory (like removing Na+ from cell)
+            drop(data);
+            
+            // Could also quarantine for analysis
+            // quarantine::add_sample(data);
+            
+            Ok(())
+        }
+        
+        /**
+         * Retain a valid packet
+         */
+        fn retain_packet(&mut self, data: Vec<u8>) -> Result<(), ClampError> {
+            // Validate the packet is truly safe
+            if !self.final_validation(&data) {
+                return Err(ClampError::ValidationFailed);
+            }
+            
+            log::debug!("Retained valid packet: {} bytes", data.len());
+            Ok(())
+        }
+        
+        /**
+         * Deep analysis for uncertain packets
+         */
+        fn deep_analysis(&self, data: &[u8]) -> Result<bool, ClampError> {
+            // Could involve:
+            // - Pattern matching against known good/bad signatures
+            // - Machine learning classification
+            // - Sandbox execution
+            
+            // For now, default to conservative (eject if uncertain)
+            Ok(false)
+        }
+        
+        fn final_validation(&self, data: &[u8]) -> bool {
+            // Final security check before allowing into system
+            data.len() > 0 && data.len() < 10 * 1024 * 1024
+        }
+        
+        /**
+         * Replenish energy (ATP synthesis)
+         * 
+         * In biological systems, ATP is synthesized by mitochondria.
+         * Here, we "synthesize" ATP by garbage collecting and
+         * returning energy to the available pool.
+         */
+        pub fn synthesize_atp(&mut self) {
+            log::info!("Synthesizing ATP via garbage collection...");
+            
+            // Trigger dissolution protocol
+            lifecycle::dissolve_unused_resources();
+            
+            // Reset energy counters
+            self.cycles_performed = 0;
+            self.energy_consumed = 0.0;
+            
+            log::info!("ATP replenished. Clamp ready for new cycles.");
+        }
+    }
+    
+    struct ClampResult {
+        ejected: Vec<Vec<u8>>,
+        retained: Vec<Vec<u8>>,
+        energy_used: f64
+    }
+    
+    enum ClampError {
+        Exhausted { cycles: u64, suggestion: String },
+        ValidationFailed,
+        InsufficientEnergy
+    }
+    
+    fn calculate_entropy(data: &[u8]) -> f64 {
+        // Shannon entropy calculation
+        let mut frequency = [0u64; 256];
+        for &byte in data {
+            frequency[byte as usize] += 1;
+        }
+        
+        let len = data.len() as f64;
+        frequency.iter()
+            .filter(|&&f| f > 0)
+            .map(|&f| {
+                let p = f as f64 / len;
+                -p * p.log2()
+            })
+            .sum()
+    }
+}

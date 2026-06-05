@@ -36,3 +36,75 @@ target/
 
 # Workspace data
 workspace/
+
+# === Sovereignty Architecture Additions ===
+
+# Temporary files and build artifacts
+/tmp/
+*.tmp
+*.temp
+dist/
+build/
+
+# Vector Database
+knowledge/vector_db/*.index
+knowledge/vector_db/*.vectors
+
+# Logs (keep structure, not data)
+logs/*.log
+logs/immunity/*.json
+!logs/immunity/README.md
+
+# Quarantine zone (security isolation)
+quarantine/external/*
+quarantine/binaries/*
+!quarantine/external/.gitkeep
+!quarantine/binaries/.gitkeep
+
+# Energy pool data
+src/lifecycle/energy_pool.bin
+
+# Crossfire arena results
+tests/arena/results/*.json
+!tests/arena/results/.gitkeep
+
+# AI model cache
+.ai_cache/
+.model_cache/
+
+# Compiled FlameLang
+*.flame.compiled
+*.flame.o
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+
+# Auto-generated files
+*_generated.rs
+*_generated.ts
+*_generated.py
+
+# Keep directory structure
+!**/.gitkeep
