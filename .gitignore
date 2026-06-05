@@ -36,3 +36,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Voynich diagnostic pipeline runtime data
+data/voynich_work/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
