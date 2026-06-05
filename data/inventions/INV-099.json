@@ -1,0 +1,73 @@
+{
+  "id": "INV-099",
+  "title": "Dramatic Structure Analysis (DSA)",
+  "subtitle": "Methodology for Narrative Discovery",
+  "type": "methodology",
+  "status": "formal_specification",
+  "registration_date": "2026-02-04T17:06:41.051Z",
+  "version": "1.0",
+  
+  "description": "Formal methodology for narrative-based discovery and documentation that enables readers to independently reach conclusions through systematic revelation of evidence, constraints, and actor-bounded knowledge.",
+  
+  "novelty": {
+    "combination": [
+      "Formal grammar for discovery",
+      "Role-bounded epistemology",
+      "Artifacts as primary truth",
+      "Chorus as checksum",
+      "Escalation invariant",
+      "No omniscient narrator"
+    ],
+    "distinguishing_feature": "Removes shortcuts until truth is self-evident rather than attempting persuasion"
+  },
+  
+  "formalization": {
+    "components": [
+      "Grammar",
+      "Constraints",
+      "Generation algorithm",
+      "Validation rules"
+    ],
+    "lintable": true,
+    "automatable": true
+  },
+  
+  "replicability": {
+    "domain_independent": true,
+    "applicable_to": [
+      "Legal proceedings",
+      "Medical documentation",
+      "Infrastructure failure analysis",
+      "Security audits",
+      "Historical documentation",
+      "Dispute resolution"
+    ],
+    "requires_original_author": false
+  },
+  
+  "validation": {
+    "structural_rules": [
+      "Actor consistency",
+      "Artifact integrity",
+      "Temporal consistency",
+      "Chorus presence",
+      "No omniscience"
+    ],
+    "narrative_rules": [
+      "Replicability",
+      "Artifact sufficiency",
+      "Minimal interpretation",
+      "Checksum pass"
+    ]
+  },
+  
+  "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "specification_file": "DSA_SPEC.md",
+  
+  "metadata": {
+    "emerged_from": "Legion collaborative development",
+    "validated_by": "Multiple independent applications",
+    "prior_art_analysis": "Complete",
+    "patent_status": "Not applicable - methodology documentation"
+  }
+}
