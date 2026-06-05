@@ -1,0 +1,8 @@
+{
+  "comment": "FlameLang Glyph Map - Example",
+  "glyphs": {
+    "{ll_notes⟐now}": "/usr/local/bin/notes-sync.sh",
+    "{sovereignty⟐verify}": "/usr/local/bin/sbip-verify.sh",
+    "{flamelang⟐init}": "/usr/local/bin/flamelang-init.sh"
+  }
+}

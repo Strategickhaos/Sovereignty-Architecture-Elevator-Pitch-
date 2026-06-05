@@ -1,0 +1,15 @@
+[Unit]
+Description=SBIP Boot Verification Service
+After=systemd-modules-load.service
+Before=multi-user.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sbip-verify.sh
+StandardOutput=journal
+StandardError=journal
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

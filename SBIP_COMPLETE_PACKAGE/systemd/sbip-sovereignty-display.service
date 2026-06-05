@@ -1,0 +1,12 @@
+[Unit]
+Description=Display Sovereignty Status on TTY
+After=sbip-verify.service
+Before=getty@tty1.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/wall "⚔ SOVEREIGN BOOT COMPLETE - Strategickhaos DAO LLC ⚔"
+StandardOutput=tty
+
+[Install]
+WantedBy=multi-user.target

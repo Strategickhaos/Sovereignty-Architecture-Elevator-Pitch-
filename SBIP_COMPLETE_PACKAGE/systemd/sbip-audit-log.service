@@ -1,0 +1,11 @@
+[Unit]
+Description=SBIP Audit Log Service
+After=sbip-verify.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sbip-audit-log.sh
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
