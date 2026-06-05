@@ -1,0 +1,16 @@
+{
+  "pack_name": "strict",
+  "version": "1.0.0",
+  "description": "Strict TRIG6 constants pack with full provenance requirements",
+  "settings": {
+    "strict_provenance": true,
+    "require_entered_by": true,
+    "fail_on_missing_citation": true
+  },
+  "domains": {
+    "trigonometry": {
+      "enabled": true,
+      "constants_file": "domains/trigonometry/constants.json"
+    }
+  }
+}

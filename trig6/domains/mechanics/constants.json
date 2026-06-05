@@ -1,0 +1,36 @@
+{
+  "domain": "mechanics",
+  "version": "1.0.0",
+  "constants": [
+    {
+      "key": "g_earth",
+      "value": 9.80665,
+      "units": "m/s²",
+      "description": "Standard gravitational acceleration on Earth",
+      "range": [9.8, 9.82],
+      "provenance": [
+        {
+          "source_title": "CODATA 2018",
+          "author": "NIST",
+          "year": 2018
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "speed_of_light",
+      "value": 299792458,
+      "units": "m/s",
+      "description": "Speed of light in vacuum",
+      "range": [299792458, 299792458],
+      "provenance": [
+        {
+          "source_title": "CODATA 2018",
+          "author": "NIST",
+          "year": 2018
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    }
+  ]
+}
