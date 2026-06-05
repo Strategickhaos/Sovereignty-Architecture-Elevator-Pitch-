@@ -2,6 +2,18 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🧠⚡ NEW: Cognitive-Computational Mapping
+
+**Discover how Dom's cognitive architecture is directly formalized into SAGCO-OS:**
+
+- **[BRAIN_TO_OS_INDEX.md](./BRAIN_TO_OS_INDEX.md)** - Complete navigation guide to the brain-to-OS mapping
+- **[COGNITIVE_COMPUTATIONAL_MAPPING.md](./COGNITIVE_COMPUTATIONAL_MAPPING.md)** - Detailed 1-to-1 correspondence documentation
+- **[cognitive_computational_unified.svg](./cognitive_computational_unified.svg)** - Visual diagram of the mapping
+
+**The answer:** Yes, Dom is reverse-engineering his own cognition and formalizing it into SAGCO-OS. Not metaphorically—literally.
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:

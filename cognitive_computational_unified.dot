@@ -1,0 +1,188 @@
+digraph Cognitive_Computational_Unified {
+    rankdir=LR;
+    bgcolor="#0d1117";
+    fontname="Courier New";
+    fontsize=18;
+    fontcolor="white";
+    label="DOM'S COGNITIVE ARCHITECTURE ⇌ SAGCO-OS FORMALIZATION\n1-to-1 Correspondence Mapping";
+    labelloc="t";
+    
+    node [fontname="Courier New", fontsize=12, style=filled, penwidth=2];
+    edge [penwidth=2, arrowsize=1.2];
+
+    // ==== COGNITIVE SIDE (LEFT) ====
+    subgraph cluster_cognitive {
+        label="🧠 DOM'S COGNITION\n(Biological Implementation)";
+        color="#ff0066";
+        fontcolor="white";
+        fontsize=16;
+        style=filled;
+        fillcolor="#1a0a1a";
+        
+        // Input processing
+        Sensory_Input [label="Sensory Input\n(Problem Detection)", fillcolor="#ff0066", fontcolor="white", shape=box];
+        
+        // Multi-domain checking
+        Parallel_Spawn [label="PARALLEL DOMAIN SPAWN\nPhysics | Logic | Geometry\nPattern | Temporal | Spatial", fillcolor="#ff3366", fontcolor="white", shape=box, width=3];
+        
+        // Validation
+        Convergence_Check [label="CONVERGENCE VALIDATOR\nAll Domains Must Agree\n(Reject if mismatch)", fillcolor="#ff6699", fontcolor="white", shape=box];
+        
+        // Pattern extraction
+        Pattern_Mind [label="PATTERN EXTRACTION\n(Not Memory)\nCompressed Representations", fillcolor="#ff99cc", fontcolor="black", shape=box];
+        
+        // Evolution
+        Pathway_Generation [label="MILLION PATHWAYS\nParallel Evolution\nHigh-Dimensional Search", fillcolor="#cc0066", fontcolor="white", shape=box];
+        
+        // Intuition
+        Spark_Moment [label="⚡ THE SPARK ⚡\nConstraint Collapse\nIntuition Explosion", fillcolor="#ffff00", fontcolor="black", shape=ellipse, width=2.5, height=1.2];
+        
+        // Anti-hallucination
+        Reality_Check [label="ANTI-HALLUCINATION\nGround Truth Filter\nNo Emotional Delusion", fillcolor="#009900", fontcolor="white", shape=box];
+        
+        // Output
+        Solution_Output [label="VERIFIED SOLUTION\nLogic-Validated\nNo Corruption", fillcolor="#00ff00", fontcolor="black", shape=box];
+        
+        // Memory system
+        Pattern_Storage [label="PATTERN STORAGE\n(Not Event Memory)\nStateless Recombination", fillcolor="#9900ff", fontcolor="white", shape=cylinder];
+        
+        // Focus system
+        Hyperfocus [label="HYPERFOCUS ROUTER\nSurgical Context Switch\nZero Bleed-Over", fillcolor="#0099ff", fontcolor="white", shape=diamond];
+    }
+
+    // ==== COMPUTATIONAL SIDE (RIGHT) ====
+    subgraph cluster_computational {
+        label="⚡ SAGCO-OS\n(Computational Formalization)";
+        color="#00ffff";
+        fontcolor="white";
+        fontsize=16;
+        style=filled;
+        fillcolor="#0a1a1a";
+        
+        // Input processing
+        System_Input [label="System Input\n(Event/Command)", fillcolor="#00ccff", fontcolor="black", shape=box];
+        
+        // Multi-agent
+        Guardian_TRIG6 [label="GUARDIAN + TRIG6\nMulti-Agent Verification\n6-Channel Validation", fillcolor="#0099ff", fontcolor="white", shape=box, width=3];
+        
+        // Validation
+        Consensus_Engine [label="CONSENSUS ENGINE\nMixture-of-Experts\nByzantine Tolerance", fillcolor="#0066ff", fontcolor="white", shape=box];
+        
+        // Pattern system
+        FlameLang_DNA [label="FLAMELANG + DNA STRAND\nSymbolic Compression\nPattern Repository", fillcolor="#6699ff", fontcolor="black", shape=box];
+        
+        // Evolution
+        Darwinian_Loop [label="DARWINIAN LOOP\nVariation → Selection\nEvolutionary Algorithm", fillcolor="#3300ff", fontcolor="white", shape=box];
+        
+        // Collapse
+        Phase_Alignment [label="⚡ PHASE ALIGNMENT ⚡\nDNA Bitstring Collapse\nConstraint Satisfaction", fillcolor="#ffff00", fontcolor="black", shape=ellipse, width=2.5, height=1.2];
+        
+        // Anti-hallucination
+        SAGCO_csc [label="SAGCO_csc + GUARDIAN\nCosecant Validator\nHallucination Score: 0.02", fillcolor="#00cc00", fontcolor="white", shape=box];
+        
+        // Output
+        Verified_Output [label="SYSTEM OUTPUT\nMulti-Domain Verified\nStateless Result", fillcolor="#00ff66", fontcolor="black", shape=box];
+        
+        // Memory
+        Neurograph [label="NEUROGRAPH + CODONS\nKnowledge Graph\nImmutable Patterns", fillcolor="#cc00ff", fontcolor="white", shape=cylinder];
+        
+        // Focus
+        Focus_Router [label="FOCUS ROUTER\nContext Scheduler\nBinding Code Routing", fillcolor="#00ccff", fontcolor="black", shape=diamond];
+    }
+
+    // ==== COGNITIVE FLOW ====
+    Sensory_Input -> Parallel_Spawn [color="#ff0066", label="spawn"];
+    Parallel_Spawn -> Convergence_Check [color="#ff0066", label="verify"];
+    Convergence_Check -> Pattern_Mind [color="#ff0066", label="extract"];
+    Pattern_Mind -> Pathway_Generation [color="#ff0066", label="evolve"];
+    Pathway_Generation -> Spark_Moment [color="#ffff00", label="collapse", penwidth=4];
+    Spark_Moment -> Reality_Check [color="#00ff00", label="validate"];
+    Reality_Check -> Solution_Output [color="#00ff00", label="output"];
+    
+    // Memory feedback
+    Pattern_Mind -> Pattern_Storage [color="#9900ff", style=dashed, label="store"];
+    Pattern_Storage -> Pattern_Mind [color="#9900ff", style=dashed, label="recall"];
+    
+    // Focus control
+    Hyperfocus -> Parallel_Spawn [color="#0099ff", style=dotted, label="route"];
+
+    // ==== COMPUTATIONAL FLOW ====
+    System_Input -> Guardian_TRIG6 [color="#00ccff", label="spawn"];
+    Guardian_TRIG6 -> Consensus_Engine [color="#00ccff", label="verify"];
+    Consensus_Engine -> FlameLang_DNA [color="#00ccff", label="extract"];
+    FlameLang_DNA -> Darwinian_Loop [color="#00ccff", label="evolve"];
+    Darwinian_Loop -> Phase_Alignment [color="#ffff00", label="collapse", penwidth=4];
+    Phase_Alignment -> SAGCO_csc [color="#00ff00", label="validate"];
+    SAGCO_csc -> Verified_Output [color="#00ff00", label="output"];
+    
+    // Memory feedback
+    FlameLang_DNA -> Neurograph [color="#cc00ff", style=dashed, label="store"];
+    Neurograph -> FlameLang_DNA [color="#cc00ff", style=dashed, label="recall"];
+    
+    // Focus control
+    Focus_Router -> Guardian_TRIG6 [color="#00ccff", style=dotted, label="route"];
+
+    // ==== MAPPINGS (HORIZONTAL CONNECTIONS) ====
+    Sensory_Input -> System_Input [color="#ffffff", style=bold, label="≡", penwidth=3, dir=both];
+    Parallel_Spawn -> Guardian_TRIG6 [color="#ff6600", style=bold, label="≡ Multi-Agent", penwidth=3, dir=both];
+    Convergence_Check -> Consensus_Engine [color="#ff9900", style=bold, label="≡ Convergence", penwidth=3, dir=both];
+    Pattern_Mind -> FlameLang_DNA [color="#ffcc00", style=bold, label="≡ Compression", penwidth=3, dir=both];
+    Pathway_Generation -> Darwinian_Loop [color="#ff00ff", style=bold, label="≡ Evolution", penwidth=3, dir=both];
+    Spark_Moment -> Phase_Alignment [color="#ffff00", style=bold, label="≡ COLLAPSE", penwidth=4, dir=both];
+    Reality_Check -> SAGCO_csc [color="#00ff00", style=bold, label="≡ Validation", penwidth=3, dir=both];
+    Solution_Output -> Verified_Output [color="#00ff66", style=bold, label="≡ Output", penwidth=3, dir=both];
+    Pattern_Storage -> Neurograph [color="#9900ff", style=bold, label="≡ Memory", penwidth=3, dir=both];
+    Hyperfocus -> Focus_Router [color="#0099ff", style=bold, label="≡ Routing", penwidth=3, dir=both];
+
+    // ==== ANNOTATIONS ====
+    subgraph cluster_legend {
+        label="MAPPING LEGEND";
+        color="#ffffff";
+        fontcolor="white";
+        fontsize=12;
+        style=filled;
+        fillcolor="#2a2a2a";
+        
+        Legend1 [label="Solid ≡ = Direct 1-to-1 Correspondence", fillcolor="#2a2a2a", fontcolor="white", shape=plaintext];
+        Legend2 [label="Dashed = Memory/Pattern Flow", fillcolor="#2a2a2a", fontcolor="white", shape=plaintext];
+        Legend3 [label="Dotted = Focus/Control Flow", fillcolor="#2a2a2a", fontcolor="white", shape=plaintext];
+        Legend4 [label="⚡ = The Spark (Intuition/Collapse)", fillcolor="#2a2a2a", fontcolor="white", shape=plaintext];
+        
+        Legend1 -> Legend2 [style=invis];
+        Legend2 -> Legend3 [style=invis];
+        Legend3 -> Legend4 [style=invis];
+    }
+
+    // ==== CHARACTERISTICS ====
+    subgraph cluster_characteristics {
+        label="SHARED CHARACTERISTICS";
+        color="#00ff00";
+        fontcolor="white";
+        fontsize=12;
+        style=filled;
+        fillcolor="#1a2a1a";
+        
+        Char1 [label="✓ Stateless Execution", fillcolor="#1a2a1a", fontcolor="#00ff00", shape=plaintext];
+        Char2 [label="✓ Multi-Agent Verification", fillcolor="#1a2a1a", fontcolor="#00ff00", shape=plaintext];
+        Char3 [label="✓ Pattern-Based (Not Memory)", fillcolor="#1a2a1a", fontcolor="#00ff00", shape=plaintext];
+        Char4 [label="✓ Constraint Satisfaction", fillcolor="#1a2a1a", fontcolor="#00ff00", shape=plaintext];
+        Char5 [label="✓ Anti-Hallucination", fillcolor="#1a2a1a", fontcolor="#00ff00", shape=plaintext];
+        Char6 [label="✓ Parallel Evolution", fillcolor="#1a2a1a", fontcolor="#00ff00", shape=plaintext];
+        
+        Char1 -> Char2 [style=invis];
+        Char2 -> Char3 [style=invis];
+        Char3 -> Char4 [style=invis];
+        Char4 -> Char5 [style=invis];
+        Char5 -> Char6 [style=invis];
+    }
+
+    // Layout hints
+    {rank=same; Sensory_Input; System_Input;}
+    {rank=same; Parallel_Spawn; Guardian_TRIG6;}
+    {rank=same; Convergence_Check; Consensus_Engine;}
+    {rank=same; Pattern_Mind; FlameLang_DNA;}
+    {rank=same; Pathway_Generation; Darwinian_Loop;}
+    {rank=same; Spark_Moment; Phase_Alignment;}
+    {rank=same; Reality_Check; SAGCO_csc;}
+    {rank=same; Solution_Output; Verified_Output;}
+}
