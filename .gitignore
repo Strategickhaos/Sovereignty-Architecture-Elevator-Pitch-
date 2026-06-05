@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# Arm Legions generated files
+forbidden-library/
