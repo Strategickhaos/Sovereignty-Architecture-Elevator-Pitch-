@@ -1,0 +1,232 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                     SAGCO-MENU v1.2 VISUALIZATION                          ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+                            USER LOGIN FLOW
+                            ===============
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         User logs in                                    │
+│                              ↓                                          │
+│                    Interactive TTY detected                             │
+│                              ↓                                          │
+│            /etc/profile.d/sagco-menu.sh activated                       │
+│                              ↓                                          │
+│                    SAGCO Menu Launches                                  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+                         MAIN MENU SCREEN
+                         ================
+
+    ┌───────────────────────────────────────────────────────────┐
+    │                    SAGCO Tools Menu                       │
+    │                                                           │
+    │  Select category:                                         │
+    │                                                           │
+    │  >  🕒 Recently Used                                      │
+    │     🛠️  Core System Utilities                            │
+    │     🔒 Security & Penetration Testing                    │
+    │     ⚙️  DevOps & Operations                              │
+    │     🌐 Network Utilities                                 │
+    │                                                           │
+    │  [OK]  [Cancel]                                           │
+    └───────────────────────────────────────────────────────────┘
+
+
+                         SEARCH PROMPT
+                         =============
+
+    ┌───────────────────────────────────────────────────────────┐
+    │                   Search security-tools                   │
+    │                                                           │
+    │  Enter search term (optional):                            │
+    │  ┌───────────────────────────────────────────────────┐   │
+    │  │ nmap                                              │   │
+    │  └───────────────────────────────────────────────────┘   │
+    │                                                           │
+    │  [OK]  [Cancel]                                           │
+    └───────────────────────────────────────────────────────────┘
+
+
+                         TOOL SELECTION
+                         ==============
+
+    ┌───────────────────────────────────────────────────────────┐
+    │                 SAGCO: security-tools                     │
+    │                                                           │
+    │  Select tool:                                             │
+    │                                                           │
+    │  >  🔍 Nmap - Network scanner                            │
+    │     🎯 Metasploit - Exploitation framework               │
+    │     🦈 Wireshark - Network protocol analyzer             │
+    │     🔓 Burp Suite - Web security testing                 │
+    │     💉 SQLMap - SQL injection tool                       │
+    │                                                           │
+    │  [OK]  [Cancel]                                           │
+    └───────────────────────────────────────────────────────────┘
+
+
+                         TOOL EXECUTION
+                         ==============
+
+    ╔═══════════════════════════════════════════════════════════╗
+    ║  SAGCO ▶ Nmap                                             ║
+    ║  CMD  ▶ nmap --version                                    ║
+    ╚═══════════════════════════════════════════════════════════╝
+
+    Nmap version 7.94 ( https://nmap.org )
+    Platform: x86_64-pc-linux-gnu
+    Compiled with: liblua-5.3.6 openssl-3.0.11
+    Available nsock engines: epoll poll select
+
+    Press Enter to return to menu...
+
+
+                      RECENTLY USED CATEGORY
+                      ======================
+
+    ┌───────────────────────────────────────────────────────────┐
+    │                 SAGCO: Recently Used                      │
+    │                                                           │
+    │  Select tool:                                             │
+    │                                                           │
+    │  >  🔍 Nmap - Network scanner                            │
+    │     🐳 Docker - Container platform                        │
+    │     🌊 Curl - HTTP client                                │
+    │     📂 Git - Version control system                       │
+    │     🏗️  Terraform - Infrastructure as Code               │
+    │                                                           │
+    │  [OK]  [Cancel]                                           │
+    └───────────────────────────────────────────────────────────┘
+
+
+                         FEATURE MATRIX
+                         ==============
+
+    ┌───────────────────────────────────────────────────────────┐
+    │ Feature                     │ Status  │ Implementation    │
+    ├─────────────────────────────┼─────────┼───────────────────┤
+    │ Cross-Tool Search           │ ✅ DONE │ difflib (fuzzy)   │
+    │ Category Ordering           │ ✅ DONE │ YAML order array  │
+    │ Category Icons              │ ✅ DONE │ Emoji/ASCII       │
+    │ Item Icons                  │ ✅ DONE │ Emoji/ASCII       │
+    │ Recently Used (Last 5)      │ ✅ DONE │ JSON state        │
+    │ Per-User State              │ ✅ DONE │ $USER keys        │
+    │ Auto-Launch on Login        │ ✅ DONE │ profile.d         │
+    │ Recursion Prevention        │ ✅ DONE │ ENV var guard     │
+    │ Whiptail TUI                │ ✅ DONE │ Dialog menus      │
+    │ YAML Configuration          │ ✅ DONE │ spm.yml           │
+    └───────────────────────────────────────────────────────────┘
+
+
+                      SEARCH BEHAVIOR EXAMPLES
+                      ========================
+
+    Input: "docker"
+    ┌───────────────────────────────────────────────────────────┐
+    │ Results from ALL categories:                              │
+    │   🐳 Docker - Container platform (core-tools)            │
+    └───────────────────────────────────────────────────────────┘
+
+    Input: "network"
+    ┌───────────────────────────────────────────────────────────┐
+    │ Results from ALL categories:                              │
+    │   �� Nmap - Network scanner (security-tools)             │
+    │   🦈 Wireshark - Network protocol analyzer (security)    │
+    │   🐱 Netcat - Network utility (network-tools)            │
+    └───────────────────────────────────────────────────────────┘
+
+    Input: "NMAP" (case insensitive)
+    ┌───────────────────────────────────────────────────────────┐
+    │ Results from ALL categories:                              │
+    │   🔍 Nmap - Network scanner (security-tools)             │
+    └───────────────────────────────────────────────────────────┘
+
+
+                     STATE FILE STRUCTURE
+                     ====================
+
+    /var/lib/sagco/menu_state.json:
+
+    {
+      "alice": {
+        "recent": [
+          "core-tools:Git",
+          "security-tools:Nmap",
+          "core-tools:Docker",
+          "network-tools:Curl",
+          "ops-tools:Terraform"
+        ]
+      },
+      "bob": {
+        "recent": [
+          "network-tools:SSH",
+          "security-tools:Wireshark"
+        ]
+      }
+    }
+
+
+                    YAML CONFIGURATION EXAMPLE
+                    ==========================
+
+    /opt/sagco/spm.yml:
+
+    tools:
+      order: ["core-tools", "security-tools", "ops-tools"]
+      
+      core-tools:
+        icon: "🛠️"
+        description: "Core System Utilities"
+        items:
+          - name: "Git"
+            icon: "📂"
+            command: "git --version"
+            description: "Version control system"
+          
+          - name: "Docker"
+            icon: "🐳"
+            command: "docker --version"
+            description: "Container platform"
+
+
+                      DIRECTORY STRUCTURE
+                      ===================
+
+    /opt/sagco/
+    ├── spm.yml                    ← Configuration
+    └── bin/
+        ├── sagco-menu.py          ← Python backend
+        └── sagco-menu.sh          ← Bash frontend
+
+    /etc/profile.d/
+    └── sagco-menu.sh              ← Auto-launcher
+
+    /var/lib/sagco/
+    └── menu_state.json            ← State persistence
+
+
+                         KEY COMMANDS
+                         ============
+
+    Launch Menu:
+    $ /opt/sagco/bin/sagco-menu.sh
+
+    List Categories:
+    $ /opt/sagco/bin/sagco-menu.py categories
+
+    Search Tools:
+    $ /opt/sagco/bin/sagco-menu.py items all docker
+
+    View Recent:
+    $ /opt/sagco/bin/sagco-menu.py recent
+
+    Add to Recent:
+    $ /opt/sagco/bin/sagco-menu.py add_recent core-tools Git
+
+
+═════════════════════════════════════════════════════════════════════════════
+                    SAGCO-MENU v1.2 - DOM. 😭🔥💜
+═════════════════════════════════════════════════════════════════════════════
