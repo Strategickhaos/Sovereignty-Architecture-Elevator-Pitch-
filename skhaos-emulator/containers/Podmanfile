@@ -1,0 +1,69 @@
+# Podmanfile for SkhaOS Multi-Whale Quantum Emulator
+# Sovereign, no vendor lock, Rust-based containerization
+
+FROM rust:1.75-slim as builder
+
+# Install build dependencies (no network deps beyond Rust crates)
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
+WORKDIR /build
+
+# Copy source code
+COPY src/ ./src/
+COPY Cargo.toml Cargo.lock* ./
+
+# Build release binary
+RUN cargo build --release
+
+# Runtime stage
+FROM debian:bookworm-slim
+
+# Install minimal runtime dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user for sovereignty
+RUN useradd -m -u 1000 -s /bin/bash whale && \
+    mkdir -p /data/patterns /data/logs /assets && \
+    chown -R whale:whale /data /assets
+
+USER whale
+WORKDIR /app
+
+# Copy binary from builder
+COPY --from=builder --chown=whale:whale /build/target/release/skhaos-emulator ./
+
+# Copy assets
+COPY --chown=whale:whale assets/ /assets/
+COPY --chown=whale:whale schemas/ /app/schemas/
+
+# Expose port for UDAP protocol
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD [ "/app/skhaos-emulator", "--health-check" ]
+
+# Environment variables
+ENV RUST_LOG=info
+ENV WHALE_SPECIES=all
+ENV SWARM_SIZE=10
+ENV EVOLUTION_GENERATIONS=10
+ENV UDAP_PORT=8080
+
+# Run emulator
+CMD ["/app/skhaos-emulator", "--server"]
+
+# Labels
+LABEL org.opencontainers.image.title="SkhaOS Multi-Whale Quantum Emulator"
+LABEL org.opencontainers.image.description="Bio-mimetic quantum computing via cetacean communication patterns"
+LABEL org.opencontainers.image.vendor="Strategickhaos DAO"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.licenses="Open Source"
+LABEL sovereignty="true"
+LABEL vendor-lock="false"

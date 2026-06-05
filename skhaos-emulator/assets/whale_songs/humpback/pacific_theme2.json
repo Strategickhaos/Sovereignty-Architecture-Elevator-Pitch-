@@ -1,0 +1,15 @@
+{
+  "level": "Theme",
+  "frequency_range": [300, 1200],
+  "duration_sec": 200,
+  "cultural_variant": "pacific",
+  "zipf_rank": 2,
+  "units": [
+    "grunt_low",
+    "cry_high",
+    "moan_mid",
+    "downsweep_high",
+    "grunt_low"
+  ],
+  "description": "Pacific humpback theme with 5-unit phrase structure"
+}

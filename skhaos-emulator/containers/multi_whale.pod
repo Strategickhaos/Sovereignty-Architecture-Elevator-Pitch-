@@ -1,0 +1,63 @@
+# Multi-Whale Quantum Emulator Pod Specification
+# Podman pod for isolated, sovereign whale pattern simulation
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-whale-pod
+  labels:
+    app: skhaos-emulator
+    tier: bio-mimetic
+    sovereignty: true
+spec:
+  containers:
+  - name: whale-emulator
+    image: localhost/skhaos-whale-emulator:latest
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    volumeMounts:
+    - name: whale-patterns
+      mountPath: /data/patterns
+    - name: evolution-logs
+      mountPath: /data/logs
+    - name: assets
+      mountPath: /assets
+    env:
+    - name: RUST_LOG
+      value: "info"
+    - name: WHALE_SPECIES
+      value: "all"
+    - name: SWARM_SIZE
+      value: "10"
+    - name: EVOLUTION_GENERATIONS
+      value: "10"
+    resources:
+      limits:
+        memory: "2Gi"
+        cpu: "2"
+      requests:
+        memory: "512Mi"
+        cpu: "500m"
+  
+  volumes:
+  - name: whale-patterns
+    emptyDir: {}
+  - name: evolution-logs
+    emptyDir: {}
+  - name: assets
+    hostPath:
+      path: ./assets
+      type: Directory
+
+# Pod network configuration
+  hostNetwork: false
+  dnsPolicy: ClusterFirst
+  
+# Security context for sovereignty
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault

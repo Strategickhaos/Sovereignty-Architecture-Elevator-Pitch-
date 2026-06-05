@@ -1,0 +1,81 @@
+{
+  "phase": 12,
+  "species": "killer",
+  "timestamp": "2025-12-31T19:00:00Z",
+  "patterns_added": 4,
+  "frequency_range": "0.1-25000 Hz",
+  "evolvability": "high",
+  "pods": ["J", "K", "L", "Biggs"],
+  "matrilines": [1, 2, 7, 65],
+  "mutations": [
+    {
+      "type": "matrilineal_transmission",
+      "from_matriline": 1,
+      "to_matriline": 2,
+      "calls_learned": 1,
+      "success": true
+    },
+    {
+      "type": "pod_dialect_divergence",
+      "pod1": "J",
+      "pod2": "K",
+      "jaccard_similarity": 0.45,
+      "success": true
+    },
+    {
+      "type": "ecotype_distinction",
+      "resident_vocal_rate": "high",
+      "biggs_vocal_rate": "low",
+      "success": true
+    }
+  ],
+  "quantum_mappings": [
+    {
+      "pattern": "click_echolocation",
+      "quantum_analog": "navigational_qubit",
+      "frequency_hz": 1
+    },
+    {
+      "pattern": "whistle_social",
+      "quantum_analog": "pod_cohesion",
+      "frequency_hz": 5
+    },
+    {
+      "pattern": "discrete_pulsed_call",
+      "quantum_analog": "matrilineal_id",
+      "frequency_hz": 10
+    },
+    {
+      "pattern": "low_freq_bellow",
+      "quantum_analog": "hunt_coordination",
+      "frequency_hz": 15
+    },
+    {
+      "pattern": "jaw_clap_display",
+      "quantum_analog": "visual_acoustic_entangle",
+      "frequency_hz": 20
+    },
+    {
+      "pattern": "resident_vs_biggs",
+      "quantum_analog": "cultural_divergence",
+      "frequency_hz": 25
+    }
+  ],
+  "dialect_systems": {
+    "southern_residents": {
+      "pods": ["J", "K", "L"],
+      "call_repertoire_size": "12-15 discrete calls",
+      "shared_calls": ["S1", "S2", "S3"],
+      "pod_specific_calls": {
+        "J": ["S1 variant A"],
+        "K": ["S1 variant B"],
+        "L": ["N4", "N9"]
+      }
+    },
+    "biggs_transients": {
+      "vocal_strategy": "minimal vocalizations during hunting",
+      "call_types": ["clicks", "rare_whistles"],
+      "stealth_mode": true
+    }
+  }
+}

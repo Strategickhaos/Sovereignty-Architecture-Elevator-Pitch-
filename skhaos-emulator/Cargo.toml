@@ -1,0 +1,44 @@
+[package]
+name = "skhaos-emulator"
+version = "1.0.0"
+edition = "2021"
+authors = ["Strategickhaos DAO <contact@strategickhaos.io>"]
+description = "Multi-whale quantum emulator: Bio-mimetic quantum computing via cetacean communication patterns"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+keywords = ["quantum", "bio-mimetic", "whale", "cetacean", "sovereignty"]
+categories = ["science", "simulation"]
+
+[dependencies]
+# Core dependencies (minimal, no vendor lock)
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Optional server dependencies
+tokio = { version = "1.0", features = ["full"], optional = true }
+axum = { version = "0.7", optional = true }
+tower = { version = "0.4", optional = true }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[features]
+default = []
+server = ["tokio", "axum", "tower"]
+
+[[bin]]
+name = "skhaos-emulator"
+path = "src/main.rs"
+required-features = ["server"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[lib]
+name = "skhaos_emulator"
+path = "src/lib.rs"

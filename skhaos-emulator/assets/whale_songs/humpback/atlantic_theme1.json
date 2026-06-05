@@ -1,0 +1,14 @@
+{
+  "level": "Theme",
+  "frequency_range": [200, 1000],
+  "duration_sec": 180,
+  "cultural_variant": "atlantic",
+  "zipf_rank": 1,
+  "units": [
+    "grunt_low",
+    "moan_mid",
+    "downsweep_high",
+    "grunt_low"
+  ],
+  "description": "Classic Atlantic humpback theme with 4-unit phrase structure"
+}

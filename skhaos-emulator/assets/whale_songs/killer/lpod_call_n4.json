@@ -1,0 +1,11 @@
+{
+  "call_type": "PulsedCall",
+  "pod": "L",
+  "ecotype": "Resident",
+  "frequency_hz": 2500,
+  "duration_sec": 1.5,
+  "matriline_id": 2,
+  "call_number": 4,
+  "catalog_id": "L-PC4",
+  "description": "L-pod discrete call N4 (Northern variant)"
+}
