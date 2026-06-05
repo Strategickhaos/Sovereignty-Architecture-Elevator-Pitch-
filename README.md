@@ -10,6 +10,23 @@ This system creates a **sovereignty control plane** that bridges:
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
 
+## 🛡️ Defensive IP System
+
+**Protect your innovations without patent costs** - This repository includes a defensive IP system for creating permanent prior art through public disclosure. By documenting technical innovations with cryptographic timestamps, we prevent patent trolls while maintaining freedom to operate.
+
+**Key Features:**
+- 💰 **Zero cost** - No attorney fees or filing costs
+- 🔒 **Cryptographic proof** - Git commits provide tamper-proof timestamps
+- 🌍 **Public prior art** - Prevents others from patenting your disclosed inventions
+- 📝 **Structured templates** - Easy-to-use disclosure format
+
+**Get Started:**
+- 📖 Read the [Defensive IP Guide](defensive-ip/README.md)
+- ⚡ Follow the [Quick Start Guide](defensive-ip/QUICK_START.md) (10 minutes)
+- 🔥 See [INV-0001: TRIG6 Risk Engine](defensive-ip/INV-0001_TRIG6_RISK_ENGINE/INV-0001_DISCLOSURE.md) example
+
+*"I was here first, and 7% of this will help someone else when it finally pays." 🔥*
+
 ## 🚀 Quick Start
 
 ```bash

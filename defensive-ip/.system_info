@@ -1,0 +1,66 @@
+DEFENSIVE IP SYSTEM - QUICK REFERENCE
+======================================
+
+Purpose: Create defensive prior art through public disclosure to prevent patent trolls
+Cost: $0 (no attorney fees, no filing fees)
+Protection: Prevents others from patenting your disclosed inventions
+
+DIRECTORY STRUCTURE
+-------------------
+defensive-ip/
+├── README.md              # Full system documentation
+├── QUICK_START.md         # 10-minute setup guide
+├── TEMPLATE_DISCLOSURE.md # Copy this for new disclosures
+├── INDEX.md               # Track all disclosures
+├── LEGAL_DISCLAIMER.md    # Important legal notices
+├── new_disclosure.sh      # Create new disclosure
+├── add_hashes.sh          # Add crypto hashes after commit
+└── INV-XXXX_NAME/
+    └── INV-XXXX_DISCLOSURE.md
+
+PUBLISHED DISCLOSURES
+---------------------
+1. INV-0001: TRIG6 Risk Geometry Engine (2026-01-25)
+   - 931 lines of technical detail
+   - 3 detailed example embodiments
+   - Implementations in Python, Rust, JavaScript
+   - Cryptographically timestamped
+
+QUICK START
+-----------
+1. Create disclosure:
+   ./defensive-ip/new_disclosure.sh INV-0002 "Your Invention"
+
+2. Edit the file with technical details
+
+3. Commit:
+   git add defensive-ip/INV-0002_*/
+   git commit -m "INV-0002: Initial disclosure"
+
+4. Add hashes:
+   ./defensive-ip/add_hashes.sh INV-0002
+   git add defensive-ip/INV-0002_*/*.md
+   git commit -m "INV-0002: Add hashes"
+
+5. Push:
+   git push origin main
+
+WHAT'S INCLUDED
+---------------
+✅ Professional disclosure template
+✅ Example disclosure (TRIG6 - 931 lines)
+✅ Comprehensive documentation (1,800+ lines)
+✅ Automated helper scripts
+✅ Legal disclaimer and notices
+✅ Cryptographic timestamping
+✅ GitHub public archive
+
+REMEMBER
+--------
+⚠️  Disclosure is PERMANENT and IRREVOCABLE
+⚠️  You CANNOT patent after public disclosure (most jurisdictions)
+⚠️  Read LEGAL_DISCLAIMER.md before using
+⚠️  Consult attorney for formal IP strategy
+
+Built by: Strategickhaos DAO LLC
+"I was here first, and 7% of this will help someone else when it finally pays." 🔥
