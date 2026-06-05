@@ -36,3 +36,11 @@ target/
 
 # Workspace data
 workspace/
+
+# C++ build artifacts
+*.o
+*.out
+*.exe
+build/
+src/solvern/solvern
+src/solvern/build/
