@@ -1,0 +1,11 @@
+name: ATEROTH
+role: storage
+ip: 192.168.1.100
+os: "Debian"
+cpu: "i5-8400"
+ram_gb: 32
+gpu: "None"
+tags:
+  - mesh
+  - storage
+  - backup

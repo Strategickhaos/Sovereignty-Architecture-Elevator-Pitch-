@@ -1,0 +1,34 @@
+{
+  "source": "flamebench",
+  "dna_strand": "FLM2-CMD1-MESH5-ORB1",
+  "uncertainties": [
+    {
+      "tag": "if-else",
+      "p_correct": 0.96,
+      "entropy": 0.25,
+      "alpha": 48.0,
+      "beta": 2.0,
+      "sample_size": 50
+    },
+    {
+      "tag": "loop",
+      "p_correct": 0.94,
+      "entropy": 0.30,
+      "alpha": 47.0,
+      "beta": 3.0,
+      "sample_size": 50
+    },
+    {
+      "tag": "function-call",
+      "p_correct": 0.97,
+      "entropy": 0.20,
+      "alpha": 48.5,
+      "beta": 1.5,
+      "sample_size": 50
+    }
+  ],
+  "overall": {
+    "p_success": 0.96,
+    "entropy": 0.25
+  }
+}

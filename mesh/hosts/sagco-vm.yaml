@@ -1,0 +1,12 @@
+name: SAGCO-VM
+role: hypervisor_guest
+ip: 192.168.1.200
+os: "Alpine Linux (VM)"
+cpu: "VM vCPU"
+ram_gb: 4
+gpu: "None"
+tags:
+  - mesh
+  - vm
+  - sagco-os
+  - guest
