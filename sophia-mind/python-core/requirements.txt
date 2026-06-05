@@ -1,0 +1,11 @@
+# SOPHIA MIND Brain Visualizer - Python Dependencies
+# Part of Strategickhaos Sovereignty Architecture
+
+# YAML parsing for frontmatter
+PyYAML>=6.0
+
+# Optional: Git integration
+GitPython>=3.1.30
+
+# Optional: File watching for real-time sync
+watchdog>=3.0.0

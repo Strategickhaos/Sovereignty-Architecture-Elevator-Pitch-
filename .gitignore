@@ -36,3 +36,20 @@ target/
 
 # Workspace data
 workspace/
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.spec
+
+# TypeScript/JavaScript build output
+dist/
+build/
