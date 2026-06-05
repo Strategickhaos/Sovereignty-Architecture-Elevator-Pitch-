@@ -1,0 +1,55 @@
+# schema:
+#   id: GitHub issue/PR number
+#   status: [open, in_progress, done, dropped]
+#   subsystem: maps into genome.subsystems
+#   domain: free-tags for search/routing
+#   trig6: optional TRIG6-mode metadata
+#   deps/supersedes: relational graph for planning
+
+track: "bio_trig6"
+description: "TRIG6 + neuromorphic + CRISPR evolutionary stack"
+
+agents:
+  - id: 1036
+    title: "Implement TRIG6 evolutionary optimization theorems with classical, quantum, and fractal guarantees"
+    status: "open"
+    github_issue: "#1036"
+    subsystem: "TRIG6"
+    domain: ["math", "evolution", "safety"]
+    trig6:
+      mode: "tan-layer"
+      potentiometer: "theorem_proof"
+    love_invariant: ["L1", "L2", "L3"]
+
+  - id: 1035
+    title: "Add neuromorphic CRISPR gRNA optimizer for beta thalassemia"
+    status: "open"
+    github_issue: "#1035"
+    subsystem: "bio_neuromorphic"
+    domain: ["crispr", "gRNA", "optimization"]
+    upstream_deps: [1036]
+    notes: "Targets gene-min binding optimization; TRIG6 as safety potentiometer."
+
+  - id: 1034
+    title: "Add TREO evolutionary algorithm pipeline for CRISPR sickle cell simulation"
+    status: "open"
+    github_issue: "#1034"
+    subsystem: "bio_evo_pipeline"
+    domain: ["crispr", "simulation", "physarum"]
+    related_files:
+      - "physarum/treo_pipeline_spec.yml"
+
+  - id: 1033
+    title: "Add neuromorphic chip integration for seizure detection and blood science analysis"
+    status: "open"
+    github_issue: "#1033"
+    subsystem: "neuro_chip"
+    domain: ["eeg", "blood", "neuromorphic"]
+
+  - id: 1032
+    title: "Add neuromorphic chip integration for seizure detection and blood science with TRIG6 fusion"
+    status: "open"
+    github_issue: "#1032"
+    subsystem: "neuro_chip_trig6"
+    domain: ["eeg", "blood", "trig6_fusion"]
+    supersedes: 1033

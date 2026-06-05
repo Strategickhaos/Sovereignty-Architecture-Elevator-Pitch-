@@ -1,0 +1,23 @@
+version: 1
+repo: "Sovereignty-Architecture-Elevator-Pitch"
+
+tracks:
+  bio_trig6:
+    description: "TRIG6 + neuromorphic + CRISPR / gene-min bindings"
+    files:
+      - "genome/agents/bio_trig6.yml"
+
+  neuro_immune:
+    description: "NEURO-36, Physarum evolution, immune dashboard & mapping"
+    files:
+      - "genome/agents/neuro_immune.yml"
+
+  docs_ip:
+    description: "TRIG6 documentation, Sister Protocol book, IP shield"
+    files:
+      - "genome/agents/docs_ip.yml"
+
+  script_bench:
+    description: "TRIG6 script fitness league (Codex, Voynich, Indus, etc.)"
+    files:
+      - "genome/agents/script_bench.yml"

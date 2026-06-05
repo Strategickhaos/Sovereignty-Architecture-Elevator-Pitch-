@@ -1,0 +1,61 @@
+# schema:
+#   id: GitHub issue/PR number
+#   status: [open, in_progress, done, dropped]
+#   subsystem: maps into genome.subsystems
+#   domain: free-tags for search/routing
+#   trig6: optional TRIG6-mode metadata
+#   deps/supersedes: relational graph for planning
+
+track: "script_bench"
+description: "TRIG6 script fitness league (Codex, Voynich, Indus, etc.)"
+
+agents:
+  - id: 1025
+    title: "Implement TRIG6 evolution pipeline for Voynich manuscript analysis"
+    status: "open"
+    github_issue: "#1025"
+    subsystem: "voynich_evolution"
+    domain: ["voynich", "evolution", "ancient_scripts"]
+    trig6:
+      mode: "glyph_evolution"
+      potentiometer: "manuscript_analysis"
+    related_files:
+      - "trig6_lineage_v0.1"
+
+  - id: 1024
+    title: "Add Codex Seraphinianus binding pipeline"
+    status: "open"
+    github_issue: "#1024"
+    subsystem: "codex_binding"
+    domain: ["codex_seraphinianus", "binding", "ancient_scripts"]
+    trig6:
+      mode: "binding_pipeline"
+      potentiometer: "codex_analysis"
+
+  - id: 1022
+    title: "Create Voynich manuscript evolutionary fitness tracker"
+    status: "open"
+    github_issue: "#1022"
+    subsystem: "voynich_fitness"
+    domain: ["voynich", "fitness", "tracking"]
+    upstream_deps: [1025]
+    notes: "Tracks evolutionary fitness metrics for Voynich glyph patterns"
+
+  - id: 1021
+    title: "Implement TRIG6 simulator for glyph mapping validation"
+    status: "open"
+    github_issue: "#1021"
+    subsystem: "glyph_validator"
+    domain: ["glyph_mapping", "validation", "simulation"]
+    trig6:
+      mode: "simulation"
+      potentiometer: "glyph_validation"
+
+  - id: 1020
+    title: "Add Codex Seraphinianus binding pipeline infrastructure"
+    status: "open"
+    github_issue: "#1020"
+    subsystem: "codex_infrastructure"
+    domain: ["codex_seraphinianus", "infrastructure", "pipeline"]
+    upstream_deps: [1024]
+    notes: "Core infrastructure for processing and analyzing Codex Seraphinianus patterns"
