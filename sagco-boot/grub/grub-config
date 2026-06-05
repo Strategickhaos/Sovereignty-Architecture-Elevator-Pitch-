@@ -1,0 +1,26 @@
+# SAGCO GRUB Configuration Snippet
+# Append this to /etc/default/grub
+
+# SAGCO kernel parameter to enable identity assertion
+GRUB_CMDLINE_LINUX="$GRUB_CMDLINE_LINUX sagco=1"
+
+# SAGCO branding
+GRUB_DISTRIBUTOR="SAGCO™"
+
+# Boot splash (requires plymouth or similar)
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash sagco=1"
+
+# Graphics mode for SAGCO splash screen
+GRUB_GFXMODE=1920x1080
+GRUB_GFXPAYLOAD_LINUX=keep
+
+# SAGCO GRUB theme (optional - requires theme files)
+# GRUB_THEME="/boot/grub/themes/sagco/theme.txt"
+
+# Additional legal notice in GRUB menu
+GRUB_TIMEOUT_STYLE=menu
+GRUB_TIMEOUT=5
+
+# After editing this file, run:
+# sudo update-grub (Debian/Ubuntu)
+# sudo grub2-mkconfig -o /boot/grub2/grub.cfg (Fedora/RHEL)

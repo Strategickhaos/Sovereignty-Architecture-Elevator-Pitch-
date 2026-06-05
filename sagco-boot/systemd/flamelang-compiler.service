@@ -1,0 +1,67 @@
+# FlameLang Compiler Daemon Service
+# Part of the SAGCO Boot Identity Pipeline (SBIP)
+
+[Unit]
+Description=FlameLang Compiler Daemon (SAGCO)
+Documentation=https://github.com/Strategickhaos/FlameLang
+Documentation=file:///usr/share/doc/sagco/FLAMELANG_SPECIFICATION.md
+After=sagco-runtime.service network.target
+Requires=sagco-runtime.service
+PartOf=sagco-runtime.service
+ConditionPathExists=/usr/local/bin/flamelang-compiler
+
+[Service]
+Type=forking
+PIDFile=/run/flamelang-compiler.pid
+
+# Start with legal entity binding
+ExecStartPre=/bin/sh -c 'echo "Starting FlameLang compiler for Strategickhaos DAO LLC (EIN: 39-2923503)" | systemd-cat -t flamelang-compiler'
+ExecStart=/usr/local/bin/flamelang-compiler --daemon \
+          --pid-file=/run/flamelang-compiler.pid \
+          --entity="Strategickhaos DAO LLC" \
+          --ein="39-2923503" \
+          --target=x86_64 \
+          --backend=llvm
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=30s
+TimeoutStopSec=10s
+
+# User and group
+User=sagco
+Group=sagco
+
+# Environment
+Environment="SAGCO_TARGET=x86_64"
+Environment="SAGCO_BACKEND=llvm"
+Environment="FLAMELANG_HOME=/usr/local/lib/flamelang"
+Environment="FLAMELANG_CACHE=/var/cache/flamelang"
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/flamelang /var/log/flamelang /var/cache/flamelang
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+RestrictRealtime=true
+RestrictSUIDSGID=true
+PrivateMounts=true
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=flamelang-compiler
+
+[Install]
+WantedBy=multi-user.target

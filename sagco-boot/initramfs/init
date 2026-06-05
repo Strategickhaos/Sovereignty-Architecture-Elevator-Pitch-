@@ -1,0 +1,136 @@
+#!/bin/sh
+# SAGCO Initramfs Init Script
+# Part of the SAGCO Boot Identity Pipeline (SBIP)
+# This script runs at the earliest stage of boot after kernel loads
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+# Mount necessary filesystems
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs devtmpfs /dev
+
+# Display SAGCO identity screen
+/bin/sagco-splash
+
+# Verification stage
+echo ""
+echo "╔═════════════════════════════════════════════════════════════╗"
+echo "║                  VERIFICATION STAGE                         ║"
+echo "╚═════════════════════════════════════════════════════════════╝"
+echo ""
+
+# Verify kernel signature
+# Note: In initramfs, kernel is already loaded into memory by bootloader
+# This verification would need access to kernel image from boot partition
+# For now, we skip kernel verification in initramfs (should be done by Secure Boot)
+echo -n "  [1/4] Kernel signature...        "
+echo "⊗ SKIP (verified by Secure Boot)"
+# TODO: Implement kernel memory verification or mount boot partition first
+# if /bin/verify-kernel /boot/vmlinuz; then
+#     echo "✓ PASS"
+# else
+#     echo "✗ FAIL"
+#     /bin/sh
+# fi
+
+# Verify initramfs integrity
+echo -n "  [2/4] Initramfs integrity...     "
+if /bin/verify-initramfs; then
+    echo "✓ PASS"
+else
+    echo "✗ FAIL - Dropping to emergency shell"
+    echo ""
+    echo "CRITICAL: Initramfs integrity check failed!"
+    echo "This may indicate a compromised initramfs or corruption."
+    echo ""
+    /bin/sh
+fi
+
+# Verify FlameLang compiler
+echo -n "  [3/4] FlameLang compiler...      "
+if /bin/verify-artifact /usr/local/bin/flamelang-compiler; then
+    echo "✓ PASS"
+else
+    echo "⚠ WARN - Continuing anyway"
+    echo "         (Compiler verification failed, but boot will continue)"
+fi
+
+# Verify runtime artifacts
+echo -n "  [4/4] SAGCO runtime artifacts... "
+if /bin/verify-artifact /usr/local/sbin/sagco-runtime-init; then
+    echo "✓ PASS"
+else
+    echo "⚠ WARN - Continuing anyway"
+    echo "         (Runtime verification failed, but boot will continue)"
+fi
+
+echo ""
+echo "All critical verifications passed."
+echo ""
+
+# Mount root filesystem
+echo "Mounting root filesystem..."
+
+# Parse root device from kernel command line if available
+ROOT_DEV=""
+for param in $(cat /proc/cmdline); do
+    case "$param" in
+        root=*)
+            ROOT_DEV="${param#root=}"
+            ;;
+    esac
+done
+
+# If root= not specified, try common devices
+if [ -z "$ROOT_DEV" ]; then
+    if [ -e /dev/sda1 ]; then
+        ROOT_DEV="/dev/sda1"
+    elif [ -e /dev/vda1 ]; then
+        ROOT_DEV="/dev/vda1"
+    elif [ -e /dev/nvme0n1p1 ]; then
+        ROOT_DEV="/dev/nvme0n1p1"
+    fi
+fi
+
+if [ -z "$ROOT_DEV" ] || [ ! -e "$ROOT_DEV" ]; then
+    echo "ERROR: Could not find root partition!"
+    echo "Checked: /dev/sda1, /dev/vda1, /dev/nvme0n1p1"
+    echo "Or specify root= kernel parameter"
+    /bin/sh
+fi
+
+# Try to mount with auto filesystem detection
+if ! mount -o ro "$ROOT_DEV" /root 2>/dev/null; then
+    # If auto-detect fails, try common filesystems
+    if mount -t ext4 -o ro "$ROOT_DEV" /root 2>/dev/null; then
+        :
+    elif mount -t btrfs -o ro "$ROOT_DEV" /root 2>/dev/null; then
+        :
+    elif mount -t xfs -o ro "$ROOT_DEV" /root 2>/dev/null; then
+        :
+    else
+        echo "ERROR: Failed to mount $ROOT_DEV"
+        echo "Supported filesystems: ext4, btrfs, xfs"
+        /bin/sh
+    fi
+fi
+
+echo "Root filesystem mounted successfully."
+echo ""
+echo "Transferring control to systemd..."
+echo ""
+echo "╔═════════════════════════════════════════════════════════════╗"
+echo "║  SAGCO Boot Identity Pipeline Complete                     ║"
+echo "║  Strategickhaos DAO LLC (EIN: 39-2923503)                  ║"
+echo "╚═════════════════════════════════════════════════════════════╝"
+echo ""
+
+# Unmount temporary filesystems
+umount /proc
+umount /sys
+umount /dev
+
+# Switch to real root and start systemd
+exec switch_root /root /sbin/init

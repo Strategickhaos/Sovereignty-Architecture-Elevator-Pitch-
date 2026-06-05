@@ -1,0 +1,37 @@
+# SAGCO Runtime Environment Service
+# Part of the SAGCO Boot Identity Pipeline (SBIP)
+
+[Unit]
+Description=SAGCO Runtime Environment
+Documentation=https://github.com/Strategickhaos/SAGCO-Runtime
+Documentation=file:///usr/share/doc/sagco/SAGCO_BOOT_IDENTITY_PIPELINE.md
+After=local-fs.target
+Before=multi-user.target flamelang-compiler.service
+DefaultDependencies=no
+ConditionPathExists=/opt/sagco
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/sh -c 'echo "╔════════════════════════════════════════════════╗"'
+ExecStartPre=/bin/sh -c 'echo "║  SAGCO Runtime Environment Starting            ║"'
+ExecStartPre=/bin/sh -c 'echo "║  Entity: Strategickhaos DAO LLC                ║"'
+ExecStartPre=/bin/sh -c 'echo "║  EIN: 39-2923503                               ║"'
+ExecStartPre=/bin/sh -c 'echo "╚════════════════════════════════════════════════╝"'
+ExecStart=/usr/local/sbin/sagco-runtime-init
+ExecStartPost=/bin/sh -c 'echo "SAGCO Runtime initialized successfully" | systemd-cat -t sagco-runtime -p info'
+RemainAfterExit=yes
+
+# Environment variables
+Environment="SAGCO_ROOT=/opt/sagco"
+Environment="SAGCO_ENTITY=Strategickhaos_DAO_LLC"
+Environment="SAGCO_EIN=39-2923503"
+Environment="FLAMELANG_HOME=/usr/local/lib/flamelang"
+Environment="SAGCO_BOOT_MODE=identity"
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sagco-runtime
+
+[Install]
+WantedBy=multi-user.target

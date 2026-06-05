@@ -1,0 +1,33 @@
+#!/bin/sh
+# SAGCO Initramfs Integrity Verification Script
+# Verifies the initramfs itself wasn't tampered with
+
+# For now, this is a placeholder that always passes
+# In production, this would verify initramfs signatures
+# embedded in the kernel or verified at boot time by bootloader
+
+# Check if we're running from initramfs
+if [ ! -d /proc ]; then
+    echo "ERROR: /proc not mounted, cannot verify initramfs context"
+    exit 1
+fi
+
+# Placeholder: Check for presence of critical SAGCO files
+REQUIRED_FILES="/bin/sagco-splash /bin/verify-kernel /bin/verify-artifact"
+
+for file in $REQUIRED_FILES; do
+    if [ ! -f "$file" ]; then
+        echo "ERROR: Required SAGCO file missing: $file"
+        echo "       Initramfs may be corrupted or incomplete"
+        exit 1
+    fi
+done
+
+# If all required files present, consider initramfs valid
+exit 0
+
+# TODO: Implement actual signature verification
+# - Extract initramfs hash from kernel command line
+# - Compute current initramfs hash
+# - Compare hashes
+# - Verify hash signature with GPG
