@@ -1,0 +1,13 @@
+# FlameLang Example: Sequential computation
+# Demonstrates multiple operations in sequence
+# Note: In v1.0, only the last operation's result is returned
+
+# Step 1: Add base numbers (result: 8)
+add 3 5
+
+# Step 2: Multiply (result: 16)
+mul 8 2
+
+# Step 3: Subtract adjustment (result: 12)
+# This is the final result that will be returned
+sub 16 4

@@ -87,3 +87,6 @@ pynput>=1.7.6              # Input monitoring and control
 asyncio-mqtt>=0.13.0       # MQTT for IoT device monitoring
 websockets>=11.0.3         # WebSocket connections for real-time data
 aiohttp>=3.8.5             # Async HTTP client/server
+
+# FlameLang Compiler (SAGCO Boot Identity Pipeline)
+llvmlite>=0.41.0           # LLVM IR generation and compilation
