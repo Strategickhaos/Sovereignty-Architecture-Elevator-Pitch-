@@ -87,3 +87,29 @@ pynput>=1.7.6              # Input monitoring and control
 asyncio-mqtt>=0.13.0       # MQTT for IoT device monitoring
 websockets>=11.0.3         # WebSocket connections for real-time data
 aiohttp>=3.8.5             # Async HTTP client/server
+
+# ═══════════════════════════════════════════════════════════════════════════
+# NEUROMORPHIC + EEG + GENOMICS INTEGRATION
+# Added: 2026-01-25 for Loihi neuromorphic chip integration
+# ═══════════════════════════════════════════════════════════════════════════
+
+# Neuromorphic computing (Intel Loihi)
+# NOTE: lava-dl requires INRC membership for full Loihi hardware access
+# Cloud simulation available without hardware
+lava-nc>=0.9.0             # Lava framework for neuromorphic computing
+lava-dl>=0.4.0             # Lava deep learning library
+nxsdk>=1.0.0               # Neuromorphic SDK (requires INRC access)
+
+# EEG signal processing and analysis
+mne>=1.5.0                 # MNE-Python for EEG/MEG analysis
+pyedflib>=0.1.30           # EDF/EDF+ file format support
+scipy>=1.11.0              # Signal processing (filters, FFT, etc.)
+
+# Bioinformatics and genomics
+biopython>=1.81            # Bioinformatics tools (FASTA, BLAST, etc.)
+pysam>=0.21.0              # SAM/BAM genomic file handling
+vcfpy>=0.13.6              # VCF variant file parsing
+
+# Additional signal processing for neuromorphic
+nilearn>=0.10.0            # Neuroimaging analysis
+antropy>=0.1.6             # Entropy and complexity metrics for biosignals
