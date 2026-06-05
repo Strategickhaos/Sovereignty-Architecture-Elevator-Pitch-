@@ -711,4 +711,293 @@ harden_vault_security
 - 🔑 **AppRole authentication** for container-based services
 - 🚨 **Emergency procedures** for immediate secret rotation and service restart
 
+## 🔑 GitHub Personal Access Token (PAT) Rotation
+
+### Purpose
+GitHub Personal Access Tokens are critical for CI/CD operations, automated workflows, and API integrations. Regular rotation and immediate response to compromises are essential security practices.
+
+### Token Storage in Vault
+
+GitHub tokens are stored at:
+```bash
+vault://kv/github/pat
+```
+
+### Emergency Token Rotation Procedure
+
+When a GitHub token is compromised or needs immediate rotation (e.g., token ID: 2896174608):
+
+#### Step 1: Regenerate Token on GitHub
+```bash
+# Navigate to GitHub token settings
+# https://github.com/settings/tokens/[TOKEN_ID]/regenerate
+# Example: https://github.com/settings/tokens/2896174608/regenerate
+
+# Steps:
+# 1. Click "Regenerate token"
+# 2. Confirm regeneration (invalidates old token immediately)
+# 3. Copy new token value (only shown once)
+```
+
+#### Step 2: Update Token in Vault
+```bash
+# Store new token in Vault
+vault kv put secret/github/pat \
+  token="ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" \
+  regenerated_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
+  regenerated_by="$(whoami)" \
+  reason="Emergency rotation - token compromise detected"
+
+# Verify the update
+vault kv get secret/github/pat
+
+# Record rotation in audit log
+vault kv metadata put secret/github/pat \
+  custom_metadata='{
+    "last_rotation": "'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'",
+    "rotation_reason": "security_incident",
+    "incident_id": "INC-'$(date +%Y%m%d-%H%M%S)'"
+  }'
+```
+
+#### Step 3: Update GitHub Actions Secrets
+```bash
+# Update via GitHub CLI (using stdin to avoid exposing token in process list)
+echo "ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" | gh secret set GITHUB_TOKEN --body-file - --repo your-org/your-repo
+
+# Or via web UI:
+# 1. Go to: https://github.com/your-org/your-repo/settings/secrets/actions
+# 2. Click "Update" on GITHUB_TOKEN secret
+# 3. Paste new token value
+# 4. Save changes
+```
+
+#### Step 4: Restart Services Using the Token
+```bash
+#!/bin/bash
+# restart_github_services.sh
+
+# Services that need restart after token rotation
+SERVICES=(
+  "event-gateway"
+  "refinory"
+  "discord-ops-bot"
+)
+
+# Kubernetes restart
+for service in "${SERVICES[@]}"; do
+  echo "🔄 Restarting $service..."
+  kubectl rollout restart deployment/$service -n ops
+  kubectl rollout status deployment/$service -n ops
+done
+
+# Docker Compose restart (if applicable)
+cd /opt/sovereignty-arch
+docker-compose restart event-gateway refinory
+
+echo "✅ All services restarted with new GitHub token"
+```
+
+#### Step 5: Verify Token Functionality
+```bash
+#!/bin/bash
+# verify_github_token.sh
+
+NEW_TOKEN=$(vault kv get -field=token secret/github/pat)
+
+# Test GitHub API access
+echo "🔍 Testing GitHub API access..."
+response=$(curl -s -H "Authorization: token $NEW_TOKEN" \
+  https://api.github.com/user)
+
+if echo "$response" | jq -e '.login' > /dev/null 2>&1; then
+  username=$(echo "$response" | jq -r '.login')
+  echo "✅ Token valid - authenticated as: $username"
+else
+  echo "❌ Token validation failed"
+  echo "$response"
+  exit 1
+fi
+
+# Test repository access
+echo "🔍 Testing repository access..."
+repo_response=$(curl -s -H "Authorization: token $NEW_TOKEN" \
+  https://api.github.com/repos/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-)
+
+if echo "$repo_response" | jq -e '.full_name' > /dev/null 2>&1; then
+  echo "✅ Repository access verified"
+else
+  echo "❌ Repository access failed"
+  exit 1
+fi
+
+echo "✅ GitHub token fully functional"
+```
+
+#### Step 6: Audit and Document
+```bash
+#!/bin/bash
+# audit_token_rotation.sh
+
+# Review GitHub audit logs for suspicious activity
+gh api /users/$(gh api user -q .login)/audit-log \
+  --jq '.[] | select(.action | contains("token")) | {timestamp, action, user}' \
+  > /tmp/github_audit_$(date +%Y%m%d).json
+
+# Document rotation incident
+cat > /tmp/token_rotation_$(date +%Y%m%d-%H%M%S).md << EOF
+# GitHub Token Rotation Incident Report
+
+**Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+**Token ID**: 2896174608
+**Rotated By**: $(whoami)
+**Reason**: Emergency rotation - potential compromise
+
+## Actions Taken
+- [x] Token regenerated on GitHub
+- [x] New token stored in Vault
+- [x] GitHub Actions secrets updated
+- [x] All dependent services restarted
+- [x] Token functionality verified
+- [x] Audit logs reviewed
+
+## Impact Assessment
+- **Downtime**: Minimal (< 5 minutes during service restart)
+- **Affected Services**: event-gateway, refinory, discord-ops-bot
+- **Security Impact**: Old token immediately invalidated
+
+## Follow-up Actions
+- [ ] Review access controls
+- [ ] Update token permissions (principle of least privilege)
+- [ ] Schedule next routine rotation (90 days)
+- [ ] Update monitoring alerts
+
+EOF
+
+# Store incident report in Vault
+vault kv put secret/incidents/github_token_$(date +%Y%m%d) \
+  report=@/tmp/token_rotation_$(date +%Y%m%d-%H%M%S).md
+
+echo "✅ Incident documented"
+```
+
+### Automated Token Rotation Schedule
+
+Configure automated token rotation every 90 days:
+
+```bash
+#!/bin/bash
+# scheduled_github_token_rotation.sh
+
+# Check token age
+TOKEN_CREATED=$(vault kv get -field=regenerated_at secret/github/pat)
+TOKEN_AGE_DAYS=$(( ($(date +%s) - $(date -d "$TOKEN_CREATED" +%s)) / 86400 ))
+
+if [ $TOKEN_AGE_DAYS -gt 90 ]; then
+  echo "⚠️  GitHub token is $TOKEN_AGE_DAYS days old - rotation required"
+  
+  # Send notification
+  curl -X POST "$DISCORD_WEBHOOK_URL" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "content": "🔐 GitHub PAT Rotation Required",
+      "embeds": [{
+        "title": "Scheduled Token Rotation Alert",
+        "description": "GitHub Personal Access Token is over 90 days old",
+        "color": 16744448,
+        "fields": [
+          {"name": "Token Age", "value": "'"$TOKEN_AGE_DAYS"' days", "inline": true},
+          {"name": "Action Required", "value": "Regenerate token at GitHub", "inline": true}
+        ]
+      }]
+    }'
+  
+  # Create rotation task
+  echo "Manual rotation required. Follow procedure at:"
+  echo "https://github.com/settings/tokens/2896174608/regenerate"
+else
+  echo "✅ GitHub token is $TOKEN_AGE_DAYS days old - no rotation needed yet"
+fi
+```
+
+### Cron Job for Monitoring
+```bash
+# Add to crontab for weekly token age checks
+# crontab -e
+0 9 * * 1 /opt/scripts/scheduled_github_token_rotation.sh
+```
+
+### Token Security Best Practices
+
+1. **Fine-grained Permissions**: Create tokens with minimum required scopes
+   - `repo` - Only for repositories that need access
+   - `workflow` - Only if CI/CD modifications needed
+   - `read:org` - Only for organization-level operations
+
+2. **Token Expiration**: Set expiration dates when creating tokens (max 90 days)
+
+3. **Multiple Tokens**: Use different tokens for different purposes
+   - CI/CD token (limited to workflow execution)
+   - Admin token (limited to specific operations)
+   - Bot token (limited to automated operations)
+
+4. **Monitoring**: Track token usage via GitHub audit logs
+   ```bash
+   # Check token usage patterns
+   gh api /users/$(gh api user -q .login)/audit-log \
+     --jq '.[] | select(.action | contains("token")) | {timestamp, action, ip_address}'
+   ```
+
+5. **Access Control**: Limit who can regenerate tokens
+   - Store regeneration URLs in Vault with restricted access
+   - Require approval for production token changes
+   - Use GitHub team permissions for token management
+
+### Integration with CI/CD
+
+Update GitHub Actions workflows to use rotated tokens:
+
+```yaml
+# .github/workflows/example.yml
+name: Example Workflow
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          # Use secret from GitHub Actions secrets
+          # Updated via token rotation procedure
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Verify token access
+        run: |
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/user | jq .login
+```
+
+### Token Compromise Response Checklist
+
+When a token compromise is suspected:
+
+- [ ] **Immediate**: Regenerate token on GitHub (invalidates old token)
+- [ ] **5 min**: Update token in Vault
+- [ ] **10 min**: Update GitHub Actions secrets
+- [ ] **15 min**: Restart all services using the token
+- [ ] **20 min**: Verify new token functionality
+- [ ] **30 min**: Review GitHub audit logs for unauthorized activity
+- [ ] **1 hour**: Check for malicious commits/changes in repositories
+- [ ] **2 hours**: Document incident and complete audit trail
+- [ ] **24 hours**: Review and update access controls
+- [ ] **1 week**: Follow-up security review and lessons learned
+
+### Related Documentation
+
+- [SECURITY.md](SECURITY.md) - General security policy and token management
+- [GitHub Token Settings](https://github.com/settings/tokens) - Token management interface
+- [GitHub Audit Log](https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/reviewing-the-audit-log-for-your-organization) - Audit log documentation
+
 Ready for production deployment with complete secret lifecycle management!
