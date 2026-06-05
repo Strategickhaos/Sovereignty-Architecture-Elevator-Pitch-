@@ -36,3 +36,8 @@ target/
 
 # Workspace data
 workspace/
+
+# StrategicKhaos Operator
+discord/webhook_config.json
+logs/
+*.log
