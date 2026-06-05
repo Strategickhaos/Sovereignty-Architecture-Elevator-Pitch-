@@ -36,3 +36,12 @@ target/
 
 # Workspace data
 workspace/
+
+# SubconsciousLab generated files
+*.wav
+subconscious_lab/session_log.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
