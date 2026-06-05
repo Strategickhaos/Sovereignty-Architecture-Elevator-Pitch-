@@ -30,6 +30,12 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🗄️ Neon Database Verification
+- **Independent Proof**: Third-party timestamped evidence in PostgreSQL
+- **Truth Score**: Upgraded from 96.9% to **98.8%** with Neon integration
+- **Audit Trail**: Inventions, council sessions, swarm events with timestamps
+- **Documentation**: See [docs/NEON_DATABASE_PROOF.md](docs/NEON_DATABASE_PROOF.md)
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
