@@ -1,0 +1,151 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: langchain-agent-config
+  namespace: dom-llm
+data:
+  agent_config.yaml: |
+    # LangChain Agent Configuration
+    agents:
+      vision:
+        model: "paligemma:multimodal"
+        endpoint: "http://ollama.dom-llm.svc.cluster.local:11434"
+        temperature: 0.7
+        max_tokens: 2048
+        capabilities:
+          - image_analysis
+          - ocr
+          - scene_understanding
+      
+      reasoning:
+        model: "llama3.2:405b"
+        endpoint: "http://ollama.dom-llm.svc.cluster.local:11434"
+        temperature: 0.3
+        max_tokens: 4096
+        capabilities:
+          - logical_reasoning
+          - code_generation
+          - complex_analysis
+      
+      fast_inference:
+        model: "meta-llama/Llama-3.2-405B-Instruct"
+        endpoint: "http://vllm-infer.dom-llm.svc.cluster.local:8000"
+        temperature: 0.5
+        max_tokens: 2048
+        capabilities:
+          - quick_responses
+          - chat
+          - summarization
+    
+    chains:
+      multimodal_analysis:
+        steps:
+          - agent: vision
+            task: "Analyze the image"
+          - agent: reasoning
+            task: "Provide detailed insights based on vision analysis"
+      
+      code_review:
+        steps:
+          - agent: reasoning
+            task: "Review code for quality and security"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: langchain-agent
+  namespace: dom-llm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: langchain-agent
+  template:
+    metadata:
+      labels:
+        app: langchain-agent
+    spec:
+      containers:
+      - name: langchain
+        image: langchain/langchain:latest
+        command:
+        - python
+        - -m
+        - langchain
+        - serve
+        - --host
+        - "0.0.0.0"
+        - --port
+        - "8080"
+        
+        ports:
+        - containerPort: 8080
+          name: http
+        
+        env:
+        - name: LANGCHAIN_TRACING_V2
+          value: "true"
+        - name: LANGCHAIN_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: langchain-secrets
+              key: api-key
+              optional: true
+        - name: OLLAMA_BASE_URL
+          value: "http://ollama.dom-llm.svc.cluster.local:11434"
+        - name: VLLM_BASE_URL
+          value: "http://vllm-infer.dom-llm.svc.cluster.local:8000"
+        
+        resources:
+          limits:
+            memory: 4Gi
+            cpu: 2
+          requests:
+            memory: 2Gi
+            cpu: 1
+        
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+        
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      
+      volumes:
+      - name: config
+        configMap:
+          name: langchain-agent-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: langchain-agent
+  namespace: dom-llm
+spec:
+  selector:
+    app: langchain-agent
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: langchain-secrets
+  namespace: dom-llm
+type: Opaque
+stringData:
+  api-key: "REPLACE_WITH_YOUR_LANGCHAIN_API_KEY"

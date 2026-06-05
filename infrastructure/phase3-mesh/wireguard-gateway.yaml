@@ -1,0 +1,161 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wireguard-config
+  namespace: dom-mesh
+data:
+  wg0.conf: |
+    [Interface]
+    PrivateKey = REPLACE_WITH_PRIVATE_KEY
+    Address = 10.200.0.1/24
+    ListenPort = 51820
+    
+    # Home Node 1 (Nova)
+    [Peer]
+    PublicKey = REPLACE_WITH_NOVA_PUBLIC_KEY
+    AllowedIPs = 10.200.0.10/32, 192.168.1.0/24
+    PersistentKeepalive = 25
+    
+    # Home Node 2 (Lyra)
+    [Peer]
+    PublicKey = REPLACE_WITH_LYRA_PUBLIC_KEY
+    AllowedIPs = 10.200.0.11/32, 192.168.1.0/24
+    PersistentKeepalive = 25
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wireguard-gateway
+  namespace: dom-mesh
+  labels:
+    app: wireguard-gateway
+spec:
+  hostNetwork: true
+  containers:
+  - name: wireguard
+    image: linuxserver/wireguard:latest
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
+        - SYS_MODULE
+      privileged: true
+    
+    env:
+    - name: PUID
+      value: "1000"
+    - name: PGID
+      value: "1000"
+    - name: TZ
+      value: "America/New_York"
+    - name: SERVERURL
+      value: "auto"
+    - name: SERVERPORT
+      value: "51820"
+    - name: PEERS
+      value: "2"
+    - name: PEERDNS
+      value: "auto"
+    - name: INTERNAL_SUBNET
+      value: "10.200.0.0"
+    
+    ports:
+    - containerPort: 51820
+      protocol: UDP
+      name: wireguard
+    
+    volumeMounts:
+    - name: wireguard-config
+      mountPath: /config/wg0.conf
+      subPath: wg0.conf
+    - name: lib-modules
+      mountPath: /lib/modules
+      readOnly: true
+    
+    resources:
+      limits:
+        memory: 512Mi
+        cpu: 500m
+      requests:
+        memory: 256Mi
+        cpu: 250m
+  
+  volumes:
+  - name: wireguard-config
+    configMap:
+      name: wireguard-config
+  - name: lib-modules
+    hostPath:
+      path: /lib/modules
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wireguard-gateway
+  namespace: dom-mesh
+spec:
+  type: LoadBalancer
+  selector:
+    app: wireguard-gateway
+  ports:
+  - name: wireguard
+    port: 51820
+    targetPort: 51820
+    protocol: UDP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wireguard-setup
+  namespace: dom-mesh
+data:
+  setup.sh: |
+    #!/bin/bash
+    # WireGuard Gateway Setup Script
+    
+    echo "Generating WireGuard keys..."
+    
+    # Generate server keys
+    wg genkey | tee /config/server_private.key | wg pubkey > /config/server_public.key
+    
+    # Generate peer keys
+    for i in 1 2; do
+      wg genkey | tee /config/peer${i}_private.key | wg pubkey > /config/peer${i}_public.key
+    done
+    
+    echo "Keys generated successfully!"
+    echo ""
+    echo "Server Public Key:"
+    cat /config/server_public.key
+    echo ""
+    echo "Peer 1 (Nova) Keys:"
+    echo "  Private: $(cat /config/peer1_private.key)"
+    echo "  Public: $(cat /config/peer1_public.key)"
+    echo ""
+    echo "Peer 2 (Lyra) Keys:"
+    echo "  Private: $(cat /config/peer2_private.key)"
+    echo "  Public: $(cat /config/peer2_public.key)"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wireguard-ingress
+  namespace: dom-mesh
+spec:
+  podSelector:
+    matchLabels:
+      app: wireguard-gateway
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+    ports:
+    - protocol: UDP
+      port: 51820
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
