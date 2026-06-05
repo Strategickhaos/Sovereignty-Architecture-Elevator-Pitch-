@@ -1,0 +1,12 @@
+[Unit]
+Description=FlameLang Compiler Service
+After=sagco-runtime.service
+
+[Service]
+Type=simple
+ExecStart=/opt/sagco/bin/flamelang-compiler --daemon  # Your compiler daemon (e.g., watches for sources, compiles to LLVM/native)
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

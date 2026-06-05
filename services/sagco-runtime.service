@@ -1,0 +1,13 @@
+[Unit]
+Description=SAGCO Runtime Bootstrap
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/sagco/bin/sagco-runtime  # Your runtime script (e.g., load tools, env setup)
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
