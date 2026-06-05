@@ -1,0 +1,22 @@
+{
+  "name": "Ratio Ex Nihilo #0 — THE ORIGIN SKETCH",
+  "description": "The original hand-drawn Metatron's Cube with Eye of Providence, created on physical paper with compass, ruler, and calculator. Mathematical calculations visible on the left margin. This is where the Strategickhaos visual identity was born — not in software, but by hand, with the ancient tools of geometry. The eye at the center represents consciousness observing through sacred structure. LEGENDARY 1/1.",
+  "image": "ipfs://REPLACE_WITH_CID",
+  "external_url": "https://strategickhaos.ai/nft/0",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Legendary" },
+    { "trait_type": "Token ID", "value": "0" },
+    { "trait_type": "Collection", "value": "Genesis" },
+    { "trait_type": "Medium", "value": "Pencil and colored pencil on paper" },
+    { "trait_type": "Tools Used", "value": "Calculator, compass, ruler" },
+    { "trait_type": "Primary Symbol", "value": "Eye of Providence" },
+    { "trait_type": "Secondary Symbol", "value": "Metatron's Cube" },
+    { "trait_type": "Colors", "value": "Yellow, Red, Green, Graphite" },
+    { "trait_type": "Mathematical Notations", "value": "Yes" },
+    { "trait_type": "Physical Original Exists", "value": "Yes" },
+    { "trait_type": "Provenance", "value": "First physical artifact" },
+    { "trait_type": "Creator", "value": "Dom (Domenic Gabriel Garza)" },
+    { "trait_type": "Entity", "value": "Strategickhaos DAO LLC" },
+    { "display_type": "date", "trait_type": "Creation Date", "value": 1704067200 }
+  ]
+}
