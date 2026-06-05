@@ -48,6 +48,29 @@ export PRS_CHANNEL="channel_id"
 - **Commit Graph**: Real-time development activity feeds
 - **Launchpad**: Integrated with GitLens Pro features
 
+### 🧠 INV-104: Insight Verification Loop
+- **Dopamine Redirector**: Cognitive reward system for verified insights
+- **False Equivalence Detection**: Penalizes inaccurate observations
+- **Truth Amplification**: Amplifies rewards for accurate insights
+- **Six-Phase Protocol**: Notice → Pause → Verify → Refine → Reward → Document
+- **Meta-Analysis**: Track progress and training effectiveness
+
+```bash
+# Run the INV-104 demo
+python3 examples/inv104_demo.py
+
+# Run comprehensive tests
+python3 -m pytest benchmarks/test_insight_verification.py -v
+```
+
+**Use Cases:**
+- Detecting false equivalence in reasoning
+- Training cognitive patterns to prefer accuracy
+- Meta-cognitive feedback loops
+- Research insight validation
+
+See [`docs/INV104_INSIGHT_VERIFICATION_LOOP.md`](docs/INV104_INSIGHT_VERIFICATION_LOOP.md) for complete documentation.
+
 ### ☕ Java Development Workspace (`jdk-workspace`)
 - **OpenJDK 21**: Latest LTS version with modern Java features
 - **Build Tools**: Maven 3.6.3 and Gradle 4.4.1 pre-installed
