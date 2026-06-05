@@ -16,6 +16,7 @@ numpy>=1.24.0              # Numerical computations for correlation
 pandas>=2.0.0              # Data analysis and correlation matrices
 matplotlib>=3.7.0          # Performance visualization
 seaborn>=0.12.0            # Statistical data visualization
+sympy>=1.12                # Symbolic mathematics for TRIG6 calculations
 
 # Network security and reconnaissance
 scapy>=2.5.0               # Network packet analysis

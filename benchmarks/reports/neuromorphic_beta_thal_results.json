@@ -1,0 +1,59 @@
+{
+  "total": 13,
+  "passed": 13,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "Loihi Spike Encode Basic",
+      "status": "PASS"
+    },
+    {
+      "name": "Loihi Spike Encode gRNA",
+      "status": "PASS"
+    },
+    {
+      "name": "Loihi Spike Parameters",
+      "status": "PASS"
+    },
+    {
+      "name": "TRIG6 Perfect Match",
+      "status": "PASS"
+    },
+    {
+      "name": "TRIG6 Poor Match",
+      "status": "PASS"
+    },
+    {
+      "name": "TRIG6 Danger Gate",
+      "status": "PASS"
+    },
+    {
+      "name": "TRIG6 Fitness Components",
+      "status": "PASS"
+    },
+    {
+      "name": "TREO Evolution Improves",
+      "status": "PASS"
+    },
+    {
+      "name": "TREO Convergence",
+      "status": "PASS"
+    },
+    {
+      "name": "TREO Elitism",
+      "status": "PASS"
+    },
+    {
+      "name": "Complete Simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "Simulation Reproducibility",
+      "status": "PASS"
+    },
+    {
+      "name": "Loihi-TRIG6 Integration",
+      "status": "PASS"
+    }
+  ]
+}
