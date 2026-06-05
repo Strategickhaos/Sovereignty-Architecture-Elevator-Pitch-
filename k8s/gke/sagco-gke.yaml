@@ -1,0 +1,358 @@
+# ============================================
+# SAGCO OS - GKE-Specific Resources
+# Google Kubernetes Engine optimizations
+# ============================================
+
+---
+# BackendConfig for Cloud Load Balancer
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: sagco-backendconfig
+  namespace: sagco
+spec:
+  # Health check configuration
+  healthCheck:
+    checkIntervalSec: 10
+    timeoutSec: 5
+    healthyThreshold: 2
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /health
+    port: 8000
+  
+  # Session affinity
+  sessionAffinity:
+    affinityType: "CLIENT_IP"
+    affinityCookieTtlSec: 3600
+  
+  # Connection draining
+  connectionDraining:
+    drainingTimeoutSec: 60
+  
+  # Timeout
+  timeoutSec: 30
+  
+  # CDN configuration
+  cdn:
+    enabled: true
+    cachePolicy:
+      includeHost: true
+      includeProtocol: true
+      includeQueryString: false
+    negativeCaching: true
+    negativeCachingPolicy:
+    - code: 404
+      ttl: 120
+    - code: 500
+      ttl: 60
+  
+  # IAP (Identity-Aware Proxy)
+  iap:
+    enabled: false
+    oauthclientCredentials:
+      secretName: oauth-client-secret
+  
+  # Cloud Armor security policy
+  securityPolicy:
+    name: "sagco-security-policy"
+  
+  # Logging
+  logging:
+    enable: true
+    sampleRate: 1.0
+
+---
+# ManagedCertificate for HTTPS
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: sagco-certificate
+  namespace: sagco
+spec:
+  domains:
+  - sagco.strategickhaos.com
+  - api.sagco.strategickhaos.com
+  - www.sagco.strategickhaos.com
+
+---
+# FrontendConfig for Load Balancer
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: sagco-frontendconfig
+  namespace: sagco
+spec:
+  # SSL Policy
+  sslPolicy: sagco-ssl-policy
+  
+  # Redirect HTTP to HTTPS
+  redirectToHttps:
+    enabled: true
+    responseCodeName: "MOVED_PERMANENTLY_DEFAULT"
+
+---
+# VerticalPodAutoscaler
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: sagco-vpa
+  namespace: sagco
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sagco
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+    - containerName: sagco
+      minAllowed:
+        cpu: 250m
+        memory: 512Mi
+      maxAllowed:
+        cpu: 4000m
+        memory: 8Gi
+      controlledResources:
+      - cpu
+      - memory
+
+---
+# GKE-optimized Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sagco-gke
+  namespace: sagco
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "sagco-ip"
+    networking.gke.io/managed-certificates: "sagco-certificate"
+    cloud.google.com/backend-config: '{"default": "sagco-backendconfig"}'
+    cloud.google.com/neg: '{"ingress": true}'
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  rules:
+  - host: sagco.strategickhaos.com
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: sagco
+            port:
+              number: 80
+
+---
+# Service for GKE NEG (Network Endpoint Groups)
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco-gke
+  namespace: sagco
+  annotations:
+    cloud.google.com/backend-config: '{"default": "sagco-backendconfig"}'
+    cloud.google.com/neg: '{"ingress": true}'
+  labels:
+    app: sagco
+spec:
+  type: ClusterIP
+  selector:
+    app: sagco
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+
+---
+# GKE Workload Identity
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sagco-gke-sa
+  namespace: sagco
+  annotations:
+    iam.gke.io/gcp-service-account: sagco-sa@PROJECT_ID.iam.gserviceaccount.com
+
+---
+# ConfigConnector for Cloud SQL Proxy
+apiVersion: sql.cnrm.cloud.google.com/v1beta1
+kind: SQLInstance
+metadata:
+  name: sagco-postgres-instance
+  namespace: sagco
+spec:
+  databaseVersion: POSTGRES_15
+  region: us-central1
+  settings:
+    tier: db-custom-2-7680
+    diskSize: 100
+    diskType: PD_SSD
+    availabilityType: REGIONAL
+    backupConfiguration:
+      enabled: true
+      startTime: "03:00"
+      pointInTimeRecoveryEnabled: true
+      transactionLogRetentionDays: 7
+      backupRetentionSettings:
+        retainedBackups: 30
+    ipConfiguration:
+      ipv4Enabled: false
+      privateNetwork: projects/PROJECT_ID/global/networks/default
+    maintenanceWindow:
+      day: 7
+      hour: 4
+    databaseFlags:
+    - name: max_connections
+      value: "200"
+    - name: shared_buffers
+      value: "262144"  # 256MB in 8KB pages
+
+---
+# Cloud Memorystore (Redis) for GKE
+apiVersion: redis.cnrm.cloud.google.com/v1beta1
+kind: RedisInstance
+metadata:
+  name: sagco-redis-instance
+  namespace: sagco
+spec:
+  memorySizeGb: 5
+  tier: STANDARD_HA
+  region: us-central1
+  redisVersion: REDIS_7_0
+  displayName: "SAGCO Redis Cache"
+  authEnabled: true
+  transitEncryptionMode: SERVER_AUTHENTICATION
+  maintenancePolicy:
+    weeklyMaintenanceWindow:
+    - day: SUNDAY
+      startTime:
+        hours: 3
+        minutes: 0
+  redisConfigs:
+    maxmemory-policy: "allkeys-lru"
+
+---
+# GKE Monitoring PodMonitor
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: sagco-monitor
+  namespace: sagco
+  labels:
+    app: sagco
+spec:
+  selector:
+    matchLabels:
+      app: sagco
+  podMetricsEndpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+# GKE Autopilot-compatible PriorityClass
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: sagco-priority
+value: 1000
+globalDefault: false
+description: "Priority class for SAGCO workloads"
+
+---
+# Update Deployment to use GKE features
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco-gke
+  namespace: sagco
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sagco
+  template:
+    metadata:
+      labels:
+        app: sagco
+        version: v0.1.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+    spec:
+      serviceAccountName: sagco-gke-sa
+      priorityClassName: sagco-priority
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: sagco
+        image: gcr.io/PROJECT_ID/sagco-os:0.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: SAGCO_ENV
+          value: "production"
+        - name: GCP_PROJECT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: sagco-config
+              key: gcp-project-id
+              optional: true
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+            ephemeral-storage: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+            ephemeral-storage: 10Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: config
+          mountPath: /app/config
+          readOnly: true
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      - name: config
+        configMap:
+          name: sagco-config
+      nodeSelector:
+        cloud.google.com/gke-nodepool: sagco-pool
+      tolerations:
+      - key: "sagco-workload"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"

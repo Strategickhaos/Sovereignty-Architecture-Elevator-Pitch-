@@ -1,0 +1,358 @@
+# ============================================
+# SAGCO OS - Kubernetes Deployment Manifests
+# Complete K8s setup with best practices
+# ============================================
+
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sagco
+  labels:
+    name: sagco
+    app.kubernetes.io/name: sagco
+    app.kubernetes.io/version: "0.1.0"
+
+---
+# ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sagco-config
+  namespace: sagco
+data:
+  SAGCO_ENV: "production"
+  LOG_LEVEL: "INFO"
+  REDIS_URL: "redis://sagco-redis:6379/0"
+  POSTGRES_URL: "postgresql://sagco:changeme@sagco-postgres:5432/sagco"
+  QDRANT_URL: "http://sagco-qdrant:6333"
+
+---
+# Secret (base64 encoded values)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sagco-secrets
+  namespace: sagco
+type: Opaque
+data:
+  postgres-password: c2FnY29fcHJvZF9wYXNz  # sagco_prod_pass
+  redis-password: c2FnY29fcmVkaXNfcGFzcw==  # sagco_redis_pass
+  jwt-secret: Y2hhbmdlbWVfdG9fYV9yYW5kb21fc2VjcmV0  # changeme_to_a_random_secret
+
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco
+  namespace: sagco
+  labels:
+    app: sagco
+    version: v0.1.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: sagco
+  template:
+    metadata:
+      labels:
+        app: sagco
+        version: v0.1.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: sagco-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: sagco
+        image: sagco-os:0.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: SAGCO_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: sagco-config
+              key: SAGCO_ENV
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: sagco-config
+              key: LOG_LEVEL
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sagco-secrets
+              key: postgres-password
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sagco-secrets
+              key: redis-password
+        - name: POSTGRES_URL
+          value: "postgresql://sagco:$(POSTGRES_PASSWORD)@sagco-postgres:5432/sagco"
+        - name: REDIS_URL
+          value: "redis://:$(REDIS_PASSWORD)@sagco-redis:6379/0"
+        - name: QDRANT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sagco-config
+              key: QDRANT_URL
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+          readOnly: true
+        - name: sagco-data
+          mountPath: /app/data
+      volumes:
+      - name: config
+        configMap:
+          name: sagco-config
+      - name: sagco-data
+        persistentVolumeClaim:
+          claimName: sagco-data-pvc
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - sagco
+              topologyKey: kubernetes.io/hostname
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco
+  namespace: sagco
+  labels:
+    app: sagco
+spec:
+  type: ClusterIP
+  selector:
+    app: sagco
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+    protocol: TCP
+  sessionAffinity: ClientIP
+
+---
+# ServiceAccount
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sagco-sa
+  namespace: sagco
+
+---
+# Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sagco
+  namespace: sagco
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - sagco.strategickhaos.com
+    secretName: sagco-tls
+  rules:
+  - host: sagco.strategickhaos.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sagco
+            port:
+              number: 80
+
+---
+# HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: sagco-hpa
+  namespace: sagco
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sagco
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 30
+      - type: Pods
+        value: 2
+        periodSeconds: 30
+
+---
+# PodDisruptionBudget
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sagco-pdb
+  namespace: sagco
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: sagco
+
+---
+# NetworkPolicy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: sagco-netpol
+  namespace: sagco
+spec:
+  podSelector:
+    matchLabels:
+      app: sagco
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 8000
+    - protocol: TCP
+      port: 9090
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sagco-postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sagco-redis
+    ports:
+    - protocol: TCP
+      port: 6379
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sagco-qdrant
+    ports:
+    - protocol: TCP
+      port: 6333
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+
+---
+# PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sagco-data-pvc
+  namespace: sagco
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard

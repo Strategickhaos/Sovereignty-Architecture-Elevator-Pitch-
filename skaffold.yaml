@@ -1,0 +1,198 @@
+# SAGCO OS - Skaffold Configuration
+# Development and deployment workflow automation
+# Version: 0.1.0
+
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: sagco-os
+
+# ===== Build Configuration =====
+build:
+  artifacts:
+  - image: sagco-os
+    docker:
+      dockerfile: Dockerfile
+      target: api
+      buildArgs:
+        VERSION: "0.1.0"
+    sync:
+      manual:
+      - src: "src/**/*.py"
+        dest: /app/src
+      - src: "config/**/*.yaml"
+        dest: /app/config
+  
+  # Use local Docker for development, GCR for production
+  local:
+    push: false
+    useBuildkit: true
+    concurrency: 0
+
+  # For GCR deployment
+  googleCloudBuild:
+    projectId: PROJECT_ID
+    diskSizeGb: 50
+    machineType: N1_HIGHCPU_8
+    timeout: 1200s
+
+# ===== Deploy Configuration =====
+deploy:
+  kubectl:
+    manifests:
+    - k8s/sagco-deployment.yaml
+    
+    # Apply in order
+    hooks:
+      before:
+      - host:
+          command: ["sh", "-c", "kubectl create namespace sagco --dry-run=client -o yaml | kubectl apply -f -"]
+      after:
+      - host:
+          command: ["kubectl", "rollout", "status", "deployment/sagco", "-n", "sagco"]
+
+  # Status check for deployments
+  statusCheck: true
+  statusCheckDeadlineSeconds: 300
+
+# ===== Port Forwarding =====
+portForward:
+- resourceType: service
+  resourceName: sagco
+  namespace: sagco
+  port: 80
+  localPort: 8000
+- resourceType: service
+  resourceName: sagco-postgres
+  namespace: sagco
+  port: 5432
+  localPort: 5432
+- resourceType: service
+  resourceName: sagco-redis
+  namespace: sagco
+  port: 6379
+  localPort: 6379
+
+# ===== Profiles =====
+profiles:
+
+# Development profile - fast iteration
+- name: dev
+  activation:
+  - command: dev
+  build:
+    artifacts:
+    - image: sagco-os
+      docker:
+        dockerfile: Dockerfile
+        target: dev
+      sync:
+        infer:
+        - "**/*.py"
+        - "**/*.yaml"
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/sagco-deployment.yaml
+  portForward:
+  - resourceType: service
+    resourceName: sagco
+    namespace: sagco
+    port: 80
+    localPort: 8000
+  - resourceType: deployment
+    resourceName: sagco
+    namespace: sagco
+    port: 5678
+    localPort: 5678  # Debug port
+
+# Production profile - optimized build
+- name: prod
+  activation:
+  - command: run
+    env: production
+  build:
+    artifacts:
+    - image: sagco-os
+      docker:
+        dockerfile: Dockerfile
+        target: api
+    googleCloudBuild:
+      projectId: PROJECT_ID
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/sagco-deployment.yaml
+      - k8s/gke/sagco-gke.yaml
+    flags:
+      global:
+      - "--namespace=sagco"
+
+# GKE profile - Google Kubernetes Engine
+- name: gke
+  activation:
+  - kubeContext: gke_.*
+  build:
+    artifacts:
+    - image: gcr.io/PROJECT_ID/sagco-os
+      docker:
+        dockerfile: Dockerfile
+        target: api
+    googleCloudBuild:
+      projectId: PROJECT_ID
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/sagco-deployment.yaml
+      - k8s/gke/sagco-gke.yaml
+
+# Testing profile
+- name: test
+  build:
+    artifacts:
+    - image: sagco-os
+      docker:
+        dockerfile: Dockerfile
+        target: dev
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/sagco-deployment.yaml
+  verify:
+  - name: pytest
+    container:
+      name: sagco
+      command: ["pytest", "tests/", "-v"]
+
+# ===== Verify Configuration =====
+verify:
+- name: health-check
+  container:
+    name: sagco
+    command: ["curl", "-f", "http://localhost:8000/health"]
+
+# ===== Custom Actions =====
+customActions:
+- name: test
+  executionMode:
+    kubernetesCluster: {}
+  containers:
+  - name: pytest
+    image: sagco-os
+    command: ["pytest", "tests/", "-v", "--cov=src"]
+
+- name: lint
+  executionMode:
+    local: {}
+  containers:
+  - name: linter
+    image: sagco-os
+    command: ["sh", "-c", "black --check src/ && flake8 src/ && mypy src/"]
+
+- name: migrate
+  executionMode:
+    kubernetesCluster: {}
+  containers:
+  - name: migrate
+    image: sagco-os
+    command: ["alembic", "upgrade", "head"]
