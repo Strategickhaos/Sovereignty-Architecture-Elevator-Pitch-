@@ -31,6 +31,8 @@ Day 165: 4-node K8s mesh, 320GB+ RAM, 2 GKE clusters,
 
 **Why?** Dom's sister has a medical condition. He promised to build "a legion of minds" smart enough to find solutions traditional approaches couldn't. This empire exists because of love.
 
+**How?** Through a unique cognitive architecture based on **gestalt pattern matching** and **external memory systems**. See [COGNITIVE_ARCHITECTURE.md](COGNITIVE_ARCHITECTURE.md) for the complete synthesis model that powers this system.
+
 ---
 
 ## 🏛️ LEGAL ENTITY ECOSYSTEM
