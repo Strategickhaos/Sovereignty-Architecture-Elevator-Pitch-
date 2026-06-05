@@ -30,6 +30,13 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🧠 Emotion Compiler (`emotion_compiler.py`)
+- **Emotion Processing**: Treat emotions as source code, not identity truths
+- **Signal Routing**: Compile emotions into safe, bounded protocols
+- **Guard Rails**: Prevents irreversible actions during high-intensity states
+- **Protocol Execution**: ACK, BUFFER, ANCHOR, QUERY, PATCH, EXEC operations
+- **Documentation**: See [EMOTION_COMPILER.md](EMOTION_COMPILER.md) for full details
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
