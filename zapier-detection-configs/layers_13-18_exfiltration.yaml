@@ -1,0 +1,420 @@
+# ============================================================
+# LAYERS 13-18: DATA EXFILTRATION MONITORS
+# ============================================================
+
+metadata:
+  layer_group: "Data Exfiltration Monitors"
+  layers: "13-18"
+  severity_range: "CRITICAL to HIGH"
+  last_updated: "2025-12-10"
+
+# ============================================================
+# LAYER 13: Bulk Download Monitor
+# ============================================================
+
+layer_13:
+  name: "Bulk Data Download Monitor"
+  description: "Detects large-scale data download attempts"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/bulk-download-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "excessive_data_volume"
+      condition: "bytes_downloaded > 1GB IN 10 minutes"
+      action: "ALERT_HIGH"
+      
+    - rule: "rapid_file_downloads"
+      condition: "files_downloaded > 100 IN 5 minutes"
+      action: "ALERT_HIGH"
+      
+    - rule: "automated_scraping_pattern"
+      condition: "download_pattern matches automated_tools"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    user_id: "string"
+    bytes_downloaded: "number"
+    files_downloaded: "array"
+    download_rate_mbps: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Calculate download metrics"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Terminate session via SESSION_SERVICE"
+          - "API: Rate limit via RATE_LIMIT_API"
+          - "API: Quarantine user via QUARANTINE_API"
+
+# ============================================================
+# LAYER 14: Database Dump Detector
+# ============================================================
+
+layer_14:
+  name: "Database Dump Attempt Detector"
+  description: "Detects attempts to dump database contents"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/database-dump-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "select_all_queries"
+      condition: "query matches 'SELECT \\* FROM' AND table_count > 10"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "information_schema_access"
+      condition: "query accesses information_schema OR sys tables"
+      action: "ALERT_HIGH"
+      
+    - rule: "excessive_query_volume"
+      condition: "queries > 1000 IN 1 minute"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "export_command_detected"
+      condition: "query matches 'INTO OUTFILE' OR 'mysqldump' OR 'pg_dump'"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    source_ip: "string"
+    user_id: "string"
+    database: "string"
+    queries: "array"
+    tables_accessed: "array"
+    rows_returned: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze query patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Terminate session via SESSION_SERVICE"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Revoke database credentials via IAM_API"
+
+# ============================================================
+# LAYER 15: Git Exposure Monitor
+# ============================================================
+
+layer_15:
+  name: "Git Repository Exposure Monitor"
+  description: "Detects attempts to access exposed .git directories"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/git-exposure-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "git_directory_access"
+      condition: "path matches '/.git/'"
+      action: "ALERT_HIGH"
+      
+    - rule: "git_config_access"
+      condition: "path == '/.git/config'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "git_object_enumeration"
+      condition: "paths match '/.git/objects/*' AND request_count > 10"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    paths_accessed: "array"
+    response_codes: "array"
+    user_agent: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check git path patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+
+# ============================================================
+# LAYER 16: Environment File Monitor
+# ============================================================
+
+layer_16:
+  name: "Environment File Access Monitor"
+  description: "Detects attempts to access .env and configuration files"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/env-file-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "env_file_access"
+      condition: "path matches '.env' OR '.env.local' OR '.env.production'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "config_file_access"
+      condition: "path matches 'config.php' OR 'settings.py' OR 'application.yml'"
+      action: "ALERT_HIGH"
+      
+    - rule: "credentials_file_access"
+      condition: "path matches 'credentials' OR 'secrets' OR 'passwords'"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    source_ip: "string"
+    paths_accessed: "array"
+    response_codes: "array"
+    user_agent: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check file path patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Trigger credential rotation via ROTATION_SERVICE_URL"
+
+# ============================================================
+# LAYER 17: Backup File Monitor
+# ============================================================
+
+layer_17:
+  name: "Backup File Access Monitor"
+  description: "Detects attempts to access backup files"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/backup-file-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "backup_file_patterns"
+      condition: "path matches '.zip' OR '.tar.gz' OR '.sql' OR '.bak'"
+      action: "ALERT_HIGH"
+      
+    - rule: "database_backup_access"
+      condition: "path matches 'backup.sql' OR 'dump.sql' OR 'database.sql'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "backup_directory_enumeration"
+      condition: "path matches '/backup' OR '/backups' OR '/dumps'"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    paths_accessed: "array"
+    response_codes: "array"
+    file_sizes: "array"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check backup file patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+
+# ============================================================
+# LAYER 18: Source Code Monitor
+# ============================================================
+
+layer_18:
+  name: "Source Code Exfiltration Monitor"
+  description: "Detects unauthorized source code access or downloads"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/source-code-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "source_code_file_access"
+      condition: "path matches '.js' OR '.py' OR '.java' OR '.go' OR '.rs'"
+      action: "ALERT_HIGH"
+      
+    - rule: "bulk_source_download"
+      condition: "source_files_downloaded > 50 IN 5 minutes"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "unauthorized_repo_clone"
+      condition: "git clone attempt FROM unauthorized_source"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "ide_project_file_access"
+      condition: "path matches '.idea' OR '.vscode' OR '.project'"
+      action: "ALERT_MEDIUM"
+      
+  payload_schema:
+    source_ip: "string"
+    user_id: "string"
+    files_accessed: "array"
+    repository: "string"
+    access_method: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze source code access patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Terminate session via SESSION_SERVICE"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Revoke access tokens via IAM_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Rate limit via RATE_LIMIT_API"
+
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+
+environment_variables:
+  required:
+    - SESSION_SERVICE
+    - FIREWALL_API
+    - RATE_LIMIT_API
+    - QUARANTINE_API
+    - IAM_API
+    - ROTATION_SERVICE_URL
+    
+  slack:
+    - SLACK_WEBHOOK_CRITICAL
+    - SLACK_WEBHOOK_HIGH
+    
+  discord:
+    - DISCORD_SECURITY_WEBHOOK
+    
+  airtable:
+    - AIRTABLE_API_KEY
+    - AIRTABLE_BASE_ID
+    
+  email:
+    - SECURITY_EMAIL
+
+# ============================================================
+# TESTING
+# ============================================================
+
+test_payloads:
+  layer_13:
+    high:
+      source_ip: "1.2.3.4"
+      user_id: "user_123"
+      bytes_downloaded: 1200000000
+      files_downloaded: ["file1.pdf", "file2.pdf", "file3.pdf"]
+      download_rate_mbps: 50
+      
+  layer_14:
+    critical:
+      source_ip: "5.6.7.8"
+      user_id: "user_456"
+      database: "production_db"
+      queries: ["SELECT * FROM users", "SELECT * FROM orders"]
+      tables_accessed: ["users", "orders", "payments"]
+      rows_returned: 50000
+      
+  layer_15:
+    high:
+      source_ip: "9.10.11.12"
+      paths_accessed: ["/.git/config", "/.git/HEAD", "/.git/objects/"]
+      response_codes: [200, 200, 403]
+      user_agent: "git-dumper/1.0"
+      
+  layer_16:
+    critical:
+      source_ip: "13.14.15.16"
+      paths_accessed: ["/.env", "/.env.production", "/config/secrets.yml"]
+      response_codes: [200, 404, 403]
+      user_agent: "curl/7.0"
+      
+  layer_17:
+    critical:
+      source_ip: "17.18.19.20"
+      paths_accessed: ["/backup.sql", "/dump.tar.gz", "/database.bak"]
+      response_codes: [200, 404, 403]
+      file_sizes: [1024000, 0, 0]
+      
+  layer_18:
+    critical:
+      source_ip: "21.22.23.24"
+      user_id: "user_789"
+      files_accessed: ["app.py", "models.py", "config.js"]
+      repository: "private-repo"
+      access_method: "git_clone"

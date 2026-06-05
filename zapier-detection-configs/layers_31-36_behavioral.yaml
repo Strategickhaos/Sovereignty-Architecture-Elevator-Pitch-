@@ -1,0 +1,532 @@
+# ============================================================
+# LAYERS 31-36: BEHAVIORAL ANOMALIES
+# ============================================================
+
+metadata:
+  layer_group: "Behavioral Anomalies"
+  layers: "31-36"
+  severity_range: "CRITICAL to LOW"
+  last_updated: "2025-12-10"
+
+# ============================================================
+# LAYER 31: Rate Limit Violation
+# ============================================================
+
+layer_31:
+  name: "Rate Limit Violation Detector"
+  description: "Detects excessive request rates"
+  severity: "MEDIUM"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/rate-limit-violation"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "api_rate_limit_exceeded"
+      condition: "requests > 1000 IN 1 minute"
+      action: "ALERT_HIGH"
+      
+    - rule: "login_rate_limit_exceeded"
+      condition: "login_attempts > 10 IN 1 minute"
+      action: "ALERT_HIGH"
+      
+    - rule: "download_rate_limit_exceeded"
+      condition: "download_requests > 100 IN 1 minute"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "distributed_rate_limit_bypass"
+      condition: "requests from multiple_ips coordinated"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    user_id: "string"
+    endpoint: "string"
+    request_count: "number"
+    time_window_seconds: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Calculate request rate"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Rate limit via RATE_LIMIT_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "API: Rate limit via RATE_LIMIT_API"
+
+# ============================================================
+# LAYER 32: Concurrent Session Monitor
+# ============================================================
+
+layer_32:
+  name: "Concurrent Session Anomaly Detector"
+  description: "Detects unusual concurrent session patterns"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/concurrent-session-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "excessive_concurrent_sessions"
+      condition: "active_sessions > 5 FOR single_user"
+      action: "ALERT_HIGH"
+      
+    - rule: "geographically_dispersed_sessions"
+      condition: "sessions from different_countries simultaneously"
+      action: "ALERT_HIGH"
+      
+    - rule: "impossible_concurrent_activity"
+      condition: "activity in location_A AND location_B simultaneously"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "session_token_reuse"
+      condition: "same_token used from multiple_ips"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    user_id: "string"
+    session_ids: "array"
+    locations: "array"
+    source_ips: "array"
+    concurrent_count: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze session patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "API: Terminate all sessions via SESSION_SERVICE"
+          - "API: Force re-authentication"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Terminate suspicious sessions via SESSION_SERVICE"
+
+# ============================================================
+# LAYER 33: Geolocation Anomaly
+# ============================================================
+
+layer_33:
+  name: "Impossible Travel Detection"
+  description: "Detects geographically impossible travel patterns"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/geolocation-anomaly"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "impossible_travel_speed"
+      condition: "distance / time_difference > humanly_possible_speed"
+      action: "ALERT_HIGH"
+      
+    - rule: "high_risk_country_access"
+      condition: "country IN high_risk_countries"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "vpn_tor_proxy_detected"
+      condition: "ip_type IN ['vpn', 'tor', 'proxy']"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "datacenter_ip_detected"
+      condition: "ip_type == 'datacenter' OR ip_type == 'hosting'"
+      action: "ALERT_LOW"
+      
+  payload_schema:
+    user_id: "string"
+    previous_location:
+      country: "string"
+      city: "string"
+      coordinates: "object"
+    current_location:
+      country: "string"
+      city: "string"
+      coordinates: "object"
+    time_difference_minutes: "number"
+    distance_km: "number"
+    ip_type: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Calculate travel feasibility"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Challenge with MFA"
+          - "API: Temporary session suspension"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets"
+        low:
+          - "Add to Google Sheets"
+
+# ============================================================
+# LAYER 34: Access Pattern Anomaly
+# ============================================================
+
+layer_34:
+  name: "Unusual Access Pattern Detector"
+  description: "Detects anomalous user behavior patterns"
+  severity: "MEDIUM"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/access-pattern-anomaly"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "unusual_access_time"
+      condition: "access_time outside user_normal_hours"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "unusual_resource_access"
+      condition: "resource NOT IN user_typical_resources"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "sudden_activity_spike"
+      condition: "activity > 3x user_baseline"
+      action: "ALERT_HIGH"
+      
+    - rule: "first_time_action"
+      condition: "action never performed by user before"
+      action: "ALERT_LOW"
+      
+  payload_schema:
+    user_id: "string"
+    action: "string"
+    resource: "string"
+    access_time: "datetime"
+    baseline_activity: "number"
+    current_activity: "number"
+    anomaly_score: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Compare against user baseline"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets"
+        low:
+          - "Add to Google Sheets"
+
+# ============================================================
+# LAYER 35: Privilege Escalation Detector
+# ============================================================
+
+layer_35:
+  name: "Privilege Escalation Attempt Detector"
+  description: "Detects attempts to escalate privileges"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/privilege-escalation-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "role_change_attempt"
+      condition: "user attempts to change own role"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "permission_boundary_violation"
+      condition: "action requires higher_permissions than user_has"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "sudo_exploitation"
+      condition: "command matches 'sudo' exploitation patterns"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "suid_binary_exploitation"
+      condition: "execution of suid_binary with suspicious_args"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "unauthorized_admin_action"
+      condition: "admin_action FROM non_admin_user"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    user_id: "string"
+    current_role: "string"
+    attempted_action: "string"
+    required_permission: "string"
+    method: "string"
+    source_ip: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Validate permission boundaries"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Terminate session via SESSION_SERVICE"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Quarantine user via QUARANTINE_API"
+          - "API: Trigger incident response via INCIDENT_RESPONSE_API"
+
+# ============================================================
+# LAYER 36: Canary Token Alert
+# ============================================================
+
+layer_36:
+  name: "Canary Token Triggered"
+  description: "Honeypot canary token has been accessed"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/canary-token-alert"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "dns_canary_triggered"
+      condition: "canary_type == 'dns_canary'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "file_canary_triggered"
+      condition: "canary_type == 'file_canary'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "aws_key_canary_triggered"
+      condition: "canary_type == 'aws_key_canary'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "document_canary_triggered"
+      condition: "canary_type == 'document_canary'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "webhook_canary_triggered"
+      condition: "canary_type == 'webhook_canary'"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    canary_type: "string"
+    canary_name: "string"
+    canary_id: "string"
+    trigger_details: "object"
+    source_ip: "string"
+    user_agent: "string"
+    location: "object"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Identify canary type and context"
+      
+    - step: 3
+      action: "ALWAYS CRITICAL - Execute full response"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Quarantine all associated accounts via QUARANTINE_API"
+          - "API: Terminate all sessions via SESSION_SERVICE"
+          - "API: Trigger full incident response via INCIDENT_RESPONSE_API"
+          - "API: Rotate all affected credentials via ROTATION_SERVICE_URL"
+          - "Notification: Page on-call security engineer"
+
+# ============================================================
+# CANARY TOKEN DEPLOYMENT
+# ============================================================
+
+canary_tokens:
+  dns_canaries:
+    description: "DNS records that should never be queried"
+    examples:
+      - "internal-admin.strategickhaos.ai"
+      - "backup-db.strategickhaos.ai"
+      - "prod-secrets.strategickhaos.ai"
+    implementation: "Register with canarytokens.org or custom DNS monitoring"
+    
+  file_canaries:
+    description: "Honeypot files placed in accessible locations"
+    examples:
+      - "/backup/.env.production"
+      - "/config/database_credentials.txt"
+      - "~/.aws/credentials_backup"
+    implementation: "Use inotify/auditd to monitor file access"
+    
+  aws_key_canaries:
+    description: "AWS IAM users with no permissions"
+    examples:
+      - "canary-admin-user"
+      - "canary-backup-user"
+    implementation: "Monitor CloudTrail for any API calls"
+    
+  document_canaries:
+    description: "Documents with embedded tracking pixels"
+    examples:
+      - "Confidential_Strategy_2025.docx"
+      - "Salary_Information.xlsx"
+      - "Customer_Database.pdf"
+    implementation: "Embed tracking pixels, use canarytokens.org"
+    
+  webhook_canaries:
+    description: "Fake webhook URLs that should never be called"
+    examples:
+      - "https://api.strategickhaos.ai/admin/backdoor"
+      - "https://hooks.strategickhaos.ai/secret-deploy"
+    implementation: "Monitor for any HTTP requests"
+
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+
+environment_variables:
+  required:
+    - RATE_LIMIT_API
+    - SESSION_SERVICE
+    - FIREWALL_API
+    - QUARANTINE_API
+    - INCIDENT_RESPONSE_API
+    - ROTATION_SERVICE_URL
+    
+  slack:
+    - SLACK_WEBHOOK_CRITICAL
+    - SLACK_WEBHOOK_HIGH
+    - SLACK_WEBHOOK_MEDIUM
+    
+  discord:
+    - DISCORD_SECURITY_WEBHOOK
+    
+  airtable:
+    - AIRTABLE_API_KEY
+    - AIRTABLE_BASE_ID
+    
+  email:
+    - SECURITY_EMAIL
+    
+  pagerduty:
+    - PAGERDUTY_API_KEY
+    - PAGERDUTY_SERVICE_ID
+
+# ============================================================
+# TESTING
+# ============================================================
+
+test_payloads:
+  layer_31:
+    high:
+      source_ip: "1.2.3.4"
+      user_id: "user_123"
+      endpoint: "/api/users"
+      request_count: 1500
+      time_window_seconds: 60
+      
+  layer_32:
+    critical:
+      user_id: "user_456"
+      session_ids: ["sess1", "sess2", "sess3"]
+      locations: ["US-CA", "CN-BJ", "RU-MOW"]
+      source_ips: ["1.2.3.4", "5.6.7.8", "9.10.11.12"]
+      concurrent_count: 3
+      
+  layer_33:
+    high:
+      user_id: "user_789"
+      previous_location:
+        country: "US"
+        city: "New York"
+        coordinates:
+          lat: 40.7128
+          lon: -74.0060
+      current_location:
+        country: "JP"
+        city: "Tokyo"
+        coordinates:
+          lat: 35.6762
+          lon: 139.6503
+      time_difference_minutes: 30
+      distance_km: 10850
+      ip_type: "residential"
+      
+  layer_34:
+    high:
+      user_id: "user_012"
+      action: "export_database"
+      resource: "/admin/database/export"
+      access_time: "2025-12-10T03:00:00Z"
+      baseline_activity: 10
+      current_activity: 35
+      anomaly_score: 0.95
+      
+  layer_35:
+    critical:
+      user_id: "user_345"
+      current_role: "user"
+      attempted_action: "create_admin_user"
+      required_permission: "admin"
+      method: "api_call"
+      source_ip: "13.14.15.16"
+      
+  layer_36:
+    critical:
+      canary_type: "dns_canary"
+      canary_name: "internal-admin.strategickhaos.ai"
+      canary_id: "canary_001"
+      trigger_details:
+        query_type: "A"
+        resolver: "8.8.8.8"
+      source_ip: "17.18.19.20"
+      user_agent: "dig/9.10.6"
+      location:
+        country: "Unknown"
+        city: "Unknown"

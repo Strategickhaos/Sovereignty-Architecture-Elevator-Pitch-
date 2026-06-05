@@ -1,0 +1,433 @@
+# ============================================================
+# LAYERS 19-24: INFRASTRUCTURE PROBES
+# ============================================================
+
+metadata:
+  layer_group: "Infrastructure Probes"
+  layers: "19-24"
+  severity_range: "HIGH to MEDIUM"
+  last_updated: "2025-12-10"
+
+# ============================================================
+# LAYER 19: Docker Socket Monitor
+# ============================================================
+
+layer_19:
+  name: "Docker Socket Access Monitor"
+  description: "Detects unauthorized Docker socket access attempts"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/docker-socket-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "docker_socket_access"
+      condition: "path == '/var/run/docker.sock'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "docker_api_enumeration"
+      condition: "docker_api_calls > 10 IN 1 minute"
+      action: "ALERT_HIGH"
+      
+    - rule: "container_escape_attempt"
+      condition: "command matches 'docker exec' OR 'docker run --privileged'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "unauthorized_image_pull"
+      condition: "docker pull FROM unknown_registry"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    user_id: "string"
+    docker_command: "string"
+    api_endpoint: "string"
+    container_id: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze Docker access patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Terminate session via SESSION_SERVICE"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Lock Docker via DOCKER_MGMT_API"
+
+# ============================================================
+# LAYER 20: Kubernetes API Monitor
+# ============================================================
+
+layer_20:
+  name: "Kubernetes API Probe Detector"
+  description: "Detects unauthorized Kubernetes API access"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/k8s-api-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "k8s_api_unauthorized_access"
+      condition: "response_code == 401 OR 403 AND attempts > 5"
+      action: "ALERT_HIGH"
+      
+    - rule: "k8s_secrets_enumeration"
+      condition: "resource_type == 'secrets' AND verb == 'list'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "k8s_privilege_escalation"
+      condition: "resource_type == 'rolebindings' AND verb IN ['create', 'update']"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "k8s_pod_exec_attempt"
+      condition: "subresource == 'exec' OR 'attach'"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    user: "string"
+    verb: "string"
+    resource_type: "string"
+    namespace: "string"
+    response_code: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze K8s API patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Revoke K8s token via IAM_API"
+
+# ============================================================
+# LAYER 21: SSH Gateway Monitor
+# ============================================================
+
+layer_21:
+  name: "SSH Gateway Access Monitor"
+  description: "Detects SSH gateway access attempts and anomalies"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/ssh-gateway-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "ssh_brute_force"
+      condition: "failed_attempts > 5 IN 5 minutes"
+      action: "ALERT_HIGH"
+      
+    - rule: "ssh_from_unexpected_location"
+      condition: "source_country NOT IN authorized_countries"
+      action: "ALERT_HIGH"
+      
+    - rule: "ssh_key_mismatch"
+      condition: "key_fingerprint NOT IN authorized_keys"
+      action: "ALERT_HIGH"
+      
+    - rule: "ssh_port_forwarding"
+      condition: "command contains '-L' OR '-R' OR '-D'"
+      action: "ALERT_MEDIUM"
+      
+  payload_schema:
+    source_ip: "string"
+    source_country: "string"
+    username: "string"
+    auth_method: "string"
+    key_fingerprint: "string"
+    failed_attempts: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check SSH access patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets"
+
+# ============================================================
+# LAYER 22: Metadata Service Monitor
+# ============================================================
+
+layer_22:
+  name: "Cloud Metadata Service Monitor"
+  description: "Detects attempts to access cloud metadata services"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/metadata-service-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "aws_metadata_access"
+      condition: "destination == '169.254.169.254'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "gcp_metadata_access"
+      condition: "destination == 'metadata.google.internal'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "azure_metadata_access"
+      condition: "destination == '169.254.169.254' AND header contains 'Metadata:true'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "imds_token_theft"
+      condition: "path contains '/iam/security-credentials/'"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    source_ip: "string"
+    destination: "string"
+    path: "string"
+    headers: "object"
+    response_code: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Identify metadata service access"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Terminate instance via INCIDENT_RESPONSE_API"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Rotate credentials via ROTATION_SERVICE_URL"
+
+# ============================================================
+# LAYER 23: Admin Panel Probe
+# ============================================================
+
+layer_23:
+  name: "Admin Panel Discovery Detector"
+  description: "Detects attempts to discover admin panels"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/admin-panel-probe"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "admin_path_enumeration"
+      condition: "path IN ['/admin', '/administrator', '/wp-admin', '/phpmyadmin']"
+      action: "ALERT_HIGH"
+      
+    - rule: "admin_login_probing"
+      condition: "path matches admin_paths AND failed_logins > 3"
+      action: "ALERT_HIGH"
+      
+    - rule: "default_credentials_attempt"
+      condition: "username IN ['admin', 'administrator', 'root'] AND password IN ['admin', 'password', '123456', 'root']"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    paths_accessed: "array"
+    credentials_attempted: "array"
+    response_codes: "array"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze admin panel probes"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Enable CAPTCHA via CAPTCHA_SERVICE"
+
+# ============================================================
+# LAYER 24: Internal API Monitor
+# ============================================================
+
+layer_24:
+  name: "Internal API Enumeration Detector"
+  description: "Detects internal API discovery attempts"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/internal-api-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "internal_api_enumeration"
+      condition: "path matches '/api/internal' OR '/api/v1/admin'"
+      action: "ALERT_HIGH"
+      
+    - rule: "api_version_enumeration"
+      condition: "unique_api_versions_probed > 5 IN 1 minute"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "undocumented_endpoint_access"
+      condition: "endpoint NOT IN documented_endpoints"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "api_key_brute_force"
+      condition: "401_responses > 20 IN 5 minutes"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    endpoints_accessed: "array"
+    api_keys_attempted: "array"
+    response_codes: "array"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze API access patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Rate limit via RATE_LIMIT_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets"
+
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+
+environment_variables:
+  required:
+    - SESSION_SERVICE
+    - FIREWALL_API
+    - IAM_API
+    - DOCKER_MGMT_API
+    - INCIDENT_RESPONSE_API
+    - ROTATION_SERVICE_URL
+    - CAPTCHA_SERVICE
+    - RATE_LIMIT_API
+    
+  slack:
+    - SLACK_WEBHOOK_CRITICAL
+    - SLACK_WEBHOOK_HIGH
+    
+  discord:
+    - DISCORD_SECURITY_WEBHOOK
+    
+  airtable:
+    - AIRTABLE_API_KEY
+    - AIRTABLE_BASE_ID
+    
+  email:
+    - SECURITY_EMAIL
+
+# ============================================================
+# TESTING
+# ============================================================
+
+test_payloads:
+  layer_19:
+    critical:
+      source_ip: "1.2.3.4"
+      user_id: "user_123"
+      docker_command: "docker exec -it container /bin/bash"
+      api_endpoint: "/var/run/docker.sock"
+      container_id: "abc123"
+      
+  layer_20:
+    critical:
+      source_ip: "5.6.7.8"
+      user: "unknown-user"
+      verb: "list"
+      resource_type: "secrets"
+      namespace: "kube-system"
+      response_code: 200
+      
+  layer_21:
+    high:
+      source_ip: "9.10.11.12"
+      source_country: "CN"
+      username: "root"
+      auth_method: "password"
+      key_fingerprint: "unknown"
+      failed_attempts: 8
+      
+  layer_22:
+    critical:
+      source_ip: "13.14.15.16"
+      destination: "169.254.169.254"
+      path: "/latest/meta-data/iam/security-credentials/"
+      headers:
+        User-Agent: "curl/7.0"
+      response_code: 200
+      
+  layer_23:
+    high:
+      source_ip: "17.18.19.20"
+      paths_accessed: ["/admin", "/administrator", "/wp-admin"]
+      credentials_attempted:
+        - username: "admin"
+          password: "admin"
+      response_codes: [401, 401, 404]
+      
+  layer_24:
+    high:
+      source_ip: "21.22.23.24"
+      endpoints_accessed: ["/api/internal/users", "/api/v1/admin/config"]
+      api_keys_attempted: ["key1", "key2", "key3"]
+      response_codes: [401, 401, 403]

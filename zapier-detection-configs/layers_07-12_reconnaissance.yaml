@@ -1,0 +1,395 @@
+# ============================================================
+# LAYERS 07-12: RECONNAISSANCE DETECTION
+# ============================================================
+
+metadata:
+  layer_group: "Reconnaissance Detection"
+  layers: "07-12"
+  severity_range: "HIGH to MEDIUM"
+  last_updated: "2025-12-10"
+
+# ============================================================
+# LAYER 07: Port Scan Detector
+# ============================================================
+
+layer_07:
+  name: "Port Scanning Activity Detector"
+  description: "Detects port scanning and network reconnaissance"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/port-scan-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "rapid_port_sweep"
+      condition: "unique_ports_accessed > 20 IN 1 minute"
+      action: "ALERT_HIGH"
+      
+    - rule: "sequential_port_scan"
+      condition: "ports accessed sequentially (1-1024)"
+      action: "ALERT_HIGH"
+      
+    - rule: "common_exploit_ports"
+      condition: "ports IN [22, 23, 3389, 5900, 445]"
+      action: "ALERT_MEDIUM"
+      
+  payload_schema:
+    source_ip: "string"
+    ports_accessed: "array"
+    scan_pattern: "string"
+    duration_seconds: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Count unique ports and analyze pattern"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets: Port_Scans"
+
+# ============================================================
+# LAYER 08: DNS Probe Detector
+# ============================================================
+
+layer_08:
+  name: "DNS Reconnaissance Detector"
+  description: "Detects DNS enumeration and subdomain discovery"
+  severity: "MEDIUM"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/dns-probe-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "subdomain_bruteforce"
+      condition: "unique_queries > 50 IN 5 minutes"
+      action: "ALERT_HIGH"
+      
+    - rule: "dns_zone_transfer_attempt"
+      condition: "query_type == 'AXFR'"
+      action: "ALERT_HIGH"
+      
+    - rule: "unusual_dns_queries"
+      condition: "query_type IN ['ANY', 'HINFO']"
+      action: "ALERT_MEDIUM"
+      
+  payload_schema:
+    source_ip: "string"
+    queries: "array"
+    query_types: "array"
+    target_domain: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze DNS query patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Rate limit DNS queries via RATE_LIMIT_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets: DNS_Probes"
+
+# ============================================================
+# LAYER 09: Robots.txt Access Monitor
+# ============================================================
+
+layer_09:
+  name: "Robots.txt Access Pattern Monitor"
+  description: "Monitors robots.txt access for reconnaissance activity"
+  severity: "LOW"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/robots-access-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "robots_followed_by_disallowed_path"
+      condition: "robots_access THEN disallowed_path_access WITHIN 5 minutes"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "non_search_engine_robots_access"
+      condition: "user_agent NOT IN SEARCH_ENGINE_IPS AND robots_accessed"
+      action: "ALERT_LOW"
+      
+    - rule: "repeated_robots_access"
+      condition: "robots_access_count > 10 IN 1 hour"
+      action: "ALERT_LOW"
+      
+  payload_schema:
+    source_ip: "string"
+    user_agent: "string"
+    subsequent_paths: "array"
+    access_count: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check user agent against SEARCH_ENGINE_IPS"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets: Robots_Access"
+        low:
+          - "Add to Google Sheets: Robots_Access"
+
+# ============================================================
+# LAYER 10: Sitemap Crawler Monitor
+# ============================================================
+
+layer_10:
+  name: "Sitemap Crawling Activity Monitor"
+  description: "Detects aggressive sitemap crawling and URL enumeration"
+  severity: "MEDIUM"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/sitemap-crawler-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "aggressive_sitemap_crawling"
+      condition: "requests_per_minute > 100"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "systematic_url_enumeration"
+      condition: "urls_accessed IN sequential_pattern"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "sitemap_followed_by_admin_probe"
+      condition: "sitemap_access THEN /admin path access WITHIN 10 minutes"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    user_agent: "string"
+    sitemap_url: "string"
+    urls_accessed: "array"
+    request_rate: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Calculate request rate"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Rate limit via RATE_LIMIT_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets"
+
+# ============================================================
+# LAYER 11: Directory Bruteforce Detector
+# ============================================================
+
+layer_11:
+  name: "Directory Brute-force Detector"
+  description: "Detects directory and file brute-force attempts"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/directory-bruteforce-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "high_404_rate"
+      condition: "404_responses > 50 IN 1 minute"
+      action: "ALERT_HIGH"
+      
+    - rule: "common_wordlist_patterns"
+      condition: "paths match dirbuster OR dirb wordlists"
+      action: "ALERT_HIGH"
+      
+    - rule: "sensitive_file_enumeration"
+      condition: "paths IN ['.git', '.env', 'backup', 'config']"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    user_agent: "string"
+    paths_requested: "array"
+    response_codes: "array"
+    request_rate: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze path patterns and response codes"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Enable CAPTCHA via CAPTCHA_SERVICE"
+
+# ============================================================
+# LAYER 12: User Agent Anomaly Detector
+# ============================================================
+
+layer_12:
+  name: "User Agent Anomaly Detector"
+  description: "Detects suspicious or spoofed user agent strings"
+  severity: "MEDIUM"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/useragent-anomaly-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "empty_user_agent"
+      condition: "user_agent == '' OR user_agent == null"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "automated_tool_signature"
+      condition: "user_agent matches ['curl', 'wget', 'python-requests', 'nikto', 'sqlmap']"
+      action: "ALERT_HIGH"
+      
+    - rule: "browser_version_mismatch"
+      condition: "user_agent features inconsistent with browser version"
+      action: "ALERT_MEDIUM"
+      
+    - rule: "rapid_user_agent_switching"
+      condition: "unique_user_agents > 5 FROM same_ip IN 5 minutes"
+      action: "ALERT_MEDIUM"
+      
+  payload_schema:
+    source_ip: "string"
+    user_agent: "string"
+    user_agent_history: "array"
+    request_count: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze user agent patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets: UA_Anomalies"
+
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+
+environment_variables:
+  required:
+    - SEARCH_ENGINE_IPS
+    - FIREWALL_API
+    - RATE_LIMIT_API
+    - CAPTCHA_SERVICE
+    
+  slack:
+    - SLACK_WEBHOOK_HIGH
+    - SLACK_WEBHOOK_MEDIUM
+    
+  airtable:
+    - AIRTABLE_API_KEY
+    - AIRTABLE_BASE_ID
+    
+  google_sheets:
+    - GOOGLE_SHEETS_API_KEY
+    - RECONNAISSANCE_LOG_SPREADSHEET_ID
+
+# ============================================================
+# TESTING
+# ============================================================
+
+test_payloads:
+  layer_07:
+    high:
+      source_ip: "1.2.3.4"
+      ports_accessed: [22, 23, 80, 443, 3389, 5900, 8080, 8443]
+      scan_pattern: "sequential"
+      duration_seconds: 45
+      
+  layer_08:
+    high:
+      source_ip: "5.6.7.8"
+      queries: ["admin.example.com", "dev.example.com", "test.example.com"]
+      query_types: ["A", "AXFR"]
+      target_domain: "example.com"
+      
+  layer_09:
+    medium:
+      source_ip: "9.10.11.12"
+      user_agent: "CustomBot/1.0"
+      subsequent_paths: ["/admin", "/backup", "/.git"]
+      access_count: 1
+      
+  layer_10:
+    high:
+      source_ip: "13.14.15.16"
+      user_agent: "SiteMapper/2.0"
+      sitemap_url: "/sitemap.xml"
+      urls_accessed: ["/page1", "/page2", "/admin"]
+      request_rate: 150
+      
+  layer_11:
+    high:
+      source_ip: "17.18.19.20"
+      user_agent: "Mozilla/5.0"
+      paths_requested: ["/.git", "/.env", "/backup.zip", "/config.php"]
+      response_codes: [404, 404, 404, 404]
+      request_rate: 75
+      
+  layer_12:
+    high:
+      source_ip: "21.22.23.24"
+      user_agent: "sqlmap/1.0"
+      user_agent_history: ["curl/7.0", "wget/1.0", "sqlmap/1.0"]
+      request_count: 50

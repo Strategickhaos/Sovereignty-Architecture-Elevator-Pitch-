@@ -1,0 +1,354 @@
+# ============================================================
+# STRATEGICKHAOS 36-LAYER DETECTION MATRIX
+# MASTER INDEX
+# ============================================================
+
+metadata:
+  version: "1.0.0"
+  last_updated: "2025-12-10"
+  organization: "StrategicKhaos DAO LLC"
+  description: "Master index for 36-layer honeypot detection system"
+  deployment_target: "Zapier Workflows"
+
+# ============================================================
+# LAYER GROUPS
+# ============================================================
+
+layer_groups:
+  authentication_tripwires:
+    layers: "01-06"
+    config_file: "layers_01-06_authentication.yaml"
+    description: "OAuth, API token, and authentication monitoring"
+    severity_range: "CRITICAL to HIGH"
+    
+  reconnaissance_detection:
+    layers: "07-12"
+    config_file: "layers_07-12_reconnaissance.yaml"
+    description: "Port scans, DNS probes, robots.txt access"
+    severity_range: "HIGH to MEDIUM"
+    
+  exfiltration_monitors:
+    layers: "13-18"
+    config_file: "layers_13-18_exfiltration.yaml"
+    description: "Data dumps, file access, bulk operations"
+    severity_range: "CRITICAL to HIGH"
+    
+  infrastructure_probes:
+    layers: "19-24"
+    config_file: "layers_19-24_infrastructure.yaml"
+    description: "Docker, Kubernetes, SSH gateway access"
+    severity_range: "HIGH to MEDIUM"
+    
+  injection_detection:
+    layers: "25-30"
+    config_file: "layers_25-30_injection.yaml"
+    description: "SQL injection, XSS, command injection attempts"
+    severity_range: "CRITICAL to HIGH"
+    
+  behavioral_anomalies:
+    layers: "31-36"
+    config_file: "layers_31-36_behavioral.yaml"
+    description: "Rate limiting, user agents, canary tokens"
+    severity_range: "CRITICAL to LOW"
+
+# ============================================================
+# ALERT ROUTING MATRIX
+# ============================================================
+
+alert_routing:
+  critical:
+    channels:
+      - type: "slack"
+        target: "#security-critical"
+        workspace: "strategickhaos-rla5357.slack.com"
+      - type: "discord"
+        target: "Strategickhaos-AI #security"
+        webhook: "DISCORD_SECURITY_WEBHOOK"
+      - type: "airtable"
+        target: "Incident_Log"
+        base: "Security_Operations"
+      - type: "email"
+        target: "security@strategickhaos.ai"
+    response_time: "< 5 minutes"
+    
+  high:
+    channels:
+      - type: "slack"
+        target: "#security-high"
+        workspace: "strategickhaos-rla5357.slack.com"
+      - type: "airtable"
+        target: "Incident_Log"
+        base: "Security_Operations"
+    response_time: "< 15 minutes"
+    
+  medium:
+    channels:
+      - type: "airtable"
+        target: "Detection_Log"
+        base: "Security_Operations"
+      - type: "google_sheets"
+        target: "Reconnaissance_Log"
+    response_time: "< 1 hour"
+    
+  low:
+    channels:
+      - type: "google_sheets"
+        target: "Reconnaissance_Log"
+    response_time: "< 24 hours"
+
+# ============================================================
+# WEBHOOK ENDPOINTS
+# ============================================================
+
+webhook_endpoints:
+  base_url: "https://hooks.zapier.com/hooks/catch"
+  
+  layers:
+    - id: 1
+      path: "/github-oauth-monitor"
+      description: "GitHub OAuth scope changes"
+      
+    - id: 2
+      path: "/slack-token-monitor"
+      description: "Slack bot token usage"
+      
+    - id: 3
+      path: "/discord-auth-monitor"
+      description: "Discord bot authentication"
+      
+    - id: 4
+      path: "/api-key-rotation-monitor"
+      description: "API key rotation events"
+      
+    - id: 5
+      path: "/vault-access-monitor"
+      description: "HashiCorp Vault access"
+      
+    - id: 6
+      path: "/jwt-anomaly-monitor"
+      description: "JWT token anomalies"
+      
+    - id: 7
+      path: "/port-scan-detector"
+      description: "Port scanning activity"
+      
+    - id: 8
+      path: "/dns-probe-detector"
+      description: "DNS reconnaissance"
+      
+    - id: 9
+      path: "/robots-access-monitor"
+      description: "robots.txt access patterns"
+      
+    - id: 10
+      path: "/sitemap-crawler-monitor"
+      description: "Sitemap crawling activity"
+      
+    - id: 11
+      path: "/directory-bruteforce-detector"
+      description: "Directory brute-force attempts"
+      
+    - id: 12
+      path: "/useragent-anomaly-detector"
+      description: "User agent anomalies"
+      
+    - id: 13
+      path: "/bulk-download-monitor"
+      description: "Bulk data downloads"
+      
+    - id: 14
+      path: "/database-dump-detector"
+      description: "Database dump attempts"
+      
+    - id: 15
+      path: "/git-exposure-monitor"
+      description: ".git directory access"
+      
+    - id: 16
+      path: "/env-file-monitor"
+      description: ".env file access attempts"
+      
+    - id: 17
+      path: "/backup-file-monitor"
+      description: "Backup file access"
+      
+    - id: 18
+      path: "/source-code-monitor"
+      description: "Source code exfiltration"
+      
+    - id: 19
+      path: "/docker-socket-monitor"
+      description: "Docker socket access"
+      
+    - id: 20
+      path: "/k8s-api-monitor"
+      description: "Kubernetes API probes"
+      
+    - id: 21
+      path: "/ssh-gateway-monitor"
+      description: "SSH gateway attempts"
+      
+    - id: 22
+      path: "/metadata-service-monitor"
+      description: "Cloud metadata service queries"
+      
+    - id: 23
+      path: "/admin-panel-probe"
+      description: "Admin panel discovery"
+      
+    - id: 24
+      path: "/internal-api-monitor"
+      description: "Internal API enumeration"
+      
+    - id: 25
+      path: "/sql-injection-detector"
+      description: "SQL injection attempts"
+      
+    - id: 26
+      path: "/xss-detector"
+      description: "Cross-site scripting attempts"
+      
+    - id: 27
+      path: "/command-injection-detector"
+      description: "Command injection attempts"
+      
+    - id: 28
+      path: "/path-traversal-detector"
+      description: "Path traversal attempts"
+      
+    - id: 29
+      path: "/xxe-detector"
+      description: "XML external entity attacks"
+      
+    - id: 30
+      path: "/template-injection-detector"
+      description: "Template injection attempts"
+      
+    - id: 31
+      path: "/rate-limit-violation"
+      description: "Rate limit violations"
+      
+    - id: 32
+      path: "/concurrent-session-monitor"
+      description: "Concurrent session anomalies"
+      
+    - id: 33
+      path: "/geolocation-anomaly"
+      description: "Impossible travel detection"
+      
+    - id: 34
+      path: "/access-pattern-anomaly"
+      description: "Unusual access patterns"
+      
+    - id: 35
+      path: "/privilege-escalation-detector"
+      description: "Privilege escalation attempts"
+      
+    - id: 36
+      path: "/canary-token-alert"
+      description: "Canary token triggered"
+
+# ============================================================
+# RESPONSE ACTIONS
+# ============================================================
+
+response_actions:
+  automatic:
+    - action: "block_ip"
+      triggers: ["Layer 25-30", "Layer 36"]
+      api: "FIREWALL_API"
+      
+    - action: "terminate_session"
+      triggers: ["Layer 01-06", "Layer 36"]
+      api: "SESSION_SERVICE"
+      
+    - action: "revoke_token"
+      triggers: ["Layer 01-06"]
+      api: "IAM_API"
+      
+    - action: "rate_limit"
+      triggers: ["Layer 31"]
+      api: "RATE_LIMIT_API"
+      
+    - action: "quarantine_user"
+      triggers: ["Layer 36"]
+      api: "QUARANTINE_API"
+      
+  manual:
+    - action: "investigate"
+      severity: "CRITICAL"
+      sla: "< 5 minutes"
+      
+    - action: "forensics"
+      severity: "HIGH"
+      sla: "< 15 minutes"
+      
+    - action: "review"
+      severity: "MEDIUM"
+      sla: "< 1 hour"
+
+# ============================================================
+# INTEGRATION REQUIREMENTS
+# ============================================================
+
+integrations:
+  required:
+    - name: "Slack"
+      type: "notification"
+      channels: ["#security-critical", "#security-high", "#security-medium", "#security-low"]
+      
+    - name: "Discord"
+      type: "notification"
+      server: "Strategickhaos-AI"
+      channel: "#security"
+      
+    - name: "Airtable"
+      type: "database"
+      base: "Security_Operations"
+      tables: ["Incident_Log", "Detection_Log", "Reconnaissance_Log"]
+      
+    - name: "Google Sheets"
+      type: "spreadsheet"
+      spreadsheet: "Reconnaissance_Log"
+      sheets: ["Port_Scans", "DNS_Probes", "Robots_Access", "UA_Anomalies"]
+      
+    - name: "Webhooks"
+      type: "automation"
+      provider: "Zapier"
+      
+  optional:
+    - name: "PagerDuty"
+      type: "alerting"
+      use_case: "Critical incident escalation"
+      
+    - name: "Splunk"
+      type: "siem"
+      use_case: "Advanced threat hunting"
+
+# ============================================================
+# DEPLOYMENT STATUS
+# ============================================================
+
+deployment:
+  status: "READY_TO_DEPLOY"
+  prerequisites_complete: true
+  testing_required: true
+  rollback_plan: true
+  
+documentation:
+  deployment_guide: "DEPLOYMENT_GUIDE.md"
+  testing_guide: "See DEPLOYMENT_GUIDE.md - Testing section"
+  maintenance_guide: "See DEPLOYMENT_GUIDE.md - Maintenance section"
+  incident_response: "See DEPLOYMENT_GUIDE.md - Incident Response Integration section"
+
+# ============================================================
+# NOTES
+# ============================================================
+
+notes:
+  - "All webhook endpoints must be secured with signature verification"
+  - "Environment variables must be stored in Zapier environment or HashiCorp Vault"
+  - "Test each layer independently before full deployment"
+  - "Canary tokens (Layer 36) require external service integration"
+  - "Rate limiting thresholds should be tuned per environment"
+  - "False positive rates should be monitored and detection rules adjusted"

@@ -1,0 +1,454 @@
+# ============================================================
+# LAYERS 25-30: INJECTION DETECTION
+# ============================================================
+
+metadata:
+  layer_group: "Injection Detection"
+  layers: "25-30"
+  severity_range: "CRITICAL to HIGH"
+  last_updated: "2025-12-10"
+
+# ============================================================
+# LAYER 25: SQL Injection Detector
+# ============================================================
+
+layer_25:
+  name: "SQL Injection Detector"
+  description: "Detects SQL injection attempts"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/sql-injection-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "sql_keyword_injection"
+      condition: "payload matches 'UNION SELECT' OR 'OR 1=1' OR '; DROP TABLE'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "sql_comment_injection"
+      condition: "payload contains '--' OR '/*' OR '#'"
+      action: "ALERT_HIGH"
+      
+    - rule: "sql_time_based_injection"
+      condition: "payload matches 'SLEEP(' OR 'WAITFOR DELAY' OR 'BENCHMARK('"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "sql_boolean_injection"
+      condition: "payload matches 'AND 1=1' OR 'AND 1=2' OR 'OR true'"
+      action: "ALERT_HIGH"
+      
+    - rule: "sql_error_based_injection"
+      condition: "payload matches 'extractvalue' OR 'updatexml' OR 'cast('"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    request_url: "string"
+    parameter: "string"
+    payload: "string"
+    injection_type: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze SQL injection patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Terminate session via SESSION_SERVICE"
+
+# ============================================================
+# LAYER 26: XSS Detector
+# ============================================================
+
+layer_26:
+  name: "Cross-Site Scripting (XSS) Detector"
+  description: "Detects XSS injection attempts"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/xss-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "script_tag_injection"
+      condition: "payload matches '<script>' OR '</script>'"
+      action: "ALERT_HIGH"
+      
+    - rule: "event_handler_injection"
+      condition: "payload matches 'onerror=' OR 'onload=' OR 'onclick='"
+      action: "ALERT_HIGH"
+      
+    - rule: "javascript_protocol"
+      condition: "payload matches 'javascript:' OR 'data:text/html'"
+      action: "ALERT_HIGH"
+      
+    - rule: "encoded_xss_attempt"
+      condition: "payload contains url_encoded OR html_encoded script tags"
+      action: "ALERT_HIGH"
+      
+    - rule: "dom_xss_patterns"
+      condition: "payload matches 'eval(' OR 'document.write(' OR 'innerHTML'"
+      action: "ALERT_MEDIUM"
+      
+  payload_schema:
+    source_ip: "string"
+    request_url: "string"
+    parameter: "string"
+    payload: "string"
+    xss_type: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze XSS patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets"
+
+# ============================================================
+# LAYER 27: Command Injection Detector
+# ============================================================
+
+layer_27:
+  name: "Command Injection Detector"
+  description: "Detects OS command injection attempts"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/command-injection-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "shell_command_injection"
+      condition: "payload matches '; ls' OR '| cat' OR '&& whoami'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "command_substitution"
+      condition: "payload matches '`' OR '$()' OR '${'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "pipe_redirection"
+      condition: "payload contains pipe_or_redirect_chars AND NOT in_code_block"
+      action: "ALERT_HIGH"
+      note: "Triggers on shell operators like |, >, <, >> outside of code contexts"
+      
+    - rule: "newline_injection"
+      condition: "payload contains '\\n' OR '%0a' OR '\\r'"
+      action: "ALERT_HIGH"
+      
+    - rule: "dangerous_commands"
+      condition: "payload matches 'rm -rf' OR 'dd if=' OR 'mkfs' OR '/bin/sh'"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    source_ip: "string"
+    request_url: "string"
+    parameter: "string"
+    payload: "string"
+    command_type: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze command injection patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Terminate session via SESSION_SERVICE"
+          - "API: Quarantine system via INCIDENT_RESPONSE_API"
+
+# ============================================================
+# LAYER 28: Path Traversal Detector
+# ============================================================
+
+layer_28:
+  name: "Path Traversal Detector"
+  description: "Detects directory traversal attempts"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/path-traversal-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "dotdot_slash"
+      condition: "payload matches '../' OR '..\\' OR '....//'"
+      action: "ALERT_HIGH"
+      
+    - rule: "encoded_traversal"
+      condition: "payload matches '%2e%2e%2f' OR '..%5c' OR '%252e'"
+      action: "ALERT_HIGH"
+      
+    - rule: "absolute_path_access"
+      condition: "payload matches '/etc/passwd' OR 'C:\\Windows\\' OR '/proc/'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "null_byte_injection"
+      condition: "payload contains '%00' OR '\\x00'"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    request_url: "string"
+    parameter: "string"
+    payload: "string"
+    traversal_depth: "number"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze path traversal patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+
+# ============================================================
+# LAYER 29: XXE Detector
+# ============================================================
+
+layer_29:
+  name: "XML External Entity (XXE) Detector"
+  description: "Detects XXE injection attempts"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/xxe-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "external_entity_declaration"
+      condition: "payload matches '<!ENTITY' AND 'SYSTEM'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "file_protocol_xxe"
+      condition: "payload matches 'file://' OR 'php://filter'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "parameter_entity_xxe"
+      condition: "payload matches '%' AND '<!ENTITY'"
+      action: "ALERT_HIGH"
+      
+    - rule: "ssrf_via_xxe"
+      condition: "payload matches 'http://' OR 'https://' in ENTITY"
+      action: "ALERT_HIGH"
+      
+    - rule: "dtd_retrieval"
+      condition: "payload matches '<!DOCTYPE' AND 'SYSTEM'"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    source_ip: "string"
+    request_url: "string"
+    xml_payload: "string"
+    entity_type: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze XXE patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Terminate session via SESSION_SERVICE"
+
+# ============================================================
+# LAYER 30: Template Injection Detector
+# ============================================================
+
+layer_30:
+  name: "Server-Side Template Injection Detector"
+  description: "Detects SSTI attempts"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/template-injection-detector"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "jinja2_injection"
+      condition: "payload matches '{{' OR '}}' OR '{%' OR '%}'"
+      action: "ALERT_HIGH"
+      
+    - rule: "erb_injection"
+      condition: "payload matches '<%=' OR '<%' OR '%>'"
+      action: "ALERT_HIGH"
+      
+    - rule: "freemarker_injection"
+      condition: "payload matches '${' OR '<#' OR '<@'"
+      action: "ALERT_HIGH"
+      
+    - rule: "velocity_injection"
+      condition: "payload matches '$' AND '#set' OR '#foreach'"
+      action: "ALERT_HIGH"
+      
+    - rule: "code_execution_via_template"
+      condition: "payload matches '__import__' OR 'exec(' OR 'eval('"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    source_ip: "string"
+    request_url: "string"
+    parameter: "string"
+    payload: "string"
+    template_engine: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Analyze template injection patterns"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Block IP via FIREWALL_API"
+          - "API: Terminate session via SESSION_SERVICE"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Block IP via FIREWALL_API"
+
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+
+environment_variables:
+  required:
+    - FIREWALL_API
+    - SESSION_SERVICE
+    - INCIDENT_RESPONSE_API
+    
+  slack:
+    - SLACK_WEBHOOK_CRITICAL
+    - SLACK_WEBHOOK_HIGH
+    
+  discord:
+    - DISCORD_SECURITY_WEBHOOK
+    
+  airtable:
+    - AIRTABLE_API_KEY
+    - AIRTABLE_BASE_ID
+    
+  email:
+    - SECURITY_EMAIL
+
+# ============================================================
+# TESTING
+# ============================================================
+
+test_payloads:
+  layer_25:
+    critical:
+      source_ip: "1.2.3.4"
+      request_url: "/api/users?id=1"
+      parameter: "id"
+      payload: "1 OR 1=1; DROP TABLE users--"
+      injection_type: "union_based"
+      
+  layer_26:
+    high:
+      source_ip: "5.6.7.8"
+      request_url: "/search?q=test"
+      parameter: "q"
+      payload: "<script>alert('XSS')</script>"
+      xss_type: "reflected"
+      
+  layer_27:
+    critical:
+      source_ip: "9.10.11.12"
+      request_url: "/api/backup?file=data.txt"
+      parameter: "file"
+      payload: "data.txt; cat /etc/passwd"
+      command_type: "shell_injection"
+      
+  layer_28:
+    critical:
+      source_ip: "13.14.15.16"
+      request_url: "/download?path=files/doc.pdf"
+      parameter: "path"
+      payload: "../../../etc/passwd"
+      traversal_depth: 3
+      
+  layer_29:
+    critical:
+      source_ip: "17.18.19.20"
+      request_url: "/api/xml"
+      xml_payload: '<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><foo>&xxe;</foo>'
+      entity_type: "external"
+      
+  layer_30:
+    critical:
+      source_ip: "21.22.23.24"
+      request_url: "/template?name=test"
+      parameter: "name"
+      payload: "{{7*7}}"
+      template_engine: "jinja2"

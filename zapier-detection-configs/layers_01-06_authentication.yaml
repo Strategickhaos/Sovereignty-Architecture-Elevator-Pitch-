@@ -1,0 +1,438 @@
+# ============================================================
+# LAYERS 01-06: AUTHENTICATION TRIPWIRES
+# ============================================================
+
+metadata:
+  layer_group: "Authentication Tripwires"
+  layers: "01-06"
+  severity_range: "CRITICAL to HIGH"
+  last_updated: "2025-12-10"
+
+# ============================================================
+# LAYER 01: GitHub OAuth Monitor
+# ============================================================
+
+layer_01:
+  name: "GitHub OAuth Scope Monitor"
+  description: "Detects unauthorized OAuth app installations or scope expansions"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/github-oauth-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "oauth_scope_expansion"
+      condition: "scopes contains 'repo' OR 'admin:org'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "new_oauth_app"
+      condition: "action == 'oauth_access.created'"
+      action: "ALERT_HIGH"
+      
+    - rule: "unknown_github_app"
+      condition: "app_id NOT IN GITHUB_APP_ID"
+      action: "ALERT_CRITICAL"
+      
+  payload_schema:
+    action: "string"
+    oauth_access:
+      id: "number"
+      scopes: "array"
+      app_id: "number"
+    source_ip: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Revoke OAuth token via IAM_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+
+# ============================================================
+# LAYER 02: Slack Token Monitor
+# ============================================================
+
+layer_02:
+  name: "Slack Bot Token Usage Monitor"
+  description: "Monitors Slack bot token usage for anomalies"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/slack-token-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "token_used_from_unexpected_ip"
+      condition: "source_ip NOT IN KNOWN_IP_RANGES"
+      action: "ALERT_HIGH"
+      
+    - rule: "token_permission_escalation"
+      condition: "new_scopes > original_scopes"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "token_used_multiple_locations"
+      condition: "COUNT(DISTINCT source_ip) > 2 IN 5 minutes"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    token_id: "string"
+    scopes: "array"
+    source_ip: "string"
+    user_agent: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Lookup known IP ranges from environment"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "API: Revoke token via IAM_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Rate limit source IP via RATE_LIMIT_API"
+
+# ============================================================
+# LAYER 03: Discord Auth Monitor
+# ============================================================
+
+layer_03:
+  name: "Discord Bot Authentication Monitor"
+  description: "Monitors Discord bot authentication events"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/discord-auth-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "unauthorized_bot_id"
+      condition: "bot_id NOT IN AUTHORIZED_BOT_IDS"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "bot_token_refresh_anomaly"
+      condition: "token_refresh_count > 10 IN 1 hour"
+      action: "ALERT_HIGH"
+      
+    - rule: "bot_permission_change"
+      condition: "permissions changed AND NOT user_initiated"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    bot_id: "string"
+    event_type: "string"
+    permissions: "array"
+    source_ip: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Validate bot_id against AUTHORIZED_BOT_IDS"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "API: Block bot via ACCESS_CONTROL_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+
+# ============================================================
+# LAYER 04: API Key Rotation Monitor
+# ============================================================
+
+layer_04:
+  name: "API Key Rotation Event Monitor"
+  description: "Detects suspicious API key rotation patterns"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/api-key-rotation-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "rapid_key_rotation"
+      condition: "rotation_count > 5 IN 15 minutes"
+      action: "ALERT_HIGH"
+      
+    - rule: "rotation_from_unexpected_source"
+      condition: "source_ip NOT IN KNOWN_IP_RANGES"
+      action: "ALERT_HIGH"
+      
+    - rule: "old_key_still_in_use"
+      condition: "old_key_used AFTER new_key_created + 5 minutes"
+      action: "ALERT_MEDIUM"
+      
+  payload_schema:
+    key_id: "string"
+    rotation_type: "string"
+    old_key_hash: "string"
+    new_key_hash: "string"
+    source_ip: "string"
+    initiator: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check rotation frequency"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Force re-rotation via ROTATION_SERVICE_URL"
+        medium:
+          - "Create Airtable Detection_Log record"
+          - "Add to Google Sheets"
+
+# ============================================================
+# LAYER 05: Vault Access Monitor
+# ============================================================
+
+layer_05:
+  name: "HashiCorp Vault Access Monitor"
+  description: "Monitors HashiCorp Vault access for unauthorized attempts"
+  severity: "CRITICAL"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/vault-access-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "unauthorized_secret_access"
+      condition: "path contains 'secret/production' AND user_role != 'admin'"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "bulk_secret_read"
+      condition: "COUNT(secret_reads) > 20 IN 1 minute"
+      action: "ALERT_HIGH"
+      
+    - rule: "failed_auth_attempts"
+      condition: "auth_failures > 5 IN 5 minutes"
+      action: "ALERT_HIGH"
+      
+    - rule: "token_used_from_unexpected_ip"
+      condition: "source_ip NOT IN KNOWN_IP_RANGES"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    operation: "string"
+    path: "string"
+    token_id: "string"
+    user_role: "string"
+    source_ip: "string"
+    success: "boolean"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "Email security@strategickhaos.ai"
+          - "API: Revoke Vault token"
+          - "API: Block IP via FIREWALL_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Rate limit via RATE_LIMIT_API"
+
+# ============================================================
+# LAYER 06: JWT Anomaly Monitor
+# ============================================================
+
+layer_06:
+  name: "JWT Token Anomaly Detector"
+  description: "Detects JWT token tampering and anomalies"
+  severity: "HIGH"
+  
+  zapier_trigger:
+    type: "Webhook"
+    endpoint: "/hooks/jwt-anomaly-monitor"
+    method: "POST"
+    
+  detection_rules:
+    - rule: "jwt_signature_invalid"
+      condition: "signature_valid == false"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "jwt_claims_tampering"
+      condition: "claims_modified == true"
+      action: "ALERT_CRITICAL"
+      
+    - rule: "jwt_expired_still_used"
+      condition: "token_expired == true AND usage_count > 0"
+      action: "ALERT_HIGH"
+      
+    - rule: "jwt_algorithm_confusion"
+      condition: "algorithm != 'HS256' AND algorithm != 'RS256'"
+      action: "ALERT_HIGH"
+      
+    - rule: "jwt_issuer_mismatch"
+      condition: "issuer NOT IN authorized_issuers"
+      action: "ALERT_HIGH"
+      
+  payload_schema:
+    token_id: "string"
+    algorithm: "string"
+    issuer: "string"
+    subject: "string"
+    claims: "object"
+    signature_valid: "boolean"
+    claims_modified: "boolean"
+    token_expired: "boolean"
+    source_ip: "string"
+    timestamp: "datetime"
+    
+  zapier_actions:
+    - step: 1
+      action: "Parse webhook payload"
+      
+    - step: 2
+      action: "Validate JWT properties"
+      
+    - step: 3
+      action: "Check severity condition"
+      paths:
+        critical:
+          - "Post to Slack #security-critical"
+          - "Send Discord webhook alert"
+          - "Create Airtable Incident_Log record"
+          - "API: Terminate session via SESSION_SERVICE"
+          - "API: Block IP via FIREWALL_API"
+        high:
+          - "Post to Slack #security-high"
+          - "Create Airtable Incident_Log record"
+          - "API: Terminate session via SESSION_SERVICE"
+
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+
+environment_variables:
+  required:
+    - GITHUB_APP_ID
+    - AUTHORIZED_BOT_IDS
+    - KNOWN_IP_RANGES
+    - IAM_API
+    - SESSION_SERVICE
+    - FIREWALL_API
+    - RATE_LIMIT_API
+    - ACCESS_CONTROL_API
+    - ROTATION_SERVICE_URL
+    
+  slack:
+    - SLACK_WEBHOOK_CRITICAL
+    - SLACK_WEBHOOK_HIGH
+    
+  discord:
+    - DISCORD_SECURITY_WEBHOOK
+    
+  airtable:
+    - AIRTABLE_API_KEY
+    - AIRTABLE_BASE_ID
+    
+  email:
+    - SECURITY_EMAIL
+
+# ============================================================
+# TESTING
+# ============================================================
+
+test_payloads:
+  layer_01:
+    critical:
+      action: "oauth_access.created"
+      oauth_access:
+        id: 12345
+        scopes: ["repo", "admin:org"]
+        app_id: 999999
+      source_ip: "1.2.3.4"
+      
+  layer_02:
+    high:
+      token_id: "xoxb-test-token"
+      scopes: ["chat:write", "channels:read"]
+      source_ip: "5.6.7.8"
+      user_agent: "Unknown-Bot/1.0"
+      
+  layer_03:
+    critical:
+      bot_id: "999999999999999999"
+      event_type: "bot_authorization"
+      permissions: ["ADMINISTRATOR"]
+      source_ip: "9.10.11.12"
+      
+  layer_04:
+    high:
+      key_id: "sk_test_123456"
+      rotation_type: "manual"
+      old_key_hash: "abc123"
+      new_key_hash: "def456"
+      source_ip: "13.14.15.16"
+      initiator: "unknown_user"
+      
+  layer_05:
+    critical:
+      operation: "read"
+      path: "secret/production/database"
+      token_id: "hvs.test123"
+      user_role: "guest"
+      source_ip: "17.18.19.20"
+      success: true
+      
+  layer_06:
+    critical:
+      token_id: "jwt_test_123"
+      algorithm: "none"
+      issuer: "unknown"
+      subject: "user_123"
+      claims: {}
+      signature_valid: false
+      claims_modified: true
+      token_expired: false
+      source_ip: "21.22.23.24"
