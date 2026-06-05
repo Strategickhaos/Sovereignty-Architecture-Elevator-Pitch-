@@ -1,0 +1,42 @@
+# Dockerfile for TRIG6 Arrow DNA Exploration
+# Phase 4.13: Containerized DNA exploration environment
+# Build: podman build -t sagco-trig6-arrow-dna-explore .
+# Run: podman run --rm -v ./flamelang-stress-test:/tests sagco-trig6-arrow-dna-explore
+
+FROM python:3.11-slim
+
+LABEL maintainer="Strategickhaos DAO LLC"
+LABEL description="TRIG6 Arrow DNA Exploration - Phase 4.13"
+LABEL version="DNAEXP1"
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy source files
+COPY src/ /app/src/
+COPY dna_explore_sim.py /app/
+COPY flamelang-stress-test/ /tests/
+
+# Install Python dependencies
+RUN pip install --no-cache-dir \
+    pyyaml>=6.0 \
+    numpy>=1.24.0
+
+# Create non-root user for security
+RUN useradd -m -u 1000 explorer && \
+    chown -R explorer:explorer /app /tests
+
+USER explorer
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV TRIG_LAYER=TRIG6-arrow-dna-explore
+ENV PHASE=4.13
+
+# Default command: run DNA exploration simulation
+CMD ["python", "/app/dna_explore_sim.py", "--tests", "/tests/3.35_arrow.flame.yaml", "--ticks", "10"]

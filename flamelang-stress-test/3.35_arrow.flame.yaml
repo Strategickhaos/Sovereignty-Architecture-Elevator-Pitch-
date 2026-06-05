@@ -1,0 +1,189 @@
+meta:
+  id: "STRESS-3.35-ARROW"
+  origin: "zyBooks IT-145 3.35"
+  phase: "4.13"
+  trig_layer: "TRIG6-arrow-dna-explore"
+  theta: "π/2 academics tilt with π/3 security edge-case hardening"
+  alpha: 0.32
+  version: "DNAEXP1"
+
+intent:
+  english: "Draw downward half arrow with validation"
+  hebrew: "צייר חץ חצי למטה עם אימות"
+  symbolic: "□(h×w) + ▽(head>w) → ↓"
+
+operations:
+  - id: "OP1"
+    desc: "Input h/w/head with while validate head > w"
+    codon: "ATG"
+  - id: "OP2"
+    desc: "Nested for rectangle h lines w *'s"
+    codon: "CGT"
+  - id: "OP3"
+    desc: "Nested for triangle decrement head to 1 *'s"
+    codon: "GCA"
+
+test_vectors:
+  - id: "zybooks_step1"
+    desc: "Rectangle only"
+    input: [6, 4]
+    expected_rows: 6
+    expected_output: "****\n****\n****\n****\n****\n****"
+    breakdown: "6 lines x 4 *'s"
+    
+  - id: "zybooks_step2"
+    desc: "Rectangle + triangle"
+    input: [4, 3, 4]
+    expected_rows: 8
+    expected_output: "***\n***\n***\n***\n****\n***\n**\n*"
+    breakdown: "4 rect + 4 tri decrement"
+    
+  - id: "zybooks_step3"
+    desc: "Validation rejects"
+    input: [4, 3, 3, 2, 4]
+    expected_rows: 8
+    rejects: 2
+    expected_output: "***\n***\n***\n***\n****\n***\n**\n*"
+    breakdown: "Rejects 3,2; accepts 4"
+    
+  - id: "image_minimal"
+    desc: "From screenshot minimal"
+    input: [1, 1, 2]
+    expected_rows: 3
+    expected_output: "*\n**\n*"
+    breakdown: "1 rect + 2 tri"
+    
+  - id: "image_large"
+    desc: "From screenshot large"
+    input: [5, 5, 6]
+    expected_rows: 11
+    expected_output: "*****\n*****\n*****\n*****\n*****\n******\n*****\n****\n***\n**\n*"
+    breakdown: "5 rect + 6 tri"
+    
+  - id: "edge_zero_head"
+    desc: "Zero head (validate reject)"
+    input: [3, 2, 0, 1, 3]
+    expected_rows: 6
+    rejects: 2
+    expected_output: "**\n**\n**\n***\n**\n*"
+    breakdown: "Rejects 0,1; accepts 3"
+    
+  - id: "unicode_mutation"
+    desc: "Mutate to unicode chars"
+    input: [2, 3, 4]
+    expected_rows: 6
+    expected_output: "★★★\n★★★\n★★★★\n★★★\n★★\n★"
+    breakdown: "★ instead of *; mutation test"
+    mutation: true
+    
+  - id: "enhanced_stress_1"
+    desc: "Enhanced from image extraction - asymmetric"
+    input: [5, 1, 3]
+    expected_rows: 8
+    expected_output: "*\n*\n*\n*\n*\n***\n**\n*"
+    breakdown: "5 rect (w=1) + 3 tri"
+    
+  - id: "enhanced_stress_2"
+    desc: "Enhanced from image extraction - complex reject pattern"
+    input: [2, 4, 3, 4, 8]
+    expected_rows: 10
+    rejects: 2
+    expected_output: "****\n****\n********\n*******\n******\n*****\n****\n***\n**\n*"
+    breakdown: "Rejects 3,4; accepts 8"
+    
+  - id: "enhanced_stress_3"
+    desc: "Enhanced - maximal dimensions"
+    input: [10, 8, 12]
+    expected_rows: 22
+    breakdown: "10 rect + 12 tri"
+
+dna_encoding:
+  sequence: "ATG-CGT-TAA-GCA-TCG"
+  version: "v1.0-DNAEXP1"
+  
+  codon_map:
+    ATG: "init_scanner"
+    CGT: "nested_rect_loop"
+    TAA: "validation_gate"
+    GCA: "nested_tri_loop"
+    TCG: "terminate"
+    
+  mutations:
+    - from: "CGT"
+      to: "CGA"
+      effect: "single_loop_rect"
+      risk: 0.2
+      fitness_delta: -0.1
+      
+    - from: "GCA"
+      to: "GCC"
+      effect: "unicode_render"
+      risk: 0.15
+      fitness_delta: 0.05
+      
+    - from: "TAA"
+      to: "TAG"
+      effect: "relaxed_validation"
+      risk: 0.3
+      fitness_delta: -0.2
+      
+    - from: "CGT"
+      to: "TGC"
+      effect: "trig_damped_render"
+      risk: 0.25
+      fitness_delta: 0.15
+      
+  evolution_params:
+    mutation_rate: 0.05
+    selection_threshold: 0.67
+    invention_density_trigger: 0.65
+    neural_tick_frequency: 2
+
+wave_transform:
+  base_frequency: 440
+  harmonics:
+    rect_loop: 2
+    tri_loop: 3
+    validation: 0.5
+  phase:
+    rect_to_tri: 90
+    validation_sync: 0
+  damping:
+    alpha: 0.32
+    theta_asymptote: 1.5708  # π/2
+
+legion_council:
+  validators:
+    - claude_opus
+    - gemini_pro
+    - local_qwen
+  consensus_threshold: 0.67
+  
+equivalence:
+  metric: "levenshtein"
+  threshold: 0.99
+  
+metrics:
+  tracked:
+    - render_time_ms
+    - loop_iterations
+    - validation_attempts
+    - mutation_count
+    - fitness_score
+    - invention_density
+    
+export:
+  absolute_path: "/home/dom/strategickhaos/flamelang/stress-tests/3.35_arrow.flame.yaml"
+  container_mount: "/tests/3.35_arrow.flame.yaml"
+  
+trig_report:
+  resonance: 0.89
+  drift: 0.08
+  noise: 0.03
+  invention: 0.60
+  status: "arrow dna explore aligns"
+  
+phase_coherence:
+  threshold: 0.7
+  current: 0.89
+  status: "STABLE"
