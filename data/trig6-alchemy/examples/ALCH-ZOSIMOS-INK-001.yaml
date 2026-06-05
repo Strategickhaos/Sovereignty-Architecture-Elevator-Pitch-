@@ -1,0 +1,111 @@
+# TRIG6 Alchemy Gene: Lampblack Ink (Zosimos)
+# Fully Worked Safe Example for Chapter 16: Lost Pharmacopeia
+# Source: Zosimos of Panopolis (c. 300 CE) - Reconstructed ink recipe
+
+meta:
+  id: "ALCH-ZOSIMOS-INK-001"
+  era: "Late antique Greek-Egyptian"
+  source_text: "Zosimos of Panopolis – ink recipe (reconstructed)"
+  classification: "historical_alchemy_model"
+  intent: "Model lampblack ink stability vs smudging"
+  hazard_level: "LOW"
+
+ingredients:
+  - name: "lampblack_pigment"
+    role: "pigment"
+    hazard_class: "inert"
+    amount_unit: "parts"
+    amount_range: [0.3, 0.7]
+    notes: "Carbon soot from oil lamp"
+
+  - name: "gum_binder"
+    role: "binder"
+    hazard_class: "inert"
+    amount_unit: "parts"
+    amount_range: [0.2, 0.6]
+    notes: "Gum arabic or similar plant resin"
+
+  - name: "water_medium"
+    role: "solvent"
+    hazard_class: "inert"
+    amount_unit: "parts"
+    amount_range: [0.5, 1.0]
+    notes: "Clean water"
+
+process:
+  stages:
+    - id: "pigment_collection"
+      description: "Scrape lampblack from cooled lamp surfaces"
+      theta_range: [0.0, 0.2]
+      control_axes: ["time_norm", "particle_size_norm"]
+
+    - id: "mix_and_grind"
+      description: "Grind pigment with gum and water to smooth paste"
+      theta_range: [0.2, 0.6]
+      control_axes: ["grind_time_norm", "water_ratio_norm"]
+
+    - id: "test_and_adjust"
+      description: "Test writing line; adjust water/binder"
+      theta_range: [0.6, 1.0]
+      control_axes: ["viscosity_norm", "dry_time_norm"]
+
+trig6_hooks:
+  theta_fn: |
+    # s ∈ [0,1] denotes progression through the three stages
+    theta = 2 * PI * s   # so mid-process ~ π, early ~0, end ~2π
+
+  resonance_fn: |
+    # R ≈ legibility × adhesion × contrast
+    R = clamp(0.5 * legibility_score
+              + 0.3 * adhesion_score
+              + 0.2 * contrast_score, 0, 1)
+
+  drift_fn: |
+    # D ≈ smudging + sedimentation
+    D = clamp(0.6 * smudge_score + 0.4 * sedimentation_score, 0, 1)
+
+  noise_fn: |
+    # N ≈ variability between batches
+    N = clamp(batch_variability_score, 0, 1)
+
+danger_zones:
+  - id: "too_thin"
+    condition: "viscosity_norm < 0.2"
+    action: "mark_failure('watery_ink')"
+  - id: "too_thick"
+    condition: "viscosity_norm > 0.8"
+    action: "mark_failure('clogging_ink')"
+  - id: "theta_instability"
+    condition: "|tan(theta)| > 10"
+    action: "mark_unstable_regime"
+
+fitness:
+  weights:
+    intended_effect: 0.5
+    low_drift:       0.3
+    robustness:      0.2
+  function: |
+    f = R * (1 - D) * (1 - N) * eq;
+    return f;
+  threshold: 0.6
+
+evolution:
+  method: "Darwinian_gate"
+  mutation_targets:
+    - "ingredients[0].amount_range"  # pigment
+    - "ingredients[1].amount_range"  # binder
+    - "process.stages[1].control_axes"
+  selection: "f > champion → new champion"
+  generations: 30
+
+# Historical TRIG6 Signature (from original analysis)
+historical_signature:
+  theta_class: "π/4"
+  R: 0.7
+  D: 0.3
+  N: 0.4
+  danger: false
+
+# Visualization Notes:
+# You can plot pigment:binder ratio vs. R, with a little shaded 
+# "good ink basin" in θ-space. Perfect example for readers that's totally safe.

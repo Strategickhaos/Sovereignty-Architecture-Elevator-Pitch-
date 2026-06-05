@@ -1,0 +1,88 @@
+# TRIG6 ALCHEMY GENE TEMPLATE
+# Canonical template for encoding historical alchemy recipes
+# For use in Chapter 16: Lost Pharmacopeia
+# WARNING: This is for HISTORICAL MODELING ONLY - NOT operational chemistry
+
+meta:
+  id: "ALCH-[SOURCE]-[INDEX]"
+  era: "[Hermes/Zosimos/Jabir/Paracelsus/etc]"
+  source_text: "[Emerald Tablet / Zosimos fragments / Jabir corpus / Paracelsus writings]"
+  classification: "historical_alchemy_model"
+  intent: "TRIG6 modeling ONLY – not operational chemistry"
+  hazard_level: "[LOW | MEDIUM | HIGH | EXTREME]"
+
+ingredients:
+  - name: "[symbolic_or_generic_name]"
+    role: "[solvent | solute | catalyst | pigment | salt | acid | base | metal | toxicant]"
+    hazard_class: "[inert | irritant | corrosive | toxic | neurotoxic | carcinogenic]"
+    amount_unit: "[symbolic_units_only]"       # e.g. 'parts', 'drops', 'fractions'
+    amount_range: [min, max]                  # abstract, dimensionless (0–1)
+    notes: "[e.g. 'vinegar-like solvent', 'strong mineral acid', 'mercury-class metal']"
+
+process:
+  # We treat each operation as a stage along θ
+  stages:
+    - id: "prep"
+      description: "Grinding / dissolution / purification"
+      theta_range: [0.0, 0.3]                 # normalized 0–1 → mapped to 0–2π later
+      control_axes: ["time_norm", "temp_norm", "pH_norm"]
+    - id: "transformation"
+      description: "Heating / reacting / distilling"
+      theta_range: [0.3, 0.8]
+      control_axes: ["time_norm", "temp_norm", "reflux_intensity"]
+    - id: "completion"
+      description: "Cooling / crystallization / separation"
+      theta_range: [0.8, 1.0]
+      control_axes: ["time_norm", "cooling_rate_norm"]
+
+trig6_hooks:
+  theta_fn: |
+    # Map the normalized process state s ∈ [0,1] to θ ∈ [0, 2π]
+    theta = 2 * PI * s
+
+  resonance_fn: |
+    # R ≈ 'did the intended thing happen?'
+    # e.g. color_match, yield_match, or symbolic "transmutation_success"
+    R = clamp(effectiveness_score, 0, 1)
+
+  drift_fn: |
+    # D ≈ 'how much unwanted side-effect / byproduct?'
+    D = clamp(toxicity_score + impurity_score, 0, 1)
+
+  noise_fn: |
+    # N ≈ 'how uncertain was this observation?'
+    N = clamp(experimental_uncertainty + ingredient_variability, 0, 1)
+
+danger_zones:
+  - id: "theta_blowup"
+    condition: "|tan(theta)| > 10"
+    action: "mark_unstable_regime"
+  - id: "toxicity_high"
+    condition: "toxicity_score > 0.7"
+    action: "mark_catastrophic_toxicity"
+  - id: "corrosion_high"
+    condition: "corrosion_score > 0.7"
+    action: "mark_hardware_failure_risk"
+
+fitness:
+  weights:
+    intended_effect: 0.40
+    low_toxicity:    0.30
+    low_drift:       0.20
+    robustness:      0.10
+  function: |
+    f = R * (1 - D) * (1 - N) * eq;
+    return f;
+  threshold: 0.5  # here anything >0.5 is "interesting" historically, not "safe to use"
+
+evolution:
+  method: "Darwinian_gate"
+  mutation_targets:
+    - "ingredients[*].amount_range"
+    - "process.stages[*].control_axes"
+  selection: "f > champion → new champion"
+  generations: 50
+
+# SAFETY DISCLAIMER
+# All parameters are normalized and symbolic. This classification is for 
+# historical and mathematical modeling only, not for lab use or replication.
