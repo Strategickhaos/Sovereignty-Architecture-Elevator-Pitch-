@@ -9,8 +9,11 @@ import {
 } from "discord.js";
 import { loadConfig, getChannelId } from "./config.js";
 import { RefinoryClient } from "./refinory/client.js";
+import { FeedbackStore } from "./feedback/store.js";
+import { createFeedbackButtons, parseFeedbackButton, shouldPromptFeedback } from "./feedback/prompts.js";
 
 const config = loadConfig();
+const feedbackStore = new FeedbackStore();
 const token = process.env.DISCORD_TOKEN;
 const guildId = config.discord.guild_id;
 const appId = config.discord.bot.app_id;
@@ -54,6 +57,8 @@ const commandsFromCfg = (config.commands?.list || []).map((cmd) => {
       builder.addIntegerOption((o) => {
         o.setName(p.name).setDescription(`${p.name} parameter`);
         if (p.required) o.setRequired(true);
+        if (p.min_value !== undefined) o.setMinValue(p.min_value);
+        if (p.max_value !== undefined) o.setMaxValue(p.max_value);
         return o;
       });
     }
@@ -78,6 +83,55 @@ client.once("ready", () => {
 });
 
 client.on("interactionCreate", async (interaction) => {
+  // Handle button interactions for feedback
+  if (interaction.isButton()) {
+    const feedbackData = parseFeedbackButton(interaction.customId);
+    
+    // parseFeedbackButton returns null for invalid data, so we can safely skip
+    if (!feedbackData) return;
+    
+    try {
+      await interaction.deferReply({ ephemeral: true });
+      
+      // feedbackStore.submit will validate the data and throw if invalid
+      const feedbackId = feedbackStore.submit({
+        userId: interaction.user.id,
+        username: interaction.user.tag,
+        command: feedbackData.command,
+        rating: feedbackData.rating,
+        comment: "",
+        metadata: {
+          guildId: interaction.guildId,
+          channelId: interaction.channelId,
+          requestId: feedbackData.requestId,
+          feedbackType: 'button'
+        }
+      });
+      
+      const embed = new EmbedBuilder()
+        .setTitle("💬 Thank You!")
+        .setDescription(`Your ${feedbackData.rating}-star rating has been recorded.`)
+        .addFields([
+          { name: "Command", value: feedbackData.command, inline: true },
+          { name: "Rating", value: `${"⭐".repeat(feedbackData.rating)}`, inline: true }
+        ])
+        .setColor(0x00ff00)
+        .setTimestamp();
+      
+      await interaction.editReply({ embeds: [embed] });
+    } catch (error) {
+      console.error('Error handling feedback button:', error);
+      if (interaction.deferred) {
+        await interaction.editReply({ 
+          content: "❌ Failed to submit feedback. Please try again.",
+          ephemeral: true 
+        });
+      }
+    }
+    return;
+  }
+
+  // Handle slash commands
   if (!interaction.isChatInputCommand()) return;
 
   const name = interaction.commandName;
@@ -142,7 +196,15 @@ client.on("interactionCreate", async (interaction) => {
           ])
           .setTimestamp();
         
-        await interaction.editReply({ embeds: [embed] });
+        // Add feedback prompt if enabled
+        const components = shouldPromptFeedback("deploy", config) 
+          ? [createFeedbackButtons("deploy")] 
+          : [];
+        
+        await interaction.editReply({ 
+          embeds: [embed],
+          components 
+        });
         
         // Notify deployment channel
         const deployChannel = getChannelId(config.refinory?.discord?.announce_channel || "#deployments");
@@ -212,7 +274,15 @@ client.on("interactionCreate", async (interaction) => {
           .setColor(0x9932cc)
           .setTimestamp();
         
-        await interaction.editReply({ embeds: [embed] });
+        // Add feedback prompt if enabled
+        const components = shouldPromptFeedback("request", config) 
+          ? [createFeedbackButtons("request", requestId)] 
+          : [];
+        
+        await interaction.editReply({ 
+          embeds: [embed],
+          components 
+        });
         
         // Notify agents channel
         const agentsChannel = getChannelId("#agents");
@@ -255,6 +325,126 @@ client.on("interactionCreate", async (interaction) => {
           embed.addFields([
             { name: "Artifacts", value: status.artifacts.slice(0, 5).join("\n") }
           ]);
+        }
+        
+        await interaction.editReply({ embeds: [embed] });
+        break;
+      }
+
+      case "feedback": {
+        const command = interaction.options.getString("command");
+        const rating = interaction.options.getInteger("rating");
+        const comment = interaction.options.getString("comment") || "";
+        
+        const feedbackId = feedbackStore.submit({
+          userId: interaction.user.id,
+          username: interaction.user.tag,
+          command,
+          rating,
+          comment,
+          metadata: {
+            guildId: interaction.guildId,
+            channelId: interaction.channelId
+          }
+        });
+        
+        const embed = new EmbedBuilder()
+          .setTitle("💬 Feedback Submitted")
+          .setDescription("Thank you for your feedback! We appreciate your input.")
+          .addFields([
+            { name: "Feedback ID", value: feedbackId, inline: true },
+            { name: "Command", value: command, inline: true },
+            { name: "Rating", value: `${"⭐".repeat(rating)}`, inline: true },
+          ])
+          .setColor(0x00ff00)
+          .setTimestamp();
+        
+        if (comment) {
+          embed.addFields([
+            { name: "Comment", value: comment.substring(0, 1000) }
+          ]);
+        }
+        
+        await interaction.editReply({ embeds: [embed] });
+        break;
+      }
+
+      case "feedback-stats": {
+        const stats = feedbackStore.getStats();
+        
+        const embed = new EmbedBuilder()
+          .setTitle("📊 Feedback Statistics")
+          .setDescription(`Analysis of user feedback across all commands`)
+          .addFields([
+            { name: "Total Feedback", value: stats.totalCount.toString(), inline: true },
+            { name: "Average Rating", value: `${stats.averageRating} ⭐`, inline: true },
+            { name: "Recent (7 days)", value: stats.recentCount.toString(), inline: true }
+          ])
+          .setColor(0x0099ff)
+          .setTimestamp();
+        
+        // Rating distribution
+        const ratingDist = Object.entries(stats.ratingDistribution)
+          .map(([rating, count]) => `${"⭐".repeat(Number(rating))}: ${count}`)
+          .join("\n");
+        
+        if (ratingDist) {
+          embed.addFields([
+            { name: "Rating Distribution", value: ratingDist, inline: true }
+          ]);
+        }
+        
+        // Command statistics
+        const commandStatsStr = Object.entries(stats.commandStats)
+          .slice(0, 5)
+          .map(([cmd, data]) => `\`${cmd}\`: ${data.averageRating}⭐ (${data.count} reviews)`)
+          .join("\n");
+        
+        if (commandStatsStr) {
+          embed.addFields([
+            { name: "Top Commands", value: commandStatsStr, inline: false }
+          ]);
+        }
+        
+        await interaction.editReply({ embeds: [embed] });
+        break;
+      }
+
+      case "feedback-list": {
+        const command = interaction.options.getString("command");
+        const rating = interaction.options.getInteger("rating");
+        
+        const filters = {};
+        if (command) filters.command = command;
+        if (rating) filters.rating = rating;
+        
+        const feedbackList = feedbackStore.list(filters);
+        
+        if (feedbackList.length === 0) {
+          await interaction.editReply("No feedback found matching your criteria.");
+          break;
+        }
+        
+        const embed = new EmbedBuilder()
+          .setTitle("📝 Feedback List")
+          .setDescription(`Found ${feedbackList.length} feedback entries`)
+          .setColor(0x9932cc)
+          .setTimestamp();
+        
+        // Show first 10 feedback entries
+        feedbackList.slice(0, 10).forEach((fb, index) => {
+          const timestamp = new Date(fb.timestamp).toLocaleDateString();
+          const commentPreview = fb.comment ? fb.comment.substring(0, 100) : "No comment";
+          
+          embed.addFields([{
+            name: `${index + 1}. ${fb.command} by ${fb.username}`,
+            value: `${"⭐".repeat(fb.rating)} | ${timestamp}\n${commentPreview}`,
+            inline: false
+          }]);
+        });
+        
+        if (feedbackList.length > 10) {
+          embed.setFooter({ text: `Showing 10 of ${feedbackList.length} entries` });
         }
         
         await interaction.editReply({ embeds: [embed] });

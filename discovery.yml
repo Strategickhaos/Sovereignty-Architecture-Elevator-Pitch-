@@ -223,6 +223,34 @@ commands:
         - name: "request_id"
           type: "string"
           required: true
+    - name: "feedback"
+      description: "Submit feedback for a command"
+      params:
+        - name: "command"
+          type: "string"
+          required: true
+        - name: "rating"
+          type: "int"
+          required: true
+          min_value: 1
+          max_value: 5
+        - name: "comment"
+          type: "string"
+          required: false
+    - name: "feedback-stats"
+      description: "View feedback statistics"
+      params: []
+    - name: "feedback-list"
+      description: "List feedback entries"
+      params:
+        - name: "command"
+          type: "string"
+          required: false
+        - name: "rating"
+          type: "int"
+          required: false
+          min_value: 1
+          max_value: 5
 
 security:
   secrets_manager: "vault"  # vault|aws_ssm|gcp_sm|azure_kv
@@ -248,6 +276,19 @@ testing:
   sandbox_guild_id: null
   dry_run: true
   notify_channel: "#agents"
+
+# User Feedback Configuration
+feedback:
+  enabled: true
+  storage_path: "./data/feedback.json"
+  prompt_commands:
+    - "deploy"
+    - "request"
+    - "scale"
+    - "refinory-status"
+  notify_admin_on_low_rating: true
+  low_rating_threshold: 2
+  admin_notification_channel: "#alerts"
 
 limits:
   discord_api:
