@@ -1,0 +1,217 @@
+# flamelang-stress-test/draw_half_arrow.flame.yaml
+# FlameLang v2.0.0 Stress Test Module - Nested Loop Pattern Recognition
+# Origin: IT-145 Lab 3.35 (zyBooks)
+# Classification: CONVERGENT (known pattern, sovereign execution)
+# Pipeline: English → Hebrew → Unicode → Wave → DNA → LLVM
+
+meta:
+  id: "STRESS-001-NESTED-LOOPS"
+  name: "DrawHalfArrow Pattern Validator"
+  version: "1.0.0"
+  origin: "IT-145 Lab 3.35 zyBooks"
+  author: "Dom (Me10101) - Strategickhaos DAO LLC"
+  classification: "CONVERGENT"
+  pipeline_layers:
+    - english
+    - hebrew
+    - unicode
+    - wave
+    - dna
+    - llvm
+  created: "2026-01-24T20:58:00-06:00"
+  trig_layer: "TRIG6-HYBRID1-NEURO1"
+
+# ═══════════════════════════════════════════════════════════
+# INTENT TRANSFORMATION LAYERS
+# ═══════════════════════════════════════════════════════════
+
+intent:
+  english: "Draw downward-facing half arrow from rectangle and right triangle using nested loops with input validation"
+  hebrew: "צייר חץ למטה מלבן ומשולש ימני באמצעות לולאות מקוננות עם אימות קלט"
+  symbolic: "□(h×w) + ▽(head) → ↓ | validate(head > w)"
+
+# Decomposed operations
+operations:
+  - id: "OP1"
+    name: "input_acquisition"
+    desc: "Read height, width, head_width from scanner"
+    
+  - id: "OP2"
+    name: "validation_gate"
+    desc: "Reject head_width until > base_width"
+    loop_type: "while"
+    condition: "head_width <= base_width"
+    
+  - id: "OP3"
+    name: "rect_render"
+    desc: "Nested loop: outer=height, inner=width"
+    loop_type: "nested_for"
+    outer_bound: "height"
+    inner_bound: "width"
+    output: "*"
+    
+  - id: "OP4"
+    name: "tri_render"
+    desc: "Decreasing triangle from head_width to 1"
+    loop_type: "nested_for"
+    outer_bound: "head_width"
+    outer_direction: "decrement"
+    inner_bound: "i"
+    output: "*"
+
+# ═══════════════════════════════════════════════════════════
+# COMPILATION WEIGHTS
+# ═══════════════════════════════════════════════════════════
+
+weights:
+  loop_nesting_depth: 2
+  input_validation: 0.4
+  pattern_recognition: 0.3
+  io_synchronization: 0.3
+  cyclomatic_complexity: 4
+  halstead_volume: 127.3
+  maintainability_index: 72
+
+compile_targets:
+  - llvm_ir
+  - wasm
+  - native_x86
+  - jvm_bytecode
+
+# ═══════════════════════════════════════════════════════════
+# TEST VECTORS (zyBooks verified)
+# ═══════════════════════════════════════════════════════════
+
+test_vectors:
+  - id: "zybooks_step1"
+    desc: "Basic rectangle only"
+    input: [6, 4]
+    expected_rows: 6
+    validation_rejects: 0
+    partial: true
+
+  - id: "zybooks_step2"
+    desc: "Rectangle + triangle"
+    input: [4, 3, 4]
+    expected_rows: 8
+    validation_rejects: 0
+
+  - id: "zybooks_step3_validation"
+    desc: "Multiple rejected inputs before valid"
+    input: [4, 3, 3, 2, 4]
+    expected_rows: 8
+    validation_rejects: 2
+
+  - id: "stress_validation_heavy"
+    desc: "Heavy validation rejection"
+    input: [4, 3, 3, 2, 1, 0, -1, 4]
+    expected_rows: 8
+    validation_rejects: 5
+
+  - id: "minimal"
+    desc: "Minimum viable arrow"
+    input: [1, 1, 2]
+    expected_rows: 3
+    validation_rejects: 0
+
+  - id: "large_scale"
+    desc: "Performance stress"
+    input: [100, 50, 51]
+    expected_rows: 151
+    validation_rejects: 0
+
+  - id: "wide_triangle"
+    desc: "Wide arrow head"
+    input: [2, 2, 10]
+    expected_rows: 12
+    validation_rejects: 0
+
+# ═══════════════════════════════════════════════════════════
+# DNA ENCODING (Sovereign Biological Mapping)
+# ═══════════════════════════════════════════════════════════
+
+dna_encoding:
+  # Codon sequence represents program flow
+  sequence: "ATG-CGT-TAA-GCA-TCG"
+  
+  codon_map:
+    ATG: "init_scanner"       # Start codon - initialize input
+    CGT: "nested_rect_loop"   # Rectangle rendering
+    TAA: "validation_gate"    # Input validation (stop if invalid)
+    GCA: "nested_tri_loop"    # Triangle rendering
+    TCG: "terminate"          # Clean exit
+  
+  # Mutation rules for evolution
+  mutations:
+    - from: "CGT"
+      to: "CGA"
+      effect: "switch to single-loop rect (less efficient)"
+    - from: "TAA"
+      to: "TAG"
+      effect: "remove validation (unsafe)"
+
+# ═══════════════════════════════════════════════════════════
+# WAVE TRANSFORM (Harmonic Encoding)
+# ═══════════════════════════════════════════════════════════
+
+wave_transform:
+  base_frequency: 440  # A4
+  harmonics:
+    rect_loop: 2       # 880 Hz - octave up
+    tri_loop: 3        # 1320 Hz - perfect fifth
+    validation: 0.5    # 220 Hz - pulse check
+  
+  # Phase relationships
+  phase:
+    rect_to_tri: 90    # degrees offset
+    validation_sync: 0 # in-phase with input
+
+# ═══════════════════════════════════════════════════════════
+# LEGION COUNCIL CONFIGURATION
+# ═══════════════════════════════════════════════════════════
+
+legion_council:
+  ratification_required: 3
+  consensus_threshold: 0.67
+  
+  validators:
+    - claude_opus
+    - gemini_pro
+    - local_qwen
+  
+  validation_criteria:
+    - "test_vector_coverage >= 0.8"
+    - "dna_semantic_alignment == true"
+    - "pipeline_layer_order == canonical"
+    - "cyclomatic_complexity <= 10"
+  
+  escalation:
+    on_reject: "flag_for_human_review"
+    on_timeout: "retry_with_fallback"
+
+# ═══════════════════════════════════════════════════════════
+# METRICS & OBSERVABILITY
+# ═══════════════════════════════════════════════════════════
+
+metrics:
+  emit_to:
+    - qdrant
+    - redis
+    - logs/trig_layer.jsonl
+  
+  tracked:
+    - execution_time_ms
+    - memory_peak_kb
+    - loop_iterations
+    - validation_attempts
+    - output_line_count
+
+# ═══════════════════════════════════════════════════════════
+# EXPORT CONFIGURATION
+# ═══════════════════════════════════════════════════════════
+
+export:
+  gist: true
+  absolute_path: "/home/dom/strategickhaos/flamelang/stress-tests/draw_half_arrow.flame.yaml"
+  github_actions: true
+  obsidian_vault: "FlameLang"
