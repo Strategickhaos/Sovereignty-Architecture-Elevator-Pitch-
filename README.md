@@ -272,6 +272,23 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🧬 Codex Binding Pipeline
+
+The **Codex Seraphinianus → TRIG6 → FlameLang Binding Pipeline** is a research initiative that extracts symbolic glyphs from the Codex Seraphinianus and maps them to FlameLang codon IR using TRIG6 fitness geometry.
+
+- **Pipeline Spec**: [`codex_binding_pipeline.yaml`](codex_binding_pipeline.yaml)
+- **Documentation**: [Codex Binding Pipeline Guide](docs/CODEX_BINDING_PIPELINE.md)
+- **Tech Stack**: TRIG6 geometry, evolutionary algorithms, sandboxed execution
+- **Governance**: DAO-governed research, ethical constraints enforced
+
+Key features:
+- 11-stage pipeline from PDF ingestion to compiler integration
+- TRIG6-based fitness evaluation (Resonance, Drift, Noise, Equivalence)
+- Darwinian evolution for optimal symbol→codon mappings
+- Extensible architecture for other undeciphered scripts (Voynich, etc.)
+
+See the [full documentation](docs/CODEX_BINDING_PIPELINE.md) for usage instructions and technical specifications.
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
