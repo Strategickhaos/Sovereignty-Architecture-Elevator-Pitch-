@@ -1,0 +1,12 @@
+[package]
+name = "sagco-netcalc"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+async-trait = { workspace = true }
+sagco-pipecalc-vi = { path = "../sagco-pipecalc-vi" }
