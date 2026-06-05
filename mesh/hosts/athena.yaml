@@ -1,0 +1,9 @@
+name: ATHENA
+role: subconscious
+ip: 192.168.2.26
+os: "Windows 11 Pro"
+cpu: "i7-9700F"
+ram_gb: 64
+gpu: "RTX"
+tags: ["mesh", "primary", "gpu"]
+description: "Primary subconscious processing node with GPU acceleration"

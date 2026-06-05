@@ -1,0 +1,74 @@
+# SAGCO OS Unified Specification v1.0
+# DNA-driven kernel architecture with Guardian-backed safety
+
+metadata:
+  version: "1.0.0"
+  created: "2026-01-25"
+  author: "StrategicKhaos"
+  description: "SAGCO OS unified specification with DNA strand evolution"
+
+# DNA Strand: Compiler and architecture genotype
+# Format: [Compiler]-[CMD]-[MESH]-[ORB]
+DNA Strand: FLM2.1-CMD4-MESH5-ORB1
+
+# DNA Components breakdown
+dna_components:
+  compiler:
+    id: "FLM2"
+    name: "FlameLang Compiler v2"
+    description: "Primary compilation layer with uncertainty tracking"
+    stability_threshold: 0.95
+    
+  command_layer:
+    id: "CMD4"
+    count: 4
+    description: "Core command set (sagco-dna, sagco-mesh, sagco-oracle, sagco-status)"
+    
+  mesh_layer:
+    id: "MESH5"
+    node_count: 5
+    description: "5-node distributed mesh (ATHENA, LYRA, NOVA, ATEROTH, SAGCO-VM)"
+    
+  orbit_layer:
+    id: "ORB1"
+    level: 1
+    description: "Primary orbital security layer with Guardian integration"
+
+# Mutation thresholds
+mutation_rules:
+  flm_upgrade:
+    trigger: "p_success >= 0.95 for N consecutive builds"
+    action: "FLM2 → FLM2.1"
+    validation: "entropy < 0.3"
+    
+  cmd_expansion:
+    trigger: "All CMD tests pass, new command verified"
+    action: "CMD4 → CMD5"
+    
+  mesh_scale:
+    trigger: "New node verified and integrated"
+    action: "MESH5 → MESH6"
+    
+  orbit_elevation:
+    trigger: "ORB1 security metrics exceed baseline + 2σ"
+    action: "ORB1 → ORB2"
+
+# Guardian integration
+guardian:
+  uncertainty_export_path: "E:\\FlameBench\\guardian-uncertainty.json"
+  benchmark_results_path: "E:\\FlameBench\\flamebench-results.json"
+  unix_uncertainty_path: "/opt/flamebench/guardian-uncertainty.json"
+  unix_benchmark_path: "/opt/flamebench/flamebench-results.json"
+  
+# Hypervisor architecture
+hypervisor:
+  name: "HYDRA"
+  type: "Type-1"
+  vmx_enabled: true
+  neural_tick_hz: 100
+  
+# Mesh topology
+mesh:
+  hosts_dir: "mesh/hosts"
+  discovery_ports: [22, 3389]
+  health_check_interval: 60
