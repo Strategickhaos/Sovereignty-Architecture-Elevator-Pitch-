@@ -1,0 +1,120 @@
+// 🔥 FLAMELANG PIPEFITTING DEMO
+// Example usage of the pipecalc module
+// Demonstrates the calculations from the handwritten flowcharts
+
+use pipecalc;
+
+fn main() {
+    print("═══════════════════════════════════════════════════════════════");
+    print("🔥 FLAMELANG PIPECALC MODULE DEMO");
+    print("INV-088: SAGCO OMNI-CALC PIPELINE - Pipefitting Extension");
+    print("═══════════════════════════════════════════════════════════════");
+    print("");
+    
+    // ───────────────────────────────────────────────────────────────
+    // SPECIAL OFFSET CALCULATIONS (From Drawing #1, Page 77)
+    // ───────────────────────────────────────────────────────────────
+    
+    print("📐 SPECIAL OFFSET CALCULATIONS");
+    print("───────────────────────────────────────────────────────────────");
+    
+    // Example 1: 45° rise, 30° turn
+    let offset1 = pipecalc::special_offset(45.0, 30.0);
+    print("Example 1: 45° rise × 30° turn");
+    print("  cos(45°) × cos(30°) = 0.707 × 0.866 = 0.6123");
+    print(f"  Bottom elbow: {offset1.bottom_elbow:.2f}° (Expected: 52°14')");
+    print(f"  Top elbow: {offset1.top_elbow:.2f}°");
+    print(f"  Travel: {offset1.travel:.3f}");
+    print("");
+    
+    // Example 2: 45° rise, 60° turn (from Page 77)
+    let offset2 = pipecalc::special_offset(45.0, 60.0);
+    print("Example 2: 45° rise × 60° turn");
+    print("  cos(45°) × cos(60°) = 0.707 × 0.500 = 0.3535");
+    print(f"  Bottom elbow: {offset2.bottom_elbow:.2f}° (Expected: 69°18')");
+    print(f"  Top elbow: {offset2.top_elbow:.2f}°");
+    print(f"  Travel: {offset2.travel:.3f}");
+    print("");
+    
+    // ───────────────────────────────────────────────────────────────
+    // ROLLING OFFSET CALCULATIONS (Pages 11-12)
+    // ───────────────────────────────────────────────────────────────
+    
+    print("📐 ROLLING OFFSET CALCULATIONS");
+    print("───────────────────────────────────────────────────────────────");
+    
+    // Example 3: SET = 12", 45° angle
+    let roll1 = pipecalc::rolling_offset(12.0, 45.0);
+    print("Example 3: SET = 12\", Angle = 45°");
+    print("  TRAVEL = SET × 1.414");
+    print(f"  Travel: {roll1.travel:.3f}\" (Expected: ~16.968\")");
+    print(f"  Run: {roll1.run:.3f}\"");
+    print("");
+    
+    // Example 4: SET = 12", 30° angle
+    let roll2 = pipecalc::rolling_offset(12.0, 30.0);
+    print("Example 4: SET = 12\", Angle = 30°");
+    print("  TRAVEL = SET × 2.000");
+    print(f"  Travel: {roll2.travel:.3f}\" (Expected: ~24.000\")");
+    print(f"  Run: {roll2.run:.3f}\"");
+    print("");
+    
+    // ───────────────────────────────────────────────────────────────
+    // BEND LENGTH CALCULATIONS
+    // ───────────────────────────────────────────────────────────────
+    
+    print("📐 BEND LENGTH CALCULATIONS");
+    print("───────────────────────────────────────────────────────────────");
+    
+    let radius = 6.0;  // 6" radius
+    
+    // Define standard bend multipliers as constants
+    let MULT_90 = 1.5708;   // π/2
+    let MULT_180 = 3.1416;  // π
+    let MULT_270 = 4.7123;  // 3π/2
+    let MULT_360 = 6.2832;  // 2π
+    
+    let bend_90 = pipecalc::bend_length(radius, 90.0);
+    print(f"90° Bend (radius {radius}\"): {bend_90:.4}\" (Expected: {radius * MULT_90:.4}\")");
+    
+    let bend_180 = pipecalc::bend_length(radius, 180.0);
+    print(f"180° Bend (radius {radius}\"): {bend_180:.4}\" (Expected: {radius * MULT_180:.4}\")");
+    
+    let bend_270 = pipecalc::bend_length(radius, 270.0);
+    print(f"270° Bend (radius {radius}\"): {bend_270:.4}\" (Expected: {radius * MULT_270:.4}\")");
+    
+    let bend_360 = pipecalc::bend_length(radius, 360.0);
+    print(f"360° Bend (radius {radius}\"): {bend_360:.4}\" (Expected: {radius * MULT_360:.4}\")");
+    print("");
+    
+    // ───────────────────────────────────────────────────────────────
+    // SETBACK CALCULATIONS
+    // ───────────────────────────────────────────────────────────────
+    
+    print("📐 SETBACK CALCULATIONS");
+    print("───────────────────────────────────────────────────────────────");
+    
+    let setback_6 = pipecalc::setback_45(6.0);
+    print(f"45° Bend, 6\" radius: Setback = {setback_6:.4}\"");
+    
+    let setback_8 = pipecalc::setback(8.0, 90.0);
+    print(f"90° Bend, 8\" radius: Setback = {setback_8:.4}\"");
+    print("");
+    
+    // ───────────────────────────────────────────────────────────────
+    // COMBUSTION CHEMISTRY (Bonus)
+    // ───────────────────────────────────────────────────────────────
+    
+    print("🔥 METHANE COMBUSTION");
+    print("───────────────────────────────────────────────────────────────");
+    
+    let combustion = pipecalc::methane_combustion();
+    print(f"{combustion.fuel} + {combustion.oxygen_moles}O₂ → {combustion.co2_moles}CO₂ + {combustion.water_moles}H₂O");
+    print(f"Energy Released: {combustion.energy_kj} kJ/mol");
+    print("");
+    
+    print("═══════════════════════════════════════════════════════════════");
+    print("✅ Neural Sync Complete. Resonance Achieved.");
+    print("🔥 SAGCO-HYDRA Pipefitting Module Operational");
+    print("═══════════════════════════════════════════════════════════════");
+}
