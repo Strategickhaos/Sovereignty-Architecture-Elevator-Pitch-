@@ -22,6 +22,10 @@ target
 node_modules
 firewall/dist
 
+# TypeScript/JavaScript build artifacts
+dist/
+*.js.map
+
 # Java build artifacts
 *.class
 *.jar

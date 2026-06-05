@@ -1,0 +1,18 @@
+{
+  "fusion_mappings": {
+    "TCP_SYN_ACK_handshake": "trig_wave_tcp_handshake",
+    "HTTP_request_dissect": "wave_packet_dissect",
+    "packet_crafting": "sovereign_packet_craft",
+    "browser_automation": "pure_browser_automation",
+    "DOM_interaction": "sovereign_dom_access",
+    "IR_generation": "trinary_ir_compile",
+    "optimization_passes": "quantum_optimize"
+  },
+  "dependency_replacements": {
+    "libpcap": "trig_wave_tcp_sim",
+    "POSIX": "sovereign_syscall_layer",
+    "webdriver": "pure_browser_proxy",
+    "chromium": "sovereign_rendering_engine",
+    "gcc": "trinary_compiler"
+  }
+}

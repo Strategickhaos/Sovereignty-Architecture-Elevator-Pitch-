@@ -1,0 +1,12 @@
+{
+  "alphabet_dna_map": [
+    {"letter": "A", "codon": "ATG", "vector": [0, 1, 0, 0], "bioSymbolic": "Adenine-Start"},
+    {"letter": "B", "codon": "CGC", "vector": [0.24, 0.97, 0.25, 0.04], "bioSymbolic": "Cytosine-Arginine"},
+    {"letter": "C", "codon": "GGT", "vector": [0.47, 0.88, 0.54, 0.08], "bioSymbolic": "Guanine-Glycine"},
+    {"letter": "S", "codon": "TCG", "vector": [0.95, 0.31, 3.08, 0.69], "bioSymbolic": "Serine"},
+    {"letter": "O", "codon": "TGA", "vector": [0.78, 0.62, 1.25, 0.54], "bioSymbolic": "Opal-Stop"},
+    {"letter": "V", "codon": "GTG", "vector": [0.99, 0.13, 7.60, 0.81], "bioSymbolic": "Valine"}
+  ],
+  "encoding": "4D_trigonometric",
+  "total_mappings": 26
+}

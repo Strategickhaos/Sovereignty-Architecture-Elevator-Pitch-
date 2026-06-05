@@ -1,0 +1,39 @@
+{
+  "sovereign_dom_mappings": {
+    "tcp_handshake": {
+      "frequency": 20000,
+      "waveform": "whale_orca_hybrid",
+      "phases": ["SYN", "SYN_ACK", "ACK"],
+      "resonance": "infrasonic_pulse"
+    },
+    "http_request": {
+      "frequency": 20000,
+      "waveform": "vectorized_packet",
+      "protocol": "wave_based_http",
+      "purged_headers": true
+    },
+    "packet_craft": {
+      "frequency": 30000,
+      "binary": "trinary",
+      "states": ["sin(0)", "cos(1)", "tan(φ)"],
+      "superposition": true
+    },
+    "browser_automation": {
+      "frequency": 100000,
+      "mechanism": "membrane_phasing",
+      "bat_echolocation": true,
+      "resonant_entry": true
+    },
+    "dom_access": {
+      "frequency": 100000,
+      "phasing": "cellular_resonance",
+      "entry_mechanism": "wave_penetration"
+    },
+    "ir_compile": {
+      "frequency": 30000,
+      "output": "trinary_ir",
+      "wave_states": true,
+      "optimization": "quantum_entanglement"
+    }
+  }
+}

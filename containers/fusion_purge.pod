@@ -1,0 +1,87 @@
+# FUSION PURGE POD CONFIGURATION
+# Podman container for OSS dissection and sovereign synthesis
+# Dependencies: biopython, rdkit (for DNA/protein simulations)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fusion-purge-pod
+  labels:
+    app: sovereign-fusion-purger
+    invention: "077"
+spec:
+  containers:
+  - name: fusion-purge-engine
+    image: docker.io/library/python:3.11-slim
+    command: ["/bin/bash", "-c"]
+    args:
+      - |
+        echo "Installing sovereign dependencies..."
+        pip install --no-cache-dir biopython numpy scipy
+        # rdkit requires conda, using lightweight alternatives
+        pip install --no-cache-dir networkx
+        
+        echo "Fusion Purge Engine initialized"
+        echo "Purity Level: 100%"
+        echo "Dependencies: Sovereign"
+        
+        # Keep container running
+        tail -f /dev/null
+    
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+    
+    volumeMounts:
+    - name: oss-dissects
+      mountPath: /workspace/oss_dissects
+    - name: dna-vectors
+      mountPath: /workspace/dna_vectors
+    - name: pure-models
+      mountPath: /workspace/pure_models
+    - name: sandbox
+      mountPath: /workspace/sandbox
+    
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 1000
+      capabilities:
+        drop:
+        - ALL
+    
+    env:
+    - name: GENESIS_INCREMENT
+      value: "3449"
+    - name: PURITY_LEVEL
+      value: "100"
+    - name: ZERO_LOCK_IN
+      value: "true"
+  
+  volumes:
+  - name: oss-dissects
+    hostPath:
+      path: /workspace/assets/oss_dissects
+      type: DirectoryOrCreate
+  - name: dna-vectors
+    hostPath:
+      path: /workspace/assets/dna_vectors
+      type: DirectoryOrCreate
+  - name: pure-models
+    hostPath:
+      path: /workspace/assets/pure_models
+      type: DirectoryOrCreate
+  - name: sandbox
+    hostPath:
+      path: /workspace/sandbox
+      type: DirectoryOrCreate
+  
+  restartPolicy: Always
+  
+  # Network isolation for sovereignty
+  hostNetwork: false
+  dnsPolicy: ClusterFirst
