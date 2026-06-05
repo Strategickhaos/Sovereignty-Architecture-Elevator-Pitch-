@@ -36,3 +36,7 @@ target/
 
 # Workspace data
 workspace/
+
+# Web app build artifacts
+web/dist/
+web/node_modules/
