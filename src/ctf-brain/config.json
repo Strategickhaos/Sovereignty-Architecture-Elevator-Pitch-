@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "name": "StrategicKhaos CTF Brain",
+    "version": "1.0.0",
+    "author": "Dom (Me10101) - Strategickhaos DAO LLC",
+    "description": "Rubik's PLL Algorithm → Pentest Methodology Mapping",
+    "philosophy": "See state → Recognize pattern → Execute algorithm → Objective achieved"
+  },
+  "nodes": {
+    "01-Ua-Recon": {
+      "name": "Reconnaissance",
+      "pll_analog": "Ua Perm - M'2 U M U2 M' U M'2",
+      "tools": ["nmap", "masscan", "shodan", "whois", "dig", "theHarvester"],
+      "triggers": ["scan", "recon", "discover", "find hosts", "port scan", "network map"],
+      "description": "Initial target discovery and mapping",
+      "expected_output": ["IP addresses", "open ports", "service versions", "hostnames"]
+    },
+    "02-Ub-Enum": {
+      "name": "Enumeration",
+      "pll_analog": "Ub Perm - M'2 U' M U2 M' U' M'2",
+      "tools": ["gobuster", "ffuf", "enum4linux", "smbclient", "ldapsearch", "snmpwalk"],
+      "triggers": ["enum", "directory", "users", "shares", "ldap", "smb"],
+      "description": "Deep enumeration of discovered services",
+      "expected_output": ["directories", "usernames", "shares", "domain info"]
+    },
+    "03-H-WebApp": {
+      "name": "Web Application",
+      "pll_analog": "H Perm - M'2 U M'2 U2 M'2 U M'2",
+      "tools": ["burpsuite", "sqlmap", "nikto", "wpscan", "nuclei", "httpx"],
+      "triggers": ["web", "sql", "injection", "xss", "http", "api", "form"],
+      "description": "Web application vulnerability assessment",
+      "expected_output": ["vulnerabilities", "injection points", "auth bypasses"]
+    },
+    "04-Z-Exploit": {
+      "name": "Exploitation",
+      "pll_analog": "Z Perm - M' U M'2 U M'2 U M' U2 M'2",
+      "tools": ["metasploit", "nc", "searchsploit", "pwntools", "msfvenom"],
+      "triggers": ["exploit", "shell", "reverse", "payload", "foothold", "rce"],
+      "description": "Gaining initial access via exploitation",
+      "expected_output": ["shell access", "reverse connection", "command execution"]
+    },
+    "05-Aa-Creds": {
+      "name": "Credential Attacks",
+      "pll_analog": "Aa Perm - x' R2 D2 R U R' D2 R U' R",
+      "tools": ["hydra", "hashcat", "john", "crackmapexec", "responder", "mimikatz"],
+      "triggers": ["password", "crack", "brute", "hash", "credential", "ntlm"],
+      "description": "Password attacks and credential harvesting",
+      "expected_output": ["cracked passwords", "hashes", "tokens", "tickets"]
+    },
+    "06-Ab-PrivEsc": {
+      "name": "Privilege Escalation",
+      "pll_analog": "Ab Perm - x' R U' R D2 R' U R D2 R2",
+      "tools": ["linpeas", "winpeas", "pspy", "sudo -l", "suid3num", "powerup"],
+      "triggers": ["privesc", "root", "admin", "escalate", "sudo", "suid"],
+      "description": "Escalating privileges on compromised host",
+      "expected_output": ["root/admin access", "elevated shell", "system control"]
+    },
+    "07-E-Persist": {
+      "name": "Persistence",
+      "pll_analog": "E Perm - x' R U' R' D R U R' D' R U R' D R U' R' D'",
+      "tools": ["cron", "registry", "scheduled tasks", "ssh keys", "implants"],
+      "triggers": ["persist", "backdoor", "maintain", "cron", "startup"],
+      "description": "Maintaining access after initial compromise",
+      "expected_output": ["persistent access", "backdoor", "callback mechanism"]
+    },
+    "08-T-Exfil": {
+      "name": "Exfiltration",
+      "pll_analog": "T Perm - R U R' U' R' F R2 U' R' U' R U R' F'",
+      "tools": ["nc", "curl", "dns", "base64", "steghide", "scp"],
+      "triggers": ["exfil", "extract", "data", "transfer", "steal", "download"],
+      "description": "Extracting data from compromised systems",
+      "expected_output": ["extracted files", "dumped databases", "credentials"]
+    },
+    "09-F-Pivot": {
+      "name": "Pivoting",
+      "pll_analog": "F Perm - R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+      "tools": ["chisel", "ligolo", "sshuttle", "proxychains", "socat"],
+      "triggers": ["pivot", "tunnel", "lateral", "internal", "proxy"],
+      "description": "Moving laterally through the network",
+      "expected_output": ["internal access", "new subnets", "additional hosts"]
+    },
+    "10-V-Cleanup": {
+      "name": "Cleanup",
+      "pll_analog": "V Perm - R' U R' U' y R' F' R2 U' R' U R' F R F",
+      "tools": ["history -c", "shred", "wevtutil", "timestomp"],
+      "triggers": ["cleanup", "clear", "logs", "evidence", "tracks"],
+      "description": "Removing traces of compromise",
+      "expected_output": ["cleared logs", "removed artifacts", "stealth maintained"]
+    }
+  },
+  "edges": [
+    ["01-Ua-Recon", "02-Ub-Enum"],
+    ["01-Ua-Recon", "03-H-WebApp"],
+    ["02-Ub-Enum", "04-Z-Exploit"],
+    ["02-Ub-Enum", "05-Aa-Creds"],
+    ["03-H-WebApp", "04-Z-Exploit"],
+    ["03-H-WebApp", "05-Aa-Creds"],
+    ["04-Z-Exploit", "06-Ab-PrivEsc"],
+    ["04-Z-Exploit", "09-F-Pivot"],
+    ["05-Aa-Creds", "04-Z-Exploit"],
+    ["05-Aa-Creds", "09-F-Pivot"],
+    ["06-Ab-PrivEsc", "07-E-Persist"],
+    ["06-Ab-PrivEsc", "08-T-Exfil"],
+    ["07-E-Persist", "08-T-Exfil"],
+    ["07-E-Persist", "09-F-Pivot"],
+    ["09-F-Pivot", "01-Ua-Recon"],
+    ["08-T-Exfil", "10-V-Cleanup"],
+    ["10-V-Cleanup", "01-Ua-Recon"]
+  ],
+  "quadrant_weights": {
+    "tool_ready": 0.3,
+    "context_match": 0.3,
+    "success_rate": 0.25,
+    "efficiency": 0.15
+  }
+}

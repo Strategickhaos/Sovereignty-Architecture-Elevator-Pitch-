@@ -30,8 +30,19 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🧠 CTF Brain (`ctf-brain`)
+- **PLL Methodology Mapping**: Rubik's Cube PLL algorithms mapped to pentest phases
+- **Intelligent Workflow**: Pattern recognition for security assessment navigation
+- **CLI Interface**: Interactive command-line tool for methodology guidance
+- **Discord Integration**: Slash commands for team collaboration
+- **Tool Recommendations**: Context-aware tool suggestions for each phase
+- **Workflow Paths**: Find optimal paths through assessment methodology
+
+See [CTF_BRAIN_README.md](CTF_BRAIN_README.md) for detailed documentation.
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
+- **CTF Brain Commands**: `/ctf-query`, `/ctf-tool`, `/ctf-node`, `/ctf-next`, `/ctf-path`, `/ctf-list`, `/ctf-info`
 - **AI Agent Integration**: GPT-4 powered assistance
 - **RBAC**: Role-based access control for production operations
 - **Audit Logging**: All interactions logged to CloudWatch
@@ -220,6 +231,33 @@ git push origin main
 ```
 
 ## 🛠️ Development Workflow
+
+### CTF Brain Usage
+
+**CLI Interface:**
+```bash
+# Interactive mode
+npm run ctf-brain
+
+# Single commands
+npm run ctf-brain query web sql injection
+npm run ctf-brain tool nmap
+npm run ctf-brain node 01-Ua-Recon
+npm run ctf-brain path 01-Ua-Recon 08-T-Exfil
+```
+
+**Discord Commands:**
+```
+/ctf-query keywords: web application sql injection
+/ctf-tool toolname: metasploit
+/ctf-node node-id: 04-Z-Exploit
+/ctf-next node-id: 06-Ab-PrivEsc
+/ctf-path start: 01-Ua-Recon end: 10-V-Cleanup
+/ctf-list
+/ctf-info
+```
+
+**Philosophy:** "See state → Recognize pattern → Execute algorithm → Objective achieved"
 
 ### Local Development
 ```bash
