@@ -1,5 +1,9 @@
 # Strategickhaos Sovereignty Architecture - Discord DevOps Control Plane
 
+> **⚠️ IMPORTANT NOTE:**  
+> **Yes, this is a joke. No, it's not unserious.**  
+> This repository contains real, working code with a sense of humor. The theatrical documentation style is intentional. The implementations are genuine. Welcome to Strategic Khaos.
+
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
 ## 🏛️ Architecture Overview
