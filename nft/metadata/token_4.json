@@ -1,0 +1,64 @@
+{
+  "name": "Ratio Ex Nihilo #4 — SAGCO Boot Splash",
+  "description": "The actual boot splash used by SAGCO (Sovereign Autonomous General Compute OS). This NFT represents ownership of the visual identity that displays on every sovereign boot. When SAGCO achieves Ring 0 and asserts its legal identity at the deepest level of the operating system, this is the symbol that declares sovereignty. More than art—this is functional sovereign technology.",
+  "image": "ipfs://[CID]/token_4_sagco_boot_splash.png",
+  "external_url": "https://strategickhaos.ai/nft/4",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Usage",
+      "value": "Operating System Boot Splash"
+    },
+    {
+      "trait_type": "OS",
+      "value": "SAGCO LIVE v1.0.0"
+    },
+    {
+      "trait_type": "Status",
+      "value": "SOVEREIGN BOOT ACHIEVED"
+    },
+    {
+      "trait_type": "Function",
+      "value": "Legal identity assertion at Ring 0"
+    },
+    {
+      "trait_type": "Entity",
+      "value": "Strategickhaos DAO LLC"
+    },
+    {
+      "trait_type": "EIN",
+      "value": "39-2923503"
+    },
+    {
+      "trait_type": "Wyoming Filing",
+      "value": "2025-001708194"
+    },
+    {
+      "trait_type": "Primary Geometry",
+      "value": "Merkaba"
+    },
+    {
+      "trait_type": "Functional Asset",
+      "value": "Yes"
+    },
+    {
+      "trait_type": "Boot Splash Compatible",
+      "value": "Active"
+    },
+    {
+      "trait_type": "Origin",
+      "value": "Functional system asset"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Genesis"
+    },
+    {
+      "trait_type": "Token ID",
+      "value": "4"
+    }
+  ]
+}

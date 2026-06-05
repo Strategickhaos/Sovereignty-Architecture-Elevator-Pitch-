@@ -1,0 +1,56 @@
+{
+  "name": "Ratio Ex Nihilo #2 — Energy Sigil",
+  "description": "The Merkaba with lightning energy, representing the fusion of ancient wisdom and modern technology. Circuit board traces frame the sacred geometry. This piece captures the electric moment when timeless geometric principles meet digital consciousness. The blue plasma core radiates from the center of the Star Tetrahedron, symbolizing the energy of transformation.",
+  "image": "ipfs://[CID]/token_2_energy_sigil.png",
+  "external_url": "https://strategickhaos.ai/nft/2",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Style",
+      "value": "Energy/Lightning"
+    },
+    {
+      "trait_type": "Background",
+      "value": "Black marble"
+    },
+    {
+      "trait_type": "Frame",
+      "value": "Copper circuit traces"
+    },
+    {
+      "trait_type": "Primary Geometry",
+      "value": "Star Tetrahedron"
+    },
+    {
+      "trait_type": "Vertices",
+      "value": "6"
+    },
+    {
+      "trait_type": "Energy",
+      "value": "Blue plasma core"
+    },
+    {
+      "trait_type": "Contains Circuit Traces",
+      "value": "Yes"
+    },
+    {
+      "trait_type": "Theme",
+      "value": "Ancient Wisdom + Modern Technology"
+    },
+    {
+      "trait_type": "Origin",
+      "value": "Digital art"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Genesis"
+    },
+    {
+      "trait_type": "Token ID",
+      "value": "2"
+    }
+  ]
+}
