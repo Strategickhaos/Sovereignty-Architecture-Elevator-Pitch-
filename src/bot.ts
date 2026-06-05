@@ -1,12 +1,12 @@
 import { Client, GatewayIntentBits, Interaction } from "discord.js";
-import { registerCommands, embed } from "./discord.js";
+import { registerCommands, embed, createProfileEmbed } from "./discord.js";
 import { env, loadConfig } from "./config.js";
 
 const cfg = loadConfig();
 const token = env("DISCORD_TOKEN");
 const appId = env("APP_ID", false) || cfg.discord?.bot?.app_id || "";
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
 
 client.once("ready", async () => {
   await registerCommands(token, appId);
@@ -47,6 +47,11 @@ client.on("interactionCreate", async (i: Interaction) => {
         body: JSON.stringify({ service: svc, replicas })
       }).then(r => r.json());
       await i.reply({ embeds: [embed("Scale", `service: ${svc}\nreplicas: ${replicas}\nresult: ${r.status}`)] });
+    } else if (i.commandName === "profile") {
+      const targetUser = i.options.getUser("user") || i.user;
+      const member = i.guild ? await i.guild.members.fetch(targetUser.id).catch(() => null) : null;
+      const profileEmbed = createProfileEmbed(targetUser, member);
+      await i.reply({ embeds: [profileEmbed] });
     }
   } catch (e: any) {
     await i.reply({ content: `Error: ${e.message}` });

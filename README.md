@@ -31,10 +31,11 @@ export PRS_CHANNEL="channel_id"
 ## 📋 Core Components
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
-- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
+- **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`, `/profile`
 - **AI Agent Integration**: GPT-4 powered assistance
 - **RBAC**: Role-based access control for production operations
 - **Audit Logging**: All interactions logged to CloudWatch
+- **User Profiles**: View detailed user profile information with `/profile` command
 
 ### 🌐 Event Gateway (`event-gateway`)
 - **Webhook Router**: GitHub/GitLab → Discord channel routing
@@ -141,6 +142,13 @@ EVENTS_HMAC_KEY=your_64_char_hmac_key
 ```
 
 ## 🎯 Discord Workflow Integration
+
+### Bot Commands
+- **`/status <service>`** - Check the status of a specific service
+- **`/logs <service> [tail]`** - View recent logs for a service
+- **`/deploy <env> <tag>`** - Deploy a specific tag to an environment (dev/staging/prod)
+- **`/scale <service> <replicas>`** - Scale a service to the specified number of replicas
+- **`/profile [user]`** - View detailed profile information for yourself or another user
 
 ### Channel Strategy
 - **`#prs`** - Pull request lifecycle, GitLens review notifications
