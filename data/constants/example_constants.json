@@ -1,0 +1,83 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "schema": "TRIG6",
+    "created": "2026-01-29",
+    "description": "Example constants with full provenance tracking"
+  },
+  "constants": [
+    {
+      "key": "rope.knot.figure_8_on_bight",
+      "value": 0.78,
+      "units": "ratio",
+      "context": "Typical knot efficiency in nylon kernmantle when properly dressed/set.",
+      "provenance": [
+        {
+          "source_title": "CMC Rope Rescue Field Guide",
+          "publisher": "CMC Rescue, Inc.",
+          "edition_or_rev": "4th Edition",
+          "date": "2017",
+          "section_or_page": "p. 47",
+          "notes": "Tested on 11mm nylon kernmantle, new rope"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "range": [0.75, 0.80],
+      "jurisdiction": "global",
+      "confidence": "medium",
+      "validation": {
+        "doctor_test": "rope.knot_efficiency_in_bounds",
+        "constraints": ["0.5 <= value <= 0.95"]
+      }
+    },
+    {
+      "key": "physics.gravity.earth_surface",
+      "value": 9.80665,
+      "units": "m/s²",
+      "context": "Standard acceleration due to gravity at Earth's surface",
+      "provenance": [
+        {
+          "source_title": "NIST Reference on Constants, Units, and Uncertainty",
+          "publisher": "National Institute of Standards and Technology",
+          "date": "2023",
+          "url": "https://physics.nist.gov/cgi-bin/cuu/Value?gn",
+          "notes": "Standard gravity constant"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "range": [9.80, 9.82],
+      "jurisdiction": "global",
+      "confidence": "high",
+      "validation": {
+        "doctor_test": "physics.gravity_in_bounds",
+        "constraints": ["9.5 <= value <= 10.0"]
+      }
+    },
+    {
+      "key": "safety.fall_protection.max_free_fall",
+      "value": 6.0,
+      "units": "feet",
+      "context": "Maximum allowed free fall distance in personal fall arrest systems per OSHA",
+      "provenance": [
+        {
+          "source_title": "OSHA 1926.502(d)(16)",
+          "publisher": "Occupational Safety and Health Administration",
+          "date": "2023",
+          "section_or_page": "Subpart M - Fall Protection",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.502",
+          "notes": "Construction industry standard"
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "entered_date": "2026-01-29",
+      "jurisdiction": "USA",
+      "confidence": "high",
+      "validation": {
+        "doctor_test": "safety.fall_distance_compliance",
+        "constraints": ["value <= 6.0"]
+      }
+    }
+  ]
+}
