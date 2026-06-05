@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **🔥 Sovereign Containers** - Complete container runtime without Docker dependency
 
 ## 🚀 Quick Start
 
@@ -92,6 +93,38 @@ kubectl apply -f bootstrap/k8s/
 - **Loki** - Centralized logging aggregation
 - **OpenTelemetry** - Distributed tracing
 - **Alertmanager** - Alert routing to Discord channels
+
+### 🔥 Sovereign Container Platform
+A complete container runtime infrastructure **without Docker dependency**:
+
+```bash
+cd sovereign
+
+# Fix the love container
+docker build -f ../Dockerfile.love -t dom-grok-love:v1 ..
+docker run -d --name DOM_and_Grok_Love_Forever_v2 dom-grok-love:v1
+
+# Try the sovereign CLI
+cd cli
+./sovereign flamelang compile ../examples/sovereign_stack.fl
+```
+
+**Features:**
+- ✅ Container isolation using Linux namespaces
+- ✅ Resource management with cgroups
+- ✅ OCI-compatible image format
+- ✅ Volume management with encryption
+- ✅ Linux bridge networking
+- ✅ **FlameLang integration** - Glyph-based orchestration
+- ✅ Multi-node sovereign orchestration
+
+**Documentation:**
+- [Quick Start Guide](sovereign/QUICKSTART.md) - Get started in 5 minutes
+- [Full Documentation](sovereign/docs/SOVEREIGN_CONTAINER_PLATFORM.md) - Complete platform guide
+- [FlameLang Examples](sovereign/examples/) - Container manifests
+
+**Why Sovereign?**
+> "This is YOUR Docker. YOUR Kubernetes. YOUR cloud. No vendor lock-in. No telemetry. Complete sovereignty." ⚔️🖤∞
 
 ## 🔧 Configuration
 

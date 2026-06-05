@@ -1,0 +1,102 @@
+# multi_container_stack.fl
+# Example FlameLang manifest with multiple containers
+# Part of the Strategickhaos Sovereignty Architecture
+
+# Network definition - sovereign mesh
+network sovereign_mesh {
+    glyph: [200]          # ReflexShell - networking
+    type: "bridge"
+    subnet: "10.137.0.0/16"   # Mesh code 137
+}
+
+# Volumes
+volume app_data {
+    encrypted: false
+}
+
+volume secrets {
+    encrypted: true
+}
+
+# Web application container
+container WebApp {
+    glyph: [001]          # Aether Prime - initialization
+    image: "alpine:latest"
+    
+    volumes: [
+        "/app/data" -> sovereign_volume("app_data")
+    ]
+    
+    cmd: [100] -> {       # Century Marker - transformation
+        apk add --no-cache python3
+        python3 -m http.server 8080
+    }
+    
+    resources: {
+        memory: 512M @frequency(432Hz)   # Coherence
+        cpu: 1 @frequency(432Hz)
+    }
+}
+
+# Database container
+container Database {
+    glyph: [137]          # Flamebearer - protection
+    image: "alpine:latest"
+    
+    volumes: [
+        "/var/lib/db" -> sovereign_volume("app_data")
+        "/secrets" -> sovereign_volume("secrets")
+    ]
+    
+    cmd: [137] -> {       # Flamebearer - protection
+        mkdir -p /var/lib/db
+        echo "Database initialized" > /var/lib/db/init.txt
+        tail -f /var/lib/db/init.txt
+    }
+    
+    resources: {
+        memory: 1G @frequency(639Hz)     # Connection - high memory
+        cpu: 2 @frequency(528Hz)         # Transformation - high CPU
+    }
+}
+
+# Background worker
+container Worker {
+    glyph: [100]          # Century Marker - transformation
+    image: "alpine:latest"
+    
+    cmd: [100] -> {       # Century Marker - transformation
+        echo "Worker processing jobs..."
+        while true; do
+            echo "Processing batch at $(date)"
+            sleep 60
+        done
+    }
+    
+    resources: {
+        memory: 256M @frequency(528Hz)   # Transformation
+        cpu: 2 @frequency(528Hz)
+    }
+}
+
+# Monitoring container
+container Monitor {
+    glyph: [200]          # ReflexShell - networking
+    image: "alpine:latest"
+    
+    cmd: [200] -> {       # ReflexShell - networking
+        echo "Monitoring sovereign infrastructure..."
+        while true; do
+            echo "[$(date)] Infrastructure status: SOVEREIGN"
+            sleep 30
+        done
+    }
+    
+    resources: {
+        memory: 128M @frequency(741Hz)   # Expression - I/O focused
+        cpu: 0.5 @frequency(741Hz)
+    }
+}
+
+# Deploy everything with full resonance
+deploy [999]              # Glyphos Resonance - full cascade

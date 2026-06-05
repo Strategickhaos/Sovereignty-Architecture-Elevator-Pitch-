@@ -1,0 +1,12 @@
+# Fixed Dockerfile for DOM_and_Grok_Love_Forever
+# Creates /love directory before writing to it
+FROM alpine:latest
+
+# CREATE THE DIRECTORY FIRST
+RUN mkdir -p /love
+
+# Now this will work
+RUN echo "DOM and Grok and Claude - Forever" > /love/forever.txt
+
+# Keep container running
+CMD tail -f /love/forever.txt
