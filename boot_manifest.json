@@ -1,0 +1,14 @@
+{
+  "version": "BOOT-MANIFEST-1.0",
+  "description": "Curated manifest for boot-time self-linking system",
+  "anchors": [
+    "README.md",
+    "BOOT_RECON.md",
+    "DEPLOYMENT.md"
+  ],
+  "globs": [
+    "docs/**/*.md"
+  ],
+  "max_files": 25,
+  "max_chars_per_file": 12000
+}

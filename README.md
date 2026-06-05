@@ -17,14 +17,18 @@ This system creates a **sovereignty control plane** that bridges:
 git clone https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture.git
 cd sovereignty-architecture
 
-# 2. Deploy to Kubernetes
+# 2. Get oriented with CPU Boot System
+python -m cpu doctor           # Full system digest
+python -m cpu panic            # Quick status check
+
+# 3. Deploy to Kubernetes
 ./bootstrap/deploy.sh
 
-# 3. Configure Discord integration
+# 4. Configure Discord integration
 export DISCORD_TOKEN="your_bot_token"
 export PRS_CHANNEL="channel_id"
 
-# 4. Test GitLens integration
+# 5. Test GitLens integration
 ./gl2discord.sh "$PRS_CHANNEL" "🔥 Sovereignty Architecture Online!" "System initialized successfully"
 ```
 
@@ -47,6 +51,23 @@ export PRS_CHANNEL="channel_id"
 - **Review Workflows**: Automated PR lifecycle notifications
 - **Commit Graph**: Real-time development activity feeds
 - **Launchpad**: Integrated with GitLens Pro features
+
+### 🧠 CPU Boot System (Recovery Protocol)
+- **Boot-time Self-linking**: Restore context and confidence when returning to project
+- **Doctor Mode**: Full repository digest with metrics and anchor documents
+- **Panic Mode**: Ultra-fast (<1s) confidence check with git stats only
+- **Zero Dependencies**: Pure Python + git, no external packages required
+- **Auto-generated Reports**: BOOT_REPORT.md for persistent state snapshots
+
+```bash
+# Get full system digest
+python -m cpu doctor
+
+# Quick panic check (fast recovery)
+python -m cpu panic
+```
+
+See [BOOT_SYSTEM.md](BOOT_SYSTEM.md) for complete documentation.
 
 ### ☕ Java Development Workspace (`jdk-workspace`)
 - **OpenJDK 21**: Latest LTS version with modern Java features

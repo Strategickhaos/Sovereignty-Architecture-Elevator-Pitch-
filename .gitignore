@@ -36,3 +36,9 @@ target/
 
 # Workspace data
 workspace/
+
+# CPU Boot System generated files
+BOOT_REPORT.md
+__pycache__/
+*.pyc
+*.pyo
