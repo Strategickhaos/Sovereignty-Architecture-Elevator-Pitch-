@@ -199,6 +199,29 @@ services:
       retries: 5
     command: ["tail", "-f", "/dev/null"]
 
+  # TRIG6 - Sovereign Computational Engine
+  trig6:
+    build:
+      context: .
+      dockerfile: Dockerfile.trig6
+    container_name: trig6-engine
+    volumes:
+      - ./trig6:/app/trig6:ro
+      - ./data/khaos:/app/data/khaos:ro
+    networks:
+      - strategickhaos_network
+    healthcheck:
+      test: ["CMD", "python3", "/app/trig6/doctor.py"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    labels:
+      - "sovereignty.level=SOVEREIGN"
+      - "vendor.lockin=ZERO"
+      - "component=computational"
+    restart: unless-stopped
+    command: ["tail", "-f", "/dev/null"]
+
   # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine

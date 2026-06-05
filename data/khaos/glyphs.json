@@ -1,0 +1,61 @@
+{
+  "name": "KHAOS Glyphs",
+  "version": "1.0.0",
+  "description": "Symbolic representation system for KHAOS architecture",
+  "glyphs": {
+    "⚡": {
+      "name": "Lightning",
+      "meaning": "Rapid computation, breakthrough insight",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "energy"
+    },
+    "⚓": {
+      "name": "Anchor",
+      "meaning": "Stability, grounding, foundation",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "foundation"
+    },
+    "🔥": {
+      "name": "Fire",
+      "meaning": "Transformation, passion, drive",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "transformation"
+    },
+    "🧭": {
+      "name": "Compass",
+      "meaning": "Direction, navigation, guidance",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "navigation"
+    },
+    "∞": {
+      "name": "Infinity",
+      "meaning": "Unlimited potential, eternal cycle",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "philosophy"
+    },
+    "Δ": {
+      "name": "Delta",
+      "meaning": "Change, difference, transformation",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "mathematics"
+    },
+    "Ω": {
+      "name": "Omega",
+      "meaning": "End, completion, totality",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "philosophy"
+    },
+    "Σ": {
+      "name": "Sigma",
+      "meaning": "Summation, collective intelligence",
+      "sovereignty_level": "SOVEREIGN",
+      "category": "mathematics"
+    }
+  },
+  "hymn_reference": "See data/khaos/hymn.md for the KHAOS anthem",
+  "provenance": {
+    "source": "Strategickhaos DAO LLC",
+    "creation_date": "2025-01-29",
+    "invention_number": 36
+  }
+}
