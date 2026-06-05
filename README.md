@@ -1,6 +1,6 @@
 # Strategickhaos Sovereignty Architecture - Discord DevOps Control Plane
 
-**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
+**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, sovereign infrastructure management, and formal mathematical bridges.**
 
 ## 🏛️ Architecture Overview
 
@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Mathematical Bridges** - Formal mathematical framework connecting discrete/continuous domains
 
 ## 🚀 Quick Start
 
@@ -26,9 +27,18 @@ export PRS_CHANNEL="channel_id"
 
 # 4. Test GitLens integration
 ./gl2discord.sh "$PRS_CHANNEL" "🔥 Sovereignty Architecture Online!" "System initialized successfully"
+
+# 5. Explore Mathematical Bridges
+python3 demo_math_bridges.py
 ```
 
 ## 📋 Core Components
+
+### 🔢 Mathematical Bridges (`src/math_bridges/`)
+- **State Encoding Kernel v0.1**: Formal mathematical framework
+- **10 Bridge Types**: Quantization, Projections, Coordinates, Groups, Laplacians, Physics, Encoding, Geometry, Trees, Energy
+- **Testable & Provable**: Transform conceptual correlations into mathematics
+- **Documentation**: See [MATHEMATICAL_BRIDGES.md](MATHEMATICAL_BRIDGES.md)
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
