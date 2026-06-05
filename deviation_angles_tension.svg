@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <title>Deviation Angles and Tension Multipliers</title>
+  <style>
+    .title { font: bold 18px Arial; fill: #333; }
+    .label { font: 12px Arial; fill: #333; }
+    .small { font: 10px Arial; fill: #666; }
+    .formula { font: italic 12px 'Times New Roman'; fill: #8b5cf6; }
+    .warning { font: bold 11px Arial; fill: #ef4444; }
+    .rope { stroke: #2563eb; stroke-width: 4; fill: none; stroke-linecap: round; }
+    .anchor { fill: #333; }
+    .pulley { fill: #f59e0b; stroke: #333; stroke-width: 2; }
+  </style>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#fafafa"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">
+    DEVIATION ANGLES: Why Bent Ropes See More Tension
+  </text>
+  
+  <!-- Formula -->
+  <text x="400" y="55" class="formula" text-anchor="middle">
+    T = Load / cos(θ/2)   where θ = total deviation angle
+  </text>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 0° NO DEVIATION -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(80, 100)">
+    <text x="40" y="0" class="label" text-anchor="middle" font-weight="bold">0° (Straight)</text>
+    
+    <!-- Straight rope -->
+    <line x1="40" y1="20" x2="40" y2="120" class="rope"/>
+    
+    <!-- Load indicator -->
+    <circle cx="40" cy="130" r="15" fill="#ef4444" stroke="#333"/>
+    <text x="40" y="135" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Tension label -->
+    <text x="55" y="70" class="formula">T = W</text>
+    
+    <!-- Multiplier -->
+    <text x="40" y="170" class="label" text-anchor="middle">1.00×</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 60° DEVIATION -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(200, 100)">
+    <text x="40" y="0" class="label" text-anchor="middle" font-weight="bold">60° Deviation</text>
+    
+    <!-- Pulley -->
+    <circle cx="40" cy="60" r="12" class="pulley"/>
+    
+    <!-- Bent rope -->
+    <path d="M 10,20 L 40,48 L 70,20" class="rope"/>
+    
+    <!-- Angle arc -->
+    <path d="M 25,35 A 20,20 0 0,1 55,35" fill="none" stroke="#666" stroke-width="1"/>
+    <text x="40" y="30" class="small" text-anchor="middle">60°</text>
+    
+    <!-- Load -->
+    <line x1="40" y1="72" x2="40" y2="120" class="rope"/>
+    <circle cx="40" cy="130" r="15" fill="#ef4444" stroke="#333"/>
+    <text x="40" y="135" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Tension labels -->
+    <text x="5" y="15" class="formula">1.15W</text>
+    <text x="60" y="15" class="formula">1.15W</text>
+    
+    <!-- Multiplier -->
+    <text x="40" y="170" class="label" text-anchor="middle">1.15×</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 90° DEVIATION -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(320, 100)">
+    <text x="40" y="0" class="label" text-anchor="middle" font-weight="bold">90° Deviation</text>
+    
+    <!-- Pulley -->
+    <circle cx="40" cy="60" r="12" class="pulley"/>
+    
+    <!-- Bent rope (right angle) -->
+    <path d="M 0,20 L 40,48 L 80,20" class="rope"/>
+    
+    <!-- Angle arc -->
+    <path d="M 20,40 A 25,25 0 0,1 60,40" fill="none" stroke="#666" stroke-width="1"/>
+    <text x="40" y="28" class="small" text-anchor="middle">90°</text>
+    
+    <!-- Load -->
+    <line x1="40" y1="72" x2="40" y2="120" class="rope"/>
+    <circle cx="40" cy="130" r="15" fill="#ef4444" stroke="#333"/>
+    <text x="40" y="135" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Tension labels -->
+    <text x="-5" y="10" class="formula">1.41W</text>
+    <text x="70" y="10" class="formula">1.41W</text>
+    
+    <!-- Multiplier -->
+    <text x="40" y="170" class="label" text-anchor="middle">1.41× (√2)</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 120° DEVIATION - CRITICAL -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(450, 100)">
+    <text x="40" y="0" class="warning" text-anchor="middle">120° Deviation</text>
+    
+    <!-- Pulley -->
+    <circle cx="40" cy="55" r="12" class="pulley"/>
+    
+    <!-- Bent rope (very wide) -->
+    <path d="M -20,15 L 40,43 L 100,15" class="rope"/>
+    
+    <!-- Angle arc -->
+    <path d="M 5,30 A 40,40 0 0,1 75,30" fill="none" stroke="#ef4444" stroke-width="1"/>
+    <text x="40" y="22" class="small" text-anchor="middle">120°</text>
+    
+    <!-- Load -->
+    <line x1="40" y1="67" x2="40" y2="120" class="rope"/>
+    <circle cx="40" cy="130" r="15" fill="#ef4444" stroke="#333"/>
+    <text x="40" y="135" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Tension labels -->
+    <text x="-25" y="5" class="warning">2.0W</text>
+    <text x="85" y="5" class="warning">2.0W</text>
+    
+    <!-- Multiplier -->
+    <text x="40" y="170" class="warning" text-anchor="middle">2.00× DOUBLES!</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- 150° DEVIATION - DANGER -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(600, 100)">
+    <text x="40" y="0" class="warning" text-anchor="middle">150° Deviation</text>
+    
+    <!-- Pulley -->
+    <circle cx="40" cy="50" r="12" class="pulley"/>
+    
+    <!-- Nearly flat rope -->
+    <path d="M -30,25 L 40,38 L 110,25" class="rope"/>
+    
+    <!-- Angle arc -->
+    <path d="M -10,32 A 55,55 0 0,1 90,32" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <text x="40" y="22" class="small" text-anchor="middle">150°</text>
+    
+    <!-- Load -->
+    <line x1="40" y1="62" x2="40" y2="120" class="rope"/>
+    <circle cx="40" cy="130" r="15" fill="#ef4444" stroke="#333"/>
+    <text x="40" y="135" class="small" text-anchor="middle" fill="white">W</text>
+    
+    <!-- Tension labels -->
+    <text x="-35" y="15" class="warning">3.86W</text>
+    <text x="95" y="15" class="warning">3.86W</text>
+    
+    <!-- Multiplier -->
+    <text x="40" y="170" class="warning" text-anchor="middle">3.86× DANGER!</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- REFERENCE TABLE -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <g transform="translate(50, 300)">
+    <rect x="0" y="0" width="700" height="170" fill="#fff7ed" stroke="#f59e0b" rx="5"/>
+    
+    <text x="350" y="25" class="label" text-anchor="middle" font-weight="bold">
+      DEVIATION TENSION MULTIPLIER TABLE
+    </text>
+    
+    <!-- Table headers -->
+    <text x="80" y="50" class="label" text-anchor="middle" font-weight="bold">Deviation</text>
+    <text x="180" y="50" class="label" text-anchor="middle" font-weight="bold">θ/2</text>
+    <text x="280" y="50" class="label" text-anchor="middle" font-weight="bold">cos(θ/2)</text>
+    <text x="400" y="50" class="label" text-anchor="middle" font-weight="bold">Multiplier</text>
+    <text x="550" y="50" class="label" text-anchor="middle" font-weight="bold">100 lb Load</text>
+    
+    <!-- Data rows -->
+    <text x="80" y="75" class="small" text-anchor="middle">30°</text>
+    <text x="180" y="75" class="small" text-anchor="middle">15°</text>
+    <text x="280" y="75" class="small" text-anchor="middle">0.966</text>
+    <text x="400" y="75" class="small" text-anchor="middle">1.04×</text>
+    <text x="550" y="75" class="small" text-anchor="middle">104 lbs</text>
+    
+    <text x="80" y="95" class="small" text-anchor="middle">60°</text>
+    <text x="180" y="95" class="small" text-anchor="middle">30°</text>
+    <text x="280" y="95" class="small" text-anchor="middle">0.866</text>
+    <text x="400" y="95" class="small" text-anchor="middle">1.15×</text>
+    <text x="550" y="95" class="small" text-anchor="middle">115 lbs</text>
+    
+    <text x="80" y="115" class="small" text-anchor="middle">90°</text>
+    <text x="180" y="115" class="small" text-anchor="middle">45°</text>
+    <text x="280" y="115" class="small" text-anchor="middle">0.707</text>
+    <text x="400" y="115" class="small" text-anchor="middle">1.41×</text>
+    <text x="550" y="115" class="small" text-anchor="middle">141 lbs</text>
+    
+    <text x="80" y="135" class="warning" text-anchor="middle">120°</text>
+    <text x="180" y="135" class="warning" text-anchor="middle">60°</text>
+    <text x="280" y="135" class="warning" text-anchor="middle">0.500</text>
+    <text x="400" y="135" class="warning" text-anchor="middle">2.00×</text>
+    <text x="550" y="135" class="warning" text-anchor="middle">200 lbs</text>
+    
+    <text x="80" y="155" class="warning" text-anchor="middle">150°</text>
+    <text x="180" y="155" class="warning" text-anchor="middle">75°</text>
+    <text x="280" y="155" class="warning" text-anchor="middle">0.259</text>
+    <text x="400" y="155" class="warning" text-anchor="middle">3.86×</text>
+    <text x="550" y="155" class="warning" text-anchor="middle">386 lbs</text>
+  </g>
+  
+  <!-- Warning box -->
+  <g transform="translate(500, 300)">
+    <rect x="0" y="0" width="200" height="60" fill="#fef2f2" stroke="#ef4444" rx="3"/>
+    <text x="100" y="20" class="warning" text-anchor="middle">⚠️ CRITICAL</text>
+    <text x="100" y="38" class="small" text-anchor="middle">At 120°+ deviation</text>
+    <text x="100" y="52" class="small" text-anchor="middle">Tension DOUBLES or more!</text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="400" y="490" class="small" text-anchor="middle">
+    Rope Mechanics | StrategicKhaos DAO LLC | T = W / cos(θ/2)
+  </text>
+  
+</svg>
