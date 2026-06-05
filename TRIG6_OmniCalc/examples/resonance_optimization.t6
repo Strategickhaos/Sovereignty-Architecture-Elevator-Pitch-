@@ -1,0 +1,24 @@
+# Advanced TRIG6 script: Resonance optimization
+# Demonstrates variables, conditionals, and multiple iterations
+
+# Define parameters
+set target_res 0.9
+set step_size 0.1
+
+# Start with suboptimal configuration
+theta 0
+alpha 0.3
+theta_opt pi/4
+
+step
+state
+
+# Iterate toward better resonance
+if resonance < target_res then theta pi/6
+step
+
+if resonance < target_res then theta pi/4
+step
+
+# Final state check
+state

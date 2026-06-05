@@ -1,0 +1,34 @@
+# Comprehensive TRIG6 test: All features demo
+# This script demonstrates the complete .t6 language capabilities
+
+# Test 1: Basic angle operations
+theta pi/6
+alpha 0.0
+step
+state
+
+# Test 2: Degree input
+deg 60
+alpha 0.5
+step
+state
+
+# Test 3: Variables and conditionals
+set optimal_res 0.95
+set danger_noise 0.5
+
+if noise > danger_noise then alpha 0.2
+step
+
+if resonance < optimal_res then theta_opt pi/3
+step
+state
+
+# Test 4: Blend toggling
+blend on
+step
+state
+
+blend off
+step
+state
