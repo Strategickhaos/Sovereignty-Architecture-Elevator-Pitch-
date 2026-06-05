@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UDAP Bio-Physics URI Schema",
+  "description": "Universal Domain Addressing Protocol for Bio-Physics Entanglement Compiler",
+  "type": "object",
+  "properties": {
+    "scheme": {
+      "type": "string",
+      "const": "skhaos",
+      "description": "URI scheme for SkhaOS"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["zipf", "dolphin", "physics", "whale", "music"],
+      "description": "Bio-physics domain type"
+    },
+    "resource": {
+      "type": "string",
+      "description": "Resource path within domain"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Query parameters for bio-physics operations",
+      "properties": {
+        "zipf": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Zipf rank (1 = highest frequency)"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Pattern rank in Zipf distribution"
+        },
+        "hz": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Frequency in Hertz"
+        },
+        "signature": {
+          "type": "boolean",
+          "description": "Dolphin signature whistle flag"
+        },
+        "burst": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Echolocation burst count"
+        },
+        "law": {
+          "type": "string",
+          "enum": ["entropy", "uncertainty", "conservation", "relativity"],
+          "description": "Physics law to apply"
+        },
+        "pod": {
+          "type": "string",
+          "pattern": "^[a-z_]+$",
+          "description": "Dolphin pod identifier"
+        },
+        "brevity": {
+          "type": "boolean",
+          "description": "Menzerath brevity principle flag"
+        },
+        "dialect": {
+          "type": "string",
+          "description": "Pod dialect identifier"
+        }
+      }
+    }
+  },
+  "required": ["scheme", "domain", "resource"],
+  "examples": [
+    {
+      "uri": "skhaos://bio/zipf/unit/1?law=entropy&hz=20",
+      "description": "Zipf-ranked whale unit with entropy constraint"
+    },
+    {
+      "uri": "skhaos://bio/dolphin/whistle?signature=true&hz=10",
+      "description": "Dolphin signature whistle at 10 Hz"
+    },
+    {
+      "uri": "skhaos://bio/dolphin/click?burst=200&hz=120",
+      "description": "Echolocation burst with 200 clicks at 120 Hz"
+    },
+    {
+      "uri": "skhaos://bio/physics/rondo?law=conservation&hz=10",
+      "description": "Musical rondo form with energy conservation"
+    },
+    {
+      "uri": "skhaos://bio/zipf/phrase/rank?hz=500",
+      "description": "Zipf-ranked phrase at 500 Hz"
+    }
+  ],
+  "definitions": {
+    "zipf_domain": {
+      "type": "object",
+      "description": "Zipf's law domain for frequency-rank distribution",
+      "properties": {
+        "alpha": {
+          "type": "number",
+          "default": 1.0,
+          "description": "Zipf distribution exponent"
+        },
+        "unit_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["moan", "groan", "chirp", "pulse", "whistle"]
+          }
+        }
+      }
+    },
+    "dolphin_domain": {
+      "type": "object",
+      "description": "Dolphin communication patterns",
+      "properties": {
+        "whistle_range": {
+          "type": "object",
+          "properties": {
+            "min_hz": { "type": "number", "const": 1000 },
+            "max_hz": { "type": "number", "const": 20000 }
+          }
+        },
+        "click_range": {
+          "type": "object",
+          "properties": {
+            "min_hz": { "type": "number", "const": 120000 },
+            "max_hz": { "type": "number", "const": 200000 }
+          }
+        }
+      }
+    },
+    "physics_domain": {
+      "type": "object",
+      "description": "Physics laws as constraints",
+      "properties": {
+        "entropy_factor": {
+          "type": "number",
+          "default": 1.07,
+          "description": "7% eternal loop from genesis"
+        },
+        "uncertainty_factor": {
+          "type": "number",
+          "default": 0.5,
+          "description": "Quantum uncertainty parameter"
+        },
+        "conservation_enforcement": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enforce energy conservation"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# Bottlenose Dolphin Communication Patterns
+
+## Signature Whistles (1-20kHz)
+# Each dolphin has unique signature whistle (like a name)
+WHISTLE_ALPHA: 10Hz, 500ms, Pod Alpha signature
+WHISTLE_BETA: 12Hz, 450ms, Pod Beta signature
+WHISTLE_GAMMA: 15Hz, 550ms, Pod Gamma signature
+
+## Echolocation Clicks (120-200kHz)
+# High-frequency bursts for navigation and hunting
+CLICK_BURST_1: 120Hz, 200 clicks, 50μs intervals
+CLICK_BURST_2: 150Hz, 150 clicks, 40μs intervals
+CLICK_BURST_3: 200Hz, 250 clicks, 60μs intervals
+
+## Pod Dialects
+# Matrilineal cultural transmission (like orca dialects)
+POD_ALPHA_DIALECT: Chirp-Scream pattern, 3 generations
+POD_BETA_DIALECT: Whistle-Click pattern, 5 generations
+POD_GAMMA_DIALECT: Pulse-Whistle pattern, 2 generations
+
+## Communication Exchange Protocol
+1. Dolphin A sends signature whistle (identification)
+2. Dolphin B responds with signature whistle (acknowledgment)
+3. Exchange dialect-specific calls (information transfer)
+4. Use echolocation for environmental context

@@ -1,0 +1,24 @@
+# Mozart's Rondo alla Turca - Bio-Physics Analysis
+
+## Structure: ABACA
+- A: Main theme (A-minor, 120 BPM) - High Zipf rank (frequent)
+- B: First episode (different key) - Uncertainty branch
+- A: Return (entropy reset to initial state)
+- C: Second episode (development) - Maximum uncertainty
+- A: Final return (conservation, total energy balance)
+
+## Physics Mappings
+1. Entropy: Each A return resets disorder; episodes increase entropy
+2. Conservation: Total musical intensity conserved across sections
+3. Uncertainty: Episode sections exist in superposed harmonic states
+4. Relativity: Tempo as time coordinate in musical spacetime
+
+## Zipf Distribution
+- A-theme motifs: Rank 1-3 (most frequent, shortest)
+- B-section motifs: Rank 10-15 (less frequent, longer)
+- C-section motifs: Rank 20+ (rare, development material)
+
+## Entanglement with Dolphin
+- A-theme rhythm → Dolphin signature whistle patterns
+- B/C development → Echolocation burst variations
+- Form cycle → Pod dialect call-response protocol

@@ -1,0 +1,16 @@
+# Killer Whale (Orca) Matrilineal Dialects
+# Cultural learning passed from mother to calf
+
+## Resident Pods (Fish-eating)
+J_POD: 7 discrete calls, Pacific Northwest
+K_POD: 5 discrete calls, Pacific Northwest
+L_POD: 9 discrete calls, Pacific Northwest
+
+## Transient Pods (Mammal-hunting)
+TRANSIENT_1: 4 discrete calls, different from residents
+TRANSIENT_2: 6 discrete calls, distinct dialect
+
+## Cultural Stability
+# Dialects remain stable for generations
+# Matrilineal transmission ensures cultural continuity
+# Pods can be identified by dialect alone

@@ -1,0 +1,103 @@
+# Podman Pod Configuration for Bio-Physics Entanglement Compiler
+# Sandboxed environment for entropy simulations and pattern evolution
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bio-physics-pod
+  labels:
+    app: bpec
+    component: bio-physics
+    invention: INVENTION_074
+spec:
+  containers:
+  - name: zipf-analyzer
+    image: rust:1.75-alpine
+    command: ["/bin/sh"]
+    args: ["-c", "cd /workspace && cargo build --release --bin bpec && cargo test"]
+    volumeMounts:
+    - name: workspace
+      mountPath: /workspace
+    - name: assets
+      mountPath: /workspace/assets
+    - name: sandbox
+      mountPath: /workspace/sandbox
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+    env:
+    - name: RUST_LOG
+      value: "info"
+    - name: CARGO_HOME
+      value: "/tmp/cargo"
+    
+  - name: dolphin-comm
+    image: rust:1.75-alpine
+    command: ["/bin/sh"]
+    args: ["-c", "tail -f /dev/null"]  # Keep alive for interactive use
+    volumeMounts:
+    - name: workspace
+      mountPath: /workspace
+    - name: assets
+      mountPath: /workspace/assets
+    resources:
+      limits:
+        memory: "256Mi"
+        cpu: "250m"
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+    
+  - name: physics-dom
+    image: rust:1.75-alpine
+    command: ["/bin/sh"]
+    args: ["-c", "tail -f /dev/null"]  # Keep alive for physics calculations
+    volumeMounts:
+    - name: workspace
+      mountPath: /workspace
+    - name: sandbox
+      mountPath: /workspace/sandbox
+    resources:
+      limits:
+        memory: "256Mi"
+        cpu: "250m"
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+    env:
+    - name: PHYSICS_ENTROPY_FACTOR
+      value: "1.07"
+    - name: PHYSICS_CONSERVATION
+      value: "true"
+
+  volumes:
+  - name: workspace
+    hostPath:
+      path: /home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-/skhaos-emulator
+      type: Directory
+  - name: assets
+    hostPath:
+      path: /home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-/skhaos-emulator/assets
+      type: Directory
+  - name: sandbox
+    hostPath:
+      path: /home/runner/work/Sovereignty-Architecture-Elevator-Pitch-/Sovereignty-Architecture-Elevator-Pitch-/skhaos-emulator/sandbox
+      type: Directory
+
+  restartPolicy: Never
+  
+  # Security context - sandboxed execution
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+    
+  # No network access needed (all simulations are local)
+  hostNetwork: false
+  dnsPolicy: None
