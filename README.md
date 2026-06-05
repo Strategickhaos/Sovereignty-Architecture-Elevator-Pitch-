@@ -272,6 +272,61 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🧬 SynapseBus-Core Genesis System
+
+**NEW**: Self-Hydrating Repository System for AI-driven code generation
+
+The Genesis System solves the "Workflow Bottleneck" of pasting huge chats by creating a system that automatically generates repository structures and populates them with code.
+
+### Three Core Inventions
+
+1. **Chat-to-Spec Ingestion Valve** (`scripts/ingest_chat.py`)
+   - Parses massive chat dumps into structured blueprints
+   - Cross-references Board Meeting notes and Ripley Gates
+   - Validates module mappings
+
+2. **Holographic Docker Hub Methodology** (`.github/workflows/thermodynamics.yaml`)
+   - Entropy-based build gating (threshold < 0.8)
+   - GSCH Framework: Buffer, Dissolve, Clamp patterns
+   - Prevents high-complexity code from reaching production
+
+3. **Synaptic Knowledge Linker** (`scripts/hydrate_file.py`)
+   - Mason agent that auto-generates code from knowledge base
+   - Queries PDFs and patent claims
+   - Hydrates seed files with actual implementations
+
+### Quick Start
+
+```bash
+# Generate repository structure
+python3 genesis.py
+
+# Parse a chat dump
+python3 scripts/ingest_chat.py chat_dump.txt
+
+# Hydrate files with code
+cd synapse-bus-core
+TARGET_DIR=. python3 ../scripts/hydrate_file.py
+
+# Run complete example
+python3 example_ghost_walker.py
+```
+
+### Ripley Gates Validation
+
+All code passes through 12 alchemical transformation gates:
+- **Gate 1: Calcination** - Compilation check
+- **Gate 2: Solution** - Integration testing (Buffer primitive)
+- **Gate 3: Separation** - Module isolation (Clamp primitive)
+- **Gate 5: Putrefaction** - Security validation
+- See `.github/workflows/ripley-gates.yaml`
+
+### Documentation
+
+- **[Genesis System Guide](SYNAPSE_BUS_GENESIS.md)** - Complete documentation
+- **[Test Script](test_genesis_system.sh)** - End-to-end validation
+- **[Example](example_ghost_walker.py)** - Creating new modules
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.

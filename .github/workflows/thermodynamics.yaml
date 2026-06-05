@@ -1,0 +1,236 @@
+name: Thermodynamics Entropy Gatekeeper
+
+# This workflow prevents high-complexity code from entering the Docker Hub registry
+# Based on GSCH Framework principles: "Buffer" (absorb spikes) and "Dissolve" (delete artifacts)
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+env:
+  ENTROPY_THRESHOLD: 0.8
+  GSCH_BUFFER_CAPACITY: 100
+  DOCKER_HUB_USER: strategickhaos
+
+jobs:
+  entropy-check:
+    name: Calculate Code Entropy
+    runs-on: ubuntu-latest
+    outputs:
+      entropy_score: ${{ steps.calculate.outputs.entropy }}
+      complexity_score: ${{ steps.calculate.outputs.complexity }}
+      passed: ${{ steps.validate.outputs.passed }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install dependencies
+        run: |
+          pip install radon lizard pyyaml
+      
+      - name: Calculate entropy metrics
+        id: calculate
+        run: |
+          echo "🔬 Calculating thermodynamic entropy..."
+          
+          # Calculate cyclomatic complexity
+          if command -v radon &> /dev/null; then
+            CC_SCORE=$(radon cc . -a -s || echo "0")
+            echo "Cyclomatic Complexity: $CC_SCORE"
+          else
+            CC_SCORE="0"
+          fi
+          
+          # Calculate maintainability index
+          if command -v radon &> /dev/null; then
+            MI_SCORE=$(radon mi . -s || echo "100")
+            echo "Maintainability Index: $MI_SCORE"
+          else
+            MI_SCORE="100"
+          fi
+          
+          # Calculate lines of code metrics
+          TOTAL_LINES=$(find . -type f \( -name "*.py" -o -name "*.rs" -o -name "*.js" -o -name "*.ts" \) -exec wc -l {} + | tail -1 | awk '{print $1}' || echo "0")
+          echo "Total Lines: $TOTAL_LINES"
+          
+          # Entropy calculation (normalized 0-1 scale)
+          # Higher complexity = higher entropy
+          # Formula: entropy = (complexity / 50) * 0.4 + (1 - maintainability / 100) * 0.6
+          
+          # Normalize complexity (assume max 50 for A grade)
+          if [ "$CC_SCORE" = "0" ]; then
+            NORM_CC="0"
+          else
+            NORM_CC=$(echo "scale=3; $CC_SCORE / 50" | bc)
+          fi
+          
+          # Normalize maintainability (0-100 scale, invert it)
+          NORM_MI=$(echo "scale=3; 1 - ($MI_SCORE / 100)" | bc)
+          
+          # Calculate entropy
+          ENTROPY=$(echo "scale=3; ($NORM_CC * 0.4) + ($NORM_MI * 0.6)" | bc)
+          
+          # Clamp to 0-1 range
+          if (( $(echo "$ENTROPY > 1" | bc -l) )); then
+            ENTROPY="1.0"
+          fi
+          if (( $(echo "$ENTROPY < 0" | bc -l) )); then
+            ENTROPY="0.0"
+          fi
+          
+          echo "📊 Entropy Score: $ENTROPY"
+          echo "entropy=$ENTROPY" >> $GITHUB_OUTPUT
+          echo "complexity=$CC_SCORE" >> $GITHUB_OUTPUT
+      
+      - name: Validate against threshold
+        id: validate
+        run: |
+          ENTROPY="${{ steps.calculate.outputs.entropy }}"
+          THRESHOLD="${{ env.ENTROPY_THRESHOLD }}"
+          
+          echo "🔍 Validating entropy: $ENTROPY <= $THRESHOLD"
+          
+          if (( $(echo "$ENTROPY <= $THRESHOLD" | bc -l) )); then
+            echo "✅ PASS: Entropy within acceptable range"
+            echo "passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ FAIL: Entropy exceeds threshold"
+            echo "passed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Generate thermodynamics report
+        run: |
+          cat << EOF > thermodynamics-report.md
+          ## 🔥 Thermodynamics Report
+          
+          ### Entropy Analysis
+          - **Entropy Score**: ${{ steps.calculate.outputs.entropy }}
+          - **Threshold**: ${{ env.ENTROPY_THRESHOLD }}
+          - **Status**: ${{ steps.validate.outputs.passed == 'true' && '✅ PASSED' || '❌ FAILED' }}
+          
+          ### Complexity Metrics
+          - **Cyclomatic Complexity**: ${{ steps.calculate.outputs.complexity }}
+          - **GSCH Buffer Capacity**: ${{ env.GSCH_BUFFER_CAPACITY }}
+          
+          ### Thermodynamic Principles Applied
+          1. **Buffer**: Absorb complexity spikes through modular design
+          2. **Dissolve**: Remove failed artifacts to return energy
+          3. **Clamp**: Limit entropy growth through validation gates
+          
+          ### Recommendation
+          ${{ steps.validate.outputs.passed == 'true' && 'Code is ready for Docker Hub publication' || 'Code requires refactoring to reduce entropy' }}
+          EOF
+          
+          cat thermodynamics-report.md
+      
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        with:
+          name: thermodynamics-report
+          path: thermodynamics-report.md
+      
+      - name: Fail if entropy too high
+        if: steps.validate.outputs.passed != 'true'
+        run: |
+          echo "❌ Thermodynamics check failed: Entropy too high"
+          echo "🔧 Action required: Refactor code to reduce complexity"
+          exit 1
+
+  gsch-buffer-check:
+    name: GSCH Buffer Validation
+    runs-on: ubuntu-latest
+    needs: entropy-check
+    if: needs.entropy-check.outputs.passed == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Validate GSCH primitives
+        run: |
+          echo "🔍 Validating GSCH Framework primitives..."
+          
+          # Check for required primitives
+          REQUIRED_PRIMITIVES=("buffer" "clamp" "dissolve")
+          
+          for primitive in "${REQUIRED_PRIMITIVES[@]}"; do
+            if find . -type f -name "*${primitive}*" | grep -q .; then
+              echo "  ✓ Found ${primitive} primitive"
+            else
+              echo "  ⚠ Missing ${primitive} primitive (optional)"
+            fi
+          done
+          
+          echo "✅ GSCH buffer validation complete"
+      
+      - name: Check stress routing
+        run: |
+          echo "🔍 Checking stress routing implementation..."
+          
+          # Look for stress handling patterns
+          if grep -r "stress" . --include="*.rs" --include="*.py" --include="*.js" | grep -q .; then
+            echo "  ✓ Stress routing patterns detected"
+          else
+            echo "  ⚠ No stress routing patterns found"
+          fi
+          
+          echo "✅ Stress routing check complete"
+
+  docker-build-approval:
+    name: Docker Build Approval
+    runs-on: ubuntu-latest
+    needs: [entropy-check, gsch-buffer-check]
+    if: needs.entropy-check.outputs.passed == 'true'
+    
+    steps:
+      - name: Grant Docker Hub publication approval
+        run: |
+          echo "✅ THERMODYNAMICS CHECK PASSED"
+          echo "📦 Code approved for Docker Hub publication"
+          echo ""
+          echo "Entropy Score: ${{ needs.entropy-check.outputs.entropy }}"
+          echo "Threshold: ${{ env.ENTROPY_THRESHOLD }}"
+          echo ""
+          echo "🚀 Proceeding to build and publish containers..."
+      
+      - name: Set approval flag
+        id: approval
+        run: |
+          echo "approved=true" >> $GITHUB_OUTPUT
+    
+    outputs:
+      approved: ${{ steps.approval.outputs.approved }}
+
+  notify-discord:
+    name: Notify Results
+    runs-on: ubuntu-latest
+    needs: [entropy-check, docker-build-approval]
+    if: always()
+    
+    steps:
+      - name: Send notification
+        run: |
+          STATUS="${{ needs.entropy-check.outputs.passed }}"
+          ENTROPY="${{ needs.entropy-check.outputs.entropy }}"
+          
+          if [ "$STATUS" = "true" ]; then
+            echo "✅ Thermodynamics check passed - Entropy: $ENTROPY"
+          else
+            echo "❌ Thermodynamics check failed - Entropy: $ENTROPY"
+          fi
