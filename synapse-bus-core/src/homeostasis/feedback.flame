@@ -1,0 +1,36 @@
+# FlameLang Primitive: PID Feedback Controller
+# [Q11] "Pain" Avoidance via Homeostasis
+
+glyph feedback_pid {
+    input: {
+        error: f64,
+        dt: f64,
+    },
+    
+    state: {
+        kp: 1.0,
+        ki: 0.1,
+        kd: 0.01,
+        integral: 0.0,
+        prev_error: 0.0,
+    },
+    
+    # Calculate PID output
+    action: |error, dt, state| {
+        # Proportional
+        let p = state.kp * error;
+        
+        # Integral
+        state.integral += error * dt;
+        let i = state.ki * state.integral;
+        
+        # Derivative
+        let d = state.kd * (error - state.prev_error) / dt;
+        state.prev_error = error;
+        
+        # Total correction
+        return p + i + d;
+    }
+}
+
+# Note: This is a placeholder for the full FlameLang implementation

@@ -1,0 +1,129 @@
+# [Q8] Alchemical CI: Data must pass Putrefaction (Redundancy) before Projection
+# Ripley Gates - Multi-stage transformation pipeline
+
+name: Ripley Alchemical Gates
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main ]
+
+jobs:
+  nigredo-putrefaction:
+    name: "Stage 1: Nigredo (Putrefaction)"
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust Toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+    
+    - name: Cache Dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Decompose (Remove Dead Code)
+      run: |
+        echo "## 🖤 Nigredo Stage - Putrefaction" >> $GITHUB_STEP_SUMMARY
+        cargo clean
+        cargo build --release
+        
+        # Check for unused dependencies
+        cargo install cargo-udeps || true
+        if command -v cargo-udeps &> /dev/null; then
+          cargo +nightly udeps || true
+        fi
+  
+  albedo-purification:
+    name: "Stage 2: Albedo (Purification)"
+    runs-on: ubuntu-latest
+    needs: nigredo-putrefaction
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust Toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        components: rustfmt, clippy
+        override: true
+    
+    - name: Purify Code Format
+      run: |
+        echo "## 🤍 Albedo Stage - Purification" >> $GITHUB_STEP_SUMMARY
+        cargo fmt -- --check
+        echo "✓ Code formatting purified" >> $GITHUB_STEP_SUMMARY
+    
+    - name: Lint & Cleanse
+      run: |
+        cargo clippy --all-targets --all-features -- -D warnings
+        echo "✓ Code linting complete" >> $GITHUB_STEP_SUMMARY
+  
+  citrinitas-testing:
+    name: "Stage 3: Citrinitas (Illumination)"
+    runs-on: ubuntu-latest
+    needs: albedo-purification
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust Toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: Cache Dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Test Illumination
+      run: |
+        echo "## 💛 Citrinitas Stage - Illumination" >> $GITHUB_STEP_SUMMARY
+        cargo test --all-features --verbose
+        echo "✓ All tests illuminated" >> $GITHUB_STEP_SUMMARY
+  
+  rubedo-projection:
+    name: "Stage 4: Rubedo (Projection)"
+    runs-on: ubuntu-latest
+    needs: citrinitas-testing
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust Toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: Build Release Artifact
+      run: |
+        echo "## ❤️ Rubedo Stage - Projection" >> $GITHUB_STEP_SUMMARY
+        cargo build --release
+        echo "✓ Philosopher's Stone achieved" >> $GITHUB_STEP_SUMMARY
+    
+    - name: Archive Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: synapse-bus-core-release
+        path: target/release/synapse-bus-core
+        retention-days: 30

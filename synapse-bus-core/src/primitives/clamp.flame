@@ -1,0 +1,28 @@
+# FlameLang Primitive: Na+/K+ Pump (Clamp)
+# [Q10] Ejects malformed packets
+
+glyph clamp_ion {
+    input: {
+        packet: Packet,
+        threshold: f32,
+    },
+    
+    # The pump clamps invalid data
+    gate: |ctx| {
+        if !ctx.packet.is_valid() {
+            return GateResult::Clamp("Malformed packet - ejecting");
+        }
+        if ctx.packet.size > ctx.threshold {
+            return GateResult::Clamp("Packet too large - ejecting");
+        }
+        return GateResult::Flow;
+    },
+    
+    action: |packet| {
+        # Eject the packet from the system
+        quarantine::eject(packet);
+        return GateResult::Ejected;
+    }
+}
+
+# Note: This is a placeholder for the full FlameLang implementation

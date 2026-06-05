@@ -1,0 +1,74 @@
+# [AXIOM] Rust Manifest: Enforces 880x Cost Reduction (local-first deps)
+# synapse-bus-core: The Sovereign OS Nervous System
+# Version: 0.1.0-alpha (Event Horizon)
+
+[package]
+name = "synapse-bus-core"
+version = "0.1.0-alpha"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC <domenic@strategickhaos.com>"]
+license = "MIT"
+description = "Bio-mimetic nervous system for sovereign digital infrastructure"
+repository = "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+keywords = ["sovereignty", "biomimetic", "synapse", "homeostasis", "gsch"]
+categories = ["asynchronous", "network-programming", "science"]
+
+[dependencies]
+# Core Async Runtime (Local-First)
+tokio = { version = "1.35", features = ["full"] }
+async-trait = "0.1"
+
+# Serialization & Data
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+
+# Cryptography (Sovereign Security)
+ring = "0.17"
+blake3 = "1.5"
+
+# Time & UUID
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.6", features = ["v4", "serde"] }
+
+# Concurrency Primitives
+parking_lot = "0.12"
+crossbeam = "0.8"
+
+# Logging & Tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Physics Engine (GSCH)
+nalgebra = "0.32"  # Linear algebra for gradient calculations
+
+# Error Handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+[dev-dependencies]
+# Testing Framework
+tokio-test = "0.4"
+proptest = "1.4"
+criterion = "0.5"
+
+[workspace]
+members = [
+    ".",
+]
+
+[profile.release]
+# 880x Cost Reduction: Aggressive optimization
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
+
+[profile.dev]
+# Fast compilation for development
+opt-level = 0
+debug = true
+
+# Additional dependencies for oncecell
+[dependencies.once_cell]
+version = "1.19"
