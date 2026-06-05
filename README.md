@@ -170,12 +170,46 @@ ai_agents:
 
 ## 🔐 Security & Governance
 
+### SAGCO-OS Governance Framework
+
+**Strategickhaos DAO LLC / Valoryield Engine** operates under a comprehensive governance and compliance framework for SAGCO-OS (Sovereignty Architecture Governance & Control Operating System).
+
+**Legal Authorization:**
+- **Company:** Strategickhaos DAO LLC / Valoryield Engine
+- **Structure:** Member-Managed LLC
+- **NAICS Code:** 561611 (Investigation Services)
+- **Authorization:** Private investigation, cybersecurity, and security consulting services
+- **Compliance Status:** Good Standing, No disciplinary actions
+- **Key Personnel:** Domenic Garza (Managing Member, ORCID: 0009-0005-2996-3526, TWIC/DHS: Active)
+
+### Governance Documentation
+
+#### Core Governance Files
+- **📄 Governance Configuration:** `/etc/sagco/governance.yaml` - Technical governance configuration with Harbor Compliance integration
+- **📄 Compliance Policy:** `/etc/sagco/policies/GOVERNANCE_COMPLIANCE_POLICY.md` - Comprehensive governance and compliance framework
+- **📄 Operations Policy:** `/etc/sagco/policies/COMPANY_POLICY_THREAT_INTEL_MONITORING.md` - Threat intelligence, boot recon, and monitoring policies
+- **📄 Security Playbook:** `/etc/sagco/playbooks/SECURITY_OPERATIONS_PLAYBOOK.md` - Audit-ready operational procedures
+
+#### Security Capabilities (Authorized)
+- ✅ **Boot-Time Security Reconnaissance** - System integrity validation at startup
+- ✅ **Threat Intelligence Gathering** - OSINT and security feed integration
+- ✅ **OS-Level Security Monitoring** - Real-time threat detection and response
+- ✅ **Digital Forensics & Reconstruction** - Incident investigation and analysis
+
+**All security operations are conducted in compliance with:**
+- NIST Cybersecurity Framework 2.0
+- ISO 27001 Information Security Management
+- GDPR Data Protection Principles
+- Computer Fraud and Abuse Act (CFAA)
+- Electronic Communications Privacy Act (ECPA)
+
 ### Multi-Layer Security
 - **RBAC**: Kubernetes role-based access control
 - **Secret Management**: Vault integration for sensitive data
 - **Network Policies**: Microsegmentation for pod communication
-- **Audit Logging**: Comprehensive activity tracking
+- **Audit Logging**: Comprehensive activity tracking (7-year retention)
 - **Content Redaction**: Automatic PII and credential filtering
+- **Privacy Controls**: Data minimization, purpose limitation, security by design
 
 ### Production Safeguards
 ```yaml
@@ -184,7 +218,19 @@ governance:
     prod_commands_require: ["ReleaseMgr"]
   change_management:
     link: "https://wiki.strategickhaos.internal/change-management"
+  compliance:
+    framework: "NAICS 561611 - Private Investigation + Cybersecurity"
+    audit_frequency: "Quarterly"
+    records_retention: "7 years minimum"
 ```
+
+### Compliance & Audit
+- **Daily:** Security operations and compliance checks
+- **Weekly:** Security review and threat intelligence analysis
+- **Quarterly:** Comprehensive compliance audit
+- **Annually:** Full security assessment and compliance certification
+
+**For compliance inquiries:** Contact Managing Member - domenic.garza@snhu.edu
 
 ## 📊 Monitoring & Alerts
 
