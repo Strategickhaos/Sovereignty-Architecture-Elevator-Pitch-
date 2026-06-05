@@ -1,0 +1,41 @@
+meta:
+  id: "NEURO-EPILEPSY-001"
+  domain: "Neurology"
+  process: "EEG Cycle Monitoring"
+  hazard_level: "HIGH"
+  description: "Epileptic wave detection - neural coherence analysis via TRIG6"
+  
+trig6_signature:
+  θ: 0.524  # π/6 - EEG cycle phase
+  R: 0.70   # Coherence
+  D: 0.25   # Spread drift
+  N: 0.35   # Variance
+  danger: true
+  danger_zone: "Spike tan∞"
+  
+fitness:
+  champion_fitness: 0.307  # 0.70 * (1-0.25) * (1-0.35) * 0.9 = 0.3071
+  target_fitness: 0.60
+  
+process_parameters:
+  frequency_range: "0.5-100 Hz"
+  coherence_bands: "Delta, Theta, Alpha, Beta, Gamma"
+  sampling_rate: "256-1024 Hz"
+  electrode_count: "19-256 channels"
+  
+stability_requirements:
+  spread_threshold: 0.30
+  coherence_minimum: 0.65
+  variance_maximum: 0.40
+  
+danger_conditions:
+  spike_event: "Sudden θ increase causing tan∞"
+  consequence: "Seizure cascade"
+  intervention: "Anti-epileptic damping"
+  
+notes: |
+  Epileptic waves show TRIG6 dynamics in neural systems.
+  When coherence drops and variance spikes, the system enters
+  a danger zone where neural synchrony breaks down catastrophically.
+  
+  The same stability mathematics apply from brain waves to building materials.

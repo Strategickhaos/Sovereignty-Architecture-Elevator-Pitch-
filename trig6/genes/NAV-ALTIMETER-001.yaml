@@ -1,0 +1,38 @@
+meta:
+  id: "NAV-ALTIMETER-001"
+  domain: "Navigation"
+  process: "Altitude Calculation"
+  hazard_level: "HIGH"
+  description: "Aircraft altimeter - pressure-based altitude sensing via TRIG6"
+  
+trig6_signature:
+  θ: 1.571  # π/2 - Critical angle measurement
+  R: 0.95   # Accuracy
+  D: 0.10   # Wind drift
+  N: 0.15   # Calibration noise
+  danger: true
+  danger_zone: "Steep angle tan∞"
+  
+fitness:
+  champion_fitness: 0.651  # 0.95 * (1-0.10) * (1-0.15) * 0.9 = 0.6508
+  target_fitness: 0.85
+  
+process_parameters:
+  altitude_range: "0-50,000 ft"
+  pressure_units: "inHg / hPa"
+  update_frequency: "1-10 Hz"
+  accuracy_requirement: "±75 ft"
+  
+stability_requirements:
+  drift_threshold: 0.15
+  accuracy_minimum: 0.90
+  noise_maximum: 0.20
+  
+danger_conditions:
+  steep_angle: "θ → π/2 causes tan∞"
+  consequence: "Altitude calculation becomes undefined"
+  
+notes: |
+  Altimeters demonstrate TRIG6 in high-stakes navigation.
+  At steep angles approaching 90°, tangent approaches infinity,
+  creating a mathematical danger zone requiring intervention.
