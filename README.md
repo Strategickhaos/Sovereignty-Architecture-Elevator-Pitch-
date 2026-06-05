@@ -280,6 +280,11 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📜 Mission & Purpose
+
+- **[The Sister Protocol](docs/THE_SISTER_PROTOCOL.md)** - The origin story and true mission behind everything we build
+- **[Charitable Commitment](docs/CHARITABLE_COMMITMENT.md)** - Our irrevocable commitment to giving back
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
