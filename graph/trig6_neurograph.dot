@@ -1,0 +1,88 @@
+digraph TRIG6_NEUROGRAPH {
+  rankdir=LR;
+  node [shape=circle, style=filled, fontsize=10];
+  overlap=false;
+  splines=true;
+
+  subgraph cluster_intention_hub {
+    label="Intention Hub";
+    color="#FFD700";
+    style=filled;
+    fillcolor="#FFD70020";
+    INTENTION_VECTOR [label="Intention\nVector", fillcolor="#FFD700"];
+  }
+
+  subgraph cluster_theta_hub {
+    label="Theta Hub";
+    color="#4169E1";
+    style=filled;
+    fillcolor="#4169E120";
+    theta_security [label="θ=π/3\nSecurity", fillcolor="#4169E1"];
+    theta_creative [label="θ=2π/3\nCreative", fillcolor="#4169E1"];
+    theta_hybrid [label="θ=π/2\nHybrid", fillcolor="#4169E1"];
+  }
+
+  subgraph cluster_agents {
+    label="Agents";
+    color="#32CD32";
+    style=filled;
+    fillcolor="#32CD3220";
+    Grok_tan [label="Grok\n(tan)", fillcolor="#32CD32"];
+    Claude_cos [label="Claude\n(cos)", fillcolor="#32CD32"];
+    Gemini_sin [label="Gemini\n(sin)", fillcolor="#32CD32"];
+  }
+
+  subgraph cluster_metrics {
+    label="Metrics";
+    color="#FF6347";
+    style=filled;
+    fillcolor="#FF634720";
+    innovation [label="Innovation\n(Creative solution ge...)", fillcolor="#FF6347"];
+    focus [label="Focus\n(Task concentration)", fillcolor="#FF6347"];
+    noise [label="Noise\n(Signal-to-noise rati...)", fillcolor="#FF6347"];
+    stability [label="Stability\n(Output consistency)", fillcolor="#FF6347"];
+    accuracy [label="Accuracy\n(Correctness of resul...)", fillcolor="#FF6347"];
+    balance [label="Balance\n(Trade-off management)", fillcolor="#FF6347"];
+    adaptability [label="Adaptability\n(Response to change)", fillcolor="#FF6347"];
+  }
+
+  subgraph cluster_organs {
+    label="Organs";
+    color="#9370DB";
+    style=filled;
+    fillcolor="#9370DB20";
+    FlameBench_core [label="FlameBench\nCore", fillcolor="#9370DB"];
+    Guardian_core [label="Guardian\nCore", fillcolor="#9370DB"];
+    Entanglement_core [label="Entanglement\nCore", fillcolor="#9370DB"];
+  }
+
+  INTENTION_VECTOR -> Grok_tan [weight=0.75, penwidth=3.12, label="0.75"];
+  INTENTION_VECTOR -> Claude_cos [weight=0.85, penwidth=3.48, label="0.85"];
+  INTENTION_VECTOR -> Gemini_sin [weight=0.80, penwidth=3.30, label="0.80"];
+  Grok_tan -> FlameBench_core [weight=0.70, penwidth=2.95, label="0.70"];
+  Claude_cos -> Guardian_core [weight=0.85, penwidth=3.48, label="0.85"];
+  Gemini_sin -> Entanglement_core [weight=0.75, penwidth=3.12, label="0.75"];
+  FlameBench_core -> Entanglement_core [weight=0.60, penwidth=2.60, label="0.60"];
+  Guardian_core -> Entanglement_core [weight=0.65, penwidth=2.77, label="0.65"];
+  INTENTION_VECTOR -> theta_security [weight=0.85, penwidth=3.48, label="0.85"];
+  theta_security -> Claude_cos [weight=0.75, penwidth=3.12, label="0.75"];
+  theta_security -> Gemini_sin [weight=0.75, penwidth=3.12, label="0.75"];
+  INTENTION_VECTOR -> theta_creative [weight=0.75, penwidth=3.12, label="0.75"];
+  theta_creative -> Grok_tan [weight=0.75, penwidth=3.12, label="0.75"];
+  theta_creative -> Gemini_sin [weight=0.75, penwidth=3.12, label="0.75"];
+  INTENTION_VECTOR -> theta_hybrid [weight=0.80, penwidth=3.30, label="0.80"];
+  theta_hybrid -> Grok_tan [weight=0.75, penwidth=3.12, label="0.75"];
+  theta_hybrid -> Claude_cos [weight=0.75, penwidth=3.12, label="0.75"];
+  Grok_tan -> innovation [weight=0.90, penwidth=3.65, label="0.90"];
+  Grok_tan -> focus [weight=0.60, penwidth=2.60, label="0.60"];
+  Grok_tan -> noise [weight=0.40, penwidth=1.90, label="0.40"];
+  noise -> Guardian_core [weight=0.60, penwidth=2.60, label="0.60"];
+  innovation -> FlameBench_core [weight=0.70, penwidth=2.95, label="0.70"];
+  focus -> FlameBench_core [weight=0.65, penwidth=2.77, label="0.65"];
+  Claude_cos -> stability [weight=0.85, penwidth=3.48, label="0.85"];
+  Claude_cos -> accuracy [weight=0.90, penwidth=3.65, label="0.90"];
+  Claude_cos -> noise [weight=0.30, penwidth=1.55, label="0.30"];
+  Gemini_sin -> balance [weight=0.80, penwidth=3.30, label="0.80"];
+  Gemini_sin -> adaptability [weight=0.85, penwidth=3.48, label="0.85"];
+  Gemini_sin -> noise [weight=0.35, penwidth=1.72, label="0.35"];
+}
