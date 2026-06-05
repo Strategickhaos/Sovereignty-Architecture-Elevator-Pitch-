@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlameLang Periodic Table of Invariants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin: 20px 0;
+            background: linear-gradient(90deg, #ff6b6b, #f06595, #cc5de8, #845ef7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        .periodic-table {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 8px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .row-label {
+            grid-column: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .row-state { color: #4ecdc4; }
+        .row-transform { color: #ff6b6b; }
+        .row-invariant { color: #95e1d3; }
+        .row-wave { color: #f38181; }
+        .row-collapse { color: #aa96da; }
+        
+        .element {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .element::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .element:hover::before {
+            opacity: 1;
+        }
+        
+        .element:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .atomic-num {
+            font-size: 0.8em;
+            opacity: 0.7;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .symbol {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin: 5px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .name {
+            font-size: 0.75em;
+            text-align: center;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Domain Colors */
+        .domain-core {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .domain-egyptian {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .domain-babylonian {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .domain-alchemical {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .domain-transistor {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .domain-physics {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+        
+        .domain-dna {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        .domain-music {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+        
+        .domain-fab {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+        
+        .info-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-panel h2 {
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            font-size: 1.5em;
+        }
+        
+        .reactions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .reaction {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .reaction-name {
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 8px;
+        }
+        
+        .reaction-eq {
+            font-family: 'Courier New', monospace;
+            color: #e0e0e0;
+            font-size: 0.95em;
+        }
+        
+        .attractor {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .attractor h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #f06595;
+        }
+        
+        .attractor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .attractor-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .attractor-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .attractor-domain {
+            font-weight: bold;
+            color: #4ecdc4;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .attractor-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 10px 0;
+        }
+        
+        .attractor-age {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 1000;
+            max-width: 300px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        
+        .tooltip.active {
+            opacity: 1;
+        }
+        
+        .tooltip h3 {
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+        
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        .tooltip-label {
+            opacity: 0.7;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .periodic-table {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .attractor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 FlameLang Periodic Table of Invariants</h1>
+        <div class="subtitle">A sovereign symbolic language for state transformation</div>
+        
+        <div class="periodic-table">
+            <!-- STATE Row -->
+            <div class="row-label row-state">STATE</div>
+            <div class="element domain-core" data-num="1" data-name="State" data-type="state" data-mass="O(1)"><span class="atomic-num">1</span><span class="symbol">St</span><span class="name">State</span></div>
+            <div class="element domain-egyptian" data-num="2" data-name="Scarab" data-type="state" data-mass="O(1)"><span class="atomic-num">2</span><span class="symbol">Sc</span><span class="name">Scarab</span></div>
+            <div class="element domain-babylonian" data-num="3" data-name="Cuneif" data-type="state" data-mass="O(1)"><span class="atomic-num">3</span><span class="symbol">Cu</span><span class="name">Cuneif</span></div>
+            <div class="element domain-alchemical" data-num="4" data-name="Lead" data-type="state" data-mass="O(1)"><span class="atomic-num">4</span><span class="symbol">Pb</span><span class="name">Lead</span></div>
+            <div class="element domain-transistor" data-num="5" data-name="BitState" data-type="state" data-mass="O(1)"><span class="atomic-num">5</span><span class="symbol">Bs</span><span class="name">BitState</span></div>
+            <div class="element domain-physics" data-num="6" data-name="Quantum" data-type="state" data-mass="O(1)"><span class="atomic-num">6</span><span class="symbol">Qm</span><span class="name">Quantum</span></div>
+            <div class="element domain-dna" data-num="7" data-name="Codon" data-type="state" data-mass="O(1)"><span class="atomic-num">7</span><span class="symbol">Cd</span><span class="name">Codon</span></div>
+            <div class="element domain-music" data-num="8" data-name="Note" data-type="state" data-mass="O(1)"><span class="atomic-num">8</span><span class="symbol">Nt</span><span class="name">Note</span></div>
+            <div class="element domain-fab" data-num="9" data-name="Material" data-type="state" data-mass="O(1)"><span class="atomic-num">9</span><span class="symbol">Mt</span><span class="name">Material</span></div>
+            
+            <!-- TRANSFORM Row -->
+            <div class="row-label row-transform">TRANSFORM</div>
+            <div class="element domain-core" data-num="14" data-name="Transform" data-type="transform" data-mass="O(n)"><span class="atomic-num">14</span><span class="symbol">Tr</span><span class="name">Transform</span></div>
+            <div class="element domain-egyptian" data-num="15" data-name="Shadow" data-type="transform" data-mass="O(n)"><span class="atomic-num">15</span><span class="symbol">Sd</span><span class="name">Shadow</span></div>
+            <div class="element domain-babylonian" data-num="16" data-name="Sqrt" data-type="transform" data-mass="O(n)"><span class="atomic-num">16</span><span class="symbol">Sq</span><span class="name">Sqrt</span></div>
+            <div class="element domain-alchemical" data-num="17" data-name="Crucible" data-type="transform" data-mass="O(n)"><span class="atomic-num">17</span><span class="symbol">Cc</span><span class="name">Crucible</span></div>
+            <div class="element domain-transistor" data-num="18" data-name="Xor" data-type="transform" data-mass="O(1)"><span class="atomic-num">18</span><span class="symbol">Xo</span><span class="name">Xor</span></div>
+            <div class="element domain-physics" data-num="19" data-name="Fourier" data-type="transform" data-mass="O(n log n)"><span class="atomic-num">19</span><span class="symbol">Ff</span><span class="name">Fourier</span></div>
+            <div class="element domain-dna" data-num="20" data-name="Splice" data-type="transform" data-mass="O(n)"><span class="atomic-num">20</span><span class="symbol">Sp</span><span class="name">Splice</span></div>
+            <div class="element domain-music" data-num="21" data-name="Transpose" data-type="transform" data-mass="O(n)"><span class="atomic-num">21</span><span class="symbol">Tp</span><span class="name">Transpose</span></div>
+            <div class="element domain-fab" data-num="22" data-name="Mill" data-type="transform" data-mass="O(n)"><span class="atomic-num">22</span><span class="symbol">Ml</span><span class="name">Mill</span></div>
+            
+            <!-- INVARIANT Row -->
+            <div class="row-label row-invariant">INVARIANT</div>
+            <div class="element domain-core" data-num="27" data-name="Invariant" data-type="invariant" data-mass="O(1)"><span class="atomic-num">27</span><span class="symbol">Iv</span><span class="name">Invariant</span></div>
+            <div class="element domain-egyptian" data-num="28" data-name="Eye" data-type="invariant" data-mass="O(1)"><span class="atomic-num">28</span><span class="symbol">Ey</span><span class="name">Eye</span></div>
+            <div class="element domain-babylonian" data-num="29" data-name="Circle" data-type="invariant" data-mass="O(1)"><span class="atomic-num">29</span><span class="symbol">Cr</span><span class="name">Circle</span></div>
+            <div class="element domain-alchemical" data-num="30" data-name="Distill" data-type="invariant" data-mass="O(n)"><span class="atomic-num">30</span><span class="symbol">Ds</span><span class="name">Distill</span></div>
+            <div class="element domain-transistor" data-num="31" data-name="And" data-type="invariant" data-mass="O(1)"><span class="atomic-num">31</span><span class="symbol">Ad</span><span class="name">And</span></div>
+            <div class="element domain-physics" data-num="32" data-name="Energy" data-type="invariant" data-mass="O(1)"><span class="atomic-num">32</span><span class="symbol">En</span><span class="name">Energy</span></div>
+            <div class="element domain-dna" data-num="33" data-name="Amino" data-type="invariant" data-mass="O(1)"><span class="atomic-num">33</span><span class="symbol">Am</span><span class="name">Amino</span></div>
+            <div class="element domain-music" data-num="34" data-name="Key" data-type="invariant" data-mass="O(1)"><span class="atomic-num">34</span><span class="symbol">Ky</span><span class="name">Key</span></div>
+            <div class="element domain-fab" data-num="35" data-name="Tolerance" data-type="invariant" data-mass="O(1)"><span class="atomic-num">35</span><span class="symbol">Tl</span><span class="name">Tolerance</span></div>
+            
+            <!-- WAVE Row -->
+            <div class="row-label row-wave">WAVE</div>
+            <div class="element domain-core" data-num="40" data-name="Wave" data-type="wave" data-mass="O(T)"><span class="atomic-num">40</span><span class="symbol">Wv</span><span class="name">Wave</span></div>
+            <div class="element domain-egyptian" data-num="41" data-name="Papyrus" data-type="wave" data-mass="O(T)"><span class="atomic-num">41</span><span class="symbol">Pp</span><span class="name">Papyrus</span></div>
+            <div class="element domain-babylonian" data-num="42" data-name="Zigurat" data-type="wave" data-mass="O(T)"><span class="atomic-num">42</span><span class="symbol">Zg</span><span class="name">Zigurat</span></div>
+            <div class="element domain-alchemical" data-num="43" data-name="Mercury" data-type="wave" data-mass="O(T)"><span class="atomic-num">43</span><span class="symbol">Hg</span><span class="name">Mercury</span></div>
+            <div class="element domain-transistor" data-num="44" data-name="Clock" data-type="wave" data-mass="O(T)"><span class="atomic-num">44</span><span class="symbol">Cl</span><span class="name">Clock</span></div>
+            <div class="element domain-physics" data-num="45" data-name="Photon" data-type="wave" data-mass="O(T)"><span class="atomic-num">45</span><span class="symbol">Ph</span><span class="name">Photon</span></div>
+            <div class="element domain-dna" data-num="46" data-name="Replicate" data-type="wave" data-mass="O(T)"><span class="atomic-num">46</span><span class="symbol">Rp</span><span class="name">Replicate</span></div>
+            <div class="element domain-dna" data-num="47" data-name="CellCyc" data-type="wave" data-mass="O(T)"><span class="atomic-num">47</span><span class="symbol">Ce</span><span class="name">CellCyc</span></div>
+            <div class="element domain-music" data-num="48" data-name="Rhythm" data-type="wave" data-mass="O(T)"><span class="atomic-num">48</span><span class="symbol">Rh</span><span class="name">Rhythm</span></div>
+            <div class="element domain-fab" data-num="49" data-name="Rotation" data-type="wave" data-mass="O(T)"><span class="atomic-num">49</span><span class="symbol">Ro</span><span class="name">Rotation</span></div>
+            
+            <!-- COLLAPSE Row -->
+            <div class="row-label row-collapse">COLLAPSE</div>
+            <div class="element domain-core" data-num="53" data-name="Resolve" data-type="collapse" data-mass="O(1)"><span class="atomic-num">53</span><span class="symbol">Rs</span><span class="name">Resolve</span></div>
+            <div class="element domain-egyptian" data-num="55" data-name="Parity" data-type="collapse" data-mass="O(1)"><span class="atomic-num">55</span><span class="symbol">Pa</span><span class="name">Parity</span></div>
+            <div class="element domain-babylonian" data-num="56" data-name="Roots" data-type="collapse" data-mass="O(n)"><span class="atomic-num">56</span><span class="symbol">Rt</span><span class="name">Roots</span></div>
+            <div class="element domain-alchemical" data-num="57" data-name="Transmute" data-type="collapse" data-mass="O(n)"><span class="atomic-num">57</span><span class="symbol">Tm</span><span class="name">Transmute</span></div>
+            <div class="element domain-transistor" data-num="58" data-name="Latch" data-type="collapse" data-mass="O(1)"><span class="atomic-num">58</span><span class="symbol">Lt</span><span class="name">Latch</span></div>
+            <div class="element domain-physics" data-num="59" data-name="Measure" data-type="collapse" data-mass="O(1)"><span class="atomic-num">59</span><span class="symbol">Ms</span><span class="name">Measure</span></div>
+            <div class="element domain-dna" data-num="60" data-name="Express" data-type="collapse" data-mass="O(n)"><span class="atomic-num">60</span><span class="symbol">Ex</span><span class="name">Express</span></div>
+            <div class="element domain-music" data-num="61" data-name="ResolveM" data-type="collapse" data-mass="O(1)"><span class="atomic-num">61</span><span class="symbol">Rv</span><span class="name">Resolve</span></div>
+            <div class="element domain-fab" data-num="62" data-name="Weld" data-type="collapse" data-mass="O(1)"><span class="atomic-num">62</span><span class="symbol">Wd</span><span class="name">Weld</span></div>
+        </div>
+        
+        <!-- Bonding Rules -->
+        <div class="info-panel">
+            <h2>⚗️ Bonding Rules</h2>
+            <div class="reactions">
+                <div class="reaction">
+                    <div class="reaction-name">Transform Apply</div>
+                    <div class="reaction-eq">state + transform → state'</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">State Combine</div>
+                    <div class="reaction-eq">state + state → compound_state</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">Invariant Check</div>
+                    <div class="reaction-eq">state + invariant → bool | error</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">Wave Generate</div>
+                    <div class="reaction-eq">state + periodic → wave</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">Wave Collapse</div>
+                    <div class="reaction-eq">wave + collapse → state</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Named Reactions -->
+        <div class="info-panel">
+            <h2>🔬 Named Reactions</h2>
+            <div class="reactions">
+                <div class="reaction">
+                    <div class="reaction-name">Egyptian Decomposition</div>
+                    <div class="reaction-eq">St(1) → Sd(1/2) + Sd(1/4) + Sd(1/8) + ... + Pa(1/64)</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">Horus Quantization</div>
+                    <div class="reaction-eq">St(x) + Ey(64) → St(63/64) + Pa(parity)</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">Babylonian Sqrt</div>
+                    <div class="reaction-eq">St(n) + Sq(iter=4) → St(√n ± ε)</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">Alchemical Transmutation</div>
+                    <div class="reaction-eq">St(lead) + Cc + Ds(7) + Tm → St(gold)</div>
+                </div>
+                <div class="reaction">
+                    <div class="reaction-name">FlameLang Compile</div>
+                    <div class="reaction-eq">Src(english) + L1(ling) + L2(num) + L3(wave) + L4(dna) + L5(llvm) → Binary</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 64-State Attractor -->
+        <div class="attractor">
+            <h2>🎯 The 64-State Attractor</h2>
+            <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">
+                64 represents the natural quantization boundary discovered independently across 4000+ years
+            </p>
+            <div class="attractor-grid">
+                <div class="attractor-item">
+                    <div class="attractor-domain">Egyptian</div>
+                    <div class="attractor-value">63/64</div>
+                    <div class="attractor-age">Eye of Horus • 2500 BCE</div>
+                </div>
+                <div class="attractor-item">
+                    <div class="attractor-domain">I Ching</div>
+                    <div class="attractor-value">2⁶</div>
+                    <div class="attractor-age">64 Hexagrams • 1000 BCE</div>
+                </div>
+                <div class="attractor-item">
+                    <div class="attractor-domain">DNA</div>
+                    <div class="attractor-value">4³</div>
+                    <div class="attractor-age">64 Codons • 3.5B years</div>
+                </div>
+                <div class="attractor-item">
+                    <div class="attractor-domain">Chess</div>
+                    <div class="attractor-value">8²</div>
+                    <div class="attractor-age">64 Squares • 600 CE</div>
+                </div>
+                <div class="attractor-item">
+                    <div class="attractor-domain">Computing</div>
+                    <div class="attractor-value">2⁶</div>
+                    <div class="attractor-age">64-bit • 1961 CE</div>
+                </div>
+                <div class="attractor-item">
+                    <div class="attractor-domain">Music</div>
+                    <div class="attractor-value">1/64</div>
+                    <div class="attractor-age">64th Note • Standard</div>
+                </div>
+                <div class="attractor-item">
+                    <div class="attractor-domain">Fabrication</div>
+                    <div class="attractor-value">1/64"</div>
+                    <div class="attractor-age">Industrial Precision</div>
+                </div>
+                <div class="attractor-item">
+                    <div class="attractor-domain">FlameLang</div>
+                    <div class="attractor-value">64</div>
+                    <div class="attractor-age">Core Elements • 2025</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hebrew Mapping -->
+        <div class="info-panel">
+            <h2>א Hebrew Alphabet Elements</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 15px;">
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">א</span><span class="name">Aleph • 1</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ב</span><span class="name">Bet • 2</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ג</span><span class="name">Gimel • 3</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ד</span><span class="name">Dalet • 4</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ה</span><span class="name">He • 5</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ו</span><span class="name">Vav • 6</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ז</span><span class="name">Zayin • 7</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ח</span><span class="name">Chet • 8</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ט</span><span class="name">Tet • 9</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">י</span><span class="name">Yod • 10</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">כ</span><span class="name">Kaf • 20</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ל</span><span class="name">Lamed • 30</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">מ</span><span class="name">Mem • 40</span></div>
+                <div class="element domain-core" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">נ</span><span class="name">Nun • 50</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ס</span><span class="name">Samekh • 1,0</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ע</span><span class="name">Ayin • 1,10</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">פ</span><span class="name">Pe • 1,20</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">צ</span><span class="name">Tsadi • 1,30</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ק</span><span class="name">Qof • 1,40</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ר</span><span class="name">Resh • 3,20</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ש</span><span class="name">Shin • 5,0</span></div>
+                <div class="element domain-babylonian" style="min-height: 60px;"><span class="symbol" style="font-size: 1.8em;">ת</span><span class="name">Tav • 6,40</span></div>
+            </div>
+            <p style="margin-top: 15px; text-align: center; opacity: 0.7;">
+                Note: Letters ≥60 shown in Babylonian base-60 notation (carry emergence)
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 40px; padding: 20px; opacity: 0.6;">
+            <p>FlameLang Periodic Table of Invariants v1.0</p>
+            <p>© 2025-2026 Strategickhaos DAO LLC | ValorYield Engine PBC</p>
+            <p>Dom (Me10101) | Inventor</p>
+        </div>
+    </div>
+    
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip">
+        <h3 id="tooltip-name"></h3>
+        <div class="tooltip-row"><span class="tooltip-label">Atomic #:</span> <span id="tooltip-num"></span></div>
+        <div class="tooltip-row"><span class="tooltip-label">IR Type:</span> <span id="tooltip-type"></span></div>
+        <div class="tooltip-row"><span class="tooltip-label">Mass:</span> <span id="tooltip-mass"></span></div>
+    </div>
+    
+    <script>
+        // Tooltip functionality
+        const tooltip = document.getElementById('tooltip');
+        const elements = document.querySelectorAll('.element');
+        
+        elements.forEach(el => {
+            el.addEventListener('mouseenter', (e) => {
+                const name = el.dataset.name || el.querySelector('.name')?.textContent || '';
+                const num = el.dataset.num || el.querySelector('.atomic-num')?.textContent || '';
+                const type = el.dataset.type || '';
+                const mass = el.dataset.mass || 'O(1)';
+                
+                document.getElementById('tooltip-name').textContent = name;
+                document.getElementById('tooltip-num').textContent = num;
+                document.getElementById('tooltip-type').textContent = type;
+                document.getElementById('tooltip-mass').textContent = mass;
+                
+                tooltip.classList.add('active');
+            });
+            
+            el.addEventListener('mousemove', (e) => {
+                tooltip.style.left = (e.clientX + 15) + 'px';
+                tooltip.style.top = (e.clientY + 15) + 'px';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
