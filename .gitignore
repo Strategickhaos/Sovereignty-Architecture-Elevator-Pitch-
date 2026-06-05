@@ -31,6 +31,9 @@ target/
 .mvn/
 *.log
 
+# Node.js build output
+dist/
+
 # JDK installations
 .local/jdks/
 
