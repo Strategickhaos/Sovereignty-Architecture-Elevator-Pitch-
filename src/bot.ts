@@ -47,6 +47,66 @@ client.on("interactionCreate", async (i: Interaction) => {
         body: JSON.stringify({ service: svc, replicas })
       }).then(r => r.json());
       await i.reply({ embeds: [embed("Scale", `service: ${svc}\nreplicas: ${replicas}\nresult: ${r.status}`)] });
+    } else if (i.commandName === "request") {
+      const project = i.options.getString("project", true);
+      const description = i.options.getString("description", true);
+      const expertsStr = i.options.getString("experts", false);
+      const experts = expertsStr 
+        ? expertsStr.split(",").map(e => e.trim()).filter(e => e.length > 0) 
+        : null;
+      
+      const refinoryPort = cfg.refinory?.ports?.api || 8085;
+      const response = await fetch(`http://localhost:${refinoryPort}/requests`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          project, 
+          description, 
+          requester: i.user.username,
+          experts 
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Refinory API error: ${response.status} ${response.statusText}`);
+      }
+      
+      const r = await response.json();
+      
+      const expertsInfo = experts ? `\nExperts: ${experts.join(", ")}` : "";
+      await i.reply({ 
+        embeds: [embed(
+          "🧠 Refinory Request Created", 
+          `**Project:** ${project}\n**Request ID:** ${r.request_id}\n**Status:** ${r.status}${expertsInfo}\n\n${r.message}`
+        )] 
+      });
+    } else if (i.commandName === "refinory-status") {
+      const requestId = i.options.getString("request_id", true);
+      
+      const refinoryPort = cfg.refinory?.ports?.api || 8085;
+      const response = await fetch(`http://localhost:${refinoryPort}/requests/${requestId}`);
+      
+      if (!response.ok) {
+        throw new Error(`Refinory API error: ${response.status} ${response.statusText}`);
+      }
+      
+      const r = await response.json();
+      
+      const progress = Math.max(0, Math.min(100, r.progress || 0));
+      const progressBar = "█".repeat(Math.floor(progress / 10)) + "░".repeat(10 - Math.floor(progress / 10));
+      const activeExperts = r.active_experts && r.active_experts.length > 0 
+        ? `\n**Active Experts:** ${r.active_experts.join(", ")}` 
+        : "";
+      const artifacts = r.artifacts && r.artifacts.length > 0
+        ? `\n**Artifacts:** ${r.artifacts.length} files generated`
+        : "";
+      
+      await i.reply({ 
+        embeds: [embed(
+          `📊 Refinory Status: ${r.project}`,
+          `**Request ID:** ${requestId}\n**Status:** ${r.status}\n**Progress:** ${progressBar} ${progress}%${activeExperts}${artifacts}\n**Updated:** ${new Date(r.updated_at).toLocaleString()}`
+        )]
+      });
     }
   } catch (e: any) {
     await i.reply({ content: `Error: ${e.message}` });
