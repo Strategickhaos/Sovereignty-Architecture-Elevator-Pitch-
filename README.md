@@ -2,6 +2,20 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🏆 Patent-Ready Invention: SAGCO-OS
+
+This repository contains **USPTO-ready patent documentation** for the Sovereignty Architecture Governance Compiler Operating System (SAGCO-OS) - a novel autonomous operating system with trigonometric multi-agent coordination and genetic evolution.
+
+**📄 Patent Documents:**
+- **[USPTO Patent Draft v0.1](USPTO_PATENT_DRAFT_V0.1.md)** - Complete nonprovisional patent application
+- **[Debate Dictation Script](DEBATE_DICTATION_SCRIPT.md)** - Patent examiner interview preparation
+- **[Boot Recon Specification](SAGCO_OS_BOOT_RECON_SPECIFICATION.md)** - Legal + technical specification
+- **[Invention Disclosure Packet](INVENTION_DISCLOSURE_PACKET.md)** - Master index and filing guide
+
+**Status:** ✅ Ready for USPTO provisional filing (January 25, 2026 priority date)
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -280,9 +294,60 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📜 Patent & Intellectual Property
+
+### SAGCO-OS Invention Documentation
+
+This repository contains comprehensive USPTO-ready patent documentation for the **Sovereignty Architecture Governance Compiler Operating System (SAGCO-OS)** - a novel invention combining compiler-based governance, trigonometric multi-agent coordination, and genetic evolution.
+
+**Patent Documents:**
+
+1. **[USPTO Patent Draft v0.1](USPTO_PATENT_DRAFT_V0.1.md)** - Complete nonprovisional patent application
+   - 2 independent claims, 13 dependent claims
+   - 6 detailed figures with technical descriptions
+   - Complete prior art analysis
+   - Ready for USPTO submission
+
+2. **[Debate Dictation Script](DEBATE_DICTATION_SCRIPT.md)** - Patent examiner interview preparation
+   - Q&A format addressing all invention aspects
+   - Prior art differentiation strategies
+   - Anticipated rejection responses
+   - Inventorship clarity documentation
+
+3. **[SAGCO-OS Boot Recon Specification](SAGCO_OS_BOOT_RECON_SPECIFICATION.md)** - Legal + technical specification
+   - Wyoming DAO Act (SF0068) compliance mapping
+   - Complete 6-phase boot sequence
+   - Fail-safe mechanisms and circuit breakers
+   - Audit and telemetry systems
+
+4. **[Invention Disclosure Packet](INVENTION_DISCLOSURE_PACKET.md)** - Master index and filing guide
+   - Complete evidence inventory
+   - USPTO filing readiness checklist
+   - Cost estimates and timelines
+   - Risk analysis and success metrics
+
+**Key Innovations:**
+
+- **TRIG6 Orchestrator:** Trigonometric multi-agent coordination using FFT-based drift detection and cosine similarity resonance analysis
+- **FlameLang Compiler:** YAML governance rules compiled to LLVM IR and deterministic machine code
+- **DNA Codon Evolution:** Genetic programming applied to OS configuration with 3-base codon structure
+- **Neurograph Telemetry:** Vector database logging for complete auditability and semantic search
+- **Wyoming DAO Compliance:** Algorithmic management without blockchain dependency
+
+**Inventor:** Dominic Garza (Dom010101)  
+**Entity:** Strategickhaos DAO LLC (Wyoming 2025-001708194, EIN: 39-2900295)  
+**Status:** ✅ Ready for USPTO provisional filing  
+**Priority Date:** January 25, 2026
+
+**Patent Filing Resources:**
+- See [INVENTION_DISCLOSURE_PACKET.md](INVENTION_DISCLOSURE_PACKET.md) for complete filing guide
+- Estimated costs: $150-300 (provisional) / $10,000-20,000 (nonprovisional with attorney)
+- Timeline: 24-36 months from filing to grant
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
+  - *Note: The SAGCO-OS invention concepts and methods described in the patent documents are subject to pending patent rights. The MIT license applies to the code implementation, while patent protection is sought for the novel methods and systems.*
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
