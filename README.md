@@ -9,6 +9,52 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **SBIP** - Boot Identity Pipeline for sovereign system initialization
+
+## 🔥 SAGCO Boot Identity Pipeline (SBIP) v1.0
+
+**NEW:** Complete boot-level identity and verification system.
+
+The SAGCO Boot Identity Pipeline (SBIP) integrates identity display, artifact verification, and toolchain autostart directly into the Linux boot process, creating a sovereign boot sequence.
+
+### Quick Start (SBIP)
+
+```bash
+# Install SBIP components
+sudo ./install.sh
+
+# Configure GRUB (manual step)
+# Edit /etc/default/grub and add:
+#   GRUB_THEME="/boot/grub/themes/sagco/theme.txt"
+#   GRUB_CMDLINE_LINUX_DEFAULT="quiet splash sagco=1"
+
+# Update and reboot
+sudo update-grub
+sudo reboot
+```
+
+### SBIP Components
+
+- **Kernel Module** (`sagco_cpu_mod.ko`) - Ring 0 primitives for CPU state
+- **systemd Services** - Identity banner, runtime, compiler, CPU interface
+- **GRUB Theme** - Visual identity during bootloader stage
+- **initramfs Scripts** - Early-boot artifact verification
+- **Plymouth Theme** - Boot splash with SAGCO branding
+
+See [SBIP.md](SBIP.md) for complete documentation.
+
+### Boot Stages
+
+1. **GRUB** - Display SAGCO theme and load kernel with `sagco=1` flag
+2. **Kernel** - Load sagco_cpu_mod kernel module
+3. **initramfs** - Verify artifacts and display identity
+4. **systemd** - Start SAGCO services (banner, runtime, compiler, CPU)
+
+```
+Stage 0: GRUB → Stage 1: Kernel → Stage 2: initramfs → Stage 3: systemd
+    ↓              ↓                  ↓                    ↓
+  Theme        Module              Verify              Services
+```
 
 ## 🚀 Quick Start
 

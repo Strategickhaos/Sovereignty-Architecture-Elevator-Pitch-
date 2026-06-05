@@ -1,0 +1,11 @@
+# SAGCO Plymouth Theme
+# Boot splash screen configuration
+
+[Plymouth Theme]
+Name=SAGCO Boot Identity
+Description=SAGCO Boot Identity Pipeline splash screen
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/sagco
+ScriptFile=/usr/share/plymouth/themes/sagco/sagco.script

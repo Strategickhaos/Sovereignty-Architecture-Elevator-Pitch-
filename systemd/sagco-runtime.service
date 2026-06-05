@@ -1,0 +1,27 @@
+[Unit]
+Description=SAGCO Runtime Toolchain Bootstrap
+Documentation=https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
+After=sagco-banner.service sagco-cpu.service
+Requires=sagco-cpu.service
+PartOf=sagco.target
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/sagco-runtime
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+
+# Environment
+Environment="SAGCO_MODE=production"
+Environment="SAGCO_ROOT=/opt/sagco"
+
+# Security hardening
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/sagco
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=sagco.target multi-user.target
