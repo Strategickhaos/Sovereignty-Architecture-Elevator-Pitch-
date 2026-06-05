@@ -1,0 +1,54 @@
+# SAGCO-HYDRA Mesh Node: LYRA
+# Role: Right Hemisphere Processing
+
+node:
+  name: "lyra"
+  role: "right_hemisphere"
+  status: "active"
+  description: "Creative and intuitive processing node"
+
+hardware:
+  device: "ASUS Laptop"
+  cpu:
+    model: "Unknown (Mobile)"
+    cores: 4
+    threads: 8
+  
+  memory:
+    total: "16GB"
+    type: "DDR4"
+  
+  storage:
+    - type: "SSD"
+      capacity: "512GB"
+
+network:
+  network_name: "Lyra_5G_Ctrl"
+  interfaces:
+    - name: "wlan0"
+      type: "WiFi 6"
+      chip: "Realtek RTL8852AE"
+      band: "5GHz"
+      speed: "1200Mbps"
+
+services:
+  - name: "sagco-creative"
+    port: 8081
+    protocol: "http"
+  
+  - name: "mesh-sync"
+    port: 7777
+    protocol: "udp"
+
+capabilities:
+  - "Pattern recognition"
+  - "Creative synthesis"
+  - "Artistic processing"
+  - "Intuitive analysis"
+  - "Mobile mesh node"
+
+mesh:
+  discovery_protocol: "SwarmGate"
+  sync_interval: 10
+  priority: 2
+  backup_nodes: ["nova", "athena"]

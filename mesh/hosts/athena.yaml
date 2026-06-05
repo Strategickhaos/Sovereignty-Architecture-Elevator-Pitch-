@@ -1,0 +1,69 @@
+# SAGCO-HYDRA Mesh Node: ATHENA
+# Role: Subconscious Processing
+
+node:
+  name: "athena"
+  role: "subconscious"
+  status: "active"
+  description: "Primary compute node with GPU acceleration"
+
+hardware:
+  cpu:
+    model: "Intel Core i7-9700F"
+    cores: 8
+    threads: 8
+    base_clock: "3.0 GHz"
+    boost_clock: "4.7 GHz"
+  
+  memory:
+    total: "64GB"
+    type: "DDR4"
+    speed: "3200 MHz"
+  
+  gpu:
+    model: "NVIDIA RTX"
+    vram: "8GB"
+    cuda_cores: 2560
+  
+  storage:
+    - type: "NVMe SSD"
+      capacity: "1TB"
+      mount: "/data"
+
+network:
+  ip: "192.168.2.26"
+  subnet: "255.255.255.0"
+  gateway: "192.168.2.1"
+  interfaces:
+    - name: "eth0"
+      type: "Ethernet"
+      speed: "1Gbps"
+    - name: "wlan0"
+      type: "WiFi 6"
+      disabled: true
+
+services:
+  - name: "sagco-compute"
+    port: 8080
+    protocol: "http"
+  
+  - name: "mesh-sync"
+    port: 7777
+    protocol: "udp"
+  
+  - name: "ssh"
+    port: 22
+    protocol: "tcp"
+
+capabilities:
+  - "GPU computation"
+  - "Deep learning inference"
+  - "Video processing"
+  - "Parallel workloads"
+  - "Primary mesh coordinator"
+
+mesh:
+  discovery_protocol: "SwarmGate"
+  sync_interval: 5
+  priority: 1
+  backup_nodes: ["lyra", "nova"]

@@ -1,0 +1,327 @@
+#!/usr/bin/env python3
+"""
+SAGCO-ORACLE - Guardian Layer Analysis
+SAGCO-HYDRA v1.0.6
+Analyzes text through 4 oracle ensemble for hallucination detection
+"""
+
+import sys
+import re
+import math
+from collections import Counter
+from datetime import datetime
+
+class SignatureOracle:
+    """Pattern-based hallucination detection (Snort/Yara style)"""
+    
+    HALLUCINATION_PATTERNS = [
+        (r'\b(I am certain|100% sure|definitely true)\b', 'Overconfidence'),
+        (r'\b(everyone knows|obviously|clearly)\b', 'Appeal to common knowledge'),
+        (r'\b(studies show|research proves)\b(?! \[)', 'Uncited claims'),
+        (r'\b(always|never|impossible|guaranteed)\b', 'Absolute statements'),
+        (r'\b\d{1,2}/\d{1,2}/\d{4}\b', 'Specific dates (verify)'),
+        (r'\b[A-Z][a-z]+ (said|stated|claimed)\b(?! \[)', 'Uncited quotes'),
+    ]
+    
+    def analyze(self, text):
+        """Detect hallucination patterns"""
+        findings = []
+        for pattern, description in self.HALLUCINATION_PATTERNS:
+            matches = re.finditer(pattern, text, re.IGNORECASE)
+            for match in matches:
+                findings.append({
+                    'type': 'signature',
+                    'severity': 'medium',
+                    'pattern': description,
+                    'match': match.group(),
+                    'position': match.start()
+                })
+        return findings
+
+class NetworkOracle:
+    """Network-style analysis for information flow anomalies"""
+    
+    def analyze(self, text):
+        """Analyze information flow patterns"""
+        findings = []
+        
+        # Check for contradictions (basic detection)
+        sentences = text.split('.')
+        for i, sent1 in enumerate(sentences):
+            for sent2 in sentences[i+1:]:
+                # Simple contradiction detection: look for negation patterns
+                if 'not' in sent1.lower() or 'no ' in sent1.lower():
+                    # Extract key words (nouns/verbs, ignoring common words)
+                    words1 = set(w.lower() for w in sent1.split() 
+                                if len(w) > 4 and w.lower() not in ['that', 'this', 'with', 'from'])
+                    words2 = set(w.lower() for w in sent2.split() 
+                                if len(w) > 4 and w.lower() not in ['that', 'this', 'with', 'from'])
+                    
+                    # Check for significant word overlap
+                    overlap = words1 & words2
+                    if len(overlap) >= 2:  # At least 2 significant words in common
+                        findings.append({
+                            'type': 'network',
+                            'severity': 'high',
+                            'pattern': 'Potential contradiction',
+                            'match': f"{sent1.strip()[:50]}... vs {sent2.strip()[:50]}..."
+                        })
+        
+        # Check for topic drift
+        words = text.lower().split()
+        if len(words) > 100:
+            first_half = set(words[:len(words)//2])
+            second_half = set(words[len(words)//2:])
+            
+            # Avoid division by zero
+            union = first_half | second_half
+            if len(union) > 0:
+                overlap = len(first_half & second_half) / len(union)
+                
+                if overlap < 0.3:
+                    findings.append({
+                        'type': 'network',
+                        'severity': 'low',
+                        'pattern': 'Topic drift detected',
+                        'match': f'Semantic overlap: {overlap:.1%}'
+                    })
+        
+        return findings
+
+class SearchSpaceOracle:
+    """Cryptographic-style analysis for entropy and strength"""
+    
+    def analyze(self, text):
+        """Analyze text entropy and information density"""
+        findings = []
+        
+        # Calculate entropy (optimized)
+        if len(text) > 0:
+            counter = Counter(text.lower())
+            entropy = 0
+            total_len = len(text)
+            for count in counter.values():
+                probability = count / total_len
+                entropy -= probability * math.log2(probability)
+            
+            # Low entropy might indicate generated/repetitive text
+            if entropy < 3.0:
+                findings.append({
+                    'type': 'search_space',
+                    'severity': 'medium',
+                    'pattern': 'Low entropy (repetitive)',
+                    'match': f'Entropy: {entropy:.2f} bits/char'
+                })
+            
+            # Very high entropy might indicate random/nonsensical text
+            if entropy > 4.5:
+                findings.append({
+                    'type': 'search_space',
+                    'severity': 'low',
+                    'pattern': 'Very high entropy',
+                    'match': f'Entropy: {entropy:.2f} bits/char'
+                })
+        
+        # Check for repeated phrases
+        words = text.split()
+        if len(words) > 20:
+            phrases = [' '.join(words[i:i+3]) for i in range(len(words)-2)]
+            phrase_counts = Counter(phrases)
+            repeated = [p for p, c in phrase_counts.items() if c > 2]
+            
+            if repeated:
+                findings.append({
+                    'type': 'search_space',
+                    'severity': 'low',
+                    'pattern': 'Repeated phrases',
+                    'match': f'{len(repeated)} phrases repeated'
+                })
+        
+        return findings
+
+class EntropyOracle:
+    """Shannon entropy and information theory analysis"""
+    
+    def analyze(self, text):
+        """Calculate various entropy metrics"""
+        findings = []
+        
+        if len(text) == 0:
+            return findings
+        
+        # Word-level entropy
+        words = text.lower().split()
+        if len(words) > 10:
+            word_counter = Counter(words)
+            word_entropy = -sum((count/len(words)) * math.log2(count/len(words)) 
+                               for count in word_counter.values())
+            
+            # Calculate expected entropy for natural text (around 7-9 bits/word)
+            unique_ratio = len(word_counter) / len(words)
+            
+            if unique_ratio < 0.4:
+                findings.append({
+                    'type': 'entropy',
+                    'severity': 'medium',
+                    'pattern': 'Low lexical diversity',
+                    'match': f'Unique words: {unique_ratio:.1%}'
+                })
+            
+            # Check sentence length variation (natural text varies)
+            sentences = [s.strip() for s in text.split('.') if s.strip()]
+            if len(sentences) > 3:
+                lengths = [len(s.split()) for s in sentences]
+                avg_len = sum(lengths) / len(lengths)
+                variance = sum((l - avg_len)**2 for l in lengths) / len(lengths)
+                
+                if variance < 5:
+                    findings.append({
+                        'type': 'entropy',
+                        'severity': 'low',
+                        'pattern': 'Uniform sentence length',
+                        'match': f'Low variation (σ²={variance:.1f})'
+                    })
+        
+        return findings
+
+class OracleEnsemble:
+    """Ensemble of all four oracles with voting"""
+    
+    def __init__(self):
+        self.signature = SignatureOracle()
+        self.network = NetworkOracle()
+        self.search_space = SearchSpaceOracle()
+        self.entropy = EntropyOracle()
+    
+    def analyze(self, text):
+        """Run all oracles and aggregate results"""
+        all_findings = []
+        
+        all_findings.extend(self.signature.analyze(text))
+        all_findings.extend(self.network.analyze(text))
+        all_findings.extend(self.search_space.analyze(text))
+        all_findings.extend(self.entropy.analyze(text))
+        
+        return all_findings
+    
+    def calculate_confidence(self, findings):
+        """Calculate overall confidence score"""
+        if not findings:
+            return 100.0
+        
+        severity_weights = {
+            'high': 15,
+            'medium': 10,
+            'low': 5
+        }
+        
+        penalty = sum(severity_weights.get(f.get('severity', 'low'), 5) 
+                     for f in findings)
+        
+        # Cap at 0
+        confidence = max(0, 100 - penalty)
+        return confidence
+
+def display_banner():
+    """Display oracle banner"""
+    print("╔═══════════════════════════════════════════════════════════════════════════╗")
+    print("║                    SAGCO-ORACLE Guardian Analysis                         ║")
+    print("║                         Layer 4: ORB1 System                              ║")
+    print("╚═══════════════════════════════════════════════════════════════════════════╝")
+    print()
+
+def display_results(findings, confidence, text_length):
+    """Display analysis results"""
+    print(f"📊 Analysis Results")
+    print("─" * 80)
+    print(f"  Text Length: {text_length} characters")
+    print(f"  Confidence Score: {confidence:.1f}%")
+    print(f"  Findings: {len(findings)}")
+    print()
+    
+    if findings:
+        print("🔍 Detailed Findings:")
+        print("─" * 80)
+        
+        for i, finding in enumerate(findings, 1):
+            oracle_type = finding.get('type', 'unknown')
+            severity = finding.get('severity', 'unknown')
+            pattern = finding.get('pattern', 'Unknown')
+            match = finding.get('match', '')
+            
+            severity_icon = {
+                'high': '🔴',
+                'medium': '🟡',
+                'low': '🟢'
+            }.get(severity, '⚪')
+            
+            print(f"{severity_icon} Finding #{i} [{oracle_type.upper()}]")
+            print(f"   Severity: {severity.upper()}")
+            print(f"   Pattern: {pattern}")
+            print(f"   Match: {match[:70]}")
+            print()
+    else:
+        print("✅ No issues detected by Guardian Layer")
+        print()
+    
+    # Overall assessment
+    print("📈 Overall Assessment:")
+    print("─" * 80)
+    if confidence >= 80:
+        print("  ✅ HIGH CONFIDENCE - Text appears reliable")
+    elif confidence >= 60:
+        print("  ⚠️  MEDIUM CONFIDENCE - Some concerns detected")
+    else:
+        print("  ❌ LOW CONFIDENCE - Multiple issues detected")
+    print()
+    
+    print("Oracle Ensemble:")
+    print("  • SignatureOracle    - Pattern matching (Snort/Yara)")
+    print("  • NetworkOracle      - Information flow analysis")
+    print("  • SearchSpaceOracle  - Entropy and strength analysis")
+    print("  • EntropyOracle      - Shannon information theory")
+    print()
+
+def main():
+    """Main entry point"""
+    display_banner()
+    
+    # Get input text
+    if len(sys.argv) > 1:
+        # Text provided as argument
+        text = ' '.join(sys.argv[1:])
+    else:
+        # Read from stdin
+        print("Enter text to analyze (Ctrl+D to finish):")
+        text = sys.stdin.read()
+    
+    if not text.strip():
+        print("❌ Error: No text provided")
+        print()
+        print("Usage: sagco-oracle <text>")
+        print("   or: echo 'text' | sagco-oracle")
+        sys.exit(1)
+    
+    # Run analysis
+    print(f"⏰ Analysis started: {datetime.now().isoformat()}")
+    print()
+    
+    ensemble = OracleEnsemble()
+    findings = ensemble.analyze(text)
+    confidence = ensemble.calculate_confidence(findings)
+    
+    display_results(findings, confidence, len(text))
+    
+    print(f"⏰ Analysis completed: {datetime.now().isoformat()}")
+    print()
+    
+    # Exit code based on confidence
+    if confidence >= 80:
+        sys.exit(0)
+    elif confidence >= 60:
+        sys.exit(1)
+    else:
+        sys.exit(2)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,190 @@
+#!/usr/bin/env python3
+"""
+SAGCO-ONE - Unified Control Command
+SAGCO-HYDRA v1.0.6
+DNA: SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1
+"""
+
+import sys
+import argparse
+import yaml
+from pathlib import Path
+from datetime import datetime
+
+VERSION = "1.0.6"
+DNA_STRAND = "SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1"
+
+def load_spec():
+    """Load the unified DNA specification"""
+    spec_path = Path(__file__).parent.parent / "sagco_unified_spec.yaml"
+    if spec_path.exists():
+        with open(spec_path, 'r') as f:
+            return yaml.safe_load(f)
+    return None
+
+def cmd_dna():
+    """Display DNA strand information"""
+    print("╔═══════════════════════════════════════════════════════════════╗")
+    print("║              SAGCO-HYDRA DNA STRAND v1.1.0                    ║")
+    print("╚═══════════════════════════════════════════════════════════════╝")
+    print()
+    print(f"🧬 DNA Strand: {DNA_STRAND}")
+    print()
+    
+    spec = load_spec()
+    if spec and 'codons' in spec:
+        print("DNA Codon Registry:")
+        print("─" * 70)
+        for codon, info in spec['codons'].items():
+            status = info.get('status', '?')
+            version = info.get('version', 'unknown')
+            component = info.get('component', 'Unknown')
+            print(f"  {codon:8} | {component:30} | v{version:8} | {status}")
+        print("─" * 70)
+    
+    print()
+    print("Motto: \"Seder Mitokh Kaos - Order from Chaos\"")
+    print(f"Generated: {datetime.now().isoformat()}")
+    print()
+
+def cmd_status():
+    """Check toolchain status"""
+    print("╔═══════════════════════════════════════════════════════════════╗")
+    print("║              SAGCO-HYDRA TOOLCHAIN STATUS                     ║")
+    print("╚═══════════════════════════════════════════════════════════════╝")
+    print()
+    
+    # Check for various tools
+    tools = [
+        ("python3", "Python Runtime"),
+        ("rustc", "Rust Compiler"),
+        ("cargo", "Rust Package Manager"),
+        ("dotnet", "C# Runtime"),
+        ("bash", "Bash Shell"),
+        ("flamec", "FlameLang Compiler"),
+        ("sagco-mesh", "Mesh Discovery"),
+        ("sagco-oracle", "Guardian Oracle"),
+    ]
+    
+    import subprocess
+    
+    for tool, name in tools:
+        try:
+            result = subprocess.run([tool, "--version"], 
+                                   capture_output=True, 
+                                   timeout=2,
+                                   text=True)
+            if result.returncode == 0:
+                version = result.stdout.split('\n')[0][:50]
+                print(f"  ✅ {name:25} | {version}")
+            else:
+                print(f"  ❌ {name:25} | Not available")
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            print(f"  ❌ {name:25} | Not installed")
+    
+    print()
+    print(f"SAGCO-OS Version: {VERSION}")
+    print(f"DNA Strand: {DNA_STRAND}")
+    print()
+
+def cmd_evolution():
+    """Show evolution timeline"""
+    print("╔═══════════════════════════════════════════════════════════════╗")
+    print("║              SAGCO-HYDRA EVOLUTION TIMELINE                   ║")
+    print("╚═══════════════════════════════════════════════════════════════╝")
+    print()
+    
+    spec = load_spec()
+    if spec and 'evolution' in spec:
+        print("Rev | Version  | Phase      | Witnesses      | Mutation")
+        print("─" * 80)
+        for rev in spec['evolution']:
+            rev_num = rev.get('rev', '?')
+            version = rev.get('version', 'unknown')
+            phase = rev.get('phase', 'unknown')
+            witnesses = ', '.join(rev.get('witnesses', []))
+            mutation = rev.get('mutation', 'Unknown')[:40]
+            print(f"{rev_num:3} | {version:8} | {phase:10} | {witnesses:14} | {mutation}")
+        print("─" * 80)
+    
+    print()
+
+def cmd_deploy():
+    """Deploy SAGCO VM"""
+    print("╔═══════════════════════════════════════════════════════════════╗")
+    print("║              SAGCO-HYDRA VM DEPLOYMENT                        ║")
+    print("╚═══════════════════════════════════════════════════════════════╝")
+    print()
+    print("🚀 Deploying SAGCO-VM in VirtualBox...")
+    print()
+    print("  ⚠️  VirtualBox deployment requires:")
+    print("     - VirtualBox installed")
+    print("     - SAGCO ISO image (sagco-os-v1.0.3.iso)")
+    print("     - 2GB RAM minimum")
+    print("     - 10GB disk space")
+    print()
+    print("  📝 Manual steps:")
+    print("     1. VBoxManage createvm --name SAGCO-VM --register")
+    print("     2. VBoxManage modifyvm SAGCO-VM --memory 2048")
+    print("     3. VBoxManage storagectl SAGCO-VM --add ide --name IDE")
+    print("     4. VBoxManage storageattach SAGCO-VM --storagectl IDE \\")
+    print("        --port 0 --device 0 --type dvddrive \\")
+    print("        --medium sagco-os-v1.0.3.iso")
+    print("     5. VBoxManage startvm SAGCO-VM")
+    print()
+    print("  ℹ️  For automated deployment, use: sagco-deploy.py")
+    print()
+
+def cmd_full():
+    """Full status + deployment"""
+    cmd_dna()
+    print()
+    cmd_status()
+    print()
+    cmd_evolution()
+    print()
+    print("For deployment instructions, run: sagco-one deploy")
+    print()
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="SAGCO-ONE Unified Control Command",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Commands:
+  dna         Show DNA strand and codon registry
+  status      Check toolchain status
+  evolution   Show evolution timeline (rev_000 → rev_010)
+  deploy      Deploy SAGCO-VM in VirtualBox
+  full        Show complete status (DNA + status + evolution)
+
+Examples:
+  sagco-one dna          # Display DNA strand
+  sagco-one status       # Check installed tools
+  sagco-one evolution    # Show version history
+  sagco-one full         # Complete system overview
+        """
+    )
+    
+    parser.add_argument('command', 
+                       choices=['dna', 'status', 'evolution', 'deploy', 'full'],
+                       help='Command to execute')
+    
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
+    
+    args = parser.parse_args()
+    
+    commands = {
+        'dna': cmd_dna,
+        'status': cmd_status,
+        'evolution': cmd_evolution,
+        'deploy': cmd_deploy,
+        'full': cmd_full,
+    }
+    
+    commands[args.command]()
+
+if __name__ == "__main__":
+    main()

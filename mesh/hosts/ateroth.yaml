@@ -1,0 +1,66 @@
+# SAGCO-HYDRA Mesh Node: ATEROTH
+# Role: Archive and Long-term Memory
+
+node:
+  name: "ateroth"
+  role: "archive"
+  status: "standby"
+  description: "Long-term storage and backup node"
+
+hardware:
+  device: "Sony VAIO"
+  cpu:
+    model: "Intel Core i5"
+    generation: "Old (2010s era)"
+    cores: 2
+    threads: 4
+  
+  memory:
+    total: "6GB"
+    type: "DDR3"
+  
+  storage:
+    - type: "HDD"
+      capacity: "500GB"
+      speed: "5400 RPM"
+      note: "Slow mechanical disk"
+
+network:
+  ip: "169.254.x.x"
+  type: "Link-local"
+  note: "APIPA address - no DHCP available"
+  interfaces:
+    - name: "eth0"
+      type: "Ethernet"
+      speed: "100Mbps"
+    - name: "wlan0"
+      type: "WiFi (old)"
+      disabled: true
+
+services:
+  - name: "sagco-archive"
+    port: 8083
+    protocol: "http"
+  
+  - name: "mesh-sync"
+    port: 7777
+    protocol: "udp"
+
+capabilities:
+  - "Long-term storage"
+  - "Backup repository"
+  - "Historical data"
+  - "Cold storage"
+  - "Disaster recovery"
+
+mesh:
+  discovery_protocol: "SwarmGate"
+  sync_interval: 60
+  priority: 4
+  backup_nodes: ["athena"]
+  
+notes:
+  - "Limited by HDD speed"
+  - "Use for archival only"
+  - "Network connectivity unreliable"
+  - "Power saving mode preferred"
