@@ -36,3 +36,11 @@ target/
 
 # Workspace data
 workspace/
+
+# SAGCO build artifacts
+sagco/artifacts/
+*.bc
+*.o
+*.ll
+__pycache__/
+*.pyc

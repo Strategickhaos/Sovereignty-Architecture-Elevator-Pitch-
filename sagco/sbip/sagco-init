@@ -1,0 +1,133 @@
+#!/bin/bash
+#
+# SAGCO Init Script for SBIP (Sovereignty Bootstrap Integration Protocol)
+# 
+# This script runs in initramfs during Stage 2 (after identity splash/verify)
+# and prepares the SAGCO CPU VM environment for Stage 3 (systemd).
+#
+# Integration Points:
+# - Stage 1: Identity splash (SBIP)
+# - Stage 2: Verify artifacts (this script)
+# - Stage 3: Start VM service (systemd)
+#
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Logging functions
+log_info() {
+    echo -e "${CYAN}[SAGCO-INIT]${NC} $1"
+}
+
+log_success() {
+    echo -e "${GREEN}[SAGCO-INIT]${NC} $1"
+}
+
+log_warning() {
+    echo -e "${YELLOW}[SAGCO-INIT]${NC} $1"
+}
+
+log_error() {
+    echo -e "${RED}[SAGCO-INIT]${NC} $1"
+}
+
+log_failure_msg() {
+    log_error "$1"
+}
+
+# Banner
+log_info "${MAGENTA}═══════════════════════════════════════════════════════${NC}"
+log_info "${MAGENTA}   SAGCO OS - Ratio Ex Nihilo - Bootstrapping Toolchain${NC}"
+log_info "${MAGENTA}   CPU Layer: LLVM Backend + Optional VM Interpreter    ${NC}"
+log_info "${MAGENTA}═══════════════════════════════════════════════════════${NC}"
+
+# Check if SAGCO directories exist
+if [ ! -d "/opt/sagco" ]; then
+    log_warning "/opt/sagco not found, creating..."
+    mkdir -p /opt/sagco/{compiler,vm,artifacts}
+fi
+
+# Verify artifacts directory
+if [ ! -d "/opt/sagco/artifacts" ]; then
+    log_info "Creating artifacts directory..."
+    mkdir -p /opt/sagco/artifacts
+fi
+
+# Check for VM executable
+if [ -f "/opt/sagco/vm/sagco_cpu_vm.py" ]; then
+    log_success "SAGCO CPU VM found"
+    chmod +x /opt/sagco/vm/sagco_cpu_vm.py
+else
+    log_warning "SAGCO CPU VM not found (optional)"
+fi
+
+# Check for compiler
+if [ -f "/opt/sagco/compiler/flamelang_compiler.py" ]; then
+    log_success "FlameLang compiler found"
+    chmod +x /opt/sagco/compiler/flamelang_compiler.py
+else
+    log_warning "FlameLang compiler not found (optional)"
+fi
+
+# Verify and execute bytecode artifacts if present
+log_info "Scanning for bytecode artifacts..."
+bytecode_count=0
+for bc_file in /opt/sagco/artifacts/*.bc; do
+    if [ -f "$bc_file" ]; then
+        bytecode_count=$((bytecode_count + 1))
+        log_info "Found bytecode: $bc_file"
+        
+        # Calculate hash for verification (placeholder)
+        if command -v sha256sum > /dev/null; then
+            hash=$(sha256sum "$bc_file" | cut -d' ' -f1)
+            log_info "  Hash: $hash"
+        fi
+        
+        # Optional: Execute in initramfs if VM is available
+        if [ -f "/opt/sagco/vm/sagco_cpu_vm.py" ] && [ -x "/opt/sagco/vm/sagco_cpu_vm.py" ]; then
+            log_info "  Executing bytecode in VM..."
+            if /opt/sagco/vm/sagco_cpu_vm.py "$bc_file"; then
+                log_success "  Bytecode executed successfully"
+            else
+                log_failure_msg "  VM execution failed for $bc_file"
+            fi
+        fi
+    fi
+done
+
+if [ $bytecode_count -eq 0 ]; then
+    log_info "No bytecode artifacts found (normal for first boot)"
+fi
+
+# Check for native binaries
+log_info "Scanning for native binaries..."
+binary_count=0
+for bin_file in /opt/sagco/artifacts/*; do
+    if [ -f "$bin_file" ] && [ -x "$bin_file" ] && [[ ! "$bin_file" =~ \.(bc|ll|o)$ ]]; then
+        binary_count=$((binary_count + 1))
+        log_info "Found executable: $bin_file"
+    fi
+done
+
+if [ $binary_count -eq 0 ]; then
+    log_info "No native binaries found (normal for first boot)"
+fi
+
+# Prepare for systemd handoff
+log_info "Preparing systemd integration..."
+
+# Create run directory for VM
+mkdir -p /run/sagco
+echo "$(date -Iseconds)" > /run/sagco/init-complete
+
+log_success "SAGCO initialization complete"
+log_info "Stage 3 (systemd) will start VM daemon if enabled"
+log_info "═══════════════════════════════════════════════════════"
