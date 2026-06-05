@@ -22,6 +22,12 @@ target
 node_modules
 firewall/dist
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
 # Java build artifacts
 *.class
 *.jar
