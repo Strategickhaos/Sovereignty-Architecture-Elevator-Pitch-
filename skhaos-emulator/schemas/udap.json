@@ -1,0 +1,177 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UDAP Bio-Physics URI Schema",
+  "description": "Universal Domain Addressing Protocol extended for bio-communication and physics constraints",
+  "type": "object",
+  "properties": {
+    "scheme": {
+      "type": "string",
+      "const": "skhaos",
+      "description": "URI scheme identifier"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["bio", "physics", "music"],
+      "description": "Top-level domain: bio (organisms), physics (laws), music (classical forms)"
+    },
+    "path": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Hierarchical path segments"
+    },
+    "query_parameters": {
+      "type": "object",
+      "properties": {
+        "hz": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Frequency in Hertz"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Zipf rank (1 = most frequent)"
+        },
+        "law": {
+          "type": "string",
+          "enum": ["entropy", "uncertainty", "conservation", "relativity"],
+          "description": "Physics law constraint"
+        },
+        "signature": {
+          "type": "boolean",
+          "description": "Whether this is a signature whistle/ID"
+        },
+        "pod": {
+          "type": "string",
+          "description": "Pod identifier for dolphin dialects"
+        },
+        "dialect": {
+          "type": "string",
+          "description": "Specific dialect variant"
+        },
+        "burst": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of clicks in echolocation burst"
+        },
+        "brevity": {
+          "type": "boolean",
+          "description": "Menzerath brevity principle flag"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["Navigation", "Hunting", "SocialInteraction", "ObjectIdentification"],
+          "description": "Echolocation click purpose"
+        }
+      }
+    }
+  },
+  "required": ["scheme", "domain", "path"],
+  "examples": [
+    {
+      "description": "Zipf-ranked whale unit with entropy law",
+      "uri": "skhaos://bio/zipf/unit/1?law=entropy&hz=20"
+    },
+    {
+      "description": "Dolphin signature whistle",
+      "uri": "skhaos://bio/dolphin/whistle?signature=true&pod=matrilineal_a&hz=10000"
+    },
+    {
+      "description": "Echolocation click burst",
+      "uri": "skhaos://bio/dolphin/click?burst=200&hz=120000&purpose=Navigation"
+    },
+    {
+      "description": "Physics-constrained rondo form",
+      "uri": "skhaos://physics/rondo/law=conservation&hz=10"
+    },
+    {
+      "description": "Menzerath brevity whale moan",
+      "uri": "skhaos://bio/zipf/moan?brevity=true&hz=1000"
+    }
+  ],
+  "patterns": {
+    "whale_zipf": {
+      "uri_pattern": "skhaos://bio/zipf/{unit_type}/{rank}?law={law}&hz={frequency}",
+      "description": "Humpback whale song units following 1/f Zipf distribution"
+    },
+    "dolphin_whistle": {
+      "uri_pattern": "skhaos://bio/dolphin/whistle?signature={bool}&pod={pod_id}&hz={frequency}",
+      "description": "Individual dolphin signature whistles (1-20kHz)"
+    },
+    "dolphin_click": {
+      "uri_pattern": "skhaos://bio/dolphin/click?burst={count}&hz={frequency}&purpose={purpose}",
+      "description": "Echolocation click bursts (120-200kHz)"
+    },
+    "physics_constraint": {
+      "uri_pattern": "skhaos://physics/{form}/{law}={law_type}&hz={frequency}",
+      "description": "Classical music forms with physics law constraints"
+    }
+  },
+  "bio_species": {
+    "whales": {
+      "humpback": {
+        "frequency_range": "20-4000 Hz",
+        "zipf_exponent": 1.0,
+        "menzerath_validated": true
+      },
+      "sperm": {
+        "frequency_range": "100-15000 Hz",
+        "coda_patterns": "combinatorial"
+      },
+      "killer": {
+        "frequency_range": "500-25000 Hz",
+        "dialect_type": "matrilineal"
+      }
+    },
+    "dolphins": {
+      "whistle_range": "1000-20000 Hz",
+      "click_range": "120000-200000 Hz",
+      "signature_whistles": true,
+      "pod_dialects": true
+    }
+  },
+  "physics_laws": {
+    "entropy": {
+      "principle": "2nd Law of Thermodynamics",
+      "constraint": "ΔS ≥ 0",
+      "applies_to": ["swarm_mutations", "state_transitions"]
+    },
+    "uncertainty": {
+      "principle": "Heisenberg Uncertainty",
+      "constraint": "Δx·Δp ≥ ℏ/2",
+      "applies_to": ["superposition", "quantum_branching"]
+    },
+    "conservation": {
+      "principle": "Energy Conservation",
+      "constraint": "E_initial = E_final",
+      "applies_to": ["state_machines", "rondo_cycles"]
+    },
+    "relativity": {
+      "principle": "Lorentz Invariance",
+      "constraint": "spacetime transforms",
+      "applies_to": ["udap_coordinates", "signature_persistence"]
+    }
+  },
+  "cli_commands": {
+    "total": 42,
+    "groups": [
+      {
+        "name": "Zipf Whale",
+        "commands": ["wave_probe", "entangle_scan", "packet_oscillate"],
+        "frequency_range": "20-4000 Hz"
+      },
+      {
+        "name": "Dolphin",
+        "commands": ["dolphin_whistle", "echo_burst", "dialect_dialogue"],
+        "frequency_range": "1000-200000 Hz"
+      },
+      {
+        "name": "Physics DOM",
+        "commands": ["rondo_cycle", "sonata_transform", "fugue_parallel", "canon_delay", "variation_mutate", "coda_terminate"],
+        "laws": ["conservation", "uncertainty", "relativity", "entropy"]
+      }
+    ]
+  }
+}

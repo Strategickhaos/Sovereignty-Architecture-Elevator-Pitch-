@@ -1,0 +1,32 @@
+Mozart Rondo alla Turca - Physics Mapping
+==========================================
+
+Form: A-B-A-C-A (Rondo)
+Key: A minor
+Tempo: 120 BPM (0.5s per beat)
+
+Section A (Opening theme):
+  - Zipf rank: 1 (most frequent, brief)
+  - Physics law: Conservation (cyclic return)
+  - Entropy: Resets to initial low state
+  - Energy: Baseline level
+  - UDAP: skhaos://physics/rondo/law=conservation&hz=10
+
+Section B (Development):
+  - Zipf rank: 2-3 (longer phrases)
+  - Physics law: Uncertainty (branching harmonies)
+  - Entropy: Increases (explores key space)
+  - Energy: Higher level (more complexity)
+  - UDAP: skhaos://physics/sonata/law=uncertainty&hz=22
+
+Section C (Contrasting episode):
+  - Zipf rank: 4 (rare, extended)
+  - Physics law: Entropy (maximum disorder)
+  - Entropy: Peak diversity
+  - Energy: Variable
+  - UDAP: skhaos://physics/variation/law=entropy&hz=37
+
+Return to A:
+  - Conservation enforced: Energy returns to baseline
+  - Entropy decrease (but global entropy increased)
+  - Lorentz invariant: Theme identity preserved

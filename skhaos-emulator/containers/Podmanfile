@@ -1,0 +1,43 @@
+# Podman Container Configuration for Bio-Physics Simulations
+# Isolated sandbox for Zipf analysis, physics calculations, evolution mutations
+
+FROM rust:1.75-alpine
+
+# Install dependencies
+RUN apk add --no-cache \
+    bash \
+    bc \
+    curl \
+    git
+
+# Create workspace
+WORKDIR /workspace
+
+# Copy source files
+COPY src/ /workspace/src/
+COPY schemas/ /workspace/schemas/
+COPY phases/ /workspace/phases/
+
+# Make scripts executable
+RUN chmod +x /workspace/phases/*.sh
+
+# Create output directories
+RUN mkdir -p /workspace/sandbox \
+    /workspace/assets/whale_songs \
+    /workspace/assets/dolphin_comm \
+    /workspace/assets/classical
+
+# Set up non-root user for security
+RUN adduser -D -u 1000 skhaos
+RUN chown -R skhaos:skhaos /workspace
+
+USER skhaos
+
+# Default command runs phase scripts
+CMD ["/bin/bash"]
+
+# Labels
+LABEL org.skhaos.version="1.0.0" \
+      org.skhaos.invention="INVENTION_074" \
+      org.skhaos.description="Bio-Physics Entanglement Compiler" \
+      org.skhaos.components="zipf,dolphin,physics,music"
