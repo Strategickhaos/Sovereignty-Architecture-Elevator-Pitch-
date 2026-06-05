@@ -1,0 +1,160 @@
+spm_version: "1.0"
+identity:
+  name: "SAGCO OS"
+  codename: "Ratio Ex Nihilo"
+  version: "1.0.0"
+  motto: "Ratio Ex Nihilo"
+  build_id: "INV-099"
+  banner_ascii: "assets/banner.ascii"
+  wallpaper: "assets/ratio_ex_nihilo.png"
+
+targets:
+  distro:
+    family: "debian"
+    base: "kali"
+    suite: "kali-rolling"
+  arch: ["amd64"]
+
+repos:
+  apt:
+    - name: "kali"
+      line: "deb http://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware"
+      keyring: "/usr/share/keyrings/kali-archive-keyring.gpg"
+
+packages:
+  apt:
+    core:
+      - git
+      - curl
+      - wget
+      - python3
+      - python3-venv
+      - python3-pip
+      - build-essential
+      - jq
+      - tmux
+      - zsh
+      - plymouth
+      - plymouth-themes
+      - whiptail  # For TUI menu
+    security:
+      - nmap
+      - wireshark
+      - metasploit-framework
+      - sqlmap
+      - gobuster
+    ops:
+      - docker.io
+      - docker-compose
+      - podman
+      - qemu-system-x86
+  pip:
+    global:
+      - rich
+      - typer
+      - pyyaml
+      - requests
+
+groups:  # Meta-packages
+  sagco-core:
+    description: "Baseline SAGCO toolchain + UI"
+    includes: ["core", "ops"]
+  sagco-redteam:
+    description: "Offensive tool pack"
+    includes: ["security"]
+
+tools:  # New: TUI-launchable groups (Kali-style categories)
+  core-tools:
+    description: "Core Utilities"
+    items:
+      - name: "Git"
+        command: "git --version"
+        description: "Version control"
+      - name: "TMUX"
+        command: "tmux"
+        description: "Terminal multiplexer"
+  security-tools:
+    description: "Security Tools"
+    items:
+      - name: "Nmap"
+        command: "nmap -h"
+        description: "Network scanner"
+      - name: "Metasploit"
+        command: "msfconsole"
+        description: "Exploitation framework"
+  ops-tools:
+    description: "Operations Tools"
+    items:
+      - name: "Docker"
+        command: "docker ps"
+        description: "Container management"
+      - name: "QEMU"
+        command: "qemu-system-x86_64 --version"
+        description: "VM emulator"
+
+services:
+  systemd:
+    enable:
+      - sagco-banner.service
+      - sagco-runtime.service
+    files:
+      sagco-banner.service: "services/sagco-banner.service"
+      sagco-runtime.service: "services/sagco-runtime.service"
+
+ui:
+  boot:
+    splash:
+      enabled: true
+      method: "plymouth"
+      theme: "sagco"
+      theme_dir: "ui/plymouth/sagco"
+  login:
+    motd: "ui/motd"
+    issue: "ui/issue"
+  shell:
+    default: "zsh"
+    zshrc: "ui/zshrc"
+  terminal:
+    prompt_theme: "sagco"
+
+files:
+  copy:
+    - src: "assets/banner.ascii"
+      dst: "/opt/sagco/assets/banner.ascii"
+      mode: "0644"
+    - src: "assets/ratio_ex_nihilo.png"
+      dst: "/opt/sagco/assets/ratio_ex_nihilo.png"
+      mode: "0644"
+    - src: "ui/motd"
+      dst: "/etc/motd"
+      mode: "0644"
+    - src: "ui/issue"
+      dst: "/etc/issue"
+      mode: "0644"
+    - src: "ui/plymouth/sagco/*"
+      dst: "/usr/share/plymouth/themes/sagco/"
+      mode: "0755"
+
+commands:
+  post_install:
+    - "update-alternatives --set editor /usr/bin/vim.basic"
+    - "python3 -m venv /opt/sagco/venv"
+    - "/opt/sagco/venv/bin/pip install -r /opt/sagco/requirements.txt"
+    - "plymouth-set-default-theme -R sagco"
+    - "systemctl daemon-reload"
+    - "systemctl enable sagco-banner.service"
+    - "systemctl enable sagco-runtime.service"
+
+verification:
+  commands:
+    - "python3 --version"
+    - "nmap --version"
+    - "plymouth-set-default-theme"
+    - "systemctl is-enabled sagco-banner.service"
+  output:
+    log: "/var/log/sagco/spm_verify.log"
+    manifest: "/var/lib/sagco/spm_installed.json"
+
+artifacts:
+  log_dir: "/var/log/sagco"
+  state_dir: "/var/lib/sagco"

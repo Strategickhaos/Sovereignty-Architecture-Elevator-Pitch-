@@ -1,0 +1,17 @@
+[Unit]
+Description=SAGCO Banner and Menu Display
+After=multi-user.target
+After=getty@tty1.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c 'clear && cat /opt/sagco/assets/banner.ascii && /opt/sagco/scripts/sagco-menu.sh'
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+
+[Install]
+WantedBy=multi-user.target

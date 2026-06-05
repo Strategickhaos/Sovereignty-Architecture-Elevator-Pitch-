@@ -1,0 +1,16 @@
+[Unit]
+Description=SAGCO Runtime Service
+Documentation=https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/sagco/venv/bin/python3 -m sagco.runtime
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sagco-runtime
+
+[Install]
+WantedBy=multi-user.target
