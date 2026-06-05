@@ -1,0 +1,22 @@
+{
+  "name": "ratio-ex-nihilo-scripts",
+  "version": "1.0.0",
+  "description": "Deployment and minting scripts for Ratio Ex Nihilo Genesis Collection",
+  "scripts": {
+    "deploy": "hardhat run examples/deploy-ratio-ex-nihilo.js",
+    "deploy:polygon": "hardhat run examples/deploy-ratio-ex-nihilo.js --network polygon",
+    "deploy:ethereum": "hardhat run examples/deploy-ratio-ex-nihilo.js --network ethereum",
+    "mint": "hardhat run examples/mint-genesis-collection.js",
+    "mint:polygon": "hardhat run examples/mint-genesis-collection.js --network polygon",
+    "mint:ethereum": "hardhat run examples/mint-genesis-collection.js --network ethereum",
+    "verify": "hardhat verify --network",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}
