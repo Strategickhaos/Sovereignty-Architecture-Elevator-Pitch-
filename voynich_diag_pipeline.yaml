@@ -1,0 +1,107 @@
+# voynich_diag_pipeline.yaml
+# Voynich Manuscript Diagnostic → TRIG6 → FlameLang/SAGCO-OS Binding Pipeline
+# Author: Domenic Gabriel Garza (Strategickhaos DAO LLC)
+# Version: 1.0.1 (cloned from diag v1.0.0)
+
+meta:
+  id: PIPELINE-VOY-DIAG-TRIG6-001
+  name: "Voynich Diagnostic Binding Pipeline"
+  description: >
+    Pipeline for diagnosing Voynich anomalies (glyph deviations, pattern noise), clustering into symbols,
+    mapping to diagnostic codons, evolving with TRIG6, and emitting fixes for SAGCO-OS (e.g., recluster scripts).
+  owner: "Strategickhaos DAO LLC"
+  eq_target: 0.92
+  tan_danger_limit: 7.5
+
+inputs:
+  voynich_pdf_path: "data/voynich/Voynich_Manuscript.pdf"
+  work_dir: "artifacts/voynich_diag/"
+  anomaly_target_count: 48   # Voynich alphabet estimate
+  random_seed: 1470          # Approx. manuscript date
+
+stages:
+  - id: ingest
+    name: "PDF → Structured Glyph Data"
+    params: {dpi: 400, format: "png", mode: "grayscale"}
+    outputs: {glyph_data_path: "${work_dir}/glyphs.json"}
+
+  - id: anomaly_detect
+    name: "Anomaly Detection"
+    params: {model: "isolation_forest", contamination: 0.08, thresholds: {glyph_variance: 0.15}}
+    inputs: {glyph_data_path: "${work_dir}/glyphs.json"}
+    outputs: {anomaly_events_path: "${work_dir}/anomalies.json"}
+
+  - id: glyph_extract
+    name: "Glyph Extraction"
+    params: {feature_set: ["shape_entropy", "stroke_count", "context_position"]}
+    inputs: {anomaly_events_path: "${work_dir}/anomalies.json"}
+    outputs: {glyph_features_dir: "${work_dir}/glyphs/raw", metadata_path: "${work_dir}/glyphs/metadata.json"}
+
+  - id: glyph_embed
+    name: "Glyph Embedding"
+    params: {backbone: "autoencoder", dim: 192, normalize: true}
+    inputs: {glyph_features_dir: "${work_dir}/glyphs/raw"}
+    outputs: {embeddings_path: "${work_dir}/glyphs/embeddings.npy"}
+
+  - id: glyph_cluster
+    name: "Glyph Clustering"
+    params: {algorithm: "kmeans", n_clusters: "${anomaly_target_count}", max_iter: 500}
+    inputs: {embeddings_path: "${work_dir}/glyphs/embeddings.npy"}
+    outputs: {labels_path: "${work_dir}/glyphs/cluster_labels.npy", stats_path: "${work_dir}/glyphs/cluster_stats.json"}
+
+  - id: symbol_assign
+    name: "Symbol Assignment"
+    params: {target_count: "${anomaly_target_count}", min_support: 0.002, noop_id: "VSYM_NOOP"}
+    inputs: {stats_path: "${work_dir}/glyphs/cluster_stats.json"}
+    outputs: {symbol_table_path: "${work_dir}/symbols/symbol_table.json"}
+
+  - id: codon_mapping_init
+    name: "Initial Codon Mapping"
+    params: {codon_table: "spec/codon_table_voy_diag_v1.json", strategy: "entropy_weighted", noop: "NNN"}
+    inputs: {symbol_table_path: "${work_dir}/symbols/symbol_table.json"}
+    outputs: {mapping_path: "${work_dir}/binding/symbol_to_codon_v0.json"}
+
+  - id: trig6_eval
+    name: "TRIG6 Evaluation"
+    trig6:
+      theta_fn: "theta = 2 * PI * decipher_progress"
+      resonance_fn: "R = clamp(0.55 * pattern_consistency + 0.45 * coverage, 0.0, 1.0)"
+      drift_fn: "D = clamp(0.65 * variance_rate + 0.35 * outlier_frac, 0.0, 1.0)"
+      noise_fn: "N = clamp(0.55 * embed_variance + 0.45 * entropy_norm, 0.0, 1.0)"
+      eq_fn: "eq = clamp(1.0 - abs(count - target) / target, 0.0, 1.0)"
+      danger_predicate: "danger = abs(tan(theta)) > tan_danger_limit or variance_rate > 0.1"
+      fitness_fn: "fitness = R * (1.0 - D) * (1.0 - N) * eq"
+    params: {warn: 0.65, target: 0.85}
+    inputs: {mapping_path: "${work_dir}/binding/symbol_to_codon_v0.json", stats_path: "${work_dir}/glyphs/cluster_stats.json"}
+    outputs: {report_path: "${work_dir}/binding/trig6_report.json", state_path: "${work_dir}/binding/trig6_state_history.json"}
+
+  - id: evolution_loop
+    name: "Darwinian Mapping Evolution"
+    evolution:
+      generations: 48
+      pop_size: 12
+      top_k: 3
+      mutation_rate: 0.28
+      targets: ["n_clusters", "strategy", "thresholds", "glyph_variance_threshold"]
+    trig6: {reuse_from: "trig6_eval"}
+    inputs: {state_path: "${work_dir}/binding/trig6_state_history.json", mapping_path: "${work_dir}/binding/symbol_to_codon_v0.json"}
+    outputs: {champion_path: "${work_dir}/binding/symbol_to_codon_champion.json", log_path: "${work_dir}/binding/evolution_log.json"}
+
+  - id: codon_stream_emit
+    name: "Codon Stream Emission"
+    params: {format: "v1", include_meta: true}
+    inputs: {champion_path: "${work_dir}/binding/symbol_to_codon_champion.json"}
+    outputs: {streams_dir: "${work_dir}/binding/codon_streams"}
+
+  - id: compiler_integration
+    name: "Compiler Integration"
+    params: {entrypoint: "bin/flamelangc", runtime: "bin/sagco-run", mode: "sandbox", auto_apply: false}
+    inputs: {streams_dir: "${work_dir}/binding/codon_streams"}
+    outputs: {fix_dir: "${work_dir}/binding/fix_bins", logs_dir: "${work_dir}/binding/runtime_logs"}
+
+trig6_global: {danger_limit: "${tan_danger_limit}", eq_target: "${eq_target}"}
+
+governance:
+  license: "© 2026 Strategickhaos DAO LLC – Internal Use"
+  constraints: ["No decipher claims", "Sandbox only", "Open methodology"]
+  audit: {log_dir: "${work_dir}/audit", hash: "sha256", sign_gpg: true, key: "AE5519579584DEF5"}
