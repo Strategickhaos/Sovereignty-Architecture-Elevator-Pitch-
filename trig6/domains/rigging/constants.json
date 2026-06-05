@@ -1,0 +1,34 @@
+{
+  "domain": "rigging",
+  "description": "Rigging constants and safety factors",
+  "constants": [
+    {
+      "key": "breaking_strength_factor",
+      "value": 0.2,
+      "units": "dimensionless",
+      "description": "Working load limit factor (20% of breaking strength)",
+      "range": [0.1, 0.3],
+      "provenance": [
+        {
+          "source_title": "OSHA 1926.1431",
+          "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.1431"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    },
+    {
+      "key": "safety_factor_rope",
+      "value": 5.0,
+      "units": "dimensionless",
+      "description": "Minimum safety factor for synthetic rope in rigging",
+      "range": [4.0, 10.0],
+      "provenance": [
+        {
+          "source_title": "ANSI Z133.1-2017",
+          "url": "https://www.ansi.org/"
+        }
+      ],
+      "entered_by": "Domenic G. Garza"
+    }
+  ]
+}
