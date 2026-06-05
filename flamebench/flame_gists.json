@@ -1,0 +1,60 @@
+[
+  {
+    "slug": "zyb-it145-ch3-3_2_5-even-odd",
+    "gist_id": "sample-gist-id-1",
+    "files": {
+      "manifest.flame-test.json": {
+        "id": "zyb-it145-ch3-3_2_5-even-odd",
+        "concept_tags": [
+          "if-else",
+          "modulo"
+        ],
+        "inputs": [
+          2,
+          3,
+          10,
+          15
+        ],
+        "expected_outputs": [
+          "even",
+          "odd",
+          "even",
+          "odd"
+        ]
+      }
+    }
+  },
+  {
+    "slug": "zyb-it145-ch3-3_1-max-of-two",
+    "gist_id": "sample-gist-id-2",
+    "files": {
+      "manifest.flame-test.json": {
+        "id": "zyb-it145-ch3-3_1-max-of-two",
+        "concept_tags": [
+          "if-else",
+          "comparison",
+          "max"
+        ],
+        "inputs": [
+          [
+            5,
+            3
+          ],
+          [
+            10,
+            20
+          ],
+          [
+            7,
+            7
+          ]
+        ],
+        "expected_outputs": [
+          5,
+          20,
+          7
+        ]
+      }
+    }
+  }
+]
