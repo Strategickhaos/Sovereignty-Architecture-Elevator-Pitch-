@@ -1,0 +1,40 @@
+#!/bin/sh
+# SBIP v1.0 Initramfs Hook
+# Strategickhaos DAO LLC
+#
+# This hook copies the SAGCO system manifest into initramfs
+# so that the sagco-verify script can perform boot-time verification.
+
+set -e
+
+PREREQ=""
+prereqs() {
+    echo "$PREREQ"
+}
+
+case "$1" in
+    prereqs)
+        prereqs
+        exit 0
+        ;;
+esac
+
+# Source hook functions
+. /usr/share/initramfs-tools/hook-functions
+
+echo "SBIP v1.0: Installing manifest into initramfs"
+
+# Copy manifest into initramfs if it exists
+if [ -f /etc/sagco/manifest.sha256 ]; then
+    mkdir -p "${DESTDIR}/etc/sagco"
+    cp -p /etc/sagco/manifest.sha256 "${DESTDIR}/etc/sagco/manifest.sha256"
+    echo "  ✓ Copied /etc/sagco/manifest.sha256"
+else
+    echo "  ⚠ Warning: /etc/sagco/manifest.sha256 not found"
+    echo "  Run sagco-generate-manifest to create it"
+fi
+
+# Ensure sha256sum utility is available in initramfs
+copy_exec /usr/bin/sha256sum /usr/bin
+
+exit 0
