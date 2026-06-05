@@ -2,6 +2,8 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> 🧠 **New**: See [ARCHITECT_DOCS_INDEX.md](./ARCHITECT_DOCS_INDEX.md) for complete documentation on the Human-in-the-Loop Autonomous System Architecture methodology used to build this system.
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -9,6 +11,16 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+
+### 🎯 Architectural Approach
+
+This system is built using a novel **Human-in-the-Loop Autonomous System Architecture** approach:
+- **Architect** defines constraints and vision (not implementations)
+- **AI Agents** generate code, tests, and documentation
+- **System** evolves autonomously within defined boundaries
+- **Verification** ensures safety through formal proofs
+
+Learn more: [ARCHITECT_ROLE.md](./ARCHITECT_ROLE.md) | [COGNITIVE_ARCHITECTURE_MODEL.md](./COGNITIVE_ARCHITECTURE_MODEL.md)
 
 ## 🚀 Quick Start
 
@@ -279,6 +291,19 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
+
+## 🧠 Architect Documentation
+
+This project is built using a novel **Human-in-the-Loop Autonomous System Architecture** methodology. Comprehensive documentation is available:
+
+- **[📚 Documentation Index](./ARCHITECT_DOCS_INDEX.md)** - Complete guide to all architect documentation
+- **[🎯 Architect Role](./ARCHITECT_ROLE.md)** - Formal definition of the architect role
+- **[🧠 Cognitive Architecture](./COGNITIVE_ARCHITECTURE_MODEL.md)** - Mental framework and thinking patterns
+- **[🤖 Agent Orchestration](./AGENT_ORCHESTRATION_STACK.md)** - Multi-agent coordination framework
+- **[📋 Workflow Blueprint](./WORKFLOW_BLUEPRINT.md)** - Day-to-day operational procedures
+- **[🧬 SAGCO-OS Design Canon](./SAGCO_OS_DESIGN_CANON.md)** - Foundational system principles
+
+**Key Insight**: This is not traditional software development — it's **cognitive orchestration** where the architect defines constraints and AI agents generate implementations.
 
 ## 📄 License & Support
 
