@@ -1,0 +1,17 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# Generated executables from flame files
+examples/hello
+examples/fibonacci
+examples/bonding_rules
+examples/*.rs
+examples/*
+!examples/*.flame
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

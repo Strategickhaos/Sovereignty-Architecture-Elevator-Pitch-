@@ -36,3 +36,8 @@ target/
 
 # Workspace data
 workspace/
+
+
+# Added by cargo
+
+/target
