@@ -30,6 +30,13 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🧠 Crisis Recovery System (DOM.CPU v2.0)
+- **Persistent Artifact Tracking**: Never lose context with hybrid storage (RAM + GitHub)
+- **Automatic Crisis Detection**: Detects "nobody mode" by comparing artifact counts
+- **Recovery Protocol**: Auto-diff and inventory restoration on crisis
+- **Pre-commit Hooks**: Continuous artifact count synchronization
+- **Documentation**: See [CRISIS_RECOVERY_README.md](CRISIS_RECOVERY_README.md) and [CPU_UPGRADE_SPEC_v2.0.md](CPU_UPGRADE_SPEC_v2.0.md)
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
