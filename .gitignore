@@ -36,3 +36,12 @@ target/
 
 # Workspace data
 workspace/
+
+# Hardhat files
+cache/
+artifacts/
+typechain-types/
+
+# Coverage
+coverage/
+coverage.json
