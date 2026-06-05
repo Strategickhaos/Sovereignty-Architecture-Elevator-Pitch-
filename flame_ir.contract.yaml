@@ -1,0 +1,382 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# FLAMELANG IR CONTRACT v2.0.0
+# Extracted from FlameLang Compiler Source (2026-01-23)
+# © 2025 Strategickhaos DAO LLC - Ratio Ex Nihilo
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# This contract defines the canonical intermediate representation (IR) used by
+# the FlameLang compiler. All transformations target this IR structure.
+#
+# Source: src/pipeline.rs - FlameIR, FlameType, FlameOp, FlameExpr, FlameDecl
+#
+
+version: "2.0.0"
+build_id: "ratio-ex-nihilo"
+specification: "FlameLang IR - 5-Layer Transformation Pipeline"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TYPE SYSTEM
+# ═══════════════════════════════════════════════════════════════════════════════
+
+types:
+  description: "Core type system with proof constraints"
+  
+  Float:
+    description: "Standard IEEE 754 floating-point value"
+    representation: "f64"
+    constraints: []
+    proof_required: false
+    
+  Angle:
+    description: "Angle in radians with modular arithmetic"
+    representation: "f64"
+    constraints:
+      - "PROOF: Operations enforce mod 2π"
+      - "Range: [0, 2π)"
+      - "Wraps on overflow"
+    proof_required: true
+    proof_id: "angle_boundedness"
+    
+  Codon:
+    description: "DNA codon representation (64 states)"
+    representation: "u8"
+    constraints:
+      - "PROOF: Bijection to 64 states"
+      - "Range: [0, 63]"
+      - "Maps to standard genetic code"
+    proof_required: true
+    proof_id: "codon_bijection"
+    
+  Perm:
+    description: "Rubik's Cube permutation"
+    representation: "u8"
+    constraints:
+      - "PROOF: Bounded by God's Number (20)"
+      - "Range: [0, 20]"
+      - "Represents minimal move sequence"
+    proof_required: true
+    proof_id: "rubik_god_number"
+    
+  Freq:
+    description: "Frequency in Hertz"
+    representation: "f64"
+    constraints:
+      - "PROOF: Positive, bounded"
+      - "Range: (0, ∞)"
+      - "Physical constraint: must be positive"
+    proof_required: true
+    proof_id: "frequency_positivity"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OPERATIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+operations:
+  description: "Operations with physics semantics and proof requirements"
+  
+  arithmetic:
+    Add:
+      signature: "(Float, Float) -> Float"
+      semantics: "Standard IEEE 754 addition"
+      associative: true
+      commutative: true
+      identity: 0.0
+      
+    Sub:
+      signature: "(Float, Float) -> Float"
+      semantics: "Standard IEEE 754 subtraction"
+      associative: false
+      commutative: false
+      
+    Mul:
+      signature: "(Float, Float) -> Float"
+      semantics: "Standard IEEE 754 multiplication"
+      associative: true
+      commutative: true
+      identity: 1.0
+      
+    Div:
+      signature: "(Float, Float) -> Float"
+      semantics: "Standard IEEE 754 division"
+      associative: false
+      commutative: false
+      constraints:
+        - "Divisor must be non-zero"
+  
+  trigonometric:
+    description: "Unit circle anchors with periodic properties"
+    
+    Sin:
+      signature: "(Angle) -> Float"
+      semantics: "Sine function on unit circle"
+      range: "[-1, 1]"
+      periodic: true
+      period: "2π"
+      proof_required: "lipschitz_continuity"
+      
+    Cos:
+      signature: "(Angle) -> Float"
+      semantics: "Cosine function on unit circle"
+      range: "[-1, 1]"
+      periodic: true
+      period: "2π"
+      proof_required: "lipschitz_continuity"
+      
+    Tan:
+      signature: "(Angle) -> Float"
+      semantics: "Tangent function"
+      range: "(-∞, ∞)"
+      periodic: true
+      period: "π"
+      singularities: ["π/2 + nπ"]
+      proof_required: "lipschitz_continuity"
+  
+  domain_transforms:
+    description: "Core kernel operations - YOUR PHYSICS LAYER"
+    
+    Bend:
+      signature: "(Angle, Float) -> Float"
+      semantics: "Arc length from angle and radius: s = θr"
+      formula: "arc_length = angle * radius"
+      physics: "Converts angular displacement to linear arc length"
+      proof_required: "fixed_point_convergence"
+      glyph: "🔥"
+      constraints:
+        - "Angle must be in [0, 2π)"
+        - "Radius must be positive"
+        
+    Codon:
+      signature: "(Float) -> Codon"
+      semantics: "Maps arc length to DNA codon via bijection"
+      formula: "codon = (arc_scaled / 6.875) mod 64"
+      biology: "64-state genetic code mapping"
+      proof_required: "codon_bijection"
+      glyph: "🧬"
+      constraints:
+        - "Output guaranteed in [0, 63]"
+        - "Bijective mapping"
+        
+    Perm:
+      signature: "(Codon) -> Perm"
+      semantics: "Maps codon to Rubik's Cube permutation"
+      formula: "perm = codon mod 21"
+      puzzle_theory: "God's Number constraint"
+      proof_required: "rubik_god_number"
+      glyph: "♜"
+      constraints:
+        - "Output guaranteed in [0, 20]"
+        - "Bounded by optimal solution depth"
+  
+  wave_encoding:
+    description: "Frequency domain transformations"
+    
+    ToFreq:
+      signature: "(Float) -> Freq"
+      semantics: "Converts value to frequency in Hz"
+      physics: "Maps computational value to wave domain"
+      proof_required: "frequency_positivity"
+      glyph: "∿"
+      constraints:
+        - "Output must be positive"
+        
+    FromFreq:
+      signature: "(Freq) -> Float"
+      semantics: "Converts frequency back to computational value"
+      physics: "Inverse wave domain transformation"
+      constraints:
+        - "Input must be positive frequency"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# IR STRUCTURE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+ir_structure:
+  description: "The canonical IR - everything targets this"
+  
+  FlameIR:
+    fields:
+      decls:
+        type: "Vec<FlameDecl>"
+        description: "Top-level declarations (variables, functions)"
+      exprs:
+        type: "Vec<FlameExpr>"
+        description: "Expression pool (indexed references)"
+    
+    invariants:
+      - "All expression indices must be valid"
+      - "No cycles in expression dependencies"
+      - "Type safety enforced at IR level"
+  
+  FlameDecl:
+    fields:
+      name:
+        type: "String"
+        description: "Declaration identifier"
+      ty:
+        type: "FlameType"
+        description: "Type annotation"
+      value:
+        type: "usize"
+        description: "Index into exprs array"
+    
+    invariants:
+      - "name must be valid identifier"
+      - "value must be valid expression index"
+  
+  FlameExpr:
+    variants:
+      Lit:
+        description: "Literal value with type annotation"
+        fields:
+          value: "f64"
+          ty: "FlameType"
+        example: "Lit { value: 3.14159, ty: Angle }"
+        
+      Var:
+        description: "Variable reference by name"
+        fields:
+          name: "String"
+        example: "Var(\"radius\")"
+        
+      Op:
+        description: "Operation application"
+        fields:
+          kind: "FlameOp"
+          args: "Vec<usize>"
+        example: "Op { kind: Bend, args: [0, 1] }"
+        constraints:
+          - "Argument count must match operation signature"
+          - "All arg indices must be valid"
+          
+      Return:
+        description: "Return value from function/block"
+        fields:
+          index: "usize"
+        example: "Return(5)"
+        constraints:
+          - "Index must be valid expression"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# COMPILATION PHASES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+compilation_phases:
+  description: "Transformation pipeline stages"
+  
+  phase_1_frontend:
+    name: "Source → IR"
+    steps:
+      - lexer: "Tokenize source text"
+      - parser: "Build AST from tokens"
+      - lowering: "Convert AST to FlameIR"
+    output: "FlameIR"
+    
+  phase_2_middle_end:
+    name: "IR → IR Transforms"
+    layers:
+      layer_1_linguistic:
+        name: "English → Hebrew"
+        transform: "run_linguistic_pass"
+        description: "Identifiers mapped to Hebrew triconsonantal roots"
+        
+      layer_2_numeric:
+        name: "Unicode → Gematria"
+        transform: "run_numeric_pass"
+        description: "Hebrew roots converted to numeric values"
+        
+      layer_3_wave:
+        name: "c=2πr → Hz"
+        transform: "run_wave_pass"
+        description: "Numeric values mapped to frequencies"
+        
+      layer_4_dna:
+        name: "Freq → Codon"
+        transform: "run_dna_pass"
+        description: "Frequencies encoded as DNA codons"
+    
+    proof_validation:
+      description: "16 theorems validated after transforms"
+      location: "validate_proofs()"
+      
+  phase_3_backend:
+    name: "IR → Binary"
+    steps:
+      - llvm_pass: "Generate LLVM IR from FlameIR"
+      - emit_binary: "Compile LLVM IR to machine code"
+    output: "Executable binary"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EXAMPLES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+examples:
+  hello_world:
+    source: "42 * 2 + 10"
+    ast_description: "Binary(Binary(Lit(42), Mul, Lit(2)), Add, Lit(10))"
+    ir:
+      exprs:
+        - "Lit { value: 42.0, ty: Float }"
+        - "Lit { value: 2.0, ty: Float }"
+        - "Op { kind: Mul, args: [0, 1] }"
+        - "Lit { value: 10.0, ty: Float }"
+        - "Op { kind: Add, args: [2, 3] }"
+    expected_result: 94.0
+    
+  arc_to_codon:
+    description: "Bend operation followed by codon encoding"
+    source: "🔥(angle, radius) → 🧬"
+    ir:
+      exprs:
+        - "Var(\"angle\")"
+        - "Var(\"radius\")"
+        - "Op { kind: Bend, args: [0, 1] }"
+        - "Op { kind: Codon, args: [2] }"
+    semantics: "Convert angle+radius to arc, then to DNA codon"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# VERIFICATION CONSTRAINTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+verification:
+  description: "IR-level invariants that must hold"
+  
+  structural:
+    - name: "ir_acyclicity"
+      description: "No cycles in expression dependencies"
+      check: "Topological sort must succeed"
+      
+    - name: "valid_indices"
+      description: "All expression indices within bounds"
+      check: "0 <= idx < exprs.len()"
+      
+  type_system:
+    - name: "type_safety"
+      description: "Operations respect type constraints"
+      check: "Argument types match operation signatures"
+      
+    - name: "bounded_types"
+      description: "Range-constrained types stay in bounds"
+      check: "Angle ∈ [0,2π), Codon ∈ [0,63], Perm ∈ [0,20]"
+      
+  semantics:
+    - name: "determinism"
+      description: "Same IR produces same result"
+      check: "No non-deterministic operations"
+      
+    - name: "resource_bounds"
+      description: "Finite memory and time"
+      check: "No unbounded recursion or allocation"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+metadata:
+  authors:
+    - "Domenic Gabriel Garza <dom@strategickhaos.ai>"
+  license: "MIT"
+  repository: "https://github.com/strategickhaos/flamelang"
+  extracted_from: "FlameLang v2.0.0 Compiler Source"
+  extraction_date: "2026-01-23"
+  status: "canonical"
+  usage: "This contract defines the IR that ALL FlameLang tools must respect"
