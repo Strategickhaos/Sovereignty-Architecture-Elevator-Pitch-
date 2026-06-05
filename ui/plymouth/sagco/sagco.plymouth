@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=SAGCO
+Description=SAGCO Boot Splash - Ratio Ex Nihilo
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/sagco
+ScriptFile=/usr/share/plymouth/themes/sagco/script.script

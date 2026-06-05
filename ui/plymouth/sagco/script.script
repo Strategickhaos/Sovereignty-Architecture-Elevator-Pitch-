@@ -1,0 +1,36 @@
+# SAGCO Plymouth Boot Splash Script
+# Shows the Ratio Ex Nihilo emblem during boot
+
+# Window dimensions
+screen_width = Window.GetWidth();
+screen_height = Window.GetHeight();
+
+# Background
+background_sprite = Sprite();
+background_sprite.SetImage(Image("ratio_ex_nihilo.png"));
+
+# Center the emblem
+image_width = background_sprite.GetImage().GetWidth();
+image_height = background_sprite.GetImage().GetHeight();
+
+# Position in center
+background_sprite.SetX(screen_width / 2 - image_width / 2);
+background_sprite.SetY(screen_height / 2 - image_height / 2);
+background_sprite.SetZ(-100000);
+
+# Text below emblem
+text_image = Image.Text("SAGCO OS - Ratio Ex Nihilo", 1, 1, 1);
+text_sprite = Sprite(text_image);
+text_sprite.SetX(screen_width / 2 - text_image.GetWidth() / 2);
+text_sprite.SetY(screen_height * 0.75);
+text_sprite.SetZ(10000);
+
+# Simple progress animation counter
+global.progress_count = 0;
+
+fun refresh_callback() {
+    # Increment progress counter for visual feedback
+    global.progress_count++;
+}
+
+Plymouth.SetRefreshFunction(refresh_callback);

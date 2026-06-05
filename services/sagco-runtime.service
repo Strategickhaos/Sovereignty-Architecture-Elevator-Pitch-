@@ -1,0 +1,19 @@
+[Unit]
+Description=SAGCO Runtime
+After=network.target
+
+[Service]
+# PLACEHOLDER: This is a stub service that does nothing but remain active
+# To enable SAGCO runtime functionality:
+#   1. Create /opt/sagco/runtime.py with your SAGCO runtime logic
+#   2. Update ExecStart to: /opt/sagco/venv/bin/python /opt/sagco/runtime.py
+#   3. Change Type to: simple
+#   4. Add Restart=always if needed
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

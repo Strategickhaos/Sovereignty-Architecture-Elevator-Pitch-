@@ -36,3 +36,13 @@ target/
 
 # Workspace data
 workspace/
+
+# SAGCO SPM runtime directories
+/opt/sagco/
+/var/log/sagco/
+/var/lib/sagco/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
