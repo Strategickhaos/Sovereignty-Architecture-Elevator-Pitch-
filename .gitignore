@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# Generated SQL init scripts
+init-cloudos-db.sql
