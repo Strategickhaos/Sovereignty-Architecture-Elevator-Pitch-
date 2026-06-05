@@ -36,3 +36,22 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+.env
+.venv
+env/
+venv/
+ENV/

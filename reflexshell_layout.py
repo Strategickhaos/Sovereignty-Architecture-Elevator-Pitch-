@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+# ============================================================
+# STRATEGICKHAOS DAO LLC • SOVEREIGN SOFTWARE FRAMEWORK
+# Copyright © 2025 Domenic G. Garza • All Rights Reserved
+# 
+# This file is part of the Strategickhaos Autonomous Runtime.
+# It may not be copied, modified, distributed, or executed
+# except by authorized operators within the Strategickhaos
+# governance model and licensing structure.
+# 
+# Unauthorized use is prohibited. All activity is logged.
+# ============================================================
+
 # reflexshell_layout.py
 # REFLEXSHELL BRAIN v1 — Cognitive Environment Bootstrap
 # Strategickhaos DAO LLC — Node 137 Neural Topology Activation

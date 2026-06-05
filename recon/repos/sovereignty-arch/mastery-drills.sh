@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
+# ============================================================
+# STRATEGICKHAOS DAO LLC • SOVEREIGN SOFTWARE FRAMEWORK
+# Copyright © 2025 Domenic G. Garza • All Rights Reserved
+# 
+# This file is part of the Strategickhaos Autonomous Runtime.
+# It may not be copied, modified, distributed, or executed
+# except by authorized operators within the Strategickhaos
+# governance model and licensing structure.
+# 
+# Unauthorized use is prohibited. All activity is logged.
+# ============================================================
+
 # mastery-drills.sh - 20 Bloom's Taxonomy CLI Mastery Drills
 # Tier: Creating & Evaluating (Highest Bloom's)
 # Usage: ./mastery-drills.sh [1-20] or "all"

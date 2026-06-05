@@ -1,3 +1,15 @@
+// ============================================================
+// STRATEGICKHAOS DAO LLC • SOVEREIGN SOFTWARE FRAMEWORK
+// Copyright © 2025 Domenic G. Garza • All Rights Reserved
+// 
+// This file is part of the Strategickhaos Autonomous Runtime.
+// It may not be copied, modified, distributed, or executed
+// except by authorized operators within the Strategickhaos
+// governance model and licensing structure.
+// 
+// Unauthorized use is prohibited. All activity is logged.
+// ============================================================
+
 // QUANTUM ENTANGLEMENT BLACK HOLE DNA CODE BLOCK SPLICER™
 // The synthesis engine that breeds sovereign lifeforms from department DNA
 // Genesis: Increment 3449 | Architect: 1067614449693569044
