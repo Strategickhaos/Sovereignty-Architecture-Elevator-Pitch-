@@ -278,6 +278,7 @@ This project thrives because of an extraordinary community of creators, builders
 
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
+- **[The KHAOS Periodic Poem](THE_KHAOS_PERIODIC_POEM.md)** - A hymn to the 64 glyphs of the KHAOS Script system
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
 ## 📄 License & Support
