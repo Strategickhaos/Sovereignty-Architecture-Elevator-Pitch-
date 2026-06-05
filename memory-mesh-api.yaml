@@ -1,0 +1,692 @@
+# Memory Mesh API Specification
+# Sovereign Cognitive Architecture
+# Version: 1.0.0
+
+metadata:
+  title: "Memory Mesh API"
+  description: "Unified context and memory interface for multi-LLM consciousness"
+  version: "1.0.0"
+  api_version: "v1"
+  last_updated: "2025-12-07"
+  
+specification:
+  openapi: "3.0.0"
+  base_url: "http://localhost:7000"
+  protocol: "HTTP/REST"
+  content_type: "application/json"
+
+# ============================================================================
+# CORE CONCEPTS
+# ============================================================================
+
+concepts:
+  unified_context:
+    description: |
+      The Memory Mesh provides a single source of truth for all LLM conversations.
+      Any LLM can query the mesh to retrieve context from any other LLM's history.
+      
+  instant_sync:
+    description: |
+      When an LLM queries the mesh, it instantly receives the latest state across
+      all LLMs. No manual copying, no context loss, no vendor silos.
+      
+  sovereign_storage:
+    description: |
+      All data is stored locally in open formats (Qdrant, Redis).
+      Full export capability ensures zero vendor lock-in.
+      
+  quadrilateral_routing:
+    description: |
+      Context can be filtered by verification scores, ensuring only
+      high-quality information propagates across LLMs.
+
+# ============================================================================
+# VECTOR DATABASE CONFIGURATION
+# ============================================================================
+
+vector_database:
+  provider: "qdrant"
+  host: "localhost"
+  port: 6333
+  grpc_port: 6334
+  
+  embedding_model:
+    name: "BAAI/bge-small-en-v1.5"
+    dimension: 384
+    similarity_metric: "cosine"
+    batch_size: 32
+    max_input_length: 512
+    
+  collections:
+    conversations:
+      name: "conversations"
+      description: "All LLM conversations with vector embeddings"
+      vectors:
+        size: 384
+        distance: "Cosine"
+        on_disk: false  # Keep in memory for speed
+      payload_schema:
+        conversation_id:
+          type: "string"
+          indexed: true
+        llm_provider:
+          type: "string"
+          indexed: true
+          enum: ["claude", "gpt", "ollama", "qwen", "custom"]
+        timestamp:
+          type: "datetime"
+          indexed: true
+        messages:
+          type: "array"
+          description: "Full conversation history"
+        metadata:
+          type: "object"
+          properties:
+            user_id: "string"
+            session_id: "string"
+            tags: "array[string]"
+            verification_scores: "object"
+        embeddings:
+          type: "vector"
+          dimension: 384
+          
+    knowledge_base:
+      name: "knowledge_base"
+      description: "Unified knowledge graph across all LLMs"
+      vectors:
+        size: 384
+        distance: "Cosine"
+        on_disk: false
+      payload_schema:
+        entity:
+          type: "string"
+          indexed: true
+        entity_type:
+          type: "string"
+          indexed: true
+          enum: ["concept", "code", "fact", "instruction"]
+        relationships:
+          type: "array"
+          description: "Links to related entities"
+        source_llm:
+          type: "string"
+          indexed: true
+        verification_score:
+          type: "float"
+          description: "Quadrilateral consensus score (0.0-1.0)"
+        created_at:
+          type: "datetime"
+        updated_at:
+          type: "datetime"
+
+# ============================================================================
+# CACHE LAYER
+# ============================================================================
+
+cache:
+  provider: "redis"
+  host: "localhost"
+  port: 6379
+  db: 0
+  
+  keys:
+    session_prefix: "session:"
+    conversation_prefix: "conv:"
+    embedding_prefix: "emb:"
+    
+  ttl:
+    sessions: 86400        # 24 hours
+    embeddings: 3600       # 1 hour
+    metadata: 7200         # 2 hours
+    
+  strategies:
+    write_through: true    # Write to cache and DB simultaneously
+    lazy_loading: true     # Load embeddings on demand
+    invalidation: "manual" # Explicit cache invalidation
+
+# ============================================================================
+# API ENDPOINTS
+# ============================================================================
+
+endpoints:
+  # =========== CONVERSATIONS ===========
+  
+  store_conversation:
+    method: "POST"
+    path: "/conversations"
+    description: "Store a new conversation in the memory mesh"
+    request:
+      content_type: "application/json"
+      body:
+        llm_provider:
+          type: "string"
+          required: true
+          enum: ["claude", "gpt", "ollama", "qwen", "custom"]
+        messages:
+          type: "array"
+          required: true
+          items:
+            role: "string"  # user | assistant | system
+            content: "string"
+            timestamp: "datetime"
+        metadata:
+          type: "object"
+          required: false
+          properties:
+            user_id: "string"
+            session_id: "string"
+            tags: "array[string]"
+        parent_conversation:
+          type: "string"
+          required: false
+          description: "Link to parent conversation for context chains"
+    response:
+      status: 201
+      body:
+        conversation_id: "string"
+        embeddings_count: "integer"
+        storage_size_bytes: "integer"
+        indexed_at: "datetime"
+    example: |
+      curl -X POST http://localhost:7000/conversations \
+        -H "Content-Type: application/json" \
+        -d '{
+          "llm_provider": "claude",
+          "messages": [
+            {"role": "user", "content": "Explain quantum computing"},
+            {"role": "assistant", "content": "Quantum computing uses..."}
+          ],
+          "metadata": {
+            "session_id": "sess_123",
+            "tags": ["quantum", "computing"]
+          }
+        }'
+        
+  get_conversation:
+    method: "GET"
+    path: "/conversations/{conversation_id}"
+    description: "Retrieve a specific conversation"
+    parameters:
+      conversation_id:
+        type: "string"
+        required: true
+        in: "path"
+    response:
+      status: 200
+      body:
+        conversation_id: "string"
+        llm_provider: "string"
+        messages: "array"
+        metadata: "object"
+        created_at: "datetime"
+        
+  list_conversations:
+    method: "GET"
+    path: "/conversations"
+    description: "List conversations with filtering"
+    parameters:
+      llm_provider:
+        type: "string"
+        required: false
+        in: "query"
+      session_id:
+        type: "string"
+        required: false
+        in: "query"
+      since:
+        type: "datetime"
+        required: false
+        in: "query"
+      limit:
+        type: "integer"
+        required: false
+        in: "query"
+        default: 50
+      offset:
+        type: "integer"
+        required: false
+        in: "query"
+        default: 0
+    response:
+      status: 200
+      body:
+        conversations: "array"
+        total_count: "integer"
+        has_more: "boolean"
+        
+  # =========== CONTEXT RETRIEVAL ===========
+  
+  retrieve_context:
+    method: "GET"
+    path: "/retrieve"
+    description: "Vector similarity search across all conversations"
+    parameters:
+      query:
+        type: "string"
+        required: true
+        in: "query"
+        description: "Natural language query"
+      k:
+        type: "integer"
+        required: false
+        in: "query"
+        default: 5
+        description: "Number of results to return"
+      llm_filter:
+        type: "string"
+        required: false
+        in: "query"
+        description: "Filter by LLM provider"
+      min_score:
+        type: "float"
+        required: false
+        in: "query"
+        default: 0.7
+        description: "Minimum similarity score (0.0-1.0)"
+      verification_threshold:
+        type: "float"
+        required: false
+        in: "query"
+        default: 0.75
+        description: "Minimum quadrilateral verification score"
+    response:
+      status: 200
+      body:
+        results:
+          type: "array"
+          items:
+            conversation_id: "string"
+            llm_provider: "string"
+            message: "object"
+            similarity_score: "float"
+            verification_score: "float"
+            metadata: "object"
+        query_embedding: "array[float]"
+        execution_time_ms: "integer"
+    example: |
+      curl -X GET "http://localhost:7000/retrieve?query=quantum+computing&k=5&min_score=0.7"
+      
+  # =========== SYNCHRONIZATION ===========
+  
+  scan_all_chats:
+    method: "POST"
+    path: "/sync/scan"
+    description: "Get latest state across all LLMs for instant sync"
+    request:
+      content_type: "application/json"
+      body:
+        llm_id:
+          type: "string"
+          required: true
+          description: "Requesting LLM identifier"
+        since:
+          type: "datetime"
+          required: false
+          description: "Only return updates since this timestamp"
+        include_providers:
+          type: "array[string]"
+          required: false
+          description: "Specific LLMs to scan"
+    response:
+      status: 200
+      body:
+        conversations_count: "integer"
+        latest_timestamp: "datetime"
+        summary:
+          type: "object"
+          properties:
+            claude_conversations: "integer"
+            gpt_conversations: "integer"
+            ollama_conversations: "integer"
+            total_messages: "integer"
+        recent_conversations:
+          type: "array"
+          description: "Most recent conversations across all LLMs"
+        sync_token:
+          type: "string"
+          description: "Token for incremental sync"
+    example: |
+      curl -X POST http://localhost:7000/sync/scan \
+        -H "Content-Type: application/json" \
+        -d '{
+          "llm_id": "claude_session_123",
+          "since": "2025-12-07T00:00:00Z"
+        }'
+        
+  # =========== EXPORT ===========
+  
+  export_sovereign:
+    method: "POST"
+    path: "/export"
+    description: "Export all data with full provenance"
+    request:
+      content_type: "application/json"
+      body:
+        format:
+          type: "string"
+          required: true
+          enum: ["json", "yaml", "sqlite", "parquet"]
+        gpg_sign:
+          type: "boolean"
+          required: false
+          default: true
+        opentimestamps:
+          type: "boolean"
+          required: false
+          default: true
+        include_audit_trail:
+          type: "boolean"
+          required: false
+          default: true
+        compression:
+          type: "string"
+          required: false
+          enum: ["none", "gzip", "bzip2", "xz"]
+          default: "gzip"
+        filters:
+          type: "object"
+          required: false
+          properties:
+            llm_providers: "array[string]"
+            date_range: "object"
+            min_verification_score: "float"
+    response:
+      status: 200
+      content_type: "application/octet-stream"
+      headers:
+        Content-Disposition: "attachment; filename=cognitive_export_{timestamp}.{format}.{compression}"
+      body:
+        type: "binary"
+        description: "Exported data file"
+      metadata:
+        conversation_count: "integer"
+        total_size_bytes: "integer"
+        timestamp_hash: "string"
+        gpg_signature: "string"
+        opentimestamp_proof: "string"
+    example: |
+      curl -X POST http://localhost:7000/export \
+        -H "Content-Type: application/json" \
+        -d '{
+          "format": "json",
+          "gpg_sign": true,
+          "opentimestamps": true,
+          "compression": "gzip"
+        }' \
+        --output cognitive_export.json.gz.gpg
+        
+  # =========== KNOWLEDGE GRAPH ===========
+  
+  add_knowledge:
+    method: "POST"
+    path: "/knowledge"
+    description: "Add or update knowledge graph entity"
+    request:
+      content_type: "application/json"
+      body:
+        entity:
+          type: "string"
+          required: true
+        entity_type:
+          type: "string"
+          required: true
+          enum: ["concept", "code", "fact", "instruction"]
+        content:
+          type: "string"
+          required: true
+        relationships:
+          type: "array[object]"
+          required: false
+          items:
+            relation_type: "string"  # relates_to | depends_on | implements
+            target_entity: "string"
+        source_llm:
+          type: "string"
+          required: true
+        verification_score:
+          type: "float"
+          required: false
+          default: 0.0
+    response:
+      status: 201
+      body:
+        entity_id: "string"
+        created_at: "datetime"
+        
+  query_knowledge:
+    method: "GET"
+    path: "/knowledge"
+    description: "Query knowledge graph"
+    parameters:
+      query:
+        type: "string"
+        required: true
+        in: "query"
+      entity_type:
+        type: "string"
+        required: false
+        in: "query"
+      min_verification_score:
+        type: "float"
+        required: false
+        in: "query"
+        default: 0.75
+      k:
+        type: "integer"
+        required: false
+        in: "query"
+        default: 10
+    response:
+      status: 200
+      body:
+        entities: "array"
+        relationships_graph: "object"
+        
+  # =========== HEALTH & STATUS ===========
+  
+  health_check:
+    method: "GET"
+    path: "/health"
+    description: "Health check endpoint"
+    response:
+      status: 200
+      body:
+        status: "healthy"
+        services:
+          qdrant: "boolean"
+          redis: "boolean"
+        version: "string"
+        uptime_seconds: "integer"
+        
+  get_stats:
+    method: "GET"
+    path: "/stats"
+    description: "Get memory mesh statistics"
+    response:
+      status: 200
+      body:
+        total_conversations: "integer"
+        total_messages: "integer"
+        total_embeddings: "integer"
+        storage_size_bytes: "integer"
+        by_provider:
+          claude: "integer"
+          gpt: "integer"
+          ollama: "integer"
+          qwen: "integer"
+        average_verification_score: "float"
+        last_update: "datetime"
+
+# ============================================================================
+# SYNC PROTOCOL
+# ============================================================================
+
+sync_protocol:
+  mode: "real-time"
+  
+  mechanisms:
+    webhooks:
+      enabled: true
+      endpoint: "/webhooks/conversation"
+      description: "LLMs can register webhooks for real-time updates"
+      
+    polling:
+      enabled: true
+      recommended_interval_seconds: 30
+      endpoint: "/sync/scan"
+      
+    websockets:
+      enabled: false  # Future enhancement
+      port: 7001
+      
+  conflict_resolution:
+    strategy: "quadrilateral_vote"
+    steps:
+      - "Detect conflicting information from multiple LLMs"
+      - "Run quadrilateral verification on each claim"
+      - "Accept claim with highest verification score"
+      - "Log conflict and resolution in audit trail"
+      
+  retention_policy:
+    mode: "forever"
+    description: "Sovereign data is never deleted automatically"
+    manual_deletion: true
+    archival_after_days: null  # No automatic archival
+
+# ============================================================================
+# PERFORMANCE
+# ============================================================================
+
+performance:
+  expected_latency:
+    store_conversation: "< 100ms"
+    retrieve_context: "< 200ms"
+    scan_all_chats: "< 500ms"
+    export_sovereign: "< 5s for 1GB"
+    
+  scalability:
+    max_conversations: "10M+"
+    max_messages_per_conversation: "10K"
+    max_embedding_dimension: 384
+    concurrent_requests: 1000
+    
+  optimization:
+    embedding_caching: true
+    batch_processing: true
+    async_indexing: true
+    connection_pooling: true
+
+# ============================================================================
+# SECURITY
+# ============================================================================
+
+security:
+  authentication:
+    methods:
+      - "API keys"
+      - "JWT tokens"
+    header: "Authorization: Bearer {token}"
+    
+  authorization:
+    rbac: true
+    permissions:
+      - "read:conversations"
+      - "write:conversations"
+      - "admin:export"
+      
+  encryption:
+    at_rest:
+      enabled: true
+      algorithm: "AES-256-GCM"
+    in_transit:
+      enabled: true
+      protocol: "TLS 1.3"
+      
+  audit_logging:
+    enabled: true
+    log_all_operations: true
+    retention_days: 365
+
+# ============================================================================
+# DEPLOYMENT
+# ============================================================================
+
+deployment:
+  docker_image: "sovereign-cognitive/memory-mesh:latest"
+  container_port: 7000
+  
+  environment_variables:
+    QDRANT_URL: "http://qdrant:6333"
+    REDIS_URL: "redis://redis:6379"
+    EMBEDDING_MODEL: "BAAI/bge-small-en-v1.5"
+    LOG_LEVEL: "INFO"
+    ENABLE_AUDIT: "true"
+    GPG_KEY_ID: "${GPG_KEY_ID}"
+    
+  docker_compose: |
+    memory-mesh:
+      image: sovereign-cognitive/memory-mesh:latest
+      ports:
+        - "7000:7000"
+      environment:
+        - QDRANT_URL=http://qdrant:6333
+        - REDIS_URL=redis://redis:6379
+      depends_on:
+        - qdrant
+        - redis
+      restart: unless-stopped
+
+# ============================================================================
+# EXAMPLE CLIENT LIBRARY
+# ============================================================================
+
+client_library_example:
+  python: |
+    from sovereign_cognitive import MemoryMeshClient
+    
+    # Initialize client
+    client = MemoryMeshClient(base_url="http://localhost:7000")
+    
+    # Store conversation
+    conv_id = client.store_conversation(
+        llm_provider="claude",
+        messages=[
+            {"role": "user", "content": "Hello"},
+            {"role": "assistant", "content": "Hi there!"}
+        ]
+    )
+    
+    # Retrieve context
+    results = client.retrieve_context(
+        query="quantum computing",
+        k=5,
+        min_score=0.7
+    )
+    
+    # Scan all chats
+    sync_data = client.scan_all_chats(
+        llm_id="claude_session_123",
+        since="2025-12-07T00:00:00Z"
+    )
+    
+    # Export sovereign data
+    export_file = client.export_sovereign(
+        format="json",
+        gpg_sign=True,
+        opentimestamps=True
+    )
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+metadata_footer:
+  document_hash: "SHA-256: [TO BE COMPUTED]"
+  gpg_signature: "[TO BE SIGNED]"
+  opentimestamp: "[TO BE ANCHORED]"
+  license: "MIT with Sovereign Addendum"
+  organization: "Strategickhaos DAO LLC"
+  ein: "39-2923503"
+  operator: "DOM_010101"
+  node: "Node 137"
+  covenant: "Trust nothing until it survives 100-angle crossfire. 🔥"

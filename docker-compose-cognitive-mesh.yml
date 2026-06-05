@@ -1,0 +1,411 @@
+# Docker Compose - Sovereign Cognitive Architecture
+# Multi-LLM Consciousness Layer with Unified Memory Mesh
+# Version: 1.0.0
+
+version: '3.8'
+
+# ============================================================================
+# SERVICES
+# ============================================================================
+
+services:
+  # =========== VECTOR DATABASE ===========
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: sovereign-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC API
+    volumes:
+      - qdrant_storage:/qdrant/storage
+      - ./config/qdrant:/qdrant/config
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - cognitive_mesh
+
+  # =========== CACHE LAYER ===========
+  redis:
+    image: redis:7-alpine
+    container_name: sovereign-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - cognitive_mesh
+
+  # =========== MEMORY MESH API ===========
+  memory-mesh:
+    build:
+      context: ./src/memory-mesh
+      dockerfile: Dockerfile
+    image: sovereign-cognitive/memory-mesh:latest
+    container_name: sovereign-memory-mesh
+    restart: unless-stopped
+    ports:
+      - "7000:7000"
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - REDIS_URL=redis://redis:6379/0
+      - EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
+      - LOG_LEVEL=INFO
+      - ENABLE_AUDIT=true
+      - GPG_KEY_ID=${GPG_KEY_ID:-}
+      - PORT=7000
+    volumes:
+      - ./data/exports:/app/exports
+      - ./logs/memory-mesh:/app/logs
+      - ${HOME}/.gnupg:/root/.gnupg:ro  # GPG keys for signing
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - cognitive_mesh
+
+  # =========== CLAUDE API PROXY ===========
+  claude-api:
+    build:
+      context: ./src/llm-proxies/claude
+      dockerfile: Dockerfile
+    image: sovereign-cognitive/claude-proxy:latest
+    container_name: sovereign-claude-api
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_BASE_URL=https://api.anthropic.com/v1
+      - MEMORY_MESH_URL=http://memory-mesh:7000
+      - MODEL_DEFAULT=claude-3-5-sonnet-20241022
+      - MAX_TOKENS=8192
+      - PORT=8001
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs/claude:/app/logs
+    depends_on:
+      memory-mesh:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - cognitive_mesh
+
+  # =========== GPT API PROXY ===========
+  gpt-api:
+    build:
+      context: ./src/llm-proxies/gpt
+      dockerfile: Dockerfile
+    image: sovereign-cognitive/gpt-proxy:latest
+    container_name: sovereign-gpt-api
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=https://api.openai.com/v1
+      - MEMORY_MESH_URL=http://memory-mesh:7000
+      - MODEL_DEFAULT=gpt-4-turbo-preview
+      - MAX_TOKENS=8192
+      - PORT=8002
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs/gpt:/app/logs
+    depends_on:
+      memory-mesh:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - cognitive_mesh
+
+  # =========== LOCAL OLLAMA ===========
+  ollama:
+    image: ollama/ollama:latest
+    container_name: sovereign-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s  # Ollama needs more time to start
+    networks:
+      - cognitive_mesh
+    # Uncomment for GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # =========== QWEN API PROXY ===========
+  qwen-api:
+    build:
+      context: ./src/llm-proxies/qwen
+      dockerfile: Dockerfile
+    image: sovereign-cognitive/qwen-proxy:latest
+    container_name: sovereign-qwen-api
+    restart: unless-stopped
+    ports:
+      - "8003:8003"
+    environment:
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
+      - DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/api/v1
+      - MEMORY_MESH_URL=http://memory-mesh:7000
+      - MODEL_DEFAULT=qwen-max
+      - MAX_TOKENS=8192
+      - PORT=8003
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs/qwen:/app/logs
+    depends_on:
+      memory-mesh:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - cognitive_mesh
+    profiles:
+      - full  # Only start if explicitly requested
+
+  # =========== CUSTOM LLM SLOT ===========
+  custom-llm:
+    build:
+      context: ./src/llm-proxies/custom
+      dockerfile: Dockerfile
+    image: sovereign-cognitive/custom-proxy:latest
+    container_name: sovereign-custom-llm
+    restart: unless-stopped
+    ports:
+      - "8004:8004"
+    environment:
+      - CUSTOM_API_KEY=${CUSTOM_API_KEY:-}
+      - CUSTOM_BASE_URL=${CUSTOM_BASE_URL:-http://localhost:8004}
+      - MEMORY_MESH_URL=http://memory-mesh:7000
+      - PORT=8004
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs/custom:/app/logs
+    depends_on:
+      memory-mesh:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - cognitive_mesh
+    profiles:
+      - full  # Only start if explicitly requested
+
+  # =========== MONITORING: PROMETHEUS ===========
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: sovereign-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    networks:
+      - cognitive_mesh
+    profiles:
+      - monitoring
+
+  # =========== MONITORING: GRAFANA ===========
+  grafana:
+    image: grafana/grafana:latest
+    container_name: sovereign-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - prometheus
+    networks:
+      - cognitive_mesh
+    profiles:
+      - monitoring
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+
+volumes:
+  qdrant_storage:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/qdrant
+  
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/redis
+  
+  ollama_models:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/ollama
+  
+  prometheus_data:
+    driver: local
+  
+  grafana_data:
+    driver: local
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+
+networks:
+  cognitive_mesh:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# ============================================================================
+# USAGE EXAMPLES
+# ============================================================================
+
+# Start core services (Claude, GPT, Ollama, Memory Mesh)
+# docker compose -f docker-compose-cognitive-mesh.yml up -d
+
+# Start with monitoring
+# docker compose -f docker-compose-cognitive-mesh.yml --profile monitoring up -d
+
+# Start all services including Qwen and Custom
+# docker compose -f docker-compose-cognitive-mesh.yml --profile full --profile monitoring up -d
+
+# View logs
+# docker compose -f docker-compose-cognitive-mesh.yml logs -f memory-mesh
+
+# Check service health
+# docker compose -f docker-compose-cognitive-mesh.yml ps
+
+# Stop all services
+# docker compose -f docker-compose-cognitive-mesh.yml down
+
+# Stop and remove volumes (CAUTION: deletes data)
+# docker compose -f docker-compose-cognitive-mesh.yml down -v
+
+# Scale a service (example: run 3 Claude instances)
+# docker compose -f docker-compose-cognitive-mesh.yml up -d --scale claude-api=3
+
+# Pull Ollama models after startup
+# docker exec sovereign-ollama ollama pull llama3
+# docker exec sovereign-ollama ollama pull mistral
+# docker exec sovereign-ollama ollama pull codellama
+
+# ============================================================================
+# ENVIRONMENT VARIABLES REQUIRED
+# ============================================================================
+
+# Required:
+# - ANTHROPIC_API_KEY: Your Anthropic API key
+# - OPENAI_API_KEY: Your OpenAI API key
+
+# Optional:
+# - DASHSCOPE_API_KEY: Alibaba Qwen API key (for Qwen)
+# - CUSTOM_API_KEY: Your custom LLM API key
+# - CUSTOM_BASE_URL: Your custom LLM endpoint
+# - GPG_KEY_ID: GPG key for signing exports
+# - GRAFANA_PASSWORD: Grafana admin password (default: admin)
+
+# Create a .env file with these variables:
+# cat > .env << 'EOF'
+# ANTHROPIC_API_KEY=sk-ant-...
+# OPENAI_API_KEY=sk-...
+# DASHSCOPE_API_KEY=sk-...
+# GPG_KEY_ID=ABCD1234
+# GRAFANA_PASSWORD=secure_password
+# EOF
+
+# ============================================================================
+# HEALTH CHECK ENDPOINTS
+# ============================================================================
+
+# Qdrant:      http://localhost:6333/health
+# Redis:       redis-cli -h localhost -p 6379 PING
+# Memory Mesh: http://localhost:7000/health
+# Claude API:  http://localhost:8001/health
+# GPT API:     http://localhost:8002/health
+# Ollama:      http://localhost:11434/api/tags
+# Qwen API:    http://localhost:8003/health
+# Custom:      http://localhost:8004/health
+# Prometheus:  http://localhost:9090/-/healthy
+# Grafana:     http://localhost:3000/api/health
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+# Document: docker-compose-cognitive-mesh.yml
+# Version: 1.0.0
+# Organization: Strategickhaos DAO LLC
+# EIN: 39-2923503
+# Operator: DOM_010101
+# Node: Node 137
+# License: MIT with Sovereign Addendum
+# Covenant: "Zero vendor lock-in. Your data, your rules. 🔥"
