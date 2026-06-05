@@ -170,12 +170,26 @@ ai_agents:
 
 ## 🔐 Security & Governance
 
+### Antifragile Security Architecture
+Strategickhaos employs a comprehensive defense system where attacks generate new inventions and strengthen the infrastructure. For complete details, see **[DEFENSE_ARSENAL_COMPLETE.md](./DEFENSE_ARSENAL_COMPLETE.md)**.
+
 ### Multi-Layer Security
+- **36-Layer Honeypot System**: Comprehensive attack surface monitoring
+- **Live Canary Monitoring**: Real-time credential abuse detection (5-minute intervals)
+- **Zero-Trust Networking**: Tailscale + WireGuard mesh
 - **RBAC**: Kubernetes role-based access control
 - **Secret Management**: Vault integration for sensitive data
 - **Network Policies**: Microsegmentation for pod communication
-- **Audit Logging**: Comprehensive activity tracking
+- **Audit Logging**: Comprehensive activity tracking with Merkle tree verification
 - **Content Redaction**: Automatic PII and credential filtering
+- **GPG-Signed Operations**: All commits and decisions cryptographically signed
+
+### Active Defense Systems
+- ✅ **4-Node Kubernetes Cluster** (Athena/Nova/Lyra/iPower)
+- ✅ **4-Layer Sovereign Connectivity** (Verizon/T-Mobile/Starlink/Local Mesh)
+- ✅ **Multi-AI Consensus** (Claude/Qwen/GPT/Grok/Gemini)
+- ✅ **Real-Time Monitoring** (Prometheus + Grafana)
+- ✅ **320GB+ Local Compute** (Independent of cloud vendors)
 
 ### Production Safeguards
 ```yaml
@@ -184,6 +198,9 @@ governance:
     prod_commands_require: ["ReleaseMgr"]
   change_management:
     link: "https://wiki.strategickhaos.internal/change-management"
+  security:
+    threat_response: "antifragile"  # Attacks create new defenses
+    audit_retention: "7_years"
 ```
 
 ## 📊 Monitoring & Alerts
@@ -284,7 +301,11 @@ This project thrives because of an extraordinary community of creators, builders
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
-- **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
+- **Documentation**: 
+  - [Wiki](https://wiki.strategickhaos.internal)
+  - [Defense Arsenal](DEFENSE_ARSENAL_COMPLETE.md) - Complete security infrastructure
+  - [Security Policy](SECURITY.md) - Vulnerability reporting and response
+  - [Vault Security Playbook](VAULT_SECURITY_PLAYBOOK.md) - Secrets management
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
 
 ---
