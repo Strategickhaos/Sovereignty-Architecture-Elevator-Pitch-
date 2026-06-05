@@ -44,11 +44,14 @@ class RefineryConfig(BaseSettings):
 
 class DatabaseConfig(BaseSettings):
     """Database configuration"""
+    # Support both individual parameters and full connection URL
+    url: Optional[str] = Field(default=None, description="Full PostgreSQL connection URL (overrides individual params)")
     host: str = Field(default="localhost", description="PostgreSQL host")
     port: int = Field(default=5432, description="PostgreSQL port")
     database: str = Field(default="refinory", description="Database name")
     username: str = Field(default="refinory", description="Database username")
     password: str = Field(default="refinory123", description="Database password")
+    sslmode: str = Field(default="prefer", description="SSL mode (disable/allow/prefer/require/verify-ca/verify-full)")
     
     # Connection pool settings
     min_connections: int = Field(default=5, description="Minimum connection pool size")
@@ -57,10 +60,25 @@ class DatabaseConfig(BaseSettings):
     @property
     def dsn(self) -> str:
         """PostgreSQL connection string"""
-        return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+        # If DATABASE_URL is set, use it directly (useful for Neon and other managed services)
+        if self.url:
+            return self.url
+        
+        # Otherwise, construct from individual parameters
+        sslmode_param = f"?sslmode={self.sslmode}" if self.sslmode and self.sslmode != "" else ""
+        return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}{sslmode_param}"
     
     class Config:
         env_prefix = "DB_"
+        
+    @validator('url', pre=True)
+    def check_database_url(cls, v):
+        """Check for DATABASE_URL environment variable"""
+        if v is None:
+            database_url = os.getenv('DATABASE_URL')
+            if database_url:
+                return database_url
+        return v
 
 class RedisConfig(BaseSettings):
     """Redis configuration"""

@@ -36,3 +36,24 @@ target/
 
 # Workspace data
 workspace/
+
+# Environment variables with sensitive data
+.env.local
+.env.*.local
+
+# Database backups
+*.sql
+*.dump
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Docker volumes
+postgres_data/
+redis_data/
+qdrant_data/
