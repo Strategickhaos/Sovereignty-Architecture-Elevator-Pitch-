@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# TRIG6 simulation reports
+trig6_simulation_report_*.md
