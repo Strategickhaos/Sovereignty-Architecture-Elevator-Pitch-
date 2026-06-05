@@ -272,6 +272,30 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🔬 Inventions & Research
+
+The Strategickhaos ecosystem includes cutting-edge **sovereign hardware and software inventions** for infrastructure-independent operations.
+
+### Featured: INV-087 Xbox Sovereign RF Station
+Transform a jailbroken Xbox Series X into a powerful RF communications hub:
+- **12 TFLOP GPU** for signal processing
+- **CB Packet Radio** (27MHz, unlicensed)
+- **Spectrum Scanning** (RTL-SDR, 24MHz-1.7GHz)
+- **LoRa Mesh** networking
+- **Offline Sovereign** operation
+
+**[📡 View Full Documentation](./inventions/INV-087-Xbox-RF-Station/)**
+
+### Explore All Inventions
+Browse the complete [**Inventions Directory**](./inventions/) for documentation on:
+- Hardware projects (RF, mesh networking, off-grid)
+- Software tools (encryption, networking, AI)
+- Hybrid systems (integrated hardware/software)
+- Conceptual frameworks (sovereignty architecture)
+
+**Status:** Active research and development  
+**Contribute:** Add your own inventions or improve existing documentation
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
