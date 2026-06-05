@@ -1,0 +1,5 @@
+# SAGCO GRUB Configuration Snippet
+# Add this to /etc/default/grub, then run: sudo update-grub
+
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash sagco=1"
+GRUB_THEME="/boot/grub/themes/sagco/theme.txt"
