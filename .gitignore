@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# GitHub Actions self-hosted runner binaries
+actions-runner/
