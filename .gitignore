@@ -36,3 +36,8 @@ target/
 
 # Workspace data
 workspace/
+
+# TRIG6 proof artifacts
+proof/
+proof_bundle.zip
+proof_bundle.sha256
