@@ -1,0 +1,13 @@
+# Kubernetes Autopilot Configuration
+# Policy: Request = Limit
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: synapse-bus-quota
+spec:
+  hard:
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "4"
+    limits.memory: 8Gi

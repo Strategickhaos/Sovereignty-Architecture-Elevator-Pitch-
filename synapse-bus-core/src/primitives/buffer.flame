@@ -1,0 +1,24 @@
+// FlameLang Primitive: Buffer
+// REF: Ripley Gate 2 (Solution)
+// GSCH Framework: Absorb stress spikes
+
+primitive Buffer {
+    // Capacity for absorbing stress
+    capacity: float
+    
+    // Current load
+    load: float
+    
+    // Absorb incoming stress
+    fn absorb(stress: float) -> float {
+        let available = capacity - load
+        let absorbed = min(stress, available)
+        load += absorbed
+        return absorbed
+    }
+    
+    // Dissolve buffered stress over time
+    fn dissolve(rate: float) {
+        load = max(0, load - rate)
+    }
+}

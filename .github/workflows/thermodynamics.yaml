@@ -1,0 +1,198 @@
+# Thermodynamics Workflow - GSCH Entropy Gatekeeper
+# Guards: entropy_threshold < 0.8
+# 
+# This workflow prevents high-complexity code from entering Docker Hub.
+# Based on the GSCH Framework: "Buffer" (absorb spikes) and "Dissolve" (delete failures).
+
+name: Thermodynamics Check
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  ENTROPY_THRESHOLD: 0.8
+  DOCKER_HUB_USER: strategickhaos
+
+jobs:
+  calculate-entropy:
+    runs-on: ubuntu-latest
+    outputs:
+      entropy: ${{ steps.calc.outputs.entropy }}
+      passed: ${{ steps.calc.outputs.passed }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Calculate GSCH Entropy
+        id: calc
+        run: |
+          echo "🔬 Calculating GSCH Entropy..."
+          
+          # Install bc calculator
+          sudo apt-get update -qq && sudo apt-get install -y -qq bc > /dev/null 2>&1
+          
+          # Calculate complexity metrics
+          TOTAL_FILES=$(find . -name "*.rs" -o -name "*.py" -o -name "*.flame" | wc -l)
+          TOTAL_LINES=$(find . -name "*.rs" -o -name "*.py" -o -name "*.flame" -exec wc -l {} + | tail -1 | awk '{print $1}')
+          
+          # Average lines per file (complexity indicator)
+          if [ "$TOTAL_FILES" -gt 0 ]; then
+            AVG_LINES=$(echo "scale=2; $TOTAL_LINES / $TOTAL_FILES" | bc)
+          else
+            AVG_LINES=0
+          fi
+          
+          # Calculate entropy (normalized 0-1)
+          # Higher average lines per file = higher entropy
+          # Threshold: 200 lines/file = entropy 0.8
+          ENTROPY=$(echo "scale=4; $AVG_LINES / 250" | bc)
+          
+          echo "📊 Metrics:"
+          echo "   Files: $TOTAL_FILES"
+          echo "   Lines: $TOTAL_LINES"
+          echo "   Avg Lines/File: $AVG_LINES"
+          echo "   Entropy: $ENTROPY"
+          
+          # Check threshold
+          PASSED=$(echo "$ENTROPY < $ENTROPY_THRESHOLD" | bc)
+          
+          if [ "$PASSED" -eq 1 ]; then
+            echo "✅ Entropy $ENTROPY < $ENTROPY_THRESHOLD (PASSED)"
+            echo "entropy=$ENTROPY" >> $GITHUB_OUTPUT
+            echo "passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Entropy $ENTROPY >= $ENTROPY_THRESHOLD (FAILED)"
+            echo "entropy=$ENTROPY" >> $GITHUB_OUTPUT
+            echo "passed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Validate Entropy Threshold
+        if: steps.calc.outputs.passed == 'false'
+        run: |
+          echo "⚠️  High entropy detected!"
+          echo "Code complexity exceeds threshold."
+          echo "Consider refactoring to reduce complexity."
+          exit 1
+  
+  buffer-check:
+    runs-on: ubuntu-latest
+    needs: calculate-entropy
+    if: needs.calculate-entropy.outputs.passed == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: GSCH Buffer Analysis
+        run: |
+          echo "🔋 Running Buffer capacity check..."
+          
+          # Check for buffer primitives
+          if find . -name "buffer.flame" | grep -q .; then
+            echo "✅ Buffer primitive found"
+          else
+            echo "⚠️  No buffer primitive found"
+          fi
+          
+          # Check for clamp primitives
+          if find . -name "clamp.flame" | grep -q .; then
+            echo "✅ Clamp primitive found"
+          else
+            echo "⚠️  No clamp primitive found"
+          fi
+  
+  ripley-gate-validation:
+    runs-on: ubuntu-latest
+    needs: buffer-check
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Validate Ripley Gates
+        run: |
+          echo "🚪 Validating Ripley Gates..."
+          echo "Gates: [calcination, solution, putrefaction]"
+          
+          # Check if ripley-gates workflow exists
+          if [ -f ".github/workflows/ripley-gates.yaml" ] || [ -f ".github/workflows/ripley-gates.yml" ]; then
+            echo "✅ Ripley Gates workflow found"
+          else
+            echo "⚠️  Ripley Gates workflow not found (optional)"
+          fi
+  
+  docker-build-decision:
+    runs-on: ubuntu-latest
+    needs: [calculate-entropy, ripley-gate-validation]
+    if: needs.calculate-entropy.outputs.passed == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Docker Build Decision
+        run: |
+          echo "🐳 Making Docker build decision..."
+          ENTROPY="${{ needs.calculate-entropy.outputs.entropy }}"
+          
+          echo "Entropy: $ENTROPY"
+          echo "Threshold: $ENTROPY_THRESHOLD"
+          
+          # Install bc for comparison
+          sudo apt-get update -qq && sudo apt-get install -y -qq bc > /dev/null 2>&1
+          
+          # Use bc for floating point comparison, returns 1 if true, 0 if false
+          RESULT=$(echo "$ENTROPY < $ENTROPY_THRESHOLD" | bc -l)
+          if [ "$RESULT" -eq 1 ]; then
+            echo "✅ APPROVED for Docker Hub push"
+            echo "Entropy is within acceptable range."
+          else
+            echo "❌ REJECTED for Docker Hub push"
+            echo "Entropy exceeds threshold - dissolving build artifacts."
+            exit 1
+          fi
+      
+      - name: Report Results
+        run: |
+          echo "📋 Thermodynamics Check Summary"
+          echo "================================"
+          echo "Entropy: ${{ needs.calculate-entropy.outputs.entropy }}"
+          echo "Status: PASSED"
+          echo "Docker Hub: APPROVED"
+          echo "================================"
+          echo ""
+          echo "🎯 GSCH Framework Applied:"
+          echo "  - Buffer: Build spike absorbed"
+          echo "  - Dissolve: N/A (entropy within range)"
+          echo ""
+          echo "Next: Proceed with Docker build and push"
+
+  dissolve-on-failure:
+    runs-on: ubuntu-latest
+    needs: [calculate-entropy]
+    if: failure() && needs.calculate-entropy.outputs.passed == 'false'
+    
+    steps:
+      - name: Dissolve Failed Artifacts
+        run: |
+          echo "🔥 Dissolving failed build artifacts..."
+          echo "GSCH Framework: Returning energy to system"
+          echo ""
+          echo "High entropy detected - artifacts not created."
+          echo "Code must be refactored before Docker build."
+          echo ""
+          echo "💡 Recommendations:"
+          echo "  1. Break large files into smaller modules"
+          echo "  2. Reduce average lines per file"
+          echo "  3. Apply Buffer/Clamp primitives"
+          echo "  4. Re-run after refactoring"

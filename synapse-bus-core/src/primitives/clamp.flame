@@ -1,0 +1,18 @@
+// FlameLang Primitive: Clamp
+// REF: Ripley Gate 3 (Separation)
+// GSCH Framework: Control stress flow
+
+primitive Clamp {
+    // Threshold for clamping
+    threshold: float
+    
+    // Clamp stress to threshold
+    fn clamp(stress: float) -> float {
+        return min(stress, threshold)
+    }
+    
+    // Adjust threshold dynamically
+    fn adjust(new_threshold: float) {
+        threshold = new_threshold
+    }
+}
