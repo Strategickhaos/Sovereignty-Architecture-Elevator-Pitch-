@@ -1,0 +1,89 @@
+track: "TRACK-SCRIPT-BENCH"
+description: "TRIG6 script fitness league for ancient writing systems and constructed scripts."
+
+gradient_reference:
+  doc: "docs/trig6_lineage_v0.1.md"
+  scripts:
+    - "Codex Seraphinianus"
+    - "Rongorongo"
+    - "Proto-Cuneiform"
+    - "Proto-Sinaitic"
+    - "Indus"
+    - "Linear Elamite"
+    - "Phoenician"
+    - "Mayan"
+    - "Sumerian"
+    - "Hebrew"
+
+agents:
+  - id: "AG-1020"
+    github_issue: 1020
+    title: "Add Codex Seraphinianus → TRIG6 → FlameLang binding pipeline specification"
+    status: "open"
+    subsystem: ["TRIG6", "LANG"]
+    domain: ["codex", "binding", "spec"]
+    state:
+      f_score: 0.0
+      danger_level: 999999.0
+
+  - id: "AG-1021"
+    github_issue: 1021
+    title: "Add TRIG6 simulator for glyph mapping pipeline validation"
+    status: "open"
+    subsystem: ["TRIG6"]
+    domain: ["simulator", "glyphs"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1022"
+    github_issue: 1022
+    title: "Implement Voynich diagnostic pipeline with TRIG6 cognitive architecture"
+    status: "open"
+    subsystem: ["TRIG6"]
+    domain: ["voynich", "diagnostics"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1023"
+    github_issue: 1023
+    title: "Add formal specification for SAGCO-OS cognitive architecture (TRIG6, NEURO-36, Darwinian evolution)"
+    status: "open"
+    subsystem: ["OS", "TRIG6", "NEURO36"]
+    domain: ["spec", "cognitive_architecture"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1024"
+    github_issue: 1024
+    title: "Add Codex Seraphinianus binding pipeline specification artifacts"
+    status: "open"
+    subsystem: ["TRIG6"]
+    domain: ["codex", "artifacts"]
+    upstream_deps: ["AG-1020"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1025"
+    github_issue: 1025
+    title: "Implement TRIG6 evolution pipeline for Voynich manuscript diagnostic binding"
+    status: "open"
+    subsystem: ["TRIG6"]
+    domain: ["voynich", "evolution"]
+    upstream_deps: ["AG-1022"]
+    state:
+      f_score: null
+      danger_level: null
+
+  - id: "AG-1026"
+    github_issue: 1026
+    title: "Add mathematical homologies to core genome for TRIG6 compiler pipeline"
+    status: "open"
+    subsystem: ["LANG", "TRIG6"]
+    domain: ["math", "compiler"]
+    state:
+      f_score: null
+      danger_level: null

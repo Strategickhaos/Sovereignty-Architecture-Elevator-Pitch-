@@ -1,0 +1,50 @@
+meta:
+  id: "SOVEREIGN-COMPUTE-STACK"
+  schema_version: 1
+  description: >
+    High-level genome for the Strategickhaos Sovereign Compute Stack
+    (SAGCO-OS, FlameLang, TRIG6, neuromorphic / bio interfaces, verification).
+
+organism:
+  name: "Strategickhaos Sovereignty Stack"
+  owner: "Domenic Garza"
+  purpose: "Self-sustaining, bio-computational sovereign intelligence."
+  prime_directive: "love_invariant.yaml"
+
+subsystems:
+  - id: "OS"
+    name: "SAGCO-OS"
+    description: "Resource-aware sovereign OS with TRIG6 potentiometer and RESMON."
+  - id: "LANG"
+    name: "FlameLang"
+    description: "Gematria-IR language with wave/DNA compilation and proof gates."
+  - id: "TRIG6"
+    name: "TRIG6 Kernel"
+    description: "Stability / fitness kernel: f = R × (1-D) × (1-N) × eq."
+  - id: "NEURO36"
+    name: "NEURO-36"
+    description: "Immune / brainwave mapping with Physarum evolution hooks."
+  - id: "AGENTS"
+    name: "Agents Cortex"
+    description: "GitHub/Discord AI orchestration and cognitive map."
+
+agents_cortex:
+  index: "genome/agents/index.yml"
+
+benchmarks:
+  ancient_scripts:
+    gradient_doc: "docs/trig6_lineage_v0.1.md"
+    configs:
+      - "benchmarks/script_bench/ancient_scripts.yml"
+  trig6:
+    version: "2.1"
+    fitness_function: "f = R * (1-D) * (1-N) * eq"
+    safety_patches:
+      - "safe_tan"
+      - "vital_eq"
+      - "danger_mask"
+
+ethics:
+  love_invariant:
+    file: "genome/challenges/love_invariant.yml"
+    layers: ["L1", "L2", "L3"]

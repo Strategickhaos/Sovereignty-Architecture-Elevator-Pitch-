@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SovereignAgent",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "github_issue": { "type": "integer" },
+    "title": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["open", "in_progress", "done", "dropped"]
+    },
+    "subsystem": {
+      "type": ["string", "array"],
+      "items": { "type": "string" }
+    },
+    "domain": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "upstream_deps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "trig6": {
+      "type": "object",
+      "properties": {
+        "mode": { "type": "string" },
+        "potentiometer_role": { "type": "string" },
+        "safety_layer": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "channel": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "state": {
+      "type": "object",
+      "properties": {
+        "f_score": { "type": ["number", "null"] },
+        "danger_level": { "type": ["number", "null"] }
+      },
+      "required": ["f_score", "danger_level"]
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "title", "status", "state"]
+}
