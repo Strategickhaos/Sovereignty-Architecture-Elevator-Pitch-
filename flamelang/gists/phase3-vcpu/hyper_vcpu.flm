@@ -1,0 +1,182 @@
+// hyper_vcpu.flm - Phase 3: Virtual CPU Management
+// vCPU scheduling, state management, and execution control
+// Mirrors ACRN/Xen vCPU architecture
+
+// vCPU state enumeration
+enum vCPUState {
+    Running,   // vCPU is executing
+    Paused,    // vCPU is paused
+    Halted,    // vCPU has halted
+    Waiting    // vCPU waiting for event
+}
+
+// vCPU structure
+struct vCPU {
+    regs: [i32; 16],      // General purpose registers (R0-R15)
+    pc: i32,              // Program counter
+    sp: i32,              // Stack pointer
+    flags: i32,           // CPU flags (ZF, CF, OF, etc.)
+    state: vCPUState,     // Current state
+    id: i32,              // vCPU identifier
+    priority: i32,        // Scheduling priority
+    quantum: i32,         // Time quantum remaining
+}
+
+// vCPU control structure (VMCS/VMCB equivalent)
+struct vCPUControl {
+    vcpu: vCPU,
+    guest_cr3: i32,       // Guest CR3 (page table base)
+    vmcs_ptr: i32,        // VMCS pointer (Intel VT-x)
+    exit_reason: i32,     // Last VM exit reason
+    entry_count: i32,     // Number of VM entries
+}
+
+// Create a new vCPU
+fn vcpu_create(id: i32) -> vCPU {
+    return vCPU {
+        regs: [0; 16],
+        pc: 0,
+        sp: 0xFFFF,       // Stack grows down from top
+        flags: 0,
+        state: Paused,    // Start in paused state
+        id: id,
+        priority: 5,      // Default priority
+        quantum: 1000     // Default time quantum (1000 cycles)
+    };
+}
+
+// Initialize vCPU control structure
+fn vcpu_init_control(vcpu: vCPU) -> vCPUControl {
+    return vCPUControl {
+        vcpu: vcpu,
+        guest_cr3: 0x1000,  // Default page table
+        vmcs_ptr: 0,
+        exit_reason: 0,
+        entry_count: 0
+    };
+}
+
+// Run vCPU for one quantum
+fn vcpu_run(ctrl: vCPUControl) -> vCPUControl {
+    // Check if vCPU can run
+    if ctrl.vcpu.state != Running {
+        return ctrl;
+    }
+    
+    // Increment entry count
+    ctrl.entry_count = ctrl.entry_count + 1;
+    
+    // Execute one cycle (simplified)
+    ctrl.vcpu.pc = ctrl.vcpu.pc + 1;
+    ctrl.vcpu.quantum = ctrl.vcpu.quantum - 1;
+    
+    // Check if quantum expired
+    if ctrl.vcpu.quantum <= 0 {
+        ctrl.vcpu.state = Paused;
+        ctrl.exit_reason = 1;  // Time quantum expired
+    }
+    
+    return ctrl;
+}
+
+// Manage vCPU state transitions
+fn vcpu_manage(vcpu: vCPU) -> vCPU {
+    // Update program counter
+    vcpu.pc = vcpu.pc + 1;
+    
+    // Check for state transitions
+    if vcpu.quantum <= 0 && vcpu.state == Running {
+        vcpu.state = Paused;
+    }
+    
+    // Proof: state invariant maintained
+    return vcpu;
+}
+
+// Pause a running vCPU
+fn vcpu_pause(vcpu: vCPU) -> vCPU {
+    vcpu.state = Paused;
+    return vcpu;
+}
+
+// Resume a paused vCPU
+fn vcpu_resume(vcpu: vCPU) -> vCPU {
+    if vcpu.state == Paused {
+        vcpu.state = Running;
+        vcpu.quantum = 1000;  // Reset quantum
+    }
+    return vcpu;
+}
+
+// Halt a vCPU (cannot be resumed)
+fn vcpu_halt(vcpu: vCPU) -> vCPU {
+    vcpu.state = Halted;
+    return vcpu;
+}
+
+// Save vCPU state (VM exit)
+fn vcpu_save_state(ctrl: vCPUControl) -> vCPUControl {
+    // In real hypervisor: Save VMCS/VMCB
+    // Store guest registers, CR3, RFLAGS, etc.
+    return ctrl;
+}
+
+// Restore vCPU state (VM entry)
+fn vcpu_restore_state(ctrl: vCPUControl) -> vCPUControl {
+    // In real hypervisor: Restore VMCS/VMCB
+    // Load guest registers, CR3, RFLAGS, etc.
+    return ctrl;
+}
+
+// Get vCPU register value
+fn vcpu_get_reg(vcpu: vCPU, reg: i32) -> i32 {
+    if reg >= 0 && reg < 16 {
+        return vcpu.regs[reg];
+    }
+    return -1;  // Invalid register
+}
+
+// Set vCPU register value
+fn vcpu_set_reg(vcpu: vCPU, reg: i32, value: i32) -> vCPU {
+    if reg >= 0 && reg < 16 {
+        vcpu.regs[reg] = value;
+    }
+    return vcpu;
+}
+
+// Simple round-robin scheduler
+fn vcpu_schedule<const N: i32>(vcpus: [vCPU; N], current: i32) -> i32 {
+    // Find next runnable vCPU
+    let next = (current + 1) % N;
+    let checked = 0;
+    
+    while checked < N {
+        if vcpus[next].state == Paused || vcpus[next].state == Running {
+            return next;
+        }
+        next = (next + 1) % N;
+        checked = checked + 1;
+    }
+    
+    return current;  // No runnable vCPU found
+}
+
+// Entry point for Phase 3
+fn main() -> vCPUControl {
+    // Create vCPU
+    let vcpu = vcpu_create(0);
+    
+    // Initialize control structure
+    let ctrl = vcpu_init_control(vcpu);
+    
+    // Resume vCPU
+    ctrl.vcpu = vcpu_resume(ctrl.vcpu);
+    
+    // Run for one quantum
+    ctrl = vcpu_run(ctrl);
+    
+    // Save state
+    ctrl = vcpu_save_state(ctrl);
+    
+    return ctrl;
+}

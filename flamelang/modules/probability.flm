@@ -1,0 +1,227 @@
+// probability.flm - Probability and Uncertainty Module
+// Variational Inference (VI) for uncertain operations in SAGCO-OS
+
+// Uncertainty structure for VI
+struct Uncertainty {
+    p_correct: f64,         // Probability of correct execution
+    entropy: f64,           // Shannon entropy
+    kl_divergence: f64,     // KL divergence from prior
+    variance: f64,          // Variance in estimate
+}
+
+// Gaussian distribution parameters
+struct Gaussian {
+    mean: f64,              // Mean (μ)
+    variance: f64,          // Variance (σ²)
+    std_dev: f64,           // Standard deviation (σ)
+}
+
+// Beta distribution (for probability distributions)
+struct Beta {
+    alpha: f64,             // Shape parameter α
+    beta: f64,              // Shape parameter β
+}
+
+// Physics wave element for guardian mapping
+struct PhysicsWaveElement {
+    id: i32,                // Element identifier (1-64)
+    frequency: f64,         // Wave frequency
+    amplitude: f64,         // Wave amplitude
+    phase: f64,             // Phase angle
+}
+
+// Create default uncertainty (high confidence)
+fn default_uncertainty() -> Uncertainty {
+    return Uncertainty {
+        p_correct: 0.99,
+        entropy: 0.01,
+        kl_divergence: 0.001,
+        variance: 0.01
+    };
+}
+
+// Create uncertainty from probability
+fn uncertainty_from_prob(p: f64) -> Uncertainty {
+    // Calculate entropy: H = -p*log(p) - (1-p)*log(1-p)
+    let h = 0.0;
+    if p > 0.0 && p < 1.0 {
+        h = -p * log_approx(p) - (1.0 - p) * log_approx(1.0 - p);
+    }
+    
+    return Uncertainty {
+        p_correct: p,
+        entropy: h,
+        kl_divergence: 0.0,
+        variance: p * (1.0 - p)  // Bernoulli variance
+    };
+}
+
+// Combine two uncertainties (product of experts)
+fn combine_uncertainty(u1: Uncertainty, u2: Uncertainty) -> Uncertainty {
+    // Combine probabilities assuming independence
+    let p_combined = u1.p_correct * u2.p_correct;
+    
+    // Combine entropies (sum for independent sources)
+    let h_combined = u1.entropy + u2.entropy;
+    
+    // Combine variances (sum for independent sources)
+    let var_combined = u1.variance + u2.variance;
+    
+    return Uncertainty {
+        p_correct: p_combined,
+        entropy: h_combined,
+        kl_divergence: (u1.kl_divergence + u2.kl_divergence) / 2.0,
+        variance: var_combined
+    };
+}
+
+// Create Gaussian distribution
+fn gaussian(mean: f64, variance: f64) -> Gaussian {
+    return Gaussian {
+        mean: mean,
+        variance: variance,
+        std_dev: sqrt_approx(variance)
+    };
+}
+
+// Gaussian PDF at point x
+fn gaussian_pdf(g: Gaussian, x: f64) -> f64 {
+    let diff = x - g.mean;
+    let exp_term = -0.5 * (diff * diff) / g.variance;
+    let norm = 1.0 / (g.std_dev * sqrt_approx(2.0 * 3.14159));
+    
+    return norm * exp_approx(exp_term);
+}
+
+// Sample from Gaussian (Box-Muller transform)
+fn gaussian_sample(g: Gaussian, u1: f64, u2: f64) -> f64 {
+    // u1, u2 are uniform random [0,1]
+    let z = sqrt_approx(-2.0 * log_approx(u1)) * cos_approx(2.0 * 3.14159 * u2);
+    return g.mean + g.std_dev * z;
+}
+
+// Create Beta distribution
+fn beta_dist(alpha: f64, beta: f64) -> Beta {
+    return Beta {
+        alpha: alpha,
+        beta: beta
+    };
+}
+
+// Beta distribution mean
+fn beta_mean(b: Beta) -> f64 {
+    return b.alpha / (b.alpha + b.beta);
+}
+
+// Beta distribution variance
+fn beta_variance(b: Beta) -> f64 {
+    let sum = b.alpha + b.beta;
+    let numer = b.alpha * b.beta;
+    let denom = sum * sum * (sum + 1.0);
+    return numer / denom;
+}
+
+// KL divergence between two Gaussians
+fn kl_divergence_gaussian(p: Gaussian, q: Gaussian) -> f64 {
+    let mean_diff = p.mean - q.mean;
+    let var_ratio = p.variance / q.variance;
+    
+    return 0.5 * (var_ratio + (mean_diff * mean_diff) / q.variance 
+                 - 1.0 + log_approx(q.variance / p.variance));
+}
+
+// Variational Inference update step
+fn vi_update(prior: Gaussian, likelihood: Gaussian) -> Gaussian {
+    // Bayesian update for Gaussian-Gaussian conjugate
+    let prior_prec = 1.0 / prior.variance;
+    let like_prec = 1.0 / likelihood.variance;
+    
+    let post_prec = prior_prec + like_prec;
+    let post_var = 1.0 / post_prec;
+    
+    let post_mean = post_var * (prior_prec * prior.mean + like_prec * likelihood.mean);
+    
+    return gaussian(post_mean, post_var);
+}
+
+// Map uncertainty to Physics Wave Element
+fn map_to_wave(unc: Uncertainty, element_id: i32) -> PhysicsWaveElement {
+    return PhysicsWaveElement {
+        id: element_id,
+        frequency: 1.0 - unc.entropy,           // Higher freq = lower entropy
+        amplitude: unc.p_correct,                // Higher amp = higher confidence
+        phase: unc.kl_divergence * 3.14159       // Phase from divergence
+    };
+}
+
+// Guardian mapping: uncertainty → geometry (element 33 for stability)
+fn guardian_map_stability(unc: Uncertainty) -> PhysicsWaveElement {
+    return map_to_wave(unc, 33);
+}
+
+// ============================================================================
+// Approximation functions (for embedded use without std lib)
+// ============================================================================
+
+fn log_approx(x: f64) -> f64 {
+    // Natural log approximation using Taylor series around x=1
+    // ln(x) ≈ (x-1) - (x-1)²/2 + (x-1)³/3 - ...
+    if x <= 0.0 {
+        return -1000.0;  // -∞ approximation
+    }
+    
+    let y = x - 1.0;
+    let y2 = y * y;
+    let y3 = y2 * y;
+    let y4 = y3 * y;
+    
+    return y - y2/2.0 + y3/3.0 - y4/4.0;
+}
+
+fn exp_approx(x: f64) -> f64 {
+    // Exponential approximation using Taylor series
+    // e^x ≈ 1 + x + x²/2! + x³/3! + x⁴/4!
+    let x2 = x * x;
+    let x3 = x2 * x;
+    let x4 = x3 * x;
+    
+    return 1.0 + x + x2/2.0 + x3/6.0 + x4/24.0;
+}
+
+fn sqrt_approx(x: f64) -> f64 {
+    // Newton-Raphson method for square root
+    if x <= 0.0 {
+        return 0.0;
+    }
+    
+    let guess = x / 2.0;
+    let iterations = 10;
+    let i = 0;
+    let result = guess;
+    
+    while i < iterations {
+        result = (result + x / result) / 2.0;
+        i = i + 1;
+    }
+    
+    return result;
+}
+
+fn cos_approx(x: f64) -> f64 {
+    // Cosine approximation using Taylor series
+    let x2 = x * x;
+    let x4 = x2 * x2;
+    let x6 = x4 * x2;
+    
+    return 1.0 - x2/2.0 + x4/24.0 - x6/720.0;
+}
+
+// Create uncertainty for hypervisor operations
+fn hypervisor_uncertainty() -> Uncertainty {
+    return Uncertainty {
+        p_correct: 0.95,      // 95% confidence for virtualization
+        entropy: 0.2,         // Moderate entropy from scheduling
+        kl_divergence: 0.1,   // Small divergence from model
+        variance: 0.05        // Low variance in execution
+    };
+}

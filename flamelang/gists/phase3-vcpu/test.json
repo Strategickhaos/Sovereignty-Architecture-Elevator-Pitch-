@@ -1,0 +1,120 @@
+{
+  "test_suite": "Phase 3 vCPU Management Tests",
+  "tests": [
+    {
+      "name": "test_vcpu_create",
+      "description": "Verify vCPU creation and initialization",
+      "inputs": {
+        "id": 0
+      },
+      "expected_output": {
+        "id": 0,
+        "state": "Paused",
+        "pc": 0,
+        "sp": 65535,
+        "quantum": 1000
+      },
+      "assertions": [
+        "vcpu.id == 0",
+        "vcpu.state == Paused",
+        "vcpu.regs[0] == 0"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_vcpu_resume",
+      "description": "Test resuming a paused vCPU",
+      "setup": "vcpu = vcpu_create(0)",
+      "inputs": [],
+      "expected_output": {
+        "state": "Running",
+        "quantum": 1000
+      },
+      "assertions": [
+        "vcpu.state == Running after resume"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_vcpu_pause",
+      "description": "Test pausing a running vCPU",
+      "setup": "vcpu = vcpu_create(0); vcpu = vcpu_resume(vcpu)",
+      "inputs": [],
+      "expected_output": {
+        "state": "Paused"
+      },
+      "assertions": [
+        "vcpu.state == Paused after pause"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_vcpu_quantum_expiry",
+      "description": "Test vCPU quantum expiration",
+      "setup": "vcpu = vcpu_create(0); vcpu.quantum = 1",
+      "inputs": [],
+      "expected_behavior": "vCPU pauses when quantum reaches 0",
+      "assertions": [
+        "vcpu.state == Paused after quantum expires"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_vcpu_register_access",
+      "description": "Test register read/write operations",
+      "inputs": {
+        "reg": 5,
+        "value": 42
+      },
+      "expected_output": 42,
+      "assertions": [
+        "vcpu_get_reg(vcpu, 5) == 42 after set"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_vcpu_halt",
+      "description": "Test vCPU halt (irreversible)",
+      "inputs": [],
+      "expected_output": {
+        "state": "Halted"
+      },
+      "assertions": [
+        "vcpu.state == Halted",
+        "vcpu cannot be resumed after halt"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_vcpu_scheduling",
+      "description": "Test round-robin scheduling",
+      "setup": "create 4 vCPUs",
+      "inputs": {
+        "current": 0
+      },
+      "expected_output": 1,
+      "assertions": [
+        "next vCPU selected is (current + 1) % N",
+        "skips halted vCPUs"
+      ],
+      "probability": 0.98
+    }
+  ],
+  "coverage": {
+    "functions": [
+      "vcpu_create",
+      "vcpu_run",
+      "vcpu_pause",
+      "vcpu_resume",
+      "vcpu_halt",
+      "vcpu_schedule"
+    ],
+    "branches": 8,
+    "paths": 12
+  },
+  "performance": {
+    "max_cycles": 5000,
+    "expected_cycles": 500,
+    "context_switch_overhead": 100
+  }
+}

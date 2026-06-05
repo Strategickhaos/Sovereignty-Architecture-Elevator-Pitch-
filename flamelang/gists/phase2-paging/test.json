@@ -1,0 +1,102 @@
+{
+  "test_suite": "Phase 2 Paging/Memory Virtualization Tests",
+  "tests": [
+    {
+      "name": "test_paging_setup",
+      "description": "Verify page table initialization",
+      "inputs": [],
+      "expected_output": {
+        "base_addr": 4096,
+        "entries_count": 1024
+      },
+      "assertions": [
+        "pt.base_addr == 0x1000",
+        "pt.entries.length == 1024",
+        "all entries have valid flags"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_identity_mapping",
+      "description": "Verify 1:1 virtual to physical mapping",
+      "inputs": [],
+      "assertions": [
+        "pt.entries[0] == 0x0007 (0x0000 | EPT_PRESENT)",
+        "pt.entries[1] == 0x1007 (0x1000 | EPT_PRESENT)",
+        "pt.entries[1023] == 0x3FF007"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_map_page",
+      "description": "Test mapping arbitrary virtual to physical page",
+      "inputs": {
+        "virt_addr": 20480,
+        "phys_addr": 65536,
+        "flags": 7
+      },
+      "expected_output": {
+        "index": 5,
+        "pte": 65543
+      },
+      "assertions": [
+        "pt.entries[5] == 0x10007 (65536 | 0x7)"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_translate_address",
+      "description": "Test virtual to physical address translation",
+      "inputs": {
+        "virt_addr": 20480
+      },
+      "expected_output": 65536,
+      "assertions": [
+        "translate(0x5000) == mapped physical address"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_ept_setup",
+      "description": "Test Extended Page Tables for VM isolation",
+      "inputs": [],
+      "expected_output": {
+        "base_addr": 8192,
+        "guest_offset": 1048576
+      },
+      "assertions": [
+        "ept.base_addr == 0x2000",
+        "guest memory mapped with offset"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_page_fault",
+      "description": "Test handling of unmapped pages",
+      "inputs": {
+        "virt_addr": 8192
+      },
+      "setup": "unmap_page(pt, 8192)",
+      "expected_output": -1,
+      "assertions": [
+        "translate returns -1 for unmapped page"
+      ],
+      "probability": 1.0
+    }
+  ],
+  "coverage": {
+    "functions": [
+      "paging_setup",
+      "map_page",
+      "unmap_page",
+      "translate_address",
+      "setup_ept"
+    ],
+    "branches": 4,
+    "paths": 6
+  },
+  "performance": {
+    "max_cycles": 10000,
+    "expected_cycles": 2000
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "test_suite": "Phase 1 Boot/GDT Tests",
+  "tests": [
+    {
+      "name": "test_boot_success",
+      "description": "Verify successful hypervisor boot",
+      "inputs": [],
+      "expected_output": 0,
+      "expected_state": {
+        "gdt_loaded": true,
+        "protected_mode": true
+      },
+      "probability": 1.0
+    },
+    {
+      "name": "test_gdt_initialization",
+      "description": "Verify GDT is properly initialized",
+      "inputs": [],
+      "expected_output": 0,
+      "assertions": [
+        "gdt[0] == 0 (null descriptor)",
+        "gdt[1] == 0xFFFF (code segment base)",
+        "gdt[2] == 0xAF9B (code segment flags)"
+      ],
+      "probability": 1.0
+    },
+    {
+      "name": "test_protected_mode_enabled",
+      "description": "Verify protected mode is enabled after boot",
+      "inputs": [],
+      "expected_output": 0,
+      "assertions": [
+        "CR0.PE == 1"
+      ],
+      "probability": 1.0
+    }
+  ],
+  "coverage": {
+    "functions": ["boot_hypervisor", "load_gdt", "enable_protected_mode"],
+    "branches": 1,
+    "paths": 1
+  },
+  "performance": {
+    "max_cycles": 1000,
+    "expected_cycles": 100
+  }
+}

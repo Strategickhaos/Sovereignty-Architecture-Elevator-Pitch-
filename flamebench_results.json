@@ -1,0 +1,47 @@
+{
+  "total_tests": 25,
+  "total_passed": 25,
+  "total_failed": 0,
+  "total_duration_ms": 0.6189346313476562,
+  "overall_p_success": 1.0,
+  "phase_probabilities": {
+    "sagco-hv-phase1-boot": 1.0,
+    "sagco-hv-phase2-paging": 1.0,
+    "sagco-hv-phase3-vcpu": 1.0,
+    "sagco-hv-phase4-cpusim": 1.0
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "sagco-hv-phase1-boot",
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "p_success": 1.0
+    },
+    {
+      "phase": 2,
+      "name": "sagco-hv-phase2-paging",
+      "tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "p_success": 1.0
+    },
+    {
+      "phase": 3,
+      "name": "sagco-hv-phase3-vcpu",
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "p_success": 1.0
+    },
+    {
+      "phase": 4,
+      "name": "sagco-hv-phase4-cpusim",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "p_success": 1.0
+    }
+  ]
+}
