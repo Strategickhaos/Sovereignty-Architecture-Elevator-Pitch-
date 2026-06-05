@@ -1,0 +1,24 @@
+# Penicillin Fermentation Simulation
+# TRIG6 Model: Penicillium mold biosynthesis (C16H18N2O4S)
+# θ = ferment phase, R = yield, D = contamination, N = strain variability
+# Danger: overferment tan∞ (degradation)
+
+# Initial configuration - mid-fermentation
+set eq 0.9
+theta pi/3  # Mid-ferment phase (60 degrees)
+alpha 0.4
+theta_opt pi/4  # Optimal yield phase (45 degrees)
+
+# Step 1: Initial fermentation state
+step
+state  # Expected: R=0.65 (yield), D=0.35 (contamination), N=0.3 (strain), danger=No
+
+# Step 2: pH adjustment if drift detected
+if drift > 0.4 then alpha 0.5  # Adjust pH control
+step
+state  # Expected: Evolved R=0.78
+
+# Final state: Optimal penicillin yield achieved
+# Chemical formula: Penicillin G (benzylpenicillin) - beta-lactam ring
+# Biosynthesis: Penicillium chrysogenum with phenylacetic acid precursor
+# Fitness: f = R*(1-D)*(1-N)*eq
