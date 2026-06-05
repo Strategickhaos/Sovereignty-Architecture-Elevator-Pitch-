@@ -1,0 +1,102 @@
+// quantum_entanglement.flame
+// Demonstrates quantum computing primitives
+
+use flame::quantum::{Qubit, BellPair, QuantumCircuit, Gate};
+
+func create_entangled_pair() -> BellPair {
+    // Create Bell pair (maximally entangled)
+    let pair = BellPair::create();
+    
+    // Verify entanglement
+    assert!(pair.verify_entanglement());
+    
+    return pair;
+}
+
+func quantum_teleportation(state: Qubit, channel: BellPair) -> Qubit {
+    // Quantum teleportation protocol
+    let (alice_bell, bob_bell) = channel.split();
+    
+    // Alice's measurements
+    let m1 = state.cnot_with(alice_bell);
+    let m2 = state.hadamard().measure();
+    
+    // Bob's corrections
+    let mut result = bob_bell;
+    if m1 { result.apply_gate(Gate::PauliX); }
+    if m2 { result.apply_gate(Gate::PauliZ); }
+    
+    return result;
+}
+
+func quantum_search(items: &[bool], target: bool) -> Option<usize> {
+    // Grover's search algorithm (simplified)
+    let n = items.len();
+    let qubits_needed = (n as f64).log2().ceil() as usize;
+    
+    let mut circuit = QuantumCircuit::new(qubits_needed);
+    
+    // Initialize superposition
+    for i in 0..qubits_needed {
+        circuit.h(i);
+    }
+    
+    // Oracle and diffusion (simplified)
+    let iterations = ((flame::math::PI / 4.0) * (n as f64).sqrt()) as usize;
+    for _ in 0..iterations {
+        // Oracle marks target state
+        circuit.oracle(|state| state == target);
+        
+        // Diffusion operator
+        circuit.diffusion();
+    }
+    
+    // Measure result
+    let measurement = circuit.measure_all();
+    
+    // Convert measurement to index
+    if measurement < items.len() && items[measurement] == target {
+        Some(measurement)
+    } else {
+        None
+    }
+}
+
+func main() {
+    println!("🔬 Quantum Entanglement Demo\n");
+    
+    // Create entangled pair
+    let pair = create_entangled_pair();
+    println!("✅ Bell pair created");
+    
+    // Separate qubits (can be arbitrarily far apart)
+    let (q1, q2) = pair.separate();
+    
+    // Measure first qubit
+    let measurement1 = q1.measure();
+    println!("Qubit 1 measured: {}", measurement1);
+    
+    // Second qubit instantly correlated (non-local)
+    let measurement2 = q2.measure();
+    println!("Qubit 2 measured: {}", measurement2);
+    
+    // Verify anti-correlation for Bell state |Φ-⟩
+    assert_eq!(measurement1, !measurement2);
+    println!("✅ Entanglement verified (anti-correlated)\n");
+    
+    // Quantum teleportation
+    println!("📡 Quantum Teleportation Demo\n");
+    let state_to_teleport = Qubit::superposition();
+    let teleport_channel = BellPair::create();
+    
+    let teleported = quantum_teleportation(state_to_teleport, teleport_channel);
+    println!("✅ State teleported successfully\n");
+    
+    // Quantum search
+    println!("🔍 Quantum Search Demo\n");
+    let haystack = vec![false, false, false, true, false, false, false, false];
+    match quantum_search(&haystack, true) {
+        Some(index) => println!("✅ Found target at index {}", index),
+        None => println!("❌ Target not found"),
+    }
+}

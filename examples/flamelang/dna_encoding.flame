@@ -1,0 +1,70 @@
+// dna_encoding.flame
+// Demonstrates biological encoding features
+
+use flame::dna::{DNASequence, Codon, RNASequence, ProteinChain};
+use flame::glyph::🧬;
+
+func encode_message(text: &str) -> DNASequence {
+    // Linguistic → DNA encoding
+    let mut dna = DNASequence::from_string(text);
+    
+    // Enable automatic error correction
+    dna.enable_repair();
+    
+    return dna;
+}
+
+func protein_synthesis(text: &str) -> ProteinChain {
+    let dna = encode_message(text);
+    
+    // DNA → RNA (transcription)
+    let rna = dna.transcribe();
+    
+    // RNA → Protein (translation)
+    let protein = rna.translate();
+    
+    return protein;
+}
+
+func verify_integrity(dna: &DNASequence) -> bool {
+    match dna.verify_integrity() {
+        Ok(_) => {
+            println!("✅ DNA integrity verified");
+            true
+        },
+        Err(e) => {
+            println!("⚠️ Integrity check failed: {:?}", e);
+            false
+        }
+    }
+}
+
+func main() {
+    let message = "Hello FlameLang";
+    
+    // Encode to DNA
+    let mut dna = encode_message(message);
+    println!("DNA: {}", dna.to_string());
+    println!("GC Content: {:.2}%", dna.gc_content() * 100.0);
+    
+    // Show codons
+    println!("Codons:");
+    for (i, codon) in dna.codons().enumerate() {
+        println!("  {}: {:?}", i, codon);
+    }
+    
+    // Synthesize protein
+    let protein = protein_synthesis(message);
+    println!("Protein: {:?}", protein);
+    
+    // Introduce error and repair
+    println!("\nIntroducing mutation...");
+    dna.mutate(0, Nucleotide::T);
+    
+    println!("Repairing...");
+    let repairs = dna.repair();
+    println!("Fixed {} mutations", repairs);
+    
+    // Verify integrity
+    verify_integrity(&dna);
+}

@@ -1,0 +1,203 @@
+// swarm_intelligence.flame
+// Demonstrates distributed swarm primitives
+
+use flame::swarm::{DistributedVec, ConsensusMap, MessageBus, ElectionProtocol};
+use flame::glyph::{🐝, 🎯};
+
+struct SwarmNode {
+    id: NodeId,
+    data: DistributedVec<f64>,
+    consensus: ConsensusMap<String, f64>,
+}
+
+impl SwarmNode {
+    fn new(id: NodeId) -> Self {
+        SwarmNode {
+            id,
+            data: DistributedVec::new(),
+            consensus: ConsensusMap::new(),
+        }
+    }
+    
+    fn 🐝broadcast(&self, msg: Message) {
+        // Glyph 🐝 represents swarm worker operation
+        self.message_bus.publish("swarm", msg);
+    }
+    
+    fn 🎯converge(&mut self, target: f64) -> Result<(), ConsensusError> {
+        // Glyph 🎯 represents goal-seeking
+        self.consensus.insert("target", target)
+    }
+}
+
+func particle_swarm_optimization(
+    objective: fn(Vec<f64>) -> f64,
+    dimensions: usize,
+    swarm_size: usize
+) -> Vec<f64> {
+    let mut swarm: Vec<Particle> = Vec::new();
+    
+    // Initialize swarm
+    for i in 0..swarm_size {
+        swarm.push(Particle::random(dimensions));
+    }
+    
+    let mut global_best = swarm[0].position.clone();
+    let mut global_best_fitness = objective(global_best.clone());
+    
+    // Iterate until convergence
+    for iteration in 0..1000 {
+        for particle in &mut swarm {
+            // Evaluate fitness
+            let fitness = objective(particle.position.clone());
+            
+            // Update personal best
+            if fitness > particle.best_fitness {
+                particle.best_fitness = fitness;
+                particle.best_position = particle.position.clone();
+            }
+            
+            // Update global best
+            if fitness > global_best_fitness {
+                global_best_fitness = fitness;
+                global_best = particle.position.clone();
+            }
+            
+            // Update velocity and position
+            particle.update_velocity(&global_best);
+            particle.update_position();
+        }
+        
+        // Check convergence
+        if has_converged(&swarm, global_best_fitness) {
+            println!("Converged at iteration {}", iteration);
+            break;
+        }
+    }
+    
+    global_best
+}
+
+func distributed_consensus(nodes: &mut [SwarmNode], value: f64) -> Result<f64, ConsensusError> {
+    // Raft-based consensus
+    let mut election = ElectionProtocol::new(ElectionAlgorithm::Raft);
+    
+    // Elect leader
+    let leader_id = election.elect_leader();
+    println!("Leader elected: {:?}", leader_id);
+    
+    // Leader proposes value
+    let leader = nodes.iter().find(|n| n.id == leader_id).unwrap();
+    leader.consensus.insert("proposed_value", value)?;
+    
+    // Wait for consensus
+    let mut votes = 0;
+    for node in nodes.iter() {
+        if node.consensus.get("proposed_value") == Some(&value) {
+            votes += 1;
+        }
+    }
+    
+    // Require majority
+    if votes > nodes.len() / 2 {
+        Ok(value)
+    } else {
+        Err(ConsensusError::MajorityNotReached)
+    }
+}
+
+func main() {
+    println!("🐝 Swarm Intelligence Demo\n");
+    
+    // Particle Swarm Optimization
+    println!("🎯 Particle Swarm Optimization");
+    let objective = |x: Vec<f64>| {
+        // Sphere function: minimize sum of squares
+        -x.iter().map(|&xi| xi * xi).sum::<f64>()
+    };
+    
+    let optimal = particle_swarm_optimization(objective, 3, 30);
+    println!("Optimal solution: {:?}", optimal);
+    println!("Fitness: {}\n", objective(optimal));
+    
+    // Distributed Consensus
+    println!("🗳️ Distributed Consensus");
+    let mut nodes: Vec<SwarmNode> = (0..5)
+        .map(|i| SwarmNode::new(NodeId(i)))
+        .collect();
+    
+    match distributed_consensus(&mut nodes, 42.0) {
+        Ok(value) => println!("✅ Consensus reached: {}", value),
+        Err(e) => println!("❌ Consensus failed: {:?}", e),
+    }
+    
+    // Message Passing
+    println!("\n📡 Message Passing");
+    let bus = MessageBus::new();
+    
+    // Subscribe to channel
+    let receiver = bus.subscribe::<String>("coordination");
+    
+    // Publish messages
+    bus.publish("coordination", "Formation Alpha".to_string());
+    bus.publish("coordination", "Target Acquired".to_string());
+    
+    // Receive messages
+    while let Ok(msg) = receiver.try_recv() {
+        println!("Received: {}", msg);
+    }
+}
+
+// Helper structures
+struct Particle {
+    position: Vec<f64>,
+    velocity: Vec<f64>,
+    best_position: Vec<f64>,
+    best_fitness: f64,
+}
+
+impl Particle {
+    fn random(dimensions: usize) -> Self {
+        use flame::std::random::Rng;
+        let mut rng = flame::std::random::thread_rng();
+        
+        Particle {
+            position: (0..dimensions).map(|_| rng.gen_range(-10.0..10.0)).collect(),
+            velocity: (0..dimensions).map(|_| rng.gen_range(-1.0..1.0)).collect(),
+            best_position: Vec::new(),
+            best_fitness: f64::NEG_INFINITY,
+        }
+    }
+    
+    fn update_velocity(&mut self, global_best: &[f64]) {
+        use flame::std::random::Rng;
+        let mut rng = flame::std::random::thread_rng();
+        
+        let w = 0.7;  // Inertia
+        let c1 = 1.5; // Cognitive coefficient
+        let c2 = 1.5; // Social coefficient
+        
+        for i in 0..self.velocity.len() {
+            let r1 = rng.gen::<f64>();
+            let r2 = rng.gen::<f64>();
+            
+            self.velocity[i] = w * self.velocity[i]
+                + c1 * r1 * (self.best_position[i] - self.position[i])
+                + c2 * r2 * (global_best[i] - self.position[i]);
+        }
+    }
+    
+    fn update_position(&mut self) {
+        for i in 0..self.position.len() {
+            self.position[i] += self.velocity[i];
+            
+            // Clamp to bounds
+            self.position[i] = self.position[i].clamp(-10.0, 10.0);
+        }
+    }
+}
+
+fn has_converged(swarm: &[Particle], best_fitness: f64) -> bool {
+    let threshold = 1e-6;
+    swarm.iter().all(|p| (p.best_fitness - best_fitness).abs() < threshold)
+}

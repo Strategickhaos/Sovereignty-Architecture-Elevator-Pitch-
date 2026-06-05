@@ -1,0 +1,9 @@
+// hello_world.flame
+// FlameLang Hello World Example
+
+use flame::std::io;
+
+func main() {
+    io::println("🔥 Hello, World from FlameLang!");
+    io::println("⚔️ The future is sovereign.");
+}
