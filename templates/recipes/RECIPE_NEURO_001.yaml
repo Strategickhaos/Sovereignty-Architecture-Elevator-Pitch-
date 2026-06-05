@@ -1,0 +1,196 @@
+# RECIPE-NEURO-001: Ancient Nile Epilepsy Treatment (Theoretical Reconstruction)
+# WARNING: THEORETICAL STRUCTURE ONLY — NOT MEDICAL ADVICE
+# This is a hypothetical encoding of an ancient therapeutic recipe using TRIG6 mathematics
+
+meta:
+  id: "RECIPE-NEURO-001"
+  era: "Ancient Nile / inferred structure"
+  target: "Epileptic seizures (EPI-032 / Dravet-adjacent)"
+  intent: "Reduce seizure frequency without catastrophic toxicity"
+  disclaimer: "THEORETICAL STRUCTURE ONLY — not medical advice"
+  version: "1.0.0"
+  classification: "SISTER-PROTOCOL-PHARMA"
+  dna_strand: "NEURO36-RECIPE001-TRIG6"
+
+ingredients:
+  - name: "herb_a"
+    role: "sedative"
+    dose_mg_per_kg: [0.1, 0.4]
+    source: "Mediterranean basin plant"
+    notes: "Hypothetical calming agent"
+    
+  - name: "herb_b"
+    role: "anti-inflammatory"
+    dose_mg_per_kg: [0.05, 0.2]
+    source: "Nile delta marsh plant"
+    notes: "Reduces neural inflammation"
+    
+  - name: "mineral_salt"
+    role: "electrolyte_modulator"
+    dose_mg_per_kg: [0.01, 0.05]
+    source: "Natron deposits"
+    notes: "Balances ion channels"
+
+administration:
+  route: "oral_decoction"
+  brew_time_min: [15, 40]
+  frequency_per_day: [1, 3]
+  treatment_days: [7, 30]
+  best_timing: "before sleep"
+  contraindications:
+    - "pregnancy"
+    - "liver_disease"
+    - "concurrent_sedative_use"
+
+preparation:
+  - step: "harvest_herbs"
+    timing: "morning, after dew evaporates"
+    moon_phase: "waxing to full (traditional)"
+    
+  - step: "dry_herbs"
+    duration_days: [3, 7]
+    method: "shade drying"
+    temperature_celsius: [18, 25]
+    humidity_max: 0.60
+    
+  - step: "grind_to_powder"
+    tool: "mortar and pestle"
+    particle_size: "fine powder"
+    
+  - step: "boil_in_water"
+    ratio: "1 part powder : 10 parts water"
+    duration_min: [15, 40]
+    temperature_celsius: [95, 100]
+    
+  - step: "strain_and_cool"
+    filter: "linen cloth"
+    cooling_time_min: [30, 60]
+    
+  - step: "administer"
+    timing: "before sleep"
+    volume_ml_per_kg: [5, 10]
+
+trig6_hooks:
+  theta_fn: |
+    # Phase angle calculation
+    # Maps regime intensity to angle on manifold
+    dose_total = sum(ingredient.dose for ingredient in ingredients)
+    frequency_factor = frequency_per_day / 3.0
+    duration_factor = treatment_days / 30.0
+    theta = atan2(dose_total * frequency_factor, duration_factor)
+    return theta
+    
+  resonance_fn: |
+    # Resonance measurement (benefit vs baseline)
+    # R = clamp(1 - seizure_rate_change - toxicity_score, 0, 1)
+    baseline_seizure_rate = patient.baseline_seizures_per_week
+    treatment_seizure_rate = patient.treatment_seizures_per_week
+    seizure_reduction = (baseline_seizure_rate - treatment_seizure_rate) / baseline_seizure_rate
+    toxicity_score = patient.adverse_events_severity / 10.0
+    R = max(0.0, min(1.0, seizure_reduction - toxicity_score))
+    return R
+    
+  drift_fn: |
+    # Drift measurement (off-target effects)
+    # D = off_target_symptoms_index
+    side_effects = {
+      'drowsiness': patient.drowsiness_score / 10.0,
+      'nausea': patient.nausea_score / 10.0,
+      'cognitive_impairment': patient.cognitive_score / 10.0,
+      'liver_stress': patient.liver_enzymes_elevation / 100.0
+    }
+    D = sum(side_effects.values()) / len(side_effects)
+    return D
+    
+  noise_fn: |
+    # Noise measurement (data uncertainty)
+    # N = data_uncertainty(seizure_logs, patient_variability)
+    log_quality = patient.seizure_log_completeness  # 0.0 to 1.0
+    patient_variability = patient.baseline_seizure_variance
+    measurement_error = patient.eeg_signal_noise
+    N = (1.0 - log_quality) * 0.4 + patient_variability * 0.3 + measurement_error * 0.3
+    return N
+
+danger_zones:
+  - id: "overdose_window"
+    condition: "|tan(theta)| > 10 || toxicity_score > 0.7"
+    action: "flag catastrophic regime — reduce dose immediately"
+    severity: "CRITICAL"
+    alert_threshold: 0.7
+    
+  - id: "underdose_window"
+    condition: "R < 0.2 && treatment_days > 14"
+    action: "flag ineffective — consider dose increase or abandonment"
+    severity: "WARNING"
+    alert_threshold: 0.2
+    
+  - id: "interaction_risk"
+    condition: "herb_a.dose + herb_b.dose > threshold"
+    action: "flag synergistic toxicity potential"
+    severity: "CAUTION"
+    threshold_mg_per_kg: 0.6
+    
+  - id: "theta_asymptote"
+    condition: "theta > 1.4 || theta < 0.1"
+    action: "regime approaching tan asymptote — unstable therapeutic window"
+    severity: "WARNING"
+
+fitness:
+  weights:
+    seizure_reduction: 0.40
+    toxicity_avoidance: 0.30
+    side_effect_minimization: 0.20
+    preparation_feasibility: 0.10
+    
+  function: |
+    # Composite fitness function
+    # f = R * (1 - D) * (1 - N) * eq
+    eq = 1.0  # equilibrium factor (default)
+    f = R * (1.0 - D) * (1.0 - N) * eq
+    return f
+    
+  threshold: 0.65  # Minimum to be considered "working"
+  champion_threshold: 0.80  # Exceptional performance
+
+evolution:
+  method: "Darwinian gate"
+  mutation_targets:
+    - parameter: "dose_mg_per_kg"
+      variation: "±10%"
+      rate: 0.2
+    - parameter: "brew_time_min"
+      variation: "±5 min"
+      rate: 0.15
+    - parameter: "frequency_per_day"
+      variation: "±1"
+      rate: 0.1
+      
+  selection: "f > champion → new champion"
+  generations: 100
+  population_size: 20
+  mutation_rate: 0.25
+  crossover_rate: 0.70
+
+validation:
+  required_trials: 30
+  minimum_duration_days: 30
+  control_group_required: true
+  eeg_monitoring: "continuous"
+  safety_checkpoints: [7, 14, 21, 30]
+  
+historical_notes: |
+  This recipe structure represents a hypothetical ancient Egyptian approach to
+  treating epileptic seizures. The actual plant species and exact preparations
+  are lost to history. This encoding demonstrates how TRIG6 mathematics can
+  map the therapeutic basin where such interventions would need to exist to
+  be effective.
+  
+  The Sister Protocol uses this framework to explore the geometry of healing,
+  not to recreate specific lost remedies.
+
+references:
+  - "Ancient Egyptian Medicine (Nunn, 1996)"
+  - "The Edwin Smith Papyrus (Breasted translation)"
+  - "Ebers Papyrus medical recipes"
+  - "TRIG6 Mathematical Framework (Sister Protocol)"
+  - "NEURO-36 Disease Classification"
