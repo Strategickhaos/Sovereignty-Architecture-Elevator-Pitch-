@@ -1,0 +1,145 @@
+# /craft_genes/ROMAN_001.t6.yaml
+
+meta:
+  id: "ROMAN-001-CONCRETE"
+  era: "Ancient Rome (~200 BCE - 500 CE)"
+  process: "Roman concrete (opus caementicium)"
+  dna_sequence: "ATG-LIME-POZZOLAN-ASH-CURE-HARDEN-TAA"
+  survival_examples: "Pantheon dome, harbor structures, aqueducts (2000+ years)"
+  lost_knowledge: "Exact seawater curing process, volcanic ash ratios"
+
+parameters:
+  lime_purity: [0.85, 0.98]
+  volcanic_ash_type: ["pozzolana", "santorin_earth"]
+  ash_to_lime_ratio: [2.0, 4.0]
+  aggregate_size_mm: [5, 50]
+  aggregate_to_mortar_ratio: [1.5, 3.0]
+  
+  water_to_cement_ratio: [0.4, 0.7]
+  seawater_salinity_ppt: [30, 40]  # Parts per thousand
+  mixing_time_min: [5, 20]
+  
+  curing_temp_c: [15, 30]
+  curing_humidity_pct: [60, 95]
+  curing_days: [28, 365]
+  
+  formwork_removal_days: [7, 30]
+
+materials:
+  - name: "quicklime"
+    source: "Limestone heated to 900°C"
+    role: "Primary binder"
+    
+  - name: "volcanic_ash"
+    source: "Pozzuoli region / Santorini"
+    role: "Pozzolanic reaction, strength over time"
+    chemical: "Aluminosilicate glass"
+    
+  - name: "aggregate"
+    types: ["tuff", "brick fragments", "stone chips"]
+    role: "Structural fill, reduce shrinkage"
+    
+  - name: "seawater"
+    role: "Mixing water (for marine structures)"
+    special: "Enables aluminum tobermorite crystal formation"
+
+operations:
+  - id: "OP1-SLAKE"
+    name: "lime_slaking"
+    process: "Quicklime + water → slaked lime paste"
+    exothermic: true
+    
+  - id: "OP2-MIX"
+    name: "mortar_mixing"
+    components: "Slaked lime + volcanic ash + aggregate"
+    
+  - id: "OP3-PLACE"
+    name: "layer_placement"
+    method: "Successive layers, tamped/compacted"
+    
+  - id: "OP4-CURE"
+    name: "hydration_curing"
+    duration: "Months to years for full strength"
+    mechanism: "Pozzolanic reaction + tobermorite crystal growth"
+
+trig6_hooks:
+  theta_fn: >
+    # Ash ratio affects reaction kinetics
+    ash_factor = (ash_to_lime_ratio - 3.0) / 3.0
+    water_factor = (water_to_cement_ratio - 0.5) / 0.5
+    theta = π/6 + π/12 * (ash_factor + water_factor)
+    
+  resonance_fn: >
+    # Compressive strength and durability
+    R = compressive_strength_mpa / 40.0 * durability_index
+    
+  drift_fn: >
+    # Deviation from ideal curing curve
+    D = |actual_cure_rate - optimal_cure_rate| / optimal_cure_rate
+    
+  noise_fn: >
+    # Material variability
+    N = ash_composition_variance + aggregate_quality_variance
+
+danger_zones:
+  - id: "insufficient_ash"
+    condition: "ash_to_lime_ratio < 2.5"
+    action: "WARNING - weak long-term strength"
+    severity: "major"
+    
+  - id: "excessive_water"
+    condition: "water_to_cement_ratio > 0.65"
+    action: "FLAG - reduced strength, increased porosity"
+    severity: "moderate"
+    
+  - id: "premature_loading"
+    condition: "formwork_removal_days < 14 && structure_load > 0.3"
+    action: "STOP - insufficient cure time, collapse risk"
+    severity: "critical"
+    
+  - id: "freeze_thaw"
+    condition: "curing_temp_c < 5"
+    action: "HALT - ice formation will damage structure"
+    severity: "critical"
+
+fitness:
+  weights:
+    compressive_strength: 0.35
+    durability: 0.30
+    workability: 0.15
+    cost_efficiency: 0.10
+    crack_resistance: 0.10
+    
+  function: >
+    f = R * (1 - D) * (1 - N);
+    return f;
+    
+  threshold: 0.75
+
+special_properties:
+  seawater_reaction: >
+    In seawater, Roman concrete undergoes unique mineral transformation:
+    - Phillipsite and aluminum tobermorite crystals grow within pores
+    - Self-healing: crystals fill cracks over time
+    - Strength INCREASES over centuries (unlike modern concrete)
+    - Modern Portland cement lacks this self-reinforcing mechanism
+
+evolution:
+  generations: 100
+  target: "2000+ year service life in harsh marine environment"
+  
+modern_comparison: >
+  Modern Portland cement concrete:
+  - Service life: 50-100 years (seawater), 100+ years (dry)
+  - Degrades over time due to chloride penetration, carbonation
+  
+  Roman concrete (with volcanic ash + seawater):
+  - Service life: 2000+ years proven
+  - Improves over time in seawater
+  - Lost knowledge prevents exact replication with modern materials
+
+historical_notes: >
+  The secret was rediscovered in 2017 by analyzing ancient harbor samples.
+  Key finding: Rare aluminum tobermorite crystals form from seawater reaction
+  with volcanic ash, creating self-healing, strengthening mechanism.
+  Modern attempts to recreate require specific volcanic ash chemistry.

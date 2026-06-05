@@ -1,0 +1,57 @@
+.
+├── DNA_STRAND.txt
+├── IMPLEMENTATION_SUMMARY.md
+├── README.md
+├── TREE_STRUCTURE.txt
+├── VERSION
+├── book
+│   ├── THE_SISTER_PROTOCOL_FAILURES_AS_FUEL.md
+│   ├── appendices
+│   │   ├── appA_36_failures_table.md
+│   │   └── appD_trig6_formalization.md
+│   └── chapters
+│       ├── ch01_you_cant_even_exit_vim.md
+│       ├── ch13_hardcoding_compassion_7pct.md
+│       └── ch16_lost_pharmacopeia.md
+├── craft_genes
+│   ├── DAMASCUS_001.t6.yaml
+│   ├── PAPYRUS_001.t6.yaml
+│   └── ROMAN_001.t6.yaml
+├── flamelang
+│   ├── SPEC.md
+│   ├── compiler
+│   │   ├── backend_llvm
+│   │   ├── layer1_english
+│   │   ├── layer2_hebrew
+│   │   ├── layer3_unicode
+│   │   ├── layer4_wave
+│   │   └── layer5_dna
+│   └── stress-tests
+├── genesis
+│   ├── GENESIS_SEED_SPECIFICATION.md
+│   └── build_genesis_seed.sh
+├── legal
+│   ├── patents
+│   ├── strategickhaos_dao_llc
+│   └── valoryield_engine_pbc
+├── neuro36
+│   ├── NEURO_36_GENOME.md
+│   ├── diseases
+│   └── simulations
+├── sagco-os
+│   ├── VERSION
+│   ├── commands
+│   ├── core
+│   └── dna
+│       └── STRAND.dna
+├── signatures
+│   ├── gpg
+│   └── opentimestamps
+└── trig6
+    ├── failures
+    │   └── SP_01_7pct_bypass.t6.yaml
+    ├── recipes
+    │   └── RECIPE_NEURO_001.t6.yaml
+    └── trig6_kernel.py
+
+32 directories, 23 files
