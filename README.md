@@ -71,6 +71,34 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🔥 RF Spectrum Harvest (`INV-086`)
+- **Spectrum Scanning**: RTL-SDR for 100 MHz - 6 GHz monitoring
+- **Long-Range WiFi**: Directional antennas for extended range
+- **LoRa Mesh Networks**: Infrastructure-free sovereign communications
+- **Satellite Reception**: Free broadcast data from space
+- **Auto-Failover**: Intelligent connection management across multiple RF sources
+- **100% Legal**: All operations compliant with FCC regulations
+
+```bash
+# Quick start with RF spectrum operations
+# See RF_SPECTRUM_HARVEST_INV086.md for complete documentation
+
+# Scan spectrum (requires RTL-SDR)
+rtl_power -f 100M:1.7G:1M -g 50 -i 10m /tmp/spectrum_scan.csv
+python3 scripts/rf_harvest/spectrum_analyzer.py /tmp/spectrum_scan.csv
+
+# Hunt for open WiFi networks
+python3 scripts/rf_harvest/wifi_hunter.py wlan1 30
+
+# Start RF orchestrator (auto-failover between connections)
+sudo python3 scripts/rf_harvest/athena_rf_controller.py
+```
+
+**Documentation:**
+- 📖 [Complete RF Harvest Guide](RF_SPECTRUM_HARVEST_INV086.md) - Full implementation guide
+- ⚖️ [Legal Disclaimer](RF_LEGAL_DISCLAIMER.md) - Legal considerations and compliance
+- 🔧 [Scripts Documentation](scripts/rf_harvest/README.md) - Automation tools
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment
