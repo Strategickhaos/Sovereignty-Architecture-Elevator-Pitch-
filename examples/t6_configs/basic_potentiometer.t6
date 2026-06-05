@@ -1,0 +1,118 @@
+# TRIG6 Configuration File (.t6)
+# Basic Potentiometer Example
+# This demonstrates the simplest TRIG6 potentiometer setup
+
+config_metadata:
+  name: "Basic Potentiometer Calibration"
+  version: "1.0"
+  created: "2026-01-25"
+  author: "StrategicKhaos DAO LLC"
+  description: "Generic potentiometer-to-phase-space mapping for learning the system"
+
+hardware:
+  input:
+    type: "potentiometer"
+    pin: "A0"
+    range: [0, 1023]  # 10-bit ADC
+    physical_range: [0, 5.0]  # Volts
+  
+  feedback:
+    led_fitness:
+      pin: "D2"
+      color: "green"
+    led_danger:
+      pin: "D3"
+      color: "red"
+    led_evolve:
+      pin: "D4"
+      color: "yellow"
+  
+  optional:
+    display: null
+    logging: null
+
+trig6_parameters:
+  state:
+    R_initial: 0.0
+    D_initial: 0.0
+    theta_initial: 0.0
+    N_initial: 0.0
+  
+  evolution:
+    alpha: 0.1  # Evolution rate
+    decay: 0.95  # Drift decay factor
+  
+  limits:
+    R_max: 2.0  # Maximum resonance
+    D_crit: 0.5  # Critical drift
+    N_max: 1.0  # Maximum noise
+  
+  noise:
+    sensor_noise: 0.01
+    model_noise: 0.01
+
+fitness_function:
+  type: "generic"
+  
+  parameters:
+    ideal_R: 1.0  # Target resonance
+    max_drift: 0.1
+    ideal_theta: 3.14159  # π radians
+    noise_penalty: 10.0
+  
+  formula: |
+    fitness = exp(-abs(R - ideal_R)) *
+              exp(-D / max_drift) *
+              (1 + cos(theta - ideal_theta)) / 2 *
+              exp(-N * noise_penalty)
+  
+  threshold: 0.8  # Minimum for proven status
+
+danger_zones:
+  resonance_overflow:
+    enabled: true
+    threshold: 2.0
+  
+  critical_drift:
+    enabled: true
+    threshold: 0.5
+  
+  forbidden_phases: []  # No phase restrictions in basic mode
+
+evolution_gate:
+  min_stable_duration: 1.0  # seconds
+  population_size: 10  # Number of proven configs to collect
+  auto_log: true
+
+output:
+  format: "yaml"
+  directory: "./proven_configs/"
+  filename_pattern: "basic_proven_{timestamp}.yaml"
+  
+  fields:
+    - timestamp
+    - pot_value
+    - R
+    - D
+    - theta
+    - N
+    - fitness
+    - basin_name
+
+calibration_notes: |
+  This basic configuration is for learning the TRIG6 system.
+  
+  Instructions:
+  1. Connect potentiometer to A0
+  2. Connect LEDs to D2 (green), D3 (red), D4 (yellow)
+  3. Upload TRIG6 firmware with this config
+  4. Slowly turn potentiometer
+  5. Green LED = proven configuration
+  6. Red LED = danger zone
+  7. Yellow LED = evolution in progress
+  
+  Expected behavior:
+  - Fitness peaks when pot is near center (θ ≈ π)
+  - Slow adjustments work better than fast
+  - System prefers moderate resonance (R ≈ 1.0)
+  - Low drift is always better

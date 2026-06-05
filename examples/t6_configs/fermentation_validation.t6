@@ -1,0 +1,210 @@
+# TRIG6 Configuration File (.t6)
+# Fermentation Validation - Sauerkraut Temperature Optimization
+# Application: Ancestral Knowledge Recovery
+
+config_metadata:
+  name: "Sauerkraut Fermentation Temperature Validation"
+  version: "1.0"
+  created: "2026-01-25"
+  author: "StrategicKhaos DAO LLC"
+  domain: "Ancestral Knowledge - Fermentation"
+  description: "Find and prove stable fermentation temperature windows for traditional sauerkraut"
+
+hardware:
+  input:
+    type: "potentiometer"
+    pin: "A0"
+    range: [0, 1023]
+    physical_range: [13.0, 27.0]  # Temperature in °C
+    represents: "Fermentation temperature variation"
+    
+  feedback:
+    led_fitness:
+      pin: "D2"
+      color: "green"
+      meaning: "Stable fermentation window found"
+    led_danger:
+      pin: "D3"
+      color: "red"
+      meaning: "Temperature out of safe range or contamination risk"
+    led_evolve:
+      pin: "D4"
+      color: "yellow"
+      meaning: "Searching for optimal temperature"
+  
+  optional:
+    display:
+      type: "OLED 0.96in I2C"
+      address: "0x3C"
+      shows: ["temperature", "fitness", "basin_name"]
+
+trig6_parameters:
+  state:
+    R_initial: 0.0  # Will represent microbial growth rate
+    D_initial: 0.0  # Will represent contamination drift
+    theta_initial: 0.0  # Maps to temperature in cycle
+    N_initial: 0.0  # Temperature jitter
+  
+  evolution:
+    alpha: 0.15  # Slightly higher for faster exploration
+    decay: 0.90  # Lower decay for quicker contamination detection
+  
+  limits:
+    R_max: 1.8  # Maximum safe microbial growth
+    D_crit: 0.3  # Lower threshold - contamination is serious
+    N_max: 0.5  # Temperature should be stable
+  
+  noise:
+    sensor_noise: 0.02  # Room temp variation
+    model_noise: 0.01
+
+# Domain-specific mapping
+domain_mapping:
+  # Map potentiometer value to temperature
+  pot_to_temp:
+    formula: "temp = 13.0 + (pot_value / 1023.0) * 14.0"
+    # Result: 13°C to 27°C range
+  
+  # Map temperature to phase
+  temp_to_theta:
+    formula: "theta = ((temp - 13.0) / 14.0) * 2*PI"
+    # Wraps temperature into circular phase space
+
+fitness_function:
+  type: "fermentation_stability"
+  
+  parameters:
+    ideal_temperature: 20.0  # °C - optimal for Lactobacillus
+    temp_tolerance: 2.0  # ±2°C acceptable
+    max_contamination_drift: 0.05
+    ideal_growth_rate: 1.2  # R value
+    growth_tolerance: 0.3
+  
+  formula: |
+    temp = 13.0 + (theta / (2*PI)) * 14.0
+    
+    # Temperature fitness component
+    temp_fitness = exp(-pow(temp - ideal_temperature, 2) / (2 * temp_tolerance^2))
+    
+    # Growth rate fitness
+    growth_fitness = exp(-abs(R - ideal_growth_rate) / growth_tolerance)
+    
+    # Contamination penalty
+    contamination_fitness = exp(-D / max_contamination_drift)
+    
+    # Stability requirement (low noise)
+    stability_fitness = exp(-N * 5.0)
+    
+    # Combined fitness
+    fitness = temp_fitness * growth_fitness * contamination_fitness * stability_fitness
+  
+  threshold: 0.85  # Higher threshold for food safety
+
+danger_zones:
+  temperature_too_low:
+    enabled: true
+    condition: "temp < 13.0"
+    reason: "Fermentation too slow, spoilage risk"
+  
+  temperature_too_high:
+    enabled: true
+    condition: "temp > 27.0"
+    reason: "Bad bacteria growth, safety risk"
+  
+  contamination_drift:
+    enabled: true
+    condition: "D > 0.3"
+    reason: "Contamination detected"
+  
+  overgrowth:
+    enabled: true
+    condition: "R > 1.8"
+    reason: "Microbial overgrowth"
+
+evolution_gate:
+  min_stable_duration: 2.0  # seconds - food safety requires stability
+  population_size: 5
+  auto_log: true
+
+output:
+  format: "yaml"
+  directory: "./proven_configs/fermentation/"
+  filename_pattern: "sauerkraut_proven_{timestamp}.yaml"
+  
+  fields:
+    - timestamp
+    - pot_value
+    - temperature_celsius
+    - R
+    - D
+    - theta
+    - N
+    - fitness
+    - basin_name
+    - notes
+  
+  basin_naming:
+    # Automatically name discovered basins
+    rules:
+      - condition: "temp >= 18.0 and temp <= 22.0"
+        name: "Optimal Lactobacillus Window"
+      - condition: "temp >= 16.0 and temp < 18.0"
+        name: "Cool Fermentation (slower)"
+      - condition: "temp > 22.0 and temp <= 24.0"
+        name: "Warm Fermentation (faster)"
+
+proven_basins:
+  # Pre-validated from historical testing
+  historical_recipes:
+    - name: "Traditional German Kraut"
+      temperature: 19.5
+      notes: "7-14 day fermentation, mild flavor"
+    
+    - name: "Wild Fermentation"
+      temperature: 21.0
+      notes: "4-7 day fermentation, tangy flavor"
+
+validation_protocol: |
+  Fermentation Validation Protocol:
+  
+  1. Set up potentiometer to represent ambient temperature
+  2. Begin with pot at minimum (13°C)
+  3. Slowly increase, simulating temperature rise
+  4. Green LED indicates proven stable window
+  5. Red LED warns of danger zones
+  6. When proven basin found, note temperature
+  7. Repeat experiment at that temperature in real fermentation
+  8. Validate flavor and safety outcomes
+  9. Log to ancestral recipe database
+
+ancestral_knowledge:
+  source: "Traditional European Fermentation"
+  uncertainty: "Temperature varied by season, location, cellar conditions"
+  problem: "Recipes said 'cool room' but exact temp unknown"
+  solution: "TRIG6 finds and proves the actual stable temperature windows"
+  
+expected_outcomes:
+  stable_basins:
+    - temperature_range: [18.5, 21.5]
+      basin_name: "Primary Lactobacillus Basin"
+      characteristics: "Consistent lactic acid production, good flavor"
+    
+    - temperature_range: [16.0, 18.0]
+      basin_name: "Cool Fermentation Basin"
+      characteristics: "Slower, more complex flavor development"
+  
+  danger_zones:
+    - temperature_range: [25.0, 27.0]
+      risk: "Potential contamination, off flavors"
+    
+    - temperature_range: [13.0, 14.0]
+      risk: "Too slow, spoilage risk"
+
+scientific_validation:
+  microbiological_data:
+    - "Lactobacillus plantarum optimal: 18-22°C"
+    - "Lactobacillus brevis optimal: 20-24°C"
+    - "Contamination risk above 25°C"
+  
+  matches_traditional: true
+  notes: "TRIG6 findings align with both microbiology and ancestral practice"

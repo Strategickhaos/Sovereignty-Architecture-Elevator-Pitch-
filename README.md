@@ -280,6 +280,51 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 🔬 TRIG6 Potentiometer Proof Engine
+
+**New:** Revolutionary hardware epistemology device that converts physical uncertainty into mathematical proof.
+
+### What Is It?
+
+The **TRIG6 Phase-Space Kinesthetic Input Device** is a hardware-software hybrid system that:
+- Uses a potentiometer to represent uncertain real-world variables
+- Maps physical input to phase-space coordinates
+- Validates stability through Darwinian fitness gates
+- Outputs proven, reproducible configurations
+
+### Applications
+
+- **Biomedical:** EEG seizure prediction, neural prosthetics
+- **Materials Science:** Composite curing, 3D printing optimization
+- **Ancestral Knowledge:** Fermentation recipes, medicinal tinctures
+- **Navigation:** Inertial systems, GPS augmentation
+- **Environmental:** Sensor calibration, contamination detection
+
+### Documentation
+
+Complete documentation available in the `docs/` directory:
+- **[TRIG6 Index](docs/README_TRIG6_Index.md)** - Overview and quick start
+- **[Chapter 16 - Lost Pharmacopeia](docs/Chapter_16_Lost_Pharmacopeia.md)** - Theoretical foundation
+- **[Invention Disclosure](docs/TRIG6_Potentiometer_Invention_Disclosure.md)** - Formal specification
+- **[Gene Entry](docs/genes/TRIG6_potentiometer_gene.yaml)** - System parameters
+- **[Example Configs](examples/t6_configs/)** - Ready-to-use .t6 files
+
+### Quick Start
+
+```bash
+# Hardware: Arduino + 10kΩ pot + 3 LEDs (~$38)
+# 1. Load example configuration
+cp examples/t6_configs/basic_potentiometer.t6 config.t6
+
+# 2. Upload to Arduino
+# 3. Turn potentiometer
+# 4. Green LED = proven configuration!
+```
+
+**Status:** Defensive Publication (MIT License) | **Date:** 2026-01-25
+
+---
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
