@@ -1,0 +1,508 @@
+{
+  "sweep_results": [
+    {
+      "node_id": 1,
+      "node_name": "Skin",
+      "state": {
+        "R": 0.8,
+        "D": 0.05,
+        "N": 0.01,
+        "theta": 0.0
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.752,
+      "delta_fitness": -0.048,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 2,
+      "node_name": "Sebum",
+      "state": {
+        "R": 0.817,
+        "D": 0.049,
+        "N": 0.02,
+        "theta": 0.175
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.762,
+      "delta_fitness": -0.038,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 3,
+      "node_name": "Anti-microbial elements",
+      "state": {
+        "R": 0.834,
+        "D": 0.047,
+        "N": 0.03,
+        "theta": 0.349
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.771,
+      "delta_fitness": -0.029,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 4,
+      "node_name": "Probiotics",
+      "state": {
+        "R": 0.85,
+        "D": 0.043,
+        "N": 0.04,
+        "theta": 0.524
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.781,
+      "delta_fitness": -0.019,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 5,
+      "node_name": "Holistic organ nose mouth throat",
+      "state": {
+        "R": 0.864,
+        "D": 0.038,
+        "N": 0.05,
+        "theta": 0.698
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.79,
+      "delta_fitness": -0.01,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 6,
+      "node_name": "Inheleten exhibition",
+      "state": {
+        "R": 0.877,
+        "D": 0.032,
+        "N": 0.06,
+        "theta": 0.873
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.798,
+      "delta_fitness": -0.002,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 7,
+      "node_name": "Harmonious Coexistens Symbosis",
+      "state": {
+        "R": 0.887,
+        "D": 0.025,
+        "N": 0.0,
+        "theta": 1.047
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.864,
+      "delta_fitness": 0.064,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 8,
+      "node_name": "Pathogens",
+      "state": {
+        "R": 0.894,
+        "D": 0.017,
+        "N": 0.01,
+        "theta": 1.222
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.87,
+      "delta_fitness": 0.07,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 9,
+      "node_name": "Mucus membrane",
+      "state": {
+        "R": 0.898,
+        "D": 0.009,
+        "N": 0.02,
+        "theta": 1.396
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.873,
+      "delta_fitness": 0.073,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 10,
+      "node_name": "Coughing",
+      "state": {
+        "R": 0.9,
+        "D": 0.0,
+        "N": 0.03,
+        "theta": 1.571
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.873,
+      "delta_fitness": 0.073,
+      "is_danger_zone": true
+    },
+    {
+      "node_id": 11,
+      "node_name": "Innate Immune System",
+      "state": {
+        "R": 0.898,
+        "D": 0.009,
+        "N": 0.04,
+        "theta": 1.745
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.855,
+      "delta_fitness": 0.055,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 12,
+      "node_name": "Adaptive Immune System",
+      "state": {
+        "R": 0.894,
+        "D": 0.017,
+        "N": 0.05,
+        "theta": 1.92
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.835,
+      "delta_fitness": 0.035,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 13,
+      "node_name": "Cilia",
+      "state": {
+        "R": 0.887,
+        "D": 0.025,
+        "N": 0.06,
+        "theta": 2.094
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.813,
+      "delta_fitness": 0.013,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 14,
+      "node_name": "Oral cavity",
+      "state": {
+        "R": 0.877,
+        "D": 0.032,
+        "N": 0.0,
+        "theta": 2.269
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.848,
+      "delta_fitness": 0.048,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 15,
+      "node_name": "Lucoside",
+      "state": {
+        "R": 0.864,
+        "D": 0.038,
+        "N": 0.01,
+        "theta": 2.443
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.823,
+      "delta_fitness": 0.023,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 16,
+      "node_name": "Neutrophil",
+      "state": {
+        "R": 0.85,
+        "D": 0.043,
+        "N": 0.02,
+        "theta": 2.618
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.797,
+      "delta_fitness": -0.003,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 17,
+      "node_name": "Bone marrow",
+      "state": {
+        "R": 0.834,
+        "D": 0.047,
+        "N": 0.03,
+        "theta": 2.793
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.771,
+      "delta_fitness": -0.029,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 18,
+      "node_name": "Immune cell",
+      "state": {
+        "R": 0.817,
+        "D": 0.049,
+        "N": 0.04,
+        "theta": 2.967
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.746,
+      "delta_fitness": -0.054,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 19,
+      "node_name": "Blood stream",
+      "state": {
+        "R": 0.8,
+        "D": 0.05,
+        "N": 0.05,
+        "theta": 3.142
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.722,
+      "delta_fitness": -0.078,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 20,
+      "node_name": "Weak adhesion",
+      "state": {
+        "R": 0.783,
+        "D": 0.049,
+        "N": 0.06,
+        "theta": 3.316
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.699,
+      "delta_fitness": -0.101,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 21,
+      "node_name": "Strong adhesion",
+      "state": {
+        "R": 0.766,
+        "D": 0.047,
+        "N": 0.0,
+        "theta": 3.491
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.73,
+      "delta_fitness": -0.07,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 22,
+      "node_name": "Receptor",
+      "state": {
+        "R": 0.75,
+        "D": 0.043,
+        "N": 0.01,
+        "theta": 3.665
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.71,
+      "delta_fitness": -0.09,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 23,
+      "node_name": "Asymmetric",
+      "state": {
+        "R": 0.736,
+        "D": 0.038,
+        "N": 0.02,
+        "theta": 3.84
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.693,
+      "delta_fitness": -0.107,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 24,
+      "node_name": "Synthe cells",
+      "state": {
+        "R": 0.723,
+        "D": 0.032,
+        "N": 0.03,
+        "theta": 4.014
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.679,
+      "delta_fitness": -0.121,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 25,
+      "node_name": "Division and maturation of neutrophils",
+      "state": {
+        "R": 0.713,
+        "D": 0.025,
+        "N": 0.04,
+        "theta": 4.189
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.668,
+      "delta_fitness": -0.132,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 26,
+      "node_name": "Nucleosides",
+      "state": {
+        "R": 0.706,
+        "D": 0.017,
+        "N": 0.05,
+        "theta": 4.363
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.659,
+      "delta_fitness": -0.141,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 27,
+      "node_name": "Progenitor cell",
+      "state": {
+        "R": 0.702,
+        "D": 0.009,
+        "N": 0.06,
+        "theta": 4.538
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.654,
+      "delta_fitness": -0.146,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 28,
+      "node_name": "Stem cells",
+      "state": {
+        "R": 0.7,
+        "D": 0.0,
+        "N": 0.0,
+        "theta": 4.712
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.7,
+      "delta_fitness": -0.1,
+      "is_danger_zone": true
+    },
+    {
+      "node_id": 29,
+      "node_name": "Connective Tissue",
+      "state": {
+        "R": 0.702,
+        "D": 0.009,
+        "N": 0.01,
+        "theta": 4.887
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.688,
+      "delta_fitness": -0.112,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 30,
+      "node_name": "Bacteria",
+      "state": {
+        "R": 0.706,
+        "D": 0.017,
+        "N": 0.02,
+        "theta": 5.061
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.68,
+      "delta_fitness": -0.12,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 31,
+      "node_name": "Toxins",
+      "state": {
+        "R": 0.713,
+        "D": 0.025,
+        "N": 0.03,
+        "theta": 5.236
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.675,
+      "delta_fitness": -0.125,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 32,
+      "node_name": "Nutritional",
+      "state": {
+        "R": 0.723,
+        "D": 0.032,
+        "N": 0.04,
+        "theta": 5.411
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.672,
+      "delta_fitness": -0.128,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 33,
+      "node_name": "Tumor Necrosis",
+      "state": {
+        "R": 0.736,
+        "D": 0.038,
+        "N": 0.05,
+        "theta": 5.585
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.672,
+      "delta_fitness": -0.128,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 34,
+      "node_name": "Antigens",
+      "state": {
+        "R": 0.75,
+        "D": 0.043,
+        "N": 0.06,
+        "theta": 5.76
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.674,
+      "delta_fitness": -0.126,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 35,
+      "node_name": "Thymus",
+      "state": {
+        "R": 0.766,
+        "D": 0.047,
+        "N": 0.0,
+        "theta": 5.934
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.73,
+      "delta_fitness": -0.07,
+      "is_danger_zone": false
+    },
+    {
+      "node_id": 36,
+      "node_name": "Transition/Run/Gain/Advance/Set back",
+      "state": {
+        "R": 0.783,
+        "D": 0.049,
+        "N": 0.01,
+        "theta": 6.109
+      },
+      "fitness_before": 0.8,
+      "fitness_after": 0.737,
+      "delta_fitness": -0.063,
+      "is_danger_zone": false
+    }
+  ]
+}
