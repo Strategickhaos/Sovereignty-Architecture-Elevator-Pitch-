@@ -1,0 +1,29 @@
+# TRIG6 Demo Script
+# Example "program" for the TRIG6 VM
+# This demonstrates basic operations and state exploration
+
+# Set theta to pi/3 (60 degrees)
+theta pi/3
+
+# Set alpha blend to 0.4 (40% hyperbolic)
+alpha 0.4
+
+# Set optimal theta to pi/4 (45 degrees)
+theta_opt pi/4
+
+# Execute a step to compute projections
+step
+
+# View current state
+state
+
+# Change theta to explore different angles
+theta pi/2
+step
+
+# Try a degree-based input
+deg 30
+step
+
+# View final state
+state
