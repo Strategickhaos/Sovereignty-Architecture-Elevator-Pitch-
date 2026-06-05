@@ -2,6 +2,20 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🔥 **SOVEREIGN COMPUTE STACK**
+
+**We built the full stack. From math to silicon.**
+
+This repository contains the complete StrategicKhaos Sovereignty Architecture, including:
+- **TRIG6** — Mathematical stability engine
+- **FlameLang** — Sovereign symbolic language
+- **flamec** — TRIG6-gated compiler
+- **SAGCO-OS** — Distributed sovereignty operating system
+- **HYDRA** — Type-1 bare-metal hypervisor
+- **SAGCO-DUINO CPU** — FPGA-synthesizable processor
+
+📖 **[Read the Full Stack Documentation](SOVEREIGN_COMPUTE_STACK.md)**
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
