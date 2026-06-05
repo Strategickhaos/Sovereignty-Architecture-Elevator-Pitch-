@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Veg-Tanned Leather (Tannin-Collagen Bond)",
+    "category": "material",
+    "blueprint_number": 33,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.7854,
+    "theta_degrees": 45.0,
+    "theta_description": "\u03c0/4 - moderate complexity",
+    "R": 0.72,
+    "D": 0.28,
+    "N": 0.22,
+    "alpha": 0.18,
+    "fitness": 0.4,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.40"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "curing_humidity_variability",
+    "proof_threshold": 0.38,
+    "simulation_file": "33_veg_tanned_leather.t6"
+  }
+}

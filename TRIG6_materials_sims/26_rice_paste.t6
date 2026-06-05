@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Rice Paste (Asian Archival Standard)",
+    "category": "material",
+    "blueprint_number": 26,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "\u03c0/6 - low to moderate complexity",
+    "R": 0.88,
+    "D": 0.12,
+    "N": 0.18,
+    "alpha": 0.14,
+    "fitness": 0.63,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.63"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "cooking_time",
+    "proof_threshold": 0.55,
+    "simulation_file": "26_rice_paste.t6"
+  }
+}

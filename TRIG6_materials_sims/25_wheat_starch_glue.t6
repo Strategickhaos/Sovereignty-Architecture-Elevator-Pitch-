@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Wheat Starch Glue (Polysaccharide Adhesive)",
+    "category": "material",
+    "blueprint_number": 25,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "\u03c0/6 - low to moderate complexity",
+    "R": 0.86,
+    "D": 0.14,
+    "N": 0.2,
+    "alpha": 0.15,
+    "fitness": 0.59,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.59"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "cooking_temperature_variability",
+    "proof_threshold": 0.55,
+    "simulation_file": "25_wheat_starch_glue.t6"
+  }
+}

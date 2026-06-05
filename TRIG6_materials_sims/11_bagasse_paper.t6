@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Bagasse Paper (Sugar Industry Byproduct)",
+    "category": "paper",
+    "blueprint_number": 11,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.7854,
+    "theta_degrees": 45.0,
+    "theta_description": "\u03c0/4 - moderate complexity",
+    "R": 0.78,
+    "D": 0.22,
+    "N": 0.28,
+    "alpha": 0.2,
+    "fitness": 0.38,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.38"
+  },
+  "safety": {
+    "danger_level": "high",
+    "requires_safety_protocols": true
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "chemical_cooking_temperature",
+    "proof_threshold": 0.44,
+    "simulation_file": "11_bagasse_paper.t6"
+  }
+}

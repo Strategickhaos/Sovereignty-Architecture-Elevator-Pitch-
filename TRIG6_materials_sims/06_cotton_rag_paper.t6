@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Cotton Rag Paper (Renaissance Standard)",
+    "category": "paper",
+    "blueprint_number": 6,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.7854,
+    "theta_degrees": 45.0,
+    "theta_description": "\u03c0/4 - moderate complexity",
+    "R": 0.92,
+    "D": 0.08,
+    "N": 0.15,
+    "alpha": 0.12,
+    "fitness": 0.67,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.67"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "fermentation_time",
+    "proof_threshold": 0.6,
+    "simulation_file": "06_cotton_rag_paper.t6"
+  }
+}

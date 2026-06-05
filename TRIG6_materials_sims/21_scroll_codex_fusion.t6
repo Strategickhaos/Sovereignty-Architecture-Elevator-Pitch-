@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Scroll-Codex Fusion (Transitional Form)",
+    "category": "binding",
+    "blueprint_number": 21,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.5236,
+    "theta_degrees": 30.0,
+    "theta_description": "\u03c0/6 - low to moderate complexity",
+    "R": 0.6,
+    "D": 0.4,
+    "N": 0.3,
+    "alpha": 0.25,
+    "fitness": 0.22,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.22"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "fold_stress",
+    "proof_threshold": 0.33,
+    "simulation_file": "21_scroll_codex_fusion.t6"
+  }
+}

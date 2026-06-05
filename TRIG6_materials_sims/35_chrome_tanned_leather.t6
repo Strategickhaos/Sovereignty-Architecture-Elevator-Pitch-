@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Chrome-Tanned Leather (Industrial Standard) \u26a0\ufe0f DANGER",
+    "category": "material",
+    "blueprint_number": 35,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 1.5708,
+    "theta_degrees": 90.0,
+    "theta_description": "\u03c0/2 - MAXIMUM COMPLEXITY (DANGER ZONE)",
+    "R": 0.65,
+    "D": 0.35,
+    "N": 0.4,
+    "alpha": 0.3,
+    "fitness": 0.18,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.18"
+  },
+  "safety": {
+    "danger_level": "high",
+    "requires_safety_protocols": true
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "chemical_volatility",
+    "proof_threshold": 0.25,
+    "simulation_file": "35_chrome_tanned_leather.t6"
+  }
+}

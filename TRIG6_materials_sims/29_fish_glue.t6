@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Fish Glue (Isinglass Transparency)",
+    "category": "material",
+    "blueprint_number": 29,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.7854,
+    "theta_degrees": 45.0,
+    "theta_description": "\u03c0/4 - moderate complexity",
+    "R": 0.78,
+    "D": 0.22,
+    "N": 0.24,
+    "alpha": 0.18,
+    "fitness": 0.44,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.44"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "purity_grade",
+    "proof_threshold": 0.44,
+    "simulation_file": "29_fish_glue.t6"
+  }
+}

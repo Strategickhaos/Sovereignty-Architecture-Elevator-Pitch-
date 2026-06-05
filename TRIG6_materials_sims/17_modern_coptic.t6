@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Modern Coptic (Contemporary Adaptation)",
+    "category": "binding",
+    "blueprint_number": 17,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 1.0472,
+    "theta_degrees": 60.0,
+    "theta_description": "\u03c0/3 - high complexity",
+    "R": 0.82,
+    "D": 0.18,
+    "N": 0.12,
+    "alpha": 0.1,
+    "fitness": 0.55,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.55"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "synthetic_vs_natural_thread",
+    "proof_threshold": 0.5,
+    "simulation_file": "17_modern_coptic.t6"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Hemp Paper (Ancient Universal)",
+    "category": "paper",
+    "blueprint_number": 7,
+    "chapter": "Chapter 16: The Lost Pharmacopeia",
+    "timestamp": "2026-01-25",
+    "author": "Dominic Thibodeau (StrategicKhaos)"
+  },
+  "trig6": {
+    "theta": 0.7854,
+    "theta_degrees": 45.0,
+    "theta_description": "\u03c0/4 - moderate complexity",
+    "R": 0.9,
+    "D": 0.1,
+    "N": 0.18,
+    "alpha": 0.14,
+    "fitness": 0.63,
+    "fitness_calculation": "f = R * (1-D) * (1-N) * e^(-\u03b1) \u2248 0.63"
+  },
+  "safety": {
+    "danger_level": "none",
+    "requires_safety_protocols": false
+  },
+  "potentiometer_proof": {
+    "variable_mapped": "retting_duration",
+    "proof_threshold": 0.55,
+    "simulation_file": "07_hemp_paper.t6"
+  }
+}
