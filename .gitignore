@@ -36,3 +36,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# TRIG6 Simulator generated reports
+trig6_proof_report.md
