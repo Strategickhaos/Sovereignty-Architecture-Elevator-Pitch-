@@ -1,0 +1,228 @@
+name: SAGCO OS Integration CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sagco-os/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'sagco-os/**'
+  workflow_dispatch:
+
+env:
+  SAGCO_VERSION: v0.1.0
+
+jobs:
+  validate-integration:
+    name: Validate SAGCO OS Integration
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check SAGCO OS Structure
+        run: |
+          echo "Validating SAGCO OS directory structure..."
+          
+          if [ ! -d "sagco-os" ]; then
+            echo "::warning::SAGCO OS directory not found. This workflow will run after SAGCO OS is integrated."
+            exit 0
+          fi
+          
+          # Verify expected directories exist
+          expected_dirs=("bin" "config" "docs" "lib" "modules" "scripts")
+          for dir in "${expected_dirs[@]}"; do
+            if [ -d "sagco-os/$dir" ]; then
+              echo "✅ Found directory: sagco-os/$dir"
+            else
+              echo "⚠️  Directory not found: sagco-os/$dir"
+            fi
+          done
+      
+      - name: Validate Configuration Files
+        run: |
+          if [ ! -d "sagco-os" ]; then
+            echo "SAGCO OS not integrated yet, skipping validation"
+            exit 0
+          fi
+          
+          echo "Checking for configuration files..."
+          
+          # Check for key configuration files
+          config_files=("sagco-os/config/*.yaml" "sagco-os/config/*.yml" "sagco-os/config/*.json")
+          for pattern in "${config_files[@]}"; do
+            if compgen -G "$pattern" > /dev/null; then
+              echo "✅ Found configuration files matching: $pattern"
+            fi
+          done
+      
+      - name: Check Documentation
+        run: |
+          if [ ! -d "sagco-os" ]; then
+            exit 0
+          fi
+          
+          echo "Validating documentation..."
+          
+          if [ -f "sagco-os/README.md" ]; then
+            echo "✅ README.md found"
+          else
+            echo "::warning::README.md not found in sagco-os/"
+          fi
+          
+          if [ -d "sagco-os/docs" ]; then
+            doc_count=$(find sagco-os/docs -name "*.md" | wc -l)
+            echo "✅ Found $doc_count documentation files"
+          fi
+      
+      - name: Verify Scripts are Executable
+        run: |
+          if [ ! -d "sagco-os" ]; then
+            exit 0
+          fi
+          
+          if [ -d "sagco-os/scripts" ]; then
+            echo "Checking script permissions..."
+            find sagco-os/scripts -type f -name "*.sh" | while read script; do
+              if [ -x "$script" ]; then
+                echo "✅ $script is executable"
+              else
+                echo "::warning::$script is not executable"
+              fi
+            done
+          fi
+
+  integration-tests:
+    name: Run Integration Tests
+    runs-on: ubuntu-latest
+    needs: validate-integration
+    if: ${{ github.event_name != 'pull_request' }}
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install Dependencies
+        run: |
+          if [ ! -d "sagco-os" ]; then
+            echo "SAGCO OS not integrated yet, skipping tests"
+            exit 0
+          fi
+          
+          # Install any required dependencies
+          if [ -f "sagco-os/requirements.txt" ]; then
+            pip install -r sagco-os/requirements.txt
+          fi
+      
+      - name: Run SAGCO OS Tests
+        run: |
+          if [ ! -d "sagco-os" ]; then
+            exit 0
+          fi
+          
+          echo "Running SAGCO OS integration tests..."
+          
+          # Run tests if they exist
+          if [ -d "sagco-os/tests" ]; then
+            if [ -f "sagco-os/tests/run_tests.sh" ]; then
+              bash sagco-os/tests/run_tests.sh
+            elif compgen -G "sagco-os/tests/test_*.py" > /dev/null; then
+              python -m pytest sagco-os/tests/
+            else
+              echo "No test runner found, skipping tests"
+            fi
+          else
+            echo "No tests directory found, skipping tests"
+          fi
+
+  notify-discord:
+    name: Notify Discord
+    runs-on: ubuntu-latest
+    needs: [validate-integration, integration-tests]
+    if: always() && github.event_name == 'push'
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Send Discord Notification
+        if: secrets.DISCORD_TOKEN != ''
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          PRS_CHANNEL: ${{ secrets.PRS_CHANNEL }}
+        run: |
+          if [ ! -f "./gl2discord.sh" ]; then
+            echo "Discord notification script not found, skipping"
+            exit 0
+          fi
+          
+          STATUS="${{ needs.validate-integration.result == 'success' && needs.integration-tests.result == 'success' && '✅' || '❌' }}"
+          MESSAGE="SAGCO OS Integration Pipeline ${STATUS}"
+          DETAILS="Validation: ${{ needs.validate-integration.result }}, Tests: ${{ needs.integration-tests.result }}"
+          
+          ./gl2discord.sh "$PRS_CHANNEL" "$MESSAGE" "$DETAILS" || echo "Discord notification failed"
+
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [validate-integration, integration-tests]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check if SAGCO OS is Integrated
+        id: check
+        run: |
+          if [ -d "sagco-os" ] && [ -f "sagco-os/VERSION" ]; then
+            echo "integrated=true" >> $GITHUB_OUTPUT
+            version=$(cat sagco-os/VERSION)
+            echo "version=$version" >> $GITHUB_OUTPUT
+          else
+            echo "integrated=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create GitHub Release
+        if: steps.check.outputs.integrated == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: sagco-os-${{ steps.check.outputs.version }}
+          name: SAGCO OS ${{ steps.check.outputs.version }}
+          body: |
+            ## SAGCO OS Release ${{ steps.check.outputs.version }}
+            
+            Integrated into Strategickhaos Sovereignty Architecture.
+            
+            ### What's Included
+            - Core OS components
+            - Integration modules
+            - Configuration files
+            - Documentation
+            
+            ### Quick Start
+            See [SAGCO_OS_INTEGRATION_GUIDE.md](./SAGCO_OS_INTEGRATION_GUIDE.md) for integration instructions.
+          draft: false
+          prerelease: false
