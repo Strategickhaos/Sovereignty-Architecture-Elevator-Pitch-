@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Mechanical Advantage Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .control-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .value-display {
+            font-size: 18px;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        .result {
+            background: #e7f3ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #0066cc;
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Mechanical Advantage</h1>
+        <p>Adjust the parameters below to see how mechanical advantage affects the force required to lift a load.</p>
+        
+        <div class="control-group">
+            <label for="load">Load Weight (kg): <span class="value-display" id="loadValue">100</span></label>
+            <input type="range" id="load" min="10" max="500" value="100" step="10">
+        </div>
+        
+        <div class="control-group">
+            <label for="ma">Mechanical Advantage: <span class="value-display" id="maValue">1</span></label>
+            <input type="range" id="ma" min="1" max="9" value="1" step="0.5">
+        </div>
+        
+        <div class="result">
+            <h3>Required Effort Force</h3>
+            <p style="font-size: 24px; margin: 10px 0;"><strong id="effortForce">100</strong> kg</p>
+            <p>With a <span id="maDisplay">1:1</span> mechanical advantage, you need <strong id="effortPercentage">100</strong>% of the load weight.</p>
+        </div>
+        
+        <canvas id="maCanvas" width="700" height="400"></canvas>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 5px;">
+            <strong>Note:</strong> This calculator assumes ideal conditions without friction. Real-world systems experience friction losses, typically 5-10% per pulley.
+        </div>
+    </div>
+    
+    <script>
+        const loadInput = document.getElementById('load');
+        const maInput = document.getElementById('ma');
+        const loadValue = document.getElementById('loadValue');
+        const maValue = document.getElementById('maValue');
+        const effortForce = document.getElementById('effortForce');
+        const maDisplay = document.getElementById('maDisplay');
+        const effortPercentage = document.getElementById('effortPercentage');
+        const canvas = document.getElementById('maCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function calculate() {
+            const load = parseFloat(loadInput.value);
+            const ma = parseFloat(maInput.value);
+            
+            loadValue.textContent = load;
+            maValue.textContent = ma;
+            maDisplay.textContent = `${ma}:1`;
+            
+            const effort = load / ma;
+            effortForce.textContent = effort.toFixed(1);
+            effortPercentage.textContent = ((effort / load) * 100).toFixed(0);
+            
+            drawDiagram(load, ma, effort);
+        }
+        
+        function drawDiagram(load, ma, effort) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw title
+            ctx.font = 'bold 18px Arial';
+            ctx.fillStyle = '#333';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Mechanical Advantage: ${ma}:1`, 350, 30);
+            
+            // Draw load
+            ctx.fillStyle = '#cc0000';
+            ctx.fillRect(300, 300, 100, 60);
+            ctx.fillStyle = '#fff';
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Load: ${load} kg`, 350, 335);
+            
+            // Draw effort force arrow
+            ctx.strokeStyle = '#00aa00';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(450, 100);
+            ctx.lineTo(550, 100);
+            ctx.stroke();
+            
+            // Arrow head
+            ctx.fillStyle = '#00aa00';
+            ctx.beginPath();
+            ctx.moveTo(550, 100);
+            ctx.lineTo(540, 95);
+            ctx.lineTo(540, 105);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.fillStyle = '#00aa00';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Effort: ${effort.toFixed(1)} kg`, 560, 105);
+            
+            // Draw simplified pulley system representation
+            ctx.strokeStyle = '#0066cc';
+            ctx.lineWidth = 2;
+            
+            // Simplified visualization based on MA
+            if (ma < 2) {
+                // Simple vertical line
+                ctx.beginPath();
+                ctx.moveTo(350, 200);
+                ctx.lineTo(350, 300);
+                ctx.stroke();
+            } else {
+                // More complex routing
+                const pulleys = Math.floor(ma);
+                for (let i = 0; i < pulleys && i < 4; i++) {
+                    const x = 250 + (i * 50);
+                    ctx.beginPath();
+                    ctx.arc(x, 200 + (i % 2) * 50, 10, 0, 2 * Math.PI);
+                    ctx.stroke();
+                }
+            }
+            
+            // Info text
+            ctx.fillStyle = '#555';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Higher MA = Less effort required`, 350, 380);
+        }
+        
+        loadInput.addEventListener('input', calculate);
+        maInput.addEventListener('input', calculate);
+        
+        calculate(); // Initial calculation
+    </script>
+</body>
+</html>

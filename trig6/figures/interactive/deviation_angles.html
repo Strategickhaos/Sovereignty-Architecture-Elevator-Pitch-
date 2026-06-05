@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Deviation Angle Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .control-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .value-display {
+            font-size: 18px;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        .result {
+            background: #e7f3ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #0066cc;
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #856404;
+            margin: 20px 0;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Deviation Angle</h1>
+        <p>See how deviation angle affects tension amplification using the secant function.</p>
+        
+        <div class="control-group">
+            <label for="angle">Deviation Angle (degrees): <span class="value-display" id="angleValue">0</span>°</label>
+            <input type="range" id="angle" min="0" max="75" value="0" step="1">
+        </div>
+        
+        <div class="control-group">
+            <label for="baseLoad">Base Load (kg): <span class="value-display" id="baseLoadValue">100</span></label>
+            <input type="range" id="baseLoad" min="10" max="500" value="100" step="10">
+        </div>
+        
+        <div class="result">
+            <h3>Tension Amplification</h3>
+            <p><strong>sec(<span id="angleDisplay">0</span>°) = <span id="secantValue">1.00</span></strong></p>
+            <p style="font-size: 24px; margin: 10px 0;">Rope Tension: <strong id="tensionForce">100</strong> kg</p>
+            <p>Tension is <strong id="amplification">1.00</strong>× the base load (<strong id="percentage">0</strong>% increase)</p>
+        </div>
+        
+        <canvas id="angleCanvas" width="700" height="400"></canvas>
+        
+        <div id="warningBox" class="warning" style="display: none;">
+            <strong>⚠ Warning:</strong> <span id="warningText"></span>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #e7f3ff; border-radius: 5px;">
+            <strong>TRIG6 Insight:</strong> Secant amplification is the correct multiplier when force must resolve against a non-vertical line. This is fundamental physics, not an approximation.
+        </div>
+    </div>
+    
+    <script>
+        const angleInput = document.getElementById('angle');
+        const baseLoadInput = document.getElementById('baseLoad');
+        const angleValue = document.getElementById('angleValue');
+        const baseLoadValue = document.getElementById('baseLoadValue');
+        const angleDisplay = document.getElementById('angleDisplay');
+        const secantValue = document.getElementById('secantValue');
+        const tensionForce = document.getElementById('tensionForce');
+        const amplification = document.getElementById('amplification');
+        const percentage = document.getElementById('percentage');
+        const warningBox = document.getElementById('warningBox');
+        const warningText = document.getElementById('warningText');
+        const canvas = document.getElementById('angleCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function calculate() {
+            const angle = parseFloat(angleInput.value);
+            const baseLoad = parseFloat(baseLoadInput.value);
+            
+            angleValue.textContent = angle;
+            baseLoadValue.textContent = baseLoad;
+            angleDisplay.textContent = angle;
+            
+            // Calculate secant (1 / cos(angle in radians))
+            const angleRad = angle * Math.PI / 180;
+            const sec = 1 / Math.cos(angleRad);
+            const tension = baseLoad * sec;
+            const percentIncrease = ((sec - 1) * 100);
+            
+            secantValue.textContent = sec.toFixed(2);
+            tensionForce.textContent = tension.toFixed(1);
+            amplification.textContent = sec.toFixed(2);
+            percentage.textContent = percentIncrease.toFixed(0);
+            
+            // Show warnings
+            if (angle >= 60) {
+                warningBox.style.display = 'block';
+                warningText.textContent = `At ${angle}°, tension has more than doubled! This is extremely dangerous for rope systems.`;
+            } else if (angle >= 45) {
+                warningBox.style.display = 'block';
+                warningText.textContent = `At ${angle}°, tension has increased by ${percentIncrease.toFixed(0)}%. Monitor this carefully.`;
+            } else if (angle >= 30) {
+                warningBox.style.display = 'block';
+                warningText.textContent = `At ${angle}°, tension increase is ${percentIncrease.toFixed(0)}%. This is significant in dynamic systems.`;
+            } else {
+                warningBox.style.display = 'none';
+            }
+            
+            drawDiagram(angle, baseLoad, tension, sec);
+        }
+        
+        function drawDiagram(angle, baseLoad, tension, sec) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw title
+            ctx.font = 'bold 18px Arial';
+            ctx.fillStyle = '#333';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Deviation Angle: ${angle}°`, 350, 30);
+            
+            // Anchor point
+            const anchorX = 350;
+            const anchorY = 100;
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(anchorX, anchorY, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Calculate rope endpoint based on angle
+            const ropeLength = 150;
+            const angleRad = angle * Math.PI / 180;
+            const endX = anchorX + ropeLength * Math.sin(angleRad);
+            const endY = anchorY + ropeLength * Math.cos(angleRad);
+            
+            // Draw rope
+            ctx.strokeStyle = '#0066cc';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(anchorX, anchorY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            
+            // Draw vertical reference line
+            ctx.strokeStyle = '#999';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(anchorX, anchorY);
+            ctx.lineTo(anchorX, anchorY + ropeLength);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Draw angle arc
+            if (angle > 0) {
+                ctx.strokeStyle = '#666';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.arc(anchorX, anchorY, 40, Math.PI / 2, Math.PI / 2 + angleRad);
+                ctx.stroke();
+                
+                ctx.fillStyle = '#666';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${angle}°`, anchorX + 25, anchorY + 50);
+            }
+            
+            // Draw load
+            ctx.fillStyle = '#cc0000';
+            ctx.fillRect(endX - 15, endY, 30, 40);
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Load`, endX, endY + 23);
+            
+            // Force labels
+            ctx.fillStyle = '#0066cc';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'left';
+            const labelX = Math.max(endX + 20, anchorX + 180);
+            ctx.fillText(`Base: ${baseLoad} kg`, labelX, endY - 20);
+            ctx.fillText(`Tension: ${tension.toFixed(1)} kg`, labelX, endY);
+            ctx.fillText(`Multiplier: ${sec.toFixed(2)}×`, labelX, endY + 20);
+        }
+        
+        angleInput.addEventListener('input', calculate);
+        baseLoadInput.addEventListener('input', calculate);
+        
+        calculate(); // Initial calculation
+    </script>
+</body>
+</html>
