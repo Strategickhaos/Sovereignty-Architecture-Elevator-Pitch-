@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "pack_name": "default",
+    "description": "Default TRIG6 constants pack - all domains enabled except NDT (gated)",
+    "owner": "Strategickhaos DAO LLC",
+    "version": "1.0.0",
+    "created": "2026-01-29",
+    "last_updated": "2026-01-29"
+  },
+  "domains": {
+    "rope": {
+      "enabled": true,
+      "description": "Rope access and rescue constants (SPRAT/IRATA)",
+      "constants_file": "domains/rope/constants.json"
+    },
+    "rigging": {
+      "enabled": true,
+      "description": "Industrial rigging constants (ASME B30)",
+      "constants_file": "domains/rigging/constants.json"
+    },
+    "pipe": {
+      "enabled": true,
+      "description": "Pipefitting constants (ASME/API)",
+      "constants_file": "domains/pipe/constants.json"
+    },
+    "ndt": {
+      "enabled": false,
+      "description": "NDT/Radiography - GATED. Enable locally with RAD license.",
+      "constants_file": "domains/ndt/constants.json",
+      "gate_reason": "Exposure calculations require RAD certification",
+      "unlock_flag": "--enable-ndt"
+    },
+    "khaos": {
+      "enabled": true,
+      "description": "KHAOS glyph mappings and symbolic constants",
+      "constants_file": "domains/khaos/constants.json"
+    }
+  },
+  "settings": {
+    "strict_provenance": true,
+    "require_entered_by": true,
+    "fail_on_missing_citation": true,
+    "doctor_on_load": true,
+    "output_format": "json"
+  }
+}

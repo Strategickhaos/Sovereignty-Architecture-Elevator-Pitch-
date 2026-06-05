@@ -1,0 +1,52 @@
+{
+  "domain": "rope",
+  "description": "Rope access and rescue constants (SPRAT/IRATA)",
+  "standards": ["SPRAT", "IRATA"],
+  "constants": {
+    "safety_factors": {
+      "static_line": 10,
+      "dynamic_line": 5,
+      "anchor_point": 15,
+      "description": "Minimum safety factors for rope systems"
+    },
+    "rope_strengths": {
+      "11mm_static": {
+        "value": 30,
+        "unit": "kN",
+        "description": "Typical breaking strength of 11mm static rope"
+      },
+      "11mm_dynamic": {
+        "value": 28,
+        "unit": "kN",
+        "description": "Typical breaking strength of 11mm dynamic rope"
+      }
+    },
+    "working_loads": {
+      "single_person": {
+        "value": 150,
+        "unit": "kg",
+        "description": "Standard single person load"
+      },
+      "rescue_load": {
+        "value": 280,
+        "unit": "kg",
+        "description": "Two person rescue load"
+      }
+    },
+    "inspection_intervals": {
+      "visual_inspection": "before each use",
+      "detailed_inspection": "every 6 months",
+      "retirement_age": "10 years from manufacture"
+    }
+  },
+  "certifications_required": [
+    "SPRAT Level 1 minimum",
+    "IRATA Level 1 minimum",
+    "Site-specific training"
+  ],
+  "provenance": {
+    "entered_by": "System",
+    "verified_by": "SPRAT/IRATA Standards Committee",
+    "last_updated": "2026-01-29"
+  }
+}

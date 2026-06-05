@@ -1,0 +1,71 @@
+{
+  "domain": "ndt",
+  "description": "NDT/Radiography - GATED. Enable locally with RAD license.",
+  "gate_status": "RESTRICTED",
+  "gate_reason": "Exposure calculations require RAD certification",
+  "unlock_flag": "--enable-ndt",
+  "standards": ["ASNT SNT-TC-1A", "ISO 9712", "ASME Section V"],
+  "constants": {
+    "GATED": true,
+    "WARNING": "This domain contains radiological exposure calculations and requires proper RAD certification to use.",
+    "required_certifications": [
+      "ASNT Level II or III certification",
+      "State RAD license",
+      "ALARA training"
+    ],
+    "radiation_safety": {
+      "annual_dose_limit_occupational": {
+        "value": 5,
+        "unit": "rem/year",
+        "description": "Annual occupational dose limit per 10 CFR 20"
+      },
+      "annual_dose_limit_public": {
+        "value": 0.1,
+        "unit": "rem/year",
+        "description": "Annual public dose limit"
+      },
+      "quarterly_limit": {
+        "value": 1.25,
+        "unit": "rem/quarter",
+        "description": "Quarterly occupational limit"
+      }
+    },
+    "source_activity_examples": {
+      "Ir192": {
+        "common_activities": [30, 50, 100],
+        "unit": "Curie",
+        "half_life": "73.83 days",
+        "description": "Iridium-192 industrial radiography source"
+      },
+      "Co60": {
+        "common_activities": [10, 25, 50],
+        "unit": "Curie",
+        "half_life": "5.27 years",
+        "description": "Cobalt-60 industrial radiography source"
+      }
+    },
+    "exposure_rate_formula": "RESTRICTED - Requires certification to access",
+    "safe_distance_calculations": "RESTRICTED - Requires certification to access",
+    "film_density_requirements": {
+      "minimum": 1.8,
+      "maximum": 4.0,
+      "description": "Acceptable film density range per ASTM E1742"
+    },
+    "penetrameter_requirements": {
+      "hole_type": "2-2T minimum sensitivity",
+      "wire_type": "Essential wire visible",
+      "description": "IQI requirements per ASME Section V"
+    }
+  },
+  "access_control": {
+    "license_verification_required": true,
+    "training_documentation_required": true,
+    "dosimetry_records_required": true
+  },
+  "provenance": {
+    "entered_by": "System",
+    "verified_by": "ASNT/NRC Standards Committee",
+    "last_updated": "2026-01-29",
+    "classification": "GATED"
+  }
+}
