@@ -7,6 +7,9 @@ dnspython>=2.3.0           # DNS resolution and analysis
 requests>=2.31.0           # HTTP client for X.com analysis
 netifaces>=0.11.0          # Network interface information
 
+# MIDI generation for trig PDE sweep
+mido>=1.2.10               # MIDI file creation and manipulation
+
 # Torrent creation and analysis
 bencodepy>=0.9.5           # Bencode encoder/decoder for torrent files
 hashlib-compat>=1.0.1      # SHA1 hashing for torrent pieces
