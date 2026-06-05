@@ -1,9 +1,12 @@
 org:
   name: "Strategickhaos DAO LLC / Valoryield Engine"
+  ein: "39-2900295"
+  naics_primary: "561611"
   contact:
     owner: "Domenic Garza"
     slack_or_discord_handle: null   # e.g. "Dom_010101#1234"
   compliance: ["none"]              # soc2, hipaa, iso27001, etc.
+  services_config: "services.json"  # Service offerings configuration
 
 discord:
   guild_id: null                    # real guild/server ID here
