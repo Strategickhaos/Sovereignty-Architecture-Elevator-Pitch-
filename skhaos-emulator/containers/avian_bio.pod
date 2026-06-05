@@ -1,0 +1,83 @@
+# Podman Container Configuration for Avian Bio Module
+
+## Container: avian_bio
+
+### Purpose
+Isolated environment for Zipf/Menzerath simulations and hybrid evolution
+
+### Base Image
+```
+FROM rust:1.75-slim
+```
+
+### Volumes
+```
+/workspace/src/avian_bio     - Core avian bioacoustics modules
+/workspace/src/bio_physics   - Physics simulation modules
+/workspace/target            - Build artifacts
+/workspace/sandbox           - Evolution sandbox logs
+```
+
+### Environment Variables
+```
+RUST_LOG=info
+ZIPF_TARGET_SLOPE=-1.0
+MENZERATH_ENABLED=true
+HYBRID_EVOLUTION_GENS=100
+```
+
+### Exposed Ports
+```
+8080 - Simulation API
+9090 - Metrics endpoint
+```
+
+### Resource Limits
+```
+memory: 2GB
+cpus: 2
+```
+
+### Usage
+
+Build container:
+```bash
+podman build -t skhaos-avian-bio -f containers/avian_bio.pod .
+```
+
+Run simulation:
+```bash
+podman run --rm \
+  -v $(pwd)/src:/workspace/src \
+  -v $(pwd)/target:/workspace/target \
+  -e RUST_LOG=debug \
+  skhaos-avian-bio \
+  cargo test --package avian_bio
+```
+
+Run phase scripts in container:
+```bash
+podman run --rm \
+  -v $(pwd):/workspace \
+  skhaos-avian-bio \
+  /workspace/phases/phase16_zipf_sim.sh
+```
+
+Interactive shell:
+```bash
+podman run -it --rm \
+  -v $(pwd):/workspace \
+  skhaos-avian-bio \
+  /bin/bash
+```
+
+### Dependencies
+- Rust 1.75+
+- Cargo
+- Basic math libraries (std only, no external deps)
+
+### Security
+- Runs as non-root user (rusty:1000)
+- Read-only root filesystem
+- No network access (--network=none for simulations)
+- Temporary filesystem for /tmp

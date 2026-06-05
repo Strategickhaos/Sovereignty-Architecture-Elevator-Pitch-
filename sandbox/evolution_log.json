@@ -1,0 +1,46 @@
+{
+  "evolution_log": {
+    "timestamp": "2025-12-31T18:15:00Z",
+    "phase": 18,
+    "hybrids_evolved": [
+      {
+        "name": "Dolphin-Crow",
+        "species": ["Tursiops truncatus", "Corvus"],
+        "frequency_range": [500, 188000],
+        "zipf_slope": -1.01,
+        "generations": 100,
+        "final_fitness": 0.94,
+        "physics_law": "uncertainty",
+        "cli_command": "hybrid_dolphin_crow"
+      },
+      {
+        "name": "Orca-Crow",
+        "species": ["Orcinus orca", "Corvus"],
+        "frequency_range": [500, 22800],
+        "zipf_slope": -0.98,
+        "generations": 100,
+        "final_fitness": 0.92,
+        "physics_law": "conservation",
+        "cli_command": "orca_crow_evolve"
+      }
+    ],
+    "mutations": [
+      {
+        "generation": 25,
+        "mutation_type": "frequency_shift",
+        "effect": "Expanded crow range toward cetacean"
+      },
+      {
+        "generation": 50,
+        "mutation_type": "duration_optimization",
+        "effect": "Enhanced abbreviation effect"
+      },
+      {
+        "generation": 75,
+        "mutation_type": "zipf_refinement",
+        "effect": "Converged slope to -1.0"
+      }
+    ],
+    "status": "complete"
+  }
+}

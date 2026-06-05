@@ -1,0 +1,49 @@
+# Podmanfile for SkhaOS Emulator Containers
+
+FROM rust:1.75-slim AS builder
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create workspace
+WORKDIR /workspace
+
+# Copy source files
+COPY src/ /workspace/src/
+COPY Cargo.toml /workspace/
+
+# Build release
+RUN cargo build --release
+
+# Runtime image
+FROM debian:bookworm-slim
+
+# Create non-root user
+RUN useradd -m -u 1000 rusty
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy built artifacts
+COPY --from=builder /workspace/target/release/skhaos-emulator /usr/local/bin/
+
+# Set up workspace
+WORKDIR /workspace
+RUN chown -R rusty:rusty /workspace
+
+# Switch to non-root user
+USER rusty
+
+# Default command
+CMD ["/bin/bash"]
+
+# Labels
+LABEL org.opencontainers.image.title="SkhaOS Avian-Cetacean Simulator"
+LABEL org.opencontainers.image.description="Bio-acoustic pattern simulator with Zipf's Law"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.authors="Strategickhaos Swarm Intelligence"
