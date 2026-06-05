@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# Operator sensitive configs
+discord/webhook_config.json
