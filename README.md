@@ -12,10 +12,24 @@ This system creates a **sovereignty control plane** that bridges:
 
 ## 🚀 Quick Start
 
+### 📦 Distribution Formats
+
+The Sovereignty Architecture is available in multiple formats for **reproducibility**, **portability**, and **sovereignty**:
+
+1. **🔥 Bootable USB** - Complete SAGCO-OS environment on USB drive
+2. **🖥️ VirtualBox VM** - Pre-configured development environment
+3. **🐙 GitHub Repository** - Source code and full development setup
+4. **🎬 AI Movie** - Documentary explaining the architecture
+5. **☁️ Proton Drive** - Encrypted backup and distribution
+
+**See [QUICKSTART.md](QUICKSTART.md) for all distribution options** or continue below for GitHub setup.
+
+### GitHub Setup
+
 ```bash
 # 1. Clone and bootstrap
-git clone https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture.git
-cd sovereignty-architecture
+git clone https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-.git
+cd Sovereignty-Architecture-Elevator-Pitch-
 
 # 2. Deploy to Kubernetes
 ./bootstrap/deploy.sh
@@ -279,6 +293,37 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
+
+## 📦 Distribution & Deployment
+
+### Complete Distribution Guide
+
+For portable, immortalized, and tamper-proof distribution formats:
+
+- **[DISTRIBUTION_ARTIFACTS.md](DISTRIBUTION_ARTIFACTS.md)** - Complete technical specifications
+- **[QUICKSTART.md](QUICKSTART.md)** - Quick start guide for all formats
+
+### Build Your Own Artifacts
+
+```bash
+# Build all distribution artifacts
+./tools/build-all.sh
+
+# Or build individually:
+./usb/build-scripts/build-sovereignty-usb.sh    # Bootable USB
+./vm/virtualbox/build-vm.sh                     # VirtualBox VM
+./backups/scripts/backup-to-proton.sh          # Encrypted backup
+```
+
+### The Five Distribution Formats
+
+1. **Bootable USB** - Self-contained sovereign OS ([usb/](usb/))
+2. **VirtualBox VM** - Complete runtime environment ([vm/](vm/))
+3. **GitHub Repository** - Version-controlled distribution (you're here!)
+4. **AI-Generated Movie** - Visual transmission format ([media/](media/))
+5. **Proton Drive Archive** - Encrypted backup system ([backups/](backups/))
+
+Each format ensures: ✔ Reproducibility ✔ Portability ✔ Immutability ✔ Version Control ✔ Independence
 
 ## 📄 License & Support
 
