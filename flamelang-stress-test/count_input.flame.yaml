@@ -1,0 +1,258 @@
+# FlameLang v2.0.0 Stress Test Module - Character Filter Pattern
+# Origin: IT-145 Lab 3.36 (zyBooks)
+# Classification: CONVERGENT (known pattern, sovereign execution)
+# Pipeline: English → Hebrew → Unicode → Wave → DNA → LLVM
+
+meta:
+  id: "STRESS-002-CHAR-FILTER"
+  name: "CountInputLength Pattern Validator"
+  version: "1.0.0"
+  origin: "IT-145 Lab 3.36 zyBooks"
+  author: "Dom (Me10101) - Strategickhaos DAO LLC"
+  classification: "CONVERGENT"
+  pipeline_layers:
+    - english
+    - hebrew
+    - unicode
+    - wave
+    - dna
+    - llvm
+  created: "2026-01-24T21:46:00-06:00"
+  trig_layer: "TRIG6-HYBRID1-NEURO1-LABCONV1-EVOGATE1"
+
+# ═══════════════════════════════════════════════════════════
+# INTENT TRANSFORMATION LAYERS
+# ═══════════════════════════════════════════════════════════
+
+intent:
+  english: "Count characters in input string excluding spaces, periods, exclamation points, and commas"
+  hebrew: "ספור תווים בקלט למעט רווחים, נקודות, סימני קריאה ופסיקים"
+  symbolic: "Σ(c ∈ s | c ∉ {' ', '.', '!', ','}) → count"
+
+# Decomposed operations
+operations:
+  - id: "OP1"
+    name: "input_acquisition"
+    desc: "Read entire line from scanner"
+    
+  - id: "OP2"
+    name: "char_iteration"
+    desc: "Loop through each character in string"
+    loop_type: "for"
+    bound: "string.length()"
+    
+  - id: "OP3"
+    name: "filter_gate"
+    desc: "Check if char is NOT in exclusion set"
+    condition: "c != ' ' && c != '.' && c != '!' && c != ','"
+    
+  - id: "OP4"
+    name: "accumulate"
+    desc: "Increment counter if filter passes"
+    
+  - id: "OP5"
+    name: "output"
+    desc: "Print final count"
+
+# ═══════════════════════════════════════════════════════════
+# COMPILATION WEIGHTS
+# ═══════════════════════════════════════════════════════════
+
+weights:
+  loop_complexity: 1  # Single loop, not nested
+  filter_operations: 4  # Four exclusion checks
+  string_manipulation: 0.5
+  accumulator_pattern: 0.3
+  cyclomatic_complexity: 2
+  halstead_volume: 89.4
+  maintainability_index: 78
+
+compile_targets:
+  - llvm_ir
+  - wasm
+  - native_x86
+  - jvm_bytecode
+
+# ═══════════════════════════════════════════════════════════
+# TEST VECTORS (zyBooks verified)
+# ═══════════════════════════════════════════════════════════
+
+test_vectors:
+  - id: "zybooks_example"
+    desc: "Primary example from lab"
+    input: "Listen, Mr. Jones, calm down."
+    expected_output: 21
+    breakdown:
+      total_chars: 29
+      spaces: 5
+      periods: 2
+      exclamations: 0
+      commas: 2
+
+  - id: "all_excluded"
+    desc: "String with only excluded chars"
+    input: " .,!.,! "
+    expected_output: 0
+
+  - id: "no_excluded"
+    desc: "String with no excluded chars"
+    input: "HelloWorld"
+    expected_output: 10
+
+  - id: "mixed_punctuation"
+    desc: "Various punctuation including non-excluded"
+    input: "What? Yes! No… Maybe?"
+    expected_output: 17
+    breakdown:
+      total_chars: 21
+      spaces: 3
+      periods: 0
+      exclamations: 1
+      commas: 0
+      # Note: ? and … (ellipsis U+2026) are NOT excluded, count as chars
+
+  - id: "numbers_special"
+    desc: "Numbers and special chars (not excluded)"
+    input: "Test123!@#$%"
+    expected_output: 11
+    breakdown:
+      # Only ! is excluded
+      total_chars: 12
+      exclamations: 1
+
+  - id: "empty_string"
+    desc: "Edge case - empty input"
+    input: ""
+    expected_output: 0
+
+  - id: "single_excluded"
+    desc: "Single excluded character"
+    input: " "
+    expected_output: 0
+
+  - id: "single_valid"
+    desc: "Single valid character"
+    input: "a"
+    expected_output: 1
+
+  - id: "unicode_chars"
+    desc: "Non-ASCII characters (should count)"
+    input: "Héllo, wörld!"
+    expected_output: 10
+    breakdown:
+      total_chars: 13
+      spaces: 1
+      periods: 0
+      exclamations: 1
+      commas: 1
+
+  - id: "long_string"
+    desc: "Performance stress - longer input"
+    input: "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs!"
+    expected_output: 67
+    breakdown:
+      total_chars: 85
+      spaces: 16
+      periods: 1
+      exclamations: 1
+      commas: 0
+
+# ═══════════════════════════════════════════════════════════
+# DNA ENCODING (Sovereign Biological Mapping)
+# ═══════════════════════════════════════════════════════════
+
+dna_encoding:
+  # Codon sequence represents program flow
+  sequence: "ATG-CAT-GAT-ACC-TCG"
+  
+  codon_map:
+    ATG: "init_scanner"       # Start codon - initialize input
+    CAT: "char_loop"          # Character iteration
+    GAT: "filter_gate"        # Exclusion filter check
+    ACC: "accumulate"         # Counter increment
+    TCG: "terminate"          # Output and exit
+  
+  # Mutation rules for evolution
+  mutations:
+    - from: "GAT"
+      to: "GAC"
+      effect: "add_exclusion_char"
+      risk: 0.3
+    - from: "CAT"
+      to: "CAA"
+      effect: "stream_filter_optimization"
+      risk: 0.2
+
+# ═══════════════════════════════════════════════════════════
+# WAVE TRANSFORM (Harmonic Encoding)
+# ═══════════════════════════════════════════════════════════
+
+wave_transform:
+  base_frequency: 440  # A4
+  harmonics:
+    char_loop: 1       # Fundamental
+    filter_check: 4    # 4 conditions = 4th harmonic
+    accumulate: 2      # Octave
+  
+  # Phase relationships
+  phase:
+    loop_to_filter: 0    # In-phase (sequential)
+    filter_to_accum: 90  # Quarter phase (conditional)
+
+# ═══════════════════════════════════════════════════════════
+# LEGION COUNCIL CONFIGURATION
+# ═══════════════════════════════════════════════════════════
+
+legion_council:
+  ratification_required: 3
+  consensus_threshold: 0.67
+  
+  validators:
+    - claude_opus
+    - gemini_pro
+    - local_qwen
+  
+  validation_criteria:
+    - "test_vector_coverage >= 0.9"
+    - "edge_cases_covered >= 3"
+    - "dna_semantic_alignment == true"
+    - "cyclomatic_complexity <= 5"
+
+# ═══════════════════════════════════════════════════════════
+# EQUIVALENCE FORMULA
+# ═══════════════════════════════════════════════════════════
+
+equivalence:
+  # For this lab: simple integer comparison
+  # eq = 1 if output == expected else 0
+  # Aggregate: eq = Σ(matches) / |V|
+  metric: "exact_match"
+  threshold: 0.99
+
+# ═══════════════════════════════════════════════════════════
+# METRICS & OBSERVABILITY
+# ═══════════════════════════════════════════════════════════
+
+metrics:
+  emit_to:
+    - qdrant
+    - redis
+    - logs/trig_layer.jsonl
+  
+  tracked:
+    - execution_time_ms
+    - memory_peak_kb
+    - loop_iterations
+    - filter_passes
+    - filter_rejects
+    - output_value
+
+# ═══════════════════════════════════════════════════════════
+# EXPORT CONFIGURATION
+# ═══════════════════════════════════════════════════════════
+
+export:
+  gist: true
+  absolute_path: "/home/dom/strategickhaos/flamelang/stress-tests/count_input.flame.yaml"
+  github_actions: true
+  obsidian_vault: "FlameLang"
