@@ -1,0 +1,437 @@
+#!/usr/bin/env python3
+"""
+TRIG6 - Trigonometric Intermediate Representation (6-function)
+==============================================================
+A physics compiler with regulatory citations.
+It boots, it compiles, it returns deterministic output.
+
+Owner: Strategickhaos DAO LLC
+Author: Domenic G. Garza
+License: Proprietary - All Rights Reserved
+
+Usage:
+    trig6 doctor              # Run self-tests
+    trig6 vector --theta 45   # Get all 6 trig values
+    trig6 bridle --load 300 --theta 120
+    trig6 constant rope.knot.figure_8_on_bight
+    trig6 cite rope.knot.figure_8_on_bight
+"""
+
+import argparse
+import json
+import math
+import sys
+from pathlib import Path
+
+# Import model registry for explain command
+try:
+    from core.model_registry import ModelRegistry
+    HAS_REGISTRY = True
+except ImportError:
+    HAS_REGISTRY = False
+
+
+# ============================================================
+# CORE MATH (zero external deps)
+# ============================================================
+
+def deg2rad(d: float) -> float:
+    return d * math.pi / 180.0
+
+def safe_div(a: float, b: float) -> float:
+    return a / b if abs(b) > 1e-12 else float("inf")
+
+
+def trig6_vector(theta_deg: float) -> dict:
+    """Compute all 6 trig functions for an angle."""
+    r = deg2rad(theta_deg)
+    s = math.sin(r)
+    c = math.cos(r)
+    return {
+        "model": "trig6_vector",
+        "theta_deg": theta_deg,
+        "sin": s,
+        "cos": c,
+        "tan": safe_div(s, c),
+        "csc": safe_div(1.0, s),
+        "sec": safe_div(1.0, c),
+        "cot": safe_div(c, s),
+        "assumption": "theta measured in degrees"
+    }
+
+
+def bridle_leg_tension(load: float, included_angle_deg: float) -> dict:
+    """Two-leg bridle leg tension. T = W / (2 * cos(θ/2))"""
+    half = included_angle_deg / 2.0
+    denom = 2.0 * math.cos(deg2rad(half))
+    
+    # Warning for dangerous angles
+    warning = None
+    if included_angle_deg > 120:
+        warning = "DANGER: Angle > 120° means leg tension exceeds load"
+    
+    result = {
+        "model": "bridle_two_leg_equal_angle",
+        "load": load,
+        "load_unit": "lbf",
+        "included_angle_deg": included_angle_deg,
+        "leg_tension": safe_div(load, denom),
+        "leg_tension_unit": "lbf",
+        "assumption": "two equal legs, symmetric, no friction, static load",
+    }
+    if warning:
+        result["warning"] = warning
+    return result
+
+
+def highline_tension(load: float, sag_angle_deg: float) -> dict:
+    """Symmetric highline tension. T = W / (2 * sin(θ))"""
+    denom = 2.0 * math.sin(deg2rad(sag_angle_deg))
+    
+    # Warning for low sag angles
+    warning = None
+    if sag_angle_deg < 10:
+        warning = "DANGER: Sag angle < 10° produces very high tensions"
+    
+    result = {
+        "model": "highline_center_symmetric",
+        "load": load,
+        "load_unit": "lbf",
+        "sag_angle_deg": sag_angle_deg,
+        "tension_each_side": safe_div(load, denom),
+        "tension_unit": "lbf",
+        "assumption": "center load, symmetric legs, theta from horizontal",
+    }
+    if warning:
+        result["warning"] = warning
+    return result
+
+
+def impact_force(weight: float, fall_factor: float) -> dict:
+    """Impact force estimate. F = W * (1 + sqrt(2*FF))"""
+    return {
+        "model": "impact_field_estimate",
+        "weight": weight,
+        "weight_unit": "lbf",
+        "fall_factor": fall_factor,
+        "impact_force": weight * (1.0 + math.sqrt(max(0.0, 2.0 * fall_factor))),
+        "impact_force_unit": "lbf",
+        "assumption": "dynamic rope behavior; low-stretch systems have higher peaks",
+        "warning": "This is a field estimate. Use manufacturer data for critical applications."
+    }
+
+
+def angle_amplify(force: float, theta_from_vertical_deg: float) -> dict:
+    """Force amplification by sec(θ)."""
+    c = math.cos(deg2rad(theta_from_vertical_deg))
+    return {
+        "model": "angle_amplification_sec",
+        "force": force,
+        "force_unit": "lbf",
+        "theta_from_vertical_deg": theta_from_vertical_deg,
+        "amplified_force": safe_div(force, c),
+        "amplified_force_unit": "lbf",
+        "assumption": "theta measured from vertical; component resolution"
+    }
+
+
+def ma_pull(load: float, ma: float) -> dict:
+    """Mechanical advantage pull force."""
+    if ma <= 0:
+        raise ValueError("Mechanical advantage (ma) must be positive")
+    return {
+        "model": "mechanical_advantage_ideal",
+        "load": load,
+        "load_unit": "lbf",
+        "ma": ma,
+        "pull": safe_div(load, ma),
+        "pull_unit": "lbf",
+        "assumption": "ideal (no friction); count strands supporting moving load",
+        "warning": "Real pulleys have friction losses (5-50% per pulley)"
+    }
+
+
+def equal_leg_tension(load: float, n: int, theta_from_vertical_deg: float) -> dict:
+    """Multi-leg equal share tension."""
+    if n <= 0:
+        raise ValueError("Number of legs (n) must be positive")
+    c = math.cos(deg2rad(theta_from_vertical_deg))
+    return {
+        "model": "multi_leg_equal_share_equal_angle",
+        "load": load,
+        "load_unit": "lbf",
+        "n": n,
+        "theta_from_vertical_deg": theta_from_vertical_deg,
+        "tension_per_leg": safe_div(load / n, c),
+        "tension_unit": "lbf",
+        "assumption": "equal load sharing + identical leg angles; not for unequal geometry"
+    }
+
+
+# ============================================================
+# CONSTANTS LOADER
+# ============================================================
+
+class ConstantsRegistry:
+    """Load and query constants from domain packs."""
+    
+    def __init__(self, base_path: Path = None):
+        self.base_path = base_path or Path(__file__).parent
+        self.constants = {}
+        self.metadata = {}
+    
+    def load_pack(self, pack_name: str = "default") -> bool:
+        """Load a constants pack and all enabled domains."""
+        pack_path = self.base_path / "packs" / f"{pack_name}_pack.json"
+        if not pack_path.exists():
+            return False
+        
+        with open(pack_path, "r") as f:
+            pack = json.load(f)
+        
+        self.metadata["pack"] = pack.get("metadata", {})
+        
+        for domain, config in pack.get("domains", {}).items():
+            if config.get("enabled", False):
+                const_path = self.base_path / config.get("constants_file", "")
+                if const_path.exists():
+                    self._load_domain(domain, const_path)
+        
+        return True
+    
+    def _load_domain(self, domain: str, path: Path):
+        """Load constants from a single domain file."""
+        with open(path, "r") as f:
+            data = json.load(f)
+        
+        self.metadata[domain] = data.get("metadata", {})
+        
+        for const in data.get("constants", []):
+            key = const.get("key", "")
+            self.constants[key] = const
+    
+    def get(self, key: str) -> dict:
+        """Get a constant by key."""
+        return self.constants.get(key)
+    
+    def get_value(self, key: str) -> float:
+        """Get just the value of a constant."""
+        const = self.get(key)
+        return const.get("value") if const else None
+    
+    def cite(self, key: str) -> str:
+        """Get formatted citation for a constant."""
+        const = self.get(key)
+        if not const:
+            return f"Unknown constant: {key}"
+        
+        lines = [
+            f"KEY: {key}",
+            f"VALUE: {const.get('value')} {const.get('units', '')}",
+            f"CONTEXT: {const.get('context', '')}",
+            f"CONFIDENCE: {const.get('confidence', 'unknown')}",
+            "",
+            "SOURCES:"
+        ]
+        
+        for p in const.get("provenance", []):
+            citation = p.get("source_title", "Unknown")
+            if p.get("publisher"):
+                citation += f" - {p['publisher']}"
+            if p.get("edition_or_rev"):
+                citation += f" ({p['edition_or_rev']})"
+            if p.get("section_or_page"):
+                citation += f" @ {p['section_or_page']}"
+            lines.append(f"  - {citation}")
+        
+        lines.append(f"\nENTERED BY: {const.get('entered_by', 'Unknown')}")
+        
+        return "\n".join(lines)
+    
+    def list_keys(self, prefix: str = "") -> list:
+        """List all constant keys, optionally filtered by prefix."""
+        return [k for k in sorted(self.constants.keys()) if k.startswith(prefix)]
+
+
+# ============================================================
+# DOCTOR (Self-tests)
+# ============================================================
+
+def run_doctor() -> dict:
+    """Run all self-tests and return results."""
+    tests = []
+    
+    # Math tests
+    tests.append(("sin²+cos²=1", 
+        all(abs(math.sin(math.radians(t))**2 + math.cos(math.radians(t))**2 - 1.0) < 1e-10 
+            for t in [0, 30, 45, 60, 90, 180])))
+    
+    tests.append(("sec(60)=2", 
+        abs(trig6_vector(60)["sec"] - 2.0) < 1e-9))
+    
+    tests.append(("tan(45)=1", 
+        abs(trig6_vector(45)["tan"] - 1.0) < 1e-9))
+    
+    tests.append(("bridle(120)=W", 
+        abs(bridle_leg_tension(100, 120)["leg_tension"] - 100) < 1e-9))
+    
+    tests.append(("highline(30)=W", 
+        abs(highline_tension(200, 30)["tension_each_side"] - 200) < 1e-9))
+    
+    # Constants pack test
+    registry = ConstantsRegistry()
+    pack_loaded = registry.load_pack("default")
+    tests.append(("pack_loads", pack_loaded))
+    
+    if pack_loaded:
+        # Verify a known constant
+        fig8 = registry.get_value("rope.knot.figure_8_on_bight")
+        tests.append(("constant_exists", fig8 is not None))
+        tests.append(("constant_in_range", 0.5 <= (fig8 or 0) <= 0.95))
+    
+    passed = sum(1 for _, p in tests if p)
+    
+    return {
+        "model": "doctor",
+        "passed": passed,
+        "total": len(tests),
+        "status": "PASS" if passed == len(tests) else "FAIL",
+        "tests": [{"name": n, "pass": p} for n, p in tests]
+    }
+
+
+# ============================================================
+# CLI
+# ============================================================
+
+def main():
+    ap = argparse.ArgumentParser(
+        prog="trig6",
+        description="TRIG6 - Physics compiler with regulatory citations"
+    )
+    ap.add_argument("--json", action="store_true", help="Output JSON")
+    ap.add_argument("--pack", default="default", help="Constants pack to load")
+    
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    
+    # Doctor
+    sub.add_parser("doctor", help="Run self-tests")
+    
+    # Vector
+    p = sub.add_parser("vector", help="Compute trig6 vector")
+    p.add_argument("--theta", type=float, required=True)
+    
+    # Bridle
+    p = sub.add_parser("bridle", help="Two-leg bridle tension")
+    p.add_argument("--load", type=float, required=True)
+    p.add_argument("--theta", type=float, required=True, help="included angle (deg)")
+    
+    # Highline
+    p = sub.add_parser("highline", help="Highline tension")
+    p.add_argument("--load", type=float, required=True)
+    p.add_argument("--sag", type=float, required=True, help="sag angle from horizontal (deg)")
+    
+    # Impact
+    p = sub.add_parser("impact", help="Impact force estimate")
+    p.add_argument("--weight", type=float, required=True)
+    p.add_argument("--ff", type=float, required=True, help="fall factor")
+    
+    # Amplify
+    p = sub.add_parser("amplify", help="Angle amplification")
+    p.add_argument("--force", type=float, required=True)
+    p.add_argument("--theta", type=float, required=True, help="angle from vertical (deg)")
+    
+    # MA
+    p = sub.add_parser("ma", help="Mechanical advantage")
+    p.add_argument("--load", type=float, required=True)
+    p.add_argument("--ma", type=float, required=True)
+    
+    # Multileg
+    p = sub.add_parser("multileg", help="Multi-leg equal share")
+    p.add_argument("--load", type=float, required=True)
+    p.add_argument("--n", type=int, required=True)
+    p.add_argument("--theta", type=float, required=True, help="leg angle from vertical (deg)")
+    
+    # Constant lookup
+    p = sub.add_parser("constant", help="Look up a constant")
+    p.add_argument("key", help="Constant key (e.g., rope.knot.figure_8_on_bight)")
+    
+    # Citation
+    p = sub.add_parser("cite", help="Get full citation for a constant")
+    p.add_argument("key", help="Constant key")
+    
+    # List
+    p = sub.add_parser("list", help="List available constants")
+    p.add_argument("--prefix", default="", help="Filter by prefix")
+    
+    # Explain (model documentation)
+    p = sub.add_parser("explain", help="Explain a computational model")
+    p.add_argument("model_id", help="Model ID (e.g., bridle_two_leg_equal_angle)")
+    
+    # Models (list all models)
+    sub.add_parser("models", help="List all registered computational models")
+    
+    args = ap.parse_args()
+    
+    # Execute command
+    try:
+        if args.cmd == "doctor":
+            out = run_doctor()
+        elif args.cmd == "vector":
+            out = trig6_vector(args.theta)
+        elif args.cmd == "bridle":
+            out = bridle_leg_tension(args.load, args.theta)
+        elif args.cmd == "highline":
+            out = highline_tension(args.load, args.sag)
+        elif args.cmd == "impact":
+            out = impact_force(args.weight, args.ff)
+        elif args.cmd == "amplify":
+            out = angle_amplify(args.force, args.theta)
+        elif args.cmd == "ma":
+            out = ma_pull(args.load, args.ma)
+        elif args.cmd == "multileg":
+            out = equal_leg_tension(args.load, args.n, args.theta)
+        elif args.cmd in ["constant", "cite", "list"]:
+            registry = ConstantsRegistry()
+            registry.load_pack(args.pack)
+            
+            if args.cmd == "constant":
+                out = registry.get(args.key) or {"error": f"Unknown: {args.key}"}
+            elif args.cmd == "cite":
+                # Cite command always produces text output (ignores --json flag)
+                print(registry.cite(args.key))
+                return
+            elif args.cmd == "list":
+                keys = registry.list_keys(args.prefix)
+                out = {"keys": keys, "count": len(keys)}
+        elif args.cmd == "explain":
+            # Explain command always produces text output (ignores --json flag)
+            if not HAS_REGISTRY:
+                print("Model registry not available. Run from trig6 directory.")
+                return
+            model_reg = ModelRegistry()
+            print(model_reg.explain(args.model_id))
+            return
+        elif args.cmd == "models":
+            if not HAS_REGISTRY:
+                print("Model registry not available. Run from trig6 directory.")
+                return
+            model_reg = ModelRegistry()
+            out = {"models": model_reg.list_models()}
+        else:
+            out = {"error": "unknown command"}
+    except Exception as e:
+        # For text-only commands that already returned, no need to handle errors here
+        out = {"error": str(e), "model": "safe_fail"}
+    
+    # Output
+    # Note: 'constant' command always outputs JSON for consistency with data queries
+    if args.json or args.cmd == "constant":
+        print(json.dumps(out, indent=2))
+    else:
+        for k, v in out.items():
+            print(f"{k}: {v}")
+
+
+if __name__ == "__main__":
+    main()

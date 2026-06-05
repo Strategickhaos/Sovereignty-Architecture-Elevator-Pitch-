@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "pack_name": "default",
+    "version": "1.0.0",
+    "description": "Default constants pack for rope rescue and rigging applications",
+    "author": "Strategickhaos DAO LLC",
+    "last_updated": "2026-01-29"
+  },
+  "domains": {
+    "rope": {
+      "enabled": true,
+      "constants_file": "packs/rope.json"
+    }
+  }
+}
