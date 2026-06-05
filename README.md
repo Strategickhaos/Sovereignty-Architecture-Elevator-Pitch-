@@ -2,6 +2,8 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> 📖 **[Read "The Sister Protocol"](book/README.md)** - The story behind the code: How a brother, a legion of AIs, and a new math took aim at "incurable."
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
