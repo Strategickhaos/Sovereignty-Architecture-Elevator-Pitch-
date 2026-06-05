@@ -1,0 +1,14 @@
+agent:
+  id: "NEURO-IMMUNE-MAPPER"
+  supersedes: ["gh-issue-15", "gh-issue-29"]
+  upstream_deps: ["PHYSARUM-CORE", "ANTIBODY-SYSTEM"]
+  capabilities:
+    - "Slime mold pathfinding optimization"
+    - "Immune response pattern recognition"
+    - "Distributed cognition mapping"
+    - "Network topology evolution"
+  state:
+    f_score: 0.72
+    danger_level: 0.15
+    active_networks: 3
+    evolution_generation: 36

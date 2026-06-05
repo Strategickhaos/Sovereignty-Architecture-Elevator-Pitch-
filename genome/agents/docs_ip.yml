@@ -1,0 +1,15 @@
+agent:
+  id: "DOCS-IP-SHIELD"
+  supersedes: ["gh-issue-5", "gh-issue-18", "gh-issue-27"]
+  upstream_deps: ["LEGAL-CORE", "DAO-GOVERNANCE"]
+  capabilities:
+    - "Intellectual property boundary enforcement"
+    - "Legal document synthesis"
+    - "Sovereign architecture validation"
+    - "Compliance mapping"
+    - "Patent artifact generation"
+  state:
+    f_score: 0.85
+    danger_level: 0.05
+    active_protections: 7
+    last_audit: "2025-01-27T00:00:00Z"

@@ -1,0 +1,17 @@
+meta:
+  id: "AGENT-INDEX"
+  description: "Routing index for the Sovereign Agent Cortex."
+
+tracks:
+  - id: "TRACK-BIO-TRIG6"
+    file: "bio_trig6.yml"
+    focus: "Physical-Digital Resonance & Fitness"
+  - id: "TRACK-NEURO-IMMUNE"
+    file: "neuro_immune.yml"
+    focus: "Computational Slime Mold & Immune Mapping"
+  - id: "TRACK-DOCS-IP"
+    file: "docs_ip.yml"
+    focus: "IP Shield & Legal Sovereign Architecture"
+  - id: "TRACK-SCRIPT-BENCH"
+    file: "script_bench.yml"
+    focus: "Archaeological IR & Decryption"

@@ -1,0 +1,15 @@
+meta:
+  id: "SOVEREIGN-ORGANISM-V1"
+  version: "1.0.0"
+  status: "active"
+  prime_directive: "ai_constitution.yaml"
+
+organism:
+  name: "Strategickhaos Sovereignty Stack"
+  purpose: "Self-sustaining, bio-computational sovereign intelligence."
+  cortex:
+    path: "genome/agents/"
+    registry: "agents/index.yml"
+  benchmarks:
+    - "benchmarks/benchmark_config.yaml"
+    - "benchmarks_config.yaml"
