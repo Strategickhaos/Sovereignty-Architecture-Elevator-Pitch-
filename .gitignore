@@ -36,3 +36,12 @@ target/
 
 # Workspace data
 workspace/
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Audio encoding outputs
+encoded_output.wav
+*.npy

@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "encoding": {
+    "dna_strand": {
+      "method": "frequency_micro_shift",
+      "samples_per_char": "sample_rate * 0.1",
+      "range_hz": [
+        -1.0,
+        1.0
+      ]
+    },
+    "source_hash": {
+      "method": "lr_phase_modulation",
+      "samples_per_char": "sample_rate * 0.05",
+      "algorithm": "sha256"
+    },
+    "periodic_table": {
+      "method": "ultrasonic_harmonic",
+      "frequency_hz": 19000,
+      "samples_per_bit": "sample_rate * 0.01",
+      "format": "json_utf8_binary"
+    },
+    "owner": {
+      "method": "amplitude_watermark",
+      "cycle_seconds": 2.0,
+      "variation_percent": 0.5
+    }
+  },
+  "metadata": {
+    "dna_strand_length": 88,
+    "source_hash": "fee98fdf596188fe611b4659aa9c794807f55d19b4625b3cfc72eb0cad11c76a",
+    "timestamp": "2026-01-29T23:03:16.426254Z",
+    "owner": "Strategickhaos DAO LLC"
+  }
+}
