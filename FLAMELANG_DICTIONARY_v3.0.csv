@@ -1,0 +1,126 @@
+Word,Category,Opcode_Hex,Opcode_Binary,Bytes,Description,Example,Hebrew_Root,Synapse_1,Weight_1,Synapse_2,Weight_2,Synapse_3,Weight_3,Domain_Map
+module,KEYWORD,0x00,00000000,1,Declare module namespace,module math { },מודול,import,0.95,struct,0.82,export,0.78,CHS:a1
+import,KEYWORD,0x01,00000001,1,Import external module,import flame::dna,יבא,module,0.95,export,0.88,func,0.72,QNT:import_qubit
+export,KEYWORD,0x02,00000010,1,Export public symbol,export func main(),יצא,import,0.88,public,0.82,module,0.78,LQG:export_loop
+func,KEYWORD,0x03,00000011,1,Declare function,func add(a b) { },פעל,return,0.92,async,0.81,impl,0.75,RUB:F2L'
+let,KEYWORD,0x04,00000100,1,Declare variable,let x = 5,יהי,const,0.89,mut,0.77,type,0.70,PIP:let_offset
+const,KEYWORD,0x05,00000101,1,Declare constant,const PI = 3.14,קבע,let,0.89,type,0.80,func,0.68,DNA:ATG-const
+return,KEYWORD,0x06,00000110,1,Return from function,return x + y,שוב,func,0.92,yield,0.85,async,0.73,FLM:return_wave
+if,KEYWORD,0x07,00000111,1,Conditional branch,if x > 0 { },אם,else,0.96,match,0.83,while,0.70,QNT:if_measure
+else,KEYWORD,0x08,00001000,1,Alternative branch,else { },אחרת,if,0.96,where,0.74,match,0.68,LQG:else_bounce
+match,KEYWORD,0x09,00001001,1,Pattern matching,match x { },התאם,if,0.83,enum,0.79,where,0.72,CHS:match_ply
+for,KEYWORD,0x0A,00001010,1,For loop,for i in 0..10 { },לכל,while,0.87,in,0.91,..,0.75,RUB:for_cycle
+while,KEYWORD,0x0B,00001011,1,While loop,while x < 10 { },בעוד,for,0.87,await,0.72,if,0.70,PIP:while_flow
+in,KEYWORD,0x0C,00001100,1,Containment test,for x in list,ב,for,0.91,is,0.78,match,0.70,DNA:in_sequence
+type,KEYWORD,0x0D,00001101,1,Type alias,type ID = Int,סוג,const,0.80,struct,0.84,trait,0.76,FLM:type_transform
+struct,KEYWORD,0x0E,00001110,1,Structure definition,struct Point { },מבנה,type,0.84,impl,0.88,module,0.82,QNT:struct_state
+enum,KEYWORD,0x0F,00001111,1,Enumeration,enum Color { },מנה,match,0.79,trait,0.82,type,0.74,LQG:enum_loop
+trait,KEYWORD,0x10,00010000,1,Trait/interface,trait Drawable { },תכונה,enum,0.82,impl,0.90,struct,0.75,CHS:trait_eval
+impl,KEYWORD,0x11,00010001,1,Implementation,impl Point { },יישם,trait,0.90,struct,0.88,func,0.80,RUB:impl_perm
+where,KEYWORD,0x12,00010010,1,Generic constraint,where T: Clone,היכן,else,0.74,as,0.76,trait,0.72,PIP:where_constraint
+as,KEYWORD,0x13,00010011,1,Type cast,x as Float,כ,where,0.76,is,0.85,type,0.78,DNA:as_codon
+is,KEYWORD,0x14,00010100,1,Type check,x is Int,הוא,as,0.85,in,0.78,match,0.74,FLM:is_wave
+true,KEYWORD,0x15,00010101,1,Boolean true,let b = true,אמת,false,0.92,Bool,0.80,if,0.75,QNT:true_entangle
+false,KEYWORD,0x16,00010110,1,Boolean false,let b = false,שקר,true,0.92,null,0.75,Bool,0.80,LQG:false_singularity
+null,KEYWORD,0x17,00010111,1,Null value,let x = null,אפס,false,0.75,Option,0.82,Result,0.70,CHS:null_square
+self,KEYWORD,0x18,00011000,1,Self reference,self.x,עצמי,super,0.88,impl,0.79,trait,0.74,RUB:self_face
+super,KEYWORD,0x19,00011001,1,Parent reference,super.init(),אב,self,0.88,trait,0.76,impl,0.72,PIP:super_pipe
+mut,KEYWORD,0x1A,00011010,1,Mutable modifier,let mut x = 5,משתנה,let,0.77,private,0.70,const,0.68,DNA:mut_mutation
+private,KEYWORD,0x1B,00011011,1,Private visibility,private func,פרטי,mut,0.70,public,0.95,impl,0.68,FLM:private_layer
+public,KEYWORD,0x1C,00011100,1,Public visibility,public func,ציבורי,private,0.95,export,0.82,module,0.76,QNT:public_observe
+async,KEYWORD,0x1D,00011101,1,Async function,async func fetch(),אסינכרוני,func,0.81,await,0.92,return,0.73,LQG:async_bounce
+await,KEYWORD,0x1E,00011110,1,Await promise,await result,המתן,async,0.92,yield,0.85,while,0.72,CHS:await_ply
+yield,KEYWORD,0x1F,00011111,1,Generator yield,yield value,הנב,await,0.85,return,0.80,func,0.75,RUB:yield_orient
+Int,TYPE,0x20,00100000,1,Integer type,let x: Int = 5,שלם,Float,0.85,Bool,0.72,Complex,0.68,PIP:int_minute
+Float,TYPE,0x21,00100001,1,Float type,let x: Float = 3.14,צף,Int,0.85,Complex,0.78,Energy,0.72,DNA:float_codon
+Bool,TYPE,0x22,00100010,1,Boolean type,let b: Bool = true,בוליאני,Int,0.72,Char,0.68,true,0.80,FLM:bool_transform
+Char,TYPE,0x23,00100011,1,Character type,let c: Char = 'a',תו,Bool,0.68,String,0.90,Glyph,0.75,QNT:char_state
+String,TYPE,0x24,00100100,1,String type,let s: String = "hi",מחרוזת,Char,0.90,Vector,0.75,HebrewRoot,0.70,LQG:string_loop
+Vector,TYPE,0x25,00100101,1,Vector/array type,let v: Vector<Int>,וקטור,String,0.75,Matrix,0.88,Tensor,0.80,CHS:vector_rank
+Matrix,TYPE,0x26,00100110,1,Matrix type,let m: Matrix<3 3>,מטריצה,Vector,0.88,Tensor,0.92,Complex,0.76,RUB:matrix_face
+Tensor,TYPE,0x27,00100111,1,Tensor type,let t: Tensor<4>,טנזור,Matrix,0.92,Complex,0.80,Qubit,0.75,PIP:tensor_offset
+Complex,TYPE,0x28,00101000,1,Complex number,let z: Complex,מרוכב,Tensor,0.80,Qubit,0.85,Float,0.78,DNA:complex_seq
+Qubit,TYPE,0x29,00101001,1,Quantum bit,let q: Qubit,קיוביט,Complex,0.85,BellState,0.90,Wave,0.78,FLM:qubit_layer
+BellState,TYPE,0x2A,00101010,1,Entangled pair,let b: BellState,בל,Qubit,0.90,DNASequence,0.75,Circuit,0.82,QNT:bell_entangle
+DNASequence,TYPE,0x2B,00101011,1,DNA sequence,let d: DNASequence,דנא,BellState,0.75,Codon,0.88,RNASequence,0.85,LQG:dna_singularity
+Codon,TYPE,0x2C,00101100,1,3-nucleotide codon,let c: Codon,קודון,DNASequence,0.88,RNASequence,0.92,HebrewRoot,0.75,CHS:codon_ply
+RNASequence,TYPE,0x2D,00101101,1,RNA sequence,let r: RNASequence,רנא,Codon,0.92,Glyph,0.80,DNASequence,0.85,RUB:rna_perm
+Glyph,TYPE,0x2E,00101110,1,Unicode glyph,let g: Glyph,סמל,RNASequence,0.80,Energy,0.75,Char,0.75,PIP:glyph_pipe
+Energy,TYPE,0x2F,00101111,1,Energy with units,let e: Energy,אנרגיה,Glyph,0.75,Force,0.85,Float,0.72,DNA:energy_codon
+Force,TYPE,0x30,00110000,1,Force with units,let f: Force,כוח,Energy,0.85,Mass,0.90,Velocity,0.78,FLM:force_wave
+Mass,TYPE,0x31,00110001,1,Mass with units,let m: Mass,מסה,Force,0.90,Time,0.82,Energy,0.80,QNT:mass_qubit
+Time,TYPE,0x32,00110010,1,Time with units,let t: Time,זמן,Mass,0.82,Length,0.88,Frequency,0.85,LQG:time_loop
+Length,TYPE,0x33,00110011,1,Length with units,let l: Length,אורך,Time,0.88,Velocity,0.92,Vector,0.76,CHS:length_file
+Velocity,TYPE,0x34,00110100,1,Velocity with units,let v: Velocity,מהירות,Length,0.92,Frequency,0.85,Force,0.78,RUB:velocity_orient
+Frequency,TYPE,0x35,00110101,1,Frequency (Hz),let f: Frequency,תדר,Velocity,0.85,Temperature,0.80,Time,0.85,PIP:frequency_degree
+Temperature,TYPE,0x36,00110110,1,Temperature (K),let t: Temperature,טמפרטורה,Frequency,0.80,SwarmTask,0.75,Energy,0.78,DNA:temp_mutation
+SwarmTask,TYPE,0x37,00110111,1,Distributed task,let task: SwarmTask,משימה,Temperature,0.75,Node,0.85,Result,0.72,FLM:swarm_layer
+Node,TYPE,0x38,00111000,1,Network node,let n: Node,צומת,SwarmTask,0.85,Result,0.78,Vector,0.70,QNT:node_entangle
+Result,TYPE,0x39,00111001,1,Result<T E>,let r: Result<Int>,תוצאה,Node,0.78,Option,0.82,return,0.75,LQG:result_bounce
+Option,TYPE,0x3A,00111010,1,Option<T>,let o: Option<Int>,אפשרות,Result,0.82,Tuple,0.88,null,0.82,CHS:option_eval
+Tuple,TYPE,0x3B,00111011,1,Tuple type,let t: (Int Float),רשומה,Option,0.88,Function,0.90,Vector,0.76,RUB:tuple_face
+Function,TYPE,0x3C,00111100,1,Function type,let f: fn(Int)->Int,פונקציה,Tuple,0.90,HebrewRoot,0.85,func,0.80,PIP:function_offset
+HebrewRoot,TYPE,0x3D,00111101,1,3-letter root,let r: HebrewRoot,שורש,Function,0.85,Wave,0.80,Codon,0.75,DNA:hebrew_seq
+Wave,TYPE,0x3E,00111110,1,Wave function,let w: Wave,גל,HebrewRoot,0.80,Circuit,0.85,Qubit,0.78,FLM:wave_transform
+Circuit,TYPE,0x3F,00111111,1,Quantum circuit,let c: Circuit,מעגל,Wave,0.85,BellState,0.82,H,0.75,QNT:circuit_state
++,OPERATOR,0x40,01000000,1,Addition,a + b,חבר,-,0.85,*,0.78,+=,0.90,RUB:+swap
+-,OPERATOR,0x41,01000001,1,Subtraction,a - b,חסר,+,0.85,%,0.72,-=,0.88,PIP:-travel
+*,OPERATOR,0x42,01000010,1,Multiplication,a * b,כפל,+,0.78,/,0.88,*=,0.92,DNA:*codon
+/,OPERATOR,0x43,01000011,1,Division,a / b,חלק,*,0.88,^,0.80,/=,0.92,FLM:/wave
+%,OPERATOR,0x44,01000100,1,Modulo,a % b,שארית,-,0.72,^,0.75,Int,0.70,QNT:%measure
+^,OPERATOR,0x45,01000101,1,Power,a ^ b,חזקה,/,0.80,%,0.75,*,0.78,LQG:^bounce
+==,OPERATOR,0x46,01000110,1,Equality,a == b,שווה,!=,0.92,<,0.85,is,0.78,CHS:==ply
+!=,OPERATOR,0x47,01000111,1,Not equal,a != b,שונה,==,0.92,<=,0.88,!,0.80,RUB:!=perm
+<,OPERATOR,0x48,01001000,1,Less than,a < b,קטן,==,0.85,>,0.90,<=,0.88,PIP:<degree
+<=,OPERATOR,0x49,01001001,1,Less or equal,a <= b,קטןשווה,!=,0.88,>=,0.92,<,0.88,DNA:<=mutation
+>,OPERATOR,0x4A,01001010,1,Greater than,a > b,גדול,<,0.90,>=,0.85,if,0.75,FLM:>transform
+>=,OPERATOR,0x4B,01001011,1,Greater or equal,a >= b,גדולשווה,<=,0.92,≈,0.80,>,0.85,QNT:>=entangle
+≈,OPERATOR,0x4C,01001100,1,Approximately,a ≈ b,בערך,>=,0.80,&&,0.75,Float,0.72,LQG:≈singularity
+&&,OPERATOR,0x4D,01001101,1,Logical AND,a && b,וגם,≈,0.75,||,0.88,Bool,0.80,CHS:&&eval
+||,OPERATOR,0x4E,01001110,1,Logical OR,a || b,או,&&,0.88,!,0.92,Bool,0.80,RUB:||orient
+!,OPERATOR,0x4F,01001111,1,Logical NOT,!a,לא,||,0.92,=,0.85,!=,0.80,PIP:!constraint
+=,OPERATOR,0x50,01010000,1,Assignment,x = 5,השם,!,0.85,+=,0.90,let,0.78,DNA:=seq
++=,OPERATOR,0x51,01010001,1,Add-assign,x += 1,הוסף,=,0.90,-=,0.88,+,0.90,FLM:+=layer
+-=,OPERATOR,0x52,01010010,1,Sub-assign,x -= 1,הפחת,+=,0.88,*=,0.85,-,0.88,QNT:-=collapse
+*=,OPERATOR,0x53,01010011,1,Mul-assign,x *= 2,הכפל,-=,0.85,/=,0.92,*,0.92,LQG:*=loop
+/=,OPERATOR,0x54,01010100,1,Div-assign,x /= 2,חלקב,*=,0.92,->,0.80,/,0.92,CHS:/=file
+->,OPERATOR,0x55,01010101,1,Arrow (return type),fn() -> Int,אל,/=,0.80,=>,0.85,return,0.75,RUB:->perm
+=>,OPERATOR,0x56,01010110,1,Fat arrow (lambda),x => x+1,מפה,->,0.85,::,0.78,λ,0.82,PIP:=>offset
+::,OPERATOR,0x57,01010111,1,Path separator,std::io,נתיב,=>,0.78,..,0.82,module,0.75,DNA::codon
+..,OPERATOR,0x58,01011000,1,Range,0..10,טווח,::,0.82,?,0.75,for,0.75,FLM:..transform
+?,OPERATOR,0x59,01011001,1,Try/propagate,result?,נסה,..,0.75,@,0.80,Result,0.78,QNT:?measure
+@,OPERATOR,0x5A,01011010,1,Attribute/decorator,@test,תכונה,?,0.80,⊕,0.85,trait,0.72,LQG:@bounce
+⊕,OPERATOR,0x5B,01011011,1,XOR / Superposition,a ⊕ b,סופרפוז,@,0.85,⊗,0.88,Qubit,0.80,CHS:⊕ply
+⊗,OPERATOR,0x5C,01011100,1,Tensor product,a ⊗ b,טנזורכפל,⊕,0.88,†,0.92,Tensor,0.85,RUB:⊗face
+†,OPERATOR,0x5D,01011101,1,Conjugate transpose,H†,צמוד,⊗,0.92,∘,0.85,Wave,0.80,PIP:†degree
+∘,OPERATOR,0x5E,01011110,1,Function compose,f ∘ g,הרכב,†,0.85,|>,0.80,Function,0.78,DNA:∘mutation
+|>,OPERATOR,0x5F,01011111,1,Pipe forward,x |> f,צינור,∘,0.80,->,0.75,=>,0.75,FLM:|>layer
+H,GATE,0xF0,11110000,1,Hadamard gate,H(q),הדמרד,X,0.85,Y,0.78,Qubit,0.88,PIP:h_pipe
+X,GATE,0xF1,11110001,1,Pauli-X (NOT),X(q),היפוך,H,0.85,Z,0.80,!,0.75,DNA:x_flip
+Y,GATE,0xF2,11110010,1,Pauli-Y,Y(q),פאולי-י,X,0.78,Z,0.82,Ry,0.85,FLM:y_rotate
+Z,GATE,0xF3,11110011,1,Pauli-Z,Z(q),פאולי-ז,Y,0.82,H,0.80,Rz,0.88,QNT:z_phase
+CNOT,GATE,0xF4,11110100,1,Controlled-NOT,CNOT(c t),בקר-לא,X,0.88,SWAP,0.82,if,0.78,LQG:cnot_control
+SWAP,GATE,0xF5,11110101,1,Swap qubits,SWAP(a b),החלף,CNOT,0.82,Fredkin,0.85,let,0.75,CHS:swap_ply
+T,GATE,0xF6,11110110,1,T gate (π/8),T(q),טי,S,0.88,Rz,0.82,π,0.80,RUB:t_twist
+S,GATE,0xF7,11110111,1,S gate (π/4),S(q),אס,T,0.88,Z,0.85,Rz,0.80,PIP:s_phase
+Rx,GATE,0xF8,11111000,1,X-rotation,Rx(θ q),סיבוב-x,X,0.85,Ry,0.88,θ,0.82,DNA:rx_rotate
+Ry,GATE,0xF9,11111001,1,Y-rotation,Ry(θ q),סיבוב-y,Rx,0.88,Rz,0.85,Y,0.85,FLM:ry_wave
+Rz,GATE,0xFA,11111010,1,Z-rotation,Rz(θ q),סיבוב-z,Ry,0.85,Z,0.88,T,0.82,QNT:rz_phase
+CZ,GATE,0xFB,11111011,1,Controlled-Z,CZ(c t),בקר-ז,Z,0.88,CNOT,0.85,if,0.78,LQG:cz_control
+Toffoli,GATE,0xFC,11111100,1,Toffoli (CCX),CCX(a b t),טופולי,CNOT,0.88,Fredkin,0.82,match,0.78,CHS:toffoli_gate
+Fredkin,GATE,0xFD,11111101,1,Fredkin (CSWAP),CSWAP(c a b),פרדקין,Toffoli,0.82,SWAP,0.85,if,0.80,RUB:fredkin_swap
+MEASURE,GATE,0xFE,11111110,1,Measure qubit,MEASURE(q),מדוד,ראה,0.88,RESET,0.82,Bool,0.85,PIP:measure_degree
+RESET,GATE,0xFF,11111111,1,Reset to |0⟩,RESET(q),אפס,MEASURE,0.82,null,0.80,TAA,0.88,DNA:reset_seq
+ברא,HEBREW,0xD0,11010000,1,CREATE (bara),world,ברא,עשה,0.85,היה,0.80,ATG,0.95,QNT:bara_quark
+היה,HEBREW,0xD1,11010001,1,BE/EXIST (haya),state,היה,ברא,0.80,אמר,0.78,is,0.82,LQG:haya_planck
+עשה,HEBREW,0xD2,11010010,1,MAKE/DO (asa),action,עשה,ברא,0.85,ראה,0.75,func,0.80,CHS:asa_square
+שמר,HEBREW,0xEC,11101100,1,GUARD (shamar),lock,שמר,הרס,0.80,מצא,0.75,ENERGY_GUARD,0.90,QNT:shamar_guard
+ATG,CODON,0x90,10010000,1,Start codon (Met),ATG → init,ברא,TAA,0.85,ℏ,0.85,CREATE,0.95,DNA:atg_start
+TAA,CODON,0x91,10010001,1,Stop codon (Ochre),TAA → halt,עצר,ATG,0.85,TAG,0.92,RESET,0.88,DNA:taa_stop
+ALG-001,NEURON,0x100,100000000,2,Simulated Annealing,anneal(state T),חשב,ALG-002,0.95,H,0.82,Temperature,0.85,QNT:anneal_quark
+ALG-002,NEURON,0x101,100000001,2,Gravitational Search,gravity(m1 m2 r),כבש,ALG-001,0.95,Mass,0.88,Force,0.90,LQG:gravity_planck
+ALG-011,NEURON,0x10B,100001011,2,Genetic Algorithm (GA),ga(crossover mutate),עשה,ALG-012,0.92,DNASequence,0.88,mut,0.85,RUB:ga_evolve
+ENERGY_GUARD,GATE,0x200,1000000000,2,Energy conservation,guard_energy(ΔE),שמר,MOMENTUM_GUARD,0.95,Energy,0.88,ברא,0.85,QNT:energy_quark
+MOMENTUM_GUARD,GATE,0x201,1000000001,2,Momentum conservation,guard_momentum(Δp),שמר,ENERGY_GUARD,0.95,Velocity,0.88,הלך,0.85,LQG:momentum_planck
+CHARGE_GUARD,GATE,0x202,1000000010,2,Charge conservation,guard_charge(ΔQ),שמר,MOMENTUM_GUARD,0.92,Complex,0.85,Qubit,0.82,CHS:charge_square
+INFO_GUARD,GATE,0x203,1000000011,2,Information/entropy,guard_entropy(ΔS >=0),שמר,CHARGE_GUARD,0.92,MEASURE,0.88,Bool,0.85,RUB:info_perm

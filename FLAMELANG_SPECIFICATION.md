@@ -338,6 +338,60 @@ class FlameLangParser:
 
 ---
 
+## 11. FLAMELANG DICTIONARY v3.0
+
+### 11.1 Evolution to Unified Cortex ISA
+
+FlameLang has evolved from v1.0 (symbolic shell) through v2.0 (256 opcodes) to **v3.0 (Unified Cortex ISA)** with 472 opcodes organized as a graph-connected neural network.
+
+**Key Enhancements:**
+- **472 Opcodes Total:**
+  - 256 base opcodes (Keywords, Types, Operators, Gates)
+  - 216 physics neurons (optimization algorithms)
+  - 8 conservation gates (physical validation)
+  
+- **Graph Architecture:**
+  - Each opcode is a neuron with weighted synapses
+  - Top 3 connections per opcode (weights 0.0-1.0)
+  - Enables semantic traversal and clustering
+
+- **Six-Domain Isomorphisms:**
+  - QNT (Quantum), LQG (Loop Quantum Gravity)
+  - CHS (Chess), RUB (Rubik's Cube)
+  - PIP (Pipefitter), DNA (Genetics)
+
+- **Conservation Enforcement:**
+  - ENERGY_GUARD, MOMENTUM_GUARD, CHARGE_GUARD
+  - INFO_GUARD, ANGULAR_GUARD, PARITY_GUARD
+  - LEPTON_GUARD, BARYON_GUARD
+
+### 11.2 Documentation Files
+
+See companion documentation:
+- **FLAMELANG_DICTIONARY_v3.0.md** - Complete 472-opcode dictionary with tables, examples, and technical details
+- **FLAMELANG_DICTIONARY_v3.0.csv** - Spreadsheet import format
+- **FLAMELANG_DICTIONARY_v3.0_README.md** - Quick start guide
+
+### 11.3 Integration with Shell System
+
+The v3.0 dictionary extends the glyph-based shell with:
+
+```flamelang
+// Glyphs (v1.0) + Opcodes (v2.0) + Neurons (v3.0)
+{ll_notes⟐now}  // Glyph from v1.0
+ברא(Qubit)      // Hebrew opcode from v2.0  
+ALG-005(swarm)  // Physics neuron from v3.0
+ENERGY_GUARD(_) // Conservation gate from v3.0
+```
+
+**Execution Flow:**
+1. Parser resolves glyph → opcode mapping
+2. Synapse weights activate related opcodes
+3. Conservation gates validate operations
+4. Domain translators apply isomorphisms
+
+---
+
 ## COVENANT
 
 ```
