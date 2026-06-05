@@ -1,0 +1,28 @@
+NodeID,Label,Type,Level,Domain,Formula_Short,Color
+L1,Subatomic → Signals,Level,1,Physics,"iℏ∂ψ/∂t = Ĥψ",#0066CC
+L1-P,Schrödinger Equation,Formula,1,Physics,"iℏ∂ψ/∂t = (-ℏ²/2m∇² + V)ψ",#0088FF
+L1-I,Wave Packet Propagation,Formula,1,Infrastructure,"s(t) = Ae^(ikx-ωt)",#00AAFF
+L2,Atomic → Compute,Level,2,Physics,"IE ∝ Z²/n²",#0066CC
+L2-P,Ionization Energy,Formula,2,Physics,"IE ≈ 13.6Z²/n² eV",#0088FF
+L2-I,Resource Allocation,Formula,2,Infrastructure,"Rᵢ = CP/ΣP",#00AAFF
+L3,Molecular → Code,Level,3,Biology,"H = -Σpᵢlog₂pᵢ",#00AA00
+L3-P,DNA Entropy,Formula,3,Biology,"H = -Σpᵢlog₂pᵢ",#00CC00
+L3-I,Code Complexity,Formula,3,Infrastructure,"D = Σ|sᵢ-tᵢ|",#00EE00
+L4,Cellular → VMs,Level,4,Biology,"dN/dt = rN(1-N/K)",#00AA00
+L4-P,Logistic Growth,Formula,4,Biology,"dN/dt = rN(1-N/K)",#00CC00
+L4-I,Bin Packing,Formula,4,Infrastructure,"min Σbⱼ s.t. constraints",#00EE00
+L5,Immune → Security,Level,5,Biology,"dI/dt = βSI - γI",#00AA00
+L5-P,SIR Model,Formula,5,Biology,"dI/dt = βSI - γI",#00CC00
+L5-I,Threat Model,Formula,5,Infrastructure,"U = p(-L) + (1-p)(-C)",#00EE00
+L6,Nervous → Network,Level,6,Hybrid,"C dV/dt = -Σg(V-E) + I",#9900CC
+L6-P,Hodgkin-Huxley,Formula,6,Biology,"C dV/dt = -gₖn⁴(V-Vₖ) - gₙₐm³h(V-Vₙₐ) + I",#AA00DD
+L6-I,Graph Laplacian,Formula,6,Infrastructure,"L = D - A",#CC00FF
+L7,Brain → Distribution,Level,7,Hybrid,"AI = (R-L)/(R+L)",#9900CC
+L7-P,Hemispheric Asymmetry,Formula,7,Biology,"AI = (R-L)/(R+L)",#AA00DD
+L7-I,Load Balance,Formula,7,Infrastructure,"min max Σwⱼ",#CC00FF
+L8,Ramanujan → Algorithms,Level,8,Math,"1/π = (2√2/9801)Σ...",#FF6600
+L8-P,Pi Series,Formula,8,Math,"1/π = (2√2/9801)Σ(4k)!(1103+26390k)/(k!)⁴396⁴ᵏ",#FF8800
+L8-I,Continued Fractions,Formula,8,Infrastructure,"aₙ₊₁ = aₙ + bₙ/qₙ",#FFAA00
+L9,Blood → Data Flow,Level,9,Physics,"Q ∝ r⁴ΔP",#CC0000
+L9-P,Hagen-Poiseuille,Formula,9,Physics,"Q = πr⁴ΔP/(8ηL)",#DD0000
+L9-I,Navier-Stokes,Formula,9,Infrastructure,"∂u/∂t + (u·∇)u = -(1/ρ)∇p + ν∇²u",#FF0000
