@@ -41,6 +41,7 @@ export PRS_CHANNEL="channel_id"
 - **HMAC Verification**: Cryptographic webhook validation
 - **Multi-tenant**: Support for multiple repositories and environments
 - **Rate Limiting**: API protection and burst control
+- **User Settings**: Web interface for user preferences and notifications
 
 ### 🔄 GitLens Integration
 - **VS Code Tasks**: One-click Discord notifications from GitLens
@@ -220,6 +221,25 @@ git push origin main
 ```
 
 ## 🛠️ Development Workflow
+
+### User Settings
+
+Configure personal preferences via the web interface:
+
+```bash
+# Access settings page
+http://localhost:3001/settings
+
+# Or with user ID to load existing settings
+http://localhost:3001/settings?userId=123456789
+```
+
+**Features:**
+- Notification preferences (PRs, Deployments, Alerts)
+- Theme selection (Light/Dark)
+- Per-user configuration storage
+
+See [User Settings Documentation](docs/USER_SETTINGS.md) for full details.
 
 ### Local Development
 ```bash
