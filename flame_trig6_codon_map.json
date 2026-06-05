@@ -1,0 +1,112 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "description": "DNA codon to TRIG6 element mapping",
+    "base_frequency": 432,
+    "codon_count": 64,
+    "trig6_elements": 64
+  },
+  "codon_to_trig6": {
+    "UUU": {"element": "S1", "trig_state": "sin", "amino_acid": "Phe", "frequency": 432.0, "resonance": "Foundation Wave"},
+    "UUC": {"element": "S2", "trig_state": "sin", "amino_acid": "Phe", "frequency": 864.0, "resonance": "Harmonic Rise"},
+    "UUA": {"element": "S3", "trig_state": "sin", "amino_acid": "Leu", "frequency": 1296.0, "resonance": "Peak Oscillation"},
+    "UUG": {"element": "S4", "trig_state": "sin", "amino_acid": "Leu", "frequency": 1728.0, "resonance": "Ascending Spiral"},
+    "UCU": {"element": "S5", "trig_state": "sin", "amino_acid": "Ser", "frequency": 2160.0, "resonance": "Wave Crest"},
+    "UCC": {"element": "S6", "trig_state": "sin", "amino_acid": "Ser", "frequency": 2592.0, "resonance": "Rhythmic Pulse"},
+    "UCA": {"element": "S7", "trig_state": "sin", "amino_acid": "Ser", "frequency": 3024.0, "resonance": "Flowing Current"},
+    "UCG": {"element": "S8", "trig_state": "sin", "amino_acid": "Ser", "frequency": 3456.0, "resonance": "Tidal Force"},
+    "UAU": {"element": "S9", "trig_state": "sin", "amino_acid": "Tyr", "frequency": 3888.0, "resonance": "Cyclic Motion"},
+    "UAC": {"element": "S10", "trig_state": "sin", "amino_acid": "Tyr", "frequency": 4320.0, "resonance": "Perpetual Flow"},
+    "UAA": {"element": "S11", "trig_state": "sin", "amino_acid": "STOP", "frequency": 4752.0, "resonance": "Terminal Wave"},
+    
+    "UAG": {"element": "C1", "trig_state": "cos", "amino_acid": "STOP", "frequency": 432.0, "resonance": "Phase Shift"},
+    "UGU": {"element": "C2", "trig_state": "cos", "amino_acid": "Cys", "frequency": 864.0, "resonance": "Perpendicular Force"},
+    "UGC": {"element": "C3", "trig_state": "cos", "amino_acid": "Cys", "frequency": 1296.0, "resonance": "Orthogonal Wave"},
+    "UGA": {"element": "C4", "trig_state": "cos", "amino_acid": "STOP", "frequency": 1728.0, "resonance": "Complement Pattern"},
+    "UGG": {"element": "C5", "trig_state": "cos", "amino_acid": "Trp", "frequency": 2160.0, "resonance": "Mirror Rhythm"},
+    "CUU": {"element": "C6", "trig_state": "cos", "amino_acid": "Leu", "frequency": 2592.0, "resonance": "Balanced State"},
+    "CUC": {"element": "C7", "trig_state": "cos", "amino_acid": "Leu", "frequency": 3024.0, "resonance": "Stable Oscillation"},
+    "CUA": {"element": "C8", "trig_state": "cos", "amino_acid": "Leu", "frequency": 3456.0, "resonance": "Even Pulse"},
+    "CUG": {"element": "C9", "trig_state": "cos", "amino_acid": "Leu", "frequency": 3888.0, "resonance": "Symmetric Flow"},
+    "CCU": {"element": "C10", "trig_state": "cos", "amino_acid": "Pro", "frequency": 4320.0, "resonance": "Dual Harmony"},
+    
+    "CCC": {"element": "T1", "trig_state": "tan", "amino_acid": "Pro", "frequency": 432.0, "resonance": "Divergent Slope"},
+    "CCA": {"element": "T2", "trig_state": "tan", "amino_acid": "Pro", "frequency": 864.0, "resonance": "Infinite Rise"},
+    "CCG": {"element": "T3", "trig_state": "tan", "amino_acid": "Pro", "frequency": 1296.0, "resonance": "Vertical Ascent"},
+    "CAU": {"element": "T4", "trig_state": "tan", "amino_acid": "His", "frequency": 1728.0, "resonance": "Asymptotic Reach"},
+    "CAC": {"element": "T5", "trig_state": "tan", "amino_acid": "His", "frequency": 2160.0, "resonance": "Tangent Vector"},
+    "CAA": {"element": "T6", "trig_state": "tan", "amino_acid": "Gln", "frequency": 2592.0, "resonance": "Directional Force"},
+    "CAG": {"element": "T7", "trig_state": "tan", "amino_acid": "Gln", "frequency": 3024.0, "resonance": "Unstable Growth"},
+    "CGU": {"element": "T8", "trig_state": "tan", "amino_acid": "Arg", "frequency": 3456.0, "resonance": "Boundary Break"},
+    "CGC": {"element": "T9", "trig_state": "tan", "amino_acid": "Arg", "frequency": 3888.0, "resonance": "Limit Breach"},
+    "CGA": {"element": "T10", "trig_state": "tan", "amino_acid": "Arg", "frequency": 4320.0, "resonance": "Exponential Climb"},
+    "CGG": {"element": "T11", "trig_state": "tan", "amino_acid": "Arg", "frequency": 4752.0, "resonance": "Vertical Surge"},
+    
+    "AUU": {"element": "CS1", "trig_state": "csc", "amino_acid": "Ile", "frequency": 432.0, "resonance": "Inverted Wave"},
+    "AUC": {"element": "CS2", "trig_state": "csc", "amino_acid": "Ile", "frequency": 864.0, "resonance": "Reciprocal Flow"},
+    "AUA": {"element": "CS3", "trig_state": "csc", "amino_acid": "Ile", "frequency": 1296.0, "resonance": "Reflected Force"},
+    "AUG": {"element": "CS4", "trig_state": "csc", "amino_acid": "Met", "frequency": 1728.0, "resonance": "Inverse Oscillation"},
+    "ACU": {"element": "CS5", "trig_state": "csc", "amino_acid": "Thr", "frequency": 2160.0, "resonance": "Complementary Void"},
+    "ACC": {"element": "CS6", "trig_state": "csc", "amino_acid": "Thr", "frequency": 2592.0, "resonance": "Negative Space"},
+    "ACA": {"element": "CS7", "trig_state": "csc", "amino_acid": "Thr", "frequency": 3024.0, "resonance": "Mirror Depth"},
+    "ACG": {"element": "CS8", "trig_state": "csc", "amino_acid": "Thr", "frequency": 3456.0, "resonance": "Reciprocal Energy"},
+    "AAU": {"element": "CS9", "trig_state": "csc", "amino_acid": "Asn", "frequency": 3888.0, "resonance": "Dual Inverse"},
+    "AAC": {"element": "CS10", "trig_state": "csc", "amino_acid": "Asn", "frequency": 4320.0, "resonance": "Echo Pattern"},
+    
+    "AAA": {"element": "SE1", "trig_state": "sec", "amino_acid": "Lys", "frequency": 432.0, "resonance": "Amplified Phase"},
+    "AAG": {"element": "SE2", "trig_state": "sec", "amino_acid": "Lys", "frequency": 864.0, "resonance": "Enhanced Magnitude"},
+    "AGU": {"element": "SE3", "trig_state": "sec", "amino_acid": "Ser", "frequency": 1296.0, "resonance": "Multiplied Force"},
+    "AGC": {"element": "SE4", "trig_state": "sec", "amino_acid": "Ser", "frequency": 1728.0, "resonance": "Strengthened Wave"},
+    "AGA": {"element": "SE5", "trig_state": "sec", "amino_acid": "Arg", "frequency": 2160.0, "resonance": "Boosted Signal"},
+    "AGG": {"element": "SE6", "trig_state": "sec", "amino_acid": "Arg", "frequency": 2592.0, "resonance": "Powered Rhythm"},
+    "GUU": {"element": "SE7", "trig_state": "sec", "amino_acid": "Val", "frequency": 3024.0, "resonance": "Intensified Flow"},
+    "GUC": {"element": "SE8", "trig_state": "sec", "amino_acid": "Val", "frequency": 3456.0, "resonance": "Magnified Pulse"},
+    "GUA": {"element": "SE9", "trig_state": "sec", "amino_acid": "Val", "frequency": 3888.0, "resonance": "Elevated Energy"},
+    "GUG": {"element": "SE10", "trig_state": "sec", "amino_acid": "Val", "frequency": 4320.0, "resonance": "Amplified State"},
+    
+    "GCU": {"element": "CO1", "trig_state": "cot", "amino_acid": "Ala", "frequency": 432.0, "resonance": "Inverse Slope"},
+    "GCC": {"element": "CO2", "trig_state": "cot", "amino_acid": "Ala", "frequency": 864.0, "resonance": "Reciprocal Tangent"},
+    "GCA": {"element": "CO3", "trig_state": "cot", "amino_acid": "Ala", "frequency": 1296.0, "resonance": "Controlled Descent"},
+    "GCG": {"element": "CO4", "trig_state": "cot", "amino_acid": "Ala", "frequency": 1728.0, "resonance": "Bounded Fall"},
+    "GAU": {"element": "CO5", "trig_state": "cot", "amino_acid": "Asp", "frequency": 2160.0, "resonance": "Damped Gradient"},
+    "GAC": {"element": "CO6", "trig_state": "cot", "amino_acid": "Asp", "frequency": 2592.0, "resonance": "Stable Decline"},
+    "GAA": {"element": "CO7", "trig_state": "cot", "amino_acid": "Glu", "frequency": 3024.0, "resonance": "Regulated Drop"},
+    "GAG": {"element": "CO8", "trig_state": "cot", "amino_acid": "Glu", "frequency": 3456.0, "resonance": "Measured Decrease"},
+    "GGU": {"element": "CO9", "trig_state": "cot", "amino_acid": "Gly", "frequency": 3888.0, "resonance": "Balanced Reduction"},
+    "GGC": {"element": "CO10", "trig_state": "cot", "amino_acid": "Gly", "frequency": 4320.0, "resonance": "Smooth Transition"},
+    "GGA": {"element": "CO11", "trig_state": "cot", "amino_acid": "Gly", "frequency": 4752.0, "resonance": "Graceful Descent"},
+    "GGG": {"element": "CO12", "trig_state": "cot", "amino_acid": "Gly", "frequency": 5184.0, "resonance": "Complete Cycle"}
+  },
+  "trig_families": {
+    "sin": {
+      "description": "Foundation oscillations - primary wave patterns",
+      "elements": 11,
+      "quality": "flowing"
+    },
+    "cos": {
+      "description": "Phase-shifted complements - perpendicular forces",
+      "elements": 10,
+      "quality": "balanced"
+    },
+    "tan": {
+      "description": "Divergent slopes - boundary-breaking forces",
+      "elements": 11,
+      "quality": "ascending"
+    },
+    "csc": {
+      "description": "Reciprocal waves - inverted patterns",
+      "elements": 10,
+      "quality": "reflected"
+    },
+    "sec": {
+      "description": "Amplified phases - enhanced magnitudes",
+      "elements": 10,
+      "quality": "intensified"
+    },
+    "cot": {
+      "description": "Reciprocal slopes - controlled transitions",
+      "elements": 12,
+      "quality": "measured"
+    }
+  }
+}
