@@ -1,0 +1,15 @@
+{
+  "pack_name": "production_pack",
+  "version": "1.0.0",
+  "description": "Production constants pack with physics and chemistry domains enabled",
+  "domains": {
+    "physics": {
+      "enabled": true,
+      "priority": 1
+    },
+    "chemistry": {
+      "enabled": true,
+      "priority": 2
+    }
+  }
+}
