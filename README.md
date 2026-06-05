@@ -272,6 +272,32 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🧬 Proto-Elamite Dendritic Visualization Probe
+
+An instrumented probe for mapping symbol mutations with evolutionary gates. Perfect for visualizing mutation paths, fitness landscapes, and danger zones in symbol evolution.
+
+### Quick Start
+
+```bash
+# Run the dendritic visualization probe
+python3 dendritic_viz_probe.py
+
+# Analyze the output
+python3 analyze_dendritic_output.py neurograph/proto_elamite_pelsim1_dendrites.json
+```
+
+**Key Features:**
+- 🎯 Focus on 4 Proto-Elamite symbols: impressed circle, wedge cluster, bar, dot series
+- 📊 Proverbs baseline anchor for semantic grounding
+- ⚡ Evolutionary gate mechanism for mutation acceptance
+- 🎨 Color-coded edges: Green (safe improvement), Yellow (safer but small change), Red (risky improvement)
+- 🛡️ Hard rails filtering: Automatically drops dangerous mutations
+- ⚠️ NO auto-promotion to canonical (probe data only)
+
+**Output:** `neurograph/proto_elamite_pelsim1_dendrites.json` (ready for graph visualization tools)
+
+See **[README_DENDRITIC_PROBE.md](README_DENDRITIC_PROBE.md)** for full documentation.
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.

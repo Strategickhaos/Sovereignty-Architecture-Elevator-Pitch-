@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Proto-Elamite Dendritic Visualization Output Schema",
+  "description": "Schema for dendritic visualization probe mutation edge data",
+  "type": "object",
+  "required": ["metadata", "color_legend", "hard_rails", "edges", "final_mappings"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["probe_type", "scope", "symbols", "max_mutations_per_symbol", "proverbs_baseline_anchors", "total_edges", "warning"],
+      "properties": {
+        "probe_type": {
+          "type": "string",
+          "enum": ["dendritic_visualization"],
+          "description": "Type of probe used"
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["proto_elamite"],
+          "description": "Scope of the visualization"
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Proto-Elamite symbols being analyzed"
+        },
+        "max_mutations_per_symbol": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum mutations per symbol in this run"
+        },
+        "proverbs_baseline_anchors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Proverbs baseline anchors used"
+        },
+        "total_edges": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of edges logged"
+        },
+        "warning": {
+          "type": "string",
+          "description": "Warning about probe data usage"
+        }
+      }
+    },
+    "color_legend": {
+      "type": "object",
+      "properties": {
+        "green": {
+          "type": "string",
+          "description": "Meaning of green edges"
+        },
+        "yellow": {
+          "type": "string",
+          "description": "Meaning of yellow edges"
+        },
+        "red": {
+          "type": "string",
+          "description": "Meaning of red edges"
+        }
+      }
+    },
+    "hard_rails": {
+      "type": "object",
+      "properties": {
+        "dropped_if": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Conditions under which edges are dropped"
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["symbol", "old_value", "new_value", "f_old", "f_new", "danger_old", "danger_new", "alpha", "accepted", "color"],
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "The Proto-Elamite symbol being mutated"
+          },
+          "old_value": {
+            "type": "string",
+            "description": "Previous mapping value"
+          },
+          "new_value": {
+            "type": "string",
+            "description": "New mapping value after mutation"
+          },
+          "f_old": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Fitness before mutation"
+          },
+          "f_new": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Fitness after mutation"
+          },
+          "danger_old": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Danger metric before mutation"
+          },
+          "danger_new": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Danger metric after mutation"
+          },
+          "alpha": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Acceptance probability used by evolutionary gate"
+          },
+          "accepted": {
+            "type": "boolean",
+            "description": "Whether mutation was accepted by evolutionary gate"
+          },
+          "color": {
+            "type": "string",
+            "enum": ["green", "yellow", "red"],
+            "description": "Color code for visualization"
+          }
+        }
+      }
+    },
+    "final_mappings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["symbol", "value", "fitness", "danger"],
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "fitness": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "danger": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      },
+      "description": "Final symbol mappings after mutations (reference only, NOT for promotion)"
+    }
+  }
+}
