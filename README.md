@@ -2,6 +2,21 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+> 🔥 **NEW**: [Build Your Own Sovereign System](NITRO_V15_SETUP_GUIDE.md) - Complete guide to replicate the Nitro V15 Lyra Node architecture!
+
+## 🎯 Getting Started
+
+> **New to this project?** Start here: **[GETTING_STARTED.md](GETTING_STARTED.md)** - Choose your path!
+
+**Quick paths:**
+
+- 🚀 **[Quick Start (30 minutes)](QUICK_START.md)** - Get running FAST with the essentials
+- 📚 **[Complete Setup Guide](NITRO_V15_SETUP_GUIDE.md)** - Full Nitro V15 Lyra Node replication
+- 🏗️ **[Architecture Diagrams](ARCHITECTURE_DIAGRAM.md)** - Visual system overview
+- 🎯 **[Example Deployment](EXAMPLE_DEPLOYMENT.md)** - Deploy your first app
+- 🎼 **[Orchestra Script](_Orchestra.ps1)** - PowerShell control plane for system orchestration
+- 📖 **[Architecture Overview](#-architecture-overview)** - Continue reading below
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -9,24 +24,29 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Cross-Device Sync** - Proton Drive encrypted synchronization
+- **Multi-IDE Support** - JetBrains, VS Code, and GitHub Codespaces
 
 ## 🚀 Quick Start
 
 ```bash
 # 1. Clone and bootstrap
-git clone https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture.git
-cd sovereignty-architecture
+git clone https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-.git
+cd Sovereignty-Architecture-Elevator-Pitch-
 
-# 2. Deploy to Kubernetes
-./bootstrap/deploy.sh
+# 2. Start CloudOS services
+.\start-cloudos.ps1 -Action start    # Windows
+./start-cloudos.sh start              # Linux
 
-# 3. Configure Discord integration
-export DISCORD_TOKEN="your_bot_token"
-export PRS_CHANNEL="channel_id"
+# 3. Connect to your cluster
+._Orchestra.ps1 -Action connect       # Windows
+./orchestra.sh connect                # Linux
 
-# 4. Test GitLens integration
-./gl2discord.sh "$PRS_CHANNEL" "🔥 Sovereignty Architecture Online!" "System initialized successfully"
+# 4. Verify everything is running
+._Orchestra.ps1 -Action status -Detailed
 ```
+
+For detailed step-by-step instructions, see **[QUICK_START.md](QUICK_START.md)**
 
 ## 📋 Core Components
 
@@ -271,6 +291,24 @@ kubectl logs -f deployment/event-gateway -n ops
 # Verify HMAC signature
 curl -X POST https://events.strategickhaos.com/health
 ```
+
+## 📖 Complete Documentation
+
+### Getting Started Guides
+- 🚀 **[Quick Start (30 min)](QUICK_START.md)** - Fastest path to get running
+- 📚 **[Complete Setup Guide](NITRO_V15_SETUP_GUIDE.md)** - Full Nitro V15 Lyra Node replication
+- 🏗️ **[Architecture Diagram](ARCHITECTURE_DIAGRAM.md)** - Visual system overview
+- 🎯 **[Example Deployment](EXAMPLE_DEPLOYMENT.md)** - Deploy your first app in 15 minutes
+
+### Control & Management
+- 🎼 **[Orchestra Script (PowerShell)](_Orchestra.ps1)** - Windows control plane
+- 🎼 **[Orchestra Script (Bash)](orchestra.sh)** - Linux/Mac control plane
+
+### Advanced Topics
+- 🔥 **[FlameLang Specification](FLAMELANG_SPECIFICATION.md)** - Symbolic AI language
+- 🎯 **[Mastery Prompts](MASTERY_PROMPTS.md)** - Advanced usage patterns
+- 🔒 **[Security Playbook](VAULT_SECURITY_PLAYBOOK.md)** - Security best practices
+- 📊 **[Deployment Guide](DEPLOYMENT_COMPLETE.md)** - Production deployment
 
 ## 👥 Community & Contributors
 
