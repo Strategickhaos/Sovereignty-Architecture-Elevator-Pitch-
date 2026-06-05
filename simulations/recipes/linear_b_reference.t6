@@ -1,0 +1,103 @@
+# TRIG6 Recipe: Linear B Deciphered Reference
+# Recipe ID: GLYPH-LINEARB-REF
+# Hazard Level: LOW
+# Description: Successfully deciphered script as reference baseline
+# Michael Ventris 1952 decipherment - Mycenaean Greek syllabary
+
+[metadata]
+id = "GLYPH-LINEARB-REF"
+name = "Linear B Reference (Deciphered)"
+hazard_level = "LOW"
+description = """
+Linear B is a syllabic script used to write Mycenaean Greek (1450-1200 BCE).
+Successfully deciphered by Michael Ventris in 1952. Serves as a reference
+baseline for TRIG6 simulations - what a 'successful' glyph mapping looks like.
+87 syllabic signs + 100 ideographic signs.
+"""
+
+[ingredients]
+# Optimized parameters based on successful decipherment
+embedding_dim = 128.0
+min_cluster_size = 5.0
+max_clusters = 87.0
+image_dpi = 300.0
+glyph_min_size = 15.0
+syllable_consistency = 0.95
+
+[process_stages]
+# Simplified pipeline for known script
+stages = [
+    "glyph_extraction",
+    "syllabic_grouping",
+    "embedding_generation", 
+    "clustering",
+    "validation"
+]
+
+[custom_hooks]
+# R (resonance): High due to consistent syllabary
+resonance = "0.9 * coverage * stability"
+
+# D (drift): Low - known character set
+drift = "0.1 * variation"
+
+# N (noise): Minimal - clear inscriptions
+noise = "0.05"
+
+[correlations]
+# Related scripts
+
+[[correlations.scripts]]
+name = "Linear A"
+origin = "Minoan, Crete, 1800-1450 BCE"
+type = "syllabic"
+correlation = "Predecessor to Linear B, undeciphered"
+pipeline_use = "Comparison for decipherment difficulty"
+
+[[correlations.scripts]]
+name = "Cypro-Minoan"
+origin = "Cyprus, 1550-1050 BCE"
+type = "syllabic"
+correlation = "Related Aegean script"
+pipeline_use = "Syllabic clustering validation"
+
+[pipeline]
+description = """
+Reference pipeline for successfully deciphered script.
+Target: Demonstrate optimal TRIG6 fitness (>0.8) for known systems.
+"""
+
+input_sources = [
+    "Linear B tablets from Knossos",
+    "Pylos palace archives",
+    "Mycenae fragments"
+]
+
+processing_steps = [
+    "Extract glyphs from clay tablets",
+    "Group by syllabic structure (CV, CVC patterns)",
+    "Generate embeddings",
+    "Cluster into 87 syllabic signs",
+    "Validate against known decipherment"
+]
+
+target_fitness = 0.8
+danger_threshold = 10.0
+
+[notes]
+interpretation = """
+Linear B represents a 'success case' for TRIG6 validation:
+- High resonance (R) from consistent syllabary structure
+- Low drift (D) from well-defined character set
+- Minimal noise (N) from clear tablet inscriptions
+- Expected fitness >0.8 (optimal range)
+- Few or no danger zones
+
+Comparison value:
+- Codex Seraphinianus: fitness ~0.0 (asemic, no meaning)
+- Voynich: fitness ~0.0-0.3 (undeciphered, high variation)
+- Linear B: fitness >0.8 (deciphered, stable system)
+
+This demonstrates TRIG6 can distinguish between deciphered/undeciphered
+and meaningful/asemic writing systems based on glyph clustering metrics.
+"""

@@ -1,0 +1,231 @@
+# TRIG6 Recipe: Codex Seraphinianus Glyph Mapping
+# Recipe ID: GLYPH-SERAPH-001
+# Hazard Level: LOW
+# Description: Asemic glyph mapping failures with Sinhala-like curves
+# Base-21 numbering system, compared to Voynich manuscript
+
+[metadata]
+id = "GLYPH-SERAPH-001"
+name = "Codex Seraphinianus Glyph Mapping"
+hazard_level = "LOW"
+description = """
+The Codex Seraphinianus (1978 by Luigi Serafini) is an invented, asemic script 
+with no meaning, modeled on Western systems but with Sinhala-like curves. 
+Page numbering decoded as base 21; compared to Voynich manuscript. 
+No real decipherment—automatic writing to evoke incomprehension.
+"""
+
+[ingredients]
+# Parameters for glyph extraction and clustering
+embedding_dim = 256.0
+min_cluster_size = 12.0
+max_clusters = 128.0
+image_dpi = 300.0
+glyph_min_size = 25.0
+
+[process_stages]
+# Pipeline stages from extraction to validation
+stages = [
+    "glyph_extraction",
+    "embedding_generation", 
+    "clustering",
+    "codon_mapping",
+    "validation",
+    "compilation"
+]
+
+[custom_hooks]
+# R (resonance): cluster purity + coverage + stability
+resonance = "cluster_purity * coverage * stability"
+
+# D (drift): reassignment rate + outlier percentage  
+drift = "reassignment_rate + outlier_percentage"
+
+# N (noise): embedding variance + mapping error
+noise = "embedding_variance + mapping_error"
+
+[correlations]
+# 20+ Undeciphered Scripts/Languages for Pipeline Compiler
+
+[[correlations.scripts]]
+name = "Linear A"
+origin = "Minoan, Crete, 1800-1450 BCE"
+type = "syllabic"
+correlation = "Undeciphered syllabic script; unknown language like Codex"
+pipeline_use = "Glyph clustering for Bronze Age simulations"
+
+[[correlations.scripts]]
+name = "Cretan Hieroglyphs"
+origin = "Minoan, 2100-1700 BCE"
+type = "pictographic"
+correlation = "Visual complexity similar to Codex illustrations"
+pipeline_use = "Input for TRIG6 danger zone testing"
+
+[[correlations.scripts]]
+name = "Rongorongo"
+origin = "Easter Island, 19th century CE"
+type = "glyph"
+correlation = "Isolated, asemic-like Codex; wood glyphs"
+pipeline_use = "Wood glyph extraction for evolutionary algorithms"
+
+[[correlations.scripts]]
+name = "Indus Script"
+origin = "Indus Valley, 2600-1900 BCE"
+type = "proto-writing"
+correlation = "Short texts like Codex fragments"
+pipeline_use = "Seal glyph mappings to 64 codons"
+
+[[correlations.scripts]]
+name = "Proto-Elamite"
+origin = "Iran, 3100-2900 BCE"
+type = "proto-writing"
+correlation = "Administrative like Codex 'encyclopedia'"
+pipeline_use = "Tablet simulation in compiler"
+
+[[correlations.scripts]]
+name = "Old Elamite"
+origin = "Iran, 2200-1600 BCE"
+type = "cuneiform"
+correlation = "Linear script with partial decipherment"
+pipeline_use = "Partial mappings for TRIG6 hybrid evolution"
+
+[[correlations.scripts]]
+name = "Phaistos Disk"
+origin = "Crete, 1700 BCE"
+type = "stamped_symbols"
+correlation = "Unique circular format like Codex illustrations"
+pipeline_use = "Disk glyph rotation in theta calculations"
+
+[[correlations.scripts]]
+name = "Voynich Manuscript"
+origin = "15th century CE, unknown"
+type = "illustrated_codex"
+correlation = "Closest to Codex—asemic, herbal/astronomical pages"
+pipeline_use = "Primary source for glyph embeddings + TRIG6 stability testing"
+
+[[correlations.scripts]]
+name = "Vinča Script"
+origin = "Balkans, 5700-4500 BCE"
+type = "proto-writing"
+correlation = "Prehistoric marks on artifacts"
+pipeline_use = "Artifact simulation for early language evolution"
+
+[[correlations.scripts]]
+name = "Isthmian Script"
+origin = "Mesoamerica, 500 BCE-500 CE"
+type = "logosyllabic"
+correlation = "Mayan-like undeciphered system"
+pipeline_use = "Olmec glyph correlations to Codex patterns"
+
+[[correlations.scripts]]
+name = "Liber Linteus"
+origin = "Etruscan, 3rd century BCE"
+type = "ritual_text"
+correlation = "Textile medium with gaps in understanding"
+pipeline_use = "Linen binding simulation in TRIG6"
+
+[[correlations.scripts]]
+name = "Rohonc Codex"
+origin = "16th century CE, unknown"
+type = "illustrated_book"
+correlation = "Codex-like format; undeciphered book"
+pipeline_use = "Failure evolution testing (high noise factor)"
+
+[[correlations.scripts]]
+name = "Sawgoek"
+origin = "Korea, legendary"
+type = "mythical"
+correlation = "Invented legend script"
+pipeline_use = "Mythical glyph generation algorithms"
+
+[[correlations.scripts]]
+name = "Harappan Seals"
+origin = "Indus Valley, variant forms"
+type = "seal_stamps"
+correlation = "Fragmentary seal texts"
+pipeline_use = "Seal stamp simulation patterns"
+
+[[correlations.scripts]]
+name = "Singapore Stone"
+origin = "Singapore, 10-13th century CE"
+type = "inscription"
+correlation = "Fragmentary undeciphered text"
+pipeline_use = "Stone glyph extraction algorithms"
+
+[[correlations.scripts]]
+name = "Elamite Linear"
+origin = "Iran, 2300 BCE"
+type = "linear"
+correlation = "Linear script like Codex structure"
+pipeline_use = "Linear evolution in compiler"
+
+[[correlations.scripts]]
+name = "Tartaria Tablets"
+origin = "Vinča culture, 5300 BCE"
+type = "proto-writing"
+correlation = "Early symbolic system"
+pipeline_use = "Tablet modeling for proto-languages"
+
+[[correlations.scripts]]
+name = "Dispilio Tablet"
+origin = "Greece, 5200 BCE"
+type = "wood_symbols"
+correlation = "Wooden tablet medium"
+pipeline_use = "Rongorongo-like wood simulation"
+
+[[correlations.scripts]]
+name = "Kumeyaay Pictographs"
+origin = "California, pre-colonial"
+type = "rock_art"
+correlation = "Pictographic visual language"
+pipeline_use = "Visual language evolution modeling"
+
+[[correlations.scripts]]
+name = "Sitovo Inscription"
+origin = "Bulgaria, unknown date"
+type = "inscription"
+correlation = "Mysterious rock inscription"
+pipeline_use = "Rock art glyph extraction"
+
+[pipeline]
+# FlameLang Pipeline Compiler Instructions
+description = """
+Pipeline: Ingest script images → embed → cluster → map to 64 codons → 
+TRIG6 validate (danger if unstable) → compile to SAGCO-OS.
+
+Target: Avoid low R failures (undeciphered failure basins).
+Goal: Evolve mappings via TRIG6 fitness >0.7 for stable glyph systems.
+"""
+
+input_sources = [
+    "Voynich manuscript pages (herbal, astronomical)",
+    "Rongorongo wood tablets", 
+    "Phaistos disk circular glyphs",
+    "Rohonc Codex illustrated pages",
+    "Linear A tablets",
+    "Indus seals and fragments"
+]
+
+processing_steps = [
+    "Extract glyphs from high-res images",
+    "Generate embeddings (BAAI/bge-small-en-v1.5)",
+    "Cluster into 64 codons using min_cluster_size",
+    "Map clusters to genetic code structure",
+    "Validate with TRIG6 (check |tan(θ)| < 10)",
+    "Compile stable mappings to SAGCO-OS"
+]
+
+target_fitness = 0.7
+danger_threshold = 10.0
+
+[notes]
+interpretation = """
+Failures persistent (fitness 0.0, dangers in 6 stages)—e.g., unstable 
+clustering due to glyph variability. Evolution 'mitigates' by optimizing 
+parameters (e.g., higher embedding_dim reduces N), but dangers remain 
+(tan blow-ups in validation). 
+
+Ties to book: 'Low R in glyph extraction = undeciphered failure basin.'
+
+Resonance? Next: 'Add Voynich to .t6 sim.' 🧬
+"""
