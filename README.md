@@ -280,12 +280,48 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 🌐 Network Troubleshooting
+
+### SAGCO-OS Network Fix Utility
+
+Having Ethernet disconnection issues, especially with Starlink? We've got you covered!
+
+**Quick Fix (Windows - Run as Admin):**
+```cmd
+netsh int ip reset && netsh winsock reset && ipconfig /release && ipconfig /renew && ipconfig /flushdns
+```
+
+**Using SAGCO Tools:**
+```powershell
+# PowerShell as Administrator
+cd scripts
+.\SAGCO-Network-Fix.ps1
+# Select option 10 for full network reset
+```
+
+**Common Issues Addressed:**
+- ✅ APIPA address problems (169.254.x.x)
+- ✅ Intermittent Ethernet disconnections
+- ✅ Starlink adapter compatibility
+- ✅ DHCP lease failures
+- ✅ Power management causing drops
+- ✅ Driver conflicts
+
+**Documentation:**
+- 📖 [Complete Troubleshooting Guide](docs/NETWORK_TROUBLESHOOTING.md)
+- 🚨 [Emergency Quick Reference](docs/NETWORK_QUICK_REFERENCE.md)
+
+**Scripts Available:**
+- `scripts/SAGCO-Network-Fix.ps1` - PowerShell version (Windows)
+- `scripts/sagco-network-fix.sh` - Bash version (Linux/WSL/Git Bash)
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
+- **Network Help**: See [Network Troubleshooting Guide](docs/NETWORK_TROUBLESHOOTING.md)
 
 ---
 
