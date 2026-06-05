@@ -30,6 +30,28 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🔥 RESMON IR - Resource Monitor Intermediate Representation
+**The Sovereign IR Architecture** - A complete intermediate representation system that extends traditional compiler IRs with sovereign-native features:
+
+- **Complete IR Functionality**: Node-based graphs, type system, control/data flow
+- **Frequency Mapping**: Hz, MIDI, Solfeggio, θ position for state encoding
+- **Color Coding**: RGB, Hex, Chakra, Rubik's cube face visualization
+- **Emotional State**: System health and energy level tracking
+- **Multi-domain Integration**: Glyphs, Solomon's 72, Element symbols
+
+📖 **[Read the RESMON IR Specification](RESMON_IR_SPECIFICATION.md)** | **[Usage Guide](RESMON_IR_README.md)**
+
+```python
+# Quick example: Map system processes to IR nodes
+from src.resmon_ir import ResmonIRNode, ResmonIRGraph
+node = ResmonIRNode(
+    name="my_service",
+    frequency={"hz": 639.0, "solfeggio": 639},  # Heart chakra frequency
+    emotion="balanced",
+    family="COS"  # TRIG6 codec
+)
+```
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
