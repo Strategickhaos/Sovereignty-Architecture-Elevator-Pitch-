@@ -1,0 +1,531 @@
+{
+  "params": {
+    "N": 64,
+    "D": 0.01,
+    "Pe": 0.5,
+    "Da_g": 0.8,
+    "Da_0": 0.5,
+    "T": 5.0
+  },
+  "results": {
+    "survivors": 64,
+    "max_amplitude": 0.19843938243611522,
+    "max_bin": 11,
+    "max_theta": 61.875,
+    "max_family": "COS"
+  },
+  "surviving_notes": [
+    {
+      "bin": 0,
+      "theta": 0.0,
+      "family": "SIN",
+      "note": 48,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 1,
+      "theta": 5.625,
+      "family": "SIN",
+      "note": 49,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 2,
+      "theta": 11.25,
+      "family": "SIN",
+      "note": 50,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 3,
+      "theta": 16.875,
+      "family": "SIN",
+      "note": 51,
+      "velocity": 100,
+      "amplitude": 0.19803887042857962
+    },
+    {
+      "bin": 4,
+      "theta": 22.5,
+      "family": "SIN",
+      "note": 52,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 5,
+      "theta": 28.125,
+      "family": "SIN",
+      "note": 53,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 6,
+      "theta": 33.75,
+      "family": "SIN",
+      "note": 54,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 7,
+      "theta": 39.375,
+      "family": "SIN",
+      "note": 55,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    },
+    {
+      "bin": 8,
+      "theta": 45.0,
+      "family": "SIN",
+      "note": 56,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 9,
+      "theta": 50.625,
+      "family": "SIN",
+      "note": 57,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 10,
+      "theta": 56.25,
+      "family": "SIN",
+      "note": 58,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 11,
+      "theta": 61.875,
+      "family": "COS",
+      "note": 59,
+      "velocity": 100,
+      "amplitude": 0.19843938243611522
+    },
+    {
+      "bin": 12,
+      "theta": 67.5,
+      "family": "COS",
+      "note": 60,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 13,
+      "theta": 73.125,
+      "family": "COS",
+      "note": 61,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 14,
+      "theta": 78.75,
+      "family": "COS",
+      "note": 62,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 15,
+      "theta": 84.375,
+      "family": "COS",
+      "note": 63,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    },
+    {
+      "bin": 16,
+      "theta": 90.0,
+      "family": "COS",
+      "note": 64,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 17,
+      "theta": 95.625,
+      "family": "COS",
+      "note": 65,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 18,
+      "theta": 101.25,
+      "family": "COS",
+      "note": 66,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 19,
+      "theta": 106.875,
+      "family": "COS",
+      "note": 67,
+      "velocity": 100,
+      "amplitude": 0.19803887042857962
+    },
+    {
+      "bin": 20,
+      "theta": 112.5,
+      "family": "COS",
+      "note": 68,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 21,
+      "theta": 118.125,
+      "family": "COS",
+      "note": 69,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 22,
+      "theta": 123.75,
+      "family": "TAN",
+      "note": 70,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 23,
+      "theta": 129.375,
+      "family": "TAN",
+      "note": 71,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    },
+    {
+      "bin": 24,
+      "theta": 135.0,
+      "family": "TAN",
+      "note": 48,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 25,
+      "theta": 140.625,
+      "family": "TAN",
+      "note": 49,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 26,
+      "theta": 146.25,
+      "family": "TAN",
+      "note": 50,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 27,
+      "theta": 151.875,
+      "family": "TAN",
+      "note": 51,
+      "velocity": 100,
+      "amplitude": 0.19843938243611522
+    },
+    {
+      "bin": 28,
+      "theta": 157.5,
+      "family": "TAN",
+      "note": 52,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 29,
+      "theta": 163.125,
+      "family": "TAN",
+      "note": 53,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 30,
+      "theta": 168.75,
+      "family": "TAN",
+      "note": 54,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 31,
+      "theta": 174.375,
+      "family": "TAN",
+      "note": 55,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    },
+    {
+      "bin": 32,
+      "theta": 180.0,
+      "family": "CSC",
+      "note": 56,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 33,
+      "theta": 185.625,
+      "family": "CSC",
+      "note": 57,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 34,
+      "theta": 191.25,
+      "family": "CSC",
+      "note": 58,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 35,
+      "theta": 196.875,
+      "family": "CSC",
+      "note": 59,
+      "velocity": 100,
+      "amplitude": 0.19803887042857962
+    },
+    {
+      "bin": 36,
+      "theta": 202.5,
+      "family": "CSC",
+      "note": 60,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 37,
+      "theta": 208.125,
+      "family": "CSC",
+      "note": 61,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 38,
+      "theta": 213.75,
+      "family": "CSC",
+      "note": 62,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 39,
+      "theta": 219.375,
+      "family": "CSC",
+      "note": 63,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    },
+    {
+      "bin": 40,
+      "theta": 225.0,
+      "family": "CSC",
+      "note": 64,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 41,
+      "theta": 230.625,
+      "family": "CSC",
+      "note": 65,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 42,
+      "theta": 236.25,
+      "family": "CSC",
+      "note": 66,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 43,
+      "theta": 241.875,
+      "family": "SEC",
+      "note": 67,
+      "velocity": 100,
+      "amplitude": 0.19843938243611522
+    },
+    {
+      "bin": 44,
+      "theta": 247.5,
+      "family": "SEC",
+      "note": 68,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 45,
+      "theta": 253.125,
+      "family": "SEC",
+      "note": 69,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 46,
+      "theta": 258.75,
+      "family": "SEC",
+      "note": 70,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 47,
+      "theta": 264.375,
+      "family": "SEC",
+      "note": 71,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    },
+    {
+      "bin": 48,
+      "theta": 270.0,
+      "family": "SEC",
+      "note": 48,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 49,
+      "theta": 275.625,
+      "family": "SEC",
+      "note": 49,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 50,
+      "theta": 281.25,
+      "family": "SEC",
+      "note": 50,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 51,
+      "theta": 286.875,
+      "family": "SEC",
+      "note": 51,
+      "velocity": 100,
+      "amplitude": 0.19803887042857962
+    },
+    {
+      "bin": 52,
+      "theta": 292.5,
+      "family": "SEC",
+      "note": 52,
+      "velocity": 100,
+      "amplitude": 0.19805411400920384
+    },
+    {
+      "bin": 53,
+      "theta": 298.125,
+      "family": "SEC",
+      "note": 53,
+      "velocity": 100,
+      "amplitude": 0.19809752405410988
+    },
+    {
+      "bin": 54,
+      "theta": 303.75,
+      "family": "COT",
+      "note": 54,
+      "velocity": 100,
+      "amplitude": 0.19816249177747383
+    },
+    {
+      "bin": 55,
+      "theta": 309.375,
+      "family": "COT",
+      "note": 55,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    },
+    {
+      "bin": 56,
+      "theta": 315.0,
+      "family": "COT",
+      "note": 56,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 57,
+      "theta": 320.625,
+      "family": "COT",
+      "note": 57,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 58,
+      "theta": 326.25,
+      "family": "COT",
+      "note": 58,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 59,
+      "theta": 331.875,
+      "family": "COT",
+      "note": 59,
+      "velocity": 100,
+      "amplitude": 0.19843938243611522
+    },
+    {
+      "bin": 60,
+      "theta": 337.5,
+      "family": "COT",
+      "note": 60,
+      "velocity": 100,
+      "amplitude": 0.198424138855491
+    },
+    {
+      "bin": 61,
+      "theta": 343.125,
+      "family": "COT",
+      "note": 61,
+      "velocity": 100,
+      "amplitude": 0.19838072881058497
+    },
+    {
+      "bin": 62,
+      "theta": 348.75,
+      "family": "COT",
+      "note": 62,
+      "velocity": 100,
+      "amplitude": 0.19831576108722102
+    },
+    {
+      "bin": 63,
+      "theta": 354.375,
+      "family": "COT",
+      "note": 63,
+      "velocity": 100,
+      "amplitude": 0.19823912643234742
+    }
+  ]
+}
