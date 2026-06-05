@@ -272,6 +272,29 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🏗️ Infrastructure Documentation
+
+### **Multi-Server Architecture**
+- **[Server Infrastructure](SERVER_INFRASTRUCTURE.md)** - 4-node private lab architecture (Athena, Lyra, Nova, iPower)
+  - Workload distribution strategy
+  - Migration guide for overloaded servers
+  - Monitoring and health checks
+  - Docker compose configurations per server
+
+### **Data Distribution**
+- **[Torrent Configuration](TORRENT_CONFIGURATION.md)** - Private torrent setup for Obsidian vaults
+  - Publisher metadata fields
+  - Private tracker configuration
+  - Security best practices
+  - Automated backup workflows
+
+### **Operations**
+- **[Deployment Complete](DEPLOYMENT_COMPLETE.md)** - Current CloudOS deployment status
+- **[Vault Security Playbook](VAULT_SECURITY_PLAYBOOK.md)** - Obsidian vault security
+- **[Private Lab Architecture](private_lab_architecture.txt)** - Research infrastructure (640-agent council)
+
+---
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
