@@ -1,0 +1,291 @@
+---
+# GR METRIC ORCHESTRATOR - HARDWARE INVENTORY & PROGRESS TRACKER
+# Strategickhaos DAO LLC | 2026 | Hardware-Software Bridge System
+
+metadata:
+  project: "GR Metric Orchestrator"
+  version: "1.0.0"
+  date: "2026-01-01"
+  operator: "DOM_010101"
+  description: "Hardware-software bridge mapping system dynamics to General Relativity metrics"
+
+inventory:
+  hardware:
+    potentiometer:
+      part_number: "Bourns PTV09A"
+      resistance: "10kΩ linear"
+      purpose: "Manual r or θ parameter adjustment for GR metrics"
+      status: "described"
+      integration: "Arduino A0 pin via serial"
+    
+    microcontroller:
+      options:
+        - name: "Arduino Uno"
+          interface: "USB Serial"
+          adc_pins: "A0-A5"
+          status: "compatible"
+        - name: "Raspberry Pi Pico"
+          interface: "USB Serial"
+          adc_pins: "GP26-GP28"
+          status: "compatible"
+      purpose: "Read potentiometer analog values (0-1023)"
+    
+    voltage_sensor:
+      part_number: "INA219"
+      interface: "I2C"
+      purpose: "Real-time voltage/current monitoring for command power analysis"
+      status: "planned"
+      features:
+        - "±3.2A current sensing"
+        - "0-26V voltage sensing"
+        - "High precision ADC"
+    
+    fan_sensor:
+      linux:
+        method: "lm-sensors"
+        package: "lm-sensors"
+        command: "sensors"
+        status: "available"
+      windows:
+        method: "OpenHardwareMonitor"
+        library: "OpenHardwareMonitorLib.dll"
+        language: "C# / Python.NET"
+        status: "available"
+      purpose: "Real fan RPM for angular velocity proxy (ϕ terms)"
+    
+    cables_and_connectors:
+      - "USB A to B cable (Arduino)"
+      - "Jumper wires (M-M, M-F)"
+      - "Breadboard (optional)"
+      - "Voltage probe leads (for INA219)"
+
+  software:
+    python:
+      version: "3.12+"
+      dependencies:
+        core:
+          - package: "psutil"
+            version: ">=5.9.0"
+            purpose: "System and process monitoring (CPU, memory)"
+            status: "installed"
+          - package: "sympy"
+            version: ">=1.12"
+            purpose: "Symbolic mathematics for GR metrics"
+            status: "required"
+        hardware:
+          - package: "pyserial"
+            version: ">=3.5"
+            purpose: "Arduino serial communication"
+            status: "optional"
+          - package: "pysensors"
+            version: ">=0.0.4"
+            purpose: "Linux sensor reading (lm-sensors wrapper)"
+            status: "optional"
+        visualization:
+          - package: "matplotlib"
+            version: ">=3.7.0"
+            purpose: "Plot geodesic analogs and ds² visualization"
+            status: "optional"
+    
+    flamelang:
+      integration: "FlameLang type system opcodes"
+      mappings:
+        - type: "Frequency"
+          opcode: "0x35"
+          hardware_source: "fan_rpm"
+        - type: "Energy"
+          opcode: "0x2F"
+          hardware_source: "voltage_approx"
+        - type: "Wave"
+          opcode: "0x3E"
+          hardware_source: "cpu_freq_mhz"
+        - type: "Qubit"
+          opcode: "0x29"
+          hardware_source: "mem_percent"
+    
+    operating_systems:
+      linux:
+        tools:
+          - "lm-sensors (fan/temp monitoring)"
+          - "/sys/class/hwmon/* (kernel sensors)"
+          - "i2c-tools (INA219 setup)"
+        status: "preferred"
+      windows:
+        tools:
+          - "OpenHardwareMonitor"
+          - "wmi (Windows Management Instrumentation)"
+          - "psutil (cross-platform)"
+        status: "supported"
+
+hardware_hookup:
+  potentiometer_wiring:
+    connections:
+      - pin: "VCC"
+        to: "5V (Arduino)"
+        color: "red"
+      - pin: "GND"
+        to: "GND (Arduino)"
+        color: "black"
+      - pin: "Wiper"
+        to: "A0 (Arduino)"
+        color: "yellow"
+    notes:
+      - "Use shielded cable if cable length > 6 inches to reduce noise"
+      - "Add 0.1µF capacitor across VCC-GND for noise filtering (optional)"
+  
+  ina219_wiring:
+    connections:
+      - pin: "VCC"
+        to: "3.3V or 5V"
+      - pin: "GND"
+        to: "GND"
+      - pin: "SDA"
+        to: "SDA (I2C data)"
+      - pin: "SCL"
+        to: "SCL (I2C clock)"
+      - pin: "VIN+"
+        to: "Power rail to measure"
+      - pin: "VIN-"
+        to: "Load ground"
+    i2c_address: "0x40 (default)"
+    notes:
+      - "Requires i2c-tools package on Linux"
+      - "Use Adafruit_INA219 library for easy Python integration"
+
+  arduino_code:
+    description: "Simple ADC reader for potentiometer"
+    code: |
+      // Arduino sketch for potentiometer reading
+      void setup() {
+        Serial.begin(9600);
+      }
+      
+      void loop() {
+        int pot_value = analogRead(A0);
+        Serial.println(pot_value);
+        delay(100);  // 10 Hz sampling
+      }
+    upload: "Use Arduino IDE to upload sketch"
+
+checklist:
+  implementation:
+    - status: "complete"
+      item: "Hardware specifications documented"
+    - status: "complete"
+      item: "Monitoring code (psutil) implemented"
+    - status: "complete"
+      item: "GR computation (Schwarzschild) implemented"
+    - status: "complete"
+      item: "GR computation (Exponential) implemented"
+    - status: "complete"
+      item: "FlameLang type mapping implemented"
+    - status: "pending"
+      item: "Real potentiometer serial integration"
+      code_location: "dna-gr-orchestrator.py::_get_hardware_metrics"
+    - status: "pending"
+      item: "Real fan RPM via pysensors/wmi"
+      code_location: "dna-gr-orchestrator.py::_get_hardware_metrics"
+    - status: "pending"
+      item: "INA219 voltage sensor integration"
+    - status: "pending"
+      item: "Geodesic plotting with matplotlib"
+    - status: "pending"
+      item: "Integration test with heavy workload (e.g., stress test)"
+
+  hardware_setup:
+    - status: "pending"
+      item: "Acquire potentiometer (Bourns PTV09A or equivalent)"
+    - status: "pending"
+      item: "Acquire Arduino Uno or RPi Pico"
+    - status: "pending"
+      item: "Wire potentiometer per diagram"
+    - status: "pending"
+      item: "Upload Arduino sketch"
+    - status: "pending"
+      item: "Test serial communication (/dev/ttyUSB0 or COM port)"
+    - status: "pending"
+      item: "Optional: Acquire and wire INA219 voltage sensor"
+
+  testing:
+    - status: "pending"
+      item: "Run orchestrator with simulated values (ls command)"
+    - status: "pending"
+      item: "Run orchestrator with CPU stress test (e.g., stress --cpu 4)"
+    - status: "pending"
+      item: "Validate ds² metric computation outputs"
+    - status: "pending"
+      item: "Test potentiometer input (if hardware available)"
+    - status: "pending"
+      item: "Verify FlameLang type mappings"
+
+progress:
+  overall_percentage: 60
+  phase: "Software Implementation Complete - Hardware Integration Pending"
+  
+  completed:
+    - "Core orchestrator architecture"
+    - "Hardware metric collection (simulated)"
+    - "Schwarzschild metric computation"
+    - "Exponential metric computation"
+    - "FlameLang type system mapping"
+    - "Command-line interface with argparse"
+    - "Logging and output formatting"
+  
+  in_progress: []
+  
+  todo:
+    - priority: "high"
+      item: "Add serial.Serial for real potentiometer"
+      estimated_time: "30 min"
+    - priority: "high"
+      item: "Integrate pysensors or wmi for real fan RPM"
+      estimated_time: "1 hour"
+    - priority: "medium"
+      item: "Add matplotlib geodesic visualization"
+      estimated_time: "2 hours"
+    - priority: "medium"
+      item: "INA219 voltage sensor integration"
+      estimated_time: "1 hour"
+    - priority: "low"
+      item: "Link to DNA orchestrator as 'obstacle' system"
+      estimated_time: "1 hour"
+    - priority: "low"
+      item: "Create demo video"
+      estimated_time: "30 min"
+
+usage_examples:
+  basic:
+    description: "Run with default command (ls)"
+    command: "python3 dna-gr-orchestrator.py"
+  
+  custom_command:
+    description: "Run with custom command"
+    command: "python3 dna-gr-orchestrator.py --command 'stress --cpu 4 --timeout 5'"
+  
+  with_potentiometer:
+    description: "Run with manual potentiometer value"
+    command: "python3 dna-gr-orchestrator.py --command 'ls' --pot 512"
+  
+  integration:
+    description: "Integration with DNA orchestrator (future)"
+    command: "python3 legion_orchestrator.py --gr-metrics --command 'complex_task'"
+
+future_extensions:
+  - "Real-time dashboard (Dash/Plotly) showing live ds² metrics"
+  - "Integration with DNA synthesis orchestrator"
+  - "Multi-command batch analysis"
+  - "Geodesic path visualization in 3D"
+  - "Export to FlameLang execution format"
+  - "Remote sensor reading over network (MQTT)"
+  - "GPU metrics integration (CUDA temperature/power)"
+  - "Machine learning for metric prediction"
+
+notes:
+  - "This system treats the computer as a 'mini-universe' with computational events warping spacetime analogs"
+  - "Fan RPM → angular velocity proxy for ϕ (phi) terms in metrics"
+  - "Memory usage → mass/energy density M"
+  - "CPU frequency/voltage → speed of light c or gravitational constant G scaling"
+  - "Potentiometer → manual r or θ parameter adjuster"
+  - "Command execution → observational event that perturbs the metric"
+  - "Schwarzschild metric: vacuum black hole analog (static system)"
+  - "Exponential metric: radiating/dynamic system (Vaidya-like)"
