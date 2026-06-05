@@ -1,0 +1,71 @@
+meta:
+  title: "Agents Cortex Index"
+  description: "Registry of all specialized agents in the Sovereign Compute Stack"
+  schema_ref: "genome/agents/schema.agent.json"
+  version: "1.0.0"
+
+agents:
+  - id: "bio_trig6"
+    name: "Bio-TRIG6 Interface Agent"
+    file: "genome/agents/bio_trig6.yml"
+    domain: "biological-computing"
+    pillars: ["BIO", "VERIF"]
+    status: "active"
+    description: >
+      Handles biological computing interfaces including BCI signal processing,
+      CRISPR integration points, and TRIG6-based biological verification.
+
+  - id: "neuro_immune"
+    name: "Neuro-Immune System Agent"
+    file: "genome/agents/neuro_immune.yml"
+    domain: "neuromorphic-security"
+    pillars: ["BIO", "OS"]
+    status: "active"
+    description: >
+      Manages neuromorphic computing patterns and immune system responses
+      for the sovereign compute stack, including threat detection and
+      adaptive defense mechanisms.
+
+  - id: "docs_ip"
+    name: "Documentation & Intellectual Property Agent"
+    file: "genome/agents/docs_ip.yml"
+    domain: "knowledge-management"
+    pillars: ["VERIF", "LANG"]
+    status: "active"
+    description: >
+      Maintains documentation standards, tracks intellectual property,
+      and ensures proper attribution and verification of all system
+      components and their interactions.
+
+  - id: "script_bench"
+    name: "Script Benchmarking Agent"
+    file: "genome/agents/script_bench.yml"
+    domain: "performance-testing"
+    pillars: ["LANG", "VERIF"]
+    status: "active"
+    description: >
+      Performs benchmarking and performance analysis of FlameLang scripts,
+      validates TRIG6 optimization levels, and ensures efficient execution
+      across the sovereign compute stack.
+
+categories:
+  biological-computing:
+    agents: ["bio_trig6"]
+    description: "Biological interface and computation agents"
+  
+  neuromorphic-security:
+    agents: ["neuro_immune"]
+    description: "Neural pattern processing and security"
+  
+  knowledge-management:
+    agents: ["docs_ip"]
+    description: "Documentation and IP tracking"
+  
+  performance-testing:
+    agents: ["script_bench"]
+    description: "Benchmarking and optimization"
+
+orchestration:
+  default_mode: "collaborative"
+  inter_agent_protocol: "trig6_sync"
+  conflict_resolution: "love_invariant_arbitration"
