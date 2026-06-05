@@ -1,6 +1,6 @@
 # Strategickhaos Sovereignty Architecture - Discord DevOps Control Plane
 
-**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
+**A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, sovereign infrastructure management, and the MSMC v2.0 Musical State Machine Compiler.**
 
 ## 🏛️ Architecture Overview
 
@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **MSMC v2.0** - Musical State Machine Compiler for FlameLang integration
 
 ## 🚀 Quick Start
 
@@ -70,6 +71,29 @@ java HelloCloudOS.java
 # Stop the workspace
 ./start-cloudos-jdk.sh stop
 ```
+
+### 🎵 MSMC v2.0 - Musical State Machine Compiler
+- **FlameLang Integration**: Transform Flame IR musical forms into bounded state machines
+- **Form Support**: Rondo, Fugue, Canon, Sonata, and custom forms
+- **Audio Rendering**: Deterministic PCM audio generation from musical structure
+- **Validation**: Guaranteed bounded execution with no infinite loops
+
+```bash
+# Run the Rondo example
+cargo run --example rondo_example
+
+# Run all tests
+cargo test
+
+# See complete documentation
+cat MSMC_v2_ARCHITECTURE.md
+```
+
+**Key Features:**
+- **Typed Musical Forms**: High-level specifications for rondo, canon, fugue patterns
+- **State Machine Compilation**: Convert musical structure to bounded execution graphs
+- **Multi-voice Rendering**: Support for polyphonic music with gain and timing control
+- **Flame IR Backend**: Plugin architecture for audio synthesis engines
 
 ## 🏗️ Infrastructure
 
@@ -270,6 +294,105 @@ kubectl logs -f deployment/event-gateway -n ops
 
 # Verify HMAC signature
 curl -X POST https://events.strategickhaos.com/health
+```
+
+## 🎵 MSMC v2.0: Musical State Machine Compiler
+
+MSMC v2.0 provides a complete pipeline from FlameLang symbolic music representation to rendered audio. It transforms high-level musical forms into bounded state machines that generate deterministic audio output.
+
+### Architecture
+
+The MSMC v2.0 architecture consists of five layers:
+
+1. **Flame IR Layer**: Typed symbolic graph (frequency, energy, angle, musical parameters)
+2. **Form Spec Layer**: High-level musical form specifications (Rondo, Canon, Fugue, Sonata)
+3. **State Machine Layer**: Bounded MSMCGraph with nodes, transitions, and clocks
+4. **Signal Graph Layer**: Binding of musical structure to Flame IR audio fragments
+5. **Renderer Layer**: Deterministic PCM audio generation
+
+### Quick Start Example
+
+```rust
+use msmc_backend::flame::RondoBuilder;
+use msmc_backend::{build_state_machine, render_msmc_to_wav};
+
+// Define themes
+let mut builder = RondoBuilder::new(120.0);
+builder
+    .add_theme("A", 1, 8.0)
+    .add_theme("B", 2, 8.0)
+    .add_theme("C", 3, 8.0);
+
+// Build ABACA rondo form
+let form = builder.build_abaca();
+let form_spec = form.to_form_spec();
+
+// Generate state machine
+let state_machine = build_state_machine(&form_spec);
+
+// Render to audio
+let wav_buffer = render_msmc_to_wav(&flame, &backend, &state_machine, &config);
+```
+
+### Supported Forms
+
+- **Rondo**: ABACA, ABACABA patterns with recurring themes
+- **Canon**: Voice entries with time delays and transformations
+- **Fugue**: Subject/answer patterns (planned)
+- **Sonata**: Exposition/development/recapitulation (planned)
+- **Custom**: User-defined sequences
+
+### Data Flow
+
+```
+Flame Program → Flame Compiler → Flame IR
+                    ↓
+             Form Annotation
+                    ↓
+              FormSpec (MSMC)
+                    ↓
+            build_state_machine
+                    ↓
+              MSMCGraph (Nodes + Transitions)
+                    ↓
+          render_msmc_to_wav
+                    ↓
+            WAV Audio Buffer
+```
+
+### Key Features
+
+- **Guaranteed Bounded Execution**: No infinite loops, all sequences terminate
+- **Multi-voice Support**: Polyphonic music with independent voice rendering
+- **Sample-accurate Timing**: Precise beat-to-sample conversion
+- **Pluggable Backend**: Implement FlameAudioBackend trait for custom synthesis
+- **Form Validation**: Structural integrity checks for musical forms
+
+### Testing
+
+```bash
+# Run all tests
+cargo test
+
+# Run with verbose output
+cargo test -- --nocapture
+
+# Run specific test
+cargo test test_build_simple_state_machine
+
+# Run the Rondo example
+cargo run --example rondo_example
+```
+
+### Documentation
+
+See [MSMC_v2_ARCHITECTURE.md](MSMC_v2_ARCHITECTURE.md) for complete documentation including:
+- Detailed architecture description
+- API reference
+- Data model specifications
+- Example usage patterns
+- Validation constraints
+- Future extensions
 ```
 
 ## 👥 Community & Contributors
