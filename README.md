@@ -2,6 +2,19 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 🔥 Four Core Inventions
+
+This repository documents **four patent-eligible inventions** that form the foundation of the Strategickhaos sovereignty architecture:
+
+1. **[SAGCO-OS](docs/SAGCO_OS_TECHNICAL_WHITEPAPER.md)** - Cognitive Operating System Architecture for multi-agent AI orchestration
+2. **[FlameLang](docs/FLAMELANG_COMPILER_SPECIFICATION.md)** - DNA-Based Evolutionary Compiler with Darwinian mutation engine
+3. **[AI Hypervisor](docs/AI_HYPERVISOR_ARCHITECTURE.md)** - Cognitive Supervisor Layer for agent isolation and routing
+4. **[TRIG6](docs/TRIG6_MATHEMATICAL_FRAMEWORK.md)** - Trigonometric Stability Framework for agent selection
+
+**[📋 Patent Mapping Document](docs/PATENT_MAPPING.md)** - Comprehensive analysis of novelty, non-obviousness, and defensibility
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -9,6 +22,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Cognitive OS** - SAGCO-OS for multi-agent orchestration with TRIG6 routing
 
 ## 🚀 Quick Start
 
