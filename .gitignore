@@ -36,3 +36,14 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+
+# SAGCO-OS specific
+/var/log/sagco/
+/tmp/sagco*/
