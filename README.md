@@ -71,6 +71,30 @@ java HelloCloudOS.java
 ./start-cloudos-jdk.sh stop
 ```
 
+### 🗄️ Neon Database (`neondb`)
+- **PostgreSQL**: Serverless managed Postgres with autoscaling
+- **17-Table Schema**: Legal entities, inventions, AI council, cluster nodes, operational logs
+- **Third-Party Timestamps**: Independent proof of record creation (used in TRIG6 truth-scoring)
+- **Zero Vendor Lock-in**: Standard PostgreSQL, exportable via `pg_dump`
+- **Branching**: Instant copy-on-write branches for dev/test/staging
+
+```bash
+# Quick start
+cd database
+npm install
+cp .env.example .env  # Add your Neon credentials
+
+npm test              # Test connection
+npm run deploy        # Deploy schema
+npm run import        # Import Empire Genome data
+npm run status        # Show database status
+```
+
+**Documentation:**
+- [`database/NEON_DATABASE.md`](./database/NEON_DATABASE.md) - Complete rundown (17 sections)
+- [`database/INTEGRATIONS.md`](./database/INTEGRATIONS.md) - Integration examples
+- [`docs/NEON.md`](./docs/NEON.md) - Quick reference
+
 ## 🏗️ Infrastructure
 
 ### Kubernetes Deployment
@@ -135,6 +159,10 @@ GITHUB_APP_PRIVATE_KEY_PATH=/path/to/key.pem
 # AI Agents
 OPENAI_API_KEY=sk-your-api-key
 PGVECTOR_CONN=postgresql://user:pass@host:5432/db
+
+# Neon Database (Central Nervous System)
+DATABASE_URL=postgresql://neondb_owner:password@ep-shiny-dream-a49u5n6p.us-east-1.aws.neon.tech/neondb?sslmode=require
+NEON_API_KEY=your_neon_api_key
 
 # Infrastructure
 EVENTS_HMAC_KEY=your_64_char_hmac_key
