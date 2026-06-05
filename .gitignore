@@ -36,3 +36,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Execution kernel runtime data
+runs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
