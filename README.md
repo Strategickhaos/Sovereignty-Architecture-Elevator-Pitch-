@@ -2,6 +2,22 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+---
+
+## 🔥 Sovereign Cloud Empire
+
+**NEW:** Complete infrastructure deployment and network troubleshooting documentation available!
+
+📚 **[→ Sovereign Cloud Documentation Index](SOVEREIGN_CLOUD_INDEX.md)** - Start here for infrastructure deployment
+
+Quick links:
+- 📖 [Full Infrastructure Status & Procedures](SOVEREIGN_CLOUD_INFRASTRUCTURE_STATUS.md)
+- ⚡ [Quick Network Fix Reference](ATHENA_NETWORK_QUICKFIX.md)
+- 🛠️ `fix-athena-network.ps1` - Automated network recovery (Windows)
+- 🚀 `deploy-sovereign-cloud.sh` - Complete cloud deployment automation
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
@@ -11,6 +27,22 @@ This system creates a **sovereignty control plane** that bridges:
 - **AI Agents** - Intelligent assistance with vector knowledge base
 
 ## 🚀 Quick Start
+
+### For Sovereign Cloud Deployment (Recommended)
+
+```bash
+# 1. Fix Athena network (if needed - Windows PowerShell as Administrator)
+.\fix-athena-network.ps1
+
+# 2. Deploy complete sovereign cloud infrastructure
+./deploy-sovereign-cloud.sh
+```
+
+📚 **See detailed guides:**
+- [**SOVEREIGN_CLOUD_INFRASTRUCTURE_STATUS.md**](SOVEREIGN_CLOUD_INFRASTRUCTURE_STATUS.md) - Complete infrastructure audit and deployment procedures
+- [**ATHENA_NETWORK_QUICKFIX.md**](ATHENA_NETWORK_QUICKFIX.md) - Quick network troubleshooting reference
+
+### For Discord Integration Only
 
 ```bash
 # 1. Clone and bootstrap
@@ -72,6 +104,33 @@ java HelloCloudOS.java
 ```
 
 ## 🏗️ Infrastructure
+
+### 🔥 Sovereign Cloud Empire Architecture
+
+**Complete infrastructure deployment and troubleshooting guides:**
+
+📖 **[SOVEREIGN_CLOUD_INFRASTRUCTURE_STATUS.md](SOVEREIGN_CLOUD_INFRASTRUCTURE_STATUS.md)** - Comprehensive guide covering:
+- ✅ Verified infrastructure inventory (3x GKE clusters, 4x home nodes, DO cluster)
+- ⚠️ Network troubleshooting (Athena node connectivity issues)
+- 🔧 Step-by-step fix procedures (4 options)
+- 🚀 Post-connectivity deployment procedures (GKE, Ollama, WireGuard mesh)
+- 📊 Monitoring, security, and maintenance procedures
+
+⚡ **[ATHENA_NETWORK_QUICKFIX.md](ATHENA_NETWORK_QUICKFIX.md)** - Quick reference for immediate network fixes
+
+🛠️ **Automation Scripts:**
+- `fix-athena-network.ps1` - Automated network recovery for Windows nodes
+- `deploy-sovereign-cloud.sh` - Complete sovereign cloud deployment automation
+
+**Infrastructure Inventory:**
+
+| Component | Details | Status |
+|-----------|---------|--------|
+| **GKE Clusters** | 3x Autopilot (us-central1) | ✅ Active |
+| **Home Nodes** | Athena (128GB), Nova (64GB), Lyra (64GB), iPower | ✅ Mesh Ready |
+| **DO Cluster** | quantumsim-forge (Frankfurt) | ✅ Created |
+| **Cloud Services** | Firebase, Google Developer Premium | ✅ Live |
+| **Network Mesh** | Tailscale (tail97edc9.ts.net) | ✅ Configured |
 
 ### Kubernetes Deployment
 ```yaml
