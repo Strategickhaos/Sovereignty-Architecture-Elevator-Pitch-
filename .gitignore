@@ -36,3 +36,12 @@ target/
 
 # Workspace data
 workspace/
+
+# Detection analysis generated outputs
+results/derived/*.csv
+results/derived/*.png
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
