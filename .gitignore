@@ -36,3 +36,13 @@ target/
 
 # Workspace data
 workspace/
+
+# Neuralink infusion simulation artifacts
+artifacts/neuralink_infusion/*.npy
+artifacts/neuralink_infusion/*.json
+artifacts/neuralink_infusion/*.codon
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
