@@ -1,0 +1,381 @@
+# SAGCO OS - Kubernetes Deployment Manifests
+# Sovereignty Architecture Grand Central Operating System
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sagco
+  labels:
+    name: sagco
+    environment: production
+
+---
+# ConfigMap for SAGCO configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sagco-config
+  namespace: sagco
+data:
+  sagco.yaml: |
+    version: "0.1.0"
+    layers:
+      reflexive:
+        response_time_ms: 100
+        enabled: true
+      tactical:
+        planning_window_hours: 24
+        enabled: true
+      strategic:
+        planning_window_days: 90
+        enabled: true
+      sovereign:
+        awareness_depth: "maximum"
+        enabled: true
+    dopamine:
+      baseline_threshold: 50
+      flow_threshold: 85
+      recovery_rate: 5
+    academic:
+      target_gpa: 4.0
+      min_study_hours_per_day: 4
+      max_concurrent_tasks: 5
+
+---
+# Secret for sensitive data
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sagco-secrets
+  namespace: sagco
+type: Opaque
+stringData:
+  # IMPORTANT: Replace these with actual secrets before deploying to production
+  # Use: kubectl create secret generic sagco-secrets --from-literal=postgres-password=$(openssl rand -base64 32)
+  postgres-password: ""  # Set via kubectl or CI/CD
+  redis-password: ""     # Set via kubectl or CI/CD
+  jwt-secret: ""         # Set via kubectl or CI/CD
+  github-token: ""       # Optional: Set if GitHub integration needed
+  discord-token: ""      # Optional: Set if Discord integration needed
+
+---
+# Deployment for SAGCO application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco
+  namespace: sagco
+  labels:
+    app: sagco
+    version: v0.1.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: sagco
+  template:
+    metadata:
+      labels:
+        app: sagco
+        version: v0.1.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: sagco
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: sagco
+        image: sagco:0.1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8000
+          protocol: TCP
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          value: "sagco"
+        - name: POSTGRES_USER
+          value: "sagco"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sagco-secrets
+              key: postgres-password
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: QDRANT_HOST
+          value: "qdrant"
+        - name: QDRANT_PORT
+          value: "6333"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: sagco-secrets
+              key: jwt-secret
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+          readOnly: true
+        - name: logs
+          mountPath: /var/log/sagco
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: config
+        configMap:
+          name: sagco-config
+      - name: logs
+        emptyDir: {}
+
+---
+# Service for SAGCO
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco
+  namespace: sagco
+  labels:
+    app: sagco
+spec:
+  type: ClusterIP
+  selector:
+    app: sagco
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: metrics
+    protocol: TCP
+  sessionAffinity: ClientIP
+
+---
+# Ingress for SAGCO
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sagco
+  namespace: sagco
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+spec:
+  tls:
+  - hosts:
+    - sagco.strategickhaos.com
+    secretName: sagco-tls
+  rules:
+  - host: sagco.strategickhaos.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sagco
+            port:
+              name: http
+
+---
+# HorizontalPodAutoscaler for SAGCO
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: sagco
+  namespace: sagco
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sagco
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 30
+      - type: Pods
+        value: 2
+        periodSeconds: 30
+      selectPolicy: Max
+
+---
+# PodDisruptionBudget for SAGCO
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sagco
+  namespace: sagco
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: sagco
+
+---
+# NetworkPolicy for SAGCO
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: sagco
+  namespace: sagco
+spec:
+  podSelector:
+    matchLabels:
+      app: sagco
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: sagco
+    ports:
+    - protocol: TCP
+      port: 8000
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis
+    ports:
+    - protocol: TCP
+      port: 6379
+  - to:
+    - podSelector:
+        matchLabels:
+          app: qdrant
+    ports:
+    - protocol: TCP
+      port: 6333
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 443
+
+---
+# ServiceAccount for SAGCO
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sagco
+  namespace: sagco
+
+---
+# Role for SAGCO
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: sagco
+  namespace: sagco
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+
+---
+# RoleBinding for SAGCO
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sagco
+  namespace: sagco
+subjects:
+- kind: ServiceAccount
+  name: sagco
+  namespace: sagco
+roleRef:
+  kind: Role
+  name: sagco
+  apiGroup: rbac.authorization.k8s.io

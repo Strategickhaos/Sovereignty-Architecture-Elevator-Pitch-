@@ -1,0 +1,66 @@
+# SAGCO OS - Production Environment Overlay
+# Sovereignty Architecture Grand Central Operating System
+
+version: '3.8'
+
+services:
+  sagco:
+    build:
+      target: api  # Use production API stage
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO
+      - POSTGRES_PASSWORD=${SAGCO_DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+    volumes:
+      - sagco-logs:/var/log/sagco:rw
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        order: start-first
+
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=${SAGCO_DB_PASSWORD}
+    volumes:
+      - /mnt/data/postgres:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+  redis:
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  qdrant:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G

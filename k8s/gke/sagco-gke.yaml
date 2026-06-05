@@ -1,0 +1,161 @@
+# SAGCO OS - GKE-Specific Resources
+# Google Kubernetes Engine optimizations
+
+---
+# BackendConfig for GKE Load Balancer
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: sagco-backend-config
+  namespace: sagco
+spec:
+  healthCheck:
+    checkIntervalSec: 10
+    timeoutSec: 5
+    healthyThreshold: 2
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /health
+    port: 8000
+  connectionDraining:
+    drainingTimeoutSec: 60
+  timeoutSec: 30
+  logging:
+    enable: true
+    sampleRate: 1.0
+  cdn:
+    enabled: false
+  iap:
+    enabled: false
+  sessionAffinity:
+    affinityType: "CLIENT_IP"
+    affinityCookieTtlSec: 3600
+
+---
+# ManagedCertificate for Google-managed SSL
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: sagco-certificate
+  namespace: sagco
+spec:
+  domains:
+  - sagco.strategickhaos.com
+  - www.sagco.strategickhaos.com
+
+---
+# VerticalPodAutoscaler for GKE
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: sagco-vpa
+  namespace: sagco
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sagco
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+    - containerName: sagco
+      minAllowed:
+        cpu: 100m
+        memory: 128Mi
+      maxAllowed:
+        cpu: 2000m
+        memory: 1Gi
+      controlledResources:
+      - cpu
+      - memory
+
+---
+# GKE-specific Ingress with Google Cloud Load Balancer
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sagco-gke
+  namespace: sagco
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "sagco-ip"
+    networking.gke.io/managed-certificates: "sagco-certificate"
+    kubernetes.io/ingress.allow-http: "false"
+    cloud.google.com/backend-config: '{"default": "sagco-backend-config"}'
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  rules:
+  - host: sagco.strategickhaos.com
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: sagco
+            port:
+              number: 80
+
+---
+# GKE Workload Identity binding
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sagco-gke
+  namespace: sagco
+  annotations:
+    iam.gke.io/gcp-service-account: sagco@PROJECT_ID.iam.gserviceaccount.com
+
+---
+# BackendService for Cloud CDN and Cloud Armor
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: sagco-cdn-config
+  namespace: sagco
+spec:
+  cdn:
+    enabled: true
+    cachePolicy:
+      includeHost: true
+      includeProtocol: true
+      includeQueryString: false
+    negativeCaching: true
+    negativeCachingPolicy:
+    - code: 404
+      ttl: 120
+    - code: 500
+      ttl: 60
+  securityPolicy:
+    name: "sagco-security-policy"
+
+---
+# GKE PodSecurityPolicy
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: sagco-psp
+  namespace: sagco
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+  - ALL
+  volumes:
+  - 'configMap'
+  - 'emptyDir'
+  - 'projected'
+  - 'secret'
+  - 'downwardAPI'
+  - 'persistentVolumeClaim'
+  hostNetwork: false
+  hostIPC: false
+  hostPID: false
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  readOnlyRootFilesystem: false
