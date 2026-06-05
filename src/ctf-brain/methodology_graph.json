@@ -1,0 +1,99 @@
+{
+  "nodes": [
+    {
+      "id": "01-Ua-Recon",
+      "name": "Reconnaissance",
+      "pll_algorithm": "M'2 U M U2 M' U M'2",
+      "description": "Initial scanning and information gathering phase",
+      "tools": ["nmap", "masscan", "shodan", "whois", "dig", "dnsenum", "sublist3r"],
+      "keywords": ["scan", "recon", "reconnaissance", "discover", "map", "enumerate hosts", "port scan"],
+      "next_nodes": ["02-Ub-Enum", "03-H-WebApp"]
+    },
+    {
+      "id": "02-Ub-Enum",
+      "name": "Enumeration",
+      "pll_algorithm": "M'2 U' M U2 M' U' M'2",
+      "description": "Deep enumeration of services and vulnerabilities",
+      "tools": ["gobuster", "enum4linux", "smbclient", "ldapsearch", "snmpwalk", "nikto"],
+      "keywords": ["enumerate", "enum", "list", "identify", "directory", "subdomain", "brute force"],
+      "next_nodes": ["03-H-WebApp", "04-Z-Exploit", "05-Aa-Creds"]
+    },
+    {
+      "id": "03-H-WebApp",
+      "name": "Web Application Testing",
+      "pll_algorithm": "M'2 U M'2 U2 M'2 U M'2",
+      "description": "Web application vulnerability assessment and exploitation",
+      "tools": ["burp", "sqlmap", "nikto", "wpscan", "dirbuster", "wfuzz", "xsstrike"],
+      "keywords": ["web", "webapp", "inject", "sql", "xss", "bypass", "http", "https", "exploit web"],
+      "next_nodes": ["04-Z-Exploit", "05-Aa-Creds"]
+    },
+    {
+      "id": "04-Z-Exploit",
+      "name": "Exploitation",
+      "pll_algorithm": "M2 U M2 U M' U2 M2 U2 M' U2",
+      "description": "Gaining initial foothold and shell access",
+      "tools": ["metasploit", "nc", "netcat", "msfvenom", "exploit-db", "searchsploit"],
+      "keywords": ["exploit", "shell", "reverse shell", "foothold", "payload", "rce", "remote code"],
+      "next_nodes": ["05-Aa-Creds", "06-Ab-PrivEsc", "09-F-Pivot"]
+    },
+    {
+      "id": "05-Aa-Creds",
+      "name": "Credential Access",
+      "pll_algorithm": "x R' U R' D2 R U' R' D2 R2 x'",
+      "description": "Credential harvesting and password cracking",
+      "tools": ["hydra", "hashcat", "john", "mimikatz", "crackmapexec", "medusa"],
+      "keywords": ["password", "credential", "hash", "crack", "brute", "login", "auth"],
+      "next_nodes": ["06-Ab-PrivEsc", "09-F-Pivot"]
+    },
+    {
+      "id": "06-Ab-PrivEsc",
+      "name": "Privilege Escalation",
+      "pll_algorithm": "x R2 D2 R U R' D2 R U' R x'",
+      "description": "Escalating privileges to root/administrator",
+      "tools": ["linpeas", "winpeas", "pspy", "gtfobins", "sudo -l", "getcap"],
+      "keywords": ["privesc", "privilege", "escalation", "root", "sudo", "suid", "administrator"],
+      "next_nodes": ["07-E-Persist", "08-T-Exfil", "09-F-Pivot"]
+    },
+    {
+      "id": "07-E-Persist",
+      "name": "Persistence",
+      "pll_algorithm": "x' R U' R' D R U R' D' R U R' D R U' R' D' x",
+      "description": "Maintaining access through persistence mechanisms",
+      "tools": ["cron", "systemd", "registry", "scheduled tasks", "backdoor", "ssh keys"],
+      "keywords": ["persist", "persistence", "maintain", "backdoor", "cron", "startup", "autorun"],
+      "next_nodes": ["08-T-Exfil", "09-F-Pivot", "10-V-Cleanup"]
+    },
+    {
+      "id": "08-T-Exfil",
+      "name": "Data Exfiltration",
+      "pll_algorithm": "R U R' U' R' F R2 U' R' U' R U R' F'",
+      "description": "Extracting sensitive data from target",
+      "tools": ["nc", "curl", "wget", "scp", "dns exfil", "icmp tunnel", "base64"],
+      "keywords": ["exfil", "exfiltrate", "extract", "download", "data", "transfer", "steal"],
+      "next_nodes": ["10-V-Cleanup", "09-F-Pivot"]
+    },
+    {
+      "id": "09-F-Pivot",
+      "name": "Lateral Movement/Pivot",
+      "pll_algorithm": "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+      "description": "Moving laterally through network and pivoting to new targets",
+      "tools": ["chisel", "ligolo", "ssh tunnel", "proxychains", "meterpreter", "socat"],
+      "keywords": ["pivot", "lateral", "tunnel", "proxy", "network", "move", "jump"],
+      "next_nodes": ["01-Ua-Recon", "02-Ub-Enum", "04-Z-Exploit", "10-V-Cleanup"]
+    },
+    {
+      "id": "10-V-Cleanup",
+      "name": "Cleanup & Cover Tracks",
+      "pll_algorithm": "R U2 R' U' R U2 L' U R' U' L",
+      "description": "Removing traces and cleaning up artifacts",
+      "tools": ["shred", "wevtutil", "rm", "history -c", "unlink", "bleachbit"],
+      "keywords": ["cleanup", "clean", "remove", "delete", "traces", "logs", "cover"],
+      "next_nodes": []
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "description": "CTF Brain Methodology Graph - Rubik's Cube PLL algorithms mapped to penetration testing phases",
+    "author": "Strategickhaos DAO LLC"
+  }
+}
