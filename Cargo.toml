@@ -1,0 +1,29 @@
+[package]
+name = "sagco-os"
+version = "0.1.0"
+edition = "2021"
+authors = ["StrategicKhaos <contact@strategickhaos.io>"]
+description = "SAGCO-OS: Sovereignty Architecture with QEMU-inspired vCPU simulation and FlameLang compiler"
+
+[dependencies]
+sha2 = "0.10"
+hex = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+lazy_static = "1.4"
+
+[lib]
+name = "sagco_os"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sagco_vcpu_sim"
+path = "src/bin/sagco_vcpu_sim.rs"
+
+[[bin]]
+name = "quantum_dna_splicer"
+path = "quantum_dna_splicer.rs"
+
+[[bin]]
+name = "genesis_prime_core"
+path = "genesis_prime_core.rs"
