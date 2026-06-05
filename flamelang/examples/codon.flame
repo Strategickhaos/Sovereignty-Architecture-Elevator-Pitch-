@@ -1,0 +1,8 @@
+// DNA codon encoding
+// Tests: 64-codon bijection
+
+fn main() -> i32 {
+    let value = 42;
+    let encoded = codon(value);
+    return value;
+}

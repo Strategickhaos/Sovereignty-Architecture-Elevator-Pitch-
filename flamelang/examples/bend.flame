@@ -1,0 +1,9 @@
+// Physics pipe bend operation
+// Tests: c=2πr circular geometry
+
+fn main() -> f64 {
+    let angle = 90.0;
+    let radius = 5.0;
+    let arc = bend(angle, radius);
+    return arc;
+}

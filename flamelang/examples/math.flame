@@ -1,0 +1,8 @@
+// Basic arithmetic operations
+// Tests: addition, multiplication, subtraction
+
+fn main() -> i32 {
+    let x = 2 + 3;
+    let y = x * 4;
+    return y - 10;
+}
