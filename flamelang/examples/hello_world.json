@@ -1,0 +1,40 @@
+{
+  "Module": {
+    "name": "hello_world",
+    "version": "0.1.0",
+    "items": [
+      {
+        "FnDef": {
+          "name": "main",
+          "params": [],
+          "return_type": "Unit",
+          "body": {
+            "Block": {
+              "statements": [
+                {
+                  "Call": {
+                    "target": "print",
+                    "args": [
+                      {
+                        "Const": {
+                          "String": "Hello, World!"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "Return": {
+                    "value": {
+                      "Const": "Unit"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}

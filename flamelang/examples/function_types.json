@@ -1,0 +1,126 @@
+{
+  "Module": {
+    "name": "function_types",
+    "version": "0.1.0",
+    "items": [
+      {
+        "FnDef": {
+          "name": "apply_twice",
+          "params": [
+            {
+              "name": "f",
+              "param_type": {
+                "Fn": {
+                  "params": ["Int"],
+                  "return": "Int"
+                }
+              }
+            },
+            {
+              "name": "x",
+              "param_type": "Int"
+            }
+          ],
+          "return_type": "Int",
+          "body": {
+            "Return": {
+              "value": {
+                "Call": {
+                  "target": "f",
+                  "args": [
+                    {
+                      "Call": {
+                        "target": "f",
+                        "args": [
+                          {
+                            "Var": {
+                              "name": "x"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "FnDef": {
+          "name": "increment",
+          "params": [
+            {
+              "name": "n",
+              "param_type": "Int"
+            }
+          ],
+          "return_type": "Int",
+          "body": {
+            "Return": {
+              "value": {
+                "BinOp": {
+                  "op": "Add",
+                  "left": {
+                    "Var": {
+                      "name": "n"
+                    }
+                  },
+                  "right": {
+                    "Const": {
+                      "Int": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "FnDef": {
+          "name": "main",
+          "params": [],
+          "return_type": "Unit",
+          "body": {
+            "Block": {
+              "statements": [
+                {
+                  "Let": {
+                    "name": "result",
+                    "value": {
+                      "Call": {
+                        "target": "apply_twice",
+                        "args": [
+                          {
+                            "Var": {
+                              "name": "increment"
+                            }
+                          },
+                          {
+                            "Const": {
+                              "Int": 5
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "let_type": "Int"
+                  }
+                },
+                {
+                  "Return": {
+                    "value": {
+                      "Const": "Unit"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}
