@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "domain": "rope",
+    "version": "1.0.0",
+    "description": "Rope and knot efficiency constants",
+    "last_updated": "2026-01-29"
+  },
+  "constants": [
+    {
+      "key": "rope.knot.figure_8_on_bight",
+      "value": 0.75,
+      "units": "efficiency_ratio",
+      "context": "Figure-8 on a bight knot strength efficiency relative to unknotted rope",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "On Rope: North American Vertical Rope Techniques",
+          "publisher": "National Speleological Society",
+          "edition_or_rev": "2nd Edition",
+          "section_or_page": "Chapter 3: Knots",
+          "year": 1996
+        },
+        {
+          "source_title": "Knots for Climbers",
+          "publisher": "Falcon Guides",
+          "edition_or_rev": "2nd Edition",
+          "section_or_page": "pp. 45-48",
+          "year": 2008
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "notes": "Generally retains 70-80% of rope strength. Conservative estimate at 75%."
+    },
+    {
+      "key": "rope.knot.bowline",
+      "value": 0.70,
+      "units": "efficiency_ratio",
+      "context": "Bowline knot strength efficiency",
+      "confidence": "high",
+      "provenance": [
+        {
+          "source_title": "The Ashley Book of Knots",
+          "publisher": "Doubleday",
+          "edition_or_rev": "First Edition",
+          "section_or_page": "Knot #1010",
+          "year": 1944
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "notes": "Typically retains 60-75% of rope strength"
+    },
+    {
+      "key": "rope.knot.double_fisherman",
+      "value": 0.65,
+      "units": "efficiency_ratio",
+      "context": "Double fisherman's knot strength efficiency",
+      "confidence": "medium",
+      "provenance": [
+        {
+          "source_title": "Mountaineering: Freedom of the Hills",
+          "publisher": "The Mountaineers Books",
+          "edition_or_rev": "9th Edition",
+          "section_or_page": "Chapter 10",
+          "year": 2017
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "notes": "Varies significantly with rope type and diameter"
+    },
+    {
+      "key": "rope.safety_factor.working",
+      "value": 5.0,
+      "units": "dimensionless",
+      "context": "Minimum safety factor for working loads in rigging",
+      "confidence": "regulatory",
+      "provenance": [
+        {
+          "source_title": "OSHA 1926.251 - Rigging Equipment for Material Handling",
+          "publisher": "U.S. Department of Labor",
+          "edition_or_rev": "CFR 2024",
+          "section_or_page": "§1926.251(a)(5)",
+          "year": 2024
+        },
+        {
+          "source_title": "ASME B30.26 - Rigging Hardware",
+          "publisher": "American Society of Mechanical Engineers",
+          "edition_or_rev": "2017",
+          "section_or_page": "Section 26-1.2.2",
+          "year": 2017
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "notes": "5:1 is industry standard; higher factors used for dynamic or shock loads"
+    },
+    {
+      "key": "rope.breaking_strength.static_11mm",
+      "value": 28.0,
+      "units": "kN",
+      "context": "Typical breaking strength for 11mm static rope",
+      "confidence": "medium",
+      "provenance": [
+        {
+          "source_title": "Sterling Rope Product Specifications",
+          "publisher": "Sterling Rope Company",
+          "edition_or_rev": "2024 Catalog",
+          "section_or_page": "Static 11mm HTP",
+          "year": 2024
+        }
+      ],
+      "entered_by": "Domenic G. Garza",
+      "notes": "Varies by manufacturer; typical range 26-30kN"
+    }
+  ]
+}
