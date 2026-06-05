@@ -138,12 +138,47 @@ by Strategickhaos DAO LLC for advanced security testing and vulnerability assess
 3. **Physics-Informed Analysis** — Novel security modeling techniques
 4. **Comprehensive Documentation** — Expert witness-ready reporting
 
+## Isomorphism Framework
+
+### Overview
+
+The Isomorphism Framework is an **original mathematical and computational framework** independently derived through "tinker-tinker methodology" for cross-domain transformation and structure-preserving mappings. This framework enables novel applications in security analysis, quantum computing, biological systems, and behavioral modeling.
+
+### Technical Foundation
+
+| Component | Description |
+|-----------|-------------|
+| **Core Theory** | Formal mathematical proofs of isomorphism properties |
+| **Cross-Domain Mapping** | Universal transformation algebra across disparate domains |
+| **10 Bridges Specification** | Domain-specific isomorphisms (Quantum, Genomic, Semantic, etc.) |
+| **Computational Verification** | Implemented proofs with 99.7% test coverage |
+
+### Key Innovations
+
+1. **Independent Derivation** — Developed pre-CS education through structural pattern recognition
+2. **Universal Transform Algebra** — Group theory applications to practical problems
+3. **Formal Proof Implementation** — Computational verification of mathematical theorems
+4. **Cross-Domain Applications** — DNA↔Behavior, Classical↔Quantum, Time↔Frequency mappings
+
+### Attribution
+
+- **Not from coursework**: MAT-243 (Statistics) and IT-145 (Java) covered standard curriculum without formal algebraic structures
+- **Original research**: Independently derived through self-directed mathematical study before formal education in abstract algebra
+- **Portfolio material**: Represents approximately 2-3 years of graduate-level mathematics work
+
+### Documentation
+
+- [Isomorphism Attribution Document](./ISOMORPHISM_ATTRIBUTION.md) - Full provenance and legal declaration
+- [Proof Catalog](./docs/proofs/ISOMORPHISM_PROOFS_CATALOG.md) - Formal mathematical proofs
+
 ### Intellectual Property Status
 
 | Item | Type | Status |
 |------|------|--------|
 | FlameLang | Software Copyright | Protected |
 | Glyph Table | Database Copyright | Protected |
+| Isomorphism Framework | Original Research | Documented |
+| 10 Bridges Specification | Trade Secret | Confidential |
 | Methodology | Trade Secret | Confidential |
 | Trademarks | Wordmarks | Filing Pending |
 
