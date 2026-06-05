@@ -1,0 +1,48 @@
+# SAGCO-VM - Soul Node
+# Neural Mesh Node 5/5 (Primary Kernel)
+
+node_id: "sagco-vm"
+role: "soul"
+status: "active"
+
+hardware:
+  cpu: "Virtual CPU"
+  cores: 2
+  threads: 2
+  ram_gb: 2
+  gpu: "None"
+  storage: "Virtual Disk"
+  virtualization: "VirtualBox"
+
+network:
+  primary_ip: "10.0.2.15"
+  hostname: "sagco-vm.mesh.sagco"
+  wireless: false
+  nat_network: true
+  
+capabilities:
+  - "kernel_core"
+  - "cognitive_loop"
+  - "bloom_router"
+  - "dopamine_refinery"
+  - "command_arsenal"
+  
+services:
+  - name: "sagco-os"
+    port: 8080
+    status: "running"
+    version: "v1.0.5"
+  - name: "mesh-coordinator"
+    port: 9000
+    status: "running"
+  - name: "oracle-guardian"
+    port: 9001
+    status: "running"
+
+metadata:
+  location: "VirtualBox VM on Alpine Linux"
+  priority: 0
+  mesh_weight: 0.15
+  notes: "Primary SAGCO kernel instance"
+  os: "Alpine Linux 6.12.1"
+  init: "BusyBox Init"

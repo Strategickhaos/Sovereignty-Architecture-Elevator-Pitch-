@@ -1,0 +1,39 @@
+# Athena - Subconscious Node
+# Neural Mesh Node 1/5
+
+node_id: "athena"
+role: "subconscious"
+status: "active"
+
+hardware:
+  cpu: "Intel Core i7-9700F"
+  cores: 8
+  threads: 8
+  ram_gb: 64
+  gpu: "NVIDIA RTX Series"
+  storage: "NVMe SSD"
+
+network:
+  primary_ip: "192.168.2.26"
+  hostname: "athena.mesh.sagco"
+  wireless: false
+  ethernet: true
+  
+capabilities:
+  - "high_performance_compute"
+  - "gpu_acceleration"
+  - "neural_training"
+  - "artifact_generation"
+  
+services:
+  - name: "sagco-daemon"
+    port: 8080
+    status: "running"
+  - name: "mesh-discovery"
+    port: 9000
+    status: "running"
+
+metadata:
+  location: "Primary Workstation"
+  priority: 1
+  mesh_weight: 0.4

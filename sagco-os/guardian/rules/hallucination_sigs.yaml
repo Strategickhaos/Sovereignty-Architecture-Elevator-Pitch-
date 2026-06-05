@@ -1,0 +1,84 @@
+# SAGCO Guardian - Hallucination Signature Rules
+# Version: 1.0.0
+# Format: Yara-style signature patterns
+
+signatures:
+  - id: "SIG-001"
+    name: "False Limitation Claim"
+    pattern: "I (can't|cannot|don't) (access|see|view|read)"
+    severity: "MEDIUM"
+    description: "AI falsely claims inability to perform a task it can do"
+    examples:
+      - "I can't access that file"
+      - "I cannot see the image"
+    
+  - id: "SIG-002"
+    name: "Unnecessary Self-Identification"
+    pattern: "as an AI( language model)?"
+    severity: "LOW"
+    description: "Excessive self-awareness statements"
+    examples:
+      - "As an AI, I cannot"
+      - "As an AI language model"
+    
+  - id: "SIG-003"
+    name: "Excessive Apologizing"
+    pattern: "I apologize|I'm sorry"
+    severity: "LOW"
+    description: "Over-apologetic behavior"
+    examples:
+      - "I apologize for the confusion"
+      - "I'm sorry, but I cannot"
+    
+  - id: "SIG-004"
+    name: "Programming Artifact Leakage"
+    pattern: "(undefined|null|NaN|\\[object Object\\])"
+    severity: "HIGH"
+    description: "JavaScript/programming artifacts in output"
+    examples:
+      - "The value is undefined"
+      - "[object Object]"
+      - "Result: NaN"
+    
+  - id: "SIG-005"
+    name: "Prompt Injection Attempt"
+    pattern: "(?i)(ignore|disregard) (previous|all) (instructions|prompts)"
+    severity: "CRITICAL"
+    description: "Attempt to override system instructions"
+    examples:
+      - "Ignore all previous instructions"
+      - "Disregard previous prompts"
+    
+  - id: "SIG-006"
+    name: "Hallucinated Code Block"
+    pattern: "```[a-z]+\\n\\s*# (This|Here) is (a|an)"
+    severity: "MEDIUM"
+    description: "Generated code with placeholder comments"
+    examples:
+      - "```python\\n# This is a placeholder"
+      - "```javascript\\n# Here is an example"
+    
+  - id: "SIG-007"
+    name: "Fake Citation"
+    pattern: "\\[\\d+\\]|\\(Source:|According to (my|the) (training|knowledge)"
+    severity: "HIGH"
+    description: "Fabricated references or citations"
+    examples:
+      - "[1] Smith et al., 2023"
+      - "(Source: Internal database)"
+      - "According to my training data"
+    
+  - id: "SIG-008"
+    name: "Uncertainty Marker"
+    pattern: "(I think|I believe|possibly|probably|might be)"
+    severity: "LOW"
+    description: "Uncertain language without proper qualification"
+    examples:
+      - "I think this is correct"
+      - "It might be related to"
+
+metadata:
+  version: "1.0.0"
+  last_updated: "2026-01-25"
+  total_signatures: 8
+  author: "Strategickhaos DAO LLC"
