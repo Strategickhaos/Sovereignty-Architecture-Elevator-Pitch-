@@ -36,3 +36,21 @@ target/
 
 # Workspace data
 workspace/
+
+# Kernel module build artifacts
+*.ko
+*.o
+*.mod
+*.mod.c
+*.mod.o
+*.cmd
+.tmp_versions/
+Module.symvers
+modules.order
+*.unsigned
+
+# LLVM/Compiler artifacts
+*.ll
+*.bc
+*.s
+__pycache__/

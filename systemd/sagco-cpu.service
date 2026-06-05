@@ -1,0 +1,18 @@
+[Unit]
+Description=SAGCO CPU Primitives Kernel Module
+Documentation=file:///opt/sagco/kernel/sagco_cpu_mod/README.md
+Before=sagco-compiler.service
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/modprobe sagco_cpu_mod
+# Device node is automatically created by udev at /dev/sagco_cpu (misc device, major 10)
+ExecStartPost=/bin/sh -c 'timeout 5 sh -c "while [ ! -e /dev/sagco_cpu ]; do sleep 0.1; done" && chmod 666 /dev/sagco_cpu'
+ExecStop=/sbin/rmmod sagco_cpu_mod
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

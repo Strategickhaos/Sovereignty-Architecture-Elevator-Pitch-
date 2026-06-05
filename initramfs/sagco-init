@@ -1,0 +1,90 @@
+#!/bin/bash
+# SAGCO Initialization Script for SBIP (Sovereignty Boot Init Process)
+# This script integrates SAGCO components into the boot process
+# Usage: Run in initramfs or early userspace initialization
+
+set -e
+
+SAGCO_HOME=${SAGCO_HOME:-/opt/sagco}
+SAGCO_COMPILE_INITRAMFS=${SAGCO_COMPILE_INITRAMFS:-0}
+FLAMELANG_BOOTSTRAP=${FLAMELANG_BOOTSTRAP:-${SAGCO_HOME}/bootstrap.flame}
+
+echo "🔥 SAGCO OS Initialization - Ratio Ex Nihilo"
+echo "=============================================="
+
+# Stage 1: Load SAGCO CPU Kernel Module
+echo "[Stage 1] Loading SAGCO CPU primitives..."
+if modprobe sagco_cpu_mod 2>/dev/null; then
+    echo "✅ SAGCO CPU module loaded"
+    
+    # Wait for device node to be created by devtmpfs (misc device, major 10)
+    TIMEOUT=5
+    COUNT=0
+    while [ ! -e /dev/sagco_cpu ] && [ $COUNT -lt $TIMEOUT ]; do
+        sleep 0.1
+        COUNT=$((COUNT + 1))
+    done
+    
+    if [ -e /dev/sagco_cpu ]; then
+        chmod 666 /dev/sagco_cpu
+        echo "✅ Device node /dev/sagco_cpu created"
+    else
+        echo "⚠️  Warning: Device node not created within timeout"
+    fi
+else
+    echo "⚠️  Warning: SAGCO CPU module not available"
+fi
+
+# Stage 2: FlameLang Compiler Bootstrap (if enabled)
+if [ "$SAGCO_COMPILE_INITRAMFS" = "1" ] && [ -f "$FLAMELANG_BOOTSTRAP" ]; then
+    echo "[Stage 2] Compiling FlameLang bootstrap..."
+    
+    if command -v python3 >/dev/null 2>&1; then
+        python3 ${SAGCO_HOME}/compiler/flamelang/flamelang_to_llvm.py \
+            "$(cat $FLAMELANG_BOOTSTRAP)" \
+            -o /tmp/sagco_bootstrap.o \
+            -O3 \
+            --verbose
+        
+        if [ -f /tmp/sagco_bootstrap.o ]; then
+            echo "✅ FlameLang bootstrap compiled"
+            
+            # Link and verify (if GCC is available)
+            if command -v gcc >/dev/null 2>&1; then
+                gcc /tmp/sagco_bootstrap.o -o /tmp/sagco_bootstrap -no-pie 2>/dev/null || true
+                if [ -x /tmp/sagco_bootstrap ]; then
+                    /tmp/sagco_bootstrap && echo "✅ FlameLang bootstrap verified"
+                fi
+            fi
+        else
+            echo "⚠️  Warning: FlameLang bootstrap compilation failed"
+        fi
+    else
+        echo "⚠️  Warning: Python3 not available, skipping FlameLang compilation"
+    fi
+else
+    echo "[Stage 2] FlameLang compilation skipped (SAGCO_COMPILE_INITRAMFS=0)"
+fi
+
+# Stage 3: Verify SAGCO environment
+echo "[Stage 3] Verifying SAGCO environment..."
+
+# Check if device is accessible
+if [ -c /dev/sagco_cpu ]; then
+    echo "✅ SAGCO CPU device accessible: /dev/sagco_cpu"
+else
+    echo "⚠️  SAGCO CPU device not found"
+fi
+
+# Check kernel module status
+if lsmod | grep -q sagco_cpu_mod; then
+    echo "✅ SAGCO CPU module status: loaded"
+else
+    echo "⚠️  SAGCO CPU module status: not loaded"
+fi
+
+echo "=============================================="
+echo "🔥 SAGCO OS Initialization Complete"
+echo ""
+
+exit 0
