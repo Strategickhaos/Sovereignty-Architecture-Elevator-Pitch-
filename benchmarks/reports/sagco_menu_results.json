@@ -1,0 +1,94 @@
+[
+  {
+    "test_id": 1,
+    "name": "YAML Structure Validation",
+    "status": "PASS",
+    "categories_in_order": [
+      "core-tools",
+      "security-tools",
+      "ops-tools"
+    ],
+    "categories_found": 3
+  },
+  {
+    "test_id": 2,
+    "name": "Categories Listing",
+    "status": "PASS",
+    "categories_count": 3,
+    "categories": [
+      {
+        "key": "core-tools",
+        "icon": "\ud83d\udee0\ufe0f",
+        "description": "Core Utilities"
+      },
+      {
+        "key": "security-tools",
+        "icon": "\ud83d\udd12",
+        "description": "Security Tools"
+      },
+      {
+        "key": "ops-tools",
+        "icon": "\u2699\ufe0f",
+        "description": "Operations Tools"
+      }
+    ]
+  },
+  {
+    "test_id": 3,
+    "name": "Items Listing",
+    "status": "PASS",
+    "core_tools_count": 2,
+    "core_tools_items": [
+      {
+        "name": "Git",
+        "icon": "\ud83d\udcc2",
+        "description": "Version control",
+        "command": "git --version"
+      },
+      {
+        "name": "TMUX",
+        "icon": "\ud83d\udcfa",
+        "description": "Terminal multiplexer",
+        "command": "tmux"
+      }
+    ]
+  },
+  {
+    "test_id": 4,
+    "name": "Search Functionality",
+    "status": "PASS",
+    "nmap_search_results": 1,
+    "network_search_results": 1,
+    "empty_search_results": 0
+  },
+  {
+    "test_id": 5,
+    "name": "Recently Used Tracking",
+    "status": "PASS",
+    "recent_count": 3
+  },
+  {
+    "test_id": 6,
+    "name": "Icon Presence",
+    "status": "PASS",
+    "category_icons_found": 3,
+    "total_categories": 3,
+    "item_icons_found": 2,
+    "total_items": 2
+  },
+  {
+    "test_id": 7,
+    "name": "Bash Script Validation",
+    "status": "PASS",
+    "script_exists": true,
+    "is_executable": true,
+    "shebang": "#!/bin/bash"
+  },
+  {
+    "test_id": 8,
+    "name": "Profile.d Integration",
+    "status": "PASS",
+    "profile_script_exists": true,
+    "is_executable": true
+  }
+]
