@@ -1,0 +1,29 @@
+[package]
+name = "synapse-bus-core"
+version = "0.1.0-alpha.0"
+edition = "2021"
+license = "Apache-2.0 OR MIT"
+publish = false
+
+[features]
+default = ["event-horizon"]
+event-horizon = []
+python-interop = []
+
+[dependencies]
+# Async nervous system
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time"] }
+
+# Serialization + schema
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Identity + time
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Error discipline (keep small + local-first)
+thiserror = "1"
+
+[dev-dependencies]
+pretty_assertions = "1"

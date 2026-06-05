@@ -1,0 +1,15 @@
+[project]
+name = "synapse-bus-core-physics"
+version = "0.1.0"
+description = "Physics prototyping layer for SynapseBus (NumPy/SciPy sandbox)."
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.26",
+  "scipy>=1.11",
+]
+
+[tool.uv]
+# If you use uv, it stays local + fast. Optional.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,7 @@
+legion:
+  - name: Grok
+    bias: Chaos
+  - name: Claude
+    bias: Order
+  - name: Gemini
+    bias: Balance
