@@ -9,6 +9,7 @@ This system creates a **sovereignty control plane** that bridges:
 - **Infrastructure** - Kubernetes, observability, AI agents  
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
+- **Mental Load-Shedding** - Real-time cognitive scheduler for routing inputs ([docs](MENTAL_LOAD_SHEDDING_ARCHITECTURE.md))
 
 ## 🚀 Quick Start
 
@@ -55,6 +56,30 @@ export PRS_CHANNEL="channel_id"
 - **Debug Support**: JPDA debugging on port 5005
 - **Traefik Routing**: Accessible via `java.localhost`
 - **Version Management**: JDK solver CLI for managing multiple Java versions
+
+### 🧠 Mental Load-Shedding Scheduler
+- **Input Classification**: Automatic threat/noise detection and routing
+- **Buffer Management**: Intelligent storage of poorly-timed inputs
+- **Core Integrity**: Maintains execution stability under load
+- **Self-Correction**: Recovers without self-destruction
+- **Humor Index**: Tracks system health through integration signals
+- **Read More**: [Mental Load-Shedding Architecture](MENTAL_LOAD_SHEDDING_ARCHITECTURE.md)
+
+```python
+# Example: Using the mental load-shedding scheduler
+from mental_load_shedding import LoadSheddingScheduler, InputData
+
+scheduler = LoadSheddingScheduler()
+scheduler.update_context(focus_level=5, available_resources=['cpu', 'memory'])
+
+# Process input
+input_data = InputData(content="Deploy feature", source="github", priority=8)
+result = scheduler.process_input(input_data)  # Routes automatically
+
+# Process buffer when ready
+scheduler.update_context(focus_level=2)
+buffered_results = scheduler.process_buffer(capacity=5)
+```
 
 ```bash
 # Start the Java workspace
