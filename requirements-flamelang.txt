@@ -1,0 +1,11 @@
+# FlameLang Wave Layer Dependencies
+# Core scientific computing
+numpy>=1.24.3
+astropy>=5.3.0
+
+# Optional: For future DNA codon mapping
+# biopython>=1.81
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
