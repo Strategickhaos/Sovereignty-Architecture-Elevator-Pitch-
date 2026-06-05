@@ -110,7 +110,7 @@ $Script:Antibodies = @(
         Id = "KILL-001"
         Name = "Avada Kedavra Process"
         Pattern = "not responding|hung|frozen"
-        Fix = "Get-Process | Where-Object {`$_.Responding -eq `$false} | Stop-Process -Force"
+        Fix = 'Get-Process | Where-Object {$_.Responding -eq $false} | Stop-Process -Force'
         Severity = "high"
         Category = "Killing"
     },
@@ -118,7 +118,7 @@ $Script:Antibodies = @(
         Id = "KILL-002"
         Name = "Avada Kedavra Port"
         Pattern = "Address already in use|port.*already.*bound"
-        Fix = "Get-NetTCPConnection -LocalPort {port} | ForEach-Object { Stop-Process -Id `$_.OwningProcess -Force }"
+        Fix = 'Get-NetTCPConnection -LocalPort {port} | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }'
         Severity = "high"
         Category = "Killing"
     },
@@ -144,7 +144,7 @@ $Script:Antibodies = @(
         Id = "DEF-002"
         Name = "Protego Disk"
         Pattern = "No space left|disk full|insufficient disk"
-        Fix = "Get-PSDrive | Where-Object {`$_.Free -lt 1GB} | Format-Table Name,Used,Free"
+        Fix = 'Get-PSDrive | Where-Object {$_.Free -lt 1GB} | Format-Table Name,Used,Free'
         Severity = "high"
         Category = "Defensive"
     },
@@ -170,7 +170,7 @@ $Script:Antibodies = @(
         Id = "PS-003"
         Name = "Liberare Lock"
         Pattern = "being used by another process|file is locked"
-        Fix = "Get-Process | Where-Object {`$_.Path -like '*{file}*'}"
+        Fix = 'Get-Process | Where-Object {$_.Path -like "*{file}*"}'
         Severity = "medium"
         Category = "PowerShell"
     },
@@ -293,6 +293,17 @@ function Deploy-Fixes {
             } else {
                 try {
                     Write-Host "⚡ Executing [$($match.Id)]..." -ForegroundColor Cyan
+                    
+                    # Note: Invoke-Expression is used here to execute fix commands from our
+                    # trusted antibody database. The user input only affects WHICH antibody
+                    # is matched (via pattern matching), not the command that is executed.
+                    # All fix commands are hardcoded in the $Script:Antibodies array above.
+                    
+                    # Additional safety: ensure Fix command exists and is not empty
+                    if ([string]::IsNullOrWhiteSpace($match.Fix)) {
+                        throw "No fix command defined for antibody $($match.Id)"
+                    }
+                    
                     Invoke-Expression $match.Fix
                     Write-Host "✅ Success: $($match.Name)" -ForegroundColor Green
                 } catch {
