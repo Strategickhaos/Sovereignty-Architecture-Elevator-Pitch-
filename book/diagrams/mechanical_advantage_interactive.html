@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Mechanical Advantage Systems</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .instructions {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            max-width: 800px;
+            text-align: center;
+        }
+        svg {
+            border: 2px solid #ccc;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .rope {
+            cursor: pointer;
+            transition: stroke-width 0.3s;
+        }
+        .rope:hover {
+            stroke-width: 5;
+        }
+        .pulley {
+            cursor: pointer;
+            transition: fill 0.3s;
+        }
+        .pulley:hover {
+            fill: #ff9800;
+        }
+        .load {
+            cursor: pointer;
+        }
+        .info-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-width: 300px;
+            text-align: center;
+        }
+        .label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Mechanical Advantage Systems</h1>
+    <div class="instructions">
+        <strong>Instructions:</strong> Hover over rope segments to see tension calculations. 
+        Click on pulleys to highlight the system. Click on loads to input custom weight.
+    </div>
+    
+    <svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+        <!-- Simple 1:1 System -->
+        <g id="simple">
+            <text x="100" y="30" class="label">Simple 1:1 (MA = 1)</text>
+            <!-- Anchor -->
+            <circle cx="100" cy="50" r="6" fill="#333"/>
+            <!-- Rope -->
+            <line id="rope-1-1" x1="100" y1="50" x2="100" y2="200" stroke="#2563eb" stroke-width="3" class="rope" data-ma="1" data-strands="1"/>
+            <!-- Load -->
+            <rect id="load-1-1" x="85" y="200" width="30" height="40" fill="#666" class="load" data-weight="100"/>
+            <text x="100" y="260" text-anchor="middle" font-size="12">W</text>
+        </g>
+
+        <!-- 2:1 Mechanical Advantage -->
+        <g id="ma-2-1">
+            <text x="300" y="30" class="label">2:1 System (MA = 2)</text>
+            <!-- Anchor -->
+            <circle cx="300" cy="50" r="6" fill="#333"/>
+            <!-- Moving pulley -->
+            <circle id="pulley-2-1" cx="300" cy="150" r="12" fill="#f59e0b" class="pulley"/>
+            <!-- Rope segments -->
+            <line id="rope-2-1-a" x1="300" y1="50" x2="300" y2="138" stroke="#2563eb" stroke-width="3" class="rope" data-ma="2" data-strands="2"/>
+            <line id="rope-2-1-b" x1="300" y1="162" x2="300" y2="200" stroke="#2563eb" stroke-width="3" class="rope" data-ma="2" data-strands="2"/>
+            <!-- Load -->
+            <rect id="load-2-1" x="285" y="200" width="30" height="40" fill="#666" class="load" data-weight="100"/>
+            <text x="300" y="260" text-anchor="middle" font-size="12">W</text>
+            <!-- Pull direction -->
+            <text x="320" y="100" font-size="10" fill="#666">Pull: W/2</text>
+        </g>
+
+        <!-- 3:1 Mechanical Advantage (Z-drag) -->
+        <g id="ma-3-1">
+            <text x="500" y="30" class="label">3:1 Z-Drag (MA = 3)</text>
+            <!-- Anchor point 1 -->
+            <circle cx="500" cy="50" r="6" fill="#333"/>
+            <!-- Fixed pulley -->
+            <circle id="pulley-3-1-fixed" cx="500" cy="100" r="12" fill="#f59e0b" class="pulley"/>
+            <!-- Moving pulley -->
+            <circle id="pulley-3-1-moving" cx="550" cy="150" r="12" fill="#f59e0b" class="pulley"/>
+            <!-- Rope path -->
+            <polyline id="rope-3-1" points="500,50 500,88 550,138 550,200" 
+                     stroke="#2563eb" stroke-width="3" fill="none" class="rope" 
+                     data-ma="3" data-strands="3"/>
+            <!-- Load -->
+            <rect id="load-3-1" x="535" y="200" width="30" height="40" fill="#666" class="load" data-weight="100"/>
+            <text x="550" y="260" text-anchor="middle" font-size="12">W</text>
+            <!-- Pull direction -->
+            <text x="520" y="120" font-size="10" fill="#666">Pull: W/3</text>
+        </g>
+
+        <!-- 4:1 Compound System -->
+        <g id="ma-4-1">
+            <text x="700" y="30" class="label">4:1 Compound (MA = 4)</text>
+            <!-- Anchor -->
+            <circle cx="700" cy="50" r="6" fill="#333"/>
+            <!-- Pulleys -->
+            <circle id="pulley-4-1-a" cx="700" cy="100" r="12" fill="#f59e0b" class="pulley"/>
+            <circle id="pulley-4-1-b" cx="750" cy="150" r="12" fill="#f59e0b" class="pulley"/>
+            <!-- Rope segments -->
+            <polyline id="rope-4-1" points="700,50 700,88 750,138 750,200" 
+                     stroke="#2563eb" stroke-width="3" fill="none" class="rope" 
+                     data-ma="4" data-strands="4"/>
+            <!-- Load -->
+            <rect id="load-4-1" x="735" y="200" width="30" height="40" fill="#666" class="load" data-weight="100"/>
+            <text x="750" y="260" text-anchor="middle" font-size="12">W</text>
+            <!-- Pull direction -->
+            <text x="720" y="120" font-size="10" fill="#666">Pull: W/4</text>
+        </g>
+    </svg>
+
+    <div class="info-panel" id="info-panel">
+        <div id="info-content">Click or hover on any element for details</div>
+    </div>
+
+    <script>
+        let currentWeight = 100; // Default weight in lbs
+
+        // Handle rope hover events
+        document.querySelectorAll('.rope').forEach(rope => {
+            rope.addEventListener('mouseover', (e) => {
+                const ma = parseFloat(e.target.dataset.ma);
+                const strands = parseInt(e.target.dataset.strands);
+                const tension = currentWeight / strands;
+                
+                const info = `
+                    <strong>Mechanical Advantage: ${ma}:1</strong><br>
+                    Supporting Strands: ${strands}<br>
+                    Load: ${currentWeight} lbs<br>
+                    Tension per strand: ${tension.toFixed(1)} lbs<br>
+                    Pull required: ${(currentWeight / ma).toFixed(1)} lbs
+                `;
+                document.getElementById('info-content').innerHTML = info;
+            });
+
+            rope.addEventListener('click', (e) => {
+                // Animate rope tension
+                e.target.setAttribute('stroke', '#ff0000');
+                setTimeout(() => e.target.setAttribute('stroke', '#2563eb'), 1000);
+            });
+        });
+
+        // Handle pulley click events
+        document.querySelectorAll('.pulley').forEach(pulley => {
+            pulley.addEventListener('click', (e) => {
+                e.target.setAttribute('fill', '#ffcc00');
+                setTimeout(() => e.target.setAttribute('fill', '#f59e0b'), 500);
+            });
+        });
+
+        // Handle load click events for custom weight
+        document.querySelectorAll('.load').forEach(load => {
+            load.addEventListener('click', (e) => {
+                const newWeight = prompt('Enter load weight (lbs):', currentWeight);
+                if (newWeight && !isNaN(newWeight) && newWeight > 0) {
+                    currentWeight = parseFloat(newWeight);
+                    document.getElementById('info-content').innerHTML = 
+                        `<strong>Load updated to ${currentWeight} lbs</strong><br>Hover over rope segments to see new tensions`;
+                }
+            });
+
+            load.addEventListener('mouseover', (e) => {
+                const weight = e.target.dataset.weight || currentWeight;
+                document.getElementById('info-content').innerHTML = 
+                    `<strong>Load Weight: ${currentWeight} lbs</strong><br>Click to change weight`;
+            });
+        });
+
+        // Reset info on mouse leave
+        document.querySelector('svg').addEventListener('mouseleave', () => {
+            document.getElementById('info-content').innerHTML = 'Click or hover on any element for details';
+        });
+    </script>
+</body>
+</html>

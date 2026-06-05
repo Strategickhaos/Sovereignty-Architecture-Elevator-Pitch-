@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Deviation Angles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .instructions {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            max-width: 800px;
+            text-align: center;
+        }
+        svg {
+            border: 2px solid #ccc;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .rope-segment {
+            cursor: pointer;
+            transition: stroke-width 0.3s;
+        }
+        .rope-segment:hover {
+            stroke-width: 5;
+        }
+        .pulley {
+            cursor: pointer;
+            transition: fill 0.3s, r 0.3s;
+        }
+        .pulley:hover {
+            fill: #ff9800;
+            r: 14;
+        }
+        .angle-arc {
+            cursor: pointer;
+            opacity: 0.6;
+        }
+        .angle-arc:hover {
+            opacity: 1;
+        }
+        .info-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-width: 400px;
+            text-align: center;
+        }
+        .label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .warning {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Deviation Angles and Tension Multipliers</h1>
+    <div class="instructions">
+        <strong>Instructions:</strong> Hover over deviation pulleys to see tension multiplier calculations. 
+        Click on angle arcs to highlight. The larger the deviation angle, the higher the tension multiplier!
+    </div>
+    
+    <svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+        <!-- Title and legend -->
+        <text x="450" y="30" text-anchor="middle" class="label" font-size="16">
+            Deviation Angle vs. Tension Multiplier (TRIG6: sec(θ/2) = 1/cos(θ/2))
+        </text>
+
+        <!-- 30° Deviation -->
+        <g id="deviation-30">
+            <text x="150" y="80" class="label">30° Deviation</text>
+            <!-- Rope path -->
+            <line x1="50" y1="150" x2="150" y2="150" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <line x1="150" y1="150" x2="250" y2="170" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <!-- Pulley/deviation point -->
+            <circle id="pulley-30" cx="150" cy="150" r="12" fill="#f59e0b" class="pulley" 
+                    data-angle="30" data-load="100"/>
+            <!-- Angle arc -->
+            <path id="arc-30" d="M 170 150 A 20 20 0 0 1 180 165" 
+                  stroke="#666" stroke-width="1.5" fill="none" class="angle-arc"/>
+            <text x="185" y="165" font-size="12">30°</text>
+            <!-- Labels -->
+            <text x="150" y="210" text-anchor="middle" font-size="12" fill="#666">
+                Multiplier: 1.04x
+            </text>
+        </g>
+
+        <!-- 60° Deviation -->
+        <g id="deviation-60">
+            <text x="450" y="80" class="label">60° Deviation</text>
+            <!-- Rope path -->
+            <line x1="350" y1="150" x2="450" y2="150" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <line x1="450" y1="150" x2="520" y2="200" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <!-- Pulley/deviation point -->
+            <circle id="pulley-60" cx="450" cy="150" r="12" fill="#f59e0b" class="pulley" 
+                    data-angle="60" data-load="100"/>
+            <!-- Angle arc -->
+            <path id="arc-60" d="M 470 150 A 20 20 0 0 1 485 180" 
+                  stroke="#666" stroke-width="1.5" fill="none" class="angle-arc"/>
+            <text x="490" y="180" font-size="12">60°</text>
+            <!-- Labels -->
+            <text x="450" y="210" text-anchor="middle" font-size="12" fill="#666">
+                Multiplier: 1.15x
+            </text>
+        </g>
+
+        <!-- 90° Deviation -->
+        <g id="deviation-90">
+            <text x="750" y="80" class="label">90° Deviation</text>
+            <!-- Rope path -->
+            <line x1="650" y1="150" x2="750" y2="150" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <line x1="750" y1="150" x2="750" y2="250" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <!-- Pulley/deviation point -->
+            <circle id="pulley-90" cx="750" cy="150" r="12" fill="#f59e0b" class="pulley" 
+                    data-angle="90" data-load="100"/>
+            <!-- Angle arc -->
+            <path id="arc-90" d="M 770 150 A 20 20 0 0 1 750 170" 
+                  stroke="#666" stroke-width="1.5" fill="none" class="angle-arc"/>
+            <text x="775" y="165" font-size="12">90°</text>
+            <!-- Labels -->
+            <text x="750" y="280" text-anchor="middle" font-size="12" fill="#666">
+                Multiplier: 1.41x
+            </text>
+        </g>
+
+        <!-- 120° Deviation (High tension!) -->
+        <g id="deviation-120">
+            <text x="150" y="320" class="label">120° Deviation</text>
+            <!-- Rope path -->
+            <line x1="50" y1="400" x2="150" y2="400" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <line x1="150" y1="400" x2="100" y2="500" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <!-- Pulley/deviation point -->
+            <circle id="pulley-120" cx="150" cy="400" r="12" fill="#f59e0b" class="pulley" 
+                    data-angle="120" data-load="100"/>
+            <!-- Angle arc -->
+            <path id="arc-120" d="M 170 400 A 20 20 0 0 1 145 420" 
+                  stroke="#d32f2f" stroke-width="2" fill="none" class="angle-arc"/>
+            <text x="175" y="420" font-size="12" fill="#d32f2f">120°</text>
+            <!-- Labels -->
+            <text x="150" y="530" text-anchor="middle" font-size="12" fill="#d32f2f" class="warning">
+                Multiplier: 2.00x ⚠️
+            </text>
+        </g>
+
+        <!-- 150° Deviation (Critical!) -->
+        <g id="deviation-150">
+            <text x="450" y="320" class="label">150° Deviation</text>
+            <!-- Rope path -->
+            <line x1="350" y1="400" x2="450" y2="400" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <line x1="450" y1="400" x2="360" y2="480" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <!-- Pulley/deviation point -->
+            <circle id="pulley-150" cx="450" cy="400" r="12" fill="#f59e0b" class="pulley" 
+                    data-angle="150" data-load="100"/>
+            <!-- Angle arc -->
+            <path id="arc-150" d="M 470 400 A 20 20 0 0 1 440 420" 
+                  stroke="#d32f2f" stroke-width="2" fill="none" class="angle-arc"/>
+            <text x="475" y="425" font-size="12" fill="#d32f2f">150°</text>
+            <!-- Labels -->
+            <text x="450" y="530" text-anchor="middle" font-size="12" fill="#d32f2f" class="warning">
+                Multiplier: 3.86x ⚠️⚠️
+            </text>
+        </g>
+
+        <!-- 170° Deviation (Extreme!) -->
+        <g id="deviation-170">
+            <text x="750" y="320" class="label">170° Deviation</text>
+            <!-- Rope path -->
+            <line x1="650" y1="400" x2="750" y2="400" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <line x1="750" y1="400" x2="655" y2="410" stroke="#2563eb" stroke-width="3" class="rope-segment"/>
+            <!-- Pulley/deviation point -->
+            <circle id="pulley-170" cx="750" cy="400" r="12" fill="#f59e0b" class="pulley" 
+                    data-angle="170" data-load="100"/>
+            <!-- Angle arc -->
+            <path id="arc-170" d="M 770 400 A 20 20 0 0 1 730 405" 
+                  stroke="#d32f2f" stroke-width="2" fill="none" class="angle-arc"/>
+            <text x="775" y="415" font-size="12" fill="#d32f2f">170°</text>
+            <!-- Labels -->
+            <text x="750" y="530" text-anchor="middle" font-size="12" fill="#d32f2f" class="warning">
+                Multiplier: 11.47x ⚠️⚠️⚠️
+            </text>
+        </g>
+    </svg>
+
+    <div class="info-panel" id="info-panel">
+        <div id="info-content">Hover over any pulley to calculate tension for custom load</div>
+    </div>
+
+    <script>
+        let currentLoad = 100; // Default load in lbs
+
+        // Calculate tension multiplier using sec(θ/2) = 1/cos(θ/2)
+        function calculateMultiplier(deviationAngle) {
+            const halfAngleRad = (deviationAngle / 2) * Math.PI / 180;
+            return 1 / Math.cos(halfAngleRad);
+        }
+
+        // Handle pulley hover and click events
+        document.querySelectorAll('.pulley').forEach(pulley => {
+            pulley.addEventListener('mouseover', (e) => {
+                const angle = parseFloat(e.target.dataset.angle);
+                const multiplier = calculateMultiplier(angle);
+                const tension = currentLoad * multiplier;
+                
+                let warningText = '';
+                if (angle >= 150) {
+                    warningText = '<br><span class="warning">⚠️ CRITICAL: Extreme tension! Avoid this configuration!</span>';
+                } else if (angle >= 120) {
+                    warningText = '<br><span class="warning">⚠️ WARNING: High tension zone!</span>';
+                }
+                
+                const info = `
+                    <strong>Deviation Angle: ${angle}°</strong><br>
+                    Formula: sec(${angle}°/2) = 1/cos(${angle/2}°)<br>
+                    Tension Multiplier: ${multiplier.toFixed(2)}x<br>
+                    Load on line: ${currentLoad} lbs<br>
+                    <strong>Rope Tension: ${tension.toFixed(1)} lbs</strong>
+                    ${warningText}
+                `;
+                document.getElementById('info-content').innerHTML = info;
+                
+                // Highlight the pulley
+                e.target.style.fill = angle >= 120 ? '#ff5722' : '#ff9800';
+            });
+
+            pulley.addEventListener('mouseout', (e) => {
+                e.target.style.fill = '#f59e0b';
+            });
+
+            pulley.addEventListener('click', (e) => {
+                const newLoad = prompt('Enter load weight (lbs):', currentLoad);
+                if (newLoad && !isNaN(newLoad) && newLoad > 0) {
+                    currentLoad = parseFloat(newLoad);
+                    const angle = parseFloat(e.target.dataset.angle);
+                    const multiplier = calculateMultiplier(angle);
+                    const tension = currentLoad * multiplier;
+                    
+                    document.getElementById('info-content').innerHTML = 
+                        `<strong>Load updated to ${currentLoad} lbs</strong><br>` +
+                        `At ${angle}° deviation: Rope tension = ${tension.toFixed(1)} lbs`;
+                }
+            });
+        });
+
+        // Handle angle arc hover
+        document.querySelectorAll('.angle-arc').forEach(arc => {
+            arc.addEventListener('mouseover', (e) => {
+                e.target.style.strokeWidth = '3';
+            });
+            
+            arc.addEventListener('mouseout', (e) => {
+                e.target.style.strokeWidth = '1.5';
+            });
+        });
+
+        // Display summary table on page load
+        setTimeout(() => {
+            const angles = [30, 60, 90, 120, 150, 170];
+            let tableHTML = '<strong>Quick Reference Table (100 lb load):</strong><br><br>';
+            tableHTML += '<table style="margin: 0 auto; border-collapse: collapse;">';
+            tableHTML += '<tr><th style="border: 1px solid #ddd; padding: 8px;">Angle</th><th style="border: 1px solid #ddd; padding: 8px;">Multiplier</th><th style="border: 1px solid #ddd; padding: 8px;">Tension</th></tr>';
+            
+            angles.forEach(angle => {
+                const mult = calculateMultiplier(angle);
+                const tension = 100 * mult;
+                const color = angle >= 120 ? 'color: #d32f2f;' : '';
+                tableHTML += `<tr style="${color}">`;
+                tableHTML += `<td style="border: 1px solid #ddd; padding: 8px;">${angle}°</td>`;
+                tableHTML += `<td style="border: 1px solid #ddd; padding: 8px;">${mult.toFixed(2)}x</td>`;
+                tableHTML += `<td style="border: 1px solid #ddd; padding: 8px;">${tension.toFixed(1)} lbs</td>`;
+                tableHTML += '</tr>';
+            });
+            tableHTML += '</table>';
+            
+            document.getElementById('info-content').innerHTML = tableHTML;
+        }, 500);
+    </script>
+</body>
+</html>
