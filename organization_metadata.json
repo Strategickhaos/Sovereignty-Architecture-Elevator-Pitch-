@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "entity": "Strategickhaos DAO LLC",
+    "structure": "Member-Managed with AI Advisory Council"
+  },
+  "founder": {
+    "name": "Domenic G. Garza",
+    "title": "Founder & Managing Member",
+    "handle": "Me10101 / Node 137",
+    "location": "Texas",
+    "bio": "Rope access technician turned sovereign infrastructure architect. Building a legion of minds to solve problems that matter.",
+    "credentials": [
+      {
+        "type": "academic",
+        "name": "BS Computer Science & Cybersecurity (Dual)",
+        "institution": "Southern New Hampshire University",
+        "gpa": "3.732",
+        "status": "In Progress"
+      },
+      {
+        "type": "federal",
+        "name": "TWIC Credential",
+        "issuer": "TSA/DHS",
+        "status": "Active"
+      },
+      {
+        "type": "industrial",
+        "name": "SPRAT Level 3",
+        "description": "Rope Access Certification",
+        "status": "Active"
+      },
+      {
+        "type": "industrial",
+        "name": "NDT Certifications",
+        "status": "Active"
+      },
+      {
+        "type": "industrial",
+        "name": "RAD 40 License",
+        "description": "Radiography",
+        "status": "Active"
+      },
+      {
+        "type": "research",
+        "name": "ORCID iD",
+        "value": "0009-0005-2996-3526",
+        "status": "Registered"
+      }
+    ],
+    "cognitive_architecture": {
+      "type": "Quadrilateral Collapse Learning",
+      "channels": [
+        "Symbolic",
+        "Spatial",
+        "Narrative",
+        "Kinesthetic"
+      ],
+      "processing": "Parallel multi-modal",
+      "neurodivergence": [
+        "ADHD",
+        "Autism"
+      ],
+      "description": "All RAM, no hard drive - requires external scaffolding"
+    },
+    "social": {
+      "github": "Me10101-01",
+      "github_enterprise": "strategickhaos-dao-llc"
+    }
+  },
+  "ai_advisory_council": {
+    "description": "Multi-AI consensus system for verification and strategic analysis. Advisory capacity only - all final decisions rest with human management.",
+    "disclaimer": "AI systems cannot execute binding contracts, transfer assets, or represent the Company in legal matters.",
+    "members": [
+      {
+        "name": "Claude",
+        "provider": "Anthropic",
+        "role": "Verification & Compliance Review",
+        "specialties": [
+          "Code review",
+          "Document analysis",
+          "Strategic synthesis"
+        ],
+        "model": "Claude Opus 4.5"
+      },
+      {
+        "name": "ChatGPT",
+        "provider": "OpenAI",
+        "role": "Strategic Analysis & Implementation",
+        "specialties": [
+          "Planning",
+          "Research",
+          "Documentation"
+        ]
+      },
+      {
+        "name": "Grok",
+        "provider": "xAI",
+        "role": "Infrastructure Planning & Ideation",
+        "specialties": [
+          "Creative solutions",
+          "Pattern recognition",
+          "Chaos testing"
+        ]
+      },
+      {
+        "name": "Gemini",
+        "provider": "Google",
+        "role": "Research & Development Support",
+        "specialties": [
+          "Academic research",
+          "Code analysis",
+          "Integration"
+        ]
+      },
+      {
+        "name": "Local LLMs",
+        "provider": "Self-hosted (Ollama)",
+        "role": "Sovereign Processing",
+        "models": [
+          "Qwen2.5:72b",
+          "Llama",
+          "Mistral"
+        ],
+        "specialties": [
+          "Air-gapped operations",
+          "Sensitive processing",
+          "Offline capability"
+        ]
+      }
+    ],
+    "consensus_protocol": {
+      "name": "Legion of Minds",
+      "methodology": "Multi-AI validation chains",
+      "threshold": "Convergence across 3+ systems",
+      "motto": "Trust nothing until it survives 100-angle crossfire"
+    }
+  },
+  "charitable_partner": {
+    "name": "ValorYield Engine",
+    "type": "Wyoming Public Benefit Corporation",
+    "ein": "39-2923503",
+    "allocation": "7% of net revenues",
+    "mission": "AI-driven dividend allocation for veterans, medical research, and underserved communities",
+    "status": "Active (pending 501(c)(3))"
+  }
+}
