@@ -1,0 +1,325 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SAGCO-OS Threat Event Schema",
+  "description": "JSON schema for threat events logged by SAGCO-OS threat intelligence system",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "event",
+    "indicator",
+    "indicator_type",
+    "action",
+    "timestamp"
+  ],
+  "properties": {
+    "event": {
+      "type": "string",
+      "enum": [
+        "THREAT_HIT",
+        "THREAT_BLOCKED",
+        "THREAT_CLEARED",
+        "FALSE_POSITIVE",
+        "INDICATOR_ADDED",
+        "INDICATOR_REMOVED",
+        "ENFORCEMENT_APPLIED",
+        "ENFORCEMENT_FAILED"
+      ],
+      "description": "Type of threat event"
+    },
+    "indicator": {
+      "type": "string",
+      "description": "Full indicator identifier (e.g., 'ip:203.0.113.42', 'domain:malicious.com')",
+      "pattern": "^(ip|cidr|domain|hash_sha256|hash_md5|url):.+$"
+    },
+    "indicator_type": {
+      "type": "string",
+      "enum": [
+        "ip",
+        "cidr",
+        "domain",
+        "hash_sha256",
+        "hash_md5",
+        "url"
+      ],
+      "description": "Category of indicator"
+    },
+    "indicator_value": {
+      "type": "string",
+      "description": "Raw indicator value (e.g., '203.0.113.42', 'malicious.com')"
+    },
+    "label": {
+      "type": "string",
+      "description": "Threat classification label",
+      "examples": [
+        "C2_suspected",
+        "phishing",
+        "malware_distribution",
+        "brute_force_attempt",
+        "scan_heavy"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Severity level of the threat"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "BLOCK",
+        "RATE_LIMIT",
+        "BLOCK_DNS",
+        "ALERT",
+        "QUARANTINE",
+        "NONE"
+      ],
+      "description": "Enforcement action taken"
+    },
+    "enforcement_mechanism": {
+      "type": "string",
+      "description": "Tool or mechanism used for enforcement",
+      "examples": [
+        "iptables",
+        "nftables",
+        "wireguard",
+        "dns_resolver",
+        "file_quarantine"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the event"
+    },
+    "source_ip": {
+      "type": "string",
+      "format": "ipv4",
+      "description": "Source IP address of the network flow (if applicable)"
+    },
+    "source_port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535,
+      "description": "Source port number (if applicable)"
+    },
+    "destination_ip": {
+      "type": "string",
+      "format": "ipv4",
+      "description": "Destination IP address of the network flow (if applicable)"
+    },
+    "destination_port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535,
+      "description": "Destination port number (if applicable)"
+    },
+    "protocol": {
+      "type": "string",
+      "enum": [
+        "tcp",
+        "udp",
+        "icmp",
+        "http",
+        "https",
+        "dns",
+        "ssh",
+        "other"
+      ],
+      "description": "Network protocol (if applicable)"
+    },
+    "bytes_transferred": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of bytes transferred in the flow (if applicable)"
+    },
+    "packets_transferred": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of packets transferred in the flow (if applicable)"
+    },
+    "context": {
+      "type": "string",
+      "description": "Human-readable context about why this indicator is malicious",
+      "examples": [
+        "Observed scanning patterns consistent with C2 beacon behavior",
+        "Known malware hosting infrastructure",
+        "Phishing campaign targeting financial services"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Confidence score for this indicator (0.0-1.0)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source of the threat intelligence",
+      "examples": [
+        "internal_incidents",
+        "public_feeds",
+        "commercial_feeds",
+        "manual_analysis"
+      ]
+    },
+    "theta_before": {
+      "type": "number",
+      "description": "Guardian theta value before event (radians)"
+    },
+    "theta_after": {
+      "type": "number",
+      "description": "Guardian theta value after event (radians)"
+    },
+    "theta_delta": {
+      "type": "number",
+      "description": "Change in theta value (radians)"
+    },
+    "resonance": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Guardian resonance value at time of event"
+    },
+    "security_noise": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Guardian security_noise level at time of event"
+    },
+    "guardian_response": {
+      "type": "string",
+      "description": "Guardian's response to this event",
+      "examples": [
+        "security_mode_enabled",
+        "theta_adjusted",
+        "focus_router_switched",
+        "no_action"
+      ]
+    },
+    "focus_router_mode": {
+      "type": "string",
+      "enum": [
+        "security_edge_case",
+        "balanced_governance",
+        "normal",
+        "high_threat"
+      ],
+      "description": "FOCUS Router mode after this event"
+    },
+    "related_incidents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related incident IDs or references"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "External references (incident logs, research papers, etc.)"
+    },
+    "operator_notes": {
+      "type": "string",
+      "description": "Human operator notes about this event"
+    },
+    "false_positive": {
+      "type": "boolean",
+      "description": "Flag indicating if this was determined to be a false positive"
+    },
+    "resolved": {
+      "type": "boolean",
+      "description": "Flag indicating if this threat has been resolved"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when threat was resolved"
+    },
+    "resolution_method": {
+      "type": "string",
+      "description": "Method used to resolve the threat",
+      "examples": [
+        "automatic_block",
+        "manual_intervention",
+        "false_positive_removal",
+        "indicator_expired"
+      ]
+    }
+  },
+  "examples": [
+    {
+      "event": "THREAT_HIT",
+      "indicator": "ip:203.0.113.42",
+      "indicator_type": "ip",
+      "indicator_value": "203.0.113.42",
+      "label": "C2_suspected",
+      "severity": "high",
+      "action": "BLOCK",
+      "enforcement_mechanism": "iptables",
+      "timestamp": "2026-01-24T22:11:00-06:00",
+      "source_ip": "203.0.113.42",
+      "source_port": 54321,
+      "destination_ip": "10.0.1.50",
+      "destination_port": 443,
+      "protocol": "tcp",
+      "bytes_transferred": 2048,
+      "packets_transferred": 15,
+      "context": "Observed scanning patterns consistent with C2 beacon behavior",
+      "confidence": 0.95,
+      "source": "internal_incidents",
+      "theta_before": 1.047,
+      "theta_after": 1.309,
+      "theta_delta": 0.262,
+      "resonance": 0.81,
+      "security_noise": 0.78,
+      "guardian_response": "security_mode_enabled",
+      "focus_router_mode": "security_edge_case",
+      "related_incidents": [
+        "incident_log_2026_001"
+      ],
+      "references": [
+        "IR-2026-003",
+        "https://example.com/threat-analysis"
+      ],
+      "operator_notes": "Confirmed C2 traffic via packet analysis",
+      "false_positive": false,
+      "resolved": true,
+      "resolved_at": "2026-01-24T22:15:00-06:00",
+      "resolution_method": "automatic_block"
+    },
+    {
+      "event": "THREAT_BLOCKED",
+      "indicator": "domain:shady-example.net",
+      "indicator_type": "domain",
+      "indicator_value": "shady-example.net",
+      "label": "phishing",
+      "severity": "high",
+      "action": "BLOCK_DNS",
+      "enforcement_mechanism": "dns_resolver",
+      "timestamp": "2026-01-25T10:30:00-06:00",
+      "context": "Phishing campaign targeting financial services",
+      "confidence": 0.88,
+      "source": "public_feeds",
+      "theta_before": 1.047,
+      "theta_after": 1.309,
+      "theta_delta": 0.262,
+      "resonance": 0.81,
+      "security_noise": 0.75,
+      "guardian_response": "theta_adjusted",
+      "focus_router_mode": "security_edge_case",
+      "references": [
+        "phishing_campaign_2026_q1"
+      ],
+      "false_positive": false,
+      "resolved": false
+    }
+  ]
+}
