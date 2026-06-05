@@ -36,3 +36,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Boot digest generated reports
+BOOT_REPORT.md
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
