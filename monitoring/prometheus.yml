@@ -82,3 +82,32 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
     scrape_interval: 60s
+
+  # SynapseBus Nervous System
+  - job_name: 'synapsebus'
+    static_configs:
+      - targets: ['synapsebus:9090']
+    metrics_path: /metrics
+    scrape_interval: 15s
+    scrape_timeout: 10s
+
+  # Field Engine Physics Model
+  - job_name: 'field-engine'
+    static_configs:
+      - targets: ['field-engine:9091']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # DNA Synthesis Orchestrator
+  - job_name: 'dna-synthesis'
+    static_configs:
+      - targets: ['dna-synthesis-orchestrator:9092']
+    metrics_path: /metrics
+    scrape_interval: 60s
+
+  # Log Enrichment Processor
+  - job_name: 'log-enrichment'
+    static_configs:
+      - targets: ['log-enrichment:9090']
+    metrics_path: /metrics
+    scrape_interval: 30s

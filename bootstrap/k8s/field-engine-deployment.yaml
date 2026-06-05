@@ -1,0 +1,254 @@
+# Field Engine - Physics-based cluster modeling
+# Models the mesh as a vector field to detect instabilities
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: field-engine
+  namespace: kube-system
+  labels:
+    app: field-engine
+    component: physics-model
+
+spec:
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: field-engine
+  
+  template:
+    metadata:
+      labels:
+        app: field-engine
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9091"
+    
+    spec:
+      containers:
+        - name: field-engine
+          image: python:3.11-slim
+          
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              pip install --no-cache-dir fastapi uvicorn numpy scipy prometheus-client && \
+              python /app/field_engine.py
+          
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+            - name: metrics
+              containerPort: 9091
+              protocol: TCP
+          
+          volumeMounts:
+            - name: app
+              mountPath: /app
+              readOnly: true
+      
+      volumes:
+        - name: app
+          configMap:
+            name: field-engine-app
+
+---
+# Field Engine application code
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: field-engine-app
+  namespace: kube-system
+  labels:
+    app: field-engine
+
+data:
+  field_engine.py: |
+    #!/usr/bin/env python3
+    """
+    Field Engine - Physics-based modeling for cluster behavior
+    Treats log events as vectors in a field to detect instabilities
+    """
+    
+    import numpy as np
+    from scipy.spatial.distance import cdist
+    from datetime import datetime
+    from typing import List, Dict
+    from fastapi import FastAPI
+    from pydantic import BaseModel
+    from prometheus_client import Gauge, Counter, generate_latest
+    from starlette.responses import Response
+    
+    app = FastAPI(title="Field Engine", version="1.0.0")
+    
+    # Metrics
+    field_stability = Gauge('field_stability_score', 'Cluster field stability (0-1)')
+    field_magnitude = Gauge('field_magnitude', 'Total field magnitude')
+    vector_count = Gauge('field_vector_count', 'Number of active field vectors')
+    instability_events = Counter('field_instability_events_total', 'Instability events detected')
+    
+    # Models
+    class FieldVector(BaseModel):
+        cluster_id: str
+        namespace: str
+        event_type: str
+        severity: str
+        timestamp: datetime
+        magnitude: float = 1.0
+    
+    # Field state
+    field_vectors: List[FieldVector] = []
+    MAX_VECTORS = 1000
+    
+    def severity_to_magnitude(severity: str) -> float:
+        """Convert severity to field magnitude"""
+        mapping = {
+            'info': 0.1,
+            'warning': 0.5,
+            'error': 1.0,
+            'critical': 2.0
+        }
+        return mapping.get(severity.lower(), 0.5)
+    
+    def compute_field_stability() -> float:
+        """
+        Compute field stability using vector field analysis
+        Stable field: vectors are evenly distributed
+        Unstable field: vectors cluster (indicating systemic issues)
+        
+        Returns stability score between 0 and 1 (higher is better)
+        """
+        if len(field_vectors) < 2:
+            return 1.0
+        
+        # Create position matrix (cluster, namespace as coordinates)
+        positions = []
+        magnitudes = []
+        
+        cluster_map = {}
+        namespace_map = {}
+        
+        for v in field_vectors:
+            if v.cluster_id not in cluster_map:
+                cluster_map[v.cluster_id] = len(cluster_map)
+            if v.namespace not in namespace_map:
+                namespace_map[v.namespace] = len(namespace_map)
+            
+            positions.append([cluster_map[v.cluster_id], namespace_map[v.namespace]])
+            magnitudes.append(v.magnitude)
+        
+        positions = np.array(positions)
+        magnitudes = np.array(magnitudes)
+        
+        # Compute pairwise distances
+        distances = cdist(positions, positions)
+        
+        # Compute clustering coefficient (inverse of mean distance)
+        # Higher clustering = lower stability
+        mean_distance = np.mean(distances[np.triu_indices_from(distances, k=1)])
+        
+        # Normalize to 0-1 range (lower distance = lower stability)
+        # Using exponential decay: stability = e^(-clustering_factor)
+        # Add small epsilon (0.1) to prevent division by zero
+        DISTANCE_EPSILON = 0.1
+        clustering_factor = 1.0 / (mean_distance + DISTANCE_EPSILON)
+        stability = np.exp(-clustering_factor)
+        
+        # Factor in magnitude variance
+        # High variance = instability
+        magnitude_variance = np.var(magnitudes)
+        variance_penalty = 1.0 / (1.0 + magnitude_variance)
+        
+        final_stability = stability * variance_penalty
+        
+        return float(np.clip(final_stability, 0.0, 1.0))
+    
+    @app.get("/health")
+    async def health():
+        return {"status": "healthy"}
+    
+    @app.get("/metrics")
+    async def metrics():
+        return Response(content=generate_latest(), media_type="text/plain")
+    
+    @app.post("/api/v1/field")
+    async def add_field_vector(vector: FieldVector):
+        """Add a vector to the field"""
+        # Set magnitude based on severity
+        vector.magnitude = severity_to_magnitude(vector.severity)
+        
+        # Add to field
+        field_vectors.append(vector)
+        
+        # Prune old vectors
+        if len(field_vectors) > MAX_VECTORS:
+            field_vectors[:] = field_vectors[-MAX_VECTORS:]
+        
+        # Compute stability
+        stability = compute_field_stability()
+        
+        # Update metrics
+        field_stability.set(stability)
+        field_magnitude.set(sum(v.magnitude for v in field_vectors))
+        vector_count.set(len(field_vectors))
+        
+        # Detect instability
+        if stability < 0.6:
+            instability_events.inc()
+        
+        return {
+            "status": "vector_added",
+            "field_stability": stability,
+            "vector_count": len(field_vectors),
+            "instability_detected": stability < 0.6
+        }
+    
+    @app.get("/api/v1/field/status")
+    async def get_field_status():
+        """Get current field status"""
+        stability = compute_field_stability()
+        
+        return {
+            "stability": stability,
+            "vector_count": len(field_vectors),
+            "total_magnitude": sum(v.magnitude for v in field_vectors),
+            "is_stable": stability >= 0.6
+        }
+    
+    if __name__ == "__main__":
+        import uvicorn
+        uvicorn.run(app, host="0.0.0.0", port=8081)
+
+---
+# Service for Field Engine
+apiVersion: v1
+kind: Service
+metadata:
+  name: field-engine
+  namespace: kube-system
+  labels:
+    app: field-engine
+
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
+      protocol: TCP
+    - name: metrics
+      port: 9091
+      targetPort: 9091
+      protocol: TCP
+  selector:
+    app: field-engine

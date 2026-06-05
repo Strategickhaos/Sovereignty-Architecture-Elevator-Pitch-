@@ -1,0 +1,296 @@
+# Log Enrichment DaemonSet - Deployed on every node in kube-system
+# Parses and enriches Kubernetes logs before sending to Loki and SynapseBus
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: log-enrichment
+  namespace: kube-system
+  labels:
+    app: log-enrichment
+    component: observability
+
+spec:
+  selector:
+    matchLabels:
+      app: log-enrichment
+  
+  template:
+    metadata:
+      labels:
+        app: log-enrichment
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    
+    spec:
+      serviceAccountName: log-enrichment
+      
+      # Tolerate master node taints
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+      
+      containers:
+        - name: vector
+          image: timberio/vector:0.34.0-alpine
+          
+          # Resource limits for cost control
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: cluster-config
+                  key: cluster_id
+                  optional: true
+            - name: SYNAPSEBUS_ENDPOINT
+              value: "http://synapsebus.kube-system.svc.cluster.local:8080/api/v1/spikes"
+          
+          volumeMounts:
+            - name: config
+              mountPath: /etc/vector
+              readOnly: true
+            - name: varlog
+              mountPath: /var/log
+              readOnly: true
+            - name: varlibdockercontainers
+              mountPath: /var/lib/docker/containers
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/vector
+          
+          ports:
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+      
+      volumes:
+        - name: config
+          configMap:
+            name: log-enrichment-vector-config
+        - name: varlog
+          hostPath:
+            path: /var/log
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
+        - name: data
+          emptyDir: {}
+
+---
+# Vector configuration for log enrichment
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-enrichment-vector-config
+  namespace: kube-system
+  labels:
+    app: log-enrichment
+
+data:
+  vector.toml: |
+    # Vector configuration for log enrichment and routing
+    
+    # Data directory for buffering
+    data_dir = "/var/lib/vector"
+    
+    # Source: Kubernetes logs from all pods
+    [sources.kubernetes_logs]
+    type = "kubernetes_logs"
+    exclude_paths_glob_patterns = [
+      "**/kube-system/log-enrichment-*",  # Don't process own logs
+      "**/kube-system/vector-*"
+    ]
+    
+    # Transform: Parse and enrich logs
+    [transforms.enrich_logs]
+    type = "remap"
+    inputs = ["kubernetes_logs"]
+    source = '''
+      # Add cluster metadata
+      .cluster_id = get_env_var!("CLUSTER_ID")
+      .node = get_env_var!("NODE_NAME")
+      
+      # Extract event type from log message
+      if match(.message, r'reconcil') {
+        .event_type = "reconciliation"
+        
+        # Extract reconciliation duration if present
+        if match(.message, r'took (\d+)ms') {
+          .reconciliation_duration_ms = to_int!(parse_regex!(.message, r'took (\d+)ms').captures[0])
+          
+          # Tag slow reconciliations
+          if .reconciliation_duration_ms > 5000 {
+            .event_type = "reconciliation_slow"
+            .severity = "warning"
+          }
+        }
+      } else if match(.message, r'schedul') {
+        .event_type = "scheduling"
+      } else if match(.message, r'health|probe|liveness|readiness') {
+        .event_type = "health"
+      } else if match(.message, r'cluster.*->.*cluster|migration|failover') {
+        .event_type = "cross_cluster"
+        .severity = "warning"
+      }
+      
+      # Set default severity
+      .severity = .severity ?? .level ?? "info"
+      
+      # Normalize timestamp
+      .timestamp = now()
+    '''
+    
+    # Transform: Sampling for cost control
+    [transforms.sample_logs]
+    type = "sample"
+    inputs = ["enrich_logs"]
+    rate = 4  # Keep 1 in 4 logs (25% sampling by default)
+    key_field = "event_type"
+    
+    # Transform: Critical logs bypass sampling
+    [transforms.critical_logs]
+    type = "filter"
+    inputs = ["enrich_logs"]
+    condition = '''
+      .severity == "error" || 
+      .severity == "critical" || 
+      .event_type == "cross_cluster" ||
+      .event_type == "reconciliation_slow"
+    '''
+    
+    # Transform: Prepare SynapseBus spikes
+    [transforms.synapsebus_spikes]
+    type = "filter"
+    inputs = ["critical_logs"]
+    condition = '''
+      .severity == "warning" || 
+      .severity == "error" ||
+      .severity == "critical"
+    '''
+    
+    # Sink: Loki for log aggregation
+    [sinks.loki]
+    type = "loki"
+    inputs = ["sample_logs", "critical_logs"]
+    endpoint = "http://loki.monitoring.svc.cluster.local:3100"
+    encoding.codec = "json"
+    
+    # Labels for efficient querying
+    labels.cluster = "{{ cluster_id }}"
+    labels.namespace = "{{ kubernetes.pod_namespace }}"
+    labels.event_type = "{{ event_type }}"
+    labels.severity = "{{ severity }}"
+    
+    # Batch for efficiency
+    batch.max_bytes = 1048576  # 1MB
+    batch.timeout_secs = 1
+    
+    # Sink: SynapseBus for reactive actions
+    [sinks.synapsebus]
+    type = "http"
+    inputs = ["synapsebus_spikes"]
+    uri = "http://synapsebus.kube-system.svc.cluster.local:8080/api/v1/spikes"
+    encoding.codec = "json"
+    
+    # Authentication
+    auth.strategy = "bearer"
+    auth.token = "${SYNAPSEBUS_TOKEN:-}"
+    
+    # Batch spikes
+    batch.max_events = 10
+    batch.timeout_secs = 5
+    
+    # Sink: Metrics for Prometheus
+    [sinks.prometheus_metrics]
+    type = "prometheus_exporter"
+    inputs = ["enrich_logs"]
+    address = "0.0.0.0:9090"
+
+---
+# ServiceAccount for log enrichment
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: log-enrichment
+  namespace: kube-system
+  labels:
+    app: log-enrichment
+
+---
+# ClusterRole for reading logs
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: log-enrichment
+  labels:
+    app: log-enrichment
+
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - namespaces
+      - nodes
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - pods/log
+    verbs: ["get", "list"]
+
+---
+# ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: log-enrichment
+  labels:
+    app: log-enrichment
+
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: log-enrichment
+subjects:
+  - kind: ServiceAccount
+    name: log-enrichment
+    namespace: kube-system
+
+---
+# Service for metrics
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-enrichment
+  namespace: kube-system
+  labels:
+    app: log-enrichment
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+
+spec:
+  type: ClusterIP
+  clusterIP: None  # Headless service for DaemonSet
+  ports:
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    app: log-enrichment

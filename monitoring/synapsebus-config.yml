@@ -1,0 +1,270 @@
+# SynapseBus Configuration - Nervous System for Log-Driven Actions
+# Converts log events (Spikes) into reactive behaviors (Reflexes)
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: synapsebus-config
+  namespace: kube-system
+  labels:
+    app: synapsebus
+    component: nervous-system
+
+data:
+  config.yml: |
+    # SynapseBus Core Configuration
+    server:
+      host: "0.0.0.0"
+      port: 8080
+      metrics_port: 9090
+    
+    # Spike processing configuration
+    spikes:
+      # Input sources for nervous system
+      sources:
+        - name: "log-enrichment"
+          type: "http"
+          endpoint: "/api/v1/spikes"
+          auth:
+            type: "bearer"
+            secret_name: "synapsebus-token"
+        
+        - name: "prometheus-alerts"
+          type: "webhook"
+          endpoint: "/api/v1/spikes/prometheus"
+        
+        - name: "kubernetes-events"
+          type: "watch"
+          resource: "events"
+          namespaces: ["default", "kube-system"]
+      
+      # Spike classification
+      classification:
+        # High-intensity spikes require immediate reflexes
+        high_intensity:
+          - reconciliation_slow
+          - pod_crash_loop
+          - cross_cluster_failure
+          - node_not_ready
+        
+        # Medium-intensity spikes trigger analysis
+        medium_intensity:
+          - high_api_latency
+          - memory_pressure
+          - disk_pressure
+          - network_errors
+        
+        # Low-intensity spikes for trend analysis
+        low_intensity:
+          - pod_restart
+          - config_change
+          - image_pull
+    
+    # Reflex configuration - Automated responses
+    reflexes:
+      # Scale resources when reconciliation is slow
+      - name: "scale-on-slow-reconciliation"
+        trigger:
+          spike_type: "reconciliation_slow"
+          threshold:
+            duration_ms: 5000
+            frequency: "3 events in 5m"
+        
+        action:
+          type: "kubernetes"
+          operation: "scale"
+          target:
+            resource: "deployment"
+            namespace: "{{ spike.namespace }}"
+            name: "{{ spike.deployment }}"
+          parameters:
+            replicas: "{{ current_replicas + 1 }}"
+            max_replicas: 10
+        
+        cooldown: "10m"
+        metadata:
+          rationale: "Slow reconciliation indicates resource pressure"
+      
+      # Auto-tune scheduler when cross-cluster events spike
+      - name: "optimize-scheduler-affinity"
+        trigger:
+          spike_type: "cross_cluster"
+          threshold:
+            count: 5
+            window: "15m"
+        
+        action:
+          type: "kubernetes"
+          operation: "patch"
+          target:
+            resource: "configmap"
+            namespace: "kube-system"
+            name: "kube-scheduler-config"
+          parameters:
+            merge:
+              profiles:
+                - schedulerName: "default-scheduler"
+                  plugins:
+                    score:
+                      enabled:
+                        - name: "InterPodAffinity"
+                          weight: 5
+        
+        cooldown: "30m"
+        metadata:
+          rationale: "High cross-cluster traffic suggests affinity tuning needed"
+      
+      # Redistribute workload on node pressure
+      - name: "redistribute-on-pressure"
+        trigger:
+          spike_type: "node_pressure"
+          threshold:
+            severity: "warning"
+        
+        action:
+          type: "kubernetes"
+          operation: "cordon_and_drain"
+          target:
+            resource: "node"
+            name: "{{ spike.node }}"
+          parameters:
+            grace_period: "300s"
+            delete_local_data: false
+            ignore_daemonsets: true
+        
+        post_action:
+          type: "uncordon"
+          delay: "15m"
+        
+        cooldown: "1h"
+        metadata:
+          rationale: "Node pressure requires workload redistribution"
+      
+      # Send critical spikes to Discord
+      - name: "alert-to-discord"
+        trigger:
+          spike_type: ["pod_crash_loop", "cross_cluster_failure", "node_not_ready"]
+        
+        action:
+          type: "webhook"
+          url: "{{ env.DISCORD_WEBHOOK_ALERTS }}"
+          method: "POST"
+          body:
+            content: "🚨 **Critical Spike Detected**"
+            embeds:
+              - title: "{{ spike.type }}"
+                description: "{{ spike.message }}"
+                color: 15158332  # Red
+                fields:
+                  - name: "Cluster"
+                    value: "{{ spike.cluster }}"
+                  - name: "Namespace"
+                    value: "{{ spike.namespace }}"
+                  - name: "Timestamp"
+                    value: "{{ spike.timestamp }}"
+        
+        cooldown: "5m"
+        metadata:
+          rationale: "Critical events require human awareness"
+    
+    # Neural pathway - Pattern learning
+    neural_pathways:
+      enabled: true
+      
+      # Store spike patterns for learning
+      pattern_storage:
+        type: "redis"
+        host: "redis:6379"
+        db: 1
+        ttl: "7d"
+      
+      # Correlation detection
+      correlation:
+        enabled: true
+        window: "1h"
+        min_confidence: 0.7
+        
+        # Detect patterns like "spike A often precedes spike B"
+        # This enables predictive reflexes
+        patterns:
+          - name: "memory-pressure-before-oom"
+            sequence: ["memory_pressure", "pod_oom_killed"]
+            min_occurrences: 3
+            predictive_reflex:
+              action: "scale"
+              trigger_on: "memory_pressure"
+          
+          - name: "api-latency-before-timeout"
+            sequence: ["high_api_latency", "api_timeout"]
+            min_occurrences: 2
+            predictive_reflex:
+              action: "alert"
+              trigger_on: "high_api_latency"
+    
+    # Field integration - Physics-based modeling
+    field_engine:
+      enabled: true
+      endpoint: "http://field-engine:8081/api/v1/field"
+      
+      # Send spike vectors to field engine
+      vector_mapping:
+        cluster_id: "field.source"
+        event_type: "field.type"
+        severity: "field.magnitude"
+        namespace: "field.location"
+        timestamp: "field.time"
+      
+      # Receive field analysis back
+      field_feedback:
+        stability_threshold: 0.6
+        on_instability:
+          reflex: "redistribute-on-pressure"
+          propagate_to_clusters: true
+    
+    # DNA Synthesis integration - Configuration evolution
+    dna_synthesis:
+      enabled: true
+      endpoint: "http://dna-synthesis-orchestrator:8082/api/v1/synthesize"
+      
+      # Send operational data for configuration synthesis
+      synthesis_triggers:
+        - name: "optimize-sampling-rates"
+          interval: "24h"
+          data_sources:
+            - "spike_patterns"
+            - "cost_metrics"
+            - "performance_metrics"
+          target_config: "log-enrichment-config"
+        
+        - name: "evolve-reflex-thresholds"
+          interval: "12h"
+          data_sources:
+            - "reflex_effectiveness"
+            - "false_positive_rate"
+            - "mean_time_to_recovery"
+          target_config: "synapsebus-reflexes"
+      
+      # A/B testing for evolved configurations
+      ab_testing:
+        enabled: true
+        variants: 2
+        traffic_split: [0.8, 0.2]  # 80% current, 20% evolved
+        evaluation_metrics:
+          - "mean_spike_resolution_time"
+          - "false_positive_rate"
+          - "resource_efficiency"
+        promotion_threshold: 0.15  # Promote if 15% better
+    
+    # Metrics and observability
+    metrics:
+      enabled: true
+      export_to_prometheus: true
+      metrics:
+        - spikes_received_total
+        - spikes_processed_total
+        - reflexes_triggered_total
+        - reflex_success_total
+        - reflex_failure_total
+        - neural_patterns_detected_total
+        - field_stability_score
+        - dna_synthesis_runs_total

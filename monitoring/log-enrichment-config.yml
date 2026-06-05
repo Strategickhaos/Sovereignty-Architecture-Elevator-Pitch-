@@ -1,0 +1,195 @@
+# Log Enrichment Configuration for Strategickhaos Sovereignty Architecture
+# Transforms raw Kubernetes logs into structured, actionable data
+
+enrichment:
+  # Metadata enrichment for all log entries
+  metadata:
+    cluster_tags:
+      enabled: true
+      tags:
+        - name: "red-team"
+          pattern: "red-team-*"
+          priority: high
+        - name: "jarvis-swarm-personal-001"
+          pattern: "jarvis-swarm-*"
+          priority: high
+    
+    event_classification:
+      # Kubernetes API event types
+      reconciliation:
+        patterns:
+          - "reconcil.*"
+          - "sync.*"
+        threshold_ms: 5000  # Trigger Reflex if >5s
+      
+      scheduling:
+        patterns:
+          - "schedule.*"
+          - "placement.*"
+        threshold_ms: 3000
+      
+      health:
+        patterns:
+          - "healthcheck.*"
+          - "probe.*"
+          - "liveness.*"
+          - "readiness.*"
+        sample_rate: 0.1  # Sample 10% to reduce volume
+      
+      cross_cluster:
+        patterns:
+          - "pod.*migration.*"
+          - "failover.*"
+          - "cross.*cluster.*"
+        priority: critical
+        sample_rate: 1.0  # Capture all cross-cluster events
+
+  # Sampling configuration for cost control
+  sampling:
+    enabled: true
+    rules:
+      # High-priority events: capture all
+      - name: "critical-events"
+        sample_rate: 1.0
+        conditions:
+          - level: ["error", "critical", "fatal"]
+          - event_type: ["cross_cluster", "reconciliation_slow"]
+      
+      # Medium-priority events: sample 50%
+      - name: "warnings"
+        sample_rate: 0.5
+        conditions:
+          - level: ["warning", "warn"]
+      
+      # Low-priority events: sample 10%
+      - name: "health-checks"
+        sample_rate: 0.1
+        conditions:
+          - event_type: ["health"]
+          - pattern: [".*healthcheck.*", ".*probe.*"]
+      
+      # Default: sample 25%
+      - name: "default"
+        sample_rate: 0.25
+
+  # Cost guardrails
+  cost_controls:
+    monthly_budget_usd: 2.0
+    
+    # Storage optimization
+    storage:
+      hot_retention_days: 7      # Fast access for recent logs
+      warm_retention_days: 30    # S3-compatible cold storage
+      cold_archive_days: 90      # Deep archive
+      compression: "gzip"
+      
+    # Rate limiting
+    rate_limits:
+      max_logs_per_second: 1000
+      burst_size: 2000
+      
+    # Alerts when approaching budget
+    budget_alerts:
+      - threshold: 0.8  # 80% of budget
+        severity: warning
+      - threshold: 0.95  # 95% of budget
+        severity: critical
+
+# Log parsing rules
+parsing:
+  # Kubernetes API server logs
+  kubernetes_api:
+    format: "json"
+    fields:
+      timestamp: "@timestamp"
+      level: "level"
+      message: "msg"
+      component: "component"
+      namespace: "namespace"
+      pod: "pod"
+      node: "node"
+    
+    # Extract structured data from message field
+    patterns:
+      reconciliation_time:
+        regex: "reconciliation took (\\d+)ms"
+        field: "reconciliation_duration_ms"
+      
+      pod_scheduling:
+        regex: "pod (\\S+) scheduled to node (\\S+)"
+        fields: ["pod_name", "node_name"]
+      
+      cross_cluster_event:
+        regex: "cluster (\\S+) -> cluster (\\S+)"
+        fields: ["source_cluster", "target_cluster"]
+
+  # Application logs
+  application:
+    format: "auto-detect"  # Supports JSON, logfmt, plain text
+    multiline:
+      enabled: true
+      patterns:
+        - type: "java_stack_trace"
+          start: "^\\S+Exception:"
+        - type: "python_traceback"
+          start: "^Traceback"
+
+# Output destinations
+outputs:
+  # Loki for log aggregation
+  loki:
+    enabled: true
+    url: "http://loki:3100/loki/api/v1/push"
+    batch_size: 1024
+    batch_wait: 1s
+    
+    # Labels for efficient querying
+    labels:
+      cluster: "cluster_id"
+      namespace: "namespace"
+      event_type: "event_type"
+      severity: "level"
+  
+  # SynapseBus for reactive processing
+  synapsebus:
+    enabled: true
+    endpoint: "http://synapsebus:8080/api/v1/spikes"
+    # Only send high-priority events to SynapseBus
+    filter:
+      min_severity: "warning"
+      event_types:
+        - "reconciliation_slow"
+        - "cross_cluster"
+        - "pod_failure"
+        - "node_pressure"
+  
+  # S3-compatible cold storage
+  s3_archive:
+    enabled: true
+    bucket: "strategickhaos-logs-archive"
+    prefix: "logs/{cluster}/{year}/{month}/{day}/"
+    # Only archive sampled logs older than hot retention
+    min_age_days: 7
+
+# Metrics for observability
+metrics:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+  
+  # Track key metrics
+  counters:
+    - logs_processed_total
+    - logs_sampled_total
+    - logs_enriched_total
+    - synapse_spikes_sent_total
+    - parse_errors_total
+  
+  histograms:
+    - log_processing_duration_seconds
+    - batch_size_bytes
+  
+  gauges:
+    - estimated_monthly_cost_usd
+    - hot_storage_bytes
+    - cold_storage_bytes
