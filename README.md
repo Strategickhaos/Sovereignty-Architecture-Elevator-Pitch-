@@ -272,6 +272,32 @@ kubectl logs -f deployment/event-gateway -n ops
 curl -X POST https://events.strategickhaos.com/health
 ```
 
+## 🔥 Mastery & Learning Resources
+
+### DOM Focus Forge: Sovereign Mastery Matrix
+**INV-093: Black Hat to Purple Team, Forensics, CIA Ops & Apex Engineering**
+
+Comprehensive mastery documentation for the hardest security and engineering domains:
+
+- **[DOM Focus Forge - Full Guide](DOM_FOCUS_FORGE.md)** - Complete mastery roadmap (51KB, 1400+ lines)
+  - Security Domains: Black hat, Red team, Blue team, Purple team, Forensics, CIA-level ops
+  - Advanced Engineering: Quantum computing, AI/ML, Biotechnology, Nanotechnology, Aerospace
+  - Legal & ethical frameworks, lab setup guides, certification paths, cost estimates
+  
+- **[Quick Reference Guide](DOM_FOCUS_FORGE_QUICK_REF.md)** - Fast navigation and key information
+  - At-a-glance summaries for all domains
+  - Budget planning and timeline estimates
+  - Week 1 action plan to get started
+  - Mastery checklists and resource links
+
+**Philosophy**: "Black hat knowledge, white hat actions, sovereign mastery." All content is defensive, educational, and legal.
+
+### Additional Resources
+- **[Mastery Prompts](MASTERY_PROMPTS.md)** - 20 ecosystem articulation prompts for LLM-assisted mastery
+- **[Security Playbook](VAULT_SECURITY_PLAYBOOK.md)** - Vault policies and secret rotation
+
+---
+
 ## 👥 Community & Contributors
 
 This project thrives because of an extraordinary community of creators, builders, and visionaries who choose to contribute not out of obligation, but out of love for what we're building together.
