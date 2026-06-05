@@ -280,6 +280,27 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 📚 Technical Documentation & Inventions
+
+This repository includes comprehensive technical manuals and inventions:
+
+### INV-011: TRIG6 Rope Access Manual
+**Mechanical Advantage - A TRIG6 Approach to Rope Access Tension Systems**
+
+A comprehensive technical manual for rope access technicians, riggers, and rescue teams. Uses unified TRIG6 framework (six trigonometric functions) to explain mechanical advantage, tension systems, and field calculations.
+
+**Features:**
+- 20 chapters covering rope mechanics fundamentals to advanced topics
+- Field-ready quick reference cards for practical use
+- Integration with SPRAT/IRATA standards
+- Practical calculation tools designed for working professionals
+
+**Location:** [`inventions/INV-011/`](inventions/INV-011/)
+
+For complete invention registry and documentation guidelines, see [`inventions/README.md`](inventions/README.md)
+
+---
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
