@@ -36,3 +36,39 @@ target/
 
 # Workspace data
 workspace/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# Audit tool outputs
+audit_template.json
+audit_results.json
+audit_*.json
+*_report.md
+!examples/*.json
+!examples/*_report.md

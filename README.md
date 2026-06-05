@@ -28,6 +28,40 @@ export PRS_CHANNEL="channel_id"
 ./gl2discord.sh "$PRS_CHANNEL" "🔥 Sovereignty Architecture Online!" "System initialized successfully"
 ```
 
+## 🧠 33 Audit Test Framework
+
+**NEW: Adversarial interrogation framework for technical validation**
+
+The 33 Audit Test Framework simulates the scrutiny of Distinguished Engineers, IP attorneys, scholarship committees, security reviewers, and production reliability boards.
+
+### Quick Start
+```bash
+# List all 33 questions
+python audit_tool.py --list
+
+# Run interactive audit
+python audit_tool.py --interactive
+
+# Generate template for manual completion
+python audit_tool.py --template
+```
+
+### Documentation
+- **[Complete Framework](33_AUDIT_TEST_FRAMEWORK.md)** - Full 33-question audit with criteria and evidence requirements
+- **[Quick Reference](33_AUDIT_QUICK_REFERENCE.md)** - Fast lookup guide for all questions
+- **[Interactive Tool](audit_tool.py)** - Python tool for conducting structured audits
+
+### Framework Sections
+1. **Technical Validity** (7 questions) - Reproducibility, scalability, failure modes
+2. **IP Survivability** (7 questions) - Patent eligibility, prior art, non-obviousness
+3. **Engineering Depth** (7 questions) - Invariants, metrics, resilience
+4. **Economic Impact** (6 questions) - Cost displacement, ROI, hidden costs
+5. **Scholarship** (6 questions) - Academic rigor, empirical evidence, lasting impact
+
+> **"If 33 hard questions can't break this, it's real."**
+
+---
+
 ## 📋 Core Components
 
 ### 🤖 Discord Bot (`discord-ops-bot`)
