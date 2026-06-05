@@ -2,6 +2,18 @@
 
 **A comprehensive Discord-integrated DevOps automation system for the Strategickhaos ecosystem, featuring AI agents, GitLens integration, and sovereign infrastructure management.**
 
+## 📖 NEW: The Sister Protocol—Failures as Fuel
+
+**Tech memoir + risk framework** documenting 36 failure modes across Sister Protocol, NEURO-36 Genome, Wait Chain Logic, and 100 Bottlenecks. Each failure vectorized using TRIG6 framework (θ, R, D, N) with evolved mitigations via Darwinian selection.
+
+- **📚 Full Book**: [book.md](book.md) - Complete ~200 page structure
+- **⚡ Quick Reference**: [TRIG6_QUICK_REFERENCE.md](TRIG6_QUICK_REFERENCE.md) - Fast lookup for all 36 vectors
+- **🧬 Simulations**: [simulations/](simulations/) - Executable .t6 failure models
+
+**Fitness function**: f = r(1-d)(1-n)·eq | **Danger criterion**: tan θ > 10 | **KPI**: "Did it help?"
+
+---
+
 ## 🏛️ Architecture Overview
 
 This system creates a **sovereignty control plane** that bridges:
