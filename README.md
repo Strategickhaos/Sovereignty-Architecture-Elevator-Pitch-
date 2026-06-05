@@ -10,6 +10,15 @@ This system creates a **sovereignty control plane** that bridges:
 - **Development** - GitLens, PR workflows, CI/CD automation, Java 21+ workspace
 - **AI Agents** - Intelligent assistance with vector knowledge base
 
+## 🧬 Cognitive Architecture & Inventions
+
+This repository includes breakthrough cognitive systems and protocols:
+
+- **[Legion Feedback Loop](./LEGION_FEEDBACK_LOOP.md)** - Meta-cognitive analysis framework for recursive self-improvement
+- **[INV-103: DOM Cognitive Architecture](./INV-103_DOM_Cognitive_Architecture.md)** - High-performance parallel cognitive processing system
+- **[INV-104: Insight Verification Loop](./INV-104_Insight_Verification_Loop.md)** - Dopamine redirection system for precision-based rewards
+- **[INV-105: Cross-AI Meta-Analysis Protocol](./INV-105_Cross_AI_Meta_Analysis_Protocol.md)** - Multi-AI distributed verification and synthesis framework
+
 ## 🚀 Quick Start
 
 ```bash
@@ -278,6 +287,7 @@ This project thrives because of an extraordinary community of creators, builders
 
 - **[Community Manifesto](COMMUNITY.md)** - Understanding the philosophy and spirit of The Legion
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
+- **[Legion Feedback Loop](LEGION_FEEDBACK_LOOP.md)** - Meta-cognitive framework for recursive self-improvement
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
 ## 📄 License & Support
