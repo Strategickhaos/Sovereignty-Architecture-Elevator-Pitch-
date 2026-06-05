@@ -1,0 +1,107 @@
+{
+  "metadata": {
+    "name": "CTF Pentest Methodology Graph",
+    "version": "1.0",
+    "description": "Rubik's PLL-inspired CTF methodology mapping",
+    "author": "Dom (Me10101) - Strategickhaos DAO LLC"
+  },
+  "quadrant_weights": {
+    "tool_ready": 0.3,
+    "context_match": 0.3,
+    "success_rate": 0.25,
+    "efficiency": 0.15
+  },
+  "nodes": {
+    "01-Ua-Recon": {
+      "name": "Reconnaissance",
+      "description": "Initial scanning and network discovery",
+      "pll_analog": "Ua Perm - Corner swap while edges stay",
+      "triggers": ["scan", "recon", "nmap", "discovery", "ports", "network", "enumerate hosts"],
+      "tools": ["nmap", "masscan", "rustscan", "netdiscover", "arp-scan"]
+    },
+    "02-Ub-Enum": {
+      "name": "Enumeration",
+      "description": "Deep service and application enumeration",
+      "pll_analog": "Ub Perm - Parallel corner swap",
+      "triggers": ["enum", "enumeration", "directory", "gobuster", "ffuf", "dirbuster", "brute", "wordlist"],
+      "tools": ["gobuster", "ffuf", "feroxbuster", "wfuzz", "enum4linux", "smbclient"]
+    },
+    "03-H-WebApp": {
+      "name": "Web Application Testing",
+      "description": "Web vulnerability assessment and exploitation",
+      "pll_analog": "H Perm - Edge swap pattern",
+      "triggers": ["web", "webapp", "sql", "xss", "injection", "burp", "nikto", "lfi", "rfi", "ssrf"],
+      "tools": ["burpsuite", "nikto", "sqlmap", "wpscan", "nuclei", "zap"]
+    },
+    "04-Z-Exploit": {
+      "name": "Exploitation",
+      "description": "Gaining initial access via vulnerabilities",
+      "pll_analog": "Z Perm - Diagonal corner swap",
+      "triggers": ["exploit", "shell", "rce", "metasploit", "payload", "reverse shell", "exploit-db"],
+      "tools": ["metasploit", "searchsploit", "exploit-db", "nc", "socat", "pwntools"]
+    },
+    "05-Aa-Creds": {
+      "name": "Credential Access",
+      "description": "Password attacks and credential theft",
+      "pll_analog": "Aa Perm - Clockwise corner cycle",
+      "triggers": ["password", "hash", "crack", "john", "hashcat", "credential", "mimikatz", "dump"],
+      "tools": ["john", "hashcat", "hydra", "medusa", "mimikatz", "crackmapexec"]
+    },
+    "06-Ab-PrivEsc": {
+      "name": "Privilege Escalation",
+      "description": "Escalating to root/admin privileges",
+      "pll_analog": "Ab Perm - Counter-clockwise corner cycle",
+      "triggers": ["privesc", "privilege", "root", "admin", "sudo", "suid", "kernel", "escalation"],
+      "tools": ["linpeas", "winpeas", "pspy", "gtfobins", "linenum", "powerup"]
+    },
+    "07-E-Persist": {
+      "name": "Persistence",
+      "description": "Maintaining access and establishing backdoors",
+      "pll_analog": "E Perm - Edge 3-cycle",
+      "triggers": ["persist", "persistence", "backdoor", "maintain", "cron", "service", "startup"],
+      "tools": ["cron", "systemd", "ssh-keys", "web-shells", "empire", "covenant"]
+    },
+    "08-T-Exfil": {
+      "name": "Exfiltration",
+      "description": "Data extraction and file transfer",
+      "pll_analog": "T Perm - Parallel edge swap",
+      "triggers": ["exfil", "exfiltration", "transfer", "download", "scp", "ftp", "data", "extract"],
+      "tools": ["scp", "nc", "curl", "wget", "python-server", "ftp", "smb"]
+    },
+    "09-F-Pivot": {
+      "name": "Lateral Movement",
+      "description": "Moving across network and pivoting",
+      "pll_analog": "F Perm - Adjacent edge swap",
+      "triggers": ["pivot", "lateral", "tunnel", "proxy", "chisel", "ssh tunnel", "proxychains"],
+      "tools": ["proxychains", "chisel", "ssh", "ligolo", "sshuttle", "metasploit-pivot"]
+    },
+    "10-V-Cleanup": {
+      "name": "Cleanup & Covering Tracks",
+      "description": "Log clearing and evidence removal",
+      "pll_analog": "V Perm - Adjacent corner + edge swap",
+      "triggers": ["cleanup", "clean", "logs", "clear", "remove", "evidence", "cover"],
+      "tools": ["shred", "wevtutil", "auditd", "log-cleaner", "timestomp"]
+    }
+  },
+  "edges": [
+    ["01-Ua-Recon", "02-Ub-Enum"],
+    ["02-Ub-Enum", "03-H-WebApp"],
+    ["02-Ub-Enum", "04-Z-Exploit"],
+    ["02-Ub-Enum", "05-Aa-Creds"],
+    ["03-H-WebApp", "04-Z-Exploit"],
+    ["03-H-WebApp", "05-Aa-Creds"],
+    ["04-Z-Exploit", "05-Aa-Creds"],
+    ["04-Z-Exploit", "06-Ab-PrivEsc"],
+    ["05-Aa-Creds", "06-Ab-PrivEsc"],
+    ["05-Aa-Creds", "09-F-Pivot"],
+    ["06-Ab-PrivEsc", "07-E-Persist"],
+    ["06-Ab-PrivEsc", "08-T-Exfil"],
+    ["06-Ab-PrivEsc", "09-F-Pivot"],
+    ["07-E-Persist", "08-T-Exfil"],
+    ["07-E-Persist", "10-V-Cleanup"],
+    ["08-T-Exfil", "10-V-Cleanup"],
+    ["09-F-Pivot", "02-Ub-Enum"],
+    ["09-F-Pivot", "08-T-Exfil"],
+    ["09-F-Pivot", "10-V-Cleanup"]
+  ]
+}
