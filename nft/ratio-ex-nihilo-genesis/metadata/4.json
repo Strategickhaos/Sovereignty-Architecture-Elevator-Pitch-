@@ -1,0 +1,32 @@
+{
+  "name": "Ratio Ex Nihilo #4 - System Architecture Diagrams",
+  "description": "The fourth piece in the Ratio Ex Nihilo Genesis Collection. Technical system architecture diagrams mapping the logical structure of sovereign operations. Legally tied to Wyoming entity 2025-001708194.",
+  "image": "ipfs://PIECE_4_IMAGE_CID",
+  "external_url": "https://strategickhaos.ai",
+  "attributes": [
+    {
+      "trait_type": "Series",
+      "value": "Ratio Ex Nihilo Genesis"
+    },
+    {
+      "trait_type": "Piece Number",
+      "value": "4"
+    },
+    {
+      "trait_type": "Evolution Stage",
+      "value": "System Architecture Diagrams"
+    },
+    {
+      "trait_type": "Medium",
+      "value": "Technical Diagram"
+    },
+    {
+      "trait_type": "Legal Entity",
+      "value": "Strategickhaos DAO LLC"
+    },
+    {
+      "trait_type": "Wyoming File Number",
+      "value": "2025-001708194"
+    }
+  ]
+}

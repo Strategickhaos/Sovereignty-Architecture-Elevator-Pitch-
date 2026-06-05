@@ -1,0 +1,32 @@
+{
+  "name": "Ratio Ex Nihilo #3 - Architectural Blueprints",
+  "description": "The third piece in the Ratio Ex Nihilo Genesis Collection. Architectural blueprints showing the structural foundations of the sovereignty system. Legally tied to Wyoming entity 2025-001708194.",
+  "image": "ipfs://PIECE_3_IMAGE_CID",
+  "external_url": "https://strategickhaos.ai",
+  "attributes": [
+    {
+      "trait_type": "Series",
+      "value": "Ratio Ex Nihilo Genesis"
+    },
+    {
+      "trait_type": "Piece Number",
+      "value": "3"
+    },
+    {
+      "trait_type": "Evolution Stage",
+      "value": "Architectural Blueprints"
+    },
+    {
+      "trait_type": "Medium",
+      "value": "Digital Blueprint"
+    },
+    {
+      "trait_type": "Legal Entity",
+      "value": "Strategickhaos DAO LLC"
+    },
+    {
+      "trait_type": "Wyoming File Number",
+      "value": "2025-001708194"
+    }
+  ]
+}

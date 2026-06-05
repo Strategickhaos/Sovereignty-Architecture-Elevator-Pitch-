@@ -1,0 +1,32 @@
+{
+  "name": "Ratio Ex Nihilo #6 - Boot Sequence Visualizations",
+  "description": "The sixth piece in the Ratio Ex Nihilo Genesis Collection. Dynamic boot sequence visualizations showing the initialization of the sovereign operating system. Legally tied to Wyoming entity 2025-001708194.",
+  "image": "ipfs://PIECE_6_IMAGE_CID",
+  "external_url": "https://strategickhaos.ai",
+  "attributes": [
+    {
+      "trait_type": "Series",
+      "value": "Ratio Ex Nihilo Genesis"
+    },
+    {
+      "trait_type": "Piece Number",
+      "value": "6"
+    },
+    {
+      "trait_type": "Evolution Stage",
+      "value": "Boot Sequence Visualizations"
+    },
+    {
+      "trait_type": "Medium",
+      "value": "Dynamic Visualization"
+    },
+    {
+      "trait_type": "Legal Entity",
+      "value": "Strategickhaos DAO LLC"
+    },
+    {
+      "trait_type": "Wyoming File Number",
+      "value": "2025-001708194"
+    }
+  ]
+}
