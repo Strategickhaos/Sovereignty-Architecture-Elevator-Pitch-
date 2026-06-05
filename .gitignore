@@ -36,3 +36,14 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameBench cache and outputs
+flamebench/
+**/bench_cache/
+**/flamebench-results.json
+**/guardian-uncertainty.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
