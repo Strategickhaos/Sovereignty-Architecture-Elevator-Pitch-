@@ -1,0 +1,19 @@
+[package]
+name = "flamelang"
+version = "0.1.0"
+edition = "2021"
+authors = ["Dom (Me10101) / Strategickhaos DAO LLC"]
+description = "FlameLang Compiler - Intermediate Representation v0.1.0"
+license = "MIT"
+
+[dependencies]
+
+[dev-dependencies]
+
+[[bin]]
+name = "flamelang"
+path = "src/main.rs"
+
+[lib]
+name = "flamelang"
+path = "src/lib.rs"
