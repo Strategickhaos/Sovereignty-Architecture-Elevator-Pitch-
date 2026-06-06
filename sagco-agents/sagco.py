@@ -41,6 +41,7 @@ AGENTS = {
     "exam":     REPO_ROOT / "BOARD-10-UNIVERSITY/src"      / "exam_runner.py",
     "compile":  REPO_ROOT / "SAGCO-LANG"                   / "target/release/flamec",
     "hub":      REPO_ROOT / "sagco-agents"                 / "agent_hub.py",
+    "remediate":REPO_ROOT / "sagco-agents"                 / "agent_remediate.py",
 }
 
 BUILTIN_AGENTS = {

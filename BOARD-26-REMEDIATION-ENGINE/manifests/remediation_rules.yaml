@@ -1,0 +1,126 @@
+rules:
+
+  - id: RULE-001
+    name: Orphan Citizen Auto-Registration
+    trigger:
+      source: any
+      pattern: "orphan citizen|unregistered artifact|missing cid"
+    owner: BOARD-13-RECON
+    action:
+      cmd: python
+      script: 08-CITIZENS/catpush.py
+      args: ["--path", "{artifact_path}"]
+    verify:
+      check: citizen_registry_contains
+      field: cid
+    synthesis: "Every orphan found = new citizen born. Contradiction IS the creation event."
+
+  - id: RULE-002
+    name: IAM Drift Auto-Remediation
+    trigger:
+      source: BOARD-24-GCP-MASTERY
+      pattern: "Editor role|entropy maxed|IAM drift"
+    owner: BOARD-24-GCP-MASTERY
+    action:
+      cmd: python
+      script: sagco-agents/agent_gcp.py
+      args: ["--iam-drift", "--project", "{project}"]
+    verify:
+      check: iam_recommender_clean
+    synthesis: "Entropy mapped = entropy bounded. Drift chart = remediation blueprint."
+
+  - id: RULE-003
+    name: Unknown Host Beaconing Response
+    trigger:
+      source: BOARD-13-RECON
+      antibody: RAT_NETWORK_BEACONING
+      pattern: "unknown online host|phantom MAC"
+    owner: BOARD-13-RECON
+    action:
+      cmd: python
+      script: BOARD-13-RECON/recon_net.py
+      args: ["--subnet", "{subnet}"]
+    verify:
+      check: host_classified_or_blocked
+    synthesis: "Unknown host = new node candidate. Scan it deeper → potential Pi citizen."
+
+  - id: RULE-004
+    name: No ResourceQuota Emergency
+    trigger:
+      source: BOARD-24-GCP-MASTERY
+      antibody: GKE-ERU-002
+      pattern: "no ResourceQuota|energy bleed|cost spike"
+    owner: BOARD-21-PHYSICS-FLEET
+    action:
+      cmd: kubectl
+      args: ["apply", "-f", "BOARD-25-SAGCO-HUB/k8s/07-resource-quotas.yaml"]
+    verify:
+      check: kubectl_quota_exists
+      namespace: "{namespace}"
+    synthesis: "Cost spike ERU → quota manifest. The $4K lesson becomes free infrastructure."
+
+  - id: RULE-005
+    name: University Exam Fail Auto-Repair
+    trigger:
+      source: BOARD-10-UNIVERSITY
+      pattern: "FAIL|score < 7"
+    owner: BOARD-26-REMEDIATION-ENGINE
+    action:
+      cmd: python
+      script: BOARD-26-REMEDIATION-ENGINE/src/remediation_runner.py
+      args: ["--target", "{failed_subject}", "--auto"]
+    verify:
+      check: university_regrade
+      min_score: 7
+    synthesis: "Exam fail = curriculum gap found. Gap = new ERU case study. Case = new antibody."
+
+  - id: RULE-006
+    name: Physics Fleet Entropy Spike
+    trigger:
+      source: BOARD-21-PHYSICS-FLEET
+      pattern: "entropy|PHYSICS-FLEET-003|IAM drift"
+    owner: BOARD-21-PHYSICS-FLEET
+    action:
+      cmd: python
+      script: BOARD-21-PHYSICS-FLEET/src/eru_analyzer.py
+      args: ["--live"]
+    verify:
+      check: pmi_improved
+      threshold: 0.05
+    synthesis: "Entropy spike = system breathing. Map the breath → find the lung (root cause)."
+
+  - id: RULE-007
+    name: OAuth Browser Drift Containment
+    trigger:
+      source: BOARD-13-RECON
+      antibody: RAT_BROWSER_OAUTH_DRIFT
+      pattern: "oauth_code_in_url|token_in_url"
+    owner: BOARD-13-RECON
+    action:
+      cmd: python
+      script: BOARD-13-RECON/recon_browser.py
+      args: ["--scan"]
+    verify:
+      check: no_token_in_url
+    synthesis: "Token leak = browser node born. The mistake builds the sensor that prevents it."
+
+  - id: RULE-008
+    name: GKE No NetworkPolicy District Isolation
+    trigger:
+      source: BOARD-24-GCP-MASTERY
+      antibody: GKE-ERU-001
+      pattern: "no NetworkPolicy|district boundary collapse"
+    owner: BOARD-25-SAGCO-HUB
+    action:
+      cmd: kubectl
+      args: ["apply", "-f", "BOARD-25-SAGCO-HUB/k8s/06-network-policies.yaml"]
+    verify:
+      check: kubectl_netpol_exists
+    synthesis: "Open boundary = district map drawn. Every sovereignty violation = a new gate."
+
+synthesis_axiom: >
+  In the SAGCO particle accelerator, there are no failed experiments.
+  Every contradiction is a high-energy collision.
+  Every collision produces new particles.
+  New particles = new citizens = new inventions.
+  The skeptic's "impossible" is the accelerator's fuel.
