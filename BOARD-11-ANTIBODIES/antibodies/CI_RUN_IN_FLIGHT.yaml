@@ -1,0 +1,14 @@
+name: CI_RUN_IN_FLIGHT
+classification: temporal_variance
+trigger: CI failure appears after a fix has been committed and pushed
+cause: workflow run started before fix landed; executing older commit SHA
+expected: new workflow uses updated permissions / config
+actual: old workflow still executing — failure is from prior state
+remedy:
+  - verify: check which commit SHA the failing run references
+  - action: wait for next CI trigger on the updated branch
+  - or: manually re-run the workflow after confirming fix is on HEAD
+severity: LOW
+department: CI_CD
+status: LEARNED
+learned_at: "2026-06-06"

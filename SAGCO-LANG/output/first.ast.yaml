@@ -1,0 +1,10 @@
+bricks:
+  - name: ENTRY
+    from: J8.PIN_03
+    to:   BOARD.CORE.PIN_5
+  - name: POWER
+    from: J8.PIN_01
+    to:   BOARD.VCC.PIN_1
+  - name: GND
+    from: J8.PIN_02
+    to:   BOARD.GND.PIN_1

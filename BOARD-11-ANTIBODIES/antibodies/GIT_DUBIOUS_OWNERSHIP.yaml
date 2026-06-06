@@ -1,0 +1,13 @@
+name: GIT_DUBIOUS_OWNERSHIP
+classification: environment_variance
+trigger: git command inside repo cloned by different UID
+cause: git safe.directory not set for current user
+expected: git commands succeed
+actual: "fatal: dubious ownership in repository"
+remedy:
+  - run: git config --global --add safe.directory /path/to/repo
+  - or: chown -R $USER /path/to/repo
+severity: LOW
+department: GIT
+status: LEARNED
+learned_at: "2025-01-01"

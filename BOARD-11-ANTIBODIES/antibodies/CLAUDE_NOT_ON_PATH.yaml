@@ -1,0 +1,14 @@
+name: CLAUDE_NOT_ON_PATH
+classification: environment_variance
+trigger: claude command not found after npm install -g @anthropic-ai/claude-code
+cause: npm global bin directory not in $PATH
+expected: claude --version prints version
+actual: "bash: claude: command not found"
+remedy:
+  - run: export PATH="$HOME/.npm-global/bin:$PATH"
+  - permanent: add export to ~/.bashrc or ~/.zshrc
+  - verify: which claude
+severity: LOW
+department: CLI
+status: LEARNED
+learned_at: "2025-01-01"

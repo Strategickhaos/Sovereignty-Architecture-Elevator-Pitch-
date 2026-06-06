@@ -1,0 +1,11 @@
+[package]
+name = "sagco-lang"
+version = "0.1.0"
+edition = "2021"
+description = "SAGCO FlameLang compiler — lexer, parser, AST, validator, emitter"
+
+[[bin]]
+name = "flamec"
+path = "src/main.rs"
+
+[dependencies]

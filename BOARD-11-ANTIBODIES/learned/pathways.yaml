@@ -1,0 +1,20 @@
+version: "1.0"
+board: BOARD-11-ANTIBODIES
+
+pathways:
+  - id: ENV_VARIANCE
+    description: Environment config missing or mismatched
+    antibodies: [GIT_DUBIOUS_OWNERSHIP, CLAUDE_NOT_ON_PATH]
+
+  - id: SHELL_VARIANCE
+    description: Shell operator or quoting interference
+    antibodies: [POWERSHELL_REDIRECT_ARROW]
+
+  - id: TEMPORAL_VARIANCE
+    description: Race condition between fix landing and CI executing
+    antibodies: [CI_RUN_IN_FLIGHT]
+
+next_bricks:
+  - WRONG_SHELL_RUNTIME
+  - SYMLINK_PRIVILEGE_DENIED
+  - GHCR_PERMISSION_DENIED
