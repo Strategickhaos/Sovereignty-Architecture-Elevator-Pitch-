@@ -10,6 +10,8 @@ Usage:
   python sagco_recon.py network
   python sagco_recon.py pi --ip 192.168.1.42
   python sagco_recon.py pi --auto
+  python sagco_recon.py cloud --auto
+  python sagco_recon.py cloud --project my-gcp-project --emit-citizens
 """
 import argparse, sys, time
 from pathlib import Path
@@ -50,6 +52,10 @@ def cmd_pi(args):
         sys.argv.append("--no-citizen")
     recon_pi.main()
 
+def cmd_cloud(args):
+    import recon_cloud
+    recon_cloud.scan(args.project, emit_citizens=args.emit_citizens)
+
 def cmd_all(args):
     import recon_process, recon_docker, recon_network
     recon_process.scan(REPORTS)
@@ -74,6 +80,12 @@ def main():
     sub.add_parser("network",   help="Scan network + ARP for Pi candidates")
     sub.add_parser("all",       help="Run all recon modules")
 
+    cloud_p = sub.add_parser("cloud", help="Scan GCP resources → nodes + citizens")
+    cloud_group = cloud_p.add_mutually_exclusive_group(required=True)
+    cloud_group.add_argument("--project", help="GCP project ID")
+    cloud_group.add_argument("--auto", action="store_true", help="Read project from gcloud config")
+    cloud_p.add_argument("--emit-citizens", action="store_true", help="Register resources in citizen registry")
+
     pi_p = sub.add_parser("pi", help="Fingerprint and register a Raspberry Pi node")
     pi_p.add_argument("--ip",  help="Pi IP address")
     pi_p.add_argument("--auto", action="store_true", help="Auto-discover from ARP table")
@@ -87,6 +99,7 @@ def main():
         "processes": cmd_processes,
         "docker":    cmd_docker,
         "network":   cmd_network,
+        "cloud":     cmd_cloud,
         "pi":        cmd_pi,
         "all":       cmd_all,
     }
