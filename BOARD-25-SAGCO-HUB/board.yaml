@@ -1,0 +1,66 @@
+board: BOARD-25-SAGCO-HUB
+district: eru
+team: purple
+status: active
+
+mission: >
+  SAGCO Hub — sovereign Docker Hub + Kubernetes control plane mirror.
+  Every image, container, volume, log, model, build, and extension is a
+  registered citizen. Kubernetes at 10.96.0.1:443 is the physics fleet
+  backbone. MCP Toolkit is the extension gate. sagco-os is the kernel image.
+
+kubernetes:
+  cluster_ip: 10.96.0.1
+  port: 443
+  service_name: kubernetes
+  namespaces:
+    - sagco-genesis     # district: genesis
+    - sagco-eru         # district: eru (purple team)
+    - sagco-trinity     # district: trinity (security / secrets)
+    - sagco-industrial  # district: industrial (daemon workers)
+    - sagco-frequency   # district: frequency_coast (LLM / MCP)
+
+images:
+  kernel:
+    - sagco-os:latest
+    - sagco-os:v3
+    - sagco-os:v2
+    - sagco-os:static
+  controls:
+    - sagco-controls-v2:latest
+    - sagco-controls-v2:0.3.0
+  services:
+    - dom101/sagco-core:latest
+    - dom101/sagco-dojo:latest
+    - dom101/sagco-codex:latest
+    - dom101/sagco-android:latest
+  agents:
+    - us-central1-docker.pkg.dev/sagco-oscomputconsciousness/sagco-agents/sagco-control:0.3.0
+
+daemons:
+  - sagco-daemon-self       # self-awareness loop
+  - sagco-daemon-blue       # defense / resilience (52MB)
+  - sagco-daemon-red        # chaos / adversarial (1.27MB)
+  - sagco-daemon-purple     # eru / synthesis (29MB)
+  - sagco-daemon-sentinel   # security monitor (2.18MB)
+  - sagco-daemon-observer   # telemetry observer (242MB — high load 54.88% CPU)
+
+volumes:
+  - mobiledevices_sagco-data:    { size: "7.8MB",  district: industrial }
+  - mobiledevices_sagco-reports: { size: "39GB",   district: memory_palace }
+  - mobiledevices_sagco-ledger:  { size: "0B",     district: genesis }
+  - sagco-neuron:                { size: "0B",     district: eru }
+  - sagco-neuron-cloned:         { size: "0B",     district: eru }
+  - soscclomfleet:               { size: "0B",     district: frequency_coast }
+  - soscclomfleet-cloned:        { size: "0B",     district: frequency_coast }
+
+extensions:
+  - name: MCP Toolkit (Beta)
+    role: extension_gate
+    district: frequency_coast
+    purpose: MCP server management for LLM tool routing
+
+llm_integration:
+  model_backend: sagco-os LLM layer
+  mcp_server: localhost (MCP Toolkit extension)
+  districts: [frequency_coast, eru]

@@ -1,0 +1,76 @@
+---
+# SAGCO Reports volume — memory_palace (39GB)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sagco-reports-pvc
+  namespace: sagco-eru
+  labels:
+    sagco.district: memory_palace
+    sagco.volume: mobiledevices_sagco-reports
+    sagco.size: 39GB
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 39Gi
+---
+# SAGCO Data volume — industrial (7.8MB active)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sagco-data-pvc
+  namespace: sagco-industrial
+  labels:
+    sagco.district: industrial
+    sagco.volume: mobiledevices_sagco-data
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+# SAGCO Ledger — genesis (append-only)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sagco-ledger-pvc
+  namespace: sagco-genesis
+  labels:
+    sagco.district: genesis
+    sagco.volume: mobiledevices_sagco-ledger
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 5Gi
+---
+# SAGCO Neuron — eru (self-awareness store)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sagco-neuron-pvc
+  namespace: sagco-eru
+  labels:
+    sagco.district: eru
+    sagco.volume: sagco-neuron
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 2Gi
+---
+# SAGCO Fleet — frequency_coast
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: soscclomfleet-pvc
+  namespace: sagco-frequency
+  labels:
+    sagco.district: frequency_coast
+    sagco.volume: soscclomfleet
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 2Gi

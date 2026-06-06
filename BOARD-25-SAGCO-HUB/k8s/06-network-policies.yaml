@@ -1,0 +1,107 @@
+---
+# Deny all ingress by default — every namespace (Conservation of Sovereignty)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: sagco-genesis
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: sagco-industrial
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: sagco-trinity
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: sagco-eru
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: sagco-frequency
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+# Allow observer to receive metrics from all daemon namespaces
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-observer-ingress
+  namespace: sagco-industrial
+spec:
+  podSelector:
+    matchLabels:
+      app: sagco-daemon-observer
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              sagco.board: BOARD-25-SAGCO-HUB
+      ports:
+        - port: 9090
+        - port: 8080
+---
+# Allow sentinel to receive from all namespaces (security monitor)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-sentinel-ingress
+  namespace: sagco-trinity
+spec:
+  podSelector:
+    matchLabels:
+      app: sagco-daemon-sentinel
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              sagco.board: BOARD-25-SAGCO-HUB
+      ports:
+        - port: 8080
+        - port: 9000
+---
+# Allow sagco-eru to receive from genesis and frequency (ERU synthesis)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-eru-ingress
+  namespace: sagco-eru
+spec:
+  podSelector:
+    matchLabels:
+      app: sagco-daemon-purple
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchExpressions:
+              - key: sagco.district
+                operator: In
+                values: [genesis, frequency_coast, industrial]
+      ports:
+        - port: 8080

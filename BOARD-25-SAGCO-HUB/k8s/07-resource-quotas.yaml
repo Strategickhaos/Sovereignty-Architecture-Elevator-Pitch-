@@ -1,0 +1,110 @@
+---
+# ResourceQuota — sagco-genesis (ERU-002: energy budget)
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: sagco-genesis-quota
+  namespace: sagco-genesis
+spec:
+  hard:
+    requests.cpu:    "500m"
+    requests.memory: "256Mi"
+    limits.cpu:      "1"
+    limits.memory:   "512Mi"
+    pods:            "5"
+---
+# ResourceQuota — sagco-industrial (observer is heavy: 242MB)
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: sagco-industrial-quota
+  namespace: sagco-industrial
+spec:
+  hard:
+    requests.cpu:    "1"
+    requests.memory: "512Mi"
+    limits.cpu:      "2"
+    limits.memory:   "1Gi"
+    pods:            "10"
+---
+# ResourceQuota — sagco-trinity (security services: lightweight)
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: sagco-trinity-quota
+  namespace: sagco-trinity
+spec:
+  hard:
+    requests.cpu:    "300m"
+    requests.memory: "256Mi"
+    limits.cpu:      "1"
+    limits.memory:   "512Mi"
+    pods:            "5"
+---
+# ResourceQuota — sagco-eru
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: sagco-eru-quota
+  namespace: sagco-eru
+spec:
+  hard:
+    requests.cpu:    "500m"
+    requests.memory: "256Mi"
+    limits.cpu:      "1"
+    limits.memory:   "512Mi"
+    pods:            "5"
+---
+# ResourceQuota — sagco-frequency (MCP / LLM — allow more memory)
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: sagco-frequency-quota
+  namespace: sagco-frequency
+spec:
+  hard:
+    requests.cpu:    "1"
+    requests.memory: "1Gi"
+    limits.cpu:      "2"
+    limits.memory:   "2Gi"
+    pods:            "5"
+---
+# LimitRange — default container limits (all namespaces get this pattern)
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: sagco-default-limits
+  namespace: sagco-industrial
+spec:
+  limits:
+    - type: Container
+      default:
+        cpu:    "200m"
+        memory: "128Mi"
+      defaultRequest:
+        cpu:    "100m"
+        memory: "64Mi"
+---
+# PodDisruptionBudget — observer must always have 1 running (GKE-ERU-004)
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sagco-observer-pdb
+  namespace: sagco-industrial
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-observer
+---
+# PodDisruptionBudget — sentinel always has 1 running
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sagco-sentinel-pdb
+  namespace: sagco-trinity
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-sentinel

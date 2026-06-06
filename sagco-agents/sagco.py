@@ -40,6 +40,7 @@ AGENTS = {
     "refinery": REPO_ROOT / "BOARD-23-REFINERY-WAFER-BRIDGE" / "refinery_wafer_bridge.py",
     "exam":     REPO_ROOT / "BOARD-10-UNIVERSITY/src"      / "exam_runner.py",
     "compile":  REPO_ROOT / "SAGCO-LANG"                   / "target/release/flamec",
+    "hub":      REPO_ROOT / "sagco-agents"                 / "agent_hub.py",
 }
 
 BUILTIN_AGENTS = {
