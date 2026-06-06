@@ -51,6 +51,7 @@ AGENTS = {
     "portfolio":  REPO_ROOT / "BOARD-32-PORTFOLIO-PUBLISHER/src"    / "portfolio_builder.py",
     "sanity":     REPO_ROOT / "sagco-agents"                        / "agent_sanity.py",
     "bloodwork":  REPO_ROOT / "BOARD-29-SAGCO-PHONE-OS" / "src"    / "bloodwork.py",
+    "omni":       REPO_ROOT / "BOARD-33-SAGCO-OMNICALCULATOR/src"   / "omni_core.py",
 }
 
 BUILTIN_AGENTS = {
