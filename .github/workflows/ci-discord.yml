@@ -19,6 +19,10 @@ on:
         - staging
         - prod
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   EVENTS_URL: "https://events.strategickhaos.com/event"
   REGISTRY: ghcr.io
