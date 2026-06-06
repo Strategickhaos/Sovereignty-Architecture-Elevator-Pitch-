@@ -1,0 +1,76 @@
+exam: Associate Cloud Engineer (ACE)
+board: BOARD-24-GCP-MASTERY
+district: eru
+team: purple
+
+domains:
+  - id: D1
+    name: Setting up a cloud solution environment
+    weight: 17.5%
+    topics:
+      - Setting up cloud projects and accounts
+      - Managing billing configuration
+      - Installing and configuring the command line interface (CLI)
+    sagco_analog: "genesis district bootstrap — create the organism's home"
+    eru_case: GCP-INFRA-ERU-001
+
+  - id: D2
+    name: Planning and configuring a cloud solution
+    weight: 17.5%
+    topics:
+      - Planning and estimating GCP product use
+      - Planning and configuring compute resources (GCE, GKE, Cloud Run, App Engine)
+      - Planning and configuring data storage options
+      - Planning and configuring network resources
+    sagco_analog: "BOARD-21 physics fleet planning — node pool strategy"
+    eru_case: GCP-INFRA-ERU-002
+
+  - id: D3
+    name: Deploying and implementing a cloud solution
+    weight: 25%
+    topics:
+      - Deploying and implementing Compute Engine resources
+      - Deploying and implementing GKE resources
+      - Deploying and implementing Cloud Run and App Engine
+      - Deploying and implementing data solutions
+      - Deploying and implementing networking resources
+      - Deploying a solution using Cloud Marketplace
+      - Implementing resources via infrastructure as code (Terraform)
+    sagco_analog: "catpush constructor — deploy = register citizen"
+    eru_case: GKE-ERU-002
+
+  - id: D4
+    name: Ensuring successful operation of a cloud solution
+    weight: 25%
+    topics:
+      - Managing Compute Engine resources
+      - Managing GKE resources
+      - Managing Cloud Run resources
+      - Managing storage and database solutions
+      - Managing networking resources
+      - Monitoring and logging
+    sagco_analog: "BOARD-13 recon engine + BOARD-11 antibody fleet"
+    eru_case: GKE-ERU-004
+
+  - id: D5
+    name: Configuring access and security
+    weight: 15%
+    topics:
+      - Managing Identity and Access Management (IAM)
+      - Managing service accounts
+      - Viewing audit logs
+    sagco_analog: "trinity district — identity invariance law"
+    eru_case: GCP-SEC-ERU-001
+
+practice_questions:
+  - q: "A Cloud Run service has --min-instances=0. What ERU variance does this introduce?"
+    a: "Cold start temporal variance — first request P99 spikes to 3–8s. Remedy: min-instances=1 for latency-critical pads."
+
+  - q: "You need to give a Cloud Run service access to Cloud SQL. Least-privilege approach?"
+    a: "Create dedicated SA, grant roles/cloudsql.client only, mount via Workload Identity. Never use Editor."
+
+  - q: "GKE cluster shows STATUS=PROVISIONING for 15 minutes. ERU analysis?"
+    a: "Expected: RUNNING in 5 min. Reality: PROVISIONING. Variance: quota exhaustion or zone capacity. Remedy: check quota, try different zone."
+
+  - q: "How does SAGCO district model map to GKE namespaces?"
+    a: "Namespace = District. NetworkPolicy = district gate. ResourceQuota = energy budget. ServiceAccount = citizen identity."

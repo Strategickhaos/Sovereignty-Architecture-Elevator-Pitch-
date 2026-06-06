@@ -1,0 +1,76 @@
+eru_subject: GKE Fleet Engineering
+board: BOARD-24-GCP-MASTERY
+district: eru
+
+case_studies:
+
+  - id: GKE-ERU-001
+    title: "Namespace Isolation as District Routing"
+    physics_law: Conservation of Sovereignty
+    expected: Each team namespace (red/blue/purple) is isolated — no cross-namespace traffic
+    actual: Default network policy allows all-to-all pod communication
+    variance: district boundary not enforced — sovereignty violation
+    understanding: >
+      GKE namespaces are logical, not physical. Without NetworkPolicy objects,
+      any pod can reach any other pod. SAGCO district routing requires explicit
+      NetworkPolicy per namespace — this is the Kubernetes equivalent of
+      trinity district security gates.
+    resolution:
+      - Apply NetworkPolicy deny-all default per namespace
+      - Add allow rules only for declared pad routes (FlameLang routes map to NetworkPolicies)
+      - Register each NetworkPolicy as a citizen in trinity district
+    severity: HIGH
+    team: blue
+
+  - id: GKE-ERU-002
+    title: "Resource Quota as Energy Budget"
+    physics_law: Conservation of Energy
+    expected: Dev cluster stays within $50/month budget with quotas enforced
+    actual: Un-quotaed namespace spun up 12 GPU nodes — $4,000 spike
+    variance: energy bleed — no resource quota on namespace
+    understanding: >
+      Kubernetes ResourceQuota is the energy conservation law of the cluster.
+      Without it, a single misconfigured Deployment can consume all capacity.
+      In SAGCO terms: no quota = no energy boundary = PHYSICS-FLEET-001 repeats.
+    resolution:
+      - Add ResourceQuota to every namespace
+      - Set LimitRange for default container limits
+      - Trigger RAT_PROCESS_VARIANCE antibody on quota breach events
+    severity: CRITICAL
+    team: blue
+
+  - id: GKE-ERU-003
+    title: "Workload Identity as District Authentication"
+    physics_law: Identity Invariance
+    expected: Pods use Workload Identity to access GCP APIs — no service account keys
+    actual: Keys found in ConfigMap — rotated keys caused auth failures across 3 services
+    variance: identity anchor mismatch — key rotation broke static bindings
+    understanding: >
+      Service account keys are brittle identity anchors. Workload Identity
+      binds a Kubernetes ServiceAccount to a GCP service account via annotation —
+      no keys to rotate. This is the SAGCO equivalent of MAC-address-level identity:
+      hardware-bound, not credential-bound.
+    resolution:
+      - Enable Workload Identity on cluster
+      - Annotate KSA with GCP SA email
+      - Remove keys from ConfigMaps — register as contradiction in contradiction_forest
+    severity: HIGH
+    team: purple
+
+  - id: GKE-ERU-004
+    title: "Pod Disruption Budget as Immune Response Threshold"
+    physics_law: Immune Response Threshold
+    expected: Rolling update replaces max 25% of pods simultaneously
+    actual: Node drain evicted all pods — 100% outage for 90 seconds
+    variance: no PodDisruptionBudget — immune system overcorrected
+    understanding: >
+      A PodDisruptionBudget (PDB) is the SAGCO antibody threshold for deployments.
+      Without it, cluster operations (node drain, upgrades) can terminate all
+      instances simultaneously — like an immune response that kills the host.
+      minAvailable: 1 is the minimum safe threshold for any production workload.
+    resolution:
+      - Add PodDisruptionBudget with minAvailable=1 to all Deployments
+      - Add Deployment strategy maxUnavailable=25%
+      - Register PDB config as citizen in trinity district
+    severity: CRITICAL
+    team: blue

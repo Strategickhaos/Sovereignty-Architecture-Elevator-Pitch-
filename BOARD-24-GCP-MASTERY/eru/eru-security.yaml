@@ -1,0 +1,62 @@
+eru_subject: GCP Security & IAM
+board: BOARD-24-GCP-MASTERY
+district: eru
+
+case_studies:
+
+  - id: GCP-SEC-ERU-001
+    title: "IAM Roles as Permission Entropy"
+    physics_law: Second Law of Thermodynamics (Entropy)
+    expected: Principle of least privilege — every SA has exactly the roles it needs
+    actual: Editor role granted to 12 service accounts — entropy maximum
+    variance: permission entropy maxed — no bounded permission surface
+    understanding: >
+      IAM drift is entropy. Over time, without active pruning, roles accumulate on
+      service accounts. Editor = ~2000 permissions. The SAGCO antibody: Policy
+      Analyzer quarterly audit. Every role grant is a citizen event that must be
+      logged and reviewed. Unused grants decay → remove within 90 days.
+    resolution:
+      - Run IAM Recommender monthly to detect unused roles
+      - Replace Editor/Owner with custom roles scoped to actual API calls
+      - Log all IAM changes to Cloud Audit Logs → route to BOARD-11 antibodies
+      - Register IAM policy snapshot as memory_palace citizen
+    severity: CRITICAL
+    team: purple
+
+  - id: GCP-SEC-ERU-002
+    title: "Secret Manager as Trinity District Vault"
+    physics_law: Identity Invariance
+    expected: All secrets in Secret Manager — no secrets in env vars or code
+    actual: DB password in Cloud Run env var — visible in Cloud Console to any viewer
+    variance: secret leaked into observable surface — identity anchor exposed
+    understanding: >
+      Env vars in Cloud Run are visible to anyone with run.services.get permission.
+      Secret Manager binds secrets to SA identity with granular access. In SAGCO:
+      Secret Manager = trinity district vault. Only citizens with trinity clearance
+      can access.
+    resolution:
+      - Mount secrets as volumes or env var references (--set-secrets=KEY=NAME:VERSION)
+      - Grant secretmanager.secretAccessor only to the specific SA
+      - Rotate all secrets that were in env vars
+      - Register each secret as a trinity district citizen
+    severity: CRITICAL
+    team: blue
+
+  - id: GCP-SEC-ERU-003
+    title: "Cloud Armor as Antibody Gate"
+    physics_law: Immune Response Threshold
+    expected: WAF rules block SQLi/XSS at the edge — no malicious traffic reaches app
+    actual: Default security policy allows all traffic — no WAF rules configured
+    variance: immune gate absent — all requests pass unchecked
+    understanding: >
+      Cloud Armor is the SAGCO immune system for HTTP traffic. Without preconfigured
+      rules, every request — including SQLi payloads, credential stuffing bots, and
+      DDoS amplification — reaches your app. The ERU antibody: enable managed
+      protection rules + custom rate limiting per IP.
+    resolution:
+      - Enable Cloud Armor with OWASP core rule set (preconfigured WAF)
+      - Add rate-limit rule: 100 req/min per IP for login endpoints
+      - Set adaptive protection to detect DDoS patterns
+      - Log blocked requests to Cloud Logging → trigger RAT_NETWORK_BEACONING
+    severity: HIGH
+    team: blue
