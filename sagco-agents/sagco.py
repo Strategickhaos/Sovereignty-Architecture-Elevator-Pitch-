@@ -45,12 +45,39 @@ AGENTS = {
 }
 
 BUILTIN_AGENTS = {
-    "citizen":  "_cmd_citizen",
-    "antibody": "_cmd_antibody",
-    "agent":    "_cmd_agent",
+    "citizen":   "_cmd_citizen",
+    "antibody":  "_cmd_antibody",
+    "agent":     "_cmd_agent",
+    "open-case": "_cmd_open_case",
 }
 
 # ── Built-in agent handlers ───────────────────────────────────────────────────
+
+def _cmd_open_case(args: list[str]):
+    import subprocess, sys
+    case_opener = REPO_ROOT / "BOARD-26-REMEDIATION-ENGINE" / "src" / "case_opener.py"
+    if not case_opener.exists():
+        print("  BOARD-26 not found — build it first"); return
+    # parse quick flags: --source X --event Y --variance Z --owner X --severity X
+    cmd = [sys.executable, str(case_opener), "--open"]
+    mapping = {
+        "--source":   "--trigger",
+        "--event":    "--actual",
+        "--variance": "--variance",
+        "--owner":    "--owner",
+        "--severity": "--severity",
+        "--expected": "--expected",
+    }
+    i = 0
+    while i < len(args):
+        flag = args[i]
+        if flag in mapping and i + 1 < len(args):
+            cmd += [mapping[flag], args[i + 1]]
+            i += 2
+        else:
+            i += 1
+    subprocess.run(cmd)
+
 
 def _cmd_citizen(args: list[str]):
     import json
