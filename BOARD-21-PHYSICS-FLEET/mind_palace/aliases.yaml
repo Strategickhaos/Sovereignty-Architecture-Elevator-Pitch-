@@ -1,0 +1,33 @@
+aliases:
+  PHYSICS_FLEET:
+    - board-21-physics-fleet
+    - laws_of_physics_wing
+    - k8s_gke_master_fleet
+    - distinguished_engineer_portfolio
+
+  RED_TEAM:
+    - chaos_strand
+    - adversarial_tests
+    - fuzz_wing
+    - entropy_injector
+
+  BLUE_TEAM:
+    - defense_strand
+    - resilience_tests
+    - hardening_wing
+    - immune_response
+
+  PURPLE_TEAM:
+    - synthesis_strand
+    - ERU_case_studies
+    - bloodwork_panel
+    - variance_pathology
+
+physics_metaphors:
+  conservation_of_energy:   "CPU cycles are finite — overcommit = energy bleed"
+  entropy:                  "Log noise, drift, and chaos increase without intervention"
+  momentum:                 "Deployment velocity carries risk proportional to mass"
+  gravity:                  "Data gravitates to where compute lives"
+  resonance:                "Cascading failures = destructive resonance"
+  immune_response:          "Antibodies fire when variance exceeds threshold"
+  bloodwork:                "Cluster metrics = lab panels (CPU, mem, latency, error rate)"

@@ -1,0 +1,22 @@
+board: BOARD-21-PHYSICS-FLEET
+aliases:
+  - laws_of_physics
+  - k8s_fleet_mastery
+  - distinguished_engineer_portfolio
+purpose: >
+  Map physics laws, GKE/Kubernetes fleet behavior, LLM SME reasoning,
+  and ERU variance into one portfolio-grade wing.
+  Fleet telemetry is treated as bloodwork: load = metabolism,
+  entropy = noise, failover = immune response, memory leak = energy bleed.
+loop: physics -> fleet -> logs -> ERU -> antibody -> case_study
+districts:
+  - compiler_city    # fleet builds + deploys
+  - eru              # GKE orchestration
+  - trinity          # security + auth
+  - memory_palace    # case studies + reports
+  - contradiction_forest  # variance + anomaly
+teams:
+  red:    chaos_strand      # adversarial / fuzz
+  blue:   defense_strand    # resilience / hardening
+  purple: synthesis_strand  # ERU case studies
+status: ACTIVE

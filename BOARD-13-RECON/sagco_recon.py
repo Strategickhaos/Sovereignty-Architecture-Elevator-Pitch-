@@ -54,6 +54,10 @@ def cmd_pi(args):
         sys.argv.append("--no-citizen")
     recon_pi.main()
 
+def cmd_net(args):
+    import recon_net
+    recon_net.scan(deep=args.deep, port_check=args.ports, emit_citizens=args.emit_citizens)
+
 def cmd_browser(args):
     import recon_browser
     tabs = []
@@ -89,6 +93,11 @@ def main():
     sub.add_parser("network",   help="Scan network + ARP for Pi candidates")
     sub.add_parser("all",       help="Run all recon modules")
 
+    net_p = sub.add_parser("net", help="Scan local network fabric — ARP + subnet sweep")
+    net_p.add_argument("--deep",          action="store_true", help="Ping-sweep full /24 subnet")
+    net_p.add_argument("--ports",         action="store_true", help="Quick port scan per live host")
+    net_p.add_argument("--emit-citizens", action="store_true")
+
     browser_p = sub.add_parser("browser", help="Scan browser tabs → browser_node citizens")
     browser_p.add_argument("--file", help="Tab JSON file or URL list")
     browser_p.add_argument("--emit-citizens", action="store_true")
@@ -112,6 +121,7 @@ def main():
         "processes": cmd_processes,
         "docker":    cmd_docker,
         "network":   cmd_network,
+        "net":       cmd_net,
         "browser":   cmd_browser,
         "cloud":     cmd_cloud,
         "pi":        cmd_pi,
