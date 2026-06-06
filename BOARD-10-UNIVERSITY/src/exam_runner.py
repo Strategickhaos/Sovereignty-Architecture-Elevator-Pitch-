@@ -12,6 +12,7 @@ Usage:
   python exam_runner.py --exam physics-fleet
   python exam_runner.py --exam net-scan
   python exam_runner.py --exam citizens
+  python exam_runner.py --exam inventions
 """
 
 import argparse, datetime, json, time
@@ -330,12 +331,34 @@ def issue_certificate(results: list[dict]) -> Path:
 
 # ── Main runner ───────────────────────────────────────────────────────────────
 
+def grade_inventions() -> dict:
+    try:
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent))
+        from graders.invention_grader import grade as _grade, print_report
+        report = _grade()
+        print_report(report)
+        return {
+            "exam":   "inventions",
+            "timestamp": now_iso(),
+            "score":  f"{min(10, report['invention_seeds_open'] * 3 + report['invention_seeds_closed'] * 5)}/10",
+            "status": report["grade"],
+            **report,
+        }
+    except Exception as e:
+        return {"exam": "inventions", "timestamp": now_iso(),
+                "score": "0/10", "status": "WARN",
+                "findings": [_finding("INV-000", "inventions",
+                    "Invention grader loads", str(e), "grader error", "check invention_grader.py")]}
+
+
 EXAMS = {
     "brick-health":  grade_brick_health,
     "security-eru":  grade_security_eru,
     "net-scan":      grade_net_scan,
     "physics-fleet": grade_physics_fleet,
     "citizens":      grade_citizens,
+    "inventions":    grade_inventions,
 }
 
 BANNER = """

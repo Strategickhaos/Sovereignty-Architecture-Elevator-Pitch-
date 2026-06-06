@@ -1,0 +1,59 @@
+seed_id: INV-20260606-001
+title: "Payload-Aware Antibody Router"
+status: OPEN
+created: "2026-06-06"
+district: compiler_city
+owner: BOARD-29-SAGCO-PHONE-OS
+
+contradiction:
+  type: CONTRADICTION_COLLAPSED_TOO_EARLY
+  description: |
+    Antibody classification was being made on surface error string alone —
+    not on the payload contents. A Statsig useGateValue failure and a
+    token-in-URL event both produce console errors, but one is LOW/benign
+    and the other is CRITICAL/security. Classifying on surface causes
+    CRITICAL events to be silently dropped as noise.
+
+invariant_violated: INV-003  # Token Invariance
+law: "Classification must depend on payload, not surface error alone"
+
+expected: "Antibody router inspects payload fields before assigning severity"
+actual:   "Router matched on error message prefix only — missed token fields"
+variance: "CRITICAL token events classified as LOW widget noise — collapsed too early"
+
+understanding: |
+  The missing law: every antibody rule needs a two-stage gate —
+  (1) surface pattern match, then (2) payload field inspection.
+  If payload contains access_token / id_token / phone_number → escalate regardless
+  of which surface pattern triggered.
+
+invention:
+  name: "Payload-Aware Antibody Router"
+  description: |
+    A two-stage classifier:
+      Stage 1: surface pattern match (existing antibody trigger patterns)
+      Stage 2: payload field scan (access_token, id_token, phone_number, otp)
+    If Stage 2 hits → override to CRITICAL regardless of Stage 1 severity.
+  prototype_task: |
+    Add _payload_escalation_check(event) to BOARD-28/src/firefox_event_ingester.py
+    and BOARD-27/src/comms_router.py. Any event containing sensitive fields
+    gets severity promoted to CRITICAL before citizen registration.
+  boards_affected:
+    - BOARD-11-ANTIBODIES
+    - BOARD-27-COMMS-WING
+    - BOARD-28-FIREFOX-DEV-PLUGIN
+    - MISSING-LINKS
+
+verification:
+  test_cases:
+    - input: "Statsig useGateValue hook failed"
+      payload_fields: []
+      expected_severity: LOW
+    - input: "Statsig useGateValue hook failed"
+      payload_fields: ["access_token=abc123"]
+      expected_severity: CRITICAL  # payload override
+    - input: "ERR_NAME_NOT_RESOLVED frill.co"
+      payload_fields: ["phone_number=ec07f64b"]
+      expected_severity: HIGH  # payload override
+
+pmi_delta_estimate: 0.08
