@@ -1,0 +1,86 @@
+name: BROWSER_PII_IN_TRACKING_PIXEL
+id: BROWSER_PII_IN_TRACKING_PIXEL
+department: BROWSER
+severity: HIGH
+mode: DEFENSIVE_MONITOR
+status: LEARNED
+
+trigger:
+  - pattern: "phone_number="
+  - pattern: "email="
+  - pattern: "hashed_email="
+  - pattern: "hashed_phone="
+  - pattern: "pii_in_url"
+  - sources: [browser_console, recon_browser, network_tab]
+
+expected: "Third-party tracking pixels receive anonymous event data only — no PII"
+actual:   "Tracking pixel URL contains phone_number= parameter (SHA-256 hashed PII)"
+variance: "PII identity anchor passed to external ad platform without explicit consent"
+
+specific_case:
+  site:      "app.getsequence.io"
+  pixel:     "Twitter/X adsct via GTM-WZZSHKT"
+  parameter: "phone_number=ec07f64bd75463f054c78cb9d8c4583feb4c688aea9a113962c3cc560f37f1f9"
+  mechanism: "SHA-256 hash of phone number sent to Twitter advertising infrastructure"
+  purpose:   "Identity matching — link your phone to your Twitter account for ad targeting"
+  consent:   "NOT EXPLICITLY GRANTED by user"
+
+classification:
+  threat:     true
+  rat_signal: true
+  escalate:   true
+  district:   trinity
+  citizen_kind: privacy_violation
+  antibody_chain: [RAT_BROWSER_OAUTH_DRIFT, BROWSER_PII_IN_TRACKING_PIXEL]
+
+severity_reasoning: >
+  SHA-256 hashed phone numbers are NOT anonymous. Phone numbers have low entropy
+  (~10 billion possibilities). A rainbow table attack cracks most hashed phone numbers
+  trivially. Twitter receives enough information to link this browser session to your
+  real identity. This is standard ad-tech behavior — but it is a sovereignty violation
+  under SAGCO's identity invariance law.
+
+statsig_warnings:
+  - gate: taor_agent_v2     # Sequence AI agent feature flag — not loaded
+  - gate: maintenance_mode  # App maintenance flag — not loaded
+  - gate: addon_page        # Addon upsell — not loaded
+  classification: benign — Sequence's own feature flags failing on signup page
+  action: ignore — not a threat, not a SAGCO concern
+
+remedy:
+  - Block t.co/i/adsct at DNS level (Pi-hole or hosts file)
+  - Use browser extension: uBlock Origin — blocks GTM pixels
+  - Do NOT enter phone number on sites that pass it to ad pixels
+  - File with Sequence: request data deletion under CCPA/GDPR
+  - Register this event as trinity district citizen (identity breach)
+
+sagco_commands: |
+  # Register the PII leak as a trinity case:
+  python sagco-agents/sagco.py open-case \
+    --source browser \
+    --event "phone_number_hash_in_tracking_pixel" \
+    --variance "Sequence passed hashed phone number to Twitter ad pixel via GTM" \
+    --severity HIGH \
+    --owner BOARD-13-RECON
+
+  # Log the site as a monitored citizen:
+  python sagco-agents/sagco.py catpush \
+    --name "sequence-pii-pixel-leak" \
+    --kind artifact \
+    --district trinity
+
+  # Fire the antibody manually:
+  python sagco-agents/sagco.py antibody --fire BROWSER_PII_IN_TRACKING_PIXEL app.getsequence.io
+
+nfcu_otp_warning: >
+  SEPARATE ISSUE: Phone Link screenshot shows NFCU one-time code.
+  OTP codes are single-use identity anchors. Treat as sensitive.
+  Do not share screenshots containing active OTP codes.
+  NFCU charge of $719.76 at WWW-GETSEQUENCE-IO triggered this SMS —
+  verify this charge is authorized before completing signup.
+
+physics_analog: >
+  Identity Invariance Law: your identity (phone number) should remain constant
+  and sovereign — not leaked through third-party pixel chains.
+  This is GCP-SEC-ERU-001 (IAM entropy) applied to browser identity.
+  The ad platform is the entropy source. The pixel is the leak vector.
