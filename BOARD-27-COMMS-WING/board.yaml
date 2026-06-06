@@ -1,0 +1,46 @@
+board: BOARD-27-COMMS-WING
+district: frequency_coast
+team: purple
+status: active
+
+mission: >
+  SAGCO custom communications wing — sovereign email and cell number routing.
+  Every message (inbound or outbound) is a citizen event. Every thread is a
+  pad route. Every contact is a node in the citizen registry.
+  The mansion's front door and phone line.
+
+channels:
+  email:
+    provider: Gmail (via MCP + Gmail API)
+    district: frequency_coast
+    inbox_scan: true
+    citizen_register: true
+    antibody_chain: [BROWSER_PII_IN_TRACKING_PIXEL, RAT_BROWSER_OAUTH_DRIFT]
+
+  sms:
+    provider: Phone Link (Windows) / Z Fold 7
+    district: frequency_coast
+    number: "SIM 15127739959"
+    known_senders:
+      - "+1 833-738-4591"   # NFCU alerts
+      - "22891"             # Best Buy
+      - "+1 855-967-1665"   # Bridgecrest
+    otp_detection: true     # flag one-time codes as trinity artifacts
+
+  sequence:
+    provider: app.getsequence.io
+    district: frequency_coast
+    purpose: AI workflow automation routing
+    sagco_role: pad_worker
+
+routing_rules:
+  - sender_type: financial_alert  → district: trinity,    severity: HIGH
+  - sender_type: otp_code         → district: trinity,    sensitivity: CRITICAL
+  - sender_type: marketing        → district: memory_palace, auto_log: true
+  - sender_type: personal         → district: frequency_coast
+  - sender_type: work             → district: eru
+
+mansion_location: >
+  In the SAGCO mansion, BOARD-27-COMMS-WING is the front hall —
+  the first room any incoming signal enters before being routed
+  to the correct district.

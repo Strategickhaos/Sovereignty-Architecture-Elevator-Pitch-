@@ -42,6 +42,8 @@ AGENTS = {
     "compile":  REPO_ROOT / "SAGCO-LANG"                   / "target/release/flamec",
     "hub":      REPO_ROOT / "sagco-agents"                 / "agent_hub.py",
     "remediate":REPO_ROOT / "sagco-agents"                 / "agent_remediate.py",
+    "comms":    REPO_ROOT / "sagco-agents"                 / "agent_comms.py",
+    "heap":     REPO_ROOT / "BOARD-13-RECON"               / "heap_analyzer.py",
 }
 
 BUILTIN_AGENTS = {
