@@ -1,0 +1,38 @@
+board: BOARD-34-MOBIUS-AUTOGRADE-GUARD
+id: BOARD-34
+district: compiler_city
+status: ACTIVE
+role: mobius_answer_guard
+
+purpose: |
+  Pre-submission validator. Every SAGCO answer passes through here before
+  being pasted into Mobius. Formats syntax, checks rules, warns on violations,
+  stores ERU proof of every answer.
+
+loop:
+  SAGCO answer → format → validate → MOBIUS_READY check → store proof → paste
+
+formatting_rules:
+  - "∞  → infinity"
+  - "−∞ → -infinity"
+  - "∪  → U"
+  - "∩  → ∩ (keep — Mobius uses this)"
+  - "≤  → <="
+  - "≥  → >="
+  - "π  → pi"
+  - "·  → *"
+  - "²  → ^2 or **2"
+  - "spaces inside intervals removed: ( -5, 5 ) → (-5,5)"
+  - "LaTeX removed before submit"
+  - "trailing +C on indefinite integrals enforced"
+  - "interval union format: (-inf,a) U (b,inf)"
+
+answer_types:
+  - INTERVAL         # increasing/decreasing domains
+  - DERIVATIVE       # symbolic expression
+  - LIMIT            # value or DNE or infinity
+  - INTEGRAL         # expression + C, or numeric
+  - EQUATION         # x = value
+  - SYSTEM           # {x=a, y=b}
+  - NUMERIC          # decimal or exact
+  - BOOLEAN          # true/false

@@ -52,6 +52,7 @@ AGENTS = {
     "sanity":     REPO_ROOT / "sagco-agents"                        / "agent_sanity.py",
     "bloodwork":  REPO_ROOT / "BOARD-29-SAGCO-PHONE-OS" / "src"    / "bloodwork.py",
     "omni":       REPO_ROOT / "BOARD-33-SAGCO-OMNICALCULATOR/src"   / "omni_core.py",
+    "guard":      REPO_ROOT / "BOARD-34-MOBIUS-AUTOGRADE-GUARD/src" / "mobius_guard.py",
 }
 
 BUILTIN_AGENTS = {

@@ -1,0 +1,16 @@
+{
+  "id": "PROOF-3407537a4c",
+  "timestamp": "2026-06-06T23:14:03.049856Z",
+  "question": "Q3: f''''(2^x - ln(x) - 126x)",
+  "eru": {
+    "expected": "Mobius-ready formatted answer with no syntax errors",
+    "actual": "2^x*log(2)^4 + 6/x^4",
+    "variance": []
+  },
+  "raw": "2**x*log(2)**4 + 6/x**4",
+  "formatted": "2^x*log(2)^4 + 6/x^4",
+  "answer_type": "derivative",
+  "mobius_ready": true,
+  "warnings": [],
+  "errors": []
+}
