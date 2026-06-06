@@ -44,6 +44,7 @@ AGENTS = {
     "remediate":REPO_ROOT / "sagco-agents"                 / "agent_remediate.py",
     "comms":    REPO_ROOT / "sagco-agents"                 / "agent_comms.py",
     "heap":     REPO_ROOT / "BOARD-13-RECON"               / "heap_analyzer.py",
+    "firefox":  REPO_ROOT / "BOARD-28-FIREFOX-DEV-PLUGIN/src" / "firefox_event_ingester.py",
 }
 
 BUILTIN_AGENTS = {
