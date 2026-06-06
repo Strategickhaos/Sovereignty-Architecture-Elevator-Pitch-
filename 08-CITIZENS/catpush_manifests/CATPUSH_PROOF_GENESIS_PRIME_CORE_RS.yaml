@@ -1,0 +1,16 @@
+cid: sgc-proof-1780774584135-3437
+pid: 7003
+canonical: CATPUSH.PROOF.GENESIS_PRIME_CORE_RS
+name: genesis_prime_core.rs
+kind: proof
+district: genesis
+status: active
+payload:
+  type: file
+  path: /home/user/Sovereignty-Architecture-Elevator-Pitch-/genesis_prime_core.rs
+  name: genesis_prime_core.rs
+  ext: .rs
+  size_bytes: 9972
+  sha256_short: 606b4ef204d68647
+tags: []
+created_at: '2026-06-06T19:36:24Z'

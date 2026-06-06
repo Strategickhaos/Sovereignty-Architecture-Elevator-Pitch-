@@ -1211,6 +1211,101 @@
         "invention-stub"
       ],
       "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780774583869-3171",
+      "name": "main.rs",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "file",
+        "path": "/home/user/Sovereignty-Architecture-Elevator-Pitch-/SAGCO-LANG/src/main.rs",
+        "name": "main.rs",
+        "ext": ".rs",
+        "size_bytes": 1985,
+        "sha256_short": "05662d44fb5c60a7"
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:23Z"
+    },
+    {
+      "cid": "sgc-artifact-1780774583958-3260",
+      "name": "BOARD-11-ANTIBODIES",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "trinity",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "directory",
+        "path": "/home/user/Sovereignty-Architecture-Elevator-Pitch-/BOARD-11-ANTIBODIES",
+        "name": "BOARD-11-ANTIBODIES",
+        "ext": "",
+        "child_count": 3,
+        "sample": [
+          "daemon",
+          "antibodies",
+          "learned"
+        ]
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:23Z"
+    },
+    {
+      "cid": "sgc-artifact-1780774584022-3324",
+      "name": "GCP Console",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "url",
+        "url": "https://console.cloud.google.com",
+        "host": "console.cloud.google.com",
+        "scheme": "https",
+        "path": ""
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:24Z"
+    },
+    {
+      "cid": "sgc-proof-1780774584135-3437",
+      "name": "genesis_prime_core.rs",
+      "kind": "proof",
+      "born_in": "genesis",
+      "district": "genesis",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "file",
+        "path": "/home/user/Sovereignty-Architecture-Elevator-Pitch-/genesis_prime_core.rs",
+        "name": "genesis_prime_core.rs",
+        "ext": ".rs",
+        "size_bytes": 9972,
+        "sha256_short": "606b4ef204d68647"
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:24Z"
     }
   ]
 }

@@ -1,0 +1,16 @@
+cid: sgc-artifact-1780774583869-3171
+pid: 7000
+canonical: CATPUSH.ARTIFACT.MAIN_RS
+name: main.rs
+kind: artifact
+district: compiler_city
+status: active
+payload:
+  type: file
+  path: /home/user/Sovereignty-Architecture-Elevator-Pitch-/SAGCO-LANG/src/main.rs
+  name: main.rs
+  ext: .rs
+  size_bytes: 1985
+  sha256_short: 05662d44fb5c60a7
+tags: []
+created_at: '2026-06-06T19:36:23Z'
