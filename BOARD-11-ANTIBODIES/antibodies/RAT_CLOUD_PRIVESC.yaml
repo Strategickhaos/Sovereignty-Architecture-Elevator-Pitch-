@@ -1,0 +1,28 @@
+name: RAT_CLOUD_PRIVESC
+classification: security_threat
+layer: cloud
+trigger: Service account used outside its registered district or with elevated scope
+cause: IAM role escalation attempt — cross-district privilege drift
+expected: Service accounts operate within assigned SAGCO district (trinity / eru / compiler_city)
+actual: Cross-district API call or unexpected role binding detected
+variance: IAM + district + privilege mismatch
+signals:
+  - service account calling APIs outside its usual scope
+  - new IAM binding added without citizen registration
+  - unexpected roles/resourcemanager.projects.setIamPolicy call
+  - audit log shows actingAs a service account not in SAGCO registry
+  - Cloud Run invoking GKE cluster admin API without eru district clearance
+detection:
+  gcloud: gcloud logging read 'protoPayload.methodName="SetIamPolicy"' --limit=20
+  sagco: python sagco_recon.py cloud --project <id>
+remedy:
+  - Revoke token: gcloud auth revoke <email>
+  - Rotate service account key: gcloud iam service-accounts keys create ...
+  - Remove unexpected binding: gcloud projects remove-iam-policy-binding ...
+  - Register legitimate account in citizen registry with correct district
+  - Alert: create contradiction citizen in contradiction_forest
+severity: CRITICAL
+department: CLOUD
+district: trinity
+status: LEARNED
+learned_at: "2026-06-06"

@@ -14,7 +14,17 @@ pathways:
     description: Race condition between fix landing and CI executing
     antibodies: [CI_RUN_IN_FLIGHT]
 
+  - id: SECURITY_THREAT
+    description: RAT-class remote control and privilege escalation patterns
+    antibodies:
+      - RAT_PROCESS_VARIANCE
+      - RAT_NETWORK_BEACONING
+      - RAT_CLOUD_PRIVESC
+      - RAT_PI_SSH_ANOMALY
+      - RAT_BROWSER_OAUTH_DRIFT
+      - RAT_DOCKER_ESCAPE
+      - RAT_WSL_CROSSBOUNDARY
+
 next_bricks:
   - WRONG_SHELL_RUNTIME
   - SYMLINK_PRIVILEGE_DENIED
-  - GHCR_PERMISSION_DENIED

@@ -1,0 +1,25 @@
+name: RAT_PROCESS_VARIANCE
+classification: security_threat
+layer: host
+trigger: Unregistered process opened remote TCP socket or spawned privileged child
+cause: Process operating outside citizen registry with network or escalation privileges
+expected: Only registered citizen PIDs may hold remote sockets
+actual: Unknown process PID with outbound network connection detected
+variance: identity + network + privilege mismatch
+signals:
+  - process not in citizen_registry.json
+  - CPU spike > 80% sustained > 60s from unknown process
+  - unexpected parent/child chain (e.g. svchost -> cmd -> powershell -> curl)
+  - binary path outside known install locations
+  - unsigned or tampered binary
+remedy:
+  - Terminate process: kill -9 <pid>  or  Stop-Process -Id <pid> -Force
+  - Add to citizen registry if legitimate
+  - Run: python sagco_recon.py processes  to regenerate node list
+  - Escalate to BOARD-13-RECON for full scan
+  - File contradiction in contradiction_forest district
+severity: HIGH
+department: SECURITY
+district: trinity
+status: LEARNED
+learned_at: "2026-06-06"

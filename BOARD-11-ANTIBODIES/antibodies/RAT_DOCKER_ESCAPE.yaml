@@ -1,0 +1,30 @@
+name: RAT_DOCKER_ESCAPE
+classification: security_threat
+layer: docker
+trigger: Container process accessing host filesystem, PID namespace, or network outside its manifest
+cause: Container breakout attempt via privileged mode, volume mount exploit, or kernel vuln
+expected: Containers operate within declared citizen boundaries
+actual: Container process visible in host PID namespace or accessing /proc/host
+variance: namespace + privilege + identity mismatch
+signals:
+  - docker inspect shows Privileged: true for unregistered container
+  - container mounting /var/run/docker.sock (Docker-in-Docker pivot)
+  - process inside container appears in host ps aux without docker wrapper
+  - unexpected volume mount to / or /etc
+  - container running as root (UID 0) without explicit citizen registration
+detection:
+  sagco: python sagco_recon.py docker
+  shell: docker inspect <id> | grep -i privileged
+  shell: docker inspect <id> | grep Binds
+remedy:
+  - Stop container: docker stop <id>
+  - Remove socket mount: restart without -v /var/run/docker.sock
+  - Add --security-opt no-new-privileges to run command
+  - Add non-root user to Dockerfile (already done in Dockerfile.bot)
+  - Verify container citizen registration includes privilege level
+  - Rebuild with USER botuser (1001) as final step
+severity: CRITICAL
+department: DOCKER
+district: industrial
+status: LEARNED
+learned_at: "2026-06-06"

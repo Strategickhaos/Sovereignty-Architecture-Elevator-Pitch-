@@ -1,0 +1,29 @@
+name: RAT_PI_SSH_ANOMALY
+classification: security_threat
+layer: hardware
+trigger: SSH connection to Pi node from unregistered IP or at unexpected time
+cause: Unauthorized physical access or network pivot to PI.MASTER_COMMAND_CENTER
+expected: Only operator IP range and registered SSH keys may connect
+actual: SSH login from unknown IP, failed auth burst, or new authorized_keys entry
+variance: identity + network + hardware mismatch
+signals:
+  - /var/log/auth.log shows Failed password or Invalid user at high rate
+  - new entry in /home/pi/.ssh/authorized_keys not in SAGCO registry
+  - SSH session from IP not in pi-nodes/*.yaml known_clients list
+  - Pi GPIO pins toggled without FlameLang route dispatch
+  - Pi rebooted without sagco_recon event
+detection:
+  pi_shell: sudo grep "Failed\|Invalid\|Accepted" /var/log/auth.log | tail -50
+  sagco: python sagco_recon.py pi --auto
+remedy:
+  - Disconnect session: sudo pkill -u <user> sshd
+  - Rotate SSH keys: ssh-keygen -R <pi-ip> && ssh-copy-id pi@<ip>
+  - Disable password auth: PasswordAuthentication no in /etc/ssh/sshd_config
+  - Restrict AllowUsers in sshd_config
+  - Update pi-nodes/RASPBERRYPI.yaml with known_clients list
+  - File SSH_CLAIM_STOLEN contradiction in contradiction_forest
+severity: HIGH
+department: HARDWARE
+district: industrial
+status: LEARNED
+learned_at: "2026-06-06"

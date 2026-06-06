@@ -1306,6 +1306,144 @@
       ],
       "links": [],
       "created_at": "2026-06-06T19:36:24Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035367-2850",
+      "name": "Google Cloud Console",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://console.cloud.google.com",
+        "host": "console.cloud.google.com",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035369-2852",
+      "name": "Strategickhaos GitHub",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://github.com/Strategickhaos",
+        "host": "github.com",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035370-2853",
+      "name": "Claude Code",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://claude.ai/code",
+        "host": "claude.ai",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035371-2854",
+      "name": "Discord Ops",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "frequency_coast",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://discord.com/channels/ops",
+        "host": "discord.com",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035372-2855",
+      "name": "Local Dev",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "industrial",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://localhost:3000",
+        "host": "localhost:3000",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035373-2856",
+      "name": "OAuth Flow",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "memory_palace",
+      "status": "flagged",
+      "travel_log": [],
+      "payload": {
+        "url": "https://claude.ai/oauth/authorize?code=abc123",
+        "host": "claude.ai",
+        "anomalies": [
+          {
+            "anomaly": "oauth_code_in_url",
+            "severity": "HIGH",
+            "url_fragment": "https://claude.ai/oauth/authorize?code=abc123"
+          }
+        ]
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
     }
   ]
 }

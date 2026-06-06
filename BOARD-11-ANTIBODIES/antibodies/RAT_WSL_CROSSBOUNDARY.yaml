@@ -1,0 +1,29 @@
+name: RAT_WSL_CROSSBOUNDARY
+classification: security_threat
+layer: wsl
+trigger: WSL process accessing Windows host filesystem, registry, or services outside citizen scope
+cause: WSL ↔ Windows boundary traversal beyond registered citizen permissions
+expected: WSL citizens operate in /home/* or declared /mnt/e/SAGCO-WORLD paths only
+actual: WSL process reading /mnt/c/Windows/System32, writing Windows registry, or calling Win32 APIs
+variance: boundary + privilege + namespace mismatch
+signals:
+  - WSL process opening files in /mnt/c/Users/<user>/AppData
+  - WSL process using wslpath to traverse into Windows program directories
+  - WSL python/bash spawning powershell.exe with elevated flags
+  - Unexpected interop calls: /init or /proc/sys/fs/binfmt_misc/WSLInterop
+  - WSL distro not in recon wsl-distros.txt (unregistered distro)
+detection:
+  sagco: python sagco_recon.py all  (check wsl-distros.txt)
+  wsl: wsl --list --verbose
+  wsl: cat /proc/version  (verify kernel matches expected)
+remedy:
+  - Disable WSL interop if not needed: echo 0 > /proc/sys/fs/binfmt_misc/WSLInterop
+  - Restrict distro to allowlisted paths via wsl.conf [automount] options
+  - Re-register WSL distro as citizen with declared mount scope
+  - If distro unknown: wsl --unregister <name>  after backup
+  - Add distro to recon reports and citizen registry
+severity: HIGH
+department: WSL
+district: industrial
+status: LEARNED
+learned_at: "2026-06-06"

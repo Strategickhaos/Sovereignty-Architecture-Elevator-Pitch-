@@ -12,6 +12,8 @@ Usage:
   python sagco_recon.py pi --auto
   python sagco_recon.py cloud --auto
   python sagco_recon.py cloud --project my-gcp-project --emit-citizens
+  python sagco_recon.py browser
+  python sagco_recon.py browser --file tabs.json --emit-citizens
 """
 import argparse, sys, time
 from pathlib import Path
@@ -52,6 +54,13 @@ def cmd_pi(args):
         sys.argv.append("--no-citizen")
     recon_pi.main()
 
+def cmd_browser(args):
+    import recon_browser
+    tabs = []
+    if getattr(args, "file", None):
+        tabs = recon_browser._load_tabs_from_file(Path(args.file))
+    recon_browser.scan(tabs or [], emit_citizens=args.emit_citizens)
+
 def cmd_cloud(args):
     import recon_cloud
     recon_cloud.scan(args.project, emit_citizens=args.emit_citizens)
@@ -80,6 +89,10 @@ def main():
     sub.add_parser("network",   help="Scan network + ARP for Pi candidates")
     sub.add_parser("all",       help="Run all recon modules")
 
+    browser_p = sub.add_parser("browser", help="Scan browser tabs → browser_node citizens")
+    browser_p.add_argument("--file", help="Tab JSON file or URL list")
+    browser_p.add_argument("--emit-citizens", action="store_true")
+
     cloud_p = sub.add_parser("cloud", help="Scan GCP resources → nodes + citizens")
     cloud_group = cloud_p.add_mutually_exclusive_group(required=True)
     cloud_group.add_argument("--project", help="GCP project ID")
@@ -99,6 +112,7 @@ def main():
         "processes": cmd_processes,
         "docker":    cmd_docker,
         "network":   cmd_network,
+        "browser":   cmd_browser,
         "cloud":     cmd_cloud,
         "pi":        cmd_pi,
         "all":       cmd_all,
