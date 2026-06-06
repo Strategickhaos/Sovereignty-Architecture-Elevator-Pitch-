@@ -1,0 +1,13 @@
+seed_id: INV-MOBIUS-5127739959-ERU-31-1780785301374-3
+title: "Mobius ASSERT variance \u2014 token_in_url"
+status: OPEN
+created: '2026-06-06'
+district: compiler_city
+owner: BOARD-31-CELLPHONE-MOBIUS-LAB
+expected: Assertion passes for all matching events
+actual: 'assertion: {''if_expr'': ''token_in_url'', ''when_cond'': ''browser_nav'',
+  ''then_action'': ''fire_antibody BROWSER_TOKEN_IN_REFERRER''}'
+variance: "assertion failure \u2014 event matched trigger but action not taken"
+understanding: if/when/then must be tested against live event stream
+antibody_candidate: browser_nav
+pmi_delta_estimate: 0.04

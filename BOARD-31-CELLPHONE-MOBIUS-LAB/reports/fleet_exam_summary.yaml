@@ -1,0 +1,8 @@
+name: Fleet Exam Summary
+generated: null
+total_phones: 0
+total_equations: 0
+eru_cases_open: 0
+eru_cases_closed: 0
+invention_candidates: 0
+# Regenerate with: python src/eru_runner.py  (for each cellphone)

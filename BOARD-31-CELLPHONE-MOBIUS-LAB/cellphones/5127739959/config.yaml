@@ -1,0 +1,23 @@
+number: "5127739959"
+owner: DOMENIC_MASTER
+district: genesis
+device_model: Samsung Galaxy Z Fold 7
+node_id: 137
+registered_at: "2026-06-06T00:00:00Z"
+equations_file: equations.mobius
+eru_cases_file: eru_cases.yaml
+
+description: |
+  Domenic's primary SAGCO node device — Node 137, registered in the GENESIS district.
+  This is the master node phone: its equations model steady-state CPU load,
+  citizen count growth rate, CRITICAL case routing, and browser token antibody assertion.
+
+sagco_metadata:
+  board: BOARD-31
+  citizen: DOMENIC_MASTER
+  genesis_increment: 3449
+  node_role: MASTER
+  linked_boards:
+    - BOARD-26-REMEDIATION-ENGINE
+    - BOARD-11-ANTIBODIES
+    - BOARD-30-FAKE-CELL-BUSINESS-LINE

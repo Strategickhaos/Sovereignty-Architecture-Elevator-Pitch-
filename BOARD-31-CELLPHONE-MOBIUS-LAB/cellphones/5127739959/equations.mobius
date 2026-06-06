@@ -1,0 +1,10 @@
+# SAGCO Cellphone Mobius Equations
+# Number: 5127739959 — Domenic / Node 137
+# District: GENESIS
+# Board: BOARD-31-CELLPHONE-MOBIUS-LAB
+# DSL Version: 1.0
+
+LIMIT:   lim(cpu_load, t, steady_state) = 0.45   # expected CPU at rest
+DERIV:   d/dt(citizen_count, t)         = 3449    # GENESIS_INCREMENT per cycle
+PIECE:   piece(severity == CRITICAL, open_case, log_only)
+ASSERT:  if(token_in_url) when(browser_nav) then(fire_antibody BROWSER_TOKEN_IN_REFERRER)

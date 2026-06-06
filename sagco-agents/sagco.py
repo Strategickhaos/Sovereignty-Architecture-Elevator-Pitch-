@@ -46,8 +46,9 @@ AGENTS = {
     "heap":     REPO_ROOT / "BOARD-13-RECON"               / "heap_analyzer.py",
     "firefox":  REPO_ROOT / "BOARD-28-FIREFOX-DEV-PLUGIN/src" / "firefox_event_ingester.py",
     "phone":    REPO_ROOT / "sagco-agents"                   / "agent_phone.py",
-    "missing":  REPO_ROOT / "MISSING-LINKS" / "src"          / "detector.py",
-    "fakecell": REPO_ROOT / "BOARD-30-FAKE-CELL-BUSINESS-LINE/src" / "phone_parser.py",
+    "missing":    REPO_ROOT / "MISSING-LINKS" / "src"              / "detector.py",
+    "fakecell":   REPO_ROOT / "BOARD-30-FAKE-CELL-BUSINESS-LINE/src" / "phone_parser.py",
+    "bloodwork":  REPO_ROOT / "BOARD-29-SAGCO-PHONE-OS" / "src"    / "bloodwork.py",
 }
 
 BUILTIN_AGENTS = {

@@ -1,0 +1,91 @@
+eru_cases_file: true
+number: "5127739959"
+owner: DOMENIC_MASTER
+board: BOARD-31
+generated_from: equations.mobius
+eru_template_ref: manifests/eru_exam_templates.yaml
+
+cases:
+
+  - case_id: "ERU-5127739959-001"
+    template: LIMIT_ERU
+    equation_kind: LIMIT
+    equation_name: cpu_load_steady_state
+    equation_source: "lim(cpu_load, t, steady_state) = 0.45"
+
+    expected:
+      label: "Expected (E)"
+      value: 0.45
+      description: |
+        As time t approaches steady_state, CPU load should converge to 0.45 (45%).
+        This is the modeled resting load for Node 137 (DOMENIC_MASTER) under normal
+        SAGCO operation with no active compilation or ERU runs.
+
+    actual:
+      label: "Reality (R)"
+      value: 0.61
+      description: |
+        Observed CPU load during the most recent monitoring window was 0.61 (61%).
+        Measured via system telemetry during SAGCO pipeline execution on 2026-06-06.
+
+    variance:
+      label: "Variance (V)"
+      formula: "actual - expected"
+      value: 0.16
+      description: "CPU over-shoot of 16 percentage points above steady-state model."
+
+    understanding:
+      label: "Understanding (U)"
+      text: |
+        The 16pp overshoot is likely due to concurrent BOARD-31 compilation tasks
+        (lexer, parser, ERU runner, compiler) executing simultaneously during lab setup.
+        The limit model assumes idle state; lab boot workload was not subtracted.
+        Recommend running a corrected limit exam after pipeline settles.
+
+    severity: HIGH
+    antibody_candidate: null
+    status: OPEN
+    linked_board: BOARD-26-REMEDIATION-ENGINE
+    exam_date: "2026-06-06"
+
+  - case_id: "ERU-5127739959-002"
+    template: ASSERTION_ERU
+    equation_kind: ASSERT
+    equation_name: browser_token_in_referrer
+    equation_source: "if(token_in_url) when(browser_nav) then(fire_antibody BROWSER_TOKEN_IN_REFERRER)"
+
+    expected:
+      label: "Expected Result (E)"
+      value: "PASS"
+      description: |
+        The assertion should detect browser navigation events where an auth token
+        appears in the URL, and fire the BROWSER_TOKEN_IN_REFERRER antibody.
+        Expected behavior: assertion triggers correctly on any matching event.
+
+    actual:
+      label: "Assertion Result (R)"
+      value: "PASS"
+      description: |
+        Compiler test run against sample_events (browser_nav=True, token_in_url=True)
+        returned True. Antibody fire candidate confirmed: BROWSER_TOKEN_IN_REFERRER.
+
+    variance:
+      label: "Failure Mode (V)"
+      value: null
+      description: "No failure — assertion passed as designed."
+
+    understanding:
+      label: "Understanding (U)"
+      text: |
+        The ASSERT equation compiled cleanly to a Python lambda and passed against
+        all browser_nav sample events containing token_in_url. The antibody
+        BROWSER_TOKEN_IN_REFERRER is a valid MISSING-LINKS seed candidate for cases
+        where this pattern is observed in production traffic but no antibody is yet
+        registered in BOARD-11-ANTIBODIES.
+
+    severity: LOW
+    antibody_candidate: BROWSER_TOKEN_IN_REFERRER
+    status: CLOSED
+    linked_board: BOARD-11-ANTIBODIES
+    missing_links_seed: MISSING-LINKS
+    exam_date: "2026-06-06"

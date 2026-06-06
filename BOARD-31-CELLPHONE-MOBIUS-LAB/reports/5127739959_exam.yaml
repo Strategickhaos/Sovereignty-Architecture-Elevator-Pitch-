@@ -1,0 +1,44 @@
+cellphone: '5127739959'
+eru_cases:
+- id: ERU-31-1780785301374-0
+  equation: cpu_load
+  kind: LIMIT
+  expected: "Function converges as x \u2192 steady_state"
+  actual: 'lim(cpu_load) = {''function'': ''cpu_load'', ''variable'': ''t'', ''approach'':
+    ''steady_state'', ''result'': ''0.45''}'
+  variance: delta between expected convergence and observed value
+  understanding: Boundary behavior tells us the steady-state of this signal
+  antibody_candidate: null
+  severity: LOW
+- id: ERU-31-1780785301374-1
+  equation: citizen_count
+  kind: DERIV
+  expected: 'Rate of change = {''function'': ''citizen_count'', ''variable'': ''t'',
+    ''rate'': ''3449''} per cycle'
+  actual: measured rate from citizen delta
+  variance: slope divergence from expected rate
+  understanding: "Rate change invariant \u2014 if actual diverges > 10%, open drift\
+    \ case"
+  antibody_candidate: ORGANISM_RATE_DRIFT
+  severity: MEDIUM
+- id: ERU-31-1780785301374-2
+  equation: severity_____critical
+  kind: PIECE
+  expected: Piecewise condition fires correctly at boundary
+  actual: piece(severity = = CRITICAL, open_case)
+  variance: "condition boundary mismatch \u2014 wrong branch taken"
+  understanding: Branch logic must be verified against all severity thresholds
+  antibody_candidate: null
+  severity: MEDIUM
+- id: ERU-31-1780785301374-3
+  equation: token_in_url
+  kind: ASSERT
+  expected: Assertion passes for all matching events
+  actual: 'assertion: {''if_expr'': ''token_in_url'', ''when_cond'': ''browser_nav'',
+    ''then_action'': ''fire_antibody BROWSER_TOKEN_IN_REFERRER''}'
+  variance: "assertion failure \u2014 event matched trigger but action not taken"
+  understanding: if/when/then must be tested against live event stream
+  antibody_candidate: browser_nav
+  severity: CRITICAL
+total: 4
+critical: 1

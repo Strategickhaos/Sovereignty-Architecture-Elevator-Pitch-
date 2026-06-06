@@ -1,0 +1,109 @@
+dsl_name: MobiusScript
+dsl_version: "1.0"
+board: BOARD-31
+
+description: |
+  Defines all equation types in the Mobius DSL used by SAGCO cellphone nodes.
+  Each type maps to a mathematical or logical concept and produces an ERU record.
+
+equation_types:
+
+  LIMIT:
+    keyword: LIMIT
+    alias: lim
+    syntax: "lim(function, variable, approach_value) = expected_result"
+    description: |
+      Expresses expected behavior as a variable approaches a value.
+      Models steady-state convergence — what a metric stabilizes to.
+      ERU role: Expected = lim result; Actual = observed value; Variance = delta.
+    math_concept: calculus_limit
+    eru_template: LIMIT_ERU
+    example: "lim(cpu_load, t, steady_state) = 0.45"
+    parameters:
+      - name: function
+        description: The expression or metric being evaluated.
+      - name: variable
+        description: The variable approaching the limit point.
+      - name: approach_value
+        description: The value the variable approaches (e.g., steady_state, infinity).
+    result:
+      description: The value the function converges to.
+
+  DERIVATIVE:
+    keyword: DERIV
+    alias: "d/dt"
+    syntax: "d/dt(function, variable) = rate"
+    description: |
+      Expresses the rate of change of a function with respect to a variable.
+      Models variance rate — how fast something is changing per cycle.
+      ERU role: Expected = slope; Actual = measured rate; Variance = divergence.
+    math_concept: calculus_derivative
+    eru_template: DERIVATIVE_ERU
+    example: "d/dt(citizen_count, t) = 3449"
+    parameters:
+      - name: function
+        description: The expression whose rate of change is measured.
+      - name: variable
+        description: The variable with respect to which the derivative is taken.
+    result:
+      description: The rate of change value.
+
+  PIECEWISE:
+    keyword: PIECE
+    alias: piece
+    syntax: "piece(condition, value_if_true, value_if_false)"
+    description: |
+      Expresses branching logic — two possible outcomes based on a condition.
+      Models conditional system behavior. Equivalent to a conditional expression.
+      ERU role: condition outcome maps to expected path; deviation is variance.
+    math_concept: piecewise_function
+    eru_template: ASSERTION_ERU
+    example: "piece(severity == CRITICAL, open_case, log_only)"
+    parameters:
+      - name: condition
+        description: Boolean expression to evaluate.
+      - name: value_if_true
+        description: Action or value when condition is true.
+      - name: value_if_false
+        description: Action or value when condition is false.
+
+  INTEGRAL:
+    keyword: INTEGRAL
+    alias: integral
+    syntax: "integral(function, lower_bound, upper_bound) = cumulative"
+    description: |
+      Expresses cumulative variance over a range.
+      Models total accumulated effect — sum of variance across a time or event range.
+      ERU role: Expected = theoretical integral; Actual = measured total; Variance = error area.
+    math_concept: definite_integral
+    eru_template: LIMIT_ERU
+    example: "integral(variance_rate, 0, T) = total_drift"
+    parameters:
+      - name: function
+        description: The variance function to integrate.
+      - name: lower_bound
+        description: Start of the integration range.
+      - name: upper_bound
+        description: End of the integration range.
+    result:
+      description: The cumulative value over the range.
+
+  ASSERTION:
+    keyword: ASSERT
+    alias: "if/when/then"
+    syntax: "if(expression) when(condition) then(action)"
+    description: |
+      Expresses compiler logic — a conditional assertion that fires an action.
+      Models rule-based detection. Compiles to a Python lambda test function.
+      ERU role: Expected = assertion passes; Actual = assertion result; Variance = failure_mode.
+    math_concept: logical_assertion
+    eru_template: ASSERTION_ERU
+    example: "if(token_in_url) when(browser_nav) then(fire_antibody BROWSER_TOKEN_IN_REFERRER)"
+    parameters:
+      - name: expression
+        description: The condition to detect (what is being tested for).
+      - name: condition
+        description: The context in which the expression is evaluated.
+      - name: action
+        description: The action to take when both expression and condition are true.
+    compiles_to: python_lambda

@@ -1,0 +1,33 @@
+name: Phone Intake Bloodwork
+board: BOARD-29-SAGCO-PHONE-OS
+generated: null
+description: "Defensive intake report — redact before sharing"
+
+scan_summary:
+  messages_scanned:    0
+  otp_signals:         0
+  financial_signals:   0
+  marketing_noise:     0
+  agent_calls:         0
+  attachments:         0
+  unparseable:         0
+
+citizens:
+  created:   0
+  duplicate: 0
+
+cases:
+  opened:    0
+  critical:  0
+  high:      0
+
+heap_snapshots:
+  found:     0
+  files:     []
+
+sensitive:
+  note: "OTP codes, tokens, and phone numbers are REDACTED in this report"
+  redacted_fields: [otp, access_token, id_token, phone_number, bearer]
+
+# Regenerate:
+#   python BOARD-29-SAGCO-PHONE-OS/src/bloodwork.py --path "$env:USERPROFILE\Downloads"
