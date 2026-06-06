@@ -1,0 +1,27 @@
+board: BOARD-32-PORTFOLIO-PUBLISHER
+id: BOARD-32
+district: frequency_coast
+status: ACTIVE
+role: portfolio_publisher
+
+purpose: |
+  Harvests ERU reports, invention seeds, bloodwork, and proofs from every
+  board and renders them into portfolio-ready Markdown case studies,
+  resume bullets, and a portfolio index — one command.
+
+command: "python sagco-agents/sagco.py portfolio build"
+
+outputs:
+  - case-studies/          # one .md per major ERU loop closed
+  - resume-bullets/        # STAR-format bullets for each proof
+  - portfolio_index.md     # master index / landing page
+  - reports/               # raw YAML inventory of all artifacts
+
+sources:
+  - MISSING-LINKS/seeds/                              # invention seeds
+  - MISSING-LINKS/cases/closed/                       # resolved contradictions
+  - BOARD-10-UNIVERSITY/certificates/                 # exam certs
+  - BOARD-21-PHYSICS-FLEET/reports/                   # ERU physics cases
+  - BOARD-24-GCP-MASTERY/eru/                         # GKE ERU cases
+  - BOARD-26-REMEDIATION-ENGINE/cases/closed/         # remediation cases
+  - BOARD-31-CELLPHONE-MOBIUS-LAB/reports/            # Mobius exam reports

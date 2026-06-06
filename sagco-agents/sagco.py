@@ -48,6 +48,8 @@ AGENTS = {
     "phone":    REPO_ROOT / "sagco-agents"                   / "agent_phone.py",
     "missing":    REPO_ROOT / "MISSING-LINKS" / "src"              / "detector.py",
     "fakecell":   REPO_ROOT / "BOARD-30-FAKE-CELL-BUSINESS-LINE/src" / "phone_parser.py",
+    "portfolio":  REPO_ROOT / "BOARD-32-PORTFOLIO-PUBLISHER/src"    / "portfolio_builder.py",
+    "sanity":     REPO_ROOT / "sagco-agents"                        / "agent_sanity.py",
     "bloodwork":  REPO_ROOT / "BOARD-29-SAGCO-PHONE-OS" / "src"    / "bloodwork.py",
 }
 
