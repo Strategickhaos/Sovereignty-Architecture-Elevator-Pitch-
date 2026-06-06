@@ -1,0 +1,7 @@
+{
+  "hostname": "vm",
+  "local_ip": "192.0.2.2",
+  "platform": "Linux",
+  "arp_entries": [],
+  "pi_candidates": []
+}

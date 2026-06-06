@@ -1,0 +1,17 @@
+board: BOARD-13-RECON
+purpose: Discover, classify, and register local machine reality before deployment.
+loop: reality -> recon -> node -> yaml -> citizen -> antibody -> deployment
+outputs:
+  - reports/processes.json
+  - reports/docker.json
+  - reports/network.json
+  - reports/services.json
+  - pi-nodes/
+  - manifests/
+modules:
+  - sagco_recon.py       # main CLI
+  - recon_process.py     # process scanner
+  - recon_docker.py      # container scanner
+  - recon_network.py     # network / Pi discovery
+  - recon_pi.py          # Pi fingerprinter + node registration
+status: ACTIVE
