@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "genesis_tick": 1674852049000,
+  "citizens": [
+    {
+      "cid": "sgc-artifact-1780763148034-771",
+      "name": "FlameLang Lexer v0.1 Artifact",
+      "kind": "artifact",
+      "born_in": "compiler_city",
+      "born_at": "2026-06-06T16:25:48.034388+00:00",
+      "born_from": null,
+      "district": "trinity",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "compiler_city",
+          "entered_at": "2026-06-06T16:25:48.034474+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "trinity",
+          "entered_at": "2026-06-06T16:25:52.579869+00:00",
+          "gate": "schema_gate_v1",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "First working FlameLang lexer, born from FLAMELANG_SPECIFICATION.md",
+        "data": {},
+        "checksum": "pending"
+      },
+      "proofs": [
+        {
+          "source": "FLAMELANG_SPECIFICATION.md",
+          "hash": "sha256:7c64553b072fe95cea5e6bf4b35af109ed0633c5254bc7385c8bc28f122532b7",
+          "verified_at": "2026-06-06T16:25:52.646094+00:00"
+        }
+      ],
+      "tags": [
+        "flamelang",
+        "lexer",
+        "compiler_city"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-contradiction-1780763148118-855",
+      "name": "Contradiction: World Has No Citizens",
+      "kind": "contradiction",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:25:48.118590+00:00",
+      "born_from": null,
+      "district": "contradiction_forest",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:25:48.118642+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "1920 folders, no movement format. Map without traffic.",
+        "data": {},
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "contradiction",
+        "world",
+        "citizen-system"
+      ],
+      "links": []
+    }
+  ]
+}

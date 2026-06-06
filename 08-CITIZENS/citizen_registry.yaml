@@ -1,0 +1,100 @@
+# SAGCO CITIZEN REGISTRY v1.0
+# The canonical record of all citizens that have moved through SAGCO-WORLD.
+# Append-only. Never delete. Contradictions spawn new entries, not overwrites.
+
+meta:
+  schema_version: "1.0"
+  genesis_tick: 1674852049000
+  architect: DOM_010101
+  last_updated: "2026-06-06"
+
+citizens:
+
+  - cid: "sgc-proof-1674852049-3449"
+    name: "Genesis Kernel Build Proof"
+    kind: proof
+    born_in: genesis
+    born_at: "2023-01-27T21:00:49Z"
+    born_from: null
+    district: memory_palace
+    status: archived
+    travel_log:
+      - district: genesis
+        entered_at: "2023-01-27T21:00:49Z"
+        gate: null
+        result: passed
+      - district: memory_palace
+        entered_at: "2023-01-27T21:05:00Z"
+        gate: "SAGCO_KERNEL_BUILD_1_SEAL"
+        result: passed
+    payload:
+      summary: "First SAGCO kernel ELF compiled and sealed. genesis_prime_core.rs validated."
+      data:
+        architect_snowflake: 1067614449693569044
+        genesis_timestamp: 1674852049000
+        increment: 3449
+      checksum: "sha256:pending"
+    proofs:
+      - source: "SAGCO_KERNEL_BUILD_1_SEAL.txt"
+        hash: "pending"
+        verified_at: "2023-01-27T21:00:49Z"
+    tags: ["genesis", "kernel", "proof", "seal"]
+    links: []
+
+  - cid: "sgc-contradiction-20260605-001"
+    name: "WORLD vs MANSION: Territory Without Citizens"
+    kind: contradiction
+    born_in: contradiction_forest
+    born_at: "2026-06-05T00:00:00Z"
+    born_from: null
+    district: contradiction_forest
+    status: active
+    travel_log:
+      - district: contradiction_forest
+        entered_at: "2026-06-05T00:00:00Z"
+        gate: null
+        result: passed
+    payload:
+      summary: "SAGCO-WORLD has 1,920 folders and 10 files. SAGCO-OS-MANSION has 683 folders and 686 files. Infrastructure exists. Citizens do not. Map has no traffic."
+      data:
+        statement_a: "The world is built (1,920 folders, roads, districts, governance)"
+        statement_b: "Nothing moves through it (no citizen format, no travel log, no deploy gate)"
+        intersection: "Build the Citizen System — a format for artifacts that move through districts"
+        spawned_citizens:
+          - "sgc-invention-20260606-001"
+      checksum: "sha256:pending"
+    proofs: []
+    tags: ["contradiction", "citizen-system", "world", "mansion"]
+    links:
+      - cid: "sgc-invention-20260606-001"
+        relation: spawned_from
+
+  - cid: "sgc-invention-20260606-001"
+    name: "SAGCO Citizen System v1.0"
+    kind: invention
+    born_in: contradiction_forest
+    born_at: "2026-06-06T00:00:00Z"
+    born_from: "sgc-contradiction-20260605-001"
+    district: compiler_city
+    status: embryo
+    travel_log:
+      - district: contradiction_forest
+        entered_at: "2026-06-06T00:00:00Z"
+        gate: null
+        result: passed
+      - district: compiler_city
+        entered_at: "2026-06-06T00:01:00Z"
+        gate: "schema_gate_v1"
+        result: passed
+    payload:
+      summary: "Schema, registry, CLI, and deploy gate for SAGCO citizens. Makes the map move."
+      data:
+        description: "A citizen is any artifact (proof, invention, MIDI, TRIG6 state, contradiction, deploy packet) that can be born, travel, inspected, and archived within SAGCO-WORLD districts."
+        contradiction_resolved: "sgc-contradiction-20260605-001"
+        implementation_path: "08-CITIZENS/"
+      checksum: "sha256:pending"
+    proofs: []
+    tags: ["invention", "citizen-system", "schema", "registry"]
+    links:
+      - cid: "sgc-contradiction-20260605-001"
+        relation: spawned_from

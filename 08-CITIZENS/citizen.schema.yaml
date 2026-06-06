@@ -1,0 +1,90 @@
+# SAGCO CITIZEN SCHEMA v1.0
+# A citizen is any artifact that can move through SAGCO-WORLD districts.
+# Born in one district. Inspected. Deployed. Stored. Referenced.
+
+citizen:
+  # --- IDENTITY ---
+  cid: string          # sgc-{type}-{genesis_tick}-{increment}  e.g. sgc-proof-1674852049-3449
+  name: string         # Human-readable name
+  kind: enum           # proof | invention | artifact | contradiction | deploy_packet | midi | trig6_state
+
+  # --- ORIGIN ---
+  born_in: enum        # genesis | compiler_city | c64 | eru | trinity | frequency_coast | industrial | memory_palace | contradiction_forest
+  born_at: timestamp   # ISO 8601
+  born_from: string    # cid of parent citizen (optional — null for genesis citizens)
+
+  # --- CURRENT STATE ---
+  district: enum       # current district (same enum as born_in)
+  status: enum         # embryo | active | inspected | deployed | archived | contradiction
+
+  # --- DISTRICT LOG (append-only travel record) ---
+  travel_log:
+    - district: string
+      entered_at: timestamp
+      gate: string     # which deploy gate was crossed (null if genesis district)
+      result: enum     # passed | flagged | quarantined
+
+  # --- PAYLOAD ---
+  payload:
+    # Content varies by kind — see kind-specific schemas below
+    # Minimum required fields:
+    summary: string
+    data: any          # kind-specific structured content
+    checksum: string   # sha256 of data field
+
+  # --- PROOF CHAIN ---
+  proofs:
+    - source: string   # where proof came from (kernel seal, ERU audit, Trinity test, etc.)
+      hash: string
+      verified_at: timestamp
+
+  # --- TAGS ---
+  tags: list[string]
+  links:
+    - cid: string      # related citizen
+      relation: string # spawned_from | inspected_by | deployed_to | contradicts | resolves
+
+---
+# KIND-SPECIFIC PAYLOAD SCHEMAS
+
+proof_payload:
+  claim: string
+  evidence_path: string   # path to artifact (file, commit hash, log)
+  verifier: string        # who/what verified it
+  proof_type: enum        # kernel_build | eru_audit | trinity_test | field_validation | genesis_seal
+
+invention_payload:
+  description: string
+  contradiction_resolved: string   # which contradiction spawned this invention
+  prior_art: list[string]
+  implementation_path: string
+
+artifact_payload:
+  file_path: string
+  file_type: string
+  sha256: string
+  build_env: string
+
+contradiction_payload:
+  statement_a: string
+  statement_b: string
+  intersection: string   # the new path revealed
+  spawned_citizens: list[string]   # cids born from this contradiction
+
+deploy_packet_payload:
+  target_district: string
+  deploy_gate: string
+  manifest: list[string]   # cids being deployed together
+  gate_result: enum        # pending | passed | rejected
+
+midi_payload:
+  piece: string
+  key: string
+  bpm: number
+  c64_node_mapping: string   # which C64 node this maps to
+
+trig6_state_payload:
+  theta: number
+  r: number
+  projection: enum   # geometry | frequency | color | glyph | dna | midi
+  c64_node: number   # 1-64
