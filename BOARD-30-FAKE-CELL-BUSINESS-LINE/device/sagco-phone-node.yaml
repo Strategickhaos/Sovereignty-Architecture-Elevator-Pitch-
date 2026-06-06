@@ -1,0 +1,9 @@
+pid: 30001
+canonical: PHONE.BUSINESS.LINE.FAKECELL
+type: virtual_cell_device
+number_alias: "business_line"
+internal: "sagco://business-line"
+extension: "+1 (800) 724-2630"
+district: frequency_coast
+status: active
+source: BOARD-30-FAKE-CELL-BUSINESS-LINE

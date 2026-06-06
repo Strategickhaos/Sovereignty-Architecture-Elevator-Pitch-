@@ -127,6 +127,20 @@ directory:
     district:   eru
     role:       infrastructure_hub
 
+  - agent:      BOARD-30-FAKE-CELL-BUSINESS-LINE
+    name:       "SAGCO Fake Cell — Business Line"
+    extension:  "+1 (800) 724-2630"
+    internal:   "sagco://business-line"
+    district:   frequency_coast
+    role:       virtual_cell_device
+
+  - agent:      MISSING-LINKS
+    name:       "SAGCO Missing Links — Substrate"
+    extension:  "+1 (800) 724-2600"
+    internal:   "sagco://missing-links"
+    district:   contradiction_forest
+    role:       substrate_detector
+
 voicemail:
   district:     memory_palace
   retention:    "30 days"

@@ -1,0 +1,45 @@
+id: INV-003
+name: Token / Credential Invariance
+status: ACTIVE
+health: UNKNOWN
+
+sensitive_patterns:
+  - "access_token="
+  - "id_token="
+  - "bearer="
+  - "auth_token="
+  - "otp"
+  - "phone_number="
+
+rule_set:
+  - id: R001
+    rule: "Auth tokens never in URLs"
+    antibody: BROWSER_TOKEN_IN_REFERRER
+    severity: CRITICAL
+    status: LEARNED
+
+  - id: R002
+    rule: "OTP codes never logged in plaintext"
+    test: "No fire_log.jsonl entry contains 6-digit sequence outside redacted field"
+    status: UNCHECKED
+
+  - id: R003
+    rule: "Phone numbers never sent to pixels in clear"
+    antibody: BROWSER_PII_IN_TRACKING_PIXEL
+    severity: HIGH
+    status: LEARNED
+
+  - id: R004
+    rule: "CRITICAL token events open BOARD-26 case within same session"
+    test: "fire_log entries with severity=CRITICAL have matching BOARD-26 open case"
+    status: UNCHECKED
+
+violations: []
+known_violations:
+  - date: "2026-06-06"
+    type: PII_IN_PIXEL
+    description: "Sequence signup sent phone_number SHA-256 hash to Twitter ad pixel via GTM-WZZSHKT"
+    status: DOCUMENTED
+    case: "BOARD-11/BROWSER_PII_IN_TRACKING_PIXEL.yaml"
+    sensitive: true
+    payload: REDACTED

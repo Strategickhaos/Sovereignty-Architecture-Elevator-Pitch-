@@ -1,0 +1,99 @@
+contradiction_taxonomy:
+
+  # ── Identity contradictions ──────────────────────────────────────────────
+  - id: IDENTITY_MISMATCH
+    domain: identity
+    law: identity_invariance
+    description: "Two records claim the same PID or CID"
+    severity: CRITICAL
+    auto_resolve: false
+    escalates_to: BOARD-26
+
+  - id: CITIZEN_NO_DISTRICT
+    domain: identity
+    law: district_invariance
+    description: "Citizen exists but has no district assignment"
+    severity: HIGH
+    auto_resolve: true
+    default_district: memory_palace
+
+  - id: CITIZEN_NO_PID
+    domain: identity
+    law: identity_invariance
+    description: "Citizen record missing PID field"
+    severity: HIGH
+    auto_resolve: false
+
+  # ── Network / recon contradictions ──────────────────────────────────────
+  - id: PHANTOM_MAC
+    domain: network
+    law: recon_invariance
+    description: "MAC address seen in ARP scan but not in citizen registry"
+    severity: MEDIUM
+    auto_resolve: false
+    escalates_to: BOARD-13-RECON
+
+  - id: RECON_DRIFT
+    domain: network
+    law: recon_invariance
+    description: "Node was registered but IP/MAC changed without update"
+    severity: MEDIUM
+    auto_resolve: false
+
+  - id: PORT_GHOST
+    domain: network
+    law: recon_invariance
+    description: "Port open in recon scan but no citizen owns it"
+    severity: MEDIUM
+    auto_resolve: false
+
+  # ── Security / token contradictions ─────────────────────────────────────
+  - id: TOKEN_IN_URL
+    domain: security
+    law: token_invariance
+    description: "Auth token appeared in URL or referrer"
+    severity: CRITICAL
+    auto_resolve: false
+    escalates_to: BOARD-26
+    antibody: BROWSER_TOKEN_IN_REFERRER
+
+  - id: PII_IN_PIXEL
+    domain: security
+    law: identity_invariance
+    description: "PII (phone hash, email) sent to third-party tracking pixel"
+    severity: HIGH
+    auto_resolve: false
+    antibody: BROWSER_PII_IN_TRACKING_PIXEL
+
+  # ── District / routing contradictions ───────────────────────────────────
+  - id: DISTRICT_ORPHAN
+    domain: routing
+    law: district_invariance
+    description: "File or citizen in wrong district based on kind/role"
+    severity: LOW
+    auto_resolve: true
+
+  - id: BOARD_MISSING
+    domain: routing
+    law: district_invariance
+    description: "A board is referenced but does not exist on disk"
+    severity: MEDIUM
+    auto_resolve: false
+
+  # ── RAT coverage gaps ────────────────────────────────────────────────────
+  - id: RAT_GAP
+    domain: coverage
+    law: recon_invariance
+    description: "A threat pattern exists with no antibody to detect it"
+    severity: HIGH
+    auto_resolve: false
+    escalates_to: BOARD-11-ANTIBODIES
+
+  # ── ERU / physics contradictions ─────────────────────────────────────────
+  - id: ERU_UNRESOLVED
+    domain: physics
+    law: eru_invariance
+    description: "ERU case has Expected and Actual but no Understanding or Antibody"
+    severity: MEDIUM
+    auto_resolve: false
+    escalates_to: BOARD-21-PHYSICS-FLEET
