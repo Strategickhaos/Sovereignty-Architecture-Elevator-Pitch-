@@ -1,0 +1,15 @@
+district: compiler_city
+role: headless_formula_engine
+version: "1.0"
+board: BOARD-36
+name: SAGCO Formula Compiler
+description: Headless formula/compiler core that turns SAGCO cells into tiny Rust-callable programs
+pipeline:
+  - Cell
+  - Formula
+  - Lexer
+  - Parser
+  - AST
+  - FuncRegistry
+  - Evaluator
+  - ERU_proof

@@ -1,0 +1,17 @@
+---
+proof_id: mobius_ready_v1
+board: BOARD-36-SAGCO-FORMULA-COMPILER
+pass: GuardPass
+description: "Proof that SAGCO_GUARD correctly validates Mobius formatting"
+cell: B1
+formula: '=SAGCO_GUARD("-37/sqrt(590078)")'
+expected_result: MOBIUS_READY
+actual_result: MOBIUS_READY
+variance: VARIANCE_0
+guard_checks:
+  - no_latex_markers: true
+  - no_hallucination_markers: true
+  - no_error_prefix: true
+  - non_empty: true
+verdict: MOBIUS_READY
+signed_by: sagco_formula_compiler_v1.0
