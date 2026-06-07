@@ -1,0 +1,6 @@
+bond_id: BOND-F362F9
+bond_order: 1.0
+bond_type: similarity
+source: FORMULA-1
+strength: double
+target: FORMULA-3

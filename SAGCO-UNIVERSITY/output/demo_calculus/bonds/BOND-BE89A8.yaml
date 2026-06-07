@@ -1,0 +1,6 @@
+bond_id: BOND-BE89A8
+bond_order: 1.0
+bond_type: prerequisite
+source: DEF-1
+strength: double
+target: FORMULA-1

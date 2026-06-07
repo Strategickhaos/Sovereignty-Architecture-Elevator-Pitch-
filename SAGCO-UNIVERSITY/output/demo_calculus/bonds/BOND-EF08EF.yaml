@@ -1,0 +1,6 @@
+bond_id: BOND-EF08EF
+bond_order: 1.5
+bond_type: similarity
+source: Q3
+strength: double
+target: EX-1

@@ -1,0 +1,11 @@
+# SAGCO University — Board Template
+# Variables: {{MODULE_NAME}}, {{ATOM_COUNT}}, {{BOND_COUNT}}, {{STABILITY}}, {{GENERATED}}
+
+board_id: BOARD-{{MODULE_NAME}}
+module: "{{MODULE_NAME}}"
+district: genesis
+role: homework_module
+atom_count: "{{ATOM_COUNT}}"
+bond_count: "{{BOND_COUNT}}"
+stability: "{{STABILITY}}"
+generated: "{{GENERATED}}"

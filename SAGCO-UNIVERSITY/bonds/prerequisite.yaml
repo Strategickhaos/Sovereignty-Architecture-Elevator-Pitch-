@@ -1,0 +1,7 @@
+bond_type: prerequisite
+description: >
+  Source atom must be understood before target atom can be solved or applied.
+  e.g. definition -> question
+typical_order: 1.0
+strength: single
+example: "DEF-1 -> Q1  (definition of critical point prereqs the question)"

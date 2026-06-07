@@ -1,0 +1,26 @@
+board_id: SAGCO-UNIVERSITY
+name: SAGCO University Board Generator
+district: genesis
+role: university_factory
+version: "1.0"
+description: >
+  Turns any homework/module into boards with atoms, bonds, molecules,
+  and lattices automatically.  Applies molecular-orbital-theory bond
+  ordering to knowledge graphs.
+inputs:
+  - raw homework text
+  - assignment files
+  - module text strings
+outputs:
+  - atoms/          # parsed knowledge atoms
+  - bonds/          # conceptual bonds between atoms
+  - molecule.yaml   # module-level molecule
+  - lattice.yaml    # course-level lattice
+  - eru_report.yaml # ERU proof
+src:
+  - src/atom_builder.py
+  - src/bond_engine.py
+  - src/molecule_builder.py
+  - src/lattice_builder.py
+  - src/board_generator.py
+  - src/sagco_boardgen.py

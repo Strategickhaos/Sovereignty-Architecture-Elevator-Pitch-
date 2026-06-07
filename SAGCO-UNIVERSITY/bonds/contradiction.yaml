@@ -1,0 +1,7 @@
+bond_type: contradiction
+description: >
+  Source and target atoms make conflicting claims or produce contradictory
+  results. Negative bond order — an "antibond" in the knowledge lattice.
+typical_order: -1.0
+strength: antibond
+example: "PROOF-1 <-> Q3  (proof claims no extrema; question asserts one exists)"

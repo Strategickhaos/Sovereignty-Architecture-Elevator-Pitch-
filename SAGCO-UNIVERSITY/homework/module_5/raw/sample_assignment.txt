@@ -1,0 +1,6 @@
+Q1: Find the critical points of f(x) = 10x^(2/3) + x^(5/3)
+Q2: Classify each critical point as local max, local min, or saddle point
+Q3: Find absolute extrema on [-5, 5]
+Definition: A critical point occurs where f'(x) = 0 or f'(x) is undefined
+Formula: Bond Order = (Bonding Electrons - Antibonding Electrons) / 2
+Example: For f(x) = x^2 - 4, f'(x) = 2x, critical point at x=0

@@ -1,0 +1,6 @@
+bond_id: BOND-DB7D8F
+bond_order: 2.0
+bond_type: reinforcement
+source: FORMULA-3
+strength: triple
+target: EX-1

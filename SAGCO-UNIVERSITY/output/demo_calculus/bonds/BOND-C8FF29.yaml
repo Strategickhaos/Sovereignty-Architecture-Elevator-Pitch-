@@ -1,0 +1,6 @@
+bond_id: BOND-C8FF29
+bond_order: 1.0
+bond_type: similarity
+source: Q2
+strength: double
+target: FORMULA-1

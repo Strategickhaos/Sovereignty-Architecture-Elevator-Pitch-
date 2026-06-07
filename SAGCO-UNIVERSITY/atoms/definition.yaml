@@ -1,0 +1,11 @@
+atom_type: definition
+description: >
+  A formal definition of a concept, term, or rule.
+id_prefix: "DEF"
+example_pattern: "Definition: A critical point occurs where f'(x) = 0 or f'(x) is undefined"
+tags_hint:
+  - define
+  - term
+  - concept
+  - rule
+  - condition

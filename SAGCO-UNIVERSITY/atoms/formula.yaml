@@ -1,0 +1,12 @@
+atom_type: formula
+description: >
+  A mathematical formula or equation, possibly explicit (Formula: ...)
+  or implicit (line containing = or := with mathy structure).
+id_prefix: "FORMULA"
+example_pattern: "Formula: Bond Order = (Bonding Electrons - Antibonding Electrons) / 2"
+tags_hint:
+  - equation
+  - expression
+  - calculation
+  - bond_order
+  - derivative

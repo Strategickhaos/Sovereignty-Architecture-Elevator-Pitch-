@@ -1,0 +1,6 @@
+bond_id: BOND-22F40E
+bond_order: 2.0
+bond_type: similarity
+source: Q3
+strength: triple
+target: FORMULA-2

@@ -1,0 +1,7 @@
+bond_type: reinforcement
+description: >
+  Source atom reinforces or strengthens the target — examples reinforce
+  definitions; proofs reinforce formulas.
+typical_order: 1.0
+strength: single_to_double
+example: "EX-1 -> DEF-1  (the example reinforces the definition of critical point)"

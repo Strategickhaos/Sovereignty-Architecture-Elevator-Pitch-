@@ -1,0 +1,7 @@
+atom_id: EX-1
+atom_type: example
+content: For f(x) = x^2 - 4, f'(x) = 2x, critical point at x=0
+module: demo_calculus
+tags:
+- critical
+- point

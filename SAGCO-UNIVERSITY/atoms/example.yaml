@@ -1,0 +1,11 @@
+atom_type: example
+description: >
+  A worked example demonstrating how to apply a formula, definition, or method.
+id_prefix: "EX"
+example_pattern: "Example: For f(x) = x^2 - 4, f'(x) = 2x, critical point at x=0"
+tags_hint:
+  - worked
+  - sample
+  - apply
+  - demonstrate
+  - solution

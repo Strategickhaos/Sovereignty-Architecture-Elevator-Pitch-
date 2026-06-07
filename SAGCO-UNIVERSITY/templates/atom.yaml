@@ -1,0 +1,8 @@
+# SAGCO University — Atom Template
+# Variables: {{ATOM_ID}}, {{ATOM_TYPE}}, {{CONTENT}}, {{TAGS}}, {{MODULE}}
+
+atom_id: "{{ATOM_ID}}"
+atom_type: "{{ATOM_TYPE}}"
+content: "{{CONTENT}}"
+tags: "{{TAGS}}"
+module: "{{MODULE}}"

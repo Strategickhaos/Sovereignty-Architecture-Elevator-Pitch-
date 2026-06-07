@@ -1,0 +1,32 @@
+sig_id: DOM-LEARNING-001
+organism: Domenic
+description: Domenic's primary learning and invention cadence signature.
+signals:
+  - "baby lookii"
+  - "screenshot -> command -> antibody"
+  - "contradiction -> board -> proof"
+  - "pipeline"
+  - "compile"
+  - "deploy"
+  - "eureka"
+  - "mobius"
+  - "bridge"
+cadence_mode: rapid_associative_engineering
+dominant_pos: PHRASE
+dominant_board: BOARD-38
+loop_ratio: 0.35
+invention_probability: 0.88
+missing_links_detected:
+  - reusable compiler core
+  - pattern-to-music bridge
+  - invention seed router
+motifs_detected:
+  - rapid_associative_engineering
+  - baby_lookii
+  - contradiction_to_board
+  - screenshot_to_command
+notes: >
+  Domenic's signature is characterised by rapid context-switching between
+  visual/screenshot inputs, command synthesis, and board-level proof
+  generation. The "baby lookii" eureka signal fires frequently, indicating
+  a high rate of novel pattern discovery.

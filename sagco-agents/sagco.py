@@ -54,6 +54,8 @@ AGENTS = {
     "omni":       REPO_ROOT / "BOARD-33-SAGCO-OMNICALCULATOR/src"   / "omni_core.py",
     "guard":      REPO_ROOT / "BOARD-34-MOBIUS-AUTOGRADE-GUARD/src" / "mobius_guard.py",
     "music":      REPO_ROOT / "BOARD-37-SHEET-MUSIC-CLI/src"        / "sheet_music_cli.py",
+    "decoder":    REPO_ROOT / "BOARD-38-PATTERN-OF-LIFE-DECODER/src" / "decoder_cli.py",
+    "boardgen":   REPO_ROOT / "SAGCO-UNIVERSITY/src"                 / "sagco_boardgen.py",
 }
 
 BUILTIN_AGENTS = {

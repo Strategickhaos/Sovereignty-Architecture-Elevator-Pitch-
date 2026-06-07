@@ -1,0 +1,6 @@
+bond_id: BOND-681219
+bond_order: 1.0
+bond_type: reinforcement
+source: FORMULA-2
+strength: double
+target: EX-1

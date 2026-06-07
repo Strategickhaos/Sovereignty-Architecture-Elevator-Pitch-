@@ -1,0 +1,10 @@
+# SAGCO University — Molecule Template
+# Variables: {{MOL_ID}}, {{MODULE_NAME}}, {{ATOM_COUNT}}, {{BOND_COUNT}},
+#            {{STABILITY}}, {{MISSING_ATOMS}}
+
+mol_id: "{{MOL_ID}}"
+module_name: "{{MODULE_NAME}}"
+atom_count: "{{ATOM_COUNT}}"
+bond_count: "{{BOND_COUNT}}"
+stability: "{{STABILITY}}"
+missing_atoms: "{{MISSING_ATOMS}}"

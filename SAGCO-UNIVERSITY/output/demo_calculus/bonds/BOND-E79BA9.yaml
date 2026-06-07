@@ -1,0 +1,6 @@
+bond_id: BOND-E79BA9
+bond_order: 1.0
+bond_type: similarity
+source: Q1
+strength: double
+target: Q3

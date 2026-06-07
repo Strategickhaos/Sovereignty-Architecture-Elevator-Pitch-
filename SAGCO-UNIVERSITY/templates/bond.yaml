@@ -1,0 +1,9 @@
+# SAGCO University — Bond Template
+# Variables: {{BOND_ID}}, {{SOURCE}}, {{TARGET}}, {{BOND_TYPE}}, {{BOND_ORDER}}, {{STRENGTH}}
+
+bond_id: "{{BOND_ID}}"
+source: "{{SOURCE}}"
+target: "{{TARGET}}"
+bond_type: "{{BOND_TYPE}}"
+bond_order: "{{BOND_ORDER}}"
+strength: "{{STRENGTH}}"
