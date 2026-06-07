@@ -1,0 +1,13 @@
+seeds:
+- category: menu
+  idea: Build a menu-aware classifier that detects item, price, description
+  origin: frequency_analysis
+  seed_id: SEED-001
+- category: menu
+  idea: Create an ERU dashboard for menu data showing variance trends
+  origin: eru_insight
+  seed_id: SEED-002
+- category: menu
+  idea: Compress 13793 chars of menu into a category vector for SAGCO-HUB
+  origin: compression_pass
+  seed_id: SEED-003

@@ -27,7 +27,7 @@ def _difficulty(price: float) -> str:
 
 
 def _flatten_menu(rows_or_dict) -> list:
-    """Flatten a menu YAML structure into [{item, price, cat}] entries."""
+    """Flatten a menu YAML structure into [{item, price, cat, description}] entries."""
     items = []
     if isinstance(rows_or_dict, list):
         for r in rows_or_dict:
@@ -36,7 +36,12 @@ def _flatten_menu(rows_or_dict) -> list:
                 price = r.get("price")
                 cat = r.get("category", "menu")
                 if item and price is not None:
-                    items.append({"item": item, "price": float(price), "cat": cat})
+                    items.append({
+                        "item": item,
+                        "price": float(price),
+                        "cat": cat,
+                        "description": r.get("description", ""),
+                    })
     elif isinstance(rows_or_dict, dict):
         # YAML with categories key
         cats = rows_or_dict.get("categories", rows_or_dict)
@@ -49,8 +54,54 @@ def _flatten_menu(rows_or_dict) -> list:
                     item = entry.get("item")
                     price = entry.get("price")
                     if item and price is not None:
-                        items.append({"item": item, "price": float(price), "cat": cat_name})
+                        items.append({
+                            "item": item,
+                            "price": float(price),
+                            "cat": cat_name,
+                            "description": entry.get("description", ""),
+                        })
     return items
+
+
+def _oyster_variety_cards(cats: dict) -> List[Flashcard]:
+    """Generate 'Where is [oyster] from?' cards for oysters_varieties."""
+    cards = []
+    variety_data = cats.get("oysters_varieties", {})
+    sub_items = variety_data.get("items", []) if isinstance(variety_data, dict) else []
+    for entry in sub_items:
+        if isinstance(entry, dict) and entry.get("item") and entry.get("origin"):
+            cards.append(Flashcard(
+                front=f"Where is {entry['item']} from?",
+                back=f"{entry['origin']} (oyster)",
+                category="menu",
+                difficulty="easy",
+            ))
+    return cards
+
+
+def _happy_hour_card(cats: dict) -> List[Flashcard]:
+    """Generate a summary card for happy_hour."""
+    hh = cats.get("happy_hour", {})
+    if not hh:
+        return []
+    time_str = hh.get("time", "")
+    specials = hh.get("specials", [])
+    if not time_str and not specials:
+        return []
+    specials_short = ", ".join(
+        s.replace("1/2 price ", "1/2 price ") for s in specials
+    )
+    # abbreviate for back
+    abbrev = []
+    for s in specials:
+        abbrev.append(s)
+    back = f"{time_str}: {' | '.join(abbrev)}"
+    return [Flashcard(
+        front="Happy hour time?",
+        back=back,
+        category="menu",
+        difficulty="easy",
+    )]
 
 
 def generate_flashcards(extracted: dict, category: str) -> List[Flashcard]:
@@ -63,13 +114,20 @@ def generate_flashcards(extracted: dict, category: str) -> List[Flashcard]:
         # if parsed YAML dict has "categories" key use it
         if isinstance(raw, dict) and "categories" in raw:
             items = _flatten_menu(raw)
+            # Also generate oyster variety + happy hour special cards
+            cats = raw.get("categories", {})
+            cards.extend(_oyster_variety_cards(cats))
+            cards.extend(_happy_hour_card(cats))
         else:
             items = _flatten_menu(rows)
 
         for entry in items:
+            back_parts = [f"${entry['price']:.0f} — {entry['cat']}"]
+            if entry.get("description"):
+                back_parts.append(entry["description"])
             cards.append(Flashcard(
                 front=entry["item"],
-                back=f"${entry['price']:.2f} — {entry['cat']}",
+                back=" | ".join(back_parts),
                 category="menu",
                 difficulty=_difficulty(entry["price"]),
             ))

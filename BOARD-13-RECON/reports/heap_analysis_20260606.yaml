@@ -1,0 +1,113 @@
+sagco_eru_report:
+  board: BOARD-13-RECON
+  case: heap_snapshot_analysis_20260606
+  generated: "2026-06-07"
+  analyst: heap_analyzer.py
+  source_files:
+    - "873161ec-Heap20260606T234157.heapsnapshot"
+    - "0cec30e8-Heap20260606T234232.heapsnapshot"
+    - "90c6edce-Heap20260606T234300.heapsnapshot"
+
+snapshots:
+  T234157:
+    file: "873161ec-Heap20260606T234157.heapsnapshot"
+    file_size_mb: 28.4
+    total_nodes: 343659
+    total_size_mb: 16.19
+    leak_signals: 1364
+    districts:
+      compiler_city: 5.60
+      industrial: 5.57
+      memory_palace: 3.55
+      eru: 1.46
+      genesis: 0.00
+    top_node: "system / ExternalStringData (2,520,303 B)"
+
+  T234232:
+    file: "0cec30e8-Heap20260606T234232.heapsnapshot"
+    file_size_mb: 28.3
+    total_nodes: 343411
+    total_size_mb: 16.15
+    leak_signals: 1364
+    districts:
+      compiler_city: 5.57
+      industrial: 5.58
+      memory_palace: 3.55
+      eru: 1.46
+      genesis: 0.00
+    top_node: "system / ExternalStringData (2,520,303 B)"
+
+  T234300:
+    file: "90c6edce-Heap20260606T234300.heapsnapshot"
+    file_size_mb: 28.3
+    total_nodes: 343654
+    total_size_mb: 16.19
+    leak_signals: 1364
+    districts:
+      compiler_city: 5.60
+      industrial: 5.57
+      memory_palace: 3.55
+      eru: 1.46
+      genesis: 0.00
+    top_node: "system / ExternalStringData (2,520,303 B)"
+
+growth_analysis:
+  T234157_to_T234232:
+    node_delta: -248
+    size_delta_mb: -0.04
+    direction: shrink
+    note: "Slight GC activity between snapshots"
+  T234232_to_T234300:
+    node_delta: +243
+    size_delta_mb: +0.04
+    direction: grow
+    note: "Minor allocation — net near-zero over full window"
+  T234157_to_T234300:
+    node_delta: -5
+    size_delta_mb: 0.00
+    direction: stable
+    note: "Essentially flat across the 103-second window"
+
+eru_case:
+  expected: "Stable memory profile — heap under 100MB, no detached DOM nodes, listener count baseline stable"
+  actual: >
+    Heap total ~16.2 MB across all 3 snapshots (well within threshold).
+    343,400-343,700 nodes observed with no meaningful growth.
+    1364 'leak signal' nodes detected in every snapshot — these are
+    SharedFunctionInfo entries for addEventListener, removeEventListener,
+    setInterval, clearInterval. These are V8 built-in stubs, not real leaks.
+    Also flagged: eachQuarterOfInterval and addObserver strings (date-fns / MobX patterns).
+  variance: >
+    NOMINAL — delta is -5 nodes / 0.00 MB over 103 seconds.
+    The 1364 'leak signals' are false positives: SharedFunctionInfo stubs
+    for timer/listener APIs are always present in V8. No genuine detached
+    DOM nodes or growing listener counts were found.
+  verdict: STABLE
+  risk_level: LOW
+
+sensitive_string_scan:
+  result: CLEAN
+  note: >
+    Top string values are V8 system internals (ExternalStringData, BytecodeArray,
+    object properties), date-fns interval helpers, and MobX observer patterns.
+    No passwords, tokens, API keys, emails, or URLs with sensitive query parameters
+    were detected in the top-frequency string scan.
+
+largest_object_types:
+  - type: "native / ExternalStringData"
+    district: industrial
+    note: "Largest retained objects — external C++ string buffers (likely app bundle strings)"
+  - type: "code / BytecodeArray"
+    district: compiler_city
+    note: "Compiled JS bytecode — expected for a React/Angular SPA"
+  - type: "array / object properties"
+    district: memory_palace
+    note: "Property backing stores — normal object overhead"
+
+understanding: >
+  These snapshots were taken from a Sequence (SAGCO browser session) running
+  a JavaScript SPA. The heap is healthy at ~16 MB. The dominant footprint is
+  compiled bytecode (compiler_city) and native string buffers (industrial district).
+  The flat growth curve across the 103-second window indicates no active leak.
+  The flagged listener/timer SharedFunctionInfo entries are V8 standard library
+  stubs — every Chrome tab has them. No action required.
