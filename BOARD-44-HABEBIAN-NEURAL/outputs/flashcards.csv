@@ -1,0 +1,18 @@
+module,topic,front,back
+MODULE-6,Mean Value Theorems,Rolle's Theorem conditions,"f continuous on [a,b], differentiable on (a,b), f(a)=f(b) → ∃c: f'(c)=0"
+MODULE-6,Mean Value Theorems,Mean Value Theorem formula,"f'(c) = [f(b)-f(a)] / (b-a) for some c in (a,b)"
+MODULE-6,Derivatives,Product Rule,(fg)' = f'g + fg'
+MODULE-6,Derivatives,Quotient Rule,(f/g)' = (f'g - fg') / g²
+MODULE-7,Shape of Graph,f increasing on interval,f'(x) > 0 on that interval
+MODULE-7,Shape of Graph,f decreasing on interval,f'(x) < 0 on that interval
+MODULE-7,Shape of Graph,First Derivative Test — local max,f' changes from + to − at critical point c
+MODULE-7,Shape of Graph,First Derivative Test — local min,f' changes from − to + at critical point c
+MODULE-7,Advanced Derivatives,Chain Rule,d/dx[f(g(x))] = f'(g(x)) · g'(x)  (outer × inner')
+MODULE-7,Advanced Derivatives,Implicit differentiation — how to start,"Differentiate both sides w.r.t. x, apply chain rule to y terms (dy/dx factor)"
+MODULE-8,Applications,Concave up condition,f''(x) > 0
+MODULE-8,Applications,Concave down condition,f''(x) < 0
+MODULE-8,Applications,Second Derivative Test — local min,f'(c)=0 AND f''(c) > 0
+MODULE-8,Applications,Second Derivative Test — local max,f'(c)=0 AND f''(c) < 0
+MODULE-8,Applications,Inflection point definition,Point where f'' changes sign (concavity flips)
+MODULE-8,Applications,Linearization formula,L(x) = f(a) + f'(a)(x − a)
+MODULE-8,Applications,Differential dy vs Δy,dy = f'(x)·dx  (linear approx);  Δy = f(x+Δx) − f(x)  (actual change)
