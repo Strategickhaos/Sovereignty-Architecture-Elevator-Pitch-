@@ -57,6 +57,8 @@ AGENTS = {
     "decoder":    REPO_ROOT / "BOARD-38-PATTERN-OF-LIFE-DECODER/src" / "decoder_cli.py",
     "boardgen":   REPO_ROOT / "SAGCO-UNIVERSITY/src"                 / "sagco_boardgen.py",
     "router":     REPO_ROOT / "BOARD-39-INVENTION-SEED-ROUTER/src"   / "router_cli.py",
+    "solve":      REPO_ROOT / "BOARD-40-SAGCO-SOLVER/src"            / "solver_cli.py",
+    "physarum":   REPO_ROOT / "BOARD-40-PHYSARUM-INFRASTRUCTURE-ENGINE/src" / "physarum_cli.py",
 }
 
 BUILTIN_AGENTS = {

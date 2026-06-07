@@ -1,0 +1,9 @@
+district: industrial
+role: physarum_infrastructure_engine
+version: "1.0"
+board_id: BOARD-40-PHYSARUM-INFRASTRUCTURE-ENGINE
+description: >
+  Biological network optimizer. Models SAGCO's board network as a Physarum
+  slime mold graph: nodes=boards/citizens, edges=dependencies/bonds,
+  nutrients=signal_strength, hazards=antibody_triggers,
+  growth=reinforce_useful_paths, pruning=starve_weak_paths.

@@ -1,0 +1,67 @@
+alive_edges: 6
+alive_nodes: 17
+dead_nodes: 5
+history:
+- alive_edges: 16
+  alive_nodes: 18
+  step: 16
+  total_flow: 2.0372
+- alive_edges: 14
+  alive_nodes: 17
+  step: 17
+  total_flow: 1.682
+- alive_edges: 6
+  alive_nodes: 17
+  step: 18
+  total_flow: 1.3264
+- alive_edges: 6
+  alive_nodes: 17
+  step: 19
+  total_flow: 1.2125
+- alive_edges: 6
+  alive_nodes: 17
+  step: 20
+  total_flow: 1.0908
+isolated_nodes:
+- BOARD-11
+- BOARD-21
+- BOARD-23
+- BOARD-29
+- BOARD-33
+- BOARD-34
+- BOARD-37
+- BOARD-38
+- BOARD-40-PHYSARUM
+pruned_edges: 28
+steps_run: 20
+strongest_paths:
+- conductance: 0.2826
+  flow: 0.219
+  source: BOARD-25
+  target: BOARD-27
+  type: dependency
+- conductance: 0.2451
+  flow: 0.1897
+  source: BOARD-25
+  target: BOARD-32
+  type: dependency
+- conductance: 0.237
+  flow: 0.1835
+  source: SAGCO-UNIVERSITY
+  target: BOARD-39
+  type: prerequisite
+- conductance: 0.233
+  flow: 0.1804
+  source: BOARD-25
+  target: BOARD-26
+  type: dependency
+- conductance: 0.2171
+  flow: 0.1684
+  source: BOARD-39
+  target: BOARD-40-SOLVER
+  type: dependency
+- conductance: 0.1918
+  flow: 0.1497
+  source: BOARD-24
+  target: BOARD-25
+  type: dependency

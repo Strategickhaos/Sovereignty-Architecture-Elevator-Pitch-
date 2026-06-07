@@ -1,0 +1,23 @@
+nodes:
+  - {id: BOARD-11, name: Antibodies, district: industrial, nutrient: 0.70}
+  - {id: BOARD-13, name: Recon, district: recon, nutrient: 0.65}
+  - {id: BOARD-21, name: Physics Fleet, district: physics, nutrient: 0.72}
+  - {id: BOARD-23, name: Refinery Wafer Bridge, district: industrial, nutrient: 0.68}
+  - {id: BOARD-24, name: GCP Mastery, district: cloud, nutrient: 0.75}
+  - {id: BOARD-25, name: SAGCO Hub, district: genesis, nutrient: 0.80}
+  - {id: BOARD-26, name: Remediation Engine, district: industrial, nutrient: 0.73}
+  - {id: BOARD-27, name: Comms Wing, district: comms, nutrient: 0.69}
+  - {id: BOARD-28, name: Firefox Dev Plugin, district: browser, nutrient: 0.60}
+  - {id: BOARD-29, name: SAGCO Phone OS, district: mobile, nutrient: 0.62}
+  - {id: BOARD-30, name: Fake Cell Business Line, district: mobile, nutrient: 0.55}
+  - {id: BOARD-31, name: Cellphone Mobius Lab, district: mobile, nutrient: 0.58}
+  - {id: BOARD-32, name: Portfolio Publisher, district: output, nutrient: 0.71}
+  - {id: BOARD-33, name: SAGCO Omnicalculator, district: compiler_city, nutrient: 0.77}
+  - {id: BOARD-34, name: Mobius Autograde Guard, district: compiler_city, nutrient: 0.76}
+  - {id: BOARD-36, name: Formula Compiler, district: compiler_city, nutrient: 0.95}
+  - {id: BOARD-37, name: Sheet Music, district: frequency_coast, nutrient: 0.88}
+  - {id: BOARD-38, name: Pattern Decoder, district: contradiction_forest, nutrient: 0.82}
+  - {id: BOARD-39, name: Seed Router, district: genesis, nutrient: 0.79}
+  - {id: SAGCO-UNIVERSITY, name: Board Factory, district: genesis, nutrient: 0.85}
+  - {id: BOARD-40-SOLVER, name: Universal Solver, district: compiler_city, nutrient: 0.91}
+  - {id: BOARD-40-PHYSARUM, name: Physarum Engine, district: industrial, nutrient: 0.90}

@@ -1,0 +1,25 @@
+sagco_solver:
+  version: "0.1"
+  input:
+    source: auto
+    types: [xlsx, csv, txt, md, yaml, json, py, rs]
+  passes:
+    - fingerprint: {sha256: true, metadata: true}
+    - extract: {text: true, tables: true, symbols: true}
+    - classify: {categories: [menu, homework, music, code, engineering, finance, data]}
+    - tokenize: {words: true, numbers: true, formulas: true}
+    - frequency: {enabled: true, top_n: 100}
+    - compression: {category_vectors: true, price_vectors: true}
+    - flashcards: {generate: true}
+    - quiz: {generate: true}
+    - eru: {expected_actual_variance: true}
+    - board38: {motifs: true, missing_links: true}
+    - board39: {invention_seeds: true}
+  outputs:
+    - summary.md
+    - flashcards.csv
+    - quiz.csv
+    - eru_report.yaml
+    - frequency_report.txt
+    - motifs.yaml
+    - seeds.yaml

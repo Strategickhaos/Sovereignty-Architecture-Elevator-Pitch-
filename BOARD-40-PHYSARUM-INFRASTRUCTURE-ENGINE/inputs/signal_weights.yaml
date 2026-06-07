@@ -1,0 +1,24 @@
+# Traffic / confidence weights per board (0.0 - 1.0)
+signal_weights:
+  BOARD-11: 0.70
+  BOARD-13: 0.55
+  BOARD-21: 0.72
+  BOARD-23: 0.68
+  BOARD-24: 0.80
+  BOARD-25: 0.90
+  BOARD-26: 0.73
+  BOARD-27: 0.65
+  BOARD-28: 0.50
+  BOARD-29: 0.60
+  BOARD-30: 0.45
+  BOARD-31: 0.50
+  BOARD-32: 0.71
+  BOARD-33: 0.82
+  BOARD-34: 0.78
+  BOARD-36: 0.95
+  BOARD-37: 0.88
+  BOARD-38: 0.85
+  BOARD-39: 0.79
+  SAGCO-UNIVERSITY: 0.92
+  BOARD-40-SOLVER: 0.91
+  BOARD-40-PHYSARUM: 0.90
