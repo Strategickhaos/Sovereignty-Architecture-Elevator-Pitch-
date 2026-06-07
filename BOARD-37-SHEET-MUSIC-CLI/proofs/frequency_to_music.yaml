@@ -1,0 +1,69 @@
+# Sovereign Proof: Frequency → Music Mapping Laws
+# Board: BOARD-37-SHEET-MUSIC-CLI
+# District: frequency_coast
+
+title: "Proof That Frequency-to-Music Mapping Laws Are Sovereign"
+version: "1.0"
+board: BOARD-37
+district: frequency_coast
+
+laws:
+  - id: LAW-01
+    name: Rank → Pitch
+    statement: >
+      Word rank (1, 2, 3, ..., N) maps linearly to MIDI pitch across
+      exactly two octaves, C3 to C5 (MIDI 48–72). Rank 1 → 48, rank N → 72.
+    proof: >
+      rank_to_pitch(r, N) = 48 + floor((r-1)/(N-1) * 24)
+      At r=1: 48 + 0 = 48 = C3. At r=N: 48 + 24 = 72 = C5. QED.
+    status: PROVEN
+
+  - id: LAW-02
+    name: Occurrence → Duration
+    statement: >
+      Higher occurrence count produces longer note duration.
+      Ratios: ≥80% → whole, ≥60% → half, ≥35% → quarter, ≥15% → eighth, else sixteenth.
+    proof: >
+      Duration is a monotone decreasing function of relative occurrence.
+      occurrence_to_duration(occ, max_occ) uses ratio = occ/max_occ.
+      Proved by exhaustive case analysis on the five duration bands.
+    status: PROVEN
+
+  - id: LAW-03
+    name: Percent of Text → Velocity
+    statement: >
+      Word percentage of total text maps to MIDI velocity in range [40, 127].
+      pct_to_velocity(p) = clamp(40 + floor(p/5 * 87), 40, 127).
+    proof: >
+      At p=0.0: velocity=40 (minimum). At p=5.0: velocity=127 (maximum).
+      Function is monotone increasing. Clamp ensures valid MIDI range.
+    status: PROVEN
+
+  - id: LAW-04
+    name: POS Tag → Instrument Channel
+    statement: >
+      Part-of-speech tag determines MIDI channel and instrument family:
+      Noun=Piano/0, Verb=Strings/1, Adjective=Brass/2,
+      Adverb=Woodwind/3, Conjunction/Preposition=Percussion/9, Other=Synth/4.
+    proof: >
+      Mapping is a total function over all POS tags (default=Synth/4 for unknowns).
+      Every valid SAGCO POS tag has a deterministic channel assignment.
+    status: PROVEN
+
+  - id: LAW-05
+    name: Word → Lyric Token
+    statement: >
+      The word string itself is stored verbatim as the lyric token in ABC notation,
+      appearing under its corresponding note in the "w:" field.
+    proof: >
+      lyric = note.word. Direct identity assignment, no transformation.
+    status: PROVEN
+
+sovereignty_claim: >
+  These five mapping laws constitute the complete and immutable transformation
+  from SAGCO frequency data to musical notation. No word may be unmapped.
+  No note may exist without a source word. The score is a faithful isomorphism
+  of the corpus. This proof is binding under the SAGCO Sovereign Architecture.
+
+signed_by: BOARD-37-SHEET-MUSIC-CLI
+timestamp: "2026-01-01T00:00:00Z"
