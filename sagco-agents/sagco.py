@@ -59,6 +59,7 @@ AGENTS = {
     "router":     REPO_ROOT / "BOARD-39-INVENTION-SEED-ROUTER/src"   / "router_cli.py",
     "solve":      REPO_ROOT / "BOARD-40-SAGCO-SOLVER/src"            / "solver_cli.py",
     "physarum":   REPO_ROOT / "BOARD-40-PHYSARUM-INFRASTRUCTURE-ENGINE/src" / "physarum_cli.py",
+    "game":       REPO_ROOT / "BOARD-41-FLASHCARD-TYPING-GAME/src"          / "index.html",
 }
 
 BUILTIN_AGENTS = {

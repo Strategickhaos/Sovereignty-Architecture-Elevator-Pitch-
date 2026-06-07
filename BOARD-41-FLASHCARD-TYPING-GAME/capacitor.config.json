@@ -1,0 +1,10 @@
+{
+  "appId": "com.sagco.flashcardgame",
+  "appName": "SAGCO Flashcard Game",
+  "webDir": "src",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}

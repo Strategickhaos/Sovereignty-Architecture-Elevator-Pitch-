@@ -1,0 +1,45 @@
+{
+  "name": "sagco-flashcard-game",
+  "version": "1.0.0",
+  "description": "SAGCO Flashcard Typing Game — ZType meets Water Street Oyster Bar",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "build-linux": "electron-builder --linux",
+    "build-android": "bash scripts/build-android.sh",
+    "docker-build": "docker build -t sagco-flashcard-game .",
+    "docker-run": "docker run -p 8080:80 sagco-flashcard-game"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "@capacitor/android": "^5.0.0",
+    "@capacitor/core": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.sagco.flashcard-game",
+    "productName": "SAGCO Flashcard Game",
+    "files": [
+      "src/**/*",
+      "data/**/*",
+      "electron-main.js"
+    ],
+    "linux": {
+      "target": ["deb", "AppImage"]
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "raspberryPi": {
+      "target": "deb",
+      "arch": "armv7l"
+    }
+  }
+}

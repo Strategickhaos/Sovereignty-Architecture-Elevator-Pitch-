@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAGCO Flashcard Typing Game</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Courier New', Courier, monospace;
+      color: #00ffcc;
+    }
+    #gameCanvas {
+      display: block;
+      border: 1px solid #00ffcc22;
+      box-shadow: 0 0 40px #00ffcc33;
+    }
+    #ui {
+      width: 100%;
+      max-width: 900px;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #00ffcc88;
+    }
+    #inputRow {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      padding: 6px 16px;
+      gap: 12px;
+    }
+    #typeDisplay {
+      flex: 1;
+      background: #0a0a1a;
+      border: 1px solid #00ffcc44;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      padding: 6px 12px;
+      outline: none;
+      caret-color: #00ffcc;
+      letter-spacing: 2px;
+    }
+    #typeDisplay::placeholder { color: #00ffcc33; }
+    .kbd-hint { color: #00ffcc44; font-size: 12px; }
+    #csvSection {
+      width: 100%;
+      max-width: 900px;
+      padding: 4px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #00ffcc55;
+    }
+    #csvInput { display: none; }
+    #csvLabel {
+      cursor: pointer;
+      border: 1px solid #00ffcc33;
+      padding: 3px 10px;
+      color: #00ffcc66;
+      font-size: 12px;
+    }
+    #csvLabel:hover { border-color: #00ffcc; color: #00ffcc; }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <span id="scoreDisplay">SCORE: 0</span>
+    <span id="levelDisplay">LEVEL 1</span>
+    <span id="livesDisplay">🦪🦪🦪</span>
+  </div>
+  <canvas id="gameCanvas" width="900" height="600"></canvas>
+  <div id="inputRow">
+    <input id="typeDisplay" type="text" placeholder="type here to shoot..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <span class="kbd-hint">ESC=pause  R=restart</span>
+  </div>
+  <div id="csvSection">
+    <label id="csvLabel" for="csvInput">📂 Load CSV</label>
+    <input id="csvInput" type="file" accept=".csv,.txt">
+    <span id="csvInfo">Using: Water Street Oyster Bar deck (30 cards)</span>
+  </div>
+
+  <script>
+// ─── FLASHCARD DATA ────────────────────────────────────────────────────────────
+const WATER_STREET_CARDS = [
+  {front: "Avocado Roll", back: "$8 — avocado, cream cheese, cucumber"},
+  {front: "Black Pearl Roll", back: "$22 — blackened tuna, tempura oysters, spicy mayo"},
+  {front: "Spicy Tuna Roll", back: "$10 — spicy tuna mix, cucumber, spicy mayo"},
+  {front: "Dragon Roll", back: "$17 — california roll, eel, avocado, eel sauce"},
+  {front: "Rainbow Roll", back: "$17 — california roll, tuna, hamachi, avocado"},
+  {front: "Tidal Wave Roll", back: "$16 — shrimp, salmon, escolar, cream cheese, mango"},
+  {front: "Lucky Roll", back: "$14 — shrimp, salmon, avocado, jalapeño, spicy mayo"},
+  {front: "Spider Roll", back: "$15 — soft shell crab, avocado, eel sauce"},
+  {front: "Red Dragon Roll", back: "$18 — spicy tuna, jalapeño, yellowfin tuna, avocado"},
+  {front: "Padre Island Roll", back: "$13 — shrimp, mango, cucumber, toasted coconut"},
+  {front: "Where is Clear Water from?", back: "Port Aransas, TX"},
+  {front: "Where is Beausoleil from?", back: "New Brunswick"},
+  {front: "Where is Pink Moon from?", back: "Prince Edward Island"},
+  {front: "Where is Barnstable from?", back: "Cape Cod, MA"},
+  {front: "Where is Big Tree from?", back: "Rockport, TX"},
+  {front: "Where is Savage Blonde from?", back: "Prince Edward Island"},
+  {front: "Waterstreet Tower", back: "$85 — a little bit of everything"},
+  {front: "Surf and Turf", back: "$61 — 12oz ribeye, bacon wrapped shrimp, loaded baked potato"},
+  {front: "Blackened Snapper Veracruz", back: "$48 — olive, tomato, onion, jalapeño, caper"},
+  {front: "Blackened Stuffed Redfish", back: "$45 — crab, crawfish nueces"},
+  {front: "Salmon Rockefeller", back: "$32 — spinach, bacon, parmesan, garlic cream"},
+  {front: "Pecan Crusted Drum", back: "$37 — lemon caper beurre blanc"},
+  {front: "Eggs Orleans", back: "$20 — lump blue crab cakes, poached eggs, hollandaise"},
+  {front: "Eggs Sonesta", back: "$21 — fried fish of the day, poached eggs, hollandaise"},
+  {front: "Pain Perdu", back: "$16 — sourdough french toast, canadian bacon, maple syrup"},
+  {front: "Happy Hour time?", back: "Daily 3-6 PM"},
+  {front: "Happy Hour oyster deal?", back: "1/2 price oysters on the half shell"},
+  {front: "Shrimp Enbrochette", back: "$28 — oyster, bacon, tartar"},
+  {front: "Crab Cakes", back: "$27 — saltine-crusted, remoulade"},
+  {front: "Pecan Crusted Oysters", back: "$16 — panko breadcrumbs, tartar sauce"},
+];
+
+function loadCardsFromCSV(csvText) {
+  const lines = csvText.trim().split(/\r?\n/);
+  const cards = [];
+  let startIdx = 0;
+  // skip header if first line looks like a header
+  if (lines[0] && /front|question|term/i.test(lines[0])) startIdx = 1;
+  for (let i = startIdx; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    // handle quoted CSV fields
+    const parts = parseCSVLine(line);
+    if (parts.length >= 2) {
+      cards.push({ front: parts[0].trim(), back: parts[1].trim() });
+    }
+  }
+  return cards;
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
+      else { inQuotes = !inQuotes; }
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current); current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// ─── GAME ENGINE ───────────────────────────────────────────────────────────────
+class FlashcardGame {
+  constructor(canvas, cards) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.cards = this.shuffle([...cards]);
+    this.enemies = [];
+    this.typed = '';
+    this.locked = null;
+    this.score = 0;
+    this.lives = 3;
+    this.level = 1;
+    this.cardIndex = 0;
+    this.destroyed = 0;
+    this.totalTyped = 0;
+    this.correctTyped = 0;
+    this.spawnRate = 3500;
+    this.fallSpeed = 0.35;
+    this.explosions = [];
+    this.particles = [];
+    this.gameOver = false;
+    this.paused = false;
+    this.lastSpawn = 0;
+    this.waveOffset = 0;
+    this.rafId = null;
+    this.maxEnemies = 5;
+    this.lastTime = 0;
+    this.flashMessage = null;
+    this.flashTimer = 0;
+  }
+
+  shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  spawnEnemy() {
+    if (this.enemies.length >= this.maxEnemies) return;
+    const card = this.cards[this.cardIndex % this.cards.length];
+    this.cardIndex++;
+    const ctx = this.ctx;
+    ctx.font = 'bold 14px Courier New';
+    const textW = ctx.measureText(card.front).width;
+    const w = Math.max(180, textW + 50);
+    const x = Math.random() * (this.canvas.width - w - 20) + 10;
+    this.enemies.push({
+      x, y: -70, card,
+      typed: 0,
+      width: w, height: 52,
+      speed: this.fallSpeed,
+      id: Math.random(),
+      glowPhase: Math.random() * Math.PI * 2,
+    });
+  }
+
+  handleInput(text) {
+    if (this.gameOver || this.paused) return;
+    this.typed = text;
+
+    if (this.locked) {
+      // check if typed so far still matches
+      const front = this.locked.card.front;
+      if (front.toLowerCase().startsWith(text.toLowerCase())) {
+        this.locked.typed = text.length;
+        this.correctTyped++;
+        if (text.length === front.length) {
+          this.destroyEnemy(this.locked);
+        }
+      } else {
+        // mismatch — unlock
+        this.locked.typed = 0;
+        this.locked = null;
+      }
+    } else {
+      // try to lock on
+      if (!text) return;
+      const match = this.enemies.find(e =>
+        e.card.front.toLowerCase().startsWith(text.toLowerCase())
+      );
+      if (match) {
+        this.locked = match;
+        match.typed = text.length;
+        this.correctTyped++;
+        if (text.length === match.card.front.length) {
+          this.destroyEnemy(match);
+        }
+      }
+    }
+    this.totalTyped = Math.max(this.totalTyped, text.length);
+  }
+
+  destroyEnemy(enemy) {
+    const cx = enemy.x + enemy.width / 2;
+    const cy = enemy.y + enemy.height / 2;
+    // spawn explosion
+    this.explosions.push({
+      x: cx, y: cy,
+      text: enemy.card.back,
+      alpha: 1,
+      timer: 120,
+      scale: 0,
+    });
+    // spawn particles
+    for (let i = 0; i < 18; i++) {
+      const angle = (Math.PI * 2 * i) / 18 + Math.random() * 0.3;
+      const speed = 2 + Math.random() * 4;
+      this.particles.push({
+        x: cx, y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        color: Math.random() > 0.5 ? '#ffd700' : '#00ffcc',
+        size: 3 + Math.random() * 4,
+      });
+    }
+    this.enemies = this.enemies.filter(e => e !== enemy);
+    if (this.locked === enemy) this.locked = null;
+    this.destroyed++;
+    // score: base + level bonus
+    const accuracy = this.totalTyped > 0 ? this.correctTyped / (this.totalTyped + 1) : 1;
+    this.score += Math.round(100 * this.level * (0.5 + accuracy * 0.5));
+    // level up
+    if (this.destroyed % 10 === 0) {
+      this.level++;
+      this.fallSpeed = 0.35 + (this.level - 1) * 0.12;
+      this.spawnRate = Math.max(1200, 3500 - (this.level - 1) * 300);
+      this.maxEnemies = Math.min(8, 5 + Math.floor(this.level / 3));
+      this.flashMessage = `LEVEL ${this.level}!`;
+      this.flashTimer = 90;
+      // re-shuffle deck
+      this.shuffle(this.cards);
+    }
+    // reset input
+    this.typed = '';
+    document.getElementById('typeDisplay').value = '';
+  }
+
+  update(ts) {
+    if (this.gameOver || this.paused) return;
+    const dt = Math.min(ts - this.lastTime, 50);
+    this.lastTime = ts;
+    this.waveOffset += 0.008;
+
+    // spawn
+    if (ts - this.lastSpawn > this.spawnRate) {
+      this.spawnEnemy();
+      this.lastSpawn = ts;
+    }
+
+    // move enemies
+    for (const e of this.enemies) {
+      e.y += e.speed * (dt / 16);
+      e.glowPhase += 0.05;
+    }
+
+    // check bottom
+    const dropped = this.enemies.filter(e => e.y > this.canvas.height + 10);
+    for (const e of dropped) {
+      if (this.locked === e) this.locked = null;
+      this.lives--;
+      this.typed = '';
+      document.getElementById('typeDisplay').value = '';
+      this.flashMessage = '💀 MISSED!';
+      this.flashTimer = 60;
+    }
+    this.enemies = this.enemies.filter(e => e.y <= this.canvas.height + 10);
+
+    if (this.lives <= 0) {
+      this.lives = 0;
+      this.gameOver = true;
+    }
+
+    // update explosions
+    for (const ex of this.explosions) {
+      ex.timer--;
+      ex.scale = Math.min(1, ex.scale + 0.08);
+      ex.alpha = ex.timer / 120;
+    }
+    this.explosions = this.explosions.filter(ex => ex.timer > 0);
+
+    // update particles
+    for (const p of this.particles) {
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.1;
+      p.alpha -= 0.02;
+    }
+    this.particles = this.particles.filter(p => p.alpha > 0);
+
+    // flash message
+    if (this.flashTimer > 0) this.flashTimer--;
+
+    // update HUD
+    document.getElementById('scoreDisplay').textContent = `SCORE: ${this.score}`;
+    document.getElementById('levelDisplay').textContent = `LEVEL ${this.level}`;
+    const oysters = '🦪'.repeat(this.lives) + '💀'.repeat(3 - this.lives);
+    document.getElementById('livesDisplay').textContent = oysters;
+  }
+
+  draw() {
+    const ctx = this.ctx;
+    const W = this.canvas.width, H = this.canvas.height;
+
+    // Background
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, '#0a0a1a');
+    grad.addColorStop(1, '#0a1525');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Animated wave lines
+    ctx.strokeStyle = '#00ffcc0a';
+    ctx.lineWidth = 1;
+    for (let row = 0; row < 8; row++) {
+      const yBase = (H / 8) * row + 40;
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 4) {
+        const y = yBase + Math.sin(x * 0.012 + this.waveOffset + row * 0.8) * 12;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    // Stars
+    ctx.fillStyle = '#ffffff18';
+    for (let i = 0; i < 60; i++) {
+      const sx = ((i * 137.5 + 13) % W);
+      const sy = ((i * 97.3 + 7) % (H * 0.6));
+      ctx.fillRect(sx, sy, 1.5, 1.5);
+    }
+
+    // Particles
+    for (const p of this.particles) {
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    // Enemies
+    for (const e of this.enemies) {
+      const isLocked = e === this.locked;
+      const glow = isLocked ? 0.7 + 0.3 * Math.sin(e.glowPhase) : 0;
+
+      // Shadow/glow
+      if (isLocked) {
+        ctx.shadowColor = '#00ffcc';
+        ctx.shadowBlur = 20 + glow * 15;
+      }
+
+      // Box background
+      ctx.fillStyle = isLocked ? '#003322' : '#001a14';
+      ctx.beginPath();
+      this.roundRect(ctx, e.x, e.y, e.width, e.height, 8);
+      ctx.fill();
+
+      // Box border
+      ctx.strokeStyle = isLocked ? `rgba(0,255,204,${0.8 + glow * 0.2})` : '#00ffcc55';
+      ctx.lineWidth = isLocked ? 2 : 1;
+      ctx.beginPath();
+      this.roundRect(ctx, e.x, e.y, e.width, e.height, 8);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Text
+      const front = e.card.front;
+      const typed = front.slice(0, e.typed);
+      const remaining = front.slice(e.typed);
+      ctx.font = 'bold 14px "Courier New", monospace';
+      const ty = e.y + 30;
+      const tx = e.x + 14;
+
+      // typed portion (brighter)
+      if (typed) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(typed, tx, ty);
+        const tw = ctx.measureText(typed).width;
+        // remaining
+        ctx.fillStyle = isLocked ? '#00ffcc' : '#00ffcc99';
+        ctx.fillText(remaining, tx + tw, ty);
+      } else {
+        ctx.fillStyle = isLocked ? '#00ffcc' : '#00ffcc99';
+        ctx.fillText(front, tx, ty);
+      }
+
+      // Progress bar
+      if (isLocked && e.typed > 0) {
+        const pct = e.typed / front.length;
+        const barW = e.width - 20;
+        ctx.fillStyle = '#00ffcc22';
+        ctx.fillRect(e.x + 10, e.y + e.height - 10, barW, 4);
+        ctx.fillStyle = '#00ffcc';
+        ctx.fillRect(e.x + 10, e.y + e.height - 10, barW * pct, 4);
+      }
+    }
+
+    // Explosions
+    for (const ex of this.explosions) {
+      ctx.save();
+      ctx.globalAlpha = ex.alpha;
+      ctx.translate(ex.x, ex.y);
+      ctx.scale(ex.scale, ex.scale);
+
+      // Gold burst circle
+      ctx.beginPath();
+      ctx.arc(0, 0, 60 * (1 - ex.alpha * 0.3), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,215,0,${ex.alpha * 0.15})`;
+      ctx.fill();
+      ctx.strokeStyle = `rgba(255,215,0,${ex.alpha * 0.6})`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Answer text
+      ctx.font = 'bold 15px "Courier New", monospace';
+      ctx.textAlign = 'center';
+      const words = ex.text.split(' ');
+      const lineH = 20;
+      const lines = [];
+      let cur = '';
+      for (const w of words) {
+        const test = cur ? cur + ' ' + w : w;
+        if (ctx.measureText(test).width > 220) { lines.push(cur); cur = w; }
+        else cur = test;
+      }
+      if (cur) lines.push(cur);
+      const startY = -(lines.length - 1) * lineH / 2;
+      ctx.fillStyle = '#ffd700';
+      ctx.shadowColor = '#ffd700';
+      ctx.shadowBlur = 10;
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], 0, startY + i * lineH);
+      }
+      ctx.shadowBlur = 0;
+      ctx.textAlign = 'left';
+      ctx.restore();
+    }
+
+    // Flash message
+    if (this.flashTimer > 0 && this.flashMessage) {
+      const a = Math.min(1, this.flashTimer / 30);
+      ctx.globalAlpha = a;
+      ctx.font = 'bold 36px "Courier New", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ffd700';
+      ctx.shadowColor = '#ffd700';
+      ctx.shadowBlur = 20;
+      ctx.fillText(this.flashMessage, W / 2, H / 2 - 20);
+      ctx.shadowBlur = 0;
+      ctx.textAlign = 'left';
+      ctx.globalAlpha = 1;
+    }
+
+    // Bottom danger line
+    ctx.strokeStyle = '#ff003344';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, H - 4); ctx.lineTo(W, H - 4);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Game over screen
+    if (this.gameOver) {
+      ctx.fillStyle = 'rgba(0,0,0,0.75)';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 52px "Courier New", monospace';
+      ctx.fillStyle = '#ff4444';
+      ctx.shadowColor = '#ff4444';
+      ctx.shadowBlur = 30;
+      ctx.fillText('GAME OVER', W / 2, H / 2 - 70);
+      ctx.shadowBlur = 0;
+
+      ctx.font = 'bold 26px "Courier New", monospace';
+      ctx.fillStyle = '#ffd700';
+      ctx.fillText(`Final Score: ${this.score}`, W / 2, H / 2 - 20);
+
+      const acc = this.totalTyped > 0 ? Math.round(this.correctTyped / this.totalTyped * 100) : 100;
+      ctx.font = '18px "Courier New", monospace';
+      ctx.fillStyle = '#00ffcc';
+      ctx.fillText(`Cards Destroyed: ${this.destroyed}   Level: ${this.level}   Accuracy: ${acc}%`, W / 2, H / 2 + 20);
+
+      ctx.font = '16px "Courier New", monospace';
+      ctx.fillStyle = '#00ffcc88';
+      ctx.fillText('Press R or click to restart', W / 2, H / 2 + 65);
+      ctx.textAlign = 'left';
+    }
+
+    // Paused screen
+    if (this.paused && !this.gameOver) {
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 40px "Courier New", monospace';
+      ctx.fillStyle = '#00ffcc';
+      ctx.fillText('PAUSED', W / 2, H / 2);
+      ctx.font = '16px "Courier New", monospace';
+      ctx.fillStyle = '#00ffcc88';
+      ctx.fillText('Press ESC to resume', W / 2, H / 2 + 40);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  roundRect(ctx, x, y, w, h, r) {
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.arcTo(x + w, y, x + w, y + r, r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx.lineTo(x + r, y + h);
+    ctx.arcTo(x, y + h, x, y + h - r, r);
+    ctx.lineTo(x, y + r);
+    ctx.arcTo(x, y, x + r, y, r);
+    ctx.closePath();
+  }
+
+  start() {
+    this.lastTime = performance.now();
+    this.lastSpawn = performance.now() - this.spawnRate + 500;
+    this.gameLoop(performance.now());
+  }
+
+  gameLoop(ts) {
+    this.update(ts);
+    this.draw();
+    if (!this.gameOver) {
+      this.rafId = requestAnimationFrame(t => this.gameLoop(t));
+    } else {
+      this.draw(); // final frame
+    }
+  }
+
+  stop() {
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+  }
+
+  restart(cards) {
+    this.stop();
+    const newGame = new FlashcardGame(this.canvas, cards || this.cards);
+    newGame.start();
+    return newGame;
+  }
+}
+
+// ─── INIT & CONTROLS ──────────────────────────────────────────────────────────
+let currentCards = [...WATER_STREET_CARDS];
+let game = null;
+
+function startGame(cards) {
+  if (game) game.stop();
+  game = new FlashcardGame(document.getElementById('gameCanvas'), cards);
+  game.start();
+  document.getElementById('typeDisplay').focus();
+}
+
+const typeInput = document.getElementById('typeDisplay');
+
+typeInput.addEventListener('input', () => {
+  if (game) game.handleInput(typeInput.value);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (game && !game.gameOver) {
+      game.paused = !game.paused;
+      if (!game.paused) {
+        game.lastTime = performance.now();
+        game.gameLoop(performance.now());
+      }
+    }
+  }
+  if (e.key === 'r' || e.key === 'R') {
+    if (game && game.gameOver) {
+      startGame(currentCards);
+    }
+  }
+});
+
+document.getElementById('gameCanvas').addEventListener('click', () => {
+  if (game && game.gameOver) startGame(currentCards);
+  typeInput.focus();
+});
+
+// CSV loader
+document.getElementById('csvInput').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const cards = loadCardsFromCSV(e.target.result);
+    if (cards.length === 0) {
+      alert('No valid cards found. Make sure the CSV has Front,Back columns.');
+      return;
+    }
+    currentCards = cards;
+    document.getElementById('csvInfo').textContent = `Using: ${file.name} (${cards.length} cards)`;
+    startGame(currentCards);
+  };
+  reader.readAsText(file);
+});
+
+// Start!
+startGame(currentCards);
+  </script>
+</body>
+</html>
