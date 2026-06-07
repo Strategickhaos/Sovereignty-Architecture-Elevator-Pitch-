@@ -26,6 +26,10 @@ from modules.mat225_calc1 import build_mat225_pathway
 from src.pdf_queue import ingest_pdf
 from src.eru_excel import generate_eru_excel
 from src.harvest import run_harvest
+from src.sagco_chat import run_chat
+from src.sagco_man import show_man
+from src.sagco_nc import run_server, run_client
+from src.sagco_dd import run_dd
 from datetime import date
 
 
@@ -144,6 +148,23 @@ def main():
     elif cmd == "eru-report":
         out_path = args[1] if len(args) >= 2 else "eru_audit.xlsx"
         cmd_eru_report(pathway, out_path)
+    elif cmd == "chat":
+        run_chat(pathway)
+    elif cmd == "man":
+        topic = args[1] if len(args) >= 2 else None
+        show_man(topic)
+    elif cmd == "nc":
+        if len(args) >= 2 and args[1] == "server":
+            port = int(args[args.index("--port")+1]) if "--port" in args else 9944
+            run_server(pathway, port=port)
+        elif len(args) >= 3 and args[1] == "client":
+            host = args[2]
+            port = int(args[args.index("--port")+1]) if "--port" in args else 9944
+            run_client(host, port=port)
+        else:
+            print("Usage: nc server [--port 9944]  |  nc client <host> [--port 9944]")
+    elif cmd == "dd":
+        run_dd(pathway, args[1:])
     elif cmd in ("status", "transmit", "eru"):
         print(pathway.sagco_command(cmd))
     elif cmd == "fire" and len(args) >= 2:
