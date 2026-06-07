@@ -1,0 +1,29 @@
+# SAGCO OS Default Configuration
+eru:
+  pass_threshold: 0
+  partial_threshold: 5
+  fail_threshold: 10
+  variance_label_zero: "VARIANCE_0"
+  variance_label_open: "OPEN_VARIANCE"
+  pass_label: "PASS"
+  partial_label: "PARTIAL"
+  fail_label: "FAIL"
+
+board:
+  default_path: "data/water_street_menu.yaml"
+  flashcards_path: "data/oyster_flashcards.csv"
+  outputs_dir: "outputs/"
+
+physarum:
+  reinforce_factor: 1.2
+  decay_factor: 0.9
+  prune_threshold: 0.1
+  iterations: 50
+
+lang:
+  max_cell_refs: 1000
+  max_recursion: 100
+  fuzz_default_n: 100
+
+university:
+  bond_order_formula: "(bonding - antibonding) / 2"

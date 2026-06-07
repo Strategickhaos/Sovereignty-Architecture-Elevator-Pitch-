@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "sagco-os"
+version = "1.0.0-sovereign"
+description = "SAGCO OS — Sovereignty Architecture General Compiler OS. Pure Python stdlib only."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = []
+
+[project.scripts]
+sagco = "sagco_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sagco*"]
+
+[tool.setuptools.package-data]
+sagco = ["config/*.yaml", "config/*.yml"]
+
+[project.optional-dependencies]
+dev = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

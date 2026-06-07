@@ -1,0 +1,5 @@
+# SAGCO OS generated outputs — gitignored
+*.csv
+*.md
+*.json
+!.gitignore
