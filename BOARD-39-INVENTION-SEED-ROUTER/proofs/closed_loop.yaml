@@ -1,0 +1,29 @@
+proof_id: CLOSED-LOOP-001
+description: Proof that the SAGCO cognitive self-expansion loop is closed.
+loop:
+  - step: 1
+    actor: BOARD-38-PATTERN-OF-LIFE-DECODER
+    action: detects pattern signature and emits missing_links seeds
+  - step: 2
+    actor: BOARD-39-INVENTION-SEED-ROUTER
+    action: harvests seeds from MISSING-LINKS, lattice gaps, and open cases
+  - step: 3
+    actor: BOARD-39 priority_queue
+    action: ranks seeds by invention_probability * 0.6 + bond_order_gap * 0.4
+  - step: 4
+    actor: SAGCO-UNIVERSITY sagco_boardgen
+    action: auto-generates new board from top-ranked seed
+  - step: 5
+    actor: BOARD-39 eru_verifier
+    action: verifies board (atoms, bonds, board.yaml, eru_report)
+  - step: 6
+    actor: BOARD-39 citizen_emitter
+    action: emits citizen to 08-CITIZENS/citizen_registry.json
+  - step: 7
+    actor: BOARD-39 feedback_writer
+    action: writes routing_feedback.yaml to BOARD-38/reports/
+  - step: 8
+    actor: BOARD-38-PATTERN-OF-LIFE-DECODER
+    action: reads feedback, updates baseline, loop repeats
+variance: 0
+status: LOOP_CLOSED

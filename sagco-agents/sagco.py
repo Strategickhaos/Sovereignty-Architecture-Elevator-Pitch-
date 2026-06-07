@@ -56,6 +56,7 @@ AGENTS = {
     "music":      REPO_ROOT / "BOARD-37-SHEET-MUSIC-CLI/src"        / "sheet_music_cli.py",
     "decoder":    REPO_ROOT / "BOARD-38-PATTERN-OF-LIFE-DECODER/src" / "decoder_cli.py",
     "boardgen":   REPO_ROOT / "SAGCO-UNIVERSITY/src"                 / "sagco_boardgen.py",
+    "router":     REPO_ROOT / "BOARD-39-INVENTION-SEED-ROUTER/src"   / "router_cli.py",
 }
 
 BUILTIN_AGENTS = {
