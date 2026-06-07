@@ -1,0 +1,49 @@
+title: "Gate 11 — Implicit Differentiation: Tangent Line to Cardioid"
+rows:
+  - type: text
+    content: "To find the tangent line at (2, 0) we use implicit differentiation."
+
+  - type: blank
+
+  - type: step
+    label: "Given"
+    expr: "x² + y² = (12x² + 12y² − y)²"
+
+  - type: blank
+
+  - type: text
+    content: "Differentiating both sides with respect to x (Chain Rule on right side):"
+
+  - type: step
+    label: "Implicit diff"
+    expr: "dy/dx = (expression in x and y)"
+
+  - type: blank
+
+  - type: text
+    content: "Substituting the point (2, 0):"
+
+  - type: step
+    label: "Slope"
+    expr: "dy/dx |(2,0) = 1"
+
+  - type: blank
+
+  - type: text
+    content: "Point-slope form with slope = 1 through (2, 0):"
+
+  - type: equation
+    expr: "y − 0 = 1(x − 2)"
+
+  - type: blank
+
+  - type: text
+    content: "Tangent line equation:"
+
+  - type: equation
+    expr: "y = x − 2"
+
+  - type: blank
+
+  - type: conclusion
+    content: "This line is tangent to the cardioid at (2, 0)."
