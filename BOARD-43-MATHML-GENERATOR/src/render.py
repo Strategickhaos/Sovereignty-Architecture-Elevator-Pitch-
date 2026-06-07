@@ -36,6 +36,8 @@ def render(node, indent=0) -> str:
             return f'{pad}<msub>\n{render(b, indent+1)}{render(s, indent+1)}{pad}</msub>\n'
         case MSpace(height=h):
             return f'{pad}<mspace height="{h}"/>\n'
+        case MUnder(base=b, under=u):
+            return f'{pad}<munder>\n{render(b, indent+1)}{render(u, indent+1)}{pad}</munder>\n'
         case _:
             return f'{pad}<!-- unknown node: {type(node).__name__} -->\n'
 
@@ -66,4 +68,6 @@ def render_compact(node) -> str:
             return f'<msub>{render_compact(b)}{render_compact(s)}</msub>'
         case MSpace(height=h):
             return f'<mspace height="{h}"/>'
+        case MUnder(base=b, under=u):
+            return f'<munder>{render_compact(b)}{render_compact(u)}</munder>'
         case _: return ""

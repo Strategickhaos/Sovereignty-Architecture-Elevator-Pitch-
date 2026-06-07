@@ -34,3 +34,5 @@ class MSup:      base: object = None; sup: object = None
 class MSub:      base: object = None; sub: object = None
 @dataclass
 class MSpace:    height: str = "0.5em"
+@dataclass
+class MUnder:    base: object = None; under: object = None
