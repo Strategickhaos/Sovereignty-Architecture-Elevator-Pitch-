@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+"""
+SAGCO-MESH — Neural Mesh Node Discovery
+Part of SAGCO-HYDRA Type-1 Hypervisor System
+DNA: SAGCO-ATG-FLM2-MSMC2-P16-CMD23-ISO102-MESH5
+
+Discovers and visualizes the 5-node SAGCO neural mesh topology:
+- Athena (Subconscious): i7-9700F, 64GB RAM, RTX GPU @ 192.168.2.26
+- Lyra (Right Hemisphere): ASUS Laptop, Realtek 8852, Lyra_5G_Ctrl
+- Nova (Left Hemisphere): Laptop, Intel AX203, @ 192.168.1.25
+- Ateroth (Archive): Sony VAIO, i5, 6GB RAM, 169.254.x.x
+- SAGCO-VM (Soul): Alpine LTS, VirtualBox, 2GB RAM, 10.0.2.x
+"""
+
+import json
+import socket
+import subprocess
+import sys
+from dataclasses import dataclass, asdict
+from typing import List, Optional, Dict
+from datetime import datetime
+
+# Node definitions from INV-087 specification
+@dataclass
+class NodeInfo:
+    name: str
+    role: str
+    hardware: str
+    ip_addresses: List[str]
+    status: str = "unknown"
+    latency_ms: Optional[float] = None
+    last_seen: Optional[str] = None
+
+MESH_NODES = [
+    NodeInfo(
+        name="ATHENA",
+        role="Subconscious",
+        hardware="i7-9700F, 64GB RAM, RTX GPU",
+        ip_addresses=["192.168.2.26"]
+    ),
+    NodeInfo(
+        name="LYRA",
+        role="Right Hemisphere",
+        hardware="ASUS Laptop, Realtek 8852, WiFi 6",
+        ip_addresses=["192.168.1.1", "192.168.2.1"]  # Typical router addresses
+    ),
+    NodeInfo(
+        name="NOVA",
+        role="Left Hemisphere",
+        hardware="Laptop, Intel AX203, WiFi 6",
+        ip_addresses=["192.168.1.25"]
+    ),
+    NodeInfo(
+        name="ATEROTH",
+        role="Archive",
+        hardware="Sony VAIO, i5, 6GB RAM, HDD",
+        ip_addresses=["169.254.0.1"]  # Link-local address space
+    ),
+    NodeInfo(
+        name="SAGCO-VM",
+        role="Soul",
+        hardware="Alpine LTS, VirtualBox, 2GB RAM",
+        ip_addresses=["10.0.2.15"]  # Default VirtualBox NAT
+    )
+]
+
+def check_node_connectivity(ip: str, timeout: float = 1.0) -> tuple[bool, Optional[float]]:
+    """
+    Check if a node is reachable via ICMP ping.
+    Returns (is_reachable, latency_ms)
+    """
+    try:
+        # Use system ping command for cross-platform compatibility
+        if sys.platform.startswith('win'):
+            cmd = ['ping', '-n', '1', '-w', str(int(timeout * 1000)), ip]
+        else:
+            cmd = ['ping', '-c', '1', '-W', str(int(timeout)), ip]
+        
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 0.5)
+        
+        if result.returncode == 0:
+            # Parse latency from output
+            output = result.stdout
+            if 'time=' in output:
+                try:
+                    time_str = output.split('time=')[1].split()[0]
+                    latency = float(time_str.replace('ms', ''))
+                    return True, latency
+                except (IndexError, ValueError):
+                    return True, None
+            return True, None
+        return False, None
+    except (subprocess.TimeoutExpired, Exception):
+        return False, None
+
+def discover_mesh() -> List[NodeInfo]:
+    """
+    Discover all nodes in the SAGCO neural mesh.
+    Attempts to connect to each node and update status.
+    """
+    print("🔍 Scanning SAGCO Neural Mesh...")
+    print("=" * 70)
+    
+    discovered_nodes = []
+    
+    for node in MESH_NODES:
+        print(f"\n🔎 Probing {node.name} ({node.role})...")
+        
+        node_reachable = False
+        best_latency = None
+        
+        for ip in node.ip_addresses:
+            print(f"   Testing {ip}...", end=" ", flush=True)
+            is_reachable, latency = check_node_connectivity(ip)
+            
+            if is_reachable:
+                print(f"✅ Online (latency: {latency:.2f}ms)" if latency else "✅ Online")
+                node_reachable = True
+                if latency and (best_latency is None or latency < best_latency):
+                    best_latency = latency
+            else:
+                print("❌ Unreachable")
+        
+        if node_reachable:
+            node.status = "online"
+            node.latency_ms = best_latency
+            node.last_seen = datetime.now().isoformat()
+        else:
+            node.status = "offline"
+        
+        discovered_nodes.append(node)
+    
+    return discovered_nodes
+
+def visualize_topology(nodes: List[NodeInfo]) -> None:
+    """
+    Display the SAGCO neural mesh topology in ASCII art.
+    """
+    print("\n" + "=" * 70)
+    print("📊 SAGCO NEURAL MESH TOPOLOGY")
+    print("=" * 70)
+    
+    online_count = sum(1 for n in nodes if n.status == "online")
+    total_count = len(nodes)
+    
+    print(f"\nMesh Status: {online_count}/{total_count} nodes online")
+    print("\n┌─────────────────────────────────────────────────────────────────┐")
+    print("│                   STRATEGICKHAOS NEURAL MESH                    │")
+    print("├─────────────────────────────────────────────────────────────────┤")
+    
+    # Top row: Athena, Lyra, Nova
+    print("│                                                                 │")
+    for node in [n for n in nodes if n.name in ["ATHENA", "LYRA", "NOVA"]]:
+        status_icon = "✅" if node.status == "online" else "❌"
+        latency_str = f"{node.latency_ms:.1f}ms" if node.latency_ms else "N/A"
+        print(f"│  {status_icon} {node.name:<12} │ {node.role:<20} │ {latency_str:<10} │")
+    
+    print("│                                                                 │")
+    print("│                         ╱─────╲                                 │")
+    print("│                        │ MESH  │                                │")
+    print("│                        │ CORE  │                                │")
+    print("│                         ╲─────╱                                 │")
+    print("│                                                                 │")
+    
+    # Bottom row: Ateroth, SAGCO-VM
+    for node in [n for n in nodes if n.name in ["ATEROTH", "SAGCO-VM"]]:
+        status_icon = "✅" if node.status == "online" else "❌"
+        latency_str = f"{node.latency_ms:.1f}ms" if node.latency_ms else "N/A"
+        print(f"│  {status_icon} {node.name:<12} │ {node.role:<20} │ {latency_str:<10} │")
+    
+    print("│                                                                 │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+
+def print_detailed_info(nodes: List[NodeInfo]) -> None:
+    """
+    Print detailed information about each node.
+    """
+    print("\n" + "=" * 70)
+    print("📋 DETAILED NODE INFORMATION")
+    print("=" * 70)
+    
+    for node in nodes:
+        status_icon = "🟢" if node.status == "online" else "🔴"
+        print(f"\n{status_icon} {node.name} — {node.role}")
+        print(f"   Hardware: {node.hardware}")
+        print(f"   Status: {node.status.upper()}")
+        print(f"   IP Addresses: {', '.join(node.ip_addresses)}")
+        if node.latency_ms:
+            print(f"   Latency: {node.latency_ms:.2f}ms")
+        if node.last_seen:
+            print(f"   Last Seen: {node.last_seen}")
+
+def export_json(nodes: List[NodeInfo], output_file: str) -> None:
+    """
+    Export mesh topology to JSON format.
+    """
+    data = {
+        "timestamp": datetime.now().isoformat(),
+        "mesh_name": "SAGCO-HYDRA-MESH5",
+        "dna_strand": "SAGCO-ATG-FLM2-MSMC2-P16-CMD23-ISO102-MESH5",
+        "nodes": [asdict(node) for node in nodes]
+    }
+    
+    with open(output_file, 'w') as f:
+        json.dump(data, f, indent=2)
+    
+    print(f"\n💾 Topology exported to: {output_file}")
+
+def main():
+    """
+    Main entry point for sagco-mesh command.
+    """
+    print("╔═══════════════════════════════════════════════════════════════╗")
+    print("║         SAGCO-MESH — Neural Mesh Node Discovery              ║")
+    print("║         DNA: SAGCO-ATG-FLM2-MSMC2-P16-CMD23-ISO102-MESH5     ║")
+    print("╚═══════════════════════════════════════════════════════════════╝")
+    
+    # Discover mesh nodes
+    nodes = discover_mesh()
+    
+    # Visualize topology
+    visualize_topology(nodes)
+    
+    # Print detailed information
+    print_detailed_info(nodes)
+    
+    # Export to JSON if in /run/sagco-hv/stats/
+    try:
+        import os
+        stats_dir = "/run/sagco-hv/stats"
+        if os.path.exists(stats_dir) or os.path.exists("/tmp"):
+            output_path = f"{stats_dir}/mesh-topology.json" if os.path.exists(stats_dir) else "/tmp/mesh-topology.json"
+            export_json(nodes, output_path)
+    except Exception as e:
+        print(f"\n⚠️  Could not export JSON: {e}")
+    
+    # Summary
+    online_count = sum(1 for n in nodes if n.status == "online")
+    print("\n" + "=" * 70)
+    print(f"✅ Mesh discovery complete: {online_count}/{len(nodes)} nodes online")
+    print("=" * 70)
+    
+    return 0 if online_count > 0 else 1
+
+if __name__ == "__main__":
+    sys.exit(main())

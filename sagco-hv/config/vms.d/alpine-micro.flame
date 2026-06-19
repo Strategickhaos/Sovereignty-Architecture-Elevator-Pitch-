@@ -1,0 +1,27 @@
+# FlameLang VM Definition
+# Lightweight Container VM
+
+sovereign vm "alpine-micro" {
+    # Minimal resources
+    cpus   = 1
+    memory = 512_MB
+    
+    # Tiny disk
+    disk   = "/var/lib/sagco-hv/images/alpine-micro.qcow2"
+    disk_size = 8_GB
+    
+    # Network
+    net    = "default"
+    
+    # Quick boot
+    kernel = "/var/lib/sagco-hv/kernels/alpine-virt.kernel"
+    initrd = "/var/lib/sagco-hv/kernels/alpine-virt.initrd"
+    cmdline = "console=ttyS0 quiet"
+    
+    # Performance
+    virtio = true  # Use virtio drivers
+    
+    # Metadata
+    tags = ["microvm", "alpine", "lightweight"]
+    description = "Lightweight Alpine Linux microVM"
+}
