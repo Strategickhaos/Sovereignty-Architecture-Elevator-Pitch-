@@ -36,3 +36,8 @@ target/
 
 # Workspace data
 workspace/
+
+# Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
