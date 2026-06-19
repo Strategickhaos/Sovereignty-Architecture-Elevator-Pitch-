@@ -1,0 +1,289 @@
+#!/usr/bin/env python3
+"""
+SAGCO-MESH - Neural Mesh Discovery & Management
+Part of SAGCO-HYDRA v1.0.6 (CMD27 Arsenal)
+
+Discovers and manages the 5-node STRATEGICKHAOS Neural Mesh:
+- Athena (Subconscious) - i7-9700F, 64GB, RTX @ 192.168.2.26
+- Lyra (Right Hemisphere) - ASUS Laptop, Realtek 8852 @ Lyra_5G_Ctrl
+- Nova (Left Hemisphere) - Intel Laptop, AX203 @ 192.168.1.25
+- Ateroth (Archive) - Sony VAIO, i5, 6GB @ 169.254.x.x
+- SAGCO-VM (Soul) - Alpine VirtualBox @ 10.0.2.x
+
+DNA Codon: MESH5 (5-node distributed network)
+"""
+
+import sys
+import socket
+import subprocess
+import json
+from datetime import datetime
+from typing import Dict, List, Optional
+
+# Neural Mesh Node Definitions
+MESH_NODES = {
+    "athena": {
+        "name": "Athena",
+        "role": "Subconscious",
+        "specs": "i7-9700F, 64GB RAM, RTX GPU",
+        "ip_primary": "192.168.2.26",
+        "ip_fallback": [],
+        "ports": [22, 8080, 9090],
+        "description": "Primary compute node with GPU acceleration"
+    },
+    "lyra": {
+        "name": "Lyra",
+        "role": "Right Hemisphere",
+        "specs": "ASUS Laptop, Realtek 8852 WiFi 6",
+        "ip_primary": "192.168.1.1",  # Placeholder - actual discovery needed
+        "ip_fallback": [],
+        "ports": [22, 8080],
+        "description": "Mobile node with WiFi 6 connectivity"
+    },
+    "nova": {
+        "name": "Nova",
+        "role": "Left Hemisphere",
+        "specs": "Intel Laptop, AX203 WiFi 6",
+        "ip_primary": "192.168.1.25",
+        "ip_fallback": [],
+        "ports": [22, 8080],
+        "description": "Mobile node for distributed processing"
+    },
+    "ateroth": {
+        "name": "Ateroth",
+        "role": "Archive",
+        "specs": "Sony VAIO, i5, 6GB RAM, HDD",
+        "ip_primary": "169.254.1.1",  # Placeholder - link-local discovery
+        "ip_fallback": [],
+        "ports": [22, 8080],
+        "description": "Archive node for historical data"
+    },
+    "sagco-vm": {
+        "name": "SAGCO-VM",
+        "role": "Soul",
+        "specs": "Alpine LTS, VirtualBox, 2GB RAM",
+        "ip_primary": "10.0.2.15",  # Standard VirtualBox NAT IP
+        "ip_fallback": ["127.0.0.1"],
+        "ports": [22, 8080, 3000],
+        "description": "SAGCO kernel instance running in VM"
+    }
+}
+
+
+def print_banner():
+    """Display SAGCO-MESH banner"""
+    print("╔═══════════════════════════════════════════════════════════════════════════╗")
+    print("║                        SAGCO-MESH v5.0                                    ║")
+    print("║                 Neural Mesh Discovery & Management                        ║")
+    print("╚═══════════════════════════════════════════════════════════════════════════╝")
+    print()
+
+
+def check_node_connectivity(ip: str, port: int = 22, timeout: float = 1.0) -> bool:
+    """
+    Check if a node is reachable on the network
+    
+    Args:
+        ip: IP address to check
+        port: Port to check (default: 22 for SSH)
+        timeout: Connection timeout in seconds
+    
+    Returns:
+        True if node is reachable, False otherwise
+    """
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        result = sock.connect_ex((ip, port))
+        sock.close()
+        return result == 0
+    except (socket.error, socket.timeout):
+        return False
+
+
+def ping_node(ip: str) -> bool:
+    """
+    Ping a node to check basic connectivity
+    
+    Args:
+        ip: IP address to ping
+    
+    Returns:
+        True if ping successful, False otherwise
+    """
+    try:
+        # Use platform-appropriate ping command
+        if sys.platform == "win32":
+            result = subprocess.run(
+                ["ping", "-n", "1", "-w", "1000", ip],
+                capture_output=True,
+                timeout=2
+            )
+        else:
+            result = subprocess.run(
+                ["ping", "-c", "1", "-W", "1", ip],
+                capture_output=True,
+                timeout=2
+            )
+        return result.returncode == 0
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return False
+
+
+def discover_nodes() -> Dict[str, Dict]:
+    """
+    Discover all neural mesh nodes
+    
+    Returns:
+        Dictionary of node statuses
+    """
+    print("🔍 Discovering STRATEGICKHAOS Neural Mesh nodes...")
+    print()
+    
+    discovered = {}
+    
+    for node_id, node_info in MESH_NODES.items():
+        print(f"📡 Scanning {node_info['name']} ({node_info['role']})...")
+        
+        ip = node_info['ip_primary']
+        status = {
+            "name": node_info['name'],
+            "role": node_info['role'],
+            "specs": node_info['specs'],
+            "ip": ip,
+            "reachable": False,
+            "ping": False,
+            "open_ports": [],
+            "timestamp": datetime.utcnow().isoformat() + "Z"
+        }
+        
+        # Check ping
+        if ping_node(ip):
+            status['ping'] = True
+            print(f"  ✅ PING: {ip} responds")
+        else:
+            print(f"  ❌ PING: {ip} unreachable")
+            
+            # Try fallback IPs
+            for fallback_ip in node_info.get('ip_fallback', []):
+                if ping_node(fallback_ip):
+                    status['ping'] = True
+                    status['ip'] = fallback_ip
+                    print(f"  ✅ PING: Fallback {fallback_ip} responds")
+                    ip = fallback_ip
+                    break
+        
+        # Check ports
+        for port in node_info['ports']:
+            if check_node_connectivity(ip, port):
+                status['open_ports'].append(port)
+                status['reachable'] = True
+        
+        if status['open_ports']:
+            print(f"  ✅ PORTS: {', '.join(map(str, status['open_ports']))} open")
+        else:
+            print(f"  ⚠️  PORTS: No open ports detected")
+        
+        discovered[node_id] = status
+        print()
+    
+    return discovered
+
+
+def display_topology(nodes: Dict[str, Dict]):
+    """
+    Display neural mesh topology
+    
+    Args:
+        nodes: Dictionary of discovered nodes
+    """
+    print("┌─────────────────────────────────────────────────────────────────────────┐")
+    print("│                  STRATEGICKHAOS NEURAL MESH TOPOLOGY                    │")
+    print("├─────────────────────────────────────────────────────────────────────────┤")
+    print("│                                                                         │")
+    
+    active_count = sum(1 for n in nodes.values() if n['reachable'])
+    total_count = len(nodes)
+    
+    for node_id, node in nodes.items():
+        status_icon = "🟢" if node['reachable'] else "🔴"
+        print(f"│  {status_icon} {node['name']:<15} ({node['role']:<20})           │")
+        print(f"│     IP: {node['ip']:<20} Specs: {node['specs'][:25]:<25} │")
+        
+        if node['open_ports']:
+            ports_str = ', '.join(map(str, node['open_ports']))
+            print(f"│     Ports: {ports_str:<60} │")
+        print("│                                                                         │")
+    
+    print("├─────────────────────────────────────────────────────────────────────────┤")
+    print(f"│  MESH STATUS: {active_count}/{total_count} nodes active                                        │")
+    print("│  DNA CODON: MESH5 (5-node distributed network)                          │")
+    print("└─────────────────────────────────────────────────────────────────────────┘")
+
+
+def show_status():
+    """Show current mesh status"""
+    nodes = discover_nodes()
+    display_topology(nodes)
+
+
+def export_json():
+    """Export mesh topology as JSON"""
+    nodes = discover_nodes()
+    output = {
+        "mesh_version": "5.0",
+        "dna_codon": "MESH5",
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "nodes": nodes
+    }
+    print(json.dumps(output, indent=2))
+
+
+def show_help():
+    """Display help message"""
+    print_banner()
+    print("USAGE:")
+    print("  sagco-mesh [command]")
+    print()
+    print("COMMANDS:")
+    print("  discover    Discover and scan all neural mesh nodes (default)")
+    print("  status      Show current mesh topology and node status")
+    print("  json        Export mesh topology as JSON")
+    print("  help        Show this help message")
+    print()
+    print("EXAMPLES:")
+    print("  sagco-mesh              # Discover all nodes")
+    print("  sagco-mesh status       # Show mesh status")
+    print("  sagco-mesh json         # Export as JSON")
+    print()
+    print("DNA STRAND: SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1")
+    print("Motto: 'Seder Mitokh Kaos - Order from Chaos'")
+
+
+def main():
+    """Main entry point"""
+    if len(sys.argv) > 1:
+        command = sys.argv[1].lower()
+        
+        if command in ['help', '-h', '--help']:
+            show_help()
+        elif command == 'status':
+            print_banner()
+            show_status()
+        elif command == 'json':
+            export_json()
+        elif command == 'discover':
+            print_banner()
+            show_status()
+        else:
+            print(f"❌ Unknown command: {command}")
+            print("Run 'sagco-mesh help' for usage information")
+            sys.exit(1)
+    else:
+        # Default: discover and show status
+        print_banner()
+        show_status()
+
+
+if __name__ == "__main__":
+    main()

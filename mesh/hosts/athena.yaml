@@ -1,0 +1,81 @@
+# SAGCO Neural Mesh Node: Athena
+# Role: Subconscious (Primary Compute Node)
+# Version: 1.0.0
+
+node:
+  id: "athena"
+  name: "Athena"
+  role: "subconscious"
+  priority: 10  # Highest priority node
+  
+hardware:
+  cpu:
+    model: "Intel Core i7-9700F"
+    cores: 8
+    threads: 8
+    base_clock: "3.0 GHz"
+    boost_clock: "4.7 GHz"
+  
+  memory:
+    size: "64 GB"
+    type: "DDR4"
+    speed: "3200 MHz"
+  
+  gpu:
+    model: "NVIDIA GeForce RTX"
+    vram: "8 GB"
+    cuda_cores: 2304
+  
+  storage:
+    - type: "SSD"
+      size: "1 TB"
+      mount: "/"
+    - type: "HDD"
+      size: "4 TB"
+      mount: "/archive"
+
+network:
+  primary:
+    interface: "eth0"
+    ip: "192.168.2.26"
+    subnet: "255.255.255.0"
+    gateway: "192.168.2.1"
+  
+  ports:
+    - 22    # SSH
+    - 8080  # SAGCO API
+    - 9090  # Metrics
+    - 6379  # Redis
+
+services:
+  sagco_kernel:
+    enabled: true
+    version: "1.0.6"
+    config:
+      cognitive_loop_interval: "100ms"
+      bloom_filter_size: 1000000
+      dopamine_learning_rate: 0.01
+  
+  mesh_sync:
+    enabled: true
+    protocol: "crdt"
+    sync_interval: "1s"
+  
+  oracle:
+    enabled: true
+    ensemble: ["signature", "network", "entropy", "search_space"]
+
+capabilities:
+  - gpu_acceleration
+  - high_memory
+  - fast_storage
+  - primary_compute
+  - artifact_generation
+  - model_inference
+
+metadata:
+  location: "Primary Lab"
+  owner: "Domenic Gabriel Garza"
+  deployed: "2025-01-15"
+  dna_codon: "MESH5"
+  mesh_version: "5.0"

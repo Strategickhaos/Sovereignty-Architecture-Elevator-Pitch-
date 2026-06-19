@@ -1,0 +1,64 @@
+# SAGCO Neural Mesh Node: Ateroth
+# Role: Archive (Historical Data Storage)
+# Version: 1.0.0
+
+node:
+  id: "ateroth"
+  name: "Ateroth"
+  role: "archive"
+  priority: 3  # Lower priority, archival node
+  
+hardware:
+  cpu:
+    model: "Intel Core i5"
+    cores: 2
+    threads: 4
+  
+  memory:
+    size: "6 GB"
+    type: "DDR3"
+  
+  storage:
+    - type: "HDD"
+      size: "750 GB"
+      mount: "/"
+      rpm: 5400
+
+network:
+  primary:
+    interface: "eth0"
+    type: "Link-local"
+    ip: "169.254.1.10"  # APIPA address
+  
+  ports:
+    - 22    # SSH
+    - 8080  # SAGCO API
+
+services:
+  sagco_kernel:
+    enabled: false  # Minimal node
+    version: "1.0.6"
+  
+  mesh_sync:
+    enabled: true
+    protocol: "crdt"
+    sync_interval: "10s"
+  
+  archive_service:
+    enabled: true
+    retention: "unlimited"
+    compression: true
+
+capabilities:
+  - archival_storage
+  - historical_data
+  - slow_but_persistent
+  - backup_node
+
+metadata:
+  location: "Archive Room"
+  owner: "Domenic Gabriel Garza"
+  deployed: "2025-01-20"
+  dna_codon: "MESH5"
+  mesh_version: "5.0"
+  notes: "Sony VAIO - slow but reliable for long-term storage"

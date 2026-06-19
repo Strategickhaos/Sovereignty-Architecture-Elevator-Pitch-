@@ -1,0 +1,65 @@
+# SAGCO Neural Mesh Node: Lyra
+# Role: Right Hemisphere (Mobile Compute Node)
+# Version: 1.0.0
+
+node:
+  id: "lyra"
+  name: "Lyra"
+  role: "right_hemisphere"
+  priority: 7  # High priority mobile node
+  
+hardware:
+  cpu:
+    model: "Intel/AMD Mobile"
+    cores: 4
+    threads: 8
+  
+  memory:
+    size: "16 GB"
+    type: "DDR4"
+  
+  storage:
+    - type: "SSD"
+      size: "512 GB"
+      mount: "/"
+
+network:
+  primary:
+    interface: "wlan0"
+    type: "WiFi 6"
+    chipset: "Realtek RTL8852AE"
+    ssid: "Lyra_5G_Ctrl"
+    band: "5GHz"
+  
+  ports:
+    - 22    # SSH
+    - 8080  # SAGCO API
+
+services:
+  sagco_kernel:
+    enabled: true
+    version: "1.0.6"
+    config:
+      cognitive_loop_interval: "200ms"
+      bloom_filter_size: 100000
+  
+  mesh_sync:
+    enabled: true
+    protocol: "crdt"
+    sync_interval: "2s"
+  
+  oracle:
+    enabled: false  # Lightweight node
+
+capabilities:
+  - mobile_compute
+  - wifi_mesh
+  - creative_processing
+  - pattern_recognition
+
+metadata:
+  location: "Mobile"
+  owner: "Domenic Gabriel Garza"
+  deployed: "2025-01-18"
+  dna_codon: "MESH5"
+  mesh_version: "5.0"
