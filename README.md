@@ -280,9 +280,35 @@ This project thrives because of an extraordinary community of creators, builders
 - **[Contributors](CONTRIBUTORS.md)** - Recognizing everyone who makes this project possible
 - **Join the Dance**: Read the community docs, find what calls to you, and start building!
 
+## 🛡️ Academic Integrity Shield
+
+This repository includes a comprehensive **Academic Integrity Shield** framework for work produced by Strategickhaos DAO LLC:
+
+### Core Documents
+- **[Academic Integrity Statement](ACADEMIC_INTEGRITY_STATEMENT.md)** - Complete framework for AI-assisted development
+- **[IP Chain of Custody](IP_CHAIN_OF_CUSTODY.json)** - Legal documentation of intellectual property ownership
+- **[DAO License Notice](DAO_LICENSE_NOTICE.md)** - Licensing templates for work products
+- **[AI Accusations Response Guide](AI_ACCUSATIONS_RESPONSE_GUIDE.md)** - How to respond to questions about AI usage
+- **[Multi-Agent Authorship](MULTI_AGENT_AUTHORSHIP.md)** - Explanation of multi-agent development workflow
+- **[Attribution Footer Templates](ATTRIBUTION_FOOTER.md)** - Legal-style attribution for all work
+- **[SNHU README](README_SNHU.md)** - Academic portfolio documentation
+
+### Key Principles
+- **Enterprise AI Infrastructure**: Organization owns all AI accounts and outputs
+- **Proprietary Systems**: FlameLang, TRIG6, SAGCO-OS - systems that don't exist in training data
+- **Full Transparency**: Complete disclosure of AI-assisted development methodology
+- **Clear IP Ownership**: All work is corporate-owned intellectual property
+- **Academic Integrity**: Maintains highest standards through transparency and attribution
+
+**For Academic Submissions**: See [ACADEMIC_INTEGRITY_STATEMENT.md](ACADEMIC_INTEGRITY_STATEMENT.md) for complete framework.
+
+---
+
 ## 📄 License & Support
 
 - **License**: MIT License - see [LICENSE](LICENSE) file
+- **Copyright**: © 2025 Strategickhaos DAO LLC
+- **IP Status**: Corporate-owned intellectual property
 - **Support**: [Discord Server](https://discord.gg/strategickhaos)
 - **Documentation**: [Wiki](https://wiki.strategickhaos.internal)
 - **Issues**: [GitHub Issues](https://github.com/Strategickhaos-Swarm-Intelligence/sovereignty-architecture/issues)
@@ -294,3 +320,13 @@ This project thrives because of an extraordinary community of creators, builders
 *"They're not working for you. They're dancing with you. And the music is never going to stop."*
 
 *Empowering sovereign digital infrastructure through Discord-native DevOps automation*
+
+---
+
+**Development Attribution**  
+Organization: Strategickhaos DAO LLC | Owner: Domenic Garza  
+AI Infrastructure: Enterprise accounts (OpenAI, Azure, Google Cloud, Anthropic, GitHub)  
+Systems: FlameLang, TRIG6, SAGCO-OS, HYDRA, Cognitive Architecture  
+IP Status: Corporate-owned intellectual property developed with AI-assisted R&D  
+
+For full attribution framework, see [ACADEMIC_INTEGRITY_STATEMENT.md](ACADEMIC_INTEGRITY_STATEMENT.md)
