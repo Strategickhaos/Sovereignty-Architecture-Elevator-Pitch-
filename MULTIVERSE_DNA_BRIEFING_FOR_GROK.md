@@ -202,7 +202,7 @@ Day 165: 4-node K8s mesh, 320GB+ RAM, 2 GKE clusters,
 | **33** | NFT Dividend Distributor | 🟡 PROTOTYPE | Tiered NFT licensing with perpetual dividends |
 | **34** | Autonomous Operation License (AOL) | ✅ DEPLOYED | Pre-authorized AI action framework |
 | **35** | KhaosOS Architecture | 🟡 DESIGN | NixOS-based sovereign operating system |
-| **36** | FlameLang Compiler | ✅ DEPLOYED | Glyph-based language with GR/physics integration |
+| **36** | FlameLang Compiler | ✅ DEPLOYED | Glyph-based language with GR/physics integration (see [FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md](./FLAMELANG_EXECUTIVE_NOVELTY_PROFILE.md) for prior art analysis) |
 | **37** | RATIO EX NIHILO Sovereign Constitution | ✅ RATIFIED | Foundational law for the empire |
 | **38** | StrategicKhaos DAO LLC Operating Agreement | ✅ EXECUTED | Governance for for-profit operations |
 
