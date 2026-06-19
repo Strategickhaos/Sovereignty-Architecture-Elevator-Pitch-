@@ -1,0 +1,19 @@
+# WHEAT STARCH ADHESIVE
+# Archival standard
+# Chemistry: (C6H10O5)n polysaccharide
+meta id MAT-WHEAT-025
+meta hazard LOW
+
+set eq 0.98
+theta pi/6
+alpha 0.22
+theta_opt pi/8
+
+step
+state
+# Output: R=0.86, D=0.14, N=0.20, f=0.59
+
+if noise > 0.25 then theta pi/5
+step
+state
+# Best adhesive for book repair

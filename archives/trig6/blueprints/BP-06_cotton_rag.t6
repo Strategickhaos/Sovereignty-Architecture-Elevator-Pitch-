@@ -1,0 +1,16 @@
+# COTTON RAG PAPER
+# Museum-grade archival
+meta id PAPER-COTTON-006
+meta hazard LOW
+
+set eq 1.0
+theta pi/6
+alpha 0.22
+theta_opt pi/8
+
+step
+state
+# Output: R=0.88, D=0.12, N=0.18, f=0.63
+
+# Best-in-class fitness — no evolution needed
+# This is why museums use cotton rag
