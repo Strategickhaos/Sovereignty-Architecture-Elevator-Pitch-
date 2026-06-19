@@ -36,3 +36,16 @@ target/
 
 # Workspace data
 workspace/
+
+# TRIDENT Security Assessment artifacts
+/var/trident/
+*.pcap
+*.pcapng
+*.dmp
+*.lime
+*.raw
+.trident/
+trident_evidence/
+trident_logs/
+*.ots
+*.ots.asc
