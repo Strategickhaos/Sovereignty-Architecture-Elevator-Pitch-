@@ -30,6 +30,22 @@ export PRS_CHANNEL="channel_id"
 
 ## 📋 Core Components
 
+### 🧬 DOM Biological-Computational Equivalence Map v1.0
+- **Physarum ML Simulation**: 36 immune system components mapped to computational elements
+- **Evolutionary Analytics**: Identifies high-performing (survivors) vs inefficient (wasted) pathways
+- **Ecosystem Mapping**: TRIG6 traits, Compiler passes, and OS modules
+- **Heritability Tracking**: Reinforcement learning based on tube conductivity (H scores)
+- **Documentation**: See [DOM_BIOLOGICAL_COMPUTATIONAL_EQUIVALENCE_MAP.md](DOM_BIOLOGICAL_COMPUTATIONAL_EQUIVALENCE_MAP.md)
+- **Analysis**: Detailed insights in [PHYSARUM_SIMULATION_ANALYSIS.md](PHYSARUM_SIMULATION_ANALYSIS.md)
+
+```bash
+# Generate simulation data
+python3 physarum_immune_simulation.py
+
+# Visualize results
+python3 physarum_visualizer.py
+```
+
 ### 🤖 Discord Bot (`discord-ops-bot`)
 - **Slash Commands**: `/status`, `/logs`, `/deploy`, `/scale`
 - **AI Agent Integration**: GPT-4 powered assistance
