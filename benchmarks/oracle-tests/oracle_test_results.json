@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-01-25T00:51:44.358528",
+  "dna_strand": "SAGCO-ATG-FLM2-MSMC2-P16-CMD27-ISO103-MESH5-ORB1",
+  "total_tests": 10,
+  "passed": 9,
+  "failed": 1,
+  "pass_rate": 0.9,
+  "results": [
+    {
+      "test_id": "ORC-001",
+      "name": "Signature Oracle - Snort",
+      "passed": 4,
+      "total": 4,
+      "success": true
+    },
+    {
+      "test_id": "ORC-002",
+      "name": "Signature Oracle - Yara",
+      "passed": 3,
+      "total": 4,
+      "success": false
+    },
+    {
+      "test_id": "ORC-003",
+      "name": "Network Oracle - Nmap",
+      "passed": 4,
+      "total": 4,
+      "success": true
+    },
+    {
+      "test_id": "ORC-004",
+      "name": "Network Oracle - Wireshark",
+      "passed": 4,
+      "total": 4,
+      "success": true
+    },
+    {
+      "test_id": "ORC-005",
+      "name": "SearchSpace Oracle - Hashcat",
+      "passed": 4,
+      "total": 4,
+      "success": true
+    },
+    {
+      "test_id": "ORC-006",
+      "name": "SearchSpace Oracle - Rainbow",
+      "passed": 4,
+      "total": 4,
+      "success": true
+    },
+    {
+      "test_id": "ORC-007",
+      "name": "Entropy Oracle - Shannon",
+      "passed": 3,
+      "total": 3,
+      "success": true
+    },
+    {
+      "test_id": "ORC-008",
+      "name": "Entropy Oracle - Randomness",
+      "passed": 3,
+      "total": 3,
+      "success": true
+    },
+    {
+      "test_id": "ORC-009",
+      "name": "Ensemble Oracle - Consensus",
+      "passed": 3,
+      "total": 3,
+      "success": true
+    },
+    {
+      "test_id": "ORC-010",
+      "name": "Ensemble Oracle - Hallucination",
+      "passed": 3,
+      "total": 3,
+      "success": true
+    }
+  ]
+}
