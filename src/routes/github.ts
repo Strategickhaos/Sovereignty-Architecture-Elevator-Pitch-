@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import crypto from "crypto";
 import { REST } from "discord.js";
+import { logger } from "../logger.js";
 
 function sigOk(secret: string, raw: string, sig: string) {
   const h = crypto.createHmac("sha256", secret).update(raw).digest("hex");
@@ -11,14 +12,20 @@ export function githubRoutes(rest: REST, channelIds: Record<string,string>, secr
   return async (req: Request, res: Response) => {
     const sig = req.get("X-Hub-Signature-256") || "";
     const raw = (req as any).rawBody;
-    if (!sigOk(secret, raw, sig)) return res.status(401).send("bad sig");
+    if (!sigOk(secret, raw, sig)) {
+      logger.warn("Invalid webhook signature");
+      return res.status(401).send("bad sig");
+    }
     const ev = req.get("X-GitHub-Event");
     const payload = req.body;
+
+    logger.debug("GitHub webhook received", { event: ev, action: payload.action });
 
     const send = async (channelId: string, title: string, desc: string) => {
       await rest.post(`/channels/${channelId}/messages`, {
         body: { embeds: [{ title, description: desc, color: 3099199 }] }
       } as any);
+      logger.info("Sent Discord notification", { channel: channelId, title });
     };
 
     if (ev === "pull_request") {
