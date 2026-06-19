@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# State sync snapshots (local use only)
+snapshots/
