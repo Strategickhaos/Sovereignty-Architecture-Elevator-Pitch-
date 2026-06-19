@@ -1,0 +1,11 @@
+{
+  "id": "zyb-it145-ch3-3_1-max-of-two",
+  "source": "zyBooks-inspired, branching max-of-two",
+  "concept_tags": ["if-else", "comparison", "max"],
+  "language_under_test": "flamelang",
+  "reference_language": "java",
+  "inputs": [[5, 7], [10, -3], [4, 4]],
+  "expected_outputs": [7, 10, 4],
+  "difficulty": 1,
+  "version": 1
+}

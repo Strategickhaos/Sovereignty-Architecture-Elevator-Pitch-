@@ -1,0 +1,17 @@
+{
+  "id": "zyb-it145-ch3-3_3-age-category",
+  "source": "zyBooks-inspired, range-based branching",
+  "concept_tags": ["if-else-if", "range-detection", "comparison"],
+  "language_under_test": "flamelang",
+  "reference_language": "java",
+  "inputs": [-2, 5, 15, 35, 80],
+  "expected_outputs": [
+    "invalid",
+    "child",
+    "teen",
+    "adult",
+    "senior"
+  ],
+  "difficulty": 2,
+  "version": 1
+}
