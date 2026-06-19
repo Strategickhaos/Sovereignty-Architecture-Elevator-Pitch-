@@ -1,0 +1,14 @@
+[package]
+name = "flamec"
+version = "1.0.0"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC"]
+license = "MIT"
+description = "FlameLang compiler command-line interface"
+
+[[bin]]
+name = "flamec"
+path = "src/main.rs"
+
+[dependencies]
+flamelang = { path = "../flamelang" }
