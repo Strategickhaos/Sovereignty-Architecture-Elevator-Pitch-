@@ -1,0 +1,202 @@
+# TRIG6 Hybrid Hyperbolic Blend Configuration
+# Phase 4.5: Quantum-inspired symbolic AI processor emulator
+# Blends trigonometric (periodic/bounded) with hyperbolic (exponential/unbounded) functions
+
+# Agent definitions with trig functions
+agents:
+  tangent_grok:
+    model: "grok-2"
+    trig: "tan"
+    role: "creative_fusion_security"
+    danger_zone: [1.4, 1.6]  # Near π/2 for tan
+    metrics:
+      creative_focus: {weight: 0.25}
+      coherence_score: {weight: 0.20}
+      noise_entropy: {weight: 0.15}
+      innovation_density: {weight: 0.25}
+      edge_case_coverage: {weight: 0.10}
+      derail_risk: {weight: 0.05}
+  
+  cosine_claude:
+    model: "claude-3.5-sonnet"
+    trig: "cos"
+    role: "rigorous_ops_manifold"
+    danger_zone: null
+    metrics:
+      task_focus: {weight: 0.30}
+      coherence_score: {weight: 0.25}
+      noise_entropy: {weight: 0.15}
+      precision_score: {weight: 0.20}
+      edge_case_coverage: {weight: 0.10}
+  
+  sine_gpt:
+    model: "gpt-4o"
+    trig: "sin"
+    role: "narrative_phase_shift"
+    danger_zone: null
+    metrics:
+      narrative_flow: {weight: 0.25}
+      coherence_score: {weight: 0.25}
+      noise_entropy: {weight: 0.15}
+      context_integration: {weight: 0.20}
+      innovation_density: {weight: 0.15}
+  
+  secant_gemini:
+    model: "gemini-2.0-flash-thinking"
+    trig: "sec"
+    role: "truth_damping_blend"
+    danger_zone: [1.4, 1.6]  # Near π/2 where sec → ∞
+    metrics:
+      truth_extraction: {weight: 0.30}
+      coherence_score: {weight: 0.20}
+      noise_entropy: {weight: 0.15}
+      verification_depth: {weight: 0.25}
+      edge_case_coverage: {weight: 0.10}
+  
+  cotangent_deepseek:
+    model: "deepseek-v3"
+    trig: "cot"
+    role: "correlation_damping"
+    danger_zone: [0, 0.2]  # Near 0 where cot → ∞
+    metrics:
+      correlation_strength: {weight: 0.25}
+      coherence_score: {weight: 0.20}
+      noise_entropy: {weight: 0.15}
+      pattern_detection: {weight: 0.25}
+      edge_case_coverage: {weight: 0.15}
+  
+  cosecant_o1:
+    model: "o1-pro"
+    trig: "csc"
+    role: "blended_truth_analysis"
+    danger_zone: [0, 0.2]  # Near 0 where csc → ∞
+    metrics:
+      analytical_depth: {weight: 0.30}
+      coherence_score: {weight: 0.25}
+      noise_entropy: {weight: 0.15}
+      logical_rigor: {weight: 0.20}
+      edge_case_coverage: {weight: 0.10}
+
+# Theta topic mappings (radians)
+theta_topics:
+  academics:
+    theta: 0.785398  # π/4
+    tags: ["research", "academic", "study", "theory", "education"]
+    description: "Academic and research-oriented discussions"
+  
+  security:
+    theta: 1.047198  # π/3
+    tags: ["security", "vulnerability", "defense", "protection", "threat"]
+    description: "Security and defensive operations"
+  
+  creative:
+    theta: 2.094395  # 2π/3
+    tags: ["creative", "innovation", "design", "artistic", "novel"]
+    description: "Creative and innovative exploration"
+  
+  trig6-hybrid:
+    theta: 1.570796  # π/2 (critical point for blend transitions)
+    tags: ["trig6", "hybrid", "blend", "hyperbolic", "manifold"]
+    description: "TRIG6 hybrid hyperbolic blend discussions"
+  
+  deployment:
+    theta: 0.523599  # π/6
+    tags: ["deploy", "production", "release", "integration", "ci/cd"]
+    description: "Deployment and operational topics"
+  
+  benchmark:
+    theta: 2.356194  # 3π/4
+    tags: ["benchmark", "flamebench", "metrics", "performance", "evaluation"]
+    description: "Benchmark and performance evaluation"
+
+# Noise filters for coherence penalties
+noise_filters:
+  high_penalty_phrases:
+    - "\\bum\\b"
+    - "\\buh\\b"
+    - "\\berr\\b"
+    - "off.?topic"
+    - "random noise"
+    - "\\bmeme\\b"
+    - "just kidding"
+  
+  medium_penalty_phrases:
+    - "I think"
+    - "maybe"
+    - "probably"
+    - "sort of"
+    - "kind of"
+    - "you know"
+
+# Hybrid blend parameters
+hybrid_blend:
+  alpha_sigmoid:
+    drift_threshold: 0.3  # When drift > threshold, increase alpha
+    sigmoid_sharpness: 2.0  # Controls sigmoid steepness
+  
+  damping:
+    sech_weight: 1.0  # Weight for sech damping factor
+    alpha_inverse_weight: 1.0  # Weight for (1-alpha) damping
+  
+  coherence:
+    embedding_dim: 10  # Default embedding dimension (demo)
+    transition_penalty: 0.2  # Beta for 'but/however' penalties
+    min_coherence_threshold: 0.6  # Triggers hyper blend if below
+  
+  drift:
+    embedding_weight: 1.0  # Lambda for angle penalties
+    angle_weight: 0.1  # Gamma for FlameBench penalties
+    bench_weight: 0.15  # Bench resonance penalty factor
+    bench_threshold: 0.65  # Good benchmark threshold
+
+# FlameBench integration
+flamebench:
+  container_name: "sagco-flamebench"
+  metrics_path: "logs/trig_layer.jsonl"
+  window: "last-phase"
+  min_resonance: 0.65
+  max_drift: 0.35
+  
+# Logging configuration
+logging:
+  path: "logs/trig_layer.jsonl"
+  format: "jsonlines"
+  timestamp_format: "iso8601"
+  
+# Emulator wave core mapping
+wave_cores:
+  alu:
+    blend: "cos+cosh"
+    description: "Hybrid rigorous ops in manifold transitions"
+  
+  control_unit:
+    blend: "sin+sinh"
+    description: "Narrative phase shifts"
+  
+  entanglement_core:
+    blend: "tan+tanh"
+    description: "Damped correlated edges"
+  
+  register_memory:
+    blend: "sec+sech/csc+csch"
+    description: "Blended truth damping"
+
+# Neural tick clock for blend updates
+neural_ticks:
+  blend_update_interval: 4  # Update alpha every 4 ticks
+  drift_sensitivity: 0.3  # Drift > threshold shifts to hyper
+  
+# Sandbox simulation parameters
+sandbox:
+  container_name: "sagco-sandbox"
+  simulation_script: "hybrid_blend_sim.py"
+  default_theta: "pi/2"
+  default_alpha: 0.5
+  mutate_enabled: true
+
+# Phase evolution DNA
+phase:
+  version: "4.5"
+  dna_suffix: "-HYBRID1"
+  description: "TRIG6 hybrid trig-hyper blend with embedding coherence heuristics"
+  commit_message_template: "Phase {version}: TRIG6 hybrid trig-hyper blend - embedding coherence heuristics + FlameBench integration"
