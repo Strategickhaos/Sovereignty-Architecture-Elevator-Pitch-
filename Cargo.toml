@@ -1,0 +1,20 @@
+[package]
+name = "flamelang"
+version = "0.1.0"
+edition = "2021"
+authors = ["Strategickhaos DAO LLC"]
+description = "FlameLang Compiler - Enforces physics at compile time"
+license = "MIT"
+repository = "https://github.com/Strategickhaos/Sovereignty-Architecture-Elevator-Pitch-"
+
+[[bin]]
+name = "flamec"
+path = "src/bin/flamec.rs"
+
+[lib]
+name = "flamelang"
+path = "src/lib.rs"
+
+[dependencies]
+
+[dev-dependencies]

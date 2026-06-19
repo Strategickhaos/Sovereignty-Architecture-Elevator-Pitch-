@@ -36,3 +36,8 @@ target/
 
 # Workspace data
 workspace/
+
+# FlameLang compiled binaries (generated from .flame/.flm files)
+examples/flamelang/hello
+examples/flamelang/physics
+examples/flamelang/simple
