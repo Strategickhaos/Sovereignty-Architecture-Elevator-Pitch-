@@ -36,3 +36,11 @@ target/
 
 # Workspace data
 workspace/
+
+# Build output
+dist/
+
+# Python virtual environments
+venv/
+__pycache__/
+*.pyc
