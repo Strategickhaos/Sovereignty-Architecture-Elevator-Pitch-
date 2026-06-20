@@ -301,6 +301,80 @@ def brick_proof(args):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# BRICK 10 — sagco_dna  (BOARD-61 DNA BLOODWORK)
+# ══════════════════════════════════════════════════════════════════════════════
+
+@tool("sagco_dna",
+      "Strand A: DNA pipeline — traceroute→Morse→Binary→DNA strand→mutation report. "
+      "Strand B: Network-to-biology metaphor proof (BOARD-61).",
+      {"target": {"type": "string", "description": "IP or hostname to trace"},
+       "stage":  {"type": "string", "description": "full|tracert|dna|mutations"}})
+def sagco_dna(args: dict) -> str:
+    target = args.get("target", "8.8.8.8")
+    stage  = args.get("stage",  "full")
+    """Run SAGCO DNA pipeline on a network target."""
+    try:
+        import sys as _sys
+        _dna_path = os.path.join(ROOT, "BOARD-61-SAGCO-DNA-BLOODWORK")
+        if _dna_path not in _sys.path:
+            _sys.path.insert(0, _dna_path)
+        from dna_pipeline import run_pipeline, render_full
+        result = run_pipeline(target)
+        if stage == "tracert":
+            hops = result.get("hops", [])
+            lines = [f"HOP {h['hop']:>2}  {h['ip']:<20} {h['latency_ms']:.1f}ms" for h in hops]
+            return "\n".join(lines) or "No hops returned"
+        if stage == "dna":
+            return f"DNA STRAND:\n{result.get('dna_strand','')}"
+        if stage == "mutations":
+            muts = result.get("mutations", [])
+            if not muts:
+                return "No mutations detected — genome stable"
+            return "\n".join(f"POS {m['position']} {m['from']}→{m['to']} [{m['type']}]" for m in muts)
+        return render_full(result)
+    except Exception as exc:
+        return f"[sagco_dna ERROR] {exc}"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# BRICK 11 — sagco_blood  (BOARD-61 BLOOD MARKERS)
+# ══════════════════════════════════════════════════════════════════════════════
+
+@tool("sagco_blood",
+      "Strand A: Blood marker analysis — maps network latency/jitter/loss/throughput "
+      "to Cholesterol/BP/WBC/O2Sat. Returns organism health verdict. "
+      "Strand B: Bio-metaphor network health proof (BOARD-61).",
+      {"target": {"type": "string", "description": "IP or hostname to analyse"}})
+def sagco_blood(args: dict) -> str:
+    target = args.get("target", "8.8.8.8")
+    """Run SAGCO blood-marker analysis on a network target."""
+    try:
+        import sys as _sys
+        _dna_path = os.path.join(ROOT, "BOARD-61-SAGCO-DNA-BLOODWORK")
+        if _dna_path not in _sys.path:
+            _sys.path.insert(0, _dna_path)
+        from dna_pipeline import run_pipeline, render_full
+        result = run_pipeline(target)
+        blood = result.get("blood", {})
+        org   = result.get("organism", {})
+        lines = [
+            f"═══ SAGCO BLOOD MARKERS ═══  target: {target}",
+            f"  CHOLESTEROL (latency)  : {blood.get('CHOLESTEROL','?')}",
+            f"  BLOOD_PRESSURE (jitter): {blood.get('BLOOD_PRESSURE','?')}",
+            f"  WHITE_BLOOD_CELLS(loss): {blood.get('WHITE_BLOOD_CELLS','?')}",
+            f"  OXYGEN_SAT(throughput) : {blood.get('OXYGEN_SAT','?')}",
+            f"  OVERALL HEALTH         : {blood.get('OVERALL','?')}",
+            "",
+            f"  ORGANISM STATUS        : {org.get('STATUS','?')}",
+            f"  IMMUNE_EVENTS          : {org.get('IMMUNE_EVENTS',0)}",
+            f"  DNA_MUTATIONS          : {org.get('DNA_MUTATIONS',0)}",
+        ]
+        return "\n".join(lines)
+    except Exception as exc:
+        return f"[sagco_blood ERROR] {exc}"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # MCP JSON-RPC 2.0 STDIO TRANSPORT
 # ══════════════════════════════════════════════════════════════════════════════
 
