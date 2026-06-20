@@ -5,6 +5,15 @@
 			"command": "python3",
 			"args": ["BOARD-57-SAGCO-MCP-MANSION/server.py"]
 		},
+		"sagco-os": {
+			"type": "stdio",
+			"command": "docker",
+			"args": [
+				"run", "--rm", "-i",
+				"--name", "sagco-os-mcp",
+				"sagco-os:latest"
+			]
+		},
 		"github/github-mcp-server": {
 			"type": "http",
 			"url": "https://api.githubcopilot.com/mcp/"
