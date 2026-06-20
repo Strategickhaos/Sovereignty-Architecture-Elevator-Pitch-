@@ -14,19 +14,45 @@ def _local_ip() -> str:
         s.close()
 
 def _arp_table() -> list[dict]:
-    entries = []
+    """ARP table with Termux/Android fallback: arp -a → ip neigh show → /proc/net/arp."""
+    def _make(ip, mac):
+        return {"ip": ip, "mac": mac.lower(), "likely_pi": any(mac.lower().startswith(p) for p in PI_MAC_PREFIXES)}
+
+    # 1. arp -a
     try:
         raw = subprocess.check_output(["arp", "-a"], stderr=subprocess.DEVNULL, timeout=10).decode()
+        entries = []
         for line in raw.splitlines():
             parts = line.split()
             if len(parts) >= 3:
-                ip  = parts[0].strip("()")
-                mac = parts[2].lower() if len(parts) > 2 else ""
-                is_pi = any(mac.startswith(p) for p in PI_MAC_PREFIXES)
-                entries.append({"ip": ip, "mac": mac, "likely_pi": is_pi})
+                entries.append(_make(parts[0].strip("()"), parts[2] if len(parts) > 2 else ""))
+        if entries:
+            return entries
     except Exception:
         pass
-    return entries
+
+    # 2. ip neigh show (Termux — no root needed)
+    try:
+        raw = subprocess.check_output(["ip", "neigh", "show"], stderr=subprocess.DEVNULL, timeout=10).decode()
+        entries = []
+        for line in raw.splitlines():
+            m = re.search(r"(\d+\.\d+\.\d+\.\d+)\s+dev\s+\S+\s+lladdr\s+([0-9a-f:]{17})", line, re.IGNORECASE)
+            if m:
+                entries.append(_make(m.group(1), m.group(2)))
+        if entries:
+            return entries
+    except Exception:
+        pass
+
+    # 3. /proc/net/arp (needs root on Android)
+    try:
+        with open("/proc/net/arp") as f:
+            return [_make(p[0], p[3]) for p in (l.split() for l in f.readlines()[1:])
+                    if len(p) >= 4 and p[3] != "00:00:00:00:00:00"]
+    except Exception:
+        pass
+
+    return []
 
 def _hostname() -> str:
     return socket.gethostname()

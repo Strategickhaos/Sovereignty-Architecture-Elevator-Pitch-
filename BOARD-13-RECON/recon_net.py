@@ -58,18 +58,54 @@ def _ping(ip: str) -> bool:
         return False
 
 def _arp_table() -> list[dict]:
+    """ARP table with Termux/Android fallback: arp -a → ip neigh show → /proc/net/arp."""
     entries = []
-    try:
-        raw = subprocess.check_output(["arp", "-a"], stderr=subprocess.DEVNULL, timeout=10).decode()
+
+    def _parse_arp_a(raw: str) -> list[dict]:
+        out = []
         for line in raw.splitlines():
-            # Match: host (ip) at mac [ether] on iface
             m = re.search(r"[\(\s](\d+\.\d+\.\d+\.\d+)[\)\s].*?([0-9a-f]{2}[:\-][0-9a-f]{2}[:\-][0-9a-f]{2}[:\-][0-9a-f]{2}[:\-][0-9a-f]{2}[:\-][0-9a-f]{2})", line, re.IGNORECASE)
             if m:
-                ip  = m.group(1)
-                mac = m.group(2).lower().replace("-", ":")
-                entries.append({"ip": ip, "mac": mac})
+                out.append({"ip": m.group(1), "mac": m.group(2).lower().replace("-", ":")})
+        return out
+
+    def _parse_ip_neigh(raw: str) -> list[dict]:
+        out = []
+        for line in raw.splitlines():
+            # format: <ip> dev <iface> lladdr <mac> <state>
+            m = re.search(r"(\d+\.\d+\.\d+\.\d+)\s+dev\s+\S+\s+lladdr\s+([0-9a-f:]{17})", line, re.IGNORECASE)
+            if m:
+                out.append({"ip": m.group(1), "mac": m.group(2).lower()})
+        return out
+
+    # 1. Try arp -a (Linux/macOS/Windows)
+    try:
+        raw = subprocess.check_output(["arp", "-a"], stderr=subprocess.DEVNULL, timeout=10).decode()
+        entries = _parse_arp_a(raw)
+        if entries:
+            return entries
     except Exception:
         pass
+
+    # 2. Termux/Android fallback: ip neigh show (no root needed)
+    try:
+        raw = subprocess.check_output(["ip", "neigh", "show"], stderr=subprocess.DEVNULL, timeout=10).decode()
+        entries = _parse_ip_neigh(raw)
+        if entries:
+            return entries
+    except Exception:
+        pass
+
+    # 3. Last resort: /proc/net/arp (needs root on Android — will fail gracefully)
+    try:
+        with open("/proc/net/arp") as f:
+            for line in f.readlines()[1:]:
+                parts = line.split()
+                if len(parts) >= 4 and parts[3] != "00:00:00:00:00:00":
+                    entries.append({"ip": parts[0], "mac": parts[3].lower()})
+    except Exception:
+        pass
+
     return entries
 
 def _resolve_hostname(ip: str) -> str:
