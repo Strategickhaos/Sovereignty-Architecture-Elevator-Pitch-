@@ -1,0 +1,284 @@
+---
+# sagco-daemon-observer — telemetry (high CPU: 54.88%, 242MB)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco-daemon-observer
+  namespace: sagco-industrial
+  labels:
+    sagco.daemon: observer
+    sagco.district: industrial
+    sagco.team: purple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-observer
+  template:
+    metadata:
+      labels:
+        app: sagco-daemon-observer
+        sagco.daemon: observer
+    spec:
+      imagePullSecrets:
+        - name: sagco-hub-pull
+      containers:
+        - name: observer
+          image: sagco-controls-v2:latest
+          envFrom:
+            - configMapRef:
+                name: sagco-daemon-config
+            - configMapRef:
+                name: sagco-os-config
+          env:
+            - name: DAEMON_ROLE
+              value: telemetry_observer
+            - name: DAEMON_NAME
+              value: sagco-daemon-observer
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: reports
+              mountPath: /sagco/reports
+            - name: data
+              mountPath: /sagco/data
+      volumes:
+        - name: reports
+          persistentVolumeClaim:
+            claimName: sagco-reports-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: sagco-data-pvc
+---
+# sagco-daemon-blue — defense / resilience (52MB)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco-daemon-blue
+  namespace: sagco-trinity
+  labels:
+    sagco.daemon: blue
+    sagco.district: trinity
+    sagco.team: blue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-blue
+  template:
+    metadata:
+      labels:
+        app: sagco-daemon-blue
+        sagco.daemon: blue
+    spec:
+      imagePullSecrets:
+        - name: sagco-hub-pull
+      containers:
+        - name: blue
+          image: sagco-controls-v2:latest
+          envFrom:
+            - configMapRef:
+                name: sagco-daemon-config
+          env:
+            - name: DAEMON_ROLE
+              value: defense_resilience
+            - name: DAEMON_NAME
+              value: sagco-daemon-blue
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+# sagco-daemon-red — chaos / adversarial (1.27MB)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco-daemon-red
+  namespace: sagco-industrial
+  labels:
+    sagco.daemon: red
+    sagco.district: contradiction_forest
+    sagco.team: red
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-red
+  template:
+    metadata:
+      labels:
+        app: sagco-daemon-red
+        sagco.daemon: red
+    spec:
+      imagePullSecrets:
+        - name: sagco-hub-pull
+      containers:
+        - name: red
+          image: sagco-controls-v2:latest
+          envFrom:
+            - configMapRef:
+                name: sagco-daemon-config
+          env:
+            - name: DAEMON_ROLE
+              value: chaos_adversarial
+            - name: DAEMON_NAME
+              value: sagco-daemon-red
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "200m"
+---
+# sagco-daemon-purple — ERU synthesis (29MB)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco-daemon-purple
+  namespace: sagco-eru
+  labels:
+    sagco.daemon: purple
+    sagco.district: eru
+    sagco.team: purple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-purple
+  template:
+    metadata:
+      labels:
+        app: sagco-daemon-purple
+        sagco.daemon: purple
+    spec:
+      imagePullSecrets:
+        - name: sagco-hub-pull
+      containers:
+        - name: purple
+          image: sagco-controls-v2:latest
+          envFrom:
+            - configMapRef:
+                name: sagco-daemon-config
+            - configMapRef:
+                name: sagco-eru-config
+          env:
+            - name: DAEMON_ROLE
+              value: eru_synthesis
+            - name: DAEMON_NAME
+              value: sagco-daemon-purple
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: neuron
+              mountPath: /sagco/neuron
+      volumes:
+        - name: neuron
+          persistentVolumeClaim:
+            claimName: sagco-neuron-pvc
+---
+# sagco-daemon-sentinel — security monitor (2.18MB)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco-daemon-sentinel
+  namespace: sagco-trinity
+  labels:
+    sagco.daemon: sentinel
+    sagco.district: trinity
+    sagco.team: blue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-sentinel
+  template:
+    metadata:
+      labels:
+        app: sagco-daemon-sentinel
+        sagco.daemon: sentinel
+    spec:
+      imagePullSecrets:
+        - name: sagco-hub-pull
+      containers:
+        - name: sentinel
+          image: sagco-controls-v2:latest
+          envFrom:
+            - configMapRef:
+                name: sagco-daemon-config
+          env:
+            - name: DAEMON_ROLE
+              value: security_monitor
+            - name: DAEMON_NAME
+              value: sagco-daemon-sentinel
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "200m"
+---
+# sagco-daemon-self — self-awareness loop (13.96MB)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sagco-daemon-self
+  namespace: sagco-genesis
+  labels:
+    sagco.daemon: self
+    sagco.district: genesis
+    sagco.team: purple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sagco-daemon-self
+  template:
+    metadata:
+      labels:
+        app: sagco-daemon-self
+        sagco.daemon: self
+    spec:
+      imagePullSecrets:
+        - name: sagco-hub-pull
+      containers:
+        - name: self
+          image: sagco-controls-v2:latest
+          envFrom:
+            - configMapRef:
+                name: sagco-os-config
+            - configMapRef:
+                name: sagco-daemon-config
+          env:
+            - name: DAEMON_ROLE
+              value: self_awareness_loop
+            - name: DAEMON_NAME
+              value: sagco-daemon-self
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "200m"
+          volumeMounts:
+            - name: ledger
+              mountPath: /sagco/ledger
+      volumes:
+        - name: ledger
+          persistentVolumeClaim:
+            claimName: sagco-ledger-pvc

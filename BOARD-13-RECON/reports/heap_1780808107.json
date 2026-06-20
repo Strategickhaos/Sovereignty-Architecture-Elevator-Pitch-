@@ -1,0 +1,157 @@
+{
+  "total_nodes": 343411,
+  "total_size_bytes": 16938339,
+  "total_size_mb": 16.15,
+  "by_type": {
+    "native": 5845979,
+    "code": 4998380,
+    "object shape": 1411520,
+    "array": 1232688,
+    "string": 876780,
+    "hidden": 859540,
+    "closure": 823436,
+    "object": 672340,
+    "concatenated string": 178380,
+    "number": 22476
+  },
+  "by_district": {
+    "industrial": 5845979,
+    "compiler_city": 5837560,
+    "memory_palace": 3722920,
+    "eru": 1531880,
+    "genesis": 0
+  },
+  "node_type_counts": {
+    "code": 95261,
+    "string": 76257,
+    "number": 38161,
+    "hidden": 29495,
+    "closure": 27937,
+    "object shape": 26676,
+    "object": 26167,
+    "concatenated string": 8919,
+    "native": 8088,
+    "array": 5686
+  },
+  "leak_nodes": 1364,
+  "leak_samples": [
+    {
+      "name": "system / SharedFunctionInfo / addEventListener",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "system / SharedFunctionInfo / removeEventListener",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "system / SharedFunctionInfo / clearInterval",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "system / SharedFunctionInfo / setInterval",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "system / SharedFunctionInfo / addEventListener",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "system / SharedFunctionInfo / removeEventListener",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "system / SharedFunctionInfo / clearInterval",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "system / SharedFunctionInfo / setInterval",
+      "type": "code",
+      "size": 48
+    },
+    {
+      "name": "eachQuarterOfInterval",
+      "type": "string",
+      "size": 36
+    },
+    {
+      "name": "addObserver",
+      "type": "string",
+      "size": 24
+    }
+  ],
+  "top_10_by_size": [
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 2520303,
+      "district": "industrial"
+    },
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 2000072,
+      "district": "industrial"
+    },
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 247981,
+      "district": "industrial"
+    },
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 159152,
+      "district": "industrial"
+    },
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 156736,
+      "district": "industrial"
+    },
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 136692,
+      "district": "industrial"
+    },
+    {
+      "name": "system / BytecodeArray",
+      "type": "code",
+      "size": 112716,
+      "district": "compiler_city"
+    },
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 90958,
+      "district": "industrial"
+    },
+    {
+      "name": "system / ExternalStringData",
+      "type": "native",
+      "size": 82110,
+      "district": "industrial"
+    },
+    {
+      "name": "(object properties)",
+      "type": "array",
+      "size": 49184,
+      "district": "memory_palace"
+    }
+  ],
+  "eru": {
+    "expected": "Heap usage under 100MB with no detached DOM nodes or listener leaks",
+    "actual": "Heap total 16.2 MB  |  1364 potential leak node(s)  |  343,411 total nodes",
+    "variance": "1364 detached/listener nodes found",
+    "understanding": "Heap snapshot from Sequence browser session. Memory footprint is the organism's RAM wafer. Large closures = compiler_city bloat. Detached nodes = ghost citizens still in memory after DOM removal. EventListener leaks = pad routes that never closed."
+  }
+}

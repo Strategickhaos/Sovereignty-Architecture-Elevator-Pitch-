@@ -1,0 +1,84 @@
+---
+# SAGCO-OS Core Configuration — genesis district
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sagco-os-config
+  namespace: sagco-genesis
+  labels:
+    sagco.district: genesis
+    sagco.board: BOARD-25-SAGCO-HUB
+data:
+  SAGCO_CLUSTER_IP:       "10.96.0.1"
+  SAGCO_CLUSTER_PORT:     "443"
+  SAGCO_CLUSTER_NAME:     "kubernetes"
+  SAGCO_GENESIS_INCREMENT: "3449"
+  SAGCO_PID_BASE:         "7000"
+  SAGCO_DISTRICT_DEFAULT: "genesis"
+  SAGCO_KERNEL_IMAGE:     "sagco-os:latest"
+  SAGCO_CONTROLS_IMAGE:   "sagco-controls-v2:latest"
+  SAGCO_LOG_LEVEL:        "INFO"
+  SAGCO_REGISTRY_PATH:    "/sagco/citizens/citizen_registry.json"
+  SAGCO_REPORTS_PATH:     "/sagco/reports"
+  SAGCO_WAFER_PATH:       "/sagco/wafers"
+---
+# SAGCO Daemon Configuration — industrial district
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sagco-daemon-config
+  namespace: sagco-industrial
+  labels:
+    sagco.district: industrial
+    sagco.board: BOARD-25-SAGCO-HUB
+data:
+  DAEMON_SELF_ROLE:       "self_awareness_loop"
+  DAEMON_BLUE_ROLE:       "defense_resilience"
+  DAEMON_RED_ROLE:        "chaos_adversarial"
+  DAEMON_PURPLE_ROLE:     "eru_synthesis"
+  DAEMON_SENTINEL_ROLE:   "security_monitor"
+  DAEMON_OBSERVER_ROLE:   "telemetry_observer"
+  DAEMON_RESTART_POLICY:  "always"
+  DAEMON_NETWORK:         "sagco-internal"
+  OBSERVER_MEMORY_LIMIT:  "512Mi"
+  OBSERVER_CPU_LIMIT:     "1000m"
+---
+# MCP Toolkit / LLM Extension Config — frequency_coast district
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sagco-mcp-config
+  namespace: sagco-frequency
+  labels:
+    sagco.district: frequency_coast
+    sagco.board: BOARD-25-SAGCO-HUB
+data:
+  MCP_SERVER_HOST:        "localhost"
+  MCP_SERVER_PORT:        "3000"
+  MCP_EXTENSION_NAME:     "MCP Toolkit"
+  MCP_EXTENSION_VERSION:  "beta"
+  LLM_BACKEND:            "sagco-os"
+  LLM_MODEL_REGISTRY:     "/sagco/models"
+  LLM_DISTRICT:           "frequency_coast"
+  SAGCO_HUB_PORT:         "5000"
+  SAGCO_REGISTRY_PORT:    "5000"
+---
+# SAGCO ERU Analyzer Config — eru district
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sagco-eru-config
+  namespace: sagco-eru
+  labels:
+    sagco.district: eru
+    sagco.board: BOARD-25-SAGCO-HUB
+data:
+  ERU_LOOP:               "expected,reality,variance,understanding,antibody"
+  ERU_LOG_PATH:           "/sagco/eru/eru_log.jsonl"
+  ERU_CASE_DIR:           "/sagco/boards"
+  ERU_ANTIBODY_DIR:       "/sagco/antibodies"
+  PHYSICS_FLEET_CLUSTER:  "kubernetes"
+  PHYSICS_FLEET_IP:       "10.96.0.1"
+  SAGCO_TEAM_RED_NS:      "sagco-industrial"
+  SAGCO_TEAM_BLUE_NS:     "sagco-trinity"
+  SAGCO_TEAM_PURPLE_NS:   "sagco-eru"

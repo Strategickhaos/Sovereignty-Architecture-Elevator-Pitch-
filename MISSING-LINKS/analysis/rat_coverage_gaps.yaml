@@ -1,0 +1,11 @@
+name: RAT Coverage Gaps
+description: "Threat patterns observed in the wild with no antibody to detect them"
+generated: null
+gaps: []
+# Format:
+# - pattern: "new threat pattern string"
+#   first_observed: "2026-06-06"
+#   source: BOARD-13-RECON / BOARD-28-FIREFOX / comms
+#   severity: HIGH
+#   proposed_antibody: "ANTIBODY_NAME_CONVENTION"
+#   status: open | antibody_created

@@ -1,0 +1,37 @@
+name: BROWSER_TOKEN_IN_REFERRER
+id: BROWSER_TOKEN_IN_REFERRER
+department: BROWSER_SECURITY
+severity: CRITICAL
+mode: DEFENSIVE_ONLY
+status: LEARNED
+
+trigger:
+  - pattern: "access_token="
+  - pattern: "id_token="
+  - pattern: "bearer="
+  - pattern: "auth_token="
+  - sources: [browser_url, webrequest, navigation]
+
+expected: "OAuth/auth tokens remain in secure session storage — never in URL"
+actual:   "Auth token appeared in browser URL or referrer header"
+variance: "identity anchor exposed in observable URL surface — CRITICAL leak"
+
+classification:
+  threat:     true
+  rat_signal: true
+  escalate:   true
+  district:   trinity
+  sensitive:  true
+
+remedy:
+  - Do NOT log or share screenshot further
+  - Log out and revoke the exposed token immediately
+  - Clear browser history for the affected URL
+  - Open BOARD-26 case file (CRITICAL)
+  - Contact service provider if token was in shared/logged URL
+
+sagco_command: |
+  python sagco-agents/sagco.py open-case \
+    --source browser --event "token_in_url" \
+    --variance "auth token exposed in browser URL" \
+    --severity CRITICAL --owner BOARD-13-RECON

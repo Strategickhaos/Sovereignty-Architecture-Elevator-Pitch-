@@ -1,0 +1,16 @@
+{
+  "id": "PROOF-078f84e2b6",
+  "timestamp": "2026-06-06T23:14:03.050255Z",
+  "question": "Q4: d^40/dx^40(sin(3x))",
+  "eru": {
+    "expected": "Mobius-ready formatted answer with no syntax errors",
+    "actual": "12157665459056928801*sin(3*x)",
+    "variance": []
+  },
+  "raw": "12157665459056928801*sin(3*x)",
+  "formatted": "12157665459056928801*sin(3*x)",
+  "answer_type": "derivative",
+  "mobius_ready": true,
+  "warnings": [],
+  "errors": []
+}

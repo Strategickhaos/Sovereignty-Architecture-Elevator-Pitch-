@@ -1,0 +1,6 @@
+atom_id: Q1
+atom_type: question
+content: Find the critical points of f(x) = 10x^(2/3) + x^(5/3)
+module: demo_calculus
+tags:
+- critical

@@ -1,0 +1,6 @@
+bond_id: BOND-08E500
+bond_order: 1.0
+bond_type: similarity
+source: Q3
+strength: double
+target: FORMULA-1

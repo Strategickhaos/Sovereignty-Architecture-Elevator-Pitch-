@@ -1,0 +1,244 @@
+atom_count: 8
+atoms:
+- atom_id: Q1
+  atom_type: question
+  content: Find the critical points of f(x) = 10x^(2/3) + x^(5/3)
+  module: demo_calculus
+  tags:
+  - critical
+- atom_id: Q2
+  atom_type: question
+  content: Classify each critical point as local max, local min, or saddle point
+  module: demo_calculus
+  tags:
+  - critical
+  - point
+  - saddle
+- atom_id: Q3
+  atom_type: question
+  content: 'Find absolute extrema on [-5, 5]
+
+    Definition: A critical point occurs where f''(x) = 0 or f''(x) is undefined
+
+    Formula: Bond Order = (Bonding Electrons - Antibonding Electrons) / 2
+
+    Example: For f(x) = x^2 - 4, f''(x) = 2x, critical point at x=0'
+  module: demo_calculus
+  tags:
+  - antibonding
+  - bond
+  - bonding
+  - critical
+  - extrema
+  - formula
+  - point
+- atom_id: DEF-1
+  atom_type: definition
+  content: 'A critical point occurs where f''(x) = 0 or f''(x) is undefined
+
+    Formula: Bond Order = (Bonding Electrons - Antibonding Electrons) / 2
+
+    Example: For f(x) = x^2 - 4, f''(x) = 2x, critical point at x=0'
+  module: demo_calculus
+  tags:
+  - antibonding
+  - bond
+  - bonding
+  - critical
+  - formula
+  - point
+- atom_id: FORMULA-1
+  atom_type: formula
+  content: 'Q1: Find the critical points of f(x) = 10x^(2/3) + x^(5/3)'
+  module: demo_calculus
+  tags:
+  - critical
+- atom_id: FORMULA-2
+  atom_type: formula
+  content: Bond Order = (Bonding Electrons - Antibonding Electrons) / 2
+  module: demo_calculus
+  tags:
+  - antibonding
+  - bond
+  - bonding
+- atom_id: FORMULA-3
+  atom_type: formula
+  content: 'Example: For f(x) = x^2 - 4, f''(x) = 2x, critical point at x=0'
+  module: demo_calculus
+  tags:
+  - critical
+  - point
+- atom_id: EX-1
+  atom_type: example
+  content: For f(x) = x^2 - 4, f'(x) = 2x, critical point at x=0
+  module: demo_calculus
+  tags:
+  - critical
+  - point
+bond_count: 26
+bonds:
+- bond_id: BOND-005764
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q1
+  strength: double
+  target: Q2
+- bond_id: BOND-E79BA9
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q1
+  strength: double
+  target: Q3
+- bond_id: BOND-099710
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q1
+  strength: double
+  target: DEF-1
+- bond_id: BOND-F68F45
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q1
+  strength: double
+  target: FORMULA-1
+- bond_id: BOND-71C3FE
+  bond_order: 0.5
+  bond_type: similarity
+  source: Q1
+  strength: single
+  target: FORMULA-2
+- bond_id: BOND-748718
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q1
+  strength: double
+  target: FORMULA-3
+- bond_id: BOND-A49A4F
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q1
+  strength: double
+  target: EX-1
+- bond_id: BOND-4D19A3
+  bond_order: 1.5
+  bond_type: similarity
+  source: Q2
+  strength: double
+  target: Q3
+- bond_id: BOND-B2C3F1
+  bond_order: 1.5
+  bond_type: similarity
+  source: Q2
+  strength: double
+  target: DEF-1
+- bond_id: BOND-C8FF29
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q2
+  strength: double
+  target: FORMULA-1
+- bond_id: BOND-1EEB0F
+  bond_order: 0.5
+  bond_type: similarity
+  source: Q2
+  strength: single
+  target: FORMULA-2
+- bond_id: BOND-C55D69
+  bond_order: 1.5
+  bond_type: similarity
+  source: Q2
+  strength: double
+  target: FORMULA-3
+- bond_id: BOND-D2F9E1
+  bond_order: 1.5
+  bond_type: similarity
+  source: Q2
+  strength: double
+  target: EX-1
+- bond_id: BOND-1A6995
+  bond_order: 3.5
+  bond_type: similarity
+  source: Q3
+  strength: triple
+  target: DEF-1
+- bond_id: BOND-08E500
+  bond_order: 1.0
+  bond_type: similarity
+  source: Q3
+  strength: double
+  target: FORMULA-1
+- bond_id: BOND-22F40E
+  bond_order: 2.0
+  bond_type: similarity
+  source: Q3
+  strength: triple
+  target: FORMULA-2
+- bond_id: BOND-59DE37
+  bond_order: 1.5
+  bond_type: similarity
+  source: Q3
+  strength: double
+  target: FORMULA-3
+- bond_id: BOND-EF08EF
+  bond_order: 1.5
+  bond_type: similarity
+  source: Q3
+  strength: double
+  target: EX-1
+- bond_id: BOND-BE89A8
+  bond_order: 1.0
+  bond_type: prerequisite
+  source: DEF-1
+  strength: double
+  target: FORMULA-1
+- bond_id: BOND-6EB417
+  bond_order: 2.0
+  bond_type: prerequisite
+  source: DEF-1
+  strength: triple
+  target: FORMULA-2
+- bond_id: BOND-C11F90
+  bond_order: 1.5
+  bond_type: prerequisite
+  source: DEF-1
+  strength: double
+  target: FORMULA-3
+- bond_id: BOND-177E28
+  bond_order: 1.5
+  bond_type: similarity
+  source: DEF-1
+  strength: double
+  target: EX-1
+- bond_id: BOND-F362F9
+  bond_order: 1.0
+  bond_type: similarity
+  source: FORMULA-1
+  strength: double
+  target: FORMULA-3
+- bond_id: BOND-7CDB5E
+  bond_order: 1.5
+  bond_type: reinforcement
+  source: FORMULA-1
+  strength: double
+  target: EX-1
+- bond_id: BOND-681219
+  bond_order: 1.0
+  bond_type: reinforcement
+  source: FORMULA-2
+  strength: double
+  target: EX-1
+- bond_id: BOND-DB7D8F
+  bond_order: 2.0
+  bond_type: reinforcement
+  source: FORMULA-3
+  strength: triple
+  target: EX-1
+missing_atoms:
+- derivative (needed by critical)
+- derivative (needed by extrema)
+- derivative (needed by saddle)
+- electron (needed by antibonding)
+- electron (needed by bonding)
+module_name: demo_calculus
+mol_id: MOL-884FB782
+stability: 1.3462

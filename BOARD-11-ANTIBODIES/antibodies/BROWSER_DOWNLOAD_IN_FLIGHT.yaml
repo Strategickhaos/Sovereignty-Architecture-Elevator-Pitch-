@@ -1,0 +1,66 @@
+name: BROWSER_DOWNLOAD_IN_FLIGHT
+id: BROWSER_DOWNLOAD_IN_FLIGHT
+department: BROWSER
+severity: MEDIUM
+mode: MONITOR_AND_LOG
+status: LEARNED
+
+trigger:
+  - pattern: "Downloading"
+  - pattern: "download in progress"
+  - pattern: "minutes remaining"
+  - sources: [browser_visual, recon_browser, manual]
+
+expected: "All browser downloads are known, authorized, and destination-verified"
+actual:   "Chrome download initiated — source, destination, and payload unverified"
+variance: "temporal download window — file in transit, integrity unconfirmed"
+
+classification:
+  threat:     null       # unknown until verified
+  rat_signal: false      # not automatically a threat
+  escalate:   conditional
+  district:   industrial
+  citizen_kind: download_artifact
+
+verification_checklist:
+  - source_domain_known:   true   # is the download origin a known site?
+  - file_type_expected:    true   # .exe/.msi/.zip — high risk; .pdf/.yaml — lower
+  - destination_path_set:  true   # Downloads\ default or custom path?
+  - hash_verified:         false  # SHA256 check after download completes
+  - av_scanned:            false  # Windows Defender scan triggered?
+
+escalation_logic: |
+  if file_type in ['.exe', '.msi', '.bat', '.ps1', '.dll']:
+      severity = HIGH
+      fire = RAT_PROCESS_VARIANCE  # executable from browser = watch it
+  elif source_domain not in known_domains:
+      severity = HIGH
+      fire = RAT_NETWORK_BEACONING
+  else:
+      severity = LOW
+      classify = benign_download
+      district = memory_palace
+
+remedy:
+  - Capture download as citizen artifact (catpush)
+  - Note source URL, file type, file size, timestamp
+  - After download: SHA256 hash the file
+  - Register completed download as verified citizen
+  - If executable: quarantine in industrial district pending scan
+
+sagco_commands: |
+  # 1. Register the in-flight download as a citizen:
+  python sagco-agents/sagco.py catpush --name "chrome-download-inprogress" --kind artifact --district industrial
+
+  # 2. Open a monitor case (not threat — just tracking):
+  python sagco-agents/sagco.py open-case --source browser --event "chrome_download_in_flight" --variance "file downloading — destination and integrity unverified" --severity MEDIUM --owner BOARD-13-RECON
+
+  # 3. After download completes — verify and close:
+  python sagco-agents/sagco.py open-case --source browser --event "download_complete" --variance "file received — hash pending" --severity LOW
+
+notes: >
+  Chrome download dialog showing "1 minute remaining" is a temporal window.
+  The file is in transit. The organism should note it, not panic about it.
+  The key question: what is being downloaded and from where?
+  If Chrome installer update → benign, classify to memory_palace.
+  If unknown executable → escalate to industrial, flag for hash verification.

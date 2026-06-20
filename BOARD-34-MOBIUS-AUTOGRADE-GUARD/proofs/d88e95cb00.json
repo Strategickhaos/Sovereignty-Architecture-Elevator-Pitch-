@@ -1,0 +1,16 @@
+{
+  "id": "PROOF-d88e95cb00",
+  "timestamp": "2026-06-06T23:14:08.548700Z",
+  "question": "",
+  "eru": {
+    "expected": "Mobius-ready formatted answer with no syntax errors",
+    "actual": "x^2 + C",
+    "variance": []
+  },
+  "raw": "x**2 + C",
+  "formatted": "x^2 + C",
+  "answer_type": "integral",
+  "mobius_ready": true,
+  "warnings": [],
+  "errors": []
+}

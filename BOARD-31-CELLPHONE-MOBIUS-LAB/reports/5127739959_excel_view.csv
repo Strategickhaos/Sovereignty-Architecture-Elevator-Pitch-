@@ -1,0 +1,5 @@
+Equation,Kind,Expected,Actual,Variance,ERU_Note
+cpu_load,LIMIT,"lim(cpu_load, steady_state)",observed at boundary,delta from limit,boundary convergence check
+citizen_count,DERIV,"d/dt rate = {'function': 'citizen_count', 'variable': 't', 'rate': '3449'}",measured rate,slope divergence,rate-of-change ERU
+severity_____critical,PIECE,branch fires on condition,branch result,condition mismatch,piecewise branch check
+token_in_url,ASSERT,assertion passes,assertion result,failure mode,if/when/then gate

@@ -1,0 +1,23 @@
+board_id: BOARD-39-INVENTION-SEED-ROUTER
+district: genesis
+role: invention_seed_router
+version: "1.0.0"
+depends_on:
+  - BOARD-38-PATTERN-OF-LIFE-DECODER
+  - SAGCO-UNIVERSITY
+description: >
+  Self-expansion engine. Reads PatternOfLife.missing_links from BOARD-38 and
+  lattice gaps from SAGCO-UNIVERSITY, routes them through a priority queue,
+  calls sagco-boardgen to auto-generate new boards, verifies with ERU, emits
+  citizens, and feeds results back into BOARD-38. Closes the cognitive loop.
+loop:
+  - BOARD-38 detects pattern signatures → missing_links seeds
+  - BOARD-39 harvests seeds + lattice gaps
+  - priority queue ranks by invention_probability + bond_order_gap
+  - sagco-boardgen generates new boards
+  - ERU verifies generated boards
+  - citizens emitted to 08-CITIZENS/
+  - feedback written to BOARD-38 pattern baseline
+  - loop repeats
+status: ACTIVE
+eru_variance: 0

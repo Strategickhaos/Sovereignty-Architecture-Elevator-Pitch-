@@ -1,0 +1,44 @@
+board: BOARD-31-CELLPHONE-MOBIUS-LAB
+id: BOARD-31
+district: compiler_city
+status: ACTIVE
+role: mobius_calculus_lab
+
+purpose: |
+  Turn each SAGCO cellphone number into an ERU (Expected→Reality→Variance→Understanding)
+  case study engine using a tiny Mobius DSL.
+  Each .mobius file contains equations (LIMIT, DERIV, PIECE, ASSERT, INTEGRAL).
+  The lab lexes, parses, and compiles them into ERU exam reports and Python test lambdas.
+
+pipeline:
+  - cellphones/        # one folder per number
+  - equations.mobius   # DSL source file per phone
+  - src/lexer.py       # tokenize .mobius → token stream
+  - src/parser.py      # token stream → MobiusAST
+  - src/ast_to_excel.py  # AST → CSV report
+  - src/eru_runner.py  # AST → ERU exam YAML
+  - src/compiler.py    # ASSERT equations → compiled Python test lambdas
+  - reports/           # all output lands here
+
+dsl_name: MobiusScript
+dsl_version: "1.0"
+equation_types:
+  - LIMIT
+  - DERIV
+  - PIECE
+  - ASSERT
+  - INTEGRAL
+
+eru_template_file: manifests/eru_exam_templates.yaml
+cellphone_schema_file: manifests/cellphone_schema.yaml
+equation_types_file: manifests/mobius_equation_types.yaml
+
+pid_base: 31000
+genesis_increment: 3449
+
+depends_on:
+  - BOARD-30-FAKE-CELL-BUSINESS-LINE
+  - BOARD-26-REMEDIATION-ENGINE
+  - BOARD-11-ANTIBODIES
+
+missing_links_seed: MISSING-LINKS

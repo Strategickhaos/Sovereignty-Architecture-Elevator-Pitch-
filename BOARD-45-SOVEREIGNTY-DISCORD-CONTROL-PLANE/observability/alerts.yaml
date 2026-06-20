@@ -1,0 +1,36 @@
+# SAGCO Alert Routing — Prometheus Alertmanager → Discord channels
+
+routes:
+  - match:
+      severity: critical
+    discord_channel: "#alerts"
+    ping: "@ReleaseMgr"
+    embed_color: 0xEF4444  # red
+
+  - match:
+      severity: warning
+    discord_channel: "#cluster-status"
+    embed_color: 0xF59E0B  # amber
+
+  - match:
+      job: habebian_pathway
+    discord_channel: "#agents"
+    embed_color: 0x8B5CF6  # purple — organism alerts
+
+  - match:
+      alert: PaymentDue
+    discord_channel: "#agents"
+    embed_color: 0xF59E0B  # amber
+    antibody: PAYMENT_GUARD
+    message: |
+      ⚠️ SNHU Payment Alert
+      Amount Due: {{ $labels.amount }}
+      Run /payplan for options.
+      NEVER auto-pay — human confirm required.
+
+inhibit_rules:
+  - source_match:
+      severity: critical
+    target_match:
+      severity: warning
+    equal: [alertname, namespace]

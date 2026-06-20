@@ -1,0 +1,19 @@
+exam_suite: BOARD-10-UNIVERSITY
+timestamp: '2026-06-06T22:30:43Z'
+results:
+- exam: inventions
+  timestamp: '2026-06-06T22:30:43Z'
+  score: 3/10
+  status: PASS
+  subject: BOARD-29/MISSING-LINKS Invention Pipeline
+  invention_seeds_open: 1
+  invention_seeds_closed: 0
+  open_cases: 0
+  closed_cases: 0
+  portfolio_artifacts_created: 0
+  invention_candidates: 0
+  active_inventions: 1
+  active_invention_names:
+  - Payload-Aware Antibody Router (pmi_delta≈0.08)
+  contradiction_inventions: 1 seed, 0 closed, 1 active (Payload-Aware Antibody Router)
+  grade: PASS

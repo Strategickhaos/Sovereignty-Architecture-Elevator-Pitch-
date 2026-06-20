@@ -1,0 +1,35 @@
+name: BROWSER_THIRD_PARTY_WIDGET_EVENT
+id: BROWSER_THIRD_PARTY_WIDGET_EVENT
+department: BROWSER
+severity: LOW
+mode: DEFENSIVE_ONLY
+status: LEARNED
+
+trigger:
+  - pattern: "[Statsig]"
+  - pattern: "[Intercom]"
+  - pattern: "Launcher is disabled"
+  - pattern: "useGateValue hook failed"
+  - pattern: "frill.co"
+  - pattern: "stripe.com"
+
+expected: "Third-party widgets operate without console warnings"
+actual:   "Widget emitted warning — feature flag not found, launcher disabled, or partitioned"
+variance: "widget noise — benign third-party initialization failure"
+
+classification:
+  threat:     false
+  rat_signal: false
+  escalate:   false
+  district:   memory_palace
+
+known_patterns:
+  - "[Statsig] useGateValue hook failed to find a valid StatsigClient for gate 'taor_agent_v2'"
+  - "[Statsig] useGateValue hook failed to find a valid StatsigClient for gate 'maintenance_mode'"
+  - "[Intercom] Launcher is disabled in settings or current page does not match display conditions"
+  - "widget.frill.co ... net::ERR_NAME_NOT_RESOLVED"
+
+remedy:
+  - Log as memory_palace citizen
+  - No BOARD-26 case needed
+  - Escalate ONLY if: access_token, id_token, phone_number, or email appears in same event

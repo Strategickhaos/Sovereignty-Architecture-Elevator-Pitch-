@@ -1,0 +1,190 @@
+schema_name: ERU_ExamTemplates
+schema_version: "1.0"
+board: BOARD-31
+
+description: |
+  ERU = Expected → Reality → Variance → Understanding
+  These templates define how each Mobius equation type maps to an ERU exam record.
+  The ERU runner instantiates one of these templates per equation and fills in
+  the observed values to produce a case study.
+
+templates:
+
+  LIMIT_ERU:
+    name: LIMIT_ERU
+    applies_to: [LIMIT, INTEGRAL]
+    description: |
+      Used for convergence-type equations (LIMIT, INTEGRAL).
+      Compares the mathematically expected steady state against observed reality.
+
+    fields:
+      equation_kind:
+        description: The Mobius equation type (LIMIT or INTEGRAL).
+        type: string
+
+      equation_name:
+        description: The name or identifier of the equation.
+        type: string
+
+      expected:
+        label: "Expected (E)"
+        description: |
+          The result predicted by the limit or integral — what the system
+          should converge to or accumulate under normal operation.
+        source: "lim_result or integral_result from equation"
+        type: number_or_expression
+
+      actual:
+        label: "Reality (R)"
+        description: |
+          The observed value at the time of the exam.
+          May be read from telemetry, logs, or manually set during the exam.
+        source: "observed measurement"
+        type: number_or_expression
+
+      variance:
+        label: "Variance (V)"
+        description: |
+          The delta between expected and actual: variance = actual - expected.
+          Positive variance = over-shoot; negative = under-shoot.
+        formula: "actual - expected"
+        type: number
+
+      understanding:
+        label: "Understanding (U)"
+        description: |
+          The analyst's interpretation of the variance.
+          Why did the delta occur? What does it imply about system health?
+        type: string
+
+      severity:
+        description: CRITICAL if |variance| > 0.2 * expected, else HIGH or LOW.
+        type: enum
+        values: [CRITICAL, HIGH, LOW]
+
+      antibody_candidate:
+        description: |
+          If severity is CRITICAL, name the antibody that should be fired or created.
+          Links to BOARD-11-ANTIBODIES and MISSING-LINKS seeds.
+        type: string
+        required_when: "severity == CRITICAL"
+
+  DERIVATIVE_ERU:
+    name: DERIVATIVE_ERU
+    applies_to: [DERIV]
+    description: |
+      Used for rate-of-change equations (DERIV / d/dt).
+      Compares the expected rate of change (slope) against the measured slope.
+
+    fields:
+      equation_kind:
+        description: Always DERIV.
+        type: string
+
+      equation_name:
+        description: The name or identifier of the equation.
+        type: string
+
+      expected:
+        label: "Expected Slope (E)"
+        description: |
+          The theoretical rate of change — how fast the metric should grow
+          or shrink per time unit under normal operation.
+        source: "d/dt result from equation"
+        type: number_or_expression
+
+      actual:
+        label: "Measured Slope (R)"
+        description: |
+          The observed rate of change measured from real data.
+        source: "observed rate measurement"
+        type: number_or_expression
+
+      variance:
+        label: "Divergence (V)"
+        description: |
+          divergence = measured_slope - expected_slope.
+          Positive divergence = system growing faster than modeled.
+          Negative divergence = system slowing below model.
+        formula: "actual - expected"
+        type: number
+
+      understanding:
+        label: "Understanding (U)"
+        description: |
+          Why does the divergence exist? Is it a GENESIS_INCREMENT undershoot?
+          Is citizen growth lagging? Is the model outdated?
+        type: string
+
+      severity:
+        description: CRITICAL if |divergence| > 10% of expected rate.
+        type: enum
+        values: [CRITICAL, HIGH, LOW]
+
+      antibody_candidate:
+        description: |
+          If severity is CRITICAL, name the antibody or escalation path.
+        type: string
+        required_when: "severity == CRITICAL"
+
+  ASSERTION_ERU:
+    name: ASSERTION_ERU
+    applies_to: [ASSERT, PIECE]
+    description: |
+      Used for logical/conditional equations (ASSERT, PIECE).
+      Compares whether the assertion was expected to pass against its actual result,
+      and characterizes the failure mode if it did not.
+
+    fields:
+      equation_kind:
+        description: ASSERT or PIECE.
+        type: string
+
+      equation_name:
+        description: The name or identifier of the equation.
+        type: string
+
+      expected:
+        label: "Expected Result (E)"
+        description: |
+          The anticipated outcome — typically that the assertion passes
+          or that the piecewise condition routes to the correct branch.
+        source: "assertion design intent"
+        type: string
+        example: "PASS — assertion fires correctly on token_in_url events"
+
+      actual:
+        label: "Assertion Result (R)"
+        description: |
+          What actually happened when the assertion was evaluated
+          against sample events or live data.
+        source: "compiler test run output"
+        type: string
+        example: "PASS" # or "FAIL — no events matched"
+
+      variance:
+        label: "Failure Mode (V)"
+        description: |
+          If actual != expected, describe the failure mode.
+          null if the assertion passed as expected.
+        type: string_or_null
+        example: "condition never triggered — context mismatch"
+
+      understanding:
+        label: "Understanding (U)"
+        description: |
+          Root cause analysis. Why did the assertion fail or behave unexpectedly?
+          What needs to change in the DSL, the event schema, or the system?
+        type: string
+
+      severity:
+        description: CRITICAL if assertion FAIL on a security-related ASSERT, else HIGH or LOW.
+        type: enum
+        values: [CRITICAL, HIGH, LOW]
+
+      antibody_candidate:
+        description: |
+          The antibody name to fire or create if the assertion fails critically.
+          Directly maps to the then(fire_antibody ...) clause in ASSERT equations.
+        type: string
+        required_when: "severity == CRITICAL"

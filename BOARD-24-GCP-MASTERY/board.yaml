@@ -1,0 +1,53 @@
+board: BOARD-24-GCP-MASTERY
+district: eru
+team: purple
+status: active
+
+mission: >
+  GCP mastery training OS — learn Google Cloud through the SAGCO ERU lens.
+  Every service is a citizen. Every misconfiguration is an ERU case.
+  Every fix is an antibody. Every cert is a university badge.
+
+structure:
+  00-foundation:
+    - mind_palace_aliases.yaml   # GCP service → SAGCO district mappings
+  01-core-infra:
+    - notes/core-infra.md        # Compute, VPC, storage study notes
+  02-data-analytics:
+    - notes/data-analytics.md    # BigQuery, Pub/Sub, Dataflow
+  03-ml-ai:
+    - notes/ml-ai.md             # Vertex AI, Gemini, AutoML
+  04-security-iam:
+    - notes/security-iam.md      # IAM, Secret Manager, Cloud Armor
+  05-kubernetes-gke:
+    - notes/gke-basics.md        # GKE cluster anatomy, ERU lifecycle
+  eru:
+    - eru-gke.yaml               # 4 GKE ERU case studies
+    - eru-core-infra.yaml        # 3 Core Infra ERU case studies
+    - eru-security.yaml          # 3 Security ERU case studies
+  university:
+    - ace_exam.yaml              # ACE domain breakdown + practice questions
+    - pca_exam.yaml              # PCA domain breakdown + case studies
+  recon:
+    - gke_mapper.py              # Discover live GKE clusters → SAGCO citizens
+  portfolio:
+    - sagco-gcp-case-study.md    # Full architecture case study
+
+certifications:
+  - ACE:  Associate Cloud Engineer
+  - PCA:  Professional Cloud Architect
+  - PCNE: Professional Cloud Network Engineer
+  - PCD:  Professional Cloud DevOps Engineer
+
+physics_laws_applied:
+  - Conservation of Sovereignty  → VPC district isolation
+  - Conservation of Energy       → ResourceQuota / cost budgets
+  - Identity Invariance          → Workload Identity / Secret Manager
+  - Second Law (Entropy)         → IAM drift / permission decay
+  - Immune Response Threshold    → PodDisruptionBudget / Cloud Armor
+  - Principle of Least Action    → shortest deploy path / minimal blast radius
+  - Time Invariance              → cold start temporal variance
+
+sagco_agents:
+  - sagco-agents/agent_gcp.py    # IAM drift, cost pulse, services, badge check
+  - sagco-agents/agent_kube.py   # K8s nodes, pods, events, district map, ERU check

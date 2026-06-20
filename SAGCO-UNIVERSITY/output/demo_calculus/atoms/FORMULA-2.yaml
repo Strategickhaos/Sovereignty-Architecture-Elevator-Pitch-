@@ -1,0 +1,8 @@
+atom_id: FORMULA-2
+atom_type: formula
+content: Bond Order = (Bonding Electrons - Antibonding Electrons) / 2
+module: demo_calculus
+tags:
+- antibonding
+- bond
+- bonding

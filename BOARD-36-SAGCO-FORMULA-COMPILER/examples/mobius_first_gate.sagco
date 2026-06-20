@@ -1,0 +1,3 @@
+A1 = "f'(x) for f(x)=sqrt(2-74x)"
+B1 = =SAGCO_GUARD("-37/sqrt(590078)")
+C1 = =SAGCO_ERU("MOBIUS_READY", B1)

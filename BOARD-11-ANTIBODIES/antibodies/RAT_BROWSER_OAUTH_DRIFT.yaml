@@ -1,0 +1,34 @@
+name: RAT_BROWSER_OAUTH_DRIFT
+classification: security_threat
+layer: browser
+trigger: OAuth authorization code or token appears in browser URL or is redirected to unknown host
+cause: OAuth redirect_uri tampering, session hijack, or open redirect exploit
+expected: OAuth codes are exchanged server-side and never appear in browser URL bar
+actual: code=, token=, or access_token= detected in URL by browser recon
+variance: identity + protocol + redirect mismatch
+signals:
+  - recon_browser.py flags oauth_code_in_url or access_token_in_url
+  - redirect_uri points to non-registered domain
+  - OAuth session completes to unexpected landing page
+  - Multiple failed OAuth attempts in short window (brute force)
+  - Tab URL contains ?state= parameter with suspicious encoding
+detection:
+  sagco: python sagco_recon.py browser
+  browser_recon flags: oauth_code_in_url / token_in_url / access_token_in_url
+remedy:
+  - Close flagged tab immediately
+  - Revoke OAuth token: Settings → Security → Revoke access for flagged app
+  - Rotate client secret in GCP Console / GitHub OAuth app
+  - Verify redirect_uri whitelist in OAuth app settings
+  - Do NOT paste OAuth URLs into chat, logs, or shared screens
+  - Re-authenticate from clean browser session
+  - Register new session as citizen after clean auth
+note: >
+  The SAGCO browser recon scanner automatically flags these patterns.
+  Any tab with severity HIGH or CRITICAL should be closed before
+  sharing screenshots or screencasts.
+severity: HIGH
+department: BROWSER
+district: trinity
+status: LEARNED
+learned_at: "2026-06-06"

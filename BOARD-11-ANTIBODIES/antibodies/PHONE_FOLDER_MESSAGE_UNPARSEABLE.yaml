@@ -1,0 +1,28 @@
+name: PHONE_FOLDER_MESSAGE_UNPARSEABLE
+id: PHONE_FOLDER_MESSAGE_UNPARSEABLE
+department: COMMS
+severity: MEDIUM
+mode: DEFENSIVE_ONLY
+status: LEARNED
+
+trigger:
+  - pattern: "Message file cannot be parsed"
+  - pattern: "missing from/to/timestamp"
+  - pattern: "yaml.scanner.ScannerError"
+  - sources: [BOARD-30-FAKE-CELL-BUSINESS-LINE]
+
+expected: "Every inbox YAML becomes a message token and conversation AST node"
+actual:   "Message file failed parser — missing required fields or invalid format"
+variance: "signal-to-AST mismatch"
+
+classification:
+  threat:     false
+  rat_signal: false
+  escalate:   false
+  district:   memory_palace
+
+remedy:
+  - "Move bad file to device/quarantine/"
+  - "Open BOARD-26 case if same file fails repeatedly"
+  - "Add parser rule if format is a new legitimate variant"
+  - "Log as citizen with kind=phone-unparseable and district=memory_palace"

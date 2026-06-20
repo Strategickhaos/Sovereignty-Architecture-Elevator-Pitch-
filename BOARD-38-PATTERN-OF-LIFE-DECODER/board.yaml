@@ -1,0 +1,32 @@
+board_id: BOARD-38
+name: Pattern-of-Life Decoder
+district: contradiction_forest
+role: pattern_of_life_decoder
+version: "1.0"
+depends_on:
+  - BOARD-36
+  - BOARD-37
+description: >
+  Detects repeated rhythms, tics, and cadences in SAGCO data streams and
+  converts them into invention seeds. Reads word frequency data, music tokens,
+  phone messages, Mobius answers, and browser events to find patterns.
+inputs:
+  - word_frequency_data
+  - music_tokens
+  - phone_messages
+  - mobius_answers
+  - browser_events
+outputs:
+  - pattern_of_life
+  - tic_signature
+  - invention_seeds
+  - eru_report
+src:
+  - src/cadence_lexer.py
+  - src/rhythm_parser.py
+  - src/tic_signature.py
+  - src/motif_detector.py
+  - src/pattern_of_life.py
+  - src/invention_seed_emitter.py
+  - src/eru_decoder.py
+  - src/decoder_cli.py

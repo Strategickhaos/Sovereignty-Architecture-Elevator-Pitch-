@@ -1,0 +1,155 @@
+id,category,item,price,front,back,mnemonic,eru,rust_token,expected_price,actual_price,variance,compression_ratio
+1,Sunday Brunch,Eggs Benedict,16,What is the price of Eggs Benedict?,$16 — Sunday Brunch,Eggs Benedict 16 — Sunday Brunch locked in the drop,PASS,eggs_benedict,16,16,0,1
+2,Sunday Brunch,Eggs Orleans,20,What is the price of Eggs Orleans?,$20 — Sunday Brunch,Eggs Orleans 20 — Sunday Brunch locked in the drop,PASS,eggs_orleans,20,20,0,1
+3,Sunday Brunch,Eggs Sardou,17,What is the price of Eggs Sardou?,$17 — Sunday Brunch,Eggs Sardou 17 — Sunday Brunch locked in the drop,PASS,eggs_sardou,17,17,0,1
+4,Sunday Brunch,Eggs Sonesta,21,What is the price of Eggs Sonesta?,$21 — Sunday Brunch,Eggs Sonesta 21 — Sunday Brunch locked in the drop,PASS,eggs_sonesta,21,21,0,1
+5,Sunday Brunch,Pain Perdu,16,What is the price of Pain Perdu?,$16 — Sunday Brunch,Pain Perdu 16 — Sunday Brunch locked in the drop,PASS,pain_perdu,16,16,0,1
+6,Sunday Brunch,Ham & Cheese Omelet,17,What is the price of Ham & Cheese Omelet?,$17 — Sunday Brunch,Ham & Cheese Omelet 17 — Sunday Brunch locked in the drop,PASS,ham_and_cheese_omelet,17,17,0,0.9
+7,Sunday Brunch Cocktails,Bloody Mary,12,What is the price of Bloody Mary?,$12 — Sunday Brunch Cocktails,Bloody Mary 12 — Sunday Brunch Cocktails locked in the drop,PASS,bloody_mary,12,12,0,1
+8,Sunday Brunch Cocktails,Salty Dog,11,What is the price of Salty Dog?,$11 — Sunday Brunch Cocktails,Salty Dog 11 — Sunday Brunch Cocktails locked in the drop,PASS,salty_dog,11,11,0,1
+9,Sunday Brunch Cocktails,Pear Martini,12,What is the price of Pear Martini?,$12 — Sunday Brunch Cocktails,Pear Martini 12 — Sunday Brunch Cocktails locked in the drop,PASS,pear_martini,12,12,0,1
+10,Sunday Brunch Cocktails,Cucumber Martini,12,What is the price of Cucumber Martini?,$12 — Sunday Brunch Cocktails,Cucumber Martini 12 — Sunday Brunch Cocktails locked in the drop,PASS,cucumber_martini,12,12,0,1
+11,Sunday Brunch Cocktails,Hugo Spritz,14,What is the price of Hugo Spritz?,$14 — Sunday Brunch Cocktails,Hugo Spritz 14 — Sunday Brunch Cocktails locked in the drop,PASS,hugo_spritz,14,14,0,1
+12,Sunday Brunch Cocktails,Aperol Spritz,13,What is the price of Aperol Spritz?,$13 — Sunday Brunch Cocktails,Aperol Spritz 13 — Sunday Brunch Cocktails locked in the drop,PASS,aperol_spritz,13,13,0,1
+13,Sunday Brunch Cocktails,French 75,14,What is the price of French 75?,$14 — Sunday Brunch Cocktails,French 75 14 — Sunday Brunch Cocktails locked in the drop,PASS,french_75,14,14,0,1
+14,Sunday Brunch Cocktails,Mimosa Flight,22,What is the price of Mimosa Flight?,$22 — Sunday Brunch Cocktails,Mimosa Flight 22 — Sunday Brunch Cocktails locked in the drop,PASS,mimosa_flight,22,22,0,1
+15,Sushi,Avocado Roll,8,What is the price of Avocado Roll?,$8 — Sushi,Avocado Roll 8 — Sushi locked in the drop,PASS,avocado_roll,8,8,0,1
+16,Sushi,Tempura Shrimp Roll,9,What is the price of Tempura Shrimp Roll?,$9 — Sushi,Tempura Shrimp Roll 9 — Sushi locked in the drop,PASS,tempura_shrimp_roll,9,9,0,1
+17,Sushi,Spicy Tuna Roll,10,What is the price of Spicy Tuna Roll?,$10 — Sushi,Spicy Tuna Roll 10 — Sushi locked in the drop,PASS,spicy_tuna_roll,10,10,0,1
+18,Sushi,Tuna Roll,12,What is the price of Tuna Roll?,$12 — Sushi,Tuna Roll 12 — Sushi locked in the drop,PASS,tuna_roll,12,12,0,1
+19,Sushi,Spicy Salmon Roll,12,What is the price of Spicy Salmon Roll?,$12 — Sushi,Spicy Salmon Roll 12 — Sushi locked in the drop,PASS,spicy_salmon_roll,12,12,0,1
+20,Sushi,Padre Island Roll,13,What is the price of Padre Island Roll?,$13 — Sushi,Padre Island Roll 13 — Sushi locked in the drop,PASS,padre_island_roll,13,13,0,1
+21,Sushi,Lucky Roll,14,What is the price of Lucky Roll?,$14 — Sushi,Lucky Roll 14 — Sushi locked in the drop,PASS,lucky_roll,14,14,0,1
+22,Sushi,Spider Roll,15,What is the price of Spider Roll?,$15 — Sushi,Spider Roll 15 — Sushi locked in the drop,PASS,spider_roll,15,15,0,1
+23,Sushi,Tidal Wave Roll,16,What is the price of Tidal Wave Roll?,$16 — Sushi,Tidal Wave Roll 16 — Sushi locked in the drop,PASS,tidal_wave_roll,16,16,0,1
+24,Sushi,Rainbow Roll,17,What is the price of Rainbow Roll?,$17 — Sushi,Rainbow Roll 17 — Sushi locked in the drop,PASS,rainbow_roll,17,17,0,1
+25,Sushi,Dragon Roll,17,What is the price of Dragon Roll?,$17 — Sushi,Dragon Roll 17 — Sushi locked in the drop,PASS,dragon_roll,17,17,0,1
+26,Sushi,Red Dragon Roll,18,What is the price of Red Dragon Roll?,$18 — Sushi,Red Dragon Roll 18 — Sushi locked in the drop,PASS,red_dragon_roll,18,18,0,1
+27,Sushi,Black Pearl Roll,22,What is the price of Black Pearl Roll?,$22 — Sushi,Black Pearl Roll 22 — Sushi locked in the drop,PASS,black_pearl_roll,22,22,0,1
+28,For The Table,Smoked Fish Dip,18,What is the price of Smoked Fish Dip?,$18 — For The Table,Smoked Fish Dip 18 — For The Table locked in the drop,PASS,smoked_fish_dip,18,18,0,1
+29,For The Table,U-Peel 'Em Shrimp 1/4 lb,12,What is the price of U-Peel 'Em Shrimp 1/4 lb?,$12 — For The Table,U-Peel 'Em Shrimp 1/4 lb 12 — For The Table locked in the drop,PASS,u-peel_em_shrimp_1_4_lb,12,12,0,1.04
+30,For The Table,U-Peel 'Em Shrimp 1/2 lb,21,What is the price of U-Peel 'Em Shrimp 1/2 lb?,$21 — For The Table,U-Peel 'Em Shrimp 1/2 lb 21 — For The Table locked in the drop,PASS,u-peel_em_shrimp_1_2_lb,21,21,0,1.04
+31,For The Table,Classic Shrimp Cocktail,18,What is the price of Classic Shrimp Cocktail?,$18 — For The Table,Classic Shrimp Cocktail 18 — For The Table locked in the drop,PASS,classic_shrimp_cocktail,18,18,0,1
+32,For The Table,Shrimp Campechana,12,What is the price of Shrimp Campechana?,$12 — For The Table,Shrimp Campechana 12 — For The Table locked in the drop,PASS,shrimp_campechana,12,12,0,1
+33,For The Table,Waterstreet Tower,85,What is the price of Waterstreet Tower?,$85 — For The Table,Waterstreet Tower 85 — For The Table locked in the drop,PASS,waterstreet_tower,85,85,0,1
+34,Oysters,Raw Gulf Oysters 1/2 doz,18,What is the price of Raw Gulf Oysters 1/2 doz?,$18 — Oysters,Raw Gulf Oysters 1/2 doz 18 — Oysters locked in the drop,PASS,raw_gulf_oysters_1_2_doz,18,18,0,1
+35,Oysters,Raw Gulf Oysters doz,36,What is the price of Raw Gulf Oysters doz?,$36 — Oysters,Raw Gulf Oysters doz 36 — Oysters locked in the drop,PASS,raw_gulf_oysters_doz,36,36,0,1
+36,Oysters,Oysters Rockefeller,23,What is the price of Oysters Rockefeller?,$23 — Oysters,Oysters Rockefeller 23 — Oysters locked in the drop,PASS,oysters_rockefeller,23,23,0,1
+37,Oysters,Wood Fired Oysters,20,What is the price of Wood Fired Oysters?,$20 — Oysters,Wood Fired Oysters 20 — Oysters locked in the drop,PASS,wood_fired_oysters,20,20,0,1
+38,Oysters,Broiled Oysters Bleu,22,What is the price of Broiled Oysters Bleu?,$22 — Oysters,Broiled Oysters Bleu 22 — Oysters locked in the drop,PASS,broiled_oysters_bleu,22,22,0,1
+39,Appetizers,Shrimp Picayune,18,What is the price of Shrimp Picayune?,$18 — Appetizers,Shrimp Picayune 18 — Appetizers locked in the drop,PASS,shrimp_picayune,18,18,0,1
+40,Appetizers,Blue Crab Mushrooms,18,What is the price of Blue Crab Mushrooms?,$18 — Appetizers,Blue Crab Mushrooms 18 — Appetizers locked in the drop,PASS,blue_crab_mushrooms,18,18,0,1
+41,Appetizers,Spinach Artichoke Dip,13,What is the price of Spinach Artichoke Dip?,$13 — Appetizers,Spinach Artichoke Dip 13 — Appetizers locked in the drop,PASS,spinach_artichoke_dip,13,13,0,1
+42,Appetizers,Shrimp Enbrochette,28,What is the price of Shrimp Enbrochette?,$28 — Appetizers,Shrimp Enbrochette 28 — Appetizers locked in the drop,PASS,shrimp_enbrochette,28,28,0,1
+43,Appetizers,Creole Hushpuppies,9,What is the price of Creole Hushpuppies?,$9 — Appetizers,Creole Hushpuppies 9 — Appetizers locked in the drop,PASS,creole_hushpuppies,9,9,0,1
+44,Appetizers,Fried Crawfish Tails,13,What is the price of Fried Crawfish Tails?,$13 — Appetizers,Fried Crawfish Tails 13 — Appetizers locked in the drop,PASS,fried_crawfish_tails,13,13,0,1
+45,Appetizers,Crispy Calamari,16,What is the price of Crispy Calamari?,$16 — Appetizers,Crispy Calamari 16 — Appetizers locked in the drop,PASS,crispy_calamari,16,16,0,1
+46,Appetizers,Crab Cakes,27,What is the price of Crab Cakes?,$27 — Appetizers,Crab Cakes 27 — Appetizers locked in the drop,PASS,crab_cakes,27,27,0,1
+47,Appetizers,Pecan Crusted Oysters,16,What is the price of Pecan Crusted Oysters?,$16 — Appetizers,Pecan Crusted Oysters 16 — Appetizers locked in the drop,PASS,pecan_crusted_oysters,16,16,0,1
+48,Appetizers,Southern Fried Okra,11,What is the price of Southern Fried Okra?,$11 — Appetizers,Southern Fried Okra 11 — Appetizers locked in the drop,PASS,southern_fried_okra,11,11,0,1
+49,Soups & Salads,Starter Salads,6,What is the price of Starter Salads?,$6 — Soups & Salads,Starter Salads 6 — Soups & Salads locked in the drop,PASS,starter_salads,6,6,0,1
+50,Soups & Salads,Caldo Xochitl,9,What is the price of Caldo Xochitl?,$9 — Soups & Salads,Caldo Xochitl 9 — Soups & Salads locked in the drop,PASS,caldo_xochitl,9,9,0,1
+51,Soups & Salads,Seafood Gumbo,10,What is the price of Seafood Gumbo?,$10 — Soups & Salads,Seafood Gumbo 10 — Soups & Salads locked in the drop,PASS,seafood_gumbo,10,10,0,1
+52,Entrée Salads,Barbecue Salmon,19,What is the price of Barbecue Salmon?,$19 — Entrée Salads,Barbecue Salmon 19 — Entrée Salads locked in the drop,PASS,barbecue_salmon,19,19,0,1
+53,Entrée Salads,Deluxe Water St. Wedge,16,What is the price of Deluxe Water St. Wedge?,$16 — Entrée Salads,Deluxe Water St. Wedge 16 — Entrée Salads locked in the drop,PASS,deluxe_water_st._wedge,16,16,0,1
+54,Entrée Salads,Gulf Shrimp Salad,18,What is the price of Gulf Shrimp Salad?,$18 — Entrée Salads,Gulf Shrimp Salad 18 — Entrée Salads locked in the drop,PASS,gulf_shrimp_salad,18,18,0,1
+55,Entrée Salads,Grilled Chicken Caesar,16,What is the price of Grilled Chicken Caesar?,$16 — Entrée Salads,Grilled Chicken Caesar 16 — Entrée Salads locked in the drop,PASS,grilled_chicken_caesar,16,16,0,1
+56,Sandwiches,Bacon Cheeseburger,16,What is the price of Bacon Cheeseburger?,$16 — Sandwiches,Bacon Cheeseburger 16 — Sandwiches locked in the drop,PASS,bacon_cheeseburger,16,16,0,1
+57,Sandwiches,Water St. Po Boy,19,What is the price of Water St. Po Boy?,$19 — Sandwiches,Water St. Po Boy 19 — Sandwiches locked in the drop,PASS,water_st._po_boy,19,19,0,1
+58,Sandwiches,Wood-Fired Chicken Sandwich,19,What is the price of Wood-Fired Chicken Sandwich?,$19 — Sandwiches,Wood-Fired Chicken Sandwich 19 — Sandwiches locked in the drop,PASS,wood-fired_chicken_sandwich,19,19,0,1
+59,Sandwiches,Crab Cake Burger,23,What is the price of Crab Cake Burger?,$23 — Sandwiches,Crab Cake Burger 23 — Sandwiches locked in the drop,PASS,crab_cake_burger,23,23,0,1
+60,Mains Shellfish,Fried Seafood Platter,21,What is the price of Fried Seafood Platter?,$21 — Mains Shellfish,Fried Seafood Platter 21 — Mains Shellfish locked in the drop,PASS,fried_seafood_platter,21,21,0,1
+61,Mains Shellfish,Bacon Wrapped Stuffed Shrimp,25,What is the price of Bacon Wrapped Stuffed Shrimp?,$25 — Mains Shellfish,Bacon Wrapped Stuffed Shrimp 25 — Mains Shellfish locked in the drop,PASS,bacon_wrapped_stuffed_shrimp,25,25,0,1
+62,Mains Shellfish,Mesquite Grilled Sampler,35,What is the price of Mesquite Grilled Sampler?,$35 — Mains Shellfish,Mesquite Grilled Sampler 35 — Mains Shellfish locked in the drop,PASS,mesquite_grilled_sampler,35,35,0,1
+63,Mains Shellfish,Seafood Pasta Jambalaya,28,What is the price of Seafood Pasta Jambalaya?,$28 — Mains Shellfish,Seafood Pasta Jambalaya 28 — Mains Shellfish locked in the drop,PASS,seafood_pasta_jambalaya,28,28,0,1
+64,Market Fish,Blackened Snapper Veracruz,48,What is the price of Blackened Snapper Veracruz?,$48 — Market Fish,Blackened Snapper Veracruz 48 — Market Fish locked in the drop,PASS,blackened_snapper_veracruz,48,48,0,1
+65,Market Fish,Salmon Rockefeller,32,What is the price of Salmon Rockefeller?,$32 — Market Fish,Salmon Rockefeller 32 — Market Fish locked in the drop,PASS,salmon_rockefeller,32,32,0,1
+66,Market Fish,Pecan Crusted Drum,37,What is the price of Pecan Crusted Drum?,$37 — Market Fish,Pecan Crusted Drum 37 — Market Fish locked in the drop,PASS,pecan_crusted_drum,37,37,0,1
+67,Market Fish,Blackened Stuffed Redfish,45,What is the price of Blackened Stuffed Redfish?,$45 — Market Fish,Blackened Stuffed Redfish 45 — Market Fish locked in the drop,PASS,blackened_stuffed_redfish,45,45,0,1
+68,Classics,Chicken Rockefeller,24,What is the price of Chicken Rockefeller?,$24 — Classics,Chicken Rockefeller 24 — Classics locked in the drop,PASS,chicken_rockefeller,24,24,0,1
+69,Classics,Blackened Chicken Alfredo,20,What is the price of Blackened Chicken Alfredo?,$20 — Classics,Blackened Chicken Alfredo 20 — Classics locked in the drop,PASS,blackened_chicken_alfredo,20,20,0,1
+70,Classics,Crawfish Stuffed Chicken,26,What is the price of Crawfish Stuffed Chicken?,$26 — Classics,Crawfish Stuffed Chicken 26 — Classics locked in the drop,PASS,crawfish_stuffed_chicken,26,26,0,1
+71,Classics,Surf and Turf,61,What is the price of Surf and Turf?,$61 — Classics,Surf and Turf 61 — Classics locked in the drop,PASS,surf_and_turf,61,61,0,1
+72,A La Carte,Shells & Cheese,8,What is the price of Shells & Cheese?,$8 — A La Carte,Shells & Cheese 8 — A La Carte locked in the drop,PASS,shells_and_cheese,8,8,0,0.88
+73,A La Carte,Seasoned French Fries,6,What is the price of Seasoned French Fries?,$6 — A La Carte,Seasoned French Fries 6 — A La Carte locked in the drop,PASS,seasoned_french_fries,6,6,0,1
+74,A La Carte,Sweet Potato Fries,7,What is the price of Sweet Potato Fries?,$7 — A La Carte,Sweet Potato Fries 7 — A La Carte locked in the drop,PASS,sweet_potato_fries,7,7,0,1
+75,A La Carte,Loaded Baked Potato,6,What is the price of Loaded Baked Potato?,$6 — A La Carte,Loaded Baked Potato 6 — A La Carte locked in the drop,PASS,loaded_baked_potato,6,6,0,1
+76,A La Carte,Seasonal Veggies,6,What is the price of Seasonal Veggies?,$6 — A La Carte,Seasonal Veggies 6 — A La Carte locked in the drop,PASS,seasonal_veggies,6,6,0,1
+77,A La Carte,Fried Shrimp,3,What is the price of Fried Shrimp?,$3 — A La Carte,Fried Shrimp 3 — A La Carte locked in the drop,PASS,fried_shrimp,3,3,0,1
+78,Cocktails,Salty Dog,11,What is the price of Salty Dog?,$11 — Cocktails,Salty Dog 11 — Cocktails locked in the drop,PASS,salty_dog,11,11,0,1
+79,Cocktails,Elevated Margarita,13,What is the price of Elevated Margarita?,$13 — Cocktails,Elevated Margarita 13 — Cocktails locked in the drop,PASS,elevated_margarita,13,13,0,1
+80,Cocktails,Bloody Mary,12,What is the price of Bloody Mary?,$12 — Cocktails,Bloody Mary 12 — Cocktails locked in the drop,PASS,bloody_mary,12,12,0,1
+81,Cocktails,Old Fashioned,15,What is the price of Old Fashioned?,$15 — Cocktails,Old Fashioned 15 — Cocktails locked in the drop,PASS,old_fashioned,15,15,0,1
+82,Cocktails,Water St. Wave,13,What is the price of Water St. Wave?,$13 — Cocktails,Water St. Wave 13 — Cocktails locked in the drop,PASS,water_st._wave,13,13,0,1
+83,Cocktails,Espresso Martini,14,What is the price of Espresso Martini?,$14 — Cocktails,Espresso Martini 14 — Cocktails locked in the drop,PASS,espresso_martini,14,14,0,1
+84,Cocktails,Pear Martini,12,What is the price of Pear Martini?,$12 — Cocktails,Pear Martini 12 — Cocktails locked in the drop,PASS,pear_martini,12,12,0,1
+85,Frozen,Frozen Margarita,9,What is the price of Frozen Margarita?,$9 — Frozen,Frozen Margarita 9 — Frozen locked in the drop,PASS,frozen_margarita,9,9,0,1
+86,Frozen,Piña Colada,12,What is the price of Piña Colada?,$12 — Frozen,Piña Colada 12 — Frozen locked in the drop,PASS,piña_colada,12,12,0,1
+87,Wine Whites,Seaglass White Glass,12,What is the price of Seaglass White Glass?,$12 — Wine Whites,Seaglass White Glass 12 — Wine Whites locked in the drop,PASS,seaglass_white_glass,12,12,0,1
+88,Wine Whites,Seaglass White Bottle,38,What is the price of Seaglass White Bottle?,$38 — Wine Whites,Seaglass White Bottle 38 — Wine Whites locked in the drop,PASS,seaglass_white_bottle,38,38,0,1
+89,Wine Whites,Oliver White Glass,10,What is the price of Oliver White Glass?,$10 — Wine Whites,Oliver White Glass 10 — Wine Whites locked in the drop,PASS,oliver_white_glass,10,10,0,1
+90,Wine Whites,Oliver White Bottle,36,What is the price of Oliver White Bottle?,$36 — Wine Whites,Oliver White Bottle 36 — Wine Whites locked in the drop,PASS,oliver_white_bottle,36,36,0,1
+91,Wine Whites,Aix Rosé Glass,11,What is the price of Aix Rosé Glass?,$11 — Wine Whites,Aix Rosé Glass 11 — Wine Whites locked in the drop,PASS,aix_rosé_glass,11,11,0,1
+92,Wine Whites,Aix Rosé Bottle,42,What is the price of Aix Rosé Bottle?,$42 — Wine Whites,Aix Rosé Bottle 42 — Wine Whites locked in the drop,PASS,aix_rosé_bottle,42,42,0,1
+93,Wine Whites,Joel Gott Glass,12,What is the price of Joel Gott Glass?,$12 — Wine Whites,Joel Gott Glass 12 — Wine Whites locked in the drop,PASS,joel_gott_glass,12,12,0,1
+94,Wine Whites,Joel Gott Bottle,38,What is the price of Joel Gott Bottle?,$38 — Wine Whites,Joel Gott Bottle 38 — Wine Whites locked in the drop,PASS,joel_gott_bottle,38,38,0,1
+95,Wine Whites,Le Garenne Glass,13,What is the price of Le Garenne Glass?,$13 — Wine Whites,Le Garenne Glass 13 — Wine Whites locked in the drop,PASS,le_garenne_glass,13,13,0,1
+96,Wine Whites,Le Garenne Bottle,46,What is the price of Le Garenne Bottle?,$46 — Wine Whites,Le Garenne Bottle 46 — Wine Whites locked in the drop,PASS,le_garenne_bottle,46,46,0,1
+97,Wine Whites,Craggy Range Bottle,68,What is the price of Craggy Range Bottle?,$68 — Wine Whites,Craggy Range Bottle 68 — Wine Whites locked in the drop,PASS,craggy_range_bottle,68,68,0,1
+98,Wine Whites,Luchi Glass,9,What is the price of Luchi Glass?,$9 — Wine Whites,Luchi Glass 9 — Wine Whites locked in the drop,PASS,luchi_glass,9,9,0,1
+99,Wine Whites,Luchi Bottle,34,What is the price of Luchi Bottle?,$34 — Wine Whites,Luchi Bottle 34 — Wine Whites locked in the drop,PASS,luchi_bottle,34,34,0,1
+100,Wine Whites,Benvolio Glass,11,What is the price of Benvolio Glass?,$11 — Wine Whites,Benvolio Glass 11 — Wine Whites locked in the drop,PASS,benvolio_glass,11,11,0,1
+101,Wine Whites,Benvolio Bottle,37,What is the price of Benvolio Bottle?,$37 — Wine Whites,Benvolio Bottle 37 — Wine Whites locked in the drop,PASS,benvolio_bottle,37,37,0,1
+102,Wine Whites,Spellbound White Glass,10,What is the price of Spellbound White Glass?,$10 — Wine Whites,Spellbound White Glass 10 — Wine Whites locked in the drop,PASS,spellbound_white_glass,10,10,0,1
+103,Wine Whites,Spellbound White Bottle,36,What is the price of Spellbound White Bottle?,$36 — Wine Whites,Spellbound White Bottle 36 — Wine Whites locked in the drop,PASS,spellbound_white_bottle,36,36,0,1
+104,Wine Whites,Sea Sun White Glass,12,What is the price of Sea Sun White Glass?,$12 — Wine Whites,Sea Sun White Glass 12 — Wine Whites locked in the drop,PASS,sea_sun_white_glass,12,12,0,1
+105,Wine Whites,Sea Sun White Bottle,38,What is the price of Sea Sun White Bottle?,$38 — Wine Whites,Sea Sun White Bottle 38 — Wine Whites locked in the drop,PASS,sea_sun_white_bottle,38,38,0,1
+106,Wine Whites,Diatom Glass,16,What is the price of Diatom Glass?,$16 — Wine Whites,Diatom Glass 16 — Wine Whites locked in the drop,PASS,diatom_glass,16,16,0,1
+107,Wine Whites,Diatom Bottle,43,What is the price of Diatom Bottle?,$43 — Wine Whites,Diatom Bottle 43 — Wine Whites locked in the drop,PASS,diatom_bottle,43,43,0,1
+108,Sparkling,Gran Delmio Sparkling Glass,6,What is the price of Gran Delmio Sparkling Glass?,$6 — Sparkling,Gran Delmio Sparkling Glass 6 — Sparkling locked in the drop,PASS,gran_delmio_sparkling_glass,6,6,0,1
+109,Sparkling,Gran Delmio Sparkling Bottle,28,What is the price of Gran Delmio Sparkling Bottle?,$28 — Sparkling,Gran Delmio Sparkling Bottle 28 — Sparkling locked in the drop,PASS,gran_delmio_sparkling_bottle,28,28,0,1
+110,Sparkling,Avissi Sparkling Glass,10,What is the price of Avissi Sparkling Glass?,$10 — Sparkling,Avissi Sparkling Glass 10 — Sparkling locked in the drop,PASS,avissi_sparkling_glass,10,10,0,1
+111,Sparkling,Avissi Sparkling Bottle,37,What is the price of Avissi Sparkling Bottle?,$37 — Sparkling,Avissi Sparkling Bottle 37 — Sparkling locked in the drop,PASS,avissi_sparkling_bottle,37,37,0,1
+112,Sparkling,Torresella Sparkling Glass,12,What is the price of Torresella Sparkling Glass?,$12 — Sparkling,Torresella Sparkling Glass 12 — Sparkling locked in the drop,PASS,torresella_sparkling_glass,12,12,0,1
+113,Sparkling,Torresella Sparkling Bottle,38,What is the price of Torresella Sparkling Bottle?,$38 — Sparkling,Torresella Sparkling Bottle 38 — Sparkling locked in the drop,PASS,torresella_sparkling_bottle,38,38,0,1
+114,Sparkling,Mumm Sparkling Glass,16,What is the price of Mumm Sparkling Glass?,$16 — Sparkling,Mumm Sparkling Glass 16 — Sparkling locked in the drop,PASS,mumm_sparkling_glass,16,16,0,1
+115,Sparkling,Mumm Sparkling Bottle,43,What is the price of Mumm Sparkling Bottle?,$43 — Sparkling,Mumm Sparkling Bottle 43 — Sparkling locked in the drop,PASS,mumm_sparkling_bottle,43,43,0,1
+116,Reds,Sea Sun Red Glass,11,What is the price of Sea Sun Red Glass?,$11 — Reds,Sea Sun Red Glass 11 — Reds locked in the drop,PASS,sea_sun_red_glass,11,11,0,1
+117,Reds,Sea Sun Red Bottle,37,What is the price of Sea Sun Red Bottle?,$37 — Reds,Sea Sun Red Bottle 37 — Reds locked in the drop,PASS,sea_sun_red_bottle,37,37,0,1
+118,Reds,Poppy Red Glass,14,What is the price of Poppy Red Glass?,$14 — Reds,Poppy Red Glass 14 — Reds locked in the drop,PASS,poppy_red_glass,14,14,0,1
+119,Reds,Poppy Red Bottle,48,What is the price of Poppy Red Bottle?,$48 — Reds,Poppy Red Bottle 48 — Reds locked in the drop,PASS,poppy_red_bottle,48,48,0,1
+120,Reds,Decoy Red Glass,16,What is the price of Decoy Red Glass?,$16 — Reds,Decoy Red Glass 16 — Reds locked in the drop,PASS,decoy_red_glass,16,16,0,1
+121,Reds,Decoy Red Bottle,50,What is the price of Decoy Red Bottle?,$50 — Reds,Decoy Red Bottle 50 — Reds locked in the drop,PASS,decoy_red_bottle,50,50,0,1
+122,Reds,La Posta Pizzella Red Glass,13,What is the price of La Posta Pizzella Red Glass?,$13 — Reds,La Posta Pizzella Red Glass 13 — Reds locked in the drop,PASS,la_posta_pizzella_red_glass,13,13,0,1
+123,Reds,La Posta Pizzella Red Bottle,46,What is the price of La Posta Pizzella Red Bottle?,$46 — Reds,La Posta Pizzella Red Bottle 46 — Reds locked in the drop,PASS,la_posta_pizzella_red_bottle,46,46,0,1
+124,Reds,Spellbound Red Glass,13,What is the price of Spellbound Red Glass?,$13 — Reds,Spellbound Red Glass 13 — Reds locked in the drop,PASS,spellbound_red_glass,13,13,0,1
+125,Reds,Spellbound Red Bottle,46,What is the price of Spellbound Red Bottle?,$46 — Reds,Spellbound Red Bottle 46 — Reds locked in the drop,PASS,spellbound_red_bottle,46,46,0,1
+126,Reds,BR Cohn Red Glass,14,What is the price of BR Cohn Red Glass?,$14 — Reds,BR Cohn Red Glass 14 — Reds locked in the drop,PASS,br_cohn_red_glass,14,14,0,1
+127,Reds,BR Cohn Red Bottle,48,What is the price of BR Cohn Red Bottle?,$48 — Reds,BR Cohn Red Bottle 48 — Reds locked in the drop,PASS,br_cohn_red_bottle,48,48,0,1
+128,Reds,Details Red Bottle,72,What is the price of Details Red Bottle?,$72 — Reds,Details Red Bottle 72 — Reds locked in the drop,PASS,details_red_bottle,72,72,0,1
+129,Beer Draught,Nueces Lager Draught,8,What is the price of Nueces Lager Draught?,$8 — Beer Draught,Nueces Lager Draught 8 — Beer Draught locked in the drop,PASS,nueces_lager_draught,8,8,0,1
+130,Beer Draught,Nueces Hefeweizen Draught,8,What is the price of Nueces Hefeweizen Draught?,$8 — Beer Draught,Nueces Hefeweizen Draught 8 — Beer Draught locked in the drop,PASS,nueces_hefeweizen_draught,8,8,0,1
+131,Beer Draught,Nueces Supremo Draught,8,What is the price of Nueces Supremo Draught?,$8 — Beer Draught,Nueces Supremo Draught 8 — Beer Draught locked in the drop,PASS,nueces_supremo_draught,8,8,0,1
+132,Beer Draught,Rebel Toad IPA Draught,6,What is the price of Rebel Toad IPA Draught?,$6 — Beer Draught,Rebel Toad IPA Draught 6 — Beer Draught locked in the drop,PASS,rebel_toad_ipa_draught,6,6,0,1
+133,Beer Draught,Rebel Toad Bionic Blonde Draught,6,What is the price of Rebel Toad Bionic Blonde Draught?,$6 — Beer Draught,Rebel Toad Bionic Blonde Draught 6 — Beer Draught locked in the drop,PASS,rebel_toad_bionic_blonde_draught,6,6,0,1
+134,Beer Draught,Dos Equis Lager Draught,7,What is the price of Dos Equis Lager Draught?,$7 — Beer Draught,Dos Equis Lager Draught 7 — Beer Draught locked in the drop,PASS,dos_equis_lager_draught,7,7,0,1
+135,Beer Draught,Modelo Especial Draught,7,What is the price of Modelo Especial Draught?,$7 — Beer Draught,Modelo Especial Draught 7 — Beer Draught locked in the drop,PASS,modelo_especial_draught,7,7,0,1
+136,Beer Draught,St. Arnold Art Car Draught,8,What is the price of St. Arnold Art Car Draught?,$8 — Beer Draught,St. Arnold Art Car Draught 8 — Beer Draught locked in the drop,PASS,st._arnold_art_car_draught,8,8,0,1
+137,Beer Draught,Shiner Bock Draught,7,What is the price of Shiner Bock Draught?,$7 — Beer Draught,Shiner Bock Draught 7 — Beer Draught locked in the drop,PASS,shiner_bock_draught,7,7,0,1
+138,Beer Draught,Michelob Ultra Draught,7,What is the price of Michelob Ultra Draught?,$7 — Beer Draught,Michelob Ultra Draught 7 — Beer Draught locked in the drop,PASS,michelob_ultra_draught,7,7,0,1
+139,Beer Draught,Miller Lite Pilsner Draught,6,What is the price of Miller Lite Pilsner Draught?,$6 — Beer Draught,Miller Lite Pilsner Draught 6 — Beer Draught locked in the drop,PASS,miller_lite_pilsner_draught,6,6,0,1
+140,Beer Bottle,Dos Equis Bottle,6,What is the price of Dos Equis Bottle?,$6 — Beer Bottle,Dos Equis Bottle 6 — Beer Bottle locked in the drop,PASS,dos_equis_bottle,6,6,0,1
+141,Beer Bottle,Michelob Gold Bottle,6,What is the price of Michelob Gold Bottle?,$6 — Beer Bottle,Michelob Gold Bottle 6 — Beer Bottle locked in the drop,PASS,michelob_gold_bottle,6,6,0,1
+142,Beer Bottle,Coors Light Bottle,5,What is the price of Coors Light Bottle?,$5 — Beer Bottle,Coors Light Bottle 5 — Beer Bottle locked in the drop,PASS,coors_light_bottle,5,5,0,1
+143,Beer Bottle,Bud Light Bottle,5,What is the price of Bud Light Bottle?,$5 — Beer Bottle,Bud Light Bottle 5 — Beer Bottle locked in the drop,PASS,bud_light_bottle,5,5,0,1
+144,Beer Bottle,Budweiser Bottle,5,What is the price of Budweiser Bottle?,$5 — Beer Bottle,Budweiser Bottle 5 — Beer Bottle locked in the drop,PASS,budweiser_bottle,5,5,0,1
+145,Beer Bottle,Heineken Bottle,7,What is the price of Heineken Bottle?,$7 — Beer Bottle,Heineken Bottle 7 — Beer Bottle locked in the drop,PASS,heineken_bottle,7,7,0,1
+146,Beer Bottle,Lonestar Bottle,5,What is the price of Lonestar Bottle?,$5 — Beer Bottle,Lonestar Bottle 5 — Beer Bottle locked in the drop,PASS,lonestar_bottle,5,5,0,1
+147,Beer Bottle,Corona Extra Bottle,6,What is the price of Corona Extra Bottle?,$6 — Beer Bottle,Corona Extra Bottle 6 — Beer Bottle locked in the drop,PASS,corona_extra_bottle,6,6,0,1
+148,Beer Bottle,Corona Premier Bottle,7,What is the price of Corona Premier Bottle?,$7 — Beer Bottle,Corona Premier Bottle 7 — Beer Bottle locked in the drop,PASS,corona_premier_bottle,7,7,0,1
+149,Beer Bottle,Stella Artois Bottle,8,What is the price of Stella Artois Bottle?,$8 — Beer Bottle,Stella Artois Bottle 8 — Beer Bottle locked in the drop,PASS,stella_artois_bottle,8,8,0,1
+150,Beer Bottle,Heineken N.A. Bottle,6,What is the price of Heineken N.A. Bottle?,$6 — Beer Bottle,Heineken N.A. Bottle 6 — Beer Bottle locked in the drop,PASS,heineken_n.a._bottle,6,6,0,1
+151,Desserts,Brownie à la Mode,9,What is the price of Brownie à la Mode?,$9 — Desserts,Brownie à la Mode 9 — Desserts locked in the drop,PASS,brownie_a_la_mode,9,9,0,1
+152,Desserts,Key Lime Pie,11,What is the price of Key Lime Pie?,$11 — Desserts,Key Lime Pie 11 — Desserts locked in the drop,PASS,key_lime_pie,11,11,0,1
+153,Desserts,New York Cheesecake,12,What is the price of New York Cheesecake?,$12 — Desserts,New York Cheesecake 12 — Desserts locked in the drop,PASS,new_york_cheesecake,12,12,0,1
+154,Desserts,Seasonal Cheesecake,12,What is the price of Seasonal Cheesecake?,$12 — Desserts,Seasonal Cheesecake 12 — Desserts locked in the drop,PASS,seasonal_cheesecake,12,12,0,1

@@ -1,0 +1,32 @@
+clusters:
+  - name: local-docker-desktop
+    type: local
+    role: sandbox
+    district: compiler_city
+    team: purple
+    physics_analog: "controlled lab — baseline measurements"
+    status: active
+
+  - name: gke-red-kali
+    type: gke
+    role: red_team
+    district: contradiction_forest
+    team: red
+    physics_analog: "particle accelerator — inject chaos, measure collision"
+    status: pending_claim
+
+  - name: gke-blue-parrot
+    type: gke
+    role: blue_team
+    district: trinity
+    team: blue
+    physics_analog: "immune system — detect + neutralize variance"
+    status: pending_claim
+
+  - name: gke-purple-sagco
+    type: gke
+    role: purple_team
+    district: eru
+    team: purple
+    physics_analog: "ERU engine — Expected/Reality/Variance synthesis"
+    status: pending_claim

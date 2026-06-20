@@ -1,0 +1,69 @@
+Front,OptionA,OptionB,OptionC,OptionD,CorrectAnswer
+Eggs Benedict,$61.00 — mains_classics,$20.00 — mains_classics,$16.00 — brunch,$10.00 — soups_salads,$16.00 — brunch
+Eggs Orleans,$24.00 — mains_classics,$20.00 — brunch,$19.00 — sandwiches,$18.00 — soups_salads,$20.00 — brunch
+Eggs Sardou,$61.00 — mains_classics,$14.00 — sushi,$17.00 — brunch,$12.00 — sushi,$17.00 — brunch
+Eggs Sonesta,$16.00 — sushi,$10.00 — soups_salads,$21.00 — brunch,$18.00 — sushi,$21.00 — brunch
+Pain Perdu,$16.00 — brunch,$45.00 — mains_market_fish,$9.00 — soups_salads,$85.00 — for_the_table,$16.00 — brunch
+Ham & Cheese Omelet,$6.00 — soups_salads,$17.00 — brunch,$6.00 — a_la_carte,$85.00 — for_the_table,$17.00 — brunch
+Starter Salads,$26.00 — mains_classics,$16.00 — sandwiches,$6.00 — a_la_carte,$6.00 — soups_salads,$6.00 — soups_salads
+Caldo Xochitl,$14.00 — sushi,$13.00 — sushi,$9.00 — soups_salads,$11.00 — appetizers,$9.00 — soups_salads
+Seafood Gumbo,$6.00 — a_la_carte,$19.00 — sandwiches,$10.00 — soups_salads,$16.00 — soups_salads,$10.00 — soups_salads
+Barbecue Salmon Salad,$15.00 — sushi,$28.00 — appetizers,$19.00 — soups_salads,$12.00 — for_the_table,$19.00 — soups_salads
+Deluxe Water St. Wedge,$16.00 — soups_salads,$17.00 — sushi,$12.00 — sushi,$13.00 — appetizers,$16.00 — soups_salads
+Gulf Shrimp Salad,$16.00 — sushi,$18.00 — soups_salads,$24.00 — mains_classics,$12.00 — for_the_table,$18.00 — soups_salads
+Grilled Chicken Caesar,$16.00 — soups_salads,$21.00 — brunch,$23.00 — oysters,$45.00 — mains_market_fish,$16.00 — soups_salads
+Avocado Roll,$20.00 — brunch,$9.00 — soups_salads,$8.00 — sushi,$21.00 — for_the_table,$8.00 — sushi
+Tempura Shrimp Roll,$22.00 — sushi,$17.00 — sushi,$9.00 — sushi,$48.00 — mains_market_fish,$9.00 — sushi
+Spicy Tuna Roll,$8.00 — sushi,$9.00 — appetizers,$8.00 — a_la_carte,$10.00 — sushi,$10.00 — sushi
+Tuna Roll,$12.00 — sushi,$7.00 — a_la_carte,$17.00 — sushi,$9.00 — appetizers,$12.00 — sushi
+Spicy Salmon Roll,$12.00 — sushi,$85.00 — for_the_table,$20.00 — oysters,$6.00 — a_la_carte,$12.00 — sushi
+Padre Island Roll,$13.00 — sushi,$22.00 — oysters,$36.00 — oysters,$12.00 — sushi,$13.00 — sushi
+Lucky Roll,$16.00 — brunch,$18.00 — appetizers,$35.00 — mains_shellfish,$14.00 — sushi,$14.00 — sushi
+Spider Roll,$28.00 — mains_shellfish,$48.00 — mains_market_fish,$22.00 — sushi,$15.00 — sushi,$15.00 — sushi
+Tidal Wave Roll,$17.00 — brunch,$16.00 — sushi,$32.00 — mains_market_fish,$18.00 — appetizers,$16.00 — sushi
+Rainbow Roll,$17.00 — sushi,$26.00 — mains_classics,$21.00 — brunch,$12.00 — for_the_table,$17.00 — sushi
+Dragon Roll,$16.00 — brunch,$16.00 — appetizers,$17.00 — sushi,$26.00 — mains_classics,$17.00 — sushi
+Red Dragon Roll,$9.00 — appetizers,$18.00 — sushi,$23.00 — oysters,$7.00 — a_la_carte,$18.00 — sushi
+Black Pearl Roll,$48.00 — mains_market_fish,$17.00 — sushi,$18.00 — sushi,$22.00 — sushi,$22.00 — sushi
+Raw Gulf Oysters (half dozen),$6.00 — soups_salads,$6.00 — a_la_carte,$32.00 — mains_market_fish,$18.00 — oysters,$18.00 — oysters
+Raw Gulf Oysters (dozen),$32.00 — mains_market_fish,$22.00 — sushi,$18.00 — appetizers,$36.00 — oysters,$36.00 — oysters
+Oysters Rockefeller,$23.00 — oysters,$15.00 — sushi,$18.00 — sushi,$6.00 — soups_salads,$23.00 — oysters
+Wood Fired Oysters,$20.00 — oysters,$32.00 — mains_market_fish,$6.00 — a_la_carte,$18.00 — appetizers,$20.00 — oysters
+Broiled Oysters Bleu,$18.00 — sushi,$22.00 — oysters,$17.00 — brunch,$19.00 — sandwiches,$22.00 — oysters
+Smoked Fish Dip,$18.00 — appetizers,$18.00 — for_the_table,$21.00 — brunch,$26.00 — mains_classics,$18.00 — for_the_table
+U-Peel Em Shrimp (1/4 lb),$9.00 — soups_salads,$45.00 — mains_market_fish,$7.00 — a_la_carte,$12.00 — for_the_table,$12.00 — for_the_table
+U-Peel Em Shrimp (1/2 lb),$6.00 — a_la_carte,$28.00 — mains_shellfish,$21.00 — for_the_table,$10.00 — soups_salads,$21.00 — for_the_table
+Shrimp Campechana,$17.00 — brunch,$17.00 — brunch,$21.00 — brunch,$12.00 — for_the_table,$12.00 — for_the_table
+Waterstreet Tower,$7.00 — a_la_carte,$85.00 — for_the_table,$18.00 — appetizers,$61.00 — mains_classics,$85.00 — for_the_table
+Shrimp Picayune,$9.00 — sushi,$18.00 — sushi,$22.00 — oysters,$18.00 — appetizers,$18.00 — appetizers
+Blue Crab Mushrooms,$23.00 — oysters,$18.00 — sushi,$18.00 — appetizers,$11.00 — appetizers,$18.00 — appetizers
+Spinach Artichoke Dip,$20.00 — brunch,$13.00 — appetizers,$21.00 — mains_shellfish,$61.00 — mains_classics,$13.00 — appetizers
+Shrimp Enbrochette,$35.00 — mains_shellfish,$22.00 — sushi,$28.00 — appetizers,$18.00 — soups_salads,$28.00 — appetizers
+Creole Hushpuppies,$13.00 — appetizers,$17.00 — sushi,$21.00 — mains_shellfish,$9.00 — appetizers,$9.00 — appetizers
+Fried Crawfish Tails,$18.00 — sushi,$13.00 — appetizers,$27.00 — appetizers,$16.00 — appetizers,$13.00 — appetizers
+Crispy Calamari,$32.00 — mains_market_fish,$16.00 — brunch,$48.00 — mains_market_fish,$16.00 — appetizers,$16.00 — appetizers
+Crab Cakes,$12.00 — for_the_table,$27.00 — appetizers,$15.00 — sushi,$22.00 — oysters,$27.00 — appetizers
+Pecan Crusted Oysters,$16.00 — soups_salads,$16.00 — appetizers,$11.00 — appetizers,$13.00 — appetizers,$16.00 — appetizers
+Southern Fried Okra,$36.00 — oysters,$21.00 — brunch,$23.00 — oysters,$11.00 — appetizers,$11.00 — appetizers
+Fried Seafood Platter,$18.00 — oysters,$21.00 — mains_shellfish,$18.00 — for_the_table,$16.00 — sushi,$21.00 — mains_shellfish
+Bacon Wrapped Stuffed Shrimp,$23.00 — sandwiches,$18.00 — soups_salads,$28.00 — mains_shellfish,$25.00 — mains_shellfish,$25.00 — mains_shellfish
+Mesquite Grilled Sampler,$6.00 — a_la_carte,$35.00 — mains_shellfish,$22.00 — oysters,$16.00 — brunch,$35.00 — mains_shellfish
+Seafood Pasta Jambalaya,$28.00 — mains_shellfish,$13.00 — appetizers,$12.00 — sushi,$16.00 — appetizers,$28.00 — mains_shellfish
+Blackened Snapper Veracruz,$8.00 — a_la_carte,$9.00 — sushi,$48.00 — mains_market_fish,$6.00 — a_la_carte,$48.00 — mains_market_fish
+Salmon Rockefeller,$6.00 — a_la_carte,$32.00 — mains_market_fish,$45.00 — mains_market_fish,$37.00 — mains_market_fish,$32.00 — mains_market_fish
+Pecan Crusted Drum,$85.00 — for_the_table,$37.00 — mains_market_fish,$17.00 — sushi,$17.00 — brunch,$37.00 — mains_market_fish
+Blackened Stuffed Redfish,$27.00 — appetizers,$14.00 — sushi,$19.00 — sandwiches,$45.00 — mains_market_fish,$45.00 — mains_market_fish
+Chicken Rockefeller,$21.00 — for_the_table,$16.00 — appetizers,$24.00 — mains_classics,$16.00 — sushi,$24.00 — mains_classics
+Blackened Chicken Alfredo,$37.00 — mains_market_fish,$13.00 — appetizers,$20.00 — mains_classics,$18.00 — oysters,$20.00 — mains_classics
+Crawfish Stuffed Chicken,$19.00 — sandwiches,$13.00 — appetizers,$25.00 — mains_shellfish,$26.00 — mains_classics,$26.00 — mains_classics
+Surf and Turf,$22.00 — oysters,$21.00 — brunch,$61.00 — mains_classics,$16.00 — brunch,$61.00 — mains_classics
+Bacon Cheeseburger,$16.00 — sandwiches,$32.00 — mains_market_fish,$17.00 — brunch,$25.00 — mains_shellfish,$16.00 — sandwiches
+Water St. Po Boy,$21.00 — for_the_table,$9.00 — soups_salads,$19.00 — sandwiches,$10.00 — soups_salads,$19.00 — sandwiches
+Wood-Fired Chicken Sandwich,$24.00 — mains_classics,$23.00 — sandwiches,$19.00 — sandwiches,$13.00 — sushi,$19.00 — sandwiches
+Crab Cake Burger,$6.00 — a_la_carte,$20.00 — brunch,$9.00 — appetizers,$23.00 — sandwiches,$23.00 — sandwiches
+Shells & Cheese,$9.00 — soups_salads,$6.00 — a_la_carte,$8.00 — a_la_carte,$21.00 — brunch,$8.00 — a_la_carte
+Seasoned French Fries,$61.00 — mains_classics,$6.00 — a_la_carte,$16.00 — soups_salads,$22.00 — sushi,$6.00 — a_la_carte
+Sweet Potato Fries,$21.00 — brunch,$28.00 — appetizers,$7.00 — a_la_carte,$16.00 — appetizers,$7.00 — a_la_carte
+Loaded Baked Potato,$18.00 — soups_salads,$35.00 — mains_shellfish,$8.00 — sushi,$6.00 — a_la_carte,$6.00 — a_la_carte
+Seasonal Veggies,$28.00 — appetizers,$14.00 — sushi,$18.00 — appetizers,$6.00 — a_la_carte,$6.00 — a_la_carte
+Fried Shrimp,$16.00 — brunch,$3.00 — a_la_carte,$16.00 — appetizers,$18.00 — soups_salads,$3.00 — a_la_carte

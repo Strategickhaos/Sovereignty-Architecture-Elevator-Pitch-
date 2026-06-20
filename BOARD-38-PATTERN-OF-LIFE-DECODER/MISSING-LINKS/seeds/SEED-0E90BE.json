@@ -1,0 +1,18 @@
+{
+  "seed_id": "SEED-0E90BE",
+  "motif": "baby_lookii",
+  "strength": 0.4808,
+  "cadence_mode": "inventive",
+  "dominant_signal": "proof",
+  "priority": "MEDIUM",
+  "pol_id": "POL-C953E912",
+  "generated": "2026-06-07T04:09:28.113139",
+  "missing_links": [
+    "reusable compiler core",
+    "scaffold-to-board bridge",
+    "automated contradiction resolver",
+    "ERU variance annotator",
+    "invention seed router",
+    "pattern-to-music bridge"
+  ]
+}

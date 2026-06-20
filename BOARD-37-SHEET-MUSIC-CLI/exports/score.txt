@@ -1,0 +1,30 @@
+
+ ╔══════════════════════════════════════════════════════════╗
+ ║   SAGCO  WORD  FREQUENCY  SCORE                         ║
+ ║   district: frequency_coast  ·  board: BOARD-37         ║
+ ╚══════════════════════════════════════════════════════════╝
+
+     WORD            RANK   OCCs       %   NOTE   DURATION  INSTRUMENT
+ ──────────────────────────────────────────────────────────────────
+ 𝅝   registry           1     45    1.20     C3      whole  Piano     
+ 𝅝   sagco              2     42    1.10    C#3      whole  Piano     
+ 𝅝   compile            3     40    1.05     D3      whole  Strings   
+ 𝅝   sovereign          4     36    0.95    D#3      whole  Brass     
+ 𝅗𝅥   cell               5     34    0.90     F3       half  Piano     
+ 𝅗𝅥   formula            6     32    0.85    F#3       half  Piano     
+ 𝅗𝅥   lexer              7     30    0.80     G3       half  Piano     
+ 𝅗𝅥   parse              8     28    0.75    G#3       half  Strings   
+ ♩   abstract           9     26    0.70    A#3    quarter  Brass     
+ ♩   quickly           10     24    0.65     B3    quarter  Woodwind  
+ ♩   compiler          11     23    0.60     C4    quarter  Piano     
+ ♩   guard             12     21    0.55    C#4    quarter  Strings   
+ ♩   mobius            13     19    0.50    D#4    quarter  Piano     
+ ♩   and               14     17    0.45     E4    quarter  Percussion
+ ♪   eru               15     15    0.40     F4     eighth  Piano     
+ ♪   sheet             16     13    0.35    F#4     eighth  Piano     
+ ♪   morse             17     11    0.30    G#4     eighth  Piano     
+ ♪   value             18      9    0.25     A4     eighth  Piano     
+ ♪   passes            19      7    0.20    A#4     eighth  Strings   
+ 𝅘𝅥𝅯   tokens            20      5    0.15     C5  sixteenth  Piano     
+ ──────────────────────────────────────────────────────────────────
+   20 notes total

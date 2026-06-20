@@ -1,0 +1,43 @@
+ABISS_WEB:
+  version: "1.0"
+  board: "BOARD-60"
+  name: "SAGCO ABISS-WEB — Autonomous Browser Intelligence Search System"
+
+POLICY:
+  crawl_mode: authorized_or_public_only
+  respect_robots_txt: true
+  rate_limit: true
+  rate_limit_delay_seconds: 2.0
+  max_depth: 3
+  max_pages_per_domain: 500
+  no_secret_indexing: true
+  redact_tokens_before_index: true
+  user_agent: "SAGCO-ABISS-WEB/1.0 (sovereign-crawler; +https://github.com/strategickhaos)"
+
+STORAGE:
+  queue_file: "outputs/crawl_queue.json"
+  visited_file: "outputs/visited_urls.json"
+  index_file: "outputs/abiss_index.json"
+  vector_backend: "qdrant"       # or "flat" for stdlib fallback
+  qdrant_host: "localhost"
+  qdrant_port: 6333
+  qdrant_collection: "abiss_web"
+
+API:
+  proxy_host: "0.0.0.0"
+  proxy_port: 8765
+  query_backend: "http://localhost:8000/query"   # existing recon/retriever/api.py
+  fallback_flat_search: true                      # flat index if Qdrant not running
+
+REDACT_PATTERNS:
+  - "(?i)(api[_-]?key|apikey)\\s*[:=]\\s*['\"]?[A-Za-z0-9_\\-]{16,}"
+  - "sk-[A-Za-z0-9]{32,}"
+  - "ghp_[A-Za-z0-9]{36}"
+  - "discord\\.com/api/webhooks/\\d+/[A-Za-z0-9_\\-]+"
+  - "-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----"
+  - "(?i)(password|passwd|pwd)\\s*[:=]\\s*['\"]?.{6,}"
+
+SEED_DOMAINS:
+  - "https://en.wikipedia.org/wiki/Main_Page"
+  - "https://news.ycombinator.com"
+  - "https://arxiv.org/list/cs.AI/recent"

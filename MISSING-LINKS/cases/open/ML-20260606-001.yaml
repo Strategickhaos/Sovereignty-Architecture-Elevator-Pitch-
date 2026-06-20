@@ -1,0 +1,25 @@
+id: ML-20260606-001
+seed: INV-20260606-001-seed.yaml
+title: "Payload-Aware Antibody Router"
+status: OPEN
+opened: "2026-06-06"
+owner: BOARD-29-SAGCO-PHONE-OS
+district: compiler_city
+severity: HIGH
+
+contradiction_type: CONTRADICTION_COLLAPSED_TOO_EARLY
+invariant_violated: INV-003
+law: "Classification must depend on payload, not surface error alone"
+
+expected: "Antibody router inspects payload before assigning severity"
+actual:   "Router matched surface error string only — missed token fields"
+variance: "CRITICAL token events collapsed to LOW — severity lost"
+
+invention_name: "Payload-Aware Antibody Router"
+pmi_delta_estimate: 0.08
+
+verification_pending:
+  - "Add _payload_escalation_check() to BOARD-28/src/firefox_event_ingester.py"
+  - "Add _payload_escalation_check() to BOARD-27/src/comms_router.py"
+  - "Test: Statsig error + access_token= in payload → severity=CRITICAL"
+  - "Run: python BOARD-10-UNIVERSITY/src/exam_runner.py --exam inventions"

@@ -1,0 +1,6 @@
+[
+  {
+    "error": "Command '['docker', 'ps', '--format', '{{json .}}']' returned non-zero exit status 1.",
+    "note": "docker not running or not installed"
+  }
+]

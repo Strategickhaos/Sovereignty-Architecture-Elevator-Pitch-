@@ -1,0 +1,45 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sagco-genesis
+  labels:
+    sagco.district: genesis
+    sagco.team: purple
+    sagco.board: BOARD-25-SAGCO-HUB
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sagco-eru
+  labels:
+    sagco.district: eru
+    sagco.team: purple
+    sagco.board: BOARD-25-SAGCO-HUB
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sagco-trinity
+  labels:
+    sagco.district: trinity
+    sagco.team: blue
+    sagco.board: BOARD-25-SAGCO-HUB
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sagco-industrial
+  labels:
+    sagco.district: industrial
+    sagco.team: purple
+    sagco.board: BOARD-25-SAGCO-HUB
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sagco-frequency
+  labels:
+    sagco.district: frequency_coast
+    sagco.team: purple
+    sagco.board: BOARD-25-SAGCO-HUB

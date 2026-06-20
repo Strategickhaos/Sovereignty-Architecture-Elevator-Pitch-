@@ -1,0 +1,26 @@
+id: INV-004
+name: Recon Invariance
+status: ACTIVE
+health: UNKNOWN
+
+rule_set:
+  - id: R001
+    rule: "Every MAC in ARP scan is registered or flagged phantom"
+    scan_source: BOARD-13-RECON
+    status: UNCHECKED
+
+  - id: R002
+    rule: "Every open port has an owning citizen"
+    status: UNCHECKED
+
+  - id: R003
+    rule: "Node not seen in 30 days → RECON_DRIFT missing link"
+    retention_days: 30
+    status: UNCHECKED
+
+  - id: R004
+    rule: "IP change without update → drift case opened"
+    status: UNCHECKED
+
+violations: []
+last_scan: null

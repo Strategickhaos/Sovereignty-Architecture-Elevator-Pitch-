@@ -1,0 +1,6 @@
+bond_id: BOND-B2C3F1
+bond_order: 1.5
+bond_type: similarity
+source: Q2
+strength: double
+target: DEF-1

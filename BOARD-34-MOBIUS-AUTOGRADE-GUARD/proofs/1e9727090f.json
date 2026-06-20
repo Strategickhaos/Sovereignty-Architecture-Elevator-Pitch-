@@ -1,0 +1,16 @@
+{
+  "id": "PROOF-1e9727090f",
+  "timestamp": "2026-06-06T23:14:03.052093Z",
+  "question": "Q5: decreasing interval of f",
+  "eru": {
+    "expected": "Mobius-ready formatted answer with no syntax errors",
+    "actual": "(-5,5)",
+    "variance": []
+  },
+  "raw": "(-5,5)",
+  "formatted": "(-5,5)",
+  "answer_type": "interval",
+  "mobius_ready": true,
+  "warnings": [],
+  "errors": []
+}

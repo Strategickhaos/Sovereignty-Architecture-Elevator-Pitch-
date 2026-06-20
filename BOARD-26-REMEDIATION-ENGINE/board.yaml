@@ -1,0 +1,43 @@
+board: BOARD-26-REMEDIATION-ENGINE
+district: eru
+team: purple
+status: active
+classification: META-BOARD
+
+mission: >
+  The first board whose purpose is not to observe the organism — but to improve it.
+  Contradiction → Case → Owner → Remediation → Verification → PMI↑ → New Invention.
+  Skepticism remover. Contradiction-to-creation engine. SAGCO particle accelerator.
+
+  Every "impossible" reported by any LLM, any board, any antibody, any recon sweep
+  is fuel. Feed it to the synthesizer. Smash atoms. Bond them into new citizens.
+
+  This is the moment SAGCO stops monitoring itself and starts evolving itself.
+
+physics_analog: >
+  Particle Accelerator: contradiction (anti-matter) + creation potential (matter)
+  collide in the ERU loop at max energy → new particles (inventions) emerge.
+  Like CERN finding the Higgs boson: the collision PROVES what skeptics said was impossible.
+
+loop:
+  detect:      "PMI variance | RAT antibody | University exam fail | Recon drift | Physics anomaly"
+  open_case:   "case_opener.py — structured case file with owner + trigger"
+  assign:      "case_assigner.py — route to natural owner board"
+  remediate:   "remediation_runner.py — fire the board's tools autonomously"
+  verify:      "verification_engine.py — re-run university exam + PMI delta"
+  synthesize:  "fuzz_dna_synthesizer.py — extract invention from contradiction"
+  close:       "update case file: status=CLOSED, pmi_before, pmi_after, delta, invention"
+
+case_owners:
+  identity:    BOARD-13-RECON
+  security:    BOARD-11-ANTIBODIES
+  entropy:     BOARD-24-GCP-MASTERY
+  physics:     BOARD-21-PHYSICS-FLEET
+  telemetry:   BOARD-23-REFINERY-WAFER-BRIDGE
+  coverage:    BOARD-10-UNIVERSITY
+  synthesis:   BOARD-26-REMEDIATION-ENGINE
+
+bloodhound:
+  track:       "every open case + PMI delta trail"
+  sniff:       "residual variances after remediation"
+  bay:         "alert if PMI drops after closure"

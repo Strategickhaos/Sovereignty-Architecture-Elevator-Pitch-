@@ -1,0 +1,37 @@
+id: INV-002
+name: District Invariance
+status: ACTIVE
+health: UNKNOWN
+
+valid_districts:
+  - genesis
+  - eru
+  - trinity
+  - industrial
+  - compiler_city
+  - frequency_coast
+  - memory_palace
+  - contradiction_forest
+
+rule_set:
+  - id: R001
+    rule: "Every citizen has a district field"
+    orphan_default: memory_palace
+    status: UNCHECKED
+
+  - id: R002
+    rule: "Every district is in valid_districts list"
+    status: UNCHECKED
+
+  - id: R003
+    rule: "Security events route to trinity"
+    test: "citizens where kind contains 'otp' or 'token' → district == trinity"
+    status: UNCHECKED
+
+  - id: R004
+    rule: "Marketing/noise routes to memory_palace"
+    test: "citizens where kind == 'phone-marketing' → district == memory_palace"
+    status: UNCHECKED
+
+violations: []
+last_scan: null

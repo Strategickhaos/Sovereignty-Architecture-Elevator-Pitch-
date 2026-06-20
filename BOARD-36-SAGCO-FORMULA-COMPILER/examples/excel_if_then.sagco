@@ -1,0 +1,6 @@
+A1 = 42
+A2 = 100
+B1 = =IF(A1>50, "HIGH", "LOW")
+B2 = =IF(A2>50, "HIGH", "LOW")
+C1 = =SUM(A1,A2)
+C2 = =SAGCO_SANITY(B1)

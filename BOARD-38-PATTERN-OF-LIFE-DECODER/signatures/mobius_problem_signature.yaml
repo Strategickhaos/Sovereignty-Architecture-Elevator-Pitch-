@@ -1,0 +1,27 @@
+sig_id: MOBIUS-PROB-001
+organism: generic
+description: Signature for the Mobius problem-to-proof cadence.
+signals:
+  - "mobius"
+  - "proof"
+  - "problem"
+  - "solve"
+  - "grade"
+  - "formula"
+  - "derivative"
+  - "verify"
+  - "answer"
+cadence_mode: deep_focus
+dominant_pos: SYMBOL
+dominant_board: BOARD-34
+loop_ratio: 0.22
+invention_probability: 0.58
+missing_links_detected:
+  - mobius proof verifier
+  - formula step-tracer
+motifs_detected:
+  - mobius_problem_to_proof
+notes: >
+  Deep-focus cadence: the organism enters a sustained problem-solving loop
+  around calculus/formula content. Transitions occur when an answer is found
+  or the problem changes.

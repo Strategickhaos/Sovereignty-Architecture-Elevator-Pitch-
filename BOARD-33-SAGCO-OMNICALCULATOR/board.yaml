@@ -1,0 +1,27 @@
+board: BOARD-33-SAGCO-OMNICALCULATOR
+id: BOARD-33
+district: compiler_city
+status: ACTIVE
+role: omnicalculator
+
+purpose: |
+  Beat Excel AND Mobius by wiring every SAGCO board into one sovereign
+  calculation engine. Contradiction-to-creation is the core loop:
+  every gap between Excel/Mobius and SAGCO becomes an invention.
+
+missing_links_addressed: 33
+
+modules:
+  math_engine:     "CAS — limits, derivatives, integrals, roots, ODEs (sympy)"
+  cell_engine:     "Spreadsheet recalc — dependency graph, auto-recalc, circular ref"
+  unit_converter:  "Physical unit conversion — sovereign-unit normalizer"
+  formula_compiler:"Excel formula → SAGCO AST"
+  eru_runner:      "Expected/Actual/Variance on any equation"
+  nlp_formula:     "Natural language → formula via pattern matching"
+  omni_core:       "Dispatcher — routes to all modules"
+
+beats:
+  excel:   "CAS + ERU loop + contradiction engine + sovereign units"
+  mobius:  "CLI-first + citizen registration + anti-hallucination + portfolio export"
+
+command: "python sagco-agents/sagco.py omni <expression>"

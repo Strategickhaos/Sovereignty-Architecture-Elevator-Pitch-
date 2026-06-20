@@ -1,0 +1,12 @@
+atom_type: question
+description: >
+  A direct question posed in the assignment.
+  Usually requires derivation, classification, or numerical answer.
+id_prefix: "Q"
+example_pattern: "Q1: Find the critical points of f(x) = ..."
+tags_hint:
+  - problem
+  - solve
+  - find
+  - compute
+  - classify

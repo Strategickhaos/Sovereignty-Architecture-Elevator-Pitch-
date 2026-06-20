@@ -1,0 +1,21 @@
+board: BOARD-30-FAKE-CELL-BUSINESS-LINE
+id: BOARD-30
+district: frequency_coast
+status: ACTIVE
+role: virtual_cell_device
+
+purpose: |
+  Treat a desktop folder as a fake cellphone / business line.
+  SAGCO can lex, parse, enumerate, and register every file in it.
+
+loop:
+  - folder       # the device
+  - files        # the signals
+  - tokens       # lexer output
+  - AST          # parsed conversations
+  - citizens     # registered in 08-CITIZENS
+  - cases        # BOARD-26 cases for CRITICAL/HIGH
+
+device_path: "BOARD-30-FAKE-CELL-BUSINESS-LINE/device"
+number_alias: "business_line"
+pid_base: 30000

@@ -1,0 +1,6 @@
+hazards:
+  - {id: HAZ-001, type: hallucination, boards_affected: [all], severity: high}
+  - {id: HAZ-002, type: circular_dependency, boards_affected: [BOARD-36], severity: medium}
+  - {id: HAZ-003, type: orphan_citizen, boards_affected: [BOARD-13], severity: low}
+  - {id: HAZ-004, type: signal_loss, boards_affected: [BOARD-30, BOARD-31], severity: medium}
+  - {id: HAZ-005, type: district_isolation, boards_affected: [BOARD-28], severity: low}

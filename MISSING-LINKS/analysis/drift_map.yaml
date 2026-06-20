@@ -1,0 +1,12 @@
+name: Drift Map
+description: "Nodes that were registered but have since changed without an update"
+generated: null
+drifts: []
+# Format:
+# - node_id: sgc-net-...
+#   field: ip_address
+#   was: "192.168.1.50"
+#   now: "192.168.1.55"
+#   first_seen_drift: "2026-06-06"
+#   status: open | resolved
+#   missing_link: ML-...

@@ -1,0 +1,14 @@
+name: POWERSHELL_REDIRECT_ARROW
+classification: shell_quoting_variance
+trigger: passing FlameLang source containing "->" as a string argument in PowerShell
+cause: PowerShell interprets ">" as output redirection operator
+expected: cargo run -- "brick ENTRY route pad(A) -> pad(B)" passes full string
+actual: PowerShell splits at ">" and redirects right-hand side to a file
+remedy:
+  - preferred: compile from .flame file — cargo run -- examples\first.flame
+  - escape: use backtick before ">" inside string if inline is required
+  - never: pass raw source code with "->" through PowerShell shell expansion
+severity: MEDIUM
+department: SAGCO_LANG
+status: LEARNED
+learned_at: "2025-01-01"

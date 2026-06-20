@@ -19,10 +19,14 @@ on:
         - staging
         - prod
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   EVENTS_URL: "https://events.strategickhaos.com/event"
   REGISTRY: ghcr.io
-  IMAGE_NAME: strategickhaos-swarm-intelligence/${{ github.event.repository.name }}
+  IMAGE_NAME: strategickhaos/sovereignty-architecture-elevator-pitch
 
 jobs:
   build-and-test:
@@ -90,6 +94,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: Dockerfile.bot
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}

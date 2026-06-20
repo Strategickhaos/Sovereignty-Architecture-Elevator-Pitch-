@@ -1,0 +1,49 @@
+# SAGCO ERU Report — Music Pass
+board: BOARD-37-SHEET-MUSIC-CLI
+district: frequency_coast
+timestamp: "2026-06-07T03:57:55.903891Z"
+source_file: demo
+output_files:
+  - /home/user/Sovereignty-Architecture-Elevator-Pitch-/BOARD-37-SHEET-MUSIC-CLI/src/../exports/score.abc
+  - /home/user/Sovereignty-Architecture-Elevator-Pitch-/BOARD-37-SHEET-MUSIC-CLI/src/../exports/score.mid
+  - /home/user/Sovereignty-Architecture-Elevator-Pitch-/BOARD-37-SHEET-MUSIC-CLI/src/../exports/score.txt
+expected:
+  all_words_mapped_to_notes: true
+  variance: 0
+  pitch_range: C3-C5 (MIDI 48-72)
+  velocity_range: 40-127
+  channels: "0,1,2,3,4,9"
+actual:
+  notes_generated: 20
+  channels_used:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 9
+  durations_used:
+    - eighth
+    - half
+    - quarter
+    - sixteenth
+    - whole
+  pitch_min: 48
+  pitch_max: 72
+  velocity_min: 42
+  velocity_max: 60
+  words_mapped:
+    - registry
+    - sagco
+    - compile
+    - sovereign
+    - cell
+    - formula
+    - lexer
+    - parse
+    - abstract
+    - quickly
+    - ...
+proof:
+  status: PASS
+  message: 20 notes generated from demo
+  sovereign_law: Every word row produces exactly one MusicNote — no word left unmapped.

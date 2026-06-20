@@ -1,0 +1,31 @@
+command: "/status"
+description: "Full pathway status — K8s, Discord bot, agents, synapse health"
+channel: any
+rbac: any
+
+checks:
+  - name: discord_bot
+    endpoint: internal health probe
+    expected: "discord-ops-bot deployment READY"
+  - name: event_gateway
+    endpoint: "https://events.strategickhaos.com/health"
+    expected: "200 OK"
+  - name: observability
+    endpoint: prometheus scrape target
+    expected: "up=1"
+  - name: ai_agents
+    endpoint: agent_hub health
+    expected: "agents: active"
+  - name: habebian_pathway
+    endpoint: "python3 habebian_cli.py status"
+    expected: "PATHWAY: MAT-225-CALC-I-HABEBIAN"
+
+discord_embed:
+  color: 0x22C55E   # green when all clear
+  title: "SAGCO STATUS"
+  fields:
+    - K8s cluster
+    - Discord bot
+    - Event gateway
+    - AI agents
+    - Habebian pathway (MAT-225 module progress)

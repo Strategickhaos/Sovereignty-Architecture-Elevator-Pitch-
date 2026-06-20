@@ -1,0 +1,69 @@
+Front,Back,Category,Difficulty
+Eggs Benedict,$16.00 — brunch,menu,medium
+Eggs Orleans,$20.00 — brunch,menu,medium
+Eggs Sardou,$17.00 — brunch,menu,medium
+Eggs Sonesta,$21.00 — brunch,menu,medium
+Pain Perdu,$16.00 — brunch,menu,medium
+Ham & Cheese Omelet,$17.00 — brunch,menu,medium
+Starter Salads,$6.00 — soups_salads,menu,easy
+Caldo Xochitl,$9.00 — soups_salads,menu,easy
+Seafood Gumbo,$10.00 — soups_salads,menu,easy
+Barbecue Salmon Salad,$19.00 — soups_salads,menu,medium
+Deluxe Water St. Wedge,$16.00 — soups_salads,menu,medium
+Gulf Shrimp Salad,$18.00 — soups_salads,menu,medium
+Grilled Chicken Caesar,$16.00 — soups_salads,menu,medium
+Avocado Roll,$8.00 — sushi,menu,easy
+Tempura Shrimp Roll,$9.00 — sushi,menu,easy
+Spicy Tuna Roll,$10.00 — sushi,menu,easy
+Tuna Roll,$12.00 — sushi,menu,easy
+Spicy Salmon Roll,$12.00 — sushi,menu,easy
+Padre Island Roll,$13.00 — sushi,menu,easy
+Lucky Roll,$14.00 — sushi,menu,easy
+Spider Roll,$15.00 — sushi,menu,medium
+Tidal Wave Roll,$16.00 — sushi,menu,medium
+Rainbow Roll,$17.00 — sushi,menu,medium
+Dragon Roll,$17.00 — sushi,menu,medium
+Red Dragon Roll,$18.00 — sushi,menu,medium
+Black Pearl Roll,$22.00 — sushi,menu,medium
+Raw Gulf Oysters (half dozen),$18.00 — oysters,menu,medium
+Raw Gulf Oysters (dozen),$36.00 — oysters,menu,hard
+Oysters Rockefeller,$23.00 — oysters,menu,medium
+Wood Fired Oysters,$20.00 — oysters,menu,medium
+Broiled Oysters Bleu,$22.00 — oysters,menu,medium
+Smoked Fish Dip,$18.00 — for_the_table,menu,medium
+U-Peel Em Shrimp (1/4 lb),$12.00 — for_the_table,menu,easy
+U-Peel Em Shrimp (1/2 lb),$21.00 — for_the_table,menu,medium
+Shrimp Campechana,$12.00 — for_the_table,menu,easy
+Waterstreet Tower,$85.00 — for_the_table,menu,hard
+Shrimp Picayune,$18.00 — appetizers,menu,medium
+Blue Crab Mushrooms,$18.00 — appetizers,menu,medium
+Spinach Artichoke Dip,$13.00 — appetizers,menu,easy
+Shrimp Enbrochette,$28.00 — appetizers,menu,medium
+Creole Hushpuppies,$9.00 — appetizers,menu,easy
+Fried Crawfish Tails,$13.00 — appetizers,menu,easy
+Crispy Calamari,$16.00 — appetizers,menu,medium
+Crab Cakes,$27.00 — appetizers,menu,medium
+Pecan Crusted Oysters,$16.00 — appetizers,menu,medium
+Southern Fried Okra,$11.00 — appetizers,menu,easy
+Fried Seafood Platter,$21.00 — mains_shellfish,menu,medium
+Bacon Wrapped Stuffed Shrimp,$25.00 — mains_shellfish,menu,medium
+Mesquite Grilled Sampler,$35.00 — mains_shellfish,menu,hard
+Seafood Pasta Jambalaya,$28.00 — mains_shellfish,menu,medium
+Blackened Snapper Veracruz,$48.00 — mains_market_fish,menu,hard
+Salmon Rockefeller,$32.00 — mains_market_fish,menu,hard
+Pecan Crusted Drum,$37.00 — mains_market_fish,menu,hard
+Blackened Stuffed Redfish,$45.00 — mains_market_fish,menu,hard
+Chicken Rockefeller,$24.00 — mains_classics,menu,medium
+Blackened Chicken Alfredo,$20.00 — mains_classics,menu,medium
+Crawfish Stuffed Chicken,$26.00 — mains_classics,menu,medium
+Surf and Turf,$61.00 — mains_classics,menu,hard
+Bacon Cheeseburger,$16.00 — sandwiches,menu,medium
+Water St. Po Boy,$19.00 — sandwiches,menu,medium
+Wood-Fired Chicken Sandwich,$19.00 — sandwiches,menu,medium
+Crab Cake Burger,$23.00 — sandwiches,menu,medium
+Shells & Cheese,$8.00 — a_la_carte,menu,easy
+Seasoned French Fries,$6.00 — a_la_carte,menu,easy
+Sweet Potato Fries,$7.00 — a_la_carte,menu,easy
+Loaded Baked Potato,$6.00 — a_la_carte,menu,easy
+Seasonal Veggies,$6.00 — a_la_carte,menu,easy
+Fried Shrimp,$3.00 — a_la_carte,menu,easy

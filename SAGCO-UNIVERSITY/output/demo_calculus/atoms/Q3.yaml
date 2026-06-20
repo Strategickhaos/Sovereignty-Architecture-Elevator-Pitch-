@@ -1,0 +1,18 @@
+atom_id: Q3
+atom_type: question
+content: 'Find absolute extrema on [-5, 5]
+
+  Definition: A critical point occurs where f''(x) = 0 or f''(x) is undefined
+
+  Formula: Bond Order = (Bonding Electrons - Antibonding Electrons) / 2
+
+  Example: For f(x) = x^2 - 4, f''(x) = 2x, critical point at x=0'
+module: demo_calculus
+tags:
+- antibonding
+- bond
+- bonding
+- critical
+- extrema
+- formula
+- point

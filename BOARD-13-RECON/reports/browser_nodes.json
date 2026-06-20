@@ -1,0 +1,92 @@
+[
+  {
+    "cid": "sgc-artifact-1780775035367-2850",
+    "canonical": "BROWSER.TAB.CONSOLE_CLOUD_GOOGLE_COM_GOOGLE_CLOUD_CONSOLE",
+    "name": "Google Cloud Console",
+    "kind": "artifact",
+    "district": "compiler_city",
+    "status": "active",
+    "node_type": "browser_tab",
+    "url": "https://console.cloud.google.com",
+    "host": "console.cloud.google.com",
+    "anomalies": [],
+    "index": 0,
+    "created_at": "2026-06-06T19:43:55Z"
+  },
+  {
+    "cid": "sgc-artifact-1780775035369-2852",
+    "canonical": "BROWSER.TAB.GITHUB_COM_STRATEGICKHAOS_GITHUB",
+    "name": "Strategickhaos GitHub",
+    "kind": "artifact",
+    "district": "compiler_city",
+    "status": "active",
+    "node_type": "browser_tab",
+    "url": "https://github.com/Strategickhaos",
+    "host": "github.com",
+    "anomalies": [],
+    "index": 1,
+    "created_at": "2026-06-06T19:43:55Z"
+  },
+  {
+    "cid": "sgc-artifact-1780775035370-2853",
+    "canonical": "BROWSER.TAB.CLAUDE_AI_CLAUDE_CODE",
+    "name": "Claude Code",
+    "kind": "artifact",
+    "district": "memory_palace",
+    "status": "active",
+    "node_type": "browser_tab",
+    "url": "https://claude.ai/code",
+    "host": "claude.ai",
+    "anomalies": [],
+    "index": 2,
+    "created_at": "2026-06-06T19:43:55Z"
+  },
+  {
+    "cid": "sgc-artifact-1780775035371-2854",
+    "canonical": "BROWSER.TAB.DISCORD_COM_DISCORD_OPS",
+    "name": "Discord Ops",
+    "kind": "artifact",
+    "district": "frequency_coast",
+    "status": "active",
+    "node_type": "browser_tab",
+    "url": "https://discord.com/channels/ops",
+    "host": "discord.com",
+    "anomalies": [],
+    "index": 3,
+    "created_at": "2026-06-06T19:43:55Z"
+  },
+  {
+    "cid": "sgc-artifact-1780775035372-2855",
+    "canonical": "BROWSER.TAB.LOCALHOST_3000_LOCAL_DEV",
+    "name": "Local Dev",
+    "kind": "artifact",
+    "district": "industrial",
+    "status": "active",
+    "node_type": "browser_tab",
+    "url": "https://localhost:3000",
+    "host": "localhost:3000",
+    "anomalies": [],
+    "index": 4,
+    "created_at": "2026-06-06T19:43:55Z"
+  },
+  {
+    "cid": "sgc-artifact-1780775035373-2856",
+    "canonical": "BROWSER.TAB.CLAUDE_AI_OAUTH_FLOW",
+    "name": "OAuth Flow",
+    "kind": "artifact",
+    "district": "memory_palace",
+    "status": "flagged",
+    "node_type": "browser_tab",
+    "url": "https://claude.ai/oauth/authorize?code=abc123",
+    "host": "claude.ai",
+    "anomalies": [
+      {
+        "anomaly": "oauth_code_in_url",
+        "severity": "HIGH",
+        "url_fragment": "https://claude.ai/oauth/authorize?code=abc123"
+      }
+    ],
+    "index": 5,
+    "created_at": "2026-06-06T19:43:55Z"
+  }
+]

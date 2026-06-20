@@ -1,0 +1,95 @@
+---
+# SAGCO OS kernel service — genesis
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco-os
+  namespace: sagco-genesis
+  labels:
+    sagco.district: genesis
+spec:
+  selector:
+    app: sagco-daemon-self
+  ports:
+    - name: hub
+      port: 5000
+      targetPort: 5000
+    - name: api
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+# SAGCO Observer telemetry endpoint
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco-observer
+  namespace: sagco-industrial
+  labels:
+    sagco.district: industrial
+    sagco.daemon: observer
+spec:
+  selector:
+    app: sagco-daemon-observer
+  ports:
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+    - name: api
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+# SAGCO Sentinel security endpoint
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco-sentinel
+  namespace: sagco-trinity
+  labels:
+    sagco.district: trinity
+    sagco.daemon: sentinel
+spec:
+  selector:
+    app: sagco-daemon-sentinel
+  ports:
+    - name: api
+      port: 8080
+      targetPort: 8080
+    - name: webhook
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP
+---
+# SAGCO ERU synthesis endpoint
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco-eru
+  namespace: sagco-eru
+  labels:
+    sagco.district: eru
+    sagco.daemon: purple
+spec:
+  selector:
+    app: sagco-daemon-purple
+  ports:
+    - name: api
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+# SAGCO MCP endpoint — frequency_coast
+apiVersion: v1
+kind: Service
+metadata:
+  name: sagco-mcp
+  namespace: sagco-frequency
+  labels:
+    sagco.district: frequency_coast
+spec:
+  ports:
+    - name: mcp
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP

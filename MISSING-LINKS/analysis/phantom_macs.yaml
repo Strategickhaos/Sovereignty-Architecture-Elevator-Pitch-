@@ -1,0 +1,10 @@
+name: Phantom MACs
+description: "MAC addresses seen in ARP/recon but not registered as citizens"
+generated: null
+phantoms: []
+# Format:
+# - mac: "aa:bb:cc:dd:ee:ff"
+#   ip: "192.168.1.x"
+#   first_seen: "2026-06-06"
+#   vendor: "Samsung" / "Apple" / "Unknown"
+#   status: phantom | claimed | resolved

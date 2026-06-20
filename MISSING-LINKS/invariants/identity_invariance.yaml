@@ -1,0 +1,32 @@
+id: INV-001
+name: Identity Invariance
+status: ACTIVE
+health: UNKNOWN
+
+rule_set:
+  - id: R001
+    rule: "Every citizen has exactly one CID"
+    test: "SELECT cid FROM citizens GROUP BY cid HAVING COUNT(*) > 1 → must be empty"
+    last_checked: null
+    status: UNCHECKED
+
+  - id: R002
+    rule: "Every PID maps to exactly one node"
+    test: "No two sagco-phone-node.yaml files share a pid value"
+    last_checked: null
+    status: UNCHECKED
+
+  - id: R003
+    rule: "CID format: sgc-{kind}-{timestamp_ms}-{tick%3449}"
+    test: "All CIDs match regex: ^sgc-[\\w-]+-\\d{13}-\\d{1,4}$"
+    last_checked: null
+    status: UNCHECKED
+
+  - id: R004
+    rule: "No sensitive fields in body_preview"
+    test: "No citizen body_preview contains: access_token, id_token, otp, phone_number plain"
+    last_checked: null
+    status: UNCHECKED
+
+violations: []
+last_scan: null

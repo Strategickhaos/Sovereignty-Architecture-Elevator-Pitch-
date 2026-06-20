@@ -1,0 +1,3 @@
+brick ENTRY route pad(J8.PIN_03) -> pad(BOARD.CORE.PIN_5)
+brick POWER route pad(J8.PIN_01) -> pad(BOARD.VCC.PIN_1)
+brick GND   route pad(J8.PIN_02) -> pad(BOARD.GND.PIN_1)

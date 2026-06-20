@@ -1,0 +1,40 @@
+name: MISSING-LINKS
+id: MISSING-LINKS
+role: substrate
+status: ACTIVE
+
+summary: |
+  The neutral ground. Contradictions, gaps, orphans, and drifts live here
+  before any board claims them. This is the soil where contradictions grow
+  before they become inventions.
+
+  Hierarchy:
+    MISSING-LINKS  (substrate — this repo)
+      ↓
+    BOARD-26  (remediation — claims and closes cases)
+      ↓
+    BOARD-29  (phone OS — invention export)
+      ↓
+    BOARD-25  (PMI — scores the organism)
+
+directories:
+  manifests:   "Schema of what counts as a missing link — the law book"
+  seeds:       "Raw contradiction seeds before any board claims them"
+  cases/open:  "Unresolved contradictions being worked"
+  cases/closed: "Resolved, verified, archived contradictions"
+  analysis:    "Automated bloodwork — orphans, phantoms, drift, gaps"
+  invariants:  "Rules that must always hold — physics of the organism"
+  src:         "Brainstem — detector, classifier, mapper, resolver, bridge"
+  exports:     "Museum — inventions, portfolio artifacts, ERU case studies"
+  reports:     "University transcript — health dashboards"
+
+link_types:
+  - contradiction    # A ≠ T  (actual ≠ truth/expected)
+  - drift            # A was T, now diverging over time
+  - orphan           # citizen or node with no owning board
+  - phantom          # observed in recon but not in registry
+  - gap              # invariant rule exists but no coverage agent
+  - incomplete       # partial data — missing required fields
+
+genesis_tick: 0
+schema_version: "1.0"

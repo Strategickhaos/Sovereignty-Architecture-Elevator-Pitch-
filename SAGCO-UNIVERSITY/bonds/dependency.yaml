@@ -1,0 +1,7 @@
+bond_type: dependency
+description: >
+  Target atom logically depends on source atom being solved first.
+  Stronger than prerequisite — output of source feeds directly into target.
+typical_order: 1.5
+strength: double
+example: "FORMULA-1 -> Q2  (bond-order formula drives classification question)"

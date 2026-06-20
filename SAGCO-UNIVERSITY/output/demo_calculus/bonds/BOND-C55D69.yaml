@@ -1,0 +1,6 @@
+bond_id: BOND-C55D69
+bond_order: 1.5
+bond_type: similarity
+source: Q2
+strength: double
+target: FORMULA-3

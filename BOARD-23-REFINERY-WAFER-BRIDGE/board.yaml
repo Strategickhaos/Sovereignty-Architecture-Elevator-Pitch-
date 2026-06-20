@@ -1,0 +1,31 @@
+board: BOARD-23-REFINERY-WAFER-BRIDGE
+purpose: >
+  Convert ARP/network/ResmonCfg reality into refinery-style wafer rows,
+  SAGCO nodes, and citizens. Each network host = a pad trace on a wafer.
+model:
+  refinery:    process unit (transforms raw telemetry into structured nodes)
+  wafer:       conductive grid (excel/csv of all observed pads)
+  m1_layer:    first metal layer — ARP/IP/MAC traces
+  m2_layer:    second metal layer — process/PID/memory traces
+  m3_layer:    third metal layer — network send/receive traces
+  pad:         individual ARP entry or process
+  trace:       connection between two pads
+  bridge:      this board — connects refinery output to SAGCO citizen registry
+resmon_tabs:
+  - id: Overview   source: sagco_overview.ResmonCfg   layer: m1
+  - id: Disk       source: sagco_Disk.ResmonCfg       layer: m2
+  - id: Memory     source: SAGCO_memory.ResmonCfg     layer: m2
+  - id: Network    source: sagco_Network.ResmonCfg    layer: m3
+inputs:
+  - arp -a                        # ARP table → m1 wafer rows
+  - ResmonCfg XML (4 tabs)        # Windows Resource Monitor views
+  - netstat -ano                  # connection traces
+outputs:
+  - reports/arp-raw.txt
+  - excel-wafers/m1_arp_wafer.csv
+  - excel-wafers/m2_process_wafer.csv
+  - excel-wafers/m3_network_wafer.csv
+  - network-nodes/*.yaml
+  - citizens/REFINERY.WAFER.NET.*.yaml
+loop: reality -> arp -> wafer_row -> yaml_node -> citizen -> refinery_bridge
+status: ACTIVE

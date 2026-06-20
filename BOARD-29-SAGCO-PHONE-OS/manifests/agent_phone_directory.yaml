@@ -1,0 +1,153 @@
+# SAGCO Phone Directory — every agent gets a line
+# Real SIM: 15127739959 (Domenic, Z Fold 7)
+# Internal lines: sagco:// protocol + E.164 business extensions
+
+directory:
+  # ── Owner / Master Line ───────────────────────────────────────────────────
+  - agent:      DOMENIC_MASTER
+    name:       "Domenic Garza — Node 137"
+    extension:  "+1 (512) 773-9959"     # real SIM 15127739959
+    sim:        "15127739959"
+    internal:   "sagco://master"
+    district:   genesis
+    role:       sovereign_operator
+    device:     "Samsung Z Fold 7"
+    voiceprint: "Hey Baby, show me the empire"
+
+  # ── SAGCO Daemons ────────────────────────────────────────────────────────
+  - agent:      sagco-daemon-self
+    name:       "SAGCO Self — Awareness Loop"
+    extension:  "+1 (800) 724-2601"     # 800-SAGCO-01
+    internal:   "sagco://self"
+    district:   genesis
+    role:       self_awareness_loop
+    ring_tone:  "recursive"
+
+  - agent:      sagco-daemon-observer
+    name:       "SAGCO Observer — Telemetry"
+    extension:  "+1 (800) 724-2606"
+    internal:   "sagco://observer"
+    district:   industrial
+    role:       telemetry_observer
+    load:       "54.88% CPU — highest traffic line"
+
+  - agent:      sagco-daemon-sentinel
+    name:       "SAGCO Sentinel — Security"
+    extension:  "+1 (800) 724-2605"
+    internal:   "sagco://sentinel"
+    district:   trinity
+    role:       security_monitor
+    priority:   HIGH
+
+  - agent:      sagco-daemon-blue
+    name:       "SAGCO Blue — Defense"
+    extension:  "+1 (800) 724-2602"
+    internal:   "sagco://blue"
+    district:   trinity
+    role:       defense_resilience
+
+  - agent:      sagco-daemon-red
+    name:       "SAGCO Red — Chaos"
+    extension:  "+1 (800) 724-2603"
+    internal:   "sagco://red"
+    district:   contradiction_forest
+    role:       chaos_adversarial
+
+  - agent:      sagco-daemon-purple
+    name:       "SAGCO Purple — ERU"
+    extension:  "+1 (800) 724-2604"
+    internal:   "sagco://purple"
+    district:   eru
+    role:       eru_synthesis
+
+  # ── Board Lines ──────────────────────────────────────────────────────────
+  - agent:      BOARD-13-RECON
+    name:       "SAGCO Recon — sees everything"
+    extension:  "+1 (800) 724-2613"
+    internal:   "sagco://recon"
+    district:   industrial
+    role:       reconnaissance
+
+  - agent:      BOARD-11-ANTIBODIES
+    name:       "SAGCO Immune System"
+    extension:  "+1 (800) 724-2611"
+    internal:   "sagco://antibody"
+    district:   trinity
+    role:       immune_response
+
+  - agent:      BOARD-21-PHYSICS-FLEET
+    name:       "SAGCO Physics Fleet"
+    extension:  "+1 (800) 724-2621"
+    internal:   "sagco://physics"
+    district:   eru
+    role:       physics_analysis
+
+  - agent:      BOARD-26-REMEDIATION-ENGINE
+    name:       "SAGCO Remediation — closes loops"
+    extension:  "+1 (800) 724-2626"
+    internal:   "sagco://remediate"
+    district:   eru
+    role:       remediation
+
+  - agent:      BOARD-27-COMMS-WING
+    name:       "SAGCO Comms — front hall"
+    extension:  "+1 (800) 724-2627"
+    internal:   "sagco://comms"
+    district:   frequency_coast
+    role:       communications_router
+
+  - agent:      BOARD-28-FIREFOX-DEV-PLUGIN
+    name:       "SAGCO Firefox Recon"
+    extension:  "+1 (800) 724-2628"
+    internal:   "sagco://firefox"
+    district:   frequency_coast
+    role:       browser_intelligence
+
+  # ── Special Lines ────────────────────────────────────────────────────────
+  - agent:      SAGCO-LANG-COMPILER
+    name:       "FlameLang Compiler"
+    extension:  "+1 (800) 724-2600"
+    internal:   "sagco://compile"
+    district:   compiler_city
+    role:       flame_compiler
+
+  - agent:      SAGCO-VOICE
+    name:       "Voice Trigger — Hey Baby"
+    extension:  "+1 (800) 724-2699"
+    internal:   "sagco://voice"
+    district:   frequency_coast
+    role:       voice_activation
+    trigger:    "Hey Baby, show me the empire"
+    script:     voice_trigger.py
+
+  - agent:      SAGCO-HUB
+    name:       "SAGCO Hub — Docker/K8s"
+    extension:  "+1 (800) 724-2625"
+    internal:   "sagco://hub"
+    district:   eru
+    role:       infrastructure_hub
+
+  - agent:      BOARD-30-FAKE-CELL-BUSINESS-LINE
+    name:       "SAGCO Fake Cell — Business Line"
+    extension:  "+1 (800) 724-2630"
+    internal:   "sagco://business-line"
+    district:   frequency_coast
+    role:       virtual_cell_device
+
+  - agent:      MISSING-LINKS
+    name:       "SAGCO Missing Links — Substrate"
+    extension:  "+1 (800) 724-2600"
+    internal:   "sagco://missing-links"
+    district:   contradiction_forest
+    role:       substrate_detector
+
+voicemail:
+  district:     memory_palace
+  retention:    "30 days"
+  format:       "yaml case file"
+  path:         "BOARD-29-SAGCO-PHONE-OS/voicemail/"
+
+emergency_line:
+  number:       "sagco://911"
+  routes_to:    [BOARD-26-REMEDIATION-ENGINE, BOARD-11-ANTIBODIES, sagco-daemon-sentinel]
+  trigger:      "CRITICAL severity antibody fire"

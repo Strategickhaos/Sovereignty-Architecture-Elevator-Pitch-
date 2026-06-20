@@ -1,0 +1,50 @@
+board: BOARD-28-FIREFOX-DEV-PLUGIN
+district: frequency_coast
+team: purple
+status: active
+
+mission: >
+  Firefox developer console privacy/security events → local extension →
+  JSON export → SAGCO browser recon → antibodies/BOARD-26 cases.
+  The extension is the sensor. SAGCO is the brain.
+
+captures:
+  - enhanced_tracking_protection_blocks
+  - partitioned_cookie_warnings         # "dynamic state partitioning is enabled"
+  - oauth_token_in_referrer             # access_token= / id_token= in URL
+  - pii_in_tracking_pixel               # phone_number= / email= in pixel URL
+  - statsig_feature_gate_warnings       # [Statsig] useGateValue hook failed
+  - grafana_faro_sampling               # isSampled:false
+  - third_party_script_errors           # Intercom/Frill/Stripe widget events
+  - webrequest_errors                   # net::ERR_NAME_NOT_RESOLVED
+  - console_security_warnings           # Content-Security-Policy violations
+
+outputs:
+  - extension/exports/firefox-events.json   # raw export from browser toolbar click
+  - reports/ingested_*.yaml                 # SAGCO ERU case files
+  - BOARD-26 cases (via firefox_event_ingester.py)
+  - 08-CITIZENS citizen entries
+
+antibodies_produced:
+  - BROWSER_TOKEN_IN_REFERRER
+  - BROWSER_THIRD_PARTY_WIDGET_EVENT
+  - BROWSER_ANALYTICS_SAMPLING
+  - BROWSER_PII_IN_TRACKING_PIXEL    # (already exists)
+  - BROWSER_TRACKING_PIXEL_FAILURE   # (already exists)
+
+install_instructions: |
+  Firefox: about:debugging#/runtime/this-firefox
+  → Load Temporary Add-on
+  → select: BOARD-28-FIREFOX-DEV-PLUGIN/extension/manifest.json
+
+  Permanent install: sign extension via AMO (addons.mozilla.org)
+  or set xpinstall.signatures.required=false in about:config (dev mode)
+
+sagco_command: |
+  # After clicking toolbar button to export:
+  python sagco-agents/sagco.py firefox --ingest exports/firefox-events.json
+
+  # Full scan + cases + citizens:
+  python BOARD-28-FIREFOX-DEV-PLUGIN/src/firefox_event_ingester.py \
+    --file BOARD-28-FIREFOX-DEV-PLUGIN/extension/exports/firefox-events.json \
+    --emit-cases --emit-citizens

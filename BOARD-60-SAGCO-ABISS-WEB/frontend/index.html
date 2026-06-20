@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAGCO ABISS-WEB — Sovereign Search</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --text: #e0e0f0;
+    --muted: #666680;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  .logo span { color: var(--accent2); }
+  .status-badge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .status-badge.online { border-color: var(--green); color: var(--green); }
+  .status-badge.offline { border-color: var(--red); color: var(--red); }
+
+  /* ── Search box ── */
+  .search-section {
+    padding: 40px 24px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .search-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+  .search-row {
+    display: flex;
+    gap: 10px;
+  }
+  #searchInput {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 18px;
+    font-family: inherit;
+    font-size: 1rem;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #searchInput:focus { border-color: var(--accent); }
+  #searchInput::placeholder { color: var(--muted); }
+  button {
+    background: var(--accent2);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button:hover { background: #6d28d9; }
+  button:disabled { background: var(--border); cursor: not-allowed; }
+
+  /* ── Quick actions ── */
+  .quick-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.15s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    padding: 0 24px;
+    display: flex;
+    gap: 20px;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  .stat-val { color: var(--accent); }
+
+  /* ── Results ── */
+  .results-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  .result-count {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .result-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: var(--surface);
+    transition: border-color 0.15s;
+  }
+  .result-card:hover { border-color: var(--accent2); }
+  .result-url {
+    font-size: 0.7rem;
+    color: var(--accent);
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .result-title {
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  .result-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .result-title a:hover { color: var(--accent); }
+  .result-snippet {
+    font-size: 0.82rem;
+    color: #a0a0b8;
+    line-height: 1.6;
+  }
+  .result-meta {
+    margin-top: 8px;
+    font-size: 0.65rem;
+    color: var(--muted);
+    display: flex;
+    gap: 12px;
+  }
+  .score-badge {
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .source-badge {
+    color: var(--accent2);
+  }
+
+  /* ── Answer panel ── */
+  .answer-panel {
+    border: 1px solid var(--accent2);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #1a0a2e;
+  }
+  .answer-label {
+    font-size: 0.65rem;
+    color: var(--accent2);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+  .answer-text {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ── Ingest panel ── */
+  .ingest-section {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    padding: 0 24px;
+  }
+  .ingest-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  #ingestInput {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    outline: none;
+  }
+  #ingestInput:focus { border-color: var(--accent2); }
+  .ingest-btn {
+    background: transparent;
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+    font-size: 0.8rem;
+    padding: 10px 16px;
+  }
+  .ingest-btn:hover { background: var(--accent2); color: white; }
+  .ingest-msg {
+    font-size: 0.75rem;
+    margin-top: 6px;
+    min-height: 1.2em;
+  }
+  .ingest-msg.ok  { color: var(--green); }
+  .ingest-msg.err { color: var(--red); }
+
+  /* ── Loading ── */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Empty state ── */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .empty-state .glyph {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+  .empty-state p { color: var(--muted); font-size: 0.85rem; }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+  .section-title {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SAGCO <span>ABISS</span>-WEB</div>
+  <div id="statusBadge" class="status-badge">connecting...</div>
+</header>
+
+<div class="search-section">
+  <div class="search-label">⬡ SOVEREIGN SEARCH — BOARD-60</div>
+  <div class="search-row">
+    <input id="searchInput" type="text"
+           placeholder="search the organism's indexed universe..."
+           autocomplete="off" spellcheck="false">
+    <button id="searchBtn" onclick="doSearch()">SEARCH</button>
+  </div>
+  <div class="quick-actions" id="quickChips"></div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <span>indexed: <span class="stat-val" id="statDocs">—</span></span>
+  <span>pending: <span class="stat-val" id="statQueue">—</span></span>
+  <span>backend: <span class="stat-val" id="statBackend">—</span></span>
+</div>
+
+<div class="ingest-section">
+  <div class="section-title">⊕ ADD URL TO ORGANISM</div>
+  <div class="ingest-row">
+    <input id="ingestInput" type="text" placeholder="https://example.com">
+    <button class="ingest-btn" onclick="doIngest()">+ INGEST</button>
+    <button class="ingest-btn" onclick="doCrawl()" id="crawlBtn">▶ CRAWL (10)</button>
+  </div>
+  <div class="ingest-msg" id="ingestMsg"></div>
+</div>
+
+<hr class="divider">
+
+<div class="results-section" id="resultsSection">
+  <div class="empty-state">
+    <div class="glyph">◈</div>
+    <p>ABISS-WEB — autonomous browser intelligence search system</p>
+    <p style="margin-top:8px">type a query above to search the organism's indexed universe</p>
+    <p style="margin-top:16px;font-size:0.75rem;color:#444">
+      proxy: <span id="proxyUrl"></span>
+    </p>
+  </div>
+</div>
+
+<script>
+const PROXY = 'http://localhost:8765';
+document.getElementById('proxyUrl').textContent = PROXY;
+
+const QUICK_QUERIES = [
+  'SAGCO organism', 'sovereignty architecture', 'antibody pattern',
+  'ERU variance', 'Habebian neural', 'calculus derivative',
+  'nmap recon', 'docker container', 'discord webhook'
+];
+
+// Render quick chips
+const chips = document.getElementById('quickChips');
+QUICK_QUERIES.forEach(q => {
+  const c = document.createElement('button');
+  c.className = 'chip';
+  c.textContent = q;
+  c.onclick = () => { document.getElementById('searchInput').value = q; doSearch(); };
+  chips.appendChild(c);
+});
+
+// Enter key
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+document.getElementById('ingestInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doIngest();
+});
+
+async function fetchJson(url, opts = {}) {
+  const r = await fetch(url, opts);
+  return r.json();
+}
+
+async function refreshStatus() {
+  try {
+    const s = await fetchJson(`${PROXY}/status`);
+    document.getElementById('statDocs').textContent    = s.indexed_docs;
+    document.getElementById('statQueue').textContent   = s.pending_queue;
+    document.getElementById('statBackend').textContent = s.qdrant_backend ? 'qdrant' : 'flat';
+    const badge = document.getElementById('statusBadge');
+    badge.textContent = 'online';
+    badge.className   = 'status-badge online';
+  } catch {
+    const badge = document.getElementById('statusBadge');
+    badge.textContent = 'proxy offline';
+    badge.className   = 'status-badge offline';
+  }
+}
+
+async function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+
+  const btn = document.getElementById('searchBtn');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  const section = document.getElementById('resultsSection');
+  section.innerHTML = `<div class="loading"><span class="spinner">↻</span> searching...</div>`;
+
+  try {
+    const data = await fetchJson(`${PROXY}/search?q=${encodeURIComponent(q)}&k=10`);
+    renderResults(q, data);
+  } catch (e) {
+    section.innerHTML = `
+      <div class="empty-state">
+        <div class="glyph" style="color:#ef4444">✗</div>
+        <p style="color:#ef4444">Proxy offline — start abiss_proxy.py</p>
+        <p style="margin-top:8px;font-size:0.75rem">python3 BOARD-60-SAGCO-ABISS-WEB/backend/abiss_proxy.py</p>
+      </div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'SEARCH';
+  }
+}
+
+function renderResults(q, data) {
+  const section = document.getElementById('resultsSection');
+  let html = '';
+
+  if (data.count === 0) {
+    html = `
+      <div class="result-count">0 results for "${q}" — index may be empty</div>
+      <div class="empty-state">
+        <div class="glyph">◌</div>
+        <p>No indexed pages match this query.</p>
+        <p style="margin-top:8px">Add URLs above and run CRAWL to build the index.</p>
+      </div>`;
+  } else {
+    html += `<div class="result-count">${data.count} results — source: ${data.source} — index: ${data.index_size} docs</div>`;
+
+    // Synthesize answer from top snippets
+    const topSnippets = data.results.slice(0, 3).map(r => r.snippet).join(' … ');
+    if (topSnippets.length > 100) {
+      html += `
+        <div class="answer-panel">
+          <div class="answer-label">⬡ ABISS SYNTHESIS</div>
+          <div class="answer-text">${escHtml(topSnippets.slice(0, 600))}</div>
+        </div>`;
+    }
+
+    data.results.forEach(r => {
+      const title   = r.title || r.url;
+      const snippet = r.snippet || '';
+      const score   = typeof r.score === 'number' ? r.score.toFixed(2) : r.score;
+      html += `
+        <div class="result-card">
+          <div class="result-url">${escHtml(r.url)}</div>
+          <div class="result-title"><a href="${escHtml(r.url)}" target="_blank" rel="noopener">${escHtml(title)}</a></div>
+          <div class="result-snippet">${highlight(escHtml(snippet), q)}</div>
+          <div class="result-meta">
+            <span class="score-badge">score: ${score}</span>
+            <span class="source-badge">${r.source || data.source}</span>
+          </div>
+        </div>`;
+    });
+  }
+
+  section.innerHTML = html;
+}
+
+async function doIngest() {
+  const url = document.getElementById('ingestInput').value.trim();
+  const msg = document.getElementById('ingestMsg');
+  if (!url.startsWith('http')) {
+    msg.className = 'ingest-msg err';
+    msg.textContent = 'need a full URL starting with http://';
+    return;
+  }
+  try {
+    const r = await fetchJson(`${PROXY}/ingest`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({url})
+    });
+    msg.className = 'ingest-msg ok';
+    msg.textContent = `✓ queued: ${url}`;
+    document.getElementById('ingestInput').value = '';
+    setTimeout(refreshStatus, 500);
+  } catch {
+    msg.className = 'ingest-msg err';
+    msg.textContent = 'proxy offline — start abiss_proxy.py first';
+  }
+}
+
+async function doCrawl() {
+  const btn = document.getElementById('crawlBtn');
+  btn.disabled = true;
+  btn.textContent = '▶ crawling...';
+  const msg = document.getElementById('ingestMsg');
+  try {
+    const r = await fetchJson(`${PROXY}/crawl`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({limit: 10})
+    });
+    msg.className = 'ingest-msg ok';
+    msg.textContent = `✓ ${r.message}`;
+  } catch {
+    msg.className = 'ingest-msg err';
+    msg.textContent = 'crawl failed — proxy offline?';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '▶ CRAWL (10)';
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function highlight(text, query) {
+  const words = query.trim().split(/\s+/).filter(w => w.length > 2);
+  if (!words.length) return text;
+  const pat = new RegExp(`(${words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')})`, 'gi');
+  return text.replace(pat, '<mark style="background:#7c3aed33;color:#c4b5fd;border-radius:2px">$1</mark>');
+}
+
+// Init
+refreshStatus();
+setInterval(refreshStatus, 15000);
+</script>
+</body>
+</html>

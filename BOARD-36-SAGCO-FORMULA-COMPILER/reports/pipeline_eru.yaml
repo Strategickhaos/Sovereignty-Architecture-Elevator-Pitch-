@@ -1,0 +1,16 @@
+---
+report_type: ERU
+pipeline: sagco_formula_compiler
+version: "1.0"
+description: "Expected-Result-Unit proof report template"
+entries:
+  - cell: "TEMPLATE_CELL"
+    expected: "evaluated"
+    actual: "VALUE"
+    variance: "VARIANCE_0"
+summary:
+  total_cells: 0
+  evaluated: 0
+  errors: 0
+  open_variances: 0
+status: VARIANCE_0

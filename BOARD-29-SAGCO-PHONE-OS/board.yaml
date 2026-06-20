@@ -1,0 +1,34 @@
+name: BOARD-29-SAGCO-PHONE-OS
+id: BOARD-29
+district: frequency_coast
+status: ACTIVE
+role: sovereign_phone_os
+
+summary: |
+  Turns every desktop folder into a sovereign cellphone.
+  Files = signals. Folder = device. Lexer → Parser → Enumerator → Citizens.
+  Every SAGCO agent gets its own line. sagco:// is the internal protocol.
+
+components:
+  - manifests/agent_phone_directory.yaml   # every agent's number
+  - src/phone_lexer.py                     # tokenize phone folder contents
+  - src/phone_parser.py                    # Message / Conversation / PhoneAST
+  - src/phone_enumerator.py               # AST → SAGCO citizens
+  - sagco-agents/agent_phone.py           # sagco phone [call|sms|inbox|directory]
+
+real_sim:
+  number:  "15127739959"
+  owner:   DOMENIC_MASTER
+  device:  "Samsung Z Fold 7"
+  trigger: "Hey Baby, show me the empire"
+
+protocol:
+  internal: "sagco://"
+  extension_prefix: "+1 (800) 724-26"
+  emergency: "sagco://911"
+
+districts_served:
+  - frequency_coast   # personal / comms
+  - trinity           # OTP / security
+  - memory_palace     # voicemail / marketing
+  - genesis           # master / owner

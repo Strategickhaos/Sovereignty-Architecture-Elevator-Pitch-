@@ -1,0 +1,11 @@
+atom_type: proof
+description: >
+  A formal or semi-formal proof of a theorem, formula, or claim.
+id_prefix: "PROOF"
+example_pattern: "Proof: By the first derivative test, if f'(c) changes sign at c, then..."
+tags_hint:
+  - theorem
+  - derive
+  - show
+  - by induction
+  - verify

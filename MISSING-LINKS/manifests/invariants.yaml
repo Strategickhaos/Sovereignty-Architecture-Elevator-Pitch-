@@ -1,0 +1,88 @@
+invariant_registry:
+  schema_version: "1.0"
+  description: "The physics of the SAGCO organism — rules that must always hold"
+
+invariants:
+
+  identity_invariance:
+    id: INV-001
+    name: "Identity Invariance"
+    domain: identity
+    rules:
+      - "Every citizen has exactly one CID"
+      - "Every CID maps to exactly one citizen"
+      - "Every node has exactly one PID"
+      - "Every PID maps to exactly one node"
+      - "No two citizens share a CID"
+      - "CID format: sgc-{kind}-{timestamp_ms}-{tick%3449}"
+    violation_type: IDENTITY_MISMATCH
+    severity: CRITICAL
+
+  district_invariance:
+    id: INV-002
+    name: "District Invariance"
+    domain: routing
+    districts:
+      - genesis
+      - eru
+      - trinity
+      - industrial
+      - compiler_city
+      - frequency_coast
+      - memory_palace
+      - contradiction_forest
+    rules:
+      - "Every citizen belongs to exactly one district"
+      - "Every board operates from exactly one district"
+      - "No citizen may exist without a district"
+      - "Orphan citizens default to memory_palace pending classification"
+    violation_type: CITIZEN_NO_DISTRICT
+    severity: HIGH
+
+  token_invariance:
+    id: INV-003
+    name: "Token / Credential Invariance"
+    domain: security
+    rules:
+      - "Auth tokens never appear in URLs or referrer headers"
+      - "OTP codes are never logged in plaintext"
+      - "Phone numbers and emails are never sent to third-party pixels in clear"
+      - "All sensitive fields are redacted in citizen body_preview"
+      - "CRITICAL token events always open a BOARD-26 case"
+    violation_type: TOKEN_IN_URL
+    severity: CRITICAL
+
+  recon_invariance:
+    id: INV-004
+    name: "Recon Invariance"
+    domain: network
+    rules:
+      - "Every MAC seen in ARP scan is either registered or flagged as phantom"
+      - "Every open port has an owning citizen"
+      - "Every registered node has been seen within 30 days"
+      - "IP drift triggers a recon update, not a silent overwrite"
+    violation_type: PHANTOM_MAC
+    severity: MEDIUM
+
+  eru_invariance:
+    id: INV-005
+    name: "ERU Completeness Invariance"
+    domain: physics
+    rules:
+      - "Every contradiction has: Expected, Actual, Variance"
+      - "Every resolved contradiction has: Understanding, Antibody"
+      - "No ERU case remains open longer than 30 days without escalation"
+      - "PMI cannot increase without a closed ERU case as evidence"
+    violation_type: ERU_UNRESOLVED
+    severity: MEDIUM
+
+  coverage_invariance:
+    id: INV-006
+    name: "RAT Coverage Invariance"
+    domain: coverage
+    rules:
+      - "Every known threat pattern has at least one antibody"
+      - "Every antibody has a known trigger pattern"
+      - "New threat patterns discovered in recon → RAT_GAP missing link opened within 24h"
+    violation_type: RAT_GAP
+    severity: HIGH

@@ -1,0 +1,21 @@
+# SAGCO Payment Antibody — Governance Record
+id: AB_NO_AUTOPAY
+class: PAYMENT_GUARD
+board: BOARD-45
+status: ACTIVE
+
+rule:
+  never_auto_pay: true
+  never_click_continue: true
+  require_human_confirm: true
+  require_buffer_check: true
+  require_receipt_capture: true
+  safe_buffer_minimum: 500.00
+
+enforcement:
+  location: BOARD-45-SOVEREIGNTY-DISCORD-CONTROL-PLANE/agents/sagco_ninja_bot.py
+  class: PaymentGuard
+  method: attempt_pay()
+  raises: PaymentBlocked
+
+proof_trail: BOARD-45-SOVEREIGNTY-DISCORD-CONTROL-PLANE/proofs/command_execution_receipts.jsonl

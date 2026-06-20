@@ -1,0 +1,61 @@
+eru_subject: GCP Core Infrastructure
+board: BOARD-24-GCP-MASTERY
+district: eru
+
+case_studies:
+
+  - id: GCP-INFRA-ERU-001
+    title: "VPC Subnets as District Boundaries"
+    physics_law: Conservation of Sovereignty
+    expected: Each district (red/blue/purple) has its own subnet with firewall rules
+    actual: All services deployed into default VPC — implicit allow-all
+    variance: district boundary collapse — all traffic crosses zero gates
+    understanding: >
+      GCP's default VPC is a sovereignty trap. Every region gets a subnet, but they
+      share the same firewall allow-internal rule. In SAGCO terms: no subnets = no
+      districts = no pad gates. Design: one VPC per environment, custom subnets per
+      district, explicit firewall rules as FlameLang routes.
+    resolution:
+      - Create custom-mode VPC (never auto-mode in prod)
+      - One subnet per district per region
+      - Deny-all ingress default rule; add allow rules per pad route
+      - Register each subnet as a citizen with district tag
+    severity: HIGH
+    team: blue
+
+  - id: GCP-INFRA-ERU-002
+    title: "Cloud Run Cold Start as Temporal Variance"
+    physics_law: Time Invariance
+    expected: Service responds within 200ms P99
+    actual: First request after idle takes 3–8 seconds — cold start
+    variance: temporal anchor mismatch — time-to-ready not constant
+    understanding: >
+      Cloud Run scales to zero. Each cold start is a temporal variance spike.
+      The SAGCO antibody: minimum-instances=1 for latency-critical services.
+      Cost trade-off: $5–15/month per idle instance vs. SLA breach.
+      ERU resolution: separate latency-critical pads from batch pads.
+    resolution:
+      - Set --min-instances=1 for latency-sensitive services
+      - Use --concurrency tuning to right-size cold instances
+      - Tag batch/async routes separately in FlameLang
+    severity: MEDIUM
+    team: purple
+
+  - id: GCP-INFRA-ERU-003
+    title: "Cloud Load Balancer as Pad Route Arbitrator"
+    physics_law: Principle of Least Action
+    expected: Traffic routes to nearest healthy backend — minimal latency path
+    actual: Backend health check fails silently — all traffic drains to single region
+    variance: least-action path broken — single point of failure absorbs all load
+    understanding: >
+      GCP Load Balancers use health checks as routing gates. If the check path is
+      wrong (/health vs /healthz), backends appear unhealthy and traffic collapses.
+      In SAGCO: a broken pad route that still passes traffic is a ghost route —
+      energy flows but with no governance.
+    resolution:
+      - Standardize health check path across all services (/healthz)
+      - Set health check interval 10s, unhealthy threshold 2
+      - Monitor backend health in Cloud Monitoring dashboards
+      - Register load balancer as a pad route citizen
+    severity: CRITICAL
+    team: blue

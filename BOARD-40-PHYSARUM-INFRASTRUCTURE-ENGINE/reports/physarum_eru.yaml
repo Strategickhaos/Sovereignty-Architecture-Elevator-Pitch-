@@ -1,0 +1,31 @@
+eru:
+  actual:
+    alive_edges: 6
+    alive_nodes: 17
+    dead_nodes: 5
+    isolated_nodes:
+    - BOARD-11
+    - BOARD-21
+    - BOARD-23
+    - BOARD-29
+    - BOARD-33
+    - BOARD-34
+    - BOARD-37
+    - BOARD-38
+    - BOARD-40-PHYSARUM
+    isolation_variance: 9
+    node_variance: 5
+    pruned_edges: 28
+  expected:
+    alive_nodes: 22
+    isolated_nodes: 0
+    pruned_edges: 0
+    variance: 0
+  notes: 5 nodes lost, 9 isolated.
+  optimization:
+    final_alive_edges: 6
+    final_alive_nodes: 17
+    initial_alive_edges: 34
+    initial_alive_nodes: 22
+  status: FAIL
+  steps_run: 20

@@ -1,0 +1,6 @@
+bond_id: BOND-1A6995
+bond_order: 3.5
+bond_type: similarity
+source: Q3
+strength: triple
+target: DEF-1

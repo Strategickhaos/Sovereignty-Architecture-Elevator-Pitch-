@@ -1,0 +1,8 @@
+[package]
+name = "mathml-cords"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "mathml-cords"
+path = "src/main.rs"

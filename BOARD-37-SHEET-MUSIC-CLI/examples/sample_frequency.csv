@@ -1,0 +1,21 @@
+Rank,Word,Lemma,POS,% of text,Occurrence
+1,registry,registry,Noun,1.89,72
+2,sagco,sagco,Noun,1.74,66
+3,rust,rust,Noun,1.63,62
+4,cell,cell,Noun,1.52,58
+5,formula,formula,Noun,1.42,54
+6,lexer,lexer,Noun,1.31,50
+7,parser,parser,Noun,1.21,46
+8,ast,ast,Noun,1.10,42
+9,compiler,compiler,Noun,1.00,38
+10,guard,guard,Verb,0.89,34
+11,mobius,mobius,Noun,0.79,30
+12,eru,eru,Noun,0.68,26
+13,sheet,sheet,Noun,0.58,22
+14,morse,morse,Noun,0.47,18
+15,value,value,Noun,0.37,14
+16,function,function,Noun,0.26,10
+17,passes,pass,Verb,0.21,8
+18,missing,missing,Adjective,0.16,6
+19,board,board,Noun,0.10,4
+20,tokens,token,Noun,0.05,2

@@ -1,0 +1,6 @@
+bond_id: BOND-6EB417
+bond_order: 2.0
+bond_type: prerequisite
+source: DEF-1
+strength: triple
+target: FORMULA-2

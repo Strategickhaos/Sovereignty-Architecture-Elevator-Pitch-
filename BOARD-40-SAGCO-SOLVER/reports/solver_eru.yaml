@@ -1,0 +1,15 @@
+# BOARD-40-SAGCO-SOLVER — ERU Report Template
+eru:
+  expected:
+    items_classified: 0
+    flashcards_generated: 0
+    seeds_generated: 0
+    variance: 0
+  actual:
+    items_classified: 0
+    flashcards_generated: 0
+    seeds_generated: 0
+    variance: 0
+  status: "NOT_RUN"
+  category: "unknown"
+  notes: "Template — run solver_cli.py to populate."

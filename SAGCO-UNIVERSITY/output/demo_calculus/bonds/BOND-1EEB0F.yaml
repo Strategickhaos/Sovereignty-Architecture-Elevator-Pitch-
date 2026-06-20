@@ -1,0 +1,6 @@
+bond_id: BOND-1EEB0F
+bond_order: 0.5
+bond_type: similarity
+source: Q2
+strength: single
+target: FORMULA-2

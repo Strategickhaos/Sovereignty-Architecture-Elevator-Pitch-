@@ -1,0 +1,14 @@
+# SAGCO OS — First Sovereign Program
+# Water Street Oyster Bar Memory Engine
+# Run: python3 sagco_cli.py run examples/hello.sagco
+
+CELL A1 = "Black Pearl Roll"
+CELL A2 = "$22"
+CELL B1 = MORSE(A1)
+CELL C1 = ERU("menu_item", A1)
+CELL D1 = GUARD(A2)
+ASSERT C1 == "OPEN_VARIANCE"
+ASSERT D1 == "MOBIUS_READY"
+PRINT B1
+PRINT C1
+PRINT D1

@@ -1,0 +1,6 @@
+sample_id: MSG-0001
+from: "+1-000-000-0000"
+to: "business_line"
+timestamp: "2026-06-06T00:00:00Z"
+body: "SAGCO fake cell online. Reply HELP for command map."
+classification: system_boot

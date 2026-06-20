@@ -1,0 +1,17 @@
+name: Missing Links Report
+generated: null
+summary:
+  open_cases: 0
+  closed_cases: 0
+  orphan_citizens: 0
+  phantom_macs: 0
+  rat_gaps: 0
+  drift_nodes: 0
+  invariant_violations: 0
+  invention_candidates: 0
+  portfolio_artifacts: 0
+
+# Regenerate with:
+#   python MISSING-LINKS/src/detector.py --all
+#   python MISSING-LINKS/src/invariant_mapper.py --report
+#   python MISSING-LINKS/src/export_bridge.py --all

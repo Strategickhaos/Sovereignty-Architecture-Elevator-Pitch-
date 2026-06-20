@@ -1,0 +1,77 @@
+exam: Professional Cloud Architect (PCA)
+board: BOARD-24-GCP-MASTERY
+district: eru
+team: purple
+
+domains:
+  - id: D1
+    name: Designing and planning a cloud solution architecture
+    weight: 24%
+    topics:
+      - Designing a solution infrastructure that meets technical requirements
+      - Designing for security and compliance
+      - Designing for reliability (SLO, SLA, error budgets)
+      - Designing for performance and scalability
+    sagco_analog: "BOARD-21 physics fleet design — energy budget + immune thresholds"
+
+  - id: D2
+    name: Managing and provisioning solution infrastructure
+    weight: 15%
+    topics:
+      - Configuring network topologies
+      - Configuring individual storage systems
+      - Configuring compute systems
+    sagco_analog: "SAGCO district infrastructure — subnet = district, quota = energy"
+
+  - id: D3
+    name: Designing for security and compliance
+    weight: 18%
+    topics:
+      - Designing for security (IAM, data protection, Privacy by Design)
+      - Designing for legal compliance
+    sagco_analog: "trinity district design — identity invariance, secret vault"
+    eru_case: GCP-SEC-ERU-001
+
+  - id: D4
+    name: Analyzing and optimizing technical and business processes
+    weight: 18%
+    topics:
+      - Analyzing and defining technical processes
+      - Analyzing and defining business processes
+      - Developing procedures to ensure reliability of solutions
+    sagco_analog: "ERU loop as continuous process optimizer"
+
+  - id: D5
+    name: Managing implementation
+    weight: 11%
+    topics:
+      - Advising development/operation teams to ensure successful deployment
+      - Interacting with Google Cloud using GCP SDK
+    sagco_analog: "catpush + sagco CLI deployment discipline"
+
+  - id: D6
+    name: Ensuring solution and operations reliability
+    weight: 14%
+    topics:
+      - Monitoring, logging, profiling, alerting solutions
+      - Deployment and release management
+      - Assisting with support and root cause analysis of errors
+      - Evaluating quality control measures
+    sagco_analog: "BOARD-11 antibody fleet + BOARD-10 university exam runner"
+
+case_studies:
+  - name: Mountkirk Games
+    sagco_frame: >
+      Spiky traffic = resonant failure risk (PHYSICS-FLEET-002).
+      GKE Autopilot for variable load. Spanner for global state.
+      Least privilege IAM for game backend SAs.
+  - name: Dress4Win
+    sagco_frame: >
+      Lift-and-shift migration. ERU case: identity drift during migration.
+      Workload Identity to replace key-based auth.
+      VPC peering for hybrid connectivity.
+  - name: TerramEarth
+    sagco_frame: >
+      IoT telemetry → Pub/Sub → BigQuery pipeline.
+      Edge device identity = Pi-class citizens (BOARD-13 recon).
+      Pub/Sub as pad route for sensor data.

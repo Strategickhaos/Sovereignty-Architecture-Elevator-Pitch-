@@ -1,0 +1,28 @@
+sig_id: WORD-FREQ-001
+organism: generic
+description: Signature derived from word-frequency stream analysis.
+signals:
+  - "board"
+  - "pipeline"
+  - "contradiction"
+  - "compile"
+  - "proof"
+  - "deploy"
+  - "antibody"
+  - "pattern"
+  - "system"
+cadence_mode: rapid_associative
+dominant_pos: SPIKE
+dominant_board: BOARD-38
+loop_ratio: 0.18
+invention_probability: 0.65
+missing_links_detected:
+  - reusable compiler core
+  - scaffold-to-board bridge
+motifs_detected:
+  - rapid_associative_engineering
+  - contradiction_to_board
+notes: >
+  Word-frequency-derived signature shows high SPIKE ratio on engineering
+  and system-design vocabulary. Loop ratio is moderate — some concepts
+  (board, pipeline) repeat across all documents.

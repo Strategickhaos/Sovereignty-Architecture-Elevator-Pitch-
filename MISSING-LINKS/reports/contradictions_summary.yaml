@@ -1,0 +1,10 @@
+name: Contradictions Summary
+generated: null
+contradictions: []
+# Format per entry:
+# - id: ML-<timestamp>
+#   type: TOKEN_IN_URL | PHANTOM_MAC | CITIZEN_NO_DISTRICT | ...
+#   severity: CRITICAL | HIGH | MEDIUM | LOW
+#   status: open | closed
+#   board: BOARD-26 (if claimed)
+#   invention: "name of invention if closed with pmi_delta > 0"

@@ -1,0 +1,27 @@
+district: frequency_coast
+role: sheet_music_compiler
+board: BOARD-37
+name: SHEET-MUSIC-CLI
+depends_on:
+  - BOARD-36
+description: >
+  Converts SAGCO data (word frequency, cell values, citizen registry) into music.
+  Outputs MIDI, ABC notation, and sheet text — the "song layer" on top of BOARD-36's compiler core.
+mapping_laws:
+  rank_to_pitch: "Rank (1,2,3...) → MIDI pitch, ascending across C3-C5 (MIDI 48-72)"
+  occurrence_to_duration: "High occurrence → longer note (whole/half/quarter/eighth/sixteenth)"
+  pct_to_velocity: "% of text → MIDI velocity (louder = higher %), range 40-127"
+  pos_to_channel:
+    Noun: "Piano (channel 0)"
+    Verb: "Strings (channel 1)"
+    Adjective: "Brass (channel 2)"
+    Adverb: "Woodwind (channel 3)"
+    Conjunction: "Percussion (channel 9)"
+    Preposition: "Percussion (channel 9)"
+    Other: "Synth (channel 4)"
+  word_to_lyric: "Word itself stored as lyric token in ABC notation"
+outputs:
+  - exports/score.abc
+  - exports/score.mid
+  - exports/score.txt
+  - reports/music_eru.yaml

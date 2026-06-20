@@ -1,0 +1,29 @@
+name: RAT_NETWORK_BEACONING
+classification: security_threat
+layer: network
+trigger: Periodic outbound traffic to unregistered IP at fixed intervals
+cause: Process exhibiting RAT-like beaconing — call-home pattern
+expected: No periodic outbound packets to untrusted hosts
+actual: Outbound packets detected at regular interval (e.g. every 30–300s) to unknown IP
+variance: network + timing + identity mismatch
+signals:
+  - repeated outbound connections to same IP on non-standard port
+  - DNS queries for dynamically generated hostnames (DGA pattern)
+  - low-bandwidth persistent outbound stream
+  - traffic spike on non-HTTP/HTTPS port from non-browser process
+  - ARP anomalies for unknown MAC on local subnet
+detection:
+  linux: ss -tunp | grep ESTABLISHED
+  windows: netstat -ano | findstr ESTABLISHED
+  sagco: python sagco_recon.py network
+remedy:
+  - Block outbound IP at firewall / iptables
+  - Identify PID from netstat and cross-reference citizen registry
+  - Run: python sagco_recon.py processes  to map PID to citizen
+  - Update recon_network.py trusted_hosts list
+  - File RAT_NETWORK_BEACONING antibody alert in BOARD-13-RECON
+severity: CRITICAL
+department: NETWORK
+district: trinity
+status: LEARNED
+learned_at: "2026-06-06"

@@ -1,0 +1,7 @@
+bond_type: similarity
+description: >
+  Source and target atoms share conceptual content, vocabulary, or structure.
+  They reinforce each other without direct dependency.
+typical_order: 0.5
+strength: single
+example: "Q1 ~ Q2  (both ask about critical points of the same function)"

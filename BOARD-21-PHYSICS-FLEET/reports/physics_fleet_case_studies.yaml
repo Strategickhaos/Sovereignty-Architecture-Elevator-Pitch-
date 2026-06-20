@@ -1,0 +1,76 @@
+case_studies:
+
+  - id: PHYSICS-FLEET-001
+    title: "GKE Fleet as Controlled Physical System"
+    physics_law: Conservation of Energy
+    expected: Stable cluster CPU/memory utilization under sustained load
+    actual: Memory not released after batch job — RSS grows without bound
+    variance: Energy bleed — allocated resources not returned to pool
+    understanding: >
+      Just as energy cannot be destroyed, Kubernetes memory must be explicitly
+      returned. OOM-killed pods leave orphaned PVCs and ghost allocations.
+      The fleet loses "energy" through resource leaks the same way a physical
+      system loses energy through heat.
+    resolution:
+      - Add resource limits to all Deployments
+      - Enable VPA (Vertical Pod Autoscaler)
+      - Register leak-prone pods as contradiction citizens
+    antibody: RAT_PROCESS_VARIANCE
+    severity: HIGH
+    team: purple
+
+  - id: PHYSICS-FLEET-002
+    title: "Cascading Failover as Destructive Resonance"
+    physics_law: Resonance / Wave Interference
+    expected: Single pod failure triggers clean restart, no downstream impact
+    actual: One pod failure triggers liveness probe storm across 12 pods
+    variance: Probe intervals aligned — all fail simultaneously (resonance)
+    understanding: >
+      When liveness probe intervals are identical across a Deployment,
+      failures synchronize like resonant frequencies — one failure becomes
+      twelve. Staggering probe offsets (initialDelaySeconds jitter)
+      breaks the resonance pattern.
+    resolution:
+      - Jitter initialDelaySeconds by ±10s per pod
+      - Use PodDisruptionBudgets to cap simultaneous evictions
+      - Register probe storm as contradiction in contradiction_forest
+    antibody: RAT_DOCKER_ESCAPE
+    severity: CRITICAL
+    team: blue
+
+  - id: PHYSICS-FLEET-003
+    title: "IAM Privilege Drift as Entropy Increase"
+    physics_law: Second Law of Thermodynamics (Entropy)
+    expected: Service account permissions remain minimal and scoped
+    actual: Over 6 months, accounts accumulate unused roles via ticket drift
+    variance: Permission surface grows monotonically — entropy increases
+    understanding: >
+      Without active cleanup, IAM configurations drift toward maximum
+      entropy (all permissions). Like physical entropy, this is the
+      natural state without intervention. IAM audits are thermostats.
+    resolution:
+      - Run sagco recon cloud --emit-citizens monthly
+      - Compare citizen district against IAM role bindings
+      - Prune roles not referenced by any active citizen
+    antibody: RAT_CLOUD_PRIVESC
+    severity: HIGH
+    team: red
+
+  - id: PHYSICS-FLEET-004
+    title: "LLM Reasoning vs Physical Intuition"
+    physics_law: Principle of Least Action
+    expected: LLM SME recommends simplest valid fix for cluster anomaly
+    actual: LLM generates complex multi-step migration for a one-line fix
+    variance: Reasoning path length >> minimum required — action not minimal
+    understanding: >
+      LLMs optimize for completeness, not brevity. Physical systems obey
+      least action (Lagrangian mechanics). When routing LLM outputs through
+      ERU, flag responses with action_count > threshold as "non-minimal"
+      and request distillation.
+    resolution:
+      - Apply ERU filter: action_count <= 3 for P1 incidents
+      - Register verbose LLM paths as contradiction citizens
+      - Feed contradiction back to LLM as few-shot correction
+    antibody: null
+    severity: MEDIUM
+    team: purple

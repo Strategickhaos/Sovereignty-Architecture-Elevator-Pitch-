@@ -1,0 +1,25 @@
+aliases:
+  GCP:          [google-cloud, gcloud, cloud-platform]
+  ACE:          [associate-cloud-engineer, cloud-engineer-cert]
+  PCA:          [professional-cloud-architect, architect-cert]
+  PCNE:         [professional-cloud-network-engineer]
+  PCD:          [professional-cloud-devops-engineer]
+  GKE:          [google-kubernetes-engine, k8s-gcp, container-engine]
+  SAGCO_GCP:    [board-24-gcp-mastery, gcp-training-os]
+
+services:
+  compute:      [gce, cloud-run, gke, cloud-functions, app-engine]
+  storage:      [gcs, cloud-sql, spanner, bigtable, firestore, alloydb]
+  network:      [vpc, cloud-dns, cloud-load-balancing, cloud-armor, cloud-cdn]
+  data:         [bigquery, dataflow, pub-sub, dataproc, looker]
+  ml:           [vertex-ai, automl, model-garden, gemini]
+  security:     [cloud-armor, secret-manager, iam, workload-identity, kms]
+  observability:[cloud-logging, cloud-monitoring, cloud-trace, cloud-profiler]
+  devops:       [cloud-build, artifact-registry, cloud-deploy, terraform]
+
+eru_mappings:
+  energy_conservation:  "CPU quota limits = energy budget"
+  entropy:              "IAM drift = permission entropy"
+  resonance:            "probe storm = resonant failure"
+  least_action:         "shortest deploy path = minimal blast radius"
+  gravity:              "data locality = gravitational pull to compute"

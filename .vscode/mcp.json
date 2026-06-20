@@ -1,10 +1,22 @@
 {
 	"servers": {
+		"sagco-mansion": {
+			"type": "stdio",
+			"command": "python3",
+			"args": ["BOARD-57-SAGCO-MCP-MANSION/server.py"]
+		},
+		"sagco-os": {
+			"type": "stdio",
+			"command": "docker",
+			"args": [
+				"run", "--rm", "-i",
+				"--name", "sagco-os-mcp",
+				"gcr.io/sagco-oscomputconsciousness/sagco-os:latest"
+			]
+		},
 		"github/github-mcp-server": {
 			"type": "http",
-			"url": "https://api.githubcopilot.com/mcp/",
-			"gallery": "https://api.mcp.github.com",
-			"version": "0.13.0"
+			"url": "https://api.githubcopilot.com/mcp/"
 		}
 	},
 	"inputs": []

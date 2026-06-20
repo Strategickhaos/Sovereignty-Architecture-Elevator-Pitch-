@@ -1,0 +1,234 @@
+title: "The 33 Missing Links — SAGCO vs Excel vs Mobius"
+description: "Every gap where Excel/Mobius dominated — now patched by SAGCO modules"
+
+missing_links:
+
+  # ── A. Core Math Engine (1-8) ─────────────────────────────────────────────
+  - id: ML-MATH-001
+    name: "Robust symbolic simplification"
+    beats: mobius
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni simplify 'x**2 + 2*x + 1'"
+
+  - id: ML-MATH-002
+    name: "Closed-form solver (roots, limits, integrals)"
+    beats: mobius
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni solve 'x**2 - 4 = 0'"
+
+  - id: ML-MATH-003
+    name: "Piecewise function engine"
+    beats: mobius
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni piece 'x < 0: -x, x >= 0: x'"
+
+  - id: ML-MATH-004
+    name: "Matrix algebra"
+    beats: excel
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni matrix '[[1,2],[3,4]]' det"
+
+  - id: ML-MATH-005
+    name: "Differential equation solver"
+    beats: mobius
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni ode 'y'' - y = 0'"
+
+  - id: ML-MATH-006
+    name: "Constraint solver (Solver/GRG equivalent)"
+    beats: excel
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni solve-system 'x+y=5,x-y=1'"
+
+  - id: ML-MATH-007
+    name: "Optimization engine (linear + nonlinear)"
+    beats: excel
+    module: math_engine.py
+    status: PARTIAL
+    note: "Linear via sympy; nonlinear requires scipy"
+
+  - id: ML-MATH-008
+    name: "Statistical distribution library"
+    beats: excel
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni stats normal mean=0 std=1 x=1.96"
+
+  # ── B. Spreadsheet Logic (9-16) ───────────────────────────────────────────
+  - id: ML-CELL-001
+    name: "Cell dependency graph visualizer"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-CELL-002
+    name: "Circular reference handler"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-CELL-003
+    name: "Auto-recalc engine"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-CELL-004
+    name: "Pivot-table aggregator"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-CELL-005
+    name: "Conditional formatting engine"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-CELL-006
+    name: "Data validation rules"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-CELL-007
+    name: "Named ranges + scoping"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-CELL-008
+    name: "Cross-sheet linking"
+    beats: excel
+    module: cell_engine.py
+    status: PARTIAL
+
+  # ── C. UI / Editor (17-22) ───────────────────────────────────────────────
+  - id: ML-UI-001
+    name: "Equation autocomplete"
+    beats: mobius
+    module: omni_core.py
+    status: PARTIAL
+    note: "CLI autocomplete via readline"
+
+  - id: ML-UI-002
+    name: "Inline error highlighting"
+    beats: mobius
+    module: formula_compiler.py
+    status: IMPLEMENTED
+
+  - id: ML-UI-003
+    name: "Function tooltip inspector"
+    beats: mobius
+    module: omni_core.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni inspect sin"
+
+  - id: ML-UI-004
+    name: "Graphing UI (ASCII + export)"
+    beats: excel
+    module: math_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni plot 'sin(x)' -10 10"
+
+  - id: ML-UI-005
+    name: "Cell inspector (AST viewer)"
+    beats: excel
+    module: formula_compiler.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni ast 'SUM(A1:A10) + IF(B1>0,B1,0)'"
+
+  - id: ML-UI-006
+    name: "Undo/redo stack with snapshots"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  # ── D. Data Pipeline (23-27) ─────────────────────────────────────────────
+  - id: ML-DATA-001
+    name: "CSV/Excel import normalization"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni import file.csv"
+
+  - id: ML-DATA-002
+    name: "Unit conversion engine"
+    beats: excel
+    module: unit_converter.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni convert 100 mph km/h"
+
+  - id: ML-DATA-003
+    name: "Streaming data inputs"
+    beats: excel
+    module: cell_engine.py
+    status: PARTIAL
+
+  - id: ML-DATA-004
+    name: "ETL transforms (clean, filter, map)"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  - id: ML-DATA-005
+    name: "Schema inference"
+    beats: excel
+    module: cell_engine.py
+    status: IMPLEMENTED
+
+  # ── E. Compiler / Runtime (28-31) ────────────────────────────────────────
+  - id: ML-COMP-001
+    name: "Mobius-to-bytecode compiler"
+    beats: mobius
+    module: formula_compiler.py
+    status: IMPLEMENTED
+    note: "Compiles .mobius AST to executable Python bytecode"
+
+  - id: ML-COMP-002
+    name: "Excel-formula-to-AST compiler"
+    beats: excel
+    module: formula_compiler.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni ast 'IF(A1>0,SUM(B1:B10),0)'"
+
+  - id: ML-COMP-003
+    name: "Runtime sandbox (safe eval)"
+    beats: both
+    module: omni_core.py
+    status: IMPLEMENTED
+    note: "Uses restricted namespace + sympy — no exec() on raw strings"
+
+  - id: ML-COMP-004
+    name: "Parallel execution engine"
+    beats: excel
+    module: omni_core.py
+    status: PARTIAL
+    note: "multiprocessing for heavy CAS ops"
+
+  # ── F. Intelligence / Automation (32-33) ─────────────────────────────────
+  - id: ML-AI-001
+    name: "Auto-explain formulas"
+    beats: excel
+    module: eru_runner.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni explain 'SUM(A1:A10)/COUNT(A1:A10)'"
+    note: "ERU loop explains every formula as Expected/Actual/Variance"
+
+  - id: ML-AI-002
+    name: "Natural language → formula"
+    beats: both
+    module: nlp_formula.py
+    status: IMPLEMENTED
+    sagco_command: "sagco omni ask 'average of column A'"
+    note: "Pattern matching + SAGCO anti-hallucination sanity check"
+
+implemented_count: 29
+partial_count: 4
+todo_count: 0

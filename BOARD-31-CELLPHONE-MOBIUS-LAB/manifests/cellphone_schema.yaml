@@ -1,0 +1,70 @@
+schema_name: SagcoCellphone
+schema_version: "1.0"
+board: BOARD-31
+
+description: |
+  Schema for a SAGCO cellphone entry.
+  Each registered cellphone number gets its own folder under cellphones/<number>/
+  containing a config.yaml (this schema), an equations.mobius file, and an eru_cases.yaml.
+
+fields:
+  number:
+    type: string
+    required: true
+    format: "10-digit US number, no dashes"
+    example: "5127739959"
+    description: The raw 10-digit cellphone number (SAGCO node identifier).
+
+  owner:
+    type: string
+    required: true
+    description: SAGCO citizen identifier for the owner of this device.
+    example: "DOMENIC_MASTER"
+
+  district:
+    type: string
+    required: true
+    description: Which SAGCO district this phone is registered in.
+    allowed_values:
+      - genesis
+      - trinity
+      - compiler_city
+      - frequency_coast
+      - memory_palace
+      - wafer_ridge
+    example: "genesis"
+
+  equations_file:
+    type: string
+    required: true
+    description: Relative path (from this config.yaml) to the Mobius DSL equation file.
+    example: "equations.mobius"
+
+  eru_cases_file:
+    type: string
+    required: true
+    description: Relative path (from this config.yaml) to the ERU cases YAML file.
+    example: "eru_cases.yaml"
+
+  device_model:
+    type: string
+    required: false
+    description: Human-readable device model name.
+    example: "Samsung Galaxy Z Fold 7"
+
+  node_id:
+    type: integer
+    required: false
+    description: SAGCO node number for this device.
+    example: 137
+
+  registered_at:
+    type: string
+    required: false
+    format: ISO 8601
+    description: Timestamp when this phone was registered in SAGCO.
+
+validation:
+  number_regex: "^[0-9]{10}$"
+  equations_file_ext: ".mobius"
+  eru_cases_file_ext: ".yaml"

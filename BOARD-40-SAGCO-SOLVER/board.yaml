@@ -1,0 +1,8 @@
+district: compiler_city
+role: universal_solver
+version: "1.0"
+board_id: BOARD-40-SAGCO-SOLVER
+description: >
+  Universal file solver pipeline. Feed any file (XLSX, CSV, TXT, markdown, code,
+  YAML, PDF text) and run fingerprint → extract → classify → tokenize → frequency
+  → flashcards → quiz → ERU → motifs → seeds → portfolio.

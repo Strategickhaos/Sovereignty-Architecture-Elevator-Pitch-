@@ -1,0 +1,74 @@
+name: BROWSER_TRACKING_PIXEL_FAILURE
+id: BROWSER_TRACKING_PIXEL_FAILURE
+department: BROWSER
+severity: LOW
+mode: DEFENSIVE_ONLY
+status: LEARNED
+
+trigger:
+  - pattern: "net::ERR_NAME_NOT_RESOLVED"
+  - pattern: "ERR_NAME_NOT_RESOLVED"
+  - pattern: "tracking pixel"
+  - pattern: "adsct"
+  - pattern: "analytics beacon"
+  - sources: [browser_console, recon_browser]
+
+expected: "Analytics/tracking pixel resolves successfully or is silently blocked"
+actual:   "Browser console reports net::ERR_NAME_NOT_RESOLVED on third-party tracking domain"
+variance: "DNS failure on benign analytics endpoint — not a threat signal"
+
+classification:
+  threat:     false
+  rat_signal: false
+  escalate:   false
+  district:   memory_palace
+  citizen_kind: browser_event
+
+known_domains:
+  - "t.co/i/adsct"          # Twitter/X analytics
+  - "google-analytics.com"  # GA
+  - "doubleclick.net"       # Google ads
+  - "facebook.com/tr"       # FB pixel
+  - "segment.io"            # Segment analytics
+  - "mixpanel.com"          # Mixpanel
+  - "amplitude.com"         # Amplitude
+  - "hotjar.com"            # Hotjar
+  - "intercom.io"           # Intercom
+  - "fullstory.com"         # FullStory
+
+cause:
+  - adblocker active (Pi-hole, uBlock, Brave shields)
+  - DNS filtering intercepting tracker domains
+  - tracking domain rate-limited or down
+  - page loads before pixel script initializes
+  - network policy blocking external telemetry
+
+remedy:
+  - Log as browser_event in memory_palace (not trinity)
+  - Do NOT fire RAT_NETWORK_BEACONING
+  - Do NOT open BOARD-26 case
+  - Optionally catpush as benign artifact for organism learning
+  - If domain is NOT in known_domains list → escalate to RAT_NETWORK_BEACONING
+
+antibody_logic: |
+  if domain in known_tracking_domains:
+      classify = benign
+      district = memory_palace
+      rat_fire = false
+  else:
+      classify = unknown_beacon
+      district = contradiction_forest
+      rat_fire = true  # → RAT_NETWORK_BEACONING
+
+sagco_command: |
+  # Capture as learning event (not threat):
+  python sagco-agents/sagco.py catpush --name "tracking-pixel-dns-fail" --kind artifact --district memory_palace
+
+  # Or open a LOW case for organism learning:
+  python sagco-agents/sagco.py remediate --smash "tracking pixel DNS failed" "pixel resolves or is cleanly blocked"
+
+notes: >
+  ERR_NAME_NOT_RESOLVED on t.co/i/adsct is a Twitter analytics beacon blocked by
+  DNS filtering or adblockers. This is the organism's immune system working correctly —
+  external surveillance blocked at the DNS gate. Not a breach. Not a RAT.
+  Log it. Learn from it. Move on.

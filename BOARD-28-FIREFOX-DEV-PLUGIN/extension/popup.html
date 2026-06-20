@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: monospace; width: 320px; padding: 12px; background: #0d1117; color: #e6edf3; margin: 0; }
+  h2 { color: #7c3aed; margin: 0 0 8px; font-size: 14px; }
+  .sub { color: #8b949e; font-size: 11px; margin-bottom: 12px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .stat { background: #161b22; border-radius: 6px; padding: 8px; text-align: center; }
+  .stat .n { font-size: 22px; font-weight: bold; }
+  .stat .label { font-size: 10px; color: #8b949e; }
+  .critical { color: #ff4444; }
+  .high     { color: #ff8800; }
+  .medium   { color: #ffcc00; }
+  .low      { color: #44bb44; }
+  button { width: 100%; padding: 8px; background: #7c3aed; color: white; border: none;
+           border-radius: 6px; cursor: pointer; font-size: 13px; margin-top: 4px; }
+  button:hover { background: #6d28d9; }
+  .clear { background: #1f2937; }
+  .clear:hover { background: #374151; }
+  .event-list { max-height: 200px; overflow-y: auto; margin-top: 8px; }
+  .event { font-size: 10px; padding: 4px 6px; border-bottom: 1px solid #21262d; }
+  .event .ab { color: #7c3aed; }
+  .event .ts { color: #8b949e; }
+</style>
+</head>
+<body>
+<h2>⚛ SAGCO Firefox Recon</h2>
+<div class="sub">BOARD-28 · frequency_coast</div>
+
+<div class="stats">
+  <div class="stat"><div class="n critical" id="n-critical">-</div><div class="label">CRITICAL</div></div>
+  <div class="stat"><div class="n high"     id="n-high">-</div><div class="label">HIGH</div></div>
+  <div class="stat"><div class="n medium"   id="n-medium">-</div><div class="label">MEDIUM</div></div>
+  <div class="stat"><div class="n low"      id="n-low">-</div><div class="label">LOW</div></div>
+</div>
+
+<button id="export">⬇ Export JSON → SAGCO</button>
+<button class="clear" id="clear">Clear events</button>
+
+<div class="event-list" id="event-list"></div>
+
+<script src="popup.js"></script>
+</body>
+</html>

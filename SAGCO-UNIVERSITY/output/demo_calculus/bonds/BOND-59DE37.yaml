@@ -1,0 +1,6 @@
+bond_id: BOND-59DE37
+bond_order: 1.5
+bond_type: similarity
+source: Q3
+strength: double
+target: FORMULA-3

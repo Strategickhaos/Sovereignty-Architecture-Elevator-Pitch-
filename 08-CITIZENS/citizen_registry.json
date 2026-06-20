@@ -1,0 +1,1449 @@
+{
+  "schema_version": "1.0",
+  "genesis_tick": 1674852049000,
+  "citizens": [
+    {
+      "cid": "sgc-artifact-1780763148034-771",
+      "name": "FlameLang Lexer v0.1 Artifact",
+      "kind": "artifact",
+      "born_in": "compiler_city",
+      "born_at": "2026-06-06T16:25:48.034388+00:00",
+      "born_from": null,
+      "district": "trinity",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "compiler_city",
+          "entered_at": "2026-06-06T16:25:48.034474+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "trinity",
+          "entered_at": "2026-06-06T16:25:52.579869+00:00",
+          "gate": "schema_gate_v1",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "First working FlameLang lexer, born from FLAMELANG_SPECIFICATION.md",
+        "data": {},
+        "checksum": "pending"
+      },
+      "proofs": [
+        {
+          "source": "FLAMELANG_SPECIFICATION.md",
+          "hash": "sha256:7c64553b072fe95cea5e6bf4b35af109ed0633c5254bc7385c8bc28f122532b7",
+          "verified_at": "2026-06-06T16:25:52.646094+00:00"
+        }
+      ],
+      "tags": [
+        "flamelang",
+        "lexer",
+        "compiler_city"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-contradiction-1780763148118-855",
+      "name": "Contradiction: World Has No Citizens",
+      "kind": "contradiction",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:25:48.118590+00:00",
+      "born_from": null,
+      "district": "contradiction_forest",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:25:48.118642+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "1920 folders, no movement format. Map without traffic.",
+        "data": {},
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "contradiction",
+        "world",
+        "citizen-system"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228165-1365",
+      "name": "Genesis Prime Core \u2014 Cosmological Lock",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "born_at": "2026-06-06T16:43:48.165310+00:00",
+      "born_from": null,
+      "district": "genesis",
+      "status": "archived",
+      "travel_log": [
+        {
+          "district": "genesis",
+          "entered_at": "2026-06-06T16:43:48.165334+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Genesis Prime Core \u2014 Cosmological Lock",
+        "data": {
+          "file_path": "genesis_prime_core.rs",
+          "file_type": ".rs",
+          "sha256": "sha256:606b4ef204d68647eaa5e26d2938ef8e6ce642c9198b4a9166172be84544a024"
+        },
+        "checksum": "sha256:606b4ef204d68647eaa5e26d2938ef8e6ce642c9198b4a9166172be84544a024"
+      },
+      "proofs": [
+        {
+          "source": "genesis_prime_core.rs",
+          "hash": "genesis_tick:1674852049000",
+          "verified_at": "2023-01-27T21:00:49Z"
+        }
+      ],
+      "tags": [
+        "genesis",
+        "sealed"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228166-1366",
+      "name": "AI Constitution \u2014 Sovereign Rules",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "born_at": "2026-06-06T16:43:48.166031+00:00",
+      "born_from": null,
+      "district": "genesis",
+      "status": "archived",
+      "travel_log": [
+        {
+          "district": "genesis",
+          "entered_at": "2026-06-06T16:43:48.166040+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "AI Constitution \u2014 Sovereign Rules",
+        "data": {
+          "file_path": "ai_constitution.yaml",
+          "file_type": ".yaml",
+          "sha256": "sha256:f70e5d9d46929943ec3f730e94b823c467868334da22fd109c4c177f7c474383"
+        },
+        "checksum": "sha256:f70e5d9d46929943ec3f730e94b823c467868334da22fd109c4c177f7c474383"
+      },
+      "proofs": [
+        {
+          "source": "genesis_prime_core.rs",
+          "hash": "genesis_tick:1674852049000",
+          "verified_at": "2023-01-27T21:00:49Z"
+        }
+      ],
+      "tags": [
+        "genesis",
+        "sealed"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228166-1366",
+      "name": "DAO Record v1.0 \u2014 Origin Charter",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "born_at": "2026-06-06T16:43:48.166438+00:00",
+      "born_from": null,
+      "district": "genesis",
+      "status": "archived",
+      "travel_log": [
+        {
+          "district": "genesis",
+          "entered_at": "2026-06-06T16:43:48.166444+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "DAO Record v1.0 \u2014 Origin Charter",
+        "data": {
+          "file_path": "dao_record_v1.0.yaml",
+          "file_type": ".yaml",
+          "sha256": "sha256:68af69ddad45c58dc2cef59884e684e3421205c2188e2f110c7684d82b339672"
+        },
+        "checksum": "sha256:68af69ddad45c58dc2cef59884e684e3421205c2188e2f110c7684d82b339672"
+      },
+      "proofs": [
+        {
+          "source": "genesis_prime_core.rs",
+          "hash": "genesis_tick:1674852049000",
+          "verified_at": "2023-01-27T21:00:49Z"
+        }
+      ],
+      "tags": [
+        "genesis",
+        "sealed"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228166-1366",
+      "name": "Quantum DNA Splicer \u2014 Genome Engine",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "born_at": "2026-06-06T16:43:48.166707+00:00",
+      "born_from": null,
+      "district": "genesis",
+      "status": "archived",
+      "travel_log": [
+        {
+          "district": "genesis",
+          "entered_at": "2026-06-06T16:43:48.166712+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Quantum DNA Splicer \u2014 Genome Engine",
+        "data": {
+          "file_path": "quantum_dna_splicer.rs",
+          "file_type": ".rs",
+          "sha256": "sha256:40c24f9ea8aaaa9b3c2fdcf17dcf19fc8aa0494f297c791bd7e748b794b1c925"
+        },
+        "checksum": "sha256:40c24f9ea8aaaa9b3c2fdcf17dcf19fc8aa0494f297c791bd7e748b794b1c925"
+      },
+      "proofs": [
+        {
+          "source": "genesis_prime_core.rs",
+          "hash": "genesis_tick:1674852049000",
+          "verified_at": "2023-01-27T21:00:49Z"
+        }
+      ],
+      "tags": [
+        "genesis",
+        "sealed"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228268-1468",
+      "name": "FlameLang Specification v1.0",
+      "kind": "artifact",
+      "born_in": "compiler_city",
+      "born_at": "2026-06-06T16:43:48.268192+00:00",
+      "born_from": null,
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "compiler_city",
+          "entered_at": "2026-06-06T16:43:48.268202+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "FlameLang Specification v1.0",
+        "data": {
+          "file_path": "FLAMELANG_SPECIFICATION.md",
+          "file_type": ".md",
+          "sha256": "sha256:7c64553b072fe95cea5e6bf4b35af109ed0633c5254bc7385c8bc28f122532b7",
+          "lines": 355
+        },
+        "checksum": "sha256:7c64553b072fe95cea5e6bf4b35af109ed0633c5254bc7385c8bc28f122532b7"
+      },
+      "proofs": [],
+      "tags": [
+        "flamelang",
+        "compiler",
+        "compiler_city"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228268-1468",
+      "name": "FlameLang Interpreter M1 (flamec.py)",
+      "kind": "artifact",
+      "born_in": "compiler_city",
+      "born_at": "2026-06-06T16:43:48.268748+00:00",
+      "born_from": null,
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "compiler_city",
+          "entered_at": "2026-06-06T16:43:48.268754+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "FlameLang Interpreter M1 (flamec.py)",
+        "data": {
+          "file_path": "compiler/flamec.py",
+          "file_type": ".py",
+          "sha256": "sha256:79012dce95bbcafe33e5a6062770525301b1b6ca18d3ea566a46636c71242b09",
+          "lines": 1018
+        },
+        "checksum": "sha256:79012dce95bbcafe33e5a6062770525301b1b6ca18d3ea566a46636c71242b09"
+      },
+      "proofs": [],
+      "tags": [
+        "flamelang",
+        "compiler",
+        "compiler_city"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228269-1469",
+      "name": "FlameLang M1 Test Suite",
+      "kind": "artifact",
+      "born_in": "compiler_city",
+      "born_at": "2026-06-06T16:43:48.269165+00:00",
+      "born_from": null,
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "compiler_city",
+          "entered_at": "2026-06-06T16:43:48.269170+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "FlameLang M1 Test Suite",
+        "data": {
+          "file_path": "compiler/test_m1.py",
+          "file_type": ".py",
+          "sha256": "sha256:7ff3bd1900bd23a607d0b15e41408f55e89832dbee0b04eca2d327fdc5217171",
+          "lines": 166
+        },
+        "checksum": "sha256:7ff3bd1900bd23a607d0b15e41408f55e89832dbee0b04eca2d327fdc5217171"
+      },
+      "proofs": [],
+      "tags": [
+        "flamelang",
+        "compiler",
+        "compiler_city"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228269-1469",
+      "name": "SWARM DNA v10.0-primordial-tongues",
+      "kind": "artifact",
+      "born_in": "c64",
+      "born_at": "2026-06-06T16:43:48.269831+00:00",
+      "born_from": null,
+      "district": "c64",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "c64",
+          "entered_at": "2026-06-06T16:43:48.269837+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "SWARM DNA genome version v10.0-primordial-tongues \u2014 canonical graph projection",
+        "data": {
+          "file_path": "SWARM_DNA_v10.0-primordial-tongues_Version2.yaml",
+          "file_type": "yaml",
+          "sha256": "sha256:0df0dbc9d08ca4b3af7f3c7974e28afe88060855ed22aa93b136a378f2748a06"
+        },
+        "checksum": "sha256:0df0dbc9d08ca4b3af7f3c7974e28afe88060855ed22aa93b136a378f2748a06"
+      },
+      "proofs": [],
+      "tags": [
+        "swarm-dna",
+        "c64",
+        "genome",
+        "v10.0-primordial-tongues"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228270-1470",
+      "name": "SWARM DNA v12.0-born-from-the-womb",
+      "kind": "artifact",
+      "born_in": "c64",
+      "born_at": "2026-06-06T16:43:48.270233+00:00",
+      "born_from": null,
+      "district": "c64",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "c64",
+          "entered_at": "2026-06-06T16:43:48.270239+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "SWARM DNA genome version v12.0-born-from-the-womb \u2014 canonical graph projection",
+        "data": {
+          "file_path": "SWARM_DNA_v12.0-born-from-the-womb_Version2.yaml",
+          "file_type": "yaml",
+          "sha256": "sha256:f1640cd4f93e18491eab7ed1ce14f8a272834d761b43fccd4ef1e983f932ca46"
+        },
+        "checksum": "sha256:f1640cd4f93e18491eab7ed1ce14f8a272834d761b43fccd4ef1e983f932ca46"
+      },
+      "proofs": [],
+      "tags": [
+        "swarm-dna",
+        "c64",
+        "genome",
+        "v12.0-born-from-the-womb"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228270-1470",
+      "name": "SWARM DNA v9.0-black-hole-resonance",
+      "kind": "artifact",
+      "born_in": "c64",
+      "born_at": "2026-06-06T16:43:48.270291+00:00",
+      "born_from": null,
+      "district": "c64",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "c64",
+          "entered_at": "2026-06-06T16:43:48.270295+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "SWARM DNA genome version v9.0-black-hole-resonance \u2014 canonical graph projection",
+        "data": {
+          "file_path": "SWARM_DNA_v9.0-black-hole-resonance_Version2(1).yaml",
+          "file_type": "yaml",
+          "sha256": "sha256:7838e26ab3e8c30195340181c86cbc1670fb552fd54ff7d4dd63e9e3d33e93b6"
+        },
+        "checksum": "sha256:7838e26ab3e8c30195340181c86cbc1670fb552fd54ff7d4dd63e9e3d33e93b6"
+      },
+      "proofs": [],
+      "tags": [
+        "swarm-dna",
+        "c64",
+        "genome",
+        "v9.0-black-hole-resonance"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228270-1470",
+      "name": "SWARM DNA v9.0-black-hole-resonance",
+      "kind": "artifact",
+      "born_in": "c64",
+      "born_at": "2026-06-06T16:43:48.270737+00:00",
+      "born_from": null,
+      "district": "c64",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "c64",
+          "entered_at": "2026-06-06T16:43:48.270743+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "SWARM DNA genome version v9.0-black-hole-resonance \u2014 canonical graph projection",
+        "data": {
+          "file_path": "SWARM_DNA_v9.0-black-hole-resonance_Version2.yaml",
+          "file_type": "yaml",
+          "sha256": "sha256:1e4df6cbfa6edf0c49d7431105551033e3dbb6ac2a2f67e1edf88f6aeeec71f1"
+        },
+        "checksum": "sha256:1e4df6cbfa6edf0c49d7431105551033e3dbb6ac2a2f67e1edf88f6aeeec71f1"
+      },
+      "proofs": [],
+      "tags": [
+        "swarm-dna",
+        "c64",
+        "genome",
+        "v9.0-black-hole-resonance"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228271-1471",
+      "name": "DAO Access Matrix v1.0",
+      "kind": "artifact",
+      "born_in": "eru",
+      "born_at": "2026-06-06T16:43:48.271400+00:00",
+      "born_from": null,
+      "district": "eru",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "eru",
+          "entered_at": "2026-06-06T16:43:48.271406+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "DAO Access Matrix v1.0",
+        "data": {
+          "file_path": "governance/access_matrix.yaml",
+          "sha256": "sha256:f3dc81e67e92045107cde11cfc3b3763b9b7a2412f2e0998ccee84ebbf300cc6"
+        },
+        "checksum": "sha256:f3dc81e67e92045107cde11cfc3b3763b9b7a2412f2e0998ccee84ebbf300cc6"
+      },
+      "proofs": [],
+      "tags": [
+        "governance",
+        "eru",
+        "dao"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228271-1471",
+      "name": "Article 7 \u2014 Authorized Signers",
+      "kind": "artifact",
+      "born_in": "eru",
+      "born_at": "2026-06-06T16:43:48.271621+00:00",
+      "born_from": null,
+      "district": "eru",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "eru",
+          "entered_at": "2026-06-06T16:43:48.271625+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Article 7 \u2014 Authorized Signers",
+        "data": {
+          "file_path": "governance/article_7_authorized_signers.md",
+          "sha256": "sha256:002bbcf0f1b775add62430cee9b4664d64bfbf4d891b51522c8c16c42dd1747e"
+        },
+        "checksum": "sha256:002bbcf0f1b775add62430cee9b4664d64bfbf4d891b51522c8c16c42dd1747e"
+      },
+      "proofs": [],
+      "tags": [
+        "governance",
+        "eru",
+        "dao"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228271-1471",
+      "name": "Unified Sovereignty Architecture v1",
+      "kind": "artifact",
+      "born_in": "eru",
+      "born_at": "2026-06-06T16:43:48.271979+00:00",
+      "born_from": null,
+      "district": "eru",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "eru",
+          "entered_at": "2026-06-06T16:43:48.271984+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Unified Sovereignty Architecture v1",
+        "data": {
+          "file_path": "UNIFIED_SOVEREIGNTY_ARCHITECTURE(1).md",
+          "sha256": "sha256:1bdd755cb4fddc011435d1233d4a9da52c4934fe52dd59268fe68160a7e0d425"
+        },
+        "checksum": "sha256:1bdd755cb4fddc011435d1233d4a9da52c4934fe52dd59268fe68160a7e0d425"
+      },
+      "proofs": [],
+      "tags": [
+        "governance",
+        "eru",
+        "dao"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228272-1472",
+      "name": "Obsidian Integration Hub",
+      "kind": "artifact",
+      "born_in": "memory_palace",
+      "born_at": "2026-06-06T16:43:48.272583+00:00",
+      "born_from": null,
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "memory_palace",
+          "entered_at": "2026-06-06T16:43:48.272587+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Obsidian Integration Hub",
+        "data": {
+          "file_path": "obsidian_integration_hub.py",
+          "sha256": "sha256:bea55b31f486e5b718bcf053a034d495c8ff2d16ae6a360e93caa95e4063f09f"
+        },
+        "checksum": "sha256:bea55b31f486e5b718bcf053a034d495c8ff2d16ae6a360e93caa95e4063f09f"
+      },
+      "proofs": [],
+      "tags": [
+        "memory_palace",
+        "obsidian"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228273-1473",
+      "name": "Obsidian Network Antibodies",
+      "kind": "artifact",
+      "born_in": "memory_palace",
+      "born_at": "2026-06-06T16:43:48.273341+00:00",
+      "born_from": null,
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "memory_palace",
+          "entered_at": "2026-06-06T16:43:48.273348+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Obsidian Network Antibodies",
+        "data": {
+          "file_path": "obsidian_network_antibodies.py",
+          "sha256": "sha256:8109472867ea6ec50acde7d419f1d57ade37d1b632fbf8688d28c5d9947b1875"
+        },
+        "checksum": "sha256:8109472867ea6ec50acde7d419f1d57ade37d1b632fbf8688d28c5d9947b1875"
+      },
+      "proofs": [],
+      "tags": [
+        "memory_palace",
+        "obsidian"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228273-1473",
+      "name": "Obsidian Discord Bot",
+      "kind": "artifact",
+      "born_in": "memory_palace",
+      "born_at": "2026-06-06T16:43:48.273800+00:00",
+      "born_from": null,
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "memory_palace",
+          "entered_at": "2026-06-06T16:43:48.273806+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Obsidian Discord Bot",
+        "data": {
+          "file_path": "obsidian_discord_bot.py",
+          "sha256": "sha256:fa273a979f826aeac72427bcea3b5e17ea532deec497a64a2fa42058ff22530f"
+        },
+        "checksum": "sha256:fa273a979f826aeac72427bcea3b5e17ea532deec497a64a2fa42058ff22530f"
+      },
+      "proofs": [],
+      "tags": [
+        "memory_palace",
+        "obsidian"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780764228274-1474",
+      "name": "Vault Security Playbook",
+      "kind": "artifact",
+      "born_in": "memory_palace",
+      "born_at": "2026-06-06T16:43:48.274207+00:00",
+      "born_from": null,
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "memory_palace",
+          "entered_at": "2026-06-06T16:43:48.274212+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Vault Security Playbook",
+        "data": {
+          "file_path": "VAULT_SECURITY_PLAYBOOK.md",
+          "sha256": "sha256:853bca3282f2b57351935186f216726902cf88d2e434e026e8f36b05b6e7ef8f"
+        },
+        "checksum": "sha256:853bca3282f2b57351935186f216726902cf88d2e434e026e8f36b05b6e7ef8f"
+      },
+      "proofs": [],
+      "tags": [
+        "memory_palace",
+        "obsidian"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-contradiction-1780764228274-1474",
+      "name": "Privacy vs Personalization",
+      "kind": "contradiction",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274613+00:00",
+      "born_from": null,
+      "district": "contradiction_forest",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274617+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Tailored for you \u2014 never tracked.",
+        "data": {
+          "file_path": "contradictions/contradictions.json#id=1",
+          "statement_a": "Privacy",
+          "statement_b": "Personalization",
+          "intersection": "On-device embeddings + zero-knowledge sync",
+          "proof": "curl /metrics | grep logs=0"
+        },
+        "checksum": "sha256:80e3f69eb847f738c0420b1e197d8e3446ad8f741f0d7dd6f1fa545ab0515a29"
+      },
+      "proofs": [],
+      "tags": [
+        "contradiction",
+        "imported"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-contradiction-1780764228274-1474",
+      "name": "Speed vs Security",
+      "kind": "contradiction",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274639+00:00",
+      "born_from": null,
+      "district": "contradiction_forest",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274640+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Login in 1.2s \u2014 or we pay you.",
+        "data": {
+          "file_path": "contradictions/contradictions.json#id=2",
+          "statement_a": "Speed",
+          "statement_b": "Security",
+          "intersection": "WebAuthn + risk engine (IP velocity, device fingerprint)",
+          "proof": "Grafana: login_latency_p99"
+        },
+        "checksum": "sha256:80e3f69eb847f738c0420b1e197d8e3446ad8f741f0d7dd6f1fa545ab0515a29"
+      },
+      "proofs": [],
+      "tags": [
+        "contradiction",
+        "imported"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-contradiction-1780764228274-1474",
+      "name": "Simple vs Powerful",
+      "kind": "contradiction",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274656+00:00",
+      "born_from": null,
+      "district": "contradiction_forest",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274657+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "One click. Infinite possibilities.",
+        "data": {
+          "file_path": "contradictions/contradictions.json#id=3",
+          "statement_a": "Simple",
+          "statement_b": "Powerful",
+          "intersection": "Progressive disclosure + AI intent prediction",
+          "proof": "Feature usage analytics dashboard"
+        },
+        "checksum": "sha256:80e3f69eb847f738c0420b1e197d8e3446ad8f741f0d7dd6f1fa545ab0515a29"
+      },
+      "proofs": [],
+      "tags": [
+        "contradiction",
+        "imported"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-contradiction-1780764228274-1474",
+      "name": "Open vs Profitable",
+      "kind": "contradiction",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274671+00:00",
+      "born_from": null,
+      "district": "contradiction_forest",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274673+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Open source core, premium ecosystem.",
+        "data": {
+          "file_path": "contradictions/contradictions.json#id=4",
+          "statement_a": "Open",
+          "statement_b": "Profitable",
+          "intersection": "MIT core + paid enterprise modules",
+          "proof": "GitHub stars vs revenue correlation"
+        },
+        "checksum": "sha256:80e3f69eb847f738c0420b1e197d8e3446ad8f741f0d7dd6f1fa545ab0515a29"
+      },
+      "proofs": [],
+      "tags": [
+        "contradiction",
+        "imported"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-contradiction-1780764228274-1474",
+      "name": "Global vs Local",
+      "kind": "contradiction",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274686+00:00",
+      "born_from": null,
+      "district": "contradiction_forest",
+      "status": "active",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274688+00:00",
+          "gate": null,
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Worldwide reach, hometown feel.",
+        "data": {
+          "file_path": "contradictions/contradictions.json#id=5",
+          "statement_a": "Global",
+          "statement_b": "Local",
+          "intersection": "Edge computing + local compliance",
+          "proof": "Latency maps by region"
+        },
+        "checksum": "sha256:80e3f69eb847f738c0420b1e197d8e3446ad8f741f0d7dd6f1fa545ab0515a29"
+      },
+      "proofs": [],
+      "tags": [
+        "contradiction",
+        "imported"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "FlameLang LLVM Backend",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274712+00:00",
+      "born_from": null,
+      "district": "compiler_city",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274714+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "compiler_city",
+          "entered_at": "2026-06-06T16:43:48.274715+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Compile FlameLang .flm \u2192 LLVM IR \u2192 native binary. M1 interpreter exists; LLVM codegen does not.",
+        "data": {
+          "description": "Compile FlameLang .flm \u2192 LLVM IR \u2192 native binary. M1 interpreter exists; LLVM codegen does not.",
+          "contradiction_resolved": "FlameLang runs but can't ship as a native binary",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "flamelang",
+        "llvm",
+        "compiler_city",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "C64 Commutation Verifier",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274721+00:00",
+      "born_from": null,
+      "district": "c64",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274722+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "c64",
+          "entered_at": "2026-06-06T16:43:48.274723+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Verify that DNA/MIDI/TRIG6/Geometry/Glyph projections all commute through the 64-node canonical graph. No verifier exists yet.",
+        "data": {
+          "description": "Verify that DNA/MIDI/TRIG6/Geometry/Glyph projections all commute through the 64-node canonical graph. No verifier exists yet.",
+          "contradiction_resolved": "5 projections describe same territory but no machine checks they agree",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "c64",
+        "commutation",
+        "verifier",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "SAGCO ERU Command",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274729+00:00",
+      "born_from": null,
+      "district": "eru",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274730+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "eru",
+          "entered_at": "2026-06-06T16:43:48.274731+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "CLI command: sagco eru audit <citizen-cid> \u2014 runs Expected/Reality/Variance check and attaches result as a proof.",
+        "data": {
+          "description": "CLI command: sagco eru audit <citizen-cid> \u2014 runs Expected/Reality/Variance check and attaches result as a proof.",
+          "contradiction_resolved": "ERU framework documented but not executable from CLI",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "eru",
+        "governance",
+        "cli",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "SAGCO Hardware Serial Bridge",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274736+00:00",
+      "born_from": null,
+      "district": "industrial",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274737+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "industrial",
+          "entered_at": "2026-06-06T16:43:48.274739+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Host-side Rust driver (sagco-serial) that speaks SSP v1 over USB to Arduino/SAGCO-IO bridge. Arduino sketch exists in concept; host driver does not.",
+        "data": {
+          "description": "Host-side Rust driver (sagco-serial) that speaks SSP v1 over USB to Arduino/SAGCO-IO bridge. Arduino sketch exists in concept; host driver does not.",
+          "contradiction_resolved": "Software kernel built; no physical I/O channel",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "hardware",
+        "serial",
+        "arduino",
+        "industrial",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "Deploy Gate \u2014 Proof Required",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274748+00:00",
+      "born_from": null,
+      "district": "trinity",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274749+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "trinity",
+          "entered_at": "2026-06-06T16:43:48.274751+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Gate that refuses to move a citizen between districts if proofs list is empty. Currently sagco citizen move has no enforcement.",
+        "data": {
+          "description": "Gate that refuses to move a citizen between districts if proofs list is empty. Currently sagco citizen move has no enforcement.",
+          "contradiction_resolved": "Citizens can move without evidence",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "deploy-gate",
+        "governance",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "Obsidian Graph Emitter",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274757+00:00",
+      "born_from": null,
+      "district": "memory_palace",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274758+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "memory_palace",
+          "entered_at": "2026-06-06T16:43:48.274759+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Export citizen_registry.json as Obsidian-compatible markdown graph: one note per citizen, edges as [[wiki-links]].",
+        "data": {
+          "description": "Export citizen_registry.json as Obsidian-compatible markdown graph: one note per citizen, edges as [[wiki-links]].",
+          "contradiction_resolved": "Citizens exist in JSON; Memory Palace cannot see them",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "obsidian",
+        "memory_palace",
+        "graph",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "SAGCO MIDI Citizen Importer",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274764+00:00",
+      "born_from": null,
+      "district": "frequency_coast",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274766+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "frequency_coast",
+          "entered_at": "2026-06-06T16:43:48.274767+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "Parse .mid files in sagco-sheet-music folder \u2192 create midi citizens with C64 node mappings via Circle of Fifths.",
+        "data": {
+          "description": "Parse .mid files in sagco-sheet-music folder \u2192 create midi citizens with C64 node mappings via Circle of Fifths.",
+          "contradiction_resolved": "Sheet music folder exists on WD_BLACK but no citizen format for MIDI",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "midi",
+        "frequency_coast",
+        "c64",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-invention-1780764228274-1474",
+      "name": "Citizen Travel Visualizer",
+      "kind": "invention",
+      "born_in": "contradiction_forest",
+      "born_at": "2026-06-06T16:43:48.274774+00:00",
+      "born_from": null,
+      "district": "memory_palace",
+      "status": "embryo",
+      "travel_log": [
+        {
+          "district": "contradiction_forest",
+          "entered_at": "2026-06-06T16:43:48.274776+00:00",
+          "gate": null,
+          "result": "passed"
+        },
+        {
+          "district": "memory_palace",
+          "entered_at": "2026-06-06T16:43:48.274778+00:00",
+          "gate": "invention_stub_gate",
+          "result": "passed"
+        }
+      ],
+      "payload": {
+        "summary": "HTML/SVG map of SAGCO-WORLD districts with citizen dots moving through them in real time from travel_log data.",
+        "data": {
+          "description": "HTML/SVG map of SAGCO-WORLD districts with citizen dots moving through them in real time from travel_log data.",
+          "contradiction_resolved": "Map exists in description; no visual render of citizen movement",
+          "implementation_path": "TBD",
+          "stub": true
+        },
+        "checksum": "pending"
+      },
+      "proofs": [],
+      "tags": [
+        "visualization",
+        "gta-map",
+        "invention-stub"
+      ],
+      "links": []
+    },
+    {
+      "cid": "sgc-artifact-1780774583869-3171",
+      "name": "main.rs",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "file",
+        "path": "/home/user/Sovereignty-Architecture-Elevator-Pitch-/SAGCO-LANG/src/main.rs",
+        "name": "main.rs",
+        "ext": ".rs",
+        "size_bytes": 1985,
+        "sha256_short": "05662d44fb5c60a7"
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:23Z"
+    },
+    {
+      "cid": "sgc-artifact-1780774583958-3260",
+      "name": "BOARD-11-ANTIBODIES",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "trinity",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "directory",
+        "path": "/home/user/Sovereignty-Architecture-Elevator-Pitch-/BOARD-11-ANTIBODIES",
+        "name": "BOARD-11-ANTIBODIES",
+        "ext": "",
+        "child_count": 3,
+        "sample": [
+          "daemon",
+          "antibodies",
+          "learned"
+        ]
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:23Z"
+    },
+    {
+      "cid": "sgc-artifact-1780774584022-3324",
+      "name": "GCP Console",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "url",
+        "url": "https://console.cloud.google.com",
+        "host": "console.cloud.google.com",
+        "scheme": "https",
+        "path": ""
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:24Z"
+    },
+    {
+      "cid": "sgc-proof-1780774584135-3437",
+      "name": "genesis_prime_core.rs",
+      "kind": "proof",
+      "born_in": "genesis",
+      "district": "genesis",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "type": "file",
+        "path": "/home/user/Sovereignty-Architecture-Elevator-Pitch-/genesis_prime_core.rs",
+        "name": "genesis_prime_core.rs",
+        "ext": ".rs",
+        "size_bytes": 9972,
+        "sha256_short": "606b4ef204d68647"
+      },
+      "proofs": [],
+      "tags": [
+        "catpush"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:36:24Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035367-2850",
+      "name": "Google Cloud Console",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://console.cloud.google.com",
+        "host": "console.cloud.google.com",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035369-2852",
+      "name": "Strategickhaos GitHub",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "compiler_city",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://github.com/Strategickhaos",
+        "host": "github.com",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035370-2853",
+      "name": "Claude Code",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "memory_palace",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://claude.ai/code",
+        "host": "claude.ai",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035371-2854",
+      "name": "Discord Ops",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "frequency_coast",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://discord.com/channels/ops",
+        "host": "discord.com",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035372-2855",
+      "name": "Local Dev",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "industrial",
+      "status": "active",
+      "travel_log": [],
+      "payload": {
+        "url": "https://localhost:3000",
+        "host": "localhost:3000",
+        "anomalies": []
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    },
+    {
+      "cid": "sgc-artifact-1780775035373-2856",
+      "name": "OAuth Flow",
+      "kind": "artifact",
+      "born_in": "genesis",
+      "district": "memory_palace",
+      "status": "flagged",
+      "travel_log": [],
+      "payload": {
+        "url": "https://claude.ai/oauth/authorize?code=abc123",
+        "host": "claude.ai",
+        "anomalies": [
+          {
+            "anomaly": "oauth_code_in_url",
+            "severity": "HIGH",
+            "url_fragment": "https://claude.ai/oauth/authorize?code=abc123"
+          }
+        ]
+      },
+      "proofs": [],
+      "tags": [
+        "browser",
+        "tab",
+        "recon"
+      ],
+      "links": [],
+      "created_at": "2026-06-06T19:43:55Z"
+    }
+  ]
+}

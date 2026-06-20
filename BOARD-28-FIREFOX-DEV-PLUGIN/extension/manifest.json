@@ -1,0 +1,49 @@
+{
+  "manifest_version": 2,
+  "name": "SAGCO Firefox Dev Recon",
+  "version": "0.2.0",
+  "description": "Defensive console/privacy event capture for SAGCO-OS. Classifies tracking pixels, PII leaks, token exposure, and partitioned-cookie warnings into SAGCO districts.",
+  "author": "SAGCO-OS / Sovereignty Architecture",
+
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "webRequest",
+    "webNavigation",
+    "<all_urls>"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "default_title": "SAGCO Recon — Export Events",
+    "default_icon": {
+      "16":  "icons/sagco-16.png",
+      "48":  "icons/sagco-48.png"
+    },
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+
+  "icons": {
+    "16":  "icons/sagco-16.png",
+    "48":  "icons/sagco-48.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "sagco-recon@sovereignty-architecture.local",
+      "strict_min_version": "91.0"
+    }
+  }
+}

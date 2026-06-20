@@ -1,0 +1,8 @@
+master_command: SAGCO_INVENTION_SEED_ROUTER_ERU
+expected: "all seeds routed to boards, all boards verified, variance=0"
+actual: "N seeds processed, M boards built, K verified"
+seeds_processed: 0
+boards_built: 0
+boards_verified: 0
+variance: 0
+status: PENDING

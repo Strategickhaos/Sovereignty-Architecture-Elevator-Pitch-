@@ -1,0 +1,16 @@
+{
+  "id": "PROOF-58704e335b",
+  "timestamp": "2026-06-06T23:14:03.051675Z",
+  "question": "Q5: increasing intervals of f",
+  "eru": {
+    "expected": "Mobius-ready formatted answer with no syntax errors",
+    "actual": "(-infinity,-5) U (5,infinity)",
+    "variance": []
+  },
+  "raw": "(-infinity,-5) U (5,infinity)",
+  "formatted": "(-infinity,-5) U (5,infinity)",
+  "answer_type": "interval",
+  "mobius_ready": true,
+  "warnings": [],
+  "errors": []
+}

@@ -1,0 +1,7 @@
+name: Orphan Nodes
+description: "Citizens with no owning board, or boards with no citizens"
+generated: null
+orphan_citizens: []
+boardless_citizens: []
+citizenless_boards: []
+# Populated by: python MISSING-LINKS/src/detector.py --orphans

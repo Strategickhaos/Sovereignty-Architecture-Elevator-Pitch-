@@ -1,0 +1,6 @@
+bond_id: BOND-C11F90
+bond_order: 1.5
+bond_type: prerequisite
+source: DEF-1
+strength: double
+target: FORMULA-3

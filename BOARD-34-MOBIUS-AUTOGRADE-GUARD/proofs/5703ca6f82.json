@@ -1,0 +1,16 @@
+{
+  "id": "PROOF-5703ca6f82",
+  "timestamp": "2026-06-06T23:14:08.494711Z",
+  "question": "",
+  "eru": {
+    "expected": "Mobius-ready formatted answer with no syntax errors",
+    "actual": "(-5,5)",
+    "variance": []
+  },
+  "raw": "( -5 , 5 )",
+  "formatted": "(-5,5)",
+  "answer_type": "interval",
+  "mobius_ready": true,
+  "warnings": [],
+  "errors": []
+}

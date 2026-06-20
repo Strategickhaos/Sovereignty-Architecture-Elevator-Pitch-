@@ -1,0 +1,14 @@
+eru:
+  actual:
+    flashcards_generated: 127
+    items_classified: 148
+    seeds_generated: 0
+    variance: 21
+  category: menu
+  expected:
+    flashcards_generated: 148
+    items_classified: 148
+    seeds_generated: 1
+    variance: 0
+  notes: Variance of 21 flashcards from expected 148.
+  status: PARTIAL

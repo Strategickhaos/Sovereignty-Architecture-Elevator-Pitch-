@@ -1,0 +1,40 @@
+name: BROWSER_ANALYTICS_SAMPLING
+id: BROWSER_ANALYTICS_SAMPLING
+department: BROWSER
+severity: LOW
+mode: DEFENSIVE_ONLY
+status: LEARNED
+
+trigger:
+  - pattern: "isSampled:false"
+  - pattern: "isSampled: false"
+  - pattern: "grafana.faro"
+  - pattern: "grafana-faro"
+  - pattern: "opentelemetry"
+
+expected: "Analytics sampling decision is internal to site — not a SAGCO concern"
+actual:   "Browser session excluded from site's analytics sample (isSampled:false)"
+variance: "benign sampling gate — privacy preserved"
+
+classification:
+  threat:     false
+  rat_signal: false
+  escalate:   false
+  district:   memory_palace
+
+sagco_stance: >
+  isSampled:false = GOOD. The site decided not to track this session in its
+  analytics sample. You are LESS visible to Grafana Faro. This is the organism's
+  privacy preference in action. Do NOT attempt to flip this to true.
+  isSampled:true = MORE tracking. isSampled:false = sovereign.
+
+known_systems:
+  - Grafana Faro (browser observability)
+  - OpenTelemetry JS SDK
+  - Datadog RUM
+  - New Relic Browser
+
+remedy:
+  - Log as memory_palace citizen
+  - No escalation
+  - No BOARD-26 case needed

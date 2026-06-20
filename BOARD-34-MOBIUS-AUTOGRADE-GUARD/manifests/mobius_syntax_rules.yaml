@@ -1,0 +1,50 @@
+title: "Mobius Answer Syntax Rules"
+description: "Every rule Mobius enforces that SAGCO must check before submit"
+
+symbol_substitutions:
+  - from: "∞"        to: "infinity"
+  - from: "−∞"       to: "-infinity"
+  - from: "-∞"       to: "-infinity"
+  - from: "∪"        to: " U "
+  - from: "≤"        to: "<="
+  - from: "≥"        to: ">="
+  - from: "π"        to: "pi"
+  - from: "·"        to: "*"
+  - from: "×"        to: "*"
+  - from: "÷"        to: "/"
+  - from: "²"        to: "^2"
+  - from: "³"        to: "^3"
+  - from: "√"        to: "sqrt"
+  - from: "∈"        to: "in"
+  - from: "∅"        to: "DNE"
+  - from: "ℝ"        to: "(-infinity,infinity)"
+  - from: "ln"       to: "ln"        # keep — Mobius accepts ln
+  - from: "log"      to: "log"       # keep
+  - from: "e^"       to: "exp"
+
+interval_rules:
+  - "Use parentheses for open endpoints: (-5, 5)"
+  - "Use brackets for closed endpoints: [-5, 5]"
+  - "Infinity always open: (-infinity, 5)"
+  - "Union: (-infinity,-5) U (5,infinity)"
+  - "No spaces inside intervals after formatting"
+  - "Endpoints must be numeric or infinity"
+
+derivative_rules:
+  - "Use ^ for exponents: x^2 not x**2 in Mobius"
+  - "Coefficients before variables: 3x^2 not x^2*3"
+  - "Simplify fully before submitting"
+  - "Trailing +C required for indefinite integrals"
+
+limit_rules:
+  - "DNE if limit does not exist"
+  - "infinity or -infinity (not ∞)"
+  - "Numeric values: exact fraction preferred over decimal"
+
+common_mistakes:
+  - "Pasting LaTeX: \\frac{1}{x} → 1/x"
+  - "Python syntax: x**2 → x^2"
+  - "Missing +C on indefinite integrals"
+  - "Wrong interval bracket type (open vs closed)"
+  - "Extra spaces: ( -5 , 5 ) → (-5,5)"
+  - "Unicode minus: − (U+2212) vs hyphen-minus: - (U+002D)"

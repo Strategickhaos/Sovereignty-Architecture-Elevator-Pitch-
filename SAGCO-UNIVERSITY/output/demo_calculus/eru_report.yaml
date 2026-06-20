@@ -1,0 +1,20 @@
+actual:
+  atoms: 8
+  bonds: 26
+  missing_atoms:
+  - derivative (needed by critical)
+  - derivative (needed by extrema)
+  - derivative (needed by saddle)
+  - electron (needed by antibonding)
+  - electron (needed by bonding)
+  stability: 1.3462
+board: SAGCO-UNIVERSITY
+eru_id: ERU-76806998
+expected:
+  atoms: '>= 1'
+  bonds: '>= 1'
+  stability: '>= 0.5'
+generated: '2026-06-07T04:13:12.820051'
+module: demo_calculus
+status: PASS
+variance: 0

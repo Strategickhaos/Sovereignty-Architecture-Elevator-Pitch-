@@ -1,0 +1,6 @@
+bond_id: BOND-177E28
+bond_order: 1.5
+bond_type: similarity
+source: DEF-1
+strength: double
+target: EX-1

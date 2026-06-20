@@ -1,0 +1,454 @@
+{
+  "nodes": [
+    {
+      "id": "BOARD-11",
+      "name": "Antibodies",
+      "district": "industrial",
+      "nutrient": 0.7,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-13",
+      "name": "Recon",
+      "district": "recon",
+      "nutrient": 0.0,
+      "flow": 0,
+      "alive": false
+    },
+    {
+      "id": "BOARD-21",
+      "name": "Physics Fleet",
+      "district": "physics",
+      "nutrient": 0.72,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-23",
+      "name": "Refinery Wafer Bridge",
+      "district": "industrial",
+      "nutrient": 0.68,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-24",
+      "name": "GCP Mastery",
+      "district": "cloud",
+      "nutrient": 0.8,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-25",
+      "name": "SAGCO Hub",
+      "district": "genesis",
+      "nutrient": 0.9,
+      "flow": 0.1497,
+      "alive": true
+    },
+    {
+      "id": "BOARD-26",
+      "name": "Remediation Engine",
+      "district": "industrial",
+      "nutrient": 0.73,
+      "flow": 0.1804,
+      "alive": true
+    },
+    {
+      "id": "BOARD-27",
+      "name": "Comms Wing",
+      "district": "comms",
+      "nutrient": 0.65,
+      "flow": 0.219,
+      "alive": true
+    },
+    {
+      "id": "BOARD-28",
+      "name": "Firefox Dev Plugin",
+      "district": "browser",
+      "nutrient": 0.0,
+      "flow": 0,
+      "alive": false
+    },
+    {
+      "id": "BOARD-29",
+      "name": "SAGCO Phone OS",
+      "district": "mobile",
+      "nutrient": 0.6,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-30",
+      "name": "Fake Cell Business Line",
+      "district": "mobile",
+      "nutrient": 0.0,
+      "flow": 0.0256,
+      "alive": false
+    },
+    {
+      "id": "BOARD-31",
+      "name": "Cellphone Mobius Lab",
+      "district": "mobile",
+      "nutrient": 0.0,
+      "flow": 0.021,
+      "alive": false
+    },
+    {
+      "id": "BOARD-32",
+      "name": "Portfolio Publisher",
+      "district": "output",
+      "nutrient": 0.71,
+      "flow": 0.1897,
+      "alive": true
+    },
+    {
+      "id": "BOARD-33",
+      "name": "SAGCO Omnicalculator",
+      "district": "compiler_city",
+      "nutrient": 0.82,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-34",
+      "name": "Mobius Autograde Guard",
+      "district": "compiler_city",
+      "nutrient": 0.78,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-36",
+      "name": "Formula Compiler",
+      "district": "compiler_city",
+      "nutrient": 0.0,
+      "flow": 0.0066,
+      "alive": false
+    },
+    {
+      "id": "BOARD-37",
+      "name": "Sheet Music",
+      "district": "frequency_coast",
+      "nutrient": 0.88,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-38",
+      "name": "Pattern Decoder",
+      "district": "contradiction_forest",
+      "nutrient": 0.85,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-39",
+      "name": "Seed Router",
+      "district": "genesis",
+      "nutrient": 0.79,
+      "flow": 0.1835,
+      "alive": true
+    },
+    {
+      "id": "SAGCO-UNIVERSITY",
+      "name": "Board Factory",
+      "district": "genesis",
+      "nutrient": 0.92,
+      "flow": 0,
+      "alive": true
+    },
+    {
+      "id": "BOARD-40-SOLVER",
+      "name": "Universal Solver",
+      "district": "compiler_city",
+      "nutrient": 0.91,
+      "flow": 0.1684,
+      "alive": true
+    },
+    {
+      "id": "BOARD-40-PHYSARUM",
+      "name": "Physarum Engine",
+      "district": "industrial",
+      "nutrient": 0.9,
+      "flow": 0,
+      "alive": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "BOARD-11",
+      "target": "BOARD-23",
+      "conductance": 0.0017,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-11",
+      "target": "BOARD-26",
+      "conductance": 0.0025,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-11",
+      "target": "BOARD-40-PHYSARUM",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-23",
+      "target": "BOARD-26",
+      "conductance": 0.0042,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-23",
+      "target": "BOARD-40-PHYSARUM",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-26",
+      "target": "BOARD-40-PHYSARUM",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-25",
+      "target": "BOARD-39",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-25",
+      "target": "SAGCO-UNIVERSITY",
+      "conductance": 0.0056,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-39",
+      "target": "SAGCO-UNIVERSITY",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-29",
+      "target": "BOARD-30",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-29",
+      "target": "BOARD-31",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-30",
+      "target": "BOARD-31",
+      "conductance": 0.0042,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-33",
+      "target": "BOARD-34",
+      "conductance": 0.0033,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-33",
+      "target": "BOARD-36",
+      "conductance": 0.0073,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-33",
+      "target": "BOARD-40-SOLVER",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-34",
+      "target": "BOARD-36",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-34",
+      "target": "BOARD-40-SOLVER",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "BOARD-36",
+      "target": "BOARD-40-SOLVER",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    },
+    {
+      "source": "SAGCO-UNIVERSITY",
+      "target": "BOARD-36",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "prerequisite",
+      "alive": false
+    },
+    {
+      "source": "SAGCO-UNIVERSITY",
+      "target": "BOARD-37",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "prerequisite",
+      "alive": false
+    },
+    {
+      "source": "SAGCO-UNIVERSITY",
+      "target": "BOARD-38",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "prerequisite",
+      "alive": false
+    },
+    {
+      "source": "SAGCO-UNIVERSITY",
+      "target": "BOARD-39",
+      "conductance": 0.237,
+      "flow": 0.1835,
+      "type": "prerequisite",
+      "alive": true
+    },
+    {
+      "source": "BOARD-37",
+      "target": "BOARD-40-SOLVER",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "dependency",
+      "alive": false
+    },
+    {
+      "source": "BOARD-38",
+      "target": "BOARD-40-SOLVER",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "dependency",
+      "alive": false
+    },
+    {
+      "source": "BOARD-39",
+      "target": "BOARD-40-SOLVER",
+      "conductance": 0.2171,
+      "flow": 0.1684,
+      "type": "dependency",
+      "alive": true
+    },
+    {
+      "source": "BOARD-36",
+      "target": "BOARD-33",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "dependency",
+      "alive": false
+    },
+    {
+      "source": "BOARD-36",
+      "target": "BOARD-34",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "dependency",
+      "alive": false
+    },
+    {
+      "source": "BOARD-25",
+      "target": "BOARD-26",
+      "conductance": 0.233,
+      "flow": 0.1804,
+      "type": "dependency",
+      "alive": true
+    },
+    {
+      "source": "BOARD-25",
+      "target": "BOARD-27",
+      "conductance": 0.2826,
+      "flow": 0.219,
+      "type": "dependency",
+      "alive": true
+    },
+    {
+      "source": "BOARD-25",
+      "target": "BOARD-32",
+      "conductance": 0.2451,
+      "flow": 0.1897,
+      "type": "dependency",
+      "alive": true
+    },
+    {
+      "source": "BOARD-13",
+      "target": "BOARD-11",
+      "conductance": 0.0,
+      "flow": 0.0,
+      "type": "dependency",
+      "alive": false
+    },
+    {
+      "source": "BOARD-21",
+      "target": "BOARD-36",
+      "conductance": 0.002,
+      "flow": 0.0,
+      "type": "dependency",
+      "alive": false
+    },
+    {
+      "source": "BOARD-24",
+      "target": "BOARD-25",
+      "conductance": 0.1918,
+      "flow": 0.1497,
+      "type": "dependency",
+      "alive": true
+    },
+    {
+      "source": "BOARD-40-SOLVER",
+      "target": "BOARD-40-PHYSARUM",
+      "conductance": 0.0039,
+      "flow": 0.0,
+      "type": "bond",
+      "alive": false
+    }
+  ]
+}

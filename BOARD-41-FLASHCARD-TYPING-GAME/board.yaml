@@ -1,0 +1,11 @@
+board: BOARD-41-FLASHCARD-TYPING-GAME
+district: frequency_coast
+role: flashcard_typing_game
+version: "1.0"
+targets:
+  - browser (open index.html)
+  - electron (Windows, Mac, Linux, Raspberry Pi)
+  - android APK (via Capacitor)
+  - docker (nginx container)
+depends_on: [BOARD-40-SAGCO-SOLVER]
+data_source: "BOARD-40-SAGCO-SOLVER/outputs/water_street_full/flashcards.csv"

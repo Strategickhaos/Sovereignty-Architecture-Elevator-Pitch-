@@ -1,0 +1,16 @@
+{
+  "id": "PROOF-be112ef9a7",
+  "timestamp": "2026-06-06T23:14:03.049035Z",
+  "question": "Q2: f'''(\u221a(12x+1))",
+  "eru": {
+    "expected": "Mobius-ready formatted answer with no syntax errors",
+    "actual": "648/(12*x+1)^(5/2)",
+    "variance": []
+  },
+  "raw": "648/(12*x + 1)**(5/2)",
+  "formatted": "648/(12*x+1)^(5/2)",
+  "answer_type": "derivative",
+  "mobius_ready": true,
+  "warnings": [],
+  "errors": []
+}
