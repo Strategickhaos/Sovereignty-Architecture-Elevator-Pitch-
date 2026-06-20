@@ -77,6 +77,56 @@ _REPO_TYPE_RULES = [
     (r"business.intelligence",              "BUSINESS_INTELLIGENCE"),
 ]
 
+# ── Secret scan patterns (antibody AB_SECRET_SCAN) ───────────────────────────
+
+_SECRET_PATTERNS = [
+    (r"(?i)(api[_-]?key|apikey)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{16,}",    "API_KEY"),
+    (r"(?i)(secret|token)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{16,}",          "SECRET_TOKEN"),
+    (r"(?i)(password|passwd|pwd)\s*[:=]\s*['\"]?.{6,}",                  "PASSWORD"),
+    (r"sk-[A-Za-z0-9]{32,}",                                              "OPENAI_KEY"),
+    (r"ghp_[A-Za-z0-9]{36}",                                              "GITHUB_PAT"),
+    (r"discord\.com/api/webhooks/\d+/[A-Za-z0-9_\-]+",                   "DISCORD_WEBHOOK"),
+    (r"-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----",                     "PRIVATE_KEY"),
+    (r"(?i)aws_access_key_id\s*[:=]\s*[A-Z0-9]{20}",                     "AWS_ACCESS_KEY"),
+    (r"(?i)aws_secret_access_key\s*[:=]\s*[A-Za-z0-9/+]{40}",           "AWS_SECRET"),
+    (r"EIN\s*[:=]?\s*\d{2}-\d{7}",                                       "EIN_NUMBER"),
+    (r"(?i)stripe[_-]?(secret|sk)[_-]?key\s*[:=]\s*sk_[a-z]+_[A-Za-z0-9]+", "STRIPE_KEY"),
+]
+
+_SECRET_SAFE_EXTS = {".py", ".js", ".ts", ".go", ".rs", ".yaml", ".yml",
+                     ".env", ".sh", ".json", ".toml", ".tf", ".java", ".md"}
+
+
+def step_secret_scan(entry: dict, extracted_path: str) -> dict:
+    """Scan extracted files for leaked secrets. Flags findings — does NOT print values."""
+    findings = []
+    for root, dirs, files in os.walk(extracted_path):
+        dirs[:] = [d for d in dirs if d not in
+                   ("node_modules", "target", ".git", "vendor", "__pycache__", ".cargo")]
+        for fname in files:
+            ext = os.path.splitext(fname)[1].lower()
+            if ext not in _SECRET_SAFE_EXTS and fname not in (".env", ".envrc"):
+                continue
+            fpath = os.path.join(root, fname)
+            rel   = os.path.relpath(fpath, extracted_path)
+            try:
+                with open(fpath, encoding="utf-8", errors="ignore") as f:
+                    for lineno, line in enumerate(f, 1):
+                        for pattern, label in _SECRET_PATTERNS:
+                            if re.search(pattern, line):
+                                findings.append({
+                                    "file":    rel,
+                                    "line":    lineno,
+                                    "type":    label,
+                                })
+                                break  # one finding per line
+            except Exception:
+                continue
+    entry["secret_findings"] = findings
+    entry["secret_count"]    = len(findings)
+    return entry
+
+
 _CONTENT_DNA_PATTERNS = [
     # SAGCO organism patterns
     (r"sagco|SAGCO",                        "sagco_organism"),
@@ -283,6 +333,17 @@ def run_zip_crawler(zip_dir: str, out_dir: str = "outputs") -> List[dict]:
             entry["status"] = "EXTRACT_ERROR"
             continue
 
+        # secret scan (antibody AB_SECRET_SCAN — runs before DNA commit)
+        step_secret_scan(entry, path)
+        if entry["secret_count"] > 0:
+            print(f"         ⚠ SECRETS: {entry['secret_count']} findings")
+            for f in entry["secret_findings"][:5]:
+                print(f"           [{f['type']}] {f['file']}:{f['line']}")
+            if entry["secret_count"] > 5:
+                print(f"           ... +{entry['secret_count']-5} more")
+        else:
+            print(f"         secrets: CLEAN")
+
         # classify
         step_classify(entry, path)
         print(f"         type:  {entry['repo_type']}")
@@ -464,6 +525,18 @@ def write_org_report(entries: List[dict], out_path: str):
             f"| {e.get('token_count',0)} "
             f"| {e.get('status','?')} |"
         )
+    # Secret scan summary
+    flagged = [(e, e["secret_findings"]) for e in entries if e.get("secret_count", 0) > 0]
+    if flagged:
+        lines += ["", "## ⚠ Secret Scan Findings (AB_SECRET_SCAN)", ""]
+        for e, findings in flagged:
+            lines.append(f"### {e.get('board_id','')} — {e['zip_name']}")
+            for f in findings:
+                lines.append(f"- `[{f['type']}]` {f['file']}:{f['line']}")
+        lines.append("")
+    else:
+        lines += ["", "## Secret Scan", "", "All repos CLEAN — no secrets detected.", ""]
+
     lines += ["", "## Org-Wide DNA Tokens"]
 
     # aggregate tokens across all repos
