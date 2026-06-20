@@ -30,6 +30,7 @@ from src.sagco_chat import run_chat
 from src.sagco_man import show_man
 from src.sagco_nc import run_server, run_client
 from src.sagco_dd import run_dd
+from src.zip_crawler import harvest_zips
 from datetime import date
 
 
@@ -165,6 +166,9 @@ def main():
             print("Usage: nc server [--port 9944]  |  nc client <host> [--port 9944]")
     elif cmd == "dd":
         run_dd(pathway, args[1:])
+    elif cmd in ("harvest-zips", "zips") and len(args) >= 2:
+        out_dir = args[2] if len(args) >= 3 else "outputs"
+        harvest_zips(args[1], out_dir)
     elif cmd in ("status", "transmit", "eru"):
         print(pathway.sagco_command(cmd))
     elif cmd == "fire" and len(args) >= 2:
