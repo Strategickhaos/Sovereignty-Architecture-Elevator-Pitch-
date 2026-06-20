@@ -7,9 +7,7 @@
 		},
 		"github/github-mcp-server": {
 			"type": "http",
-			"url": "https://api.githubcopilot.com/mcp/",
-			"gallery": "https://api.mcp.github.com",
-			"version": "0.13.0"
+			"url": "https://api.githubcopilot.com/mcp/"
 		}
 	},
 	"inputs": []
