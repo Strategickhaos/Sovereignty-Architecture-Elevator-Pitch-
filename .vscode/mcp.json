@@ -11,7 +11,7 @@
 			"args": [
 				"run", "--rm", "-i",
 				"--name", "sagco-os-mcp",
-				"sagco-os:latest"
+				"gcr.io/sagco-oscomputconsciousness/sagco-os:latest"
 			]
 		},
 		"github/github-mcp-server": {
