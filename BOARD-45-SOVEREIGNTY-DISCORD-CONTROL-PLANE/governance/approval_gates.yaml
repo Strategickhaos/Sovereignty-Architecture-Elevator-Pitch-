@@ -1,0 +1,35 @@
+# SAGCO Approval Gates — what requires human sign-off before execution
+
+gates:
+  production_deploy:
+    trigger: "/deploy env=prod"
+    require_role: ReleaseMgr
+    require_approval_count: 1
+    timeout_minutes: 30
+    on_timeout: BLOCK
+    audit: true
+
+  payment_action:
+    trigger: any payment-related action
+    antibody: PAYMENT_GUARD
+    never_auto_execute: true
+    require_human_confirm: true
+    require_buffer_check: true
+    safe_buffer_minimum: 500.00
+    on_low_buffer: BLOCK_AND_ALERT
+    discord_channel: "#agents"
+    audit: true
+    receipt_path: "proofs/command_execution_receipts.jsonl"
+
+  scale_down:
+    trigger: "/scale replicas=0"
+    require_role: ReleaseMgr
+    require_approval_count: 1
+    confirm_phrase: "CONFIRM SCALE ZERO"
+    audit: true
+
+eru_gates:
+  VARIANCE_0:     "proceed"
+  LOW_VARIANCE:   "proceed with note"
+  MED_VARIANCE:   "require_review"
+  OPEN_VARIANCE:  "block — antibody required"

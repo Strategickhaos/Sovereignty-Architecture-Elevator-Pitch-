@@ -1,0 +1,73 @@
+# SAGCO COMMAND: /payplan
+# SNHU Payment Plan Simulator — NEVER AUTO-PAYS
+#
+# This command can ONLY:
+#   - read current balance
+#   - read amount due
+#   - simulate payment plan options
+#   - recommend next action
+#   - require human confirmation
+#
+# This command can NEVER:
+#   - click "Continue"
+#   - submit a payment
+#   - initiate a transfer
+#   - store card/bank credentials
+
+command: "/payplan"
+description: "Simulate and verify SNHU payment plan — human confirms before any action"
+channel: "#agents"
+rbac: any  # no role restriction — informational only
+
+antibody:
+  id: sagco_ninja_payment_antibody
+  never_auto_pay: true
+  never_click_continue: true
+  require_human_confirm: true
+  require_buffer_check: true
+  require_receipt_capture: true
+  eru_class: PAYMENT_GUARD
+
+inputs:
+  amount_due:
+    source: "user_input or SNHU portal scrape (read-only)"
+    example: 1026.00
+  current_balance:
+    source: "user_input"
+    example: 3150.00
+
+simulation_plans:
+  two_installment:
+    formula: "amount_due / 2"
+    example: "$513.00 + $513.00"
+    timing: "installment 1 now, installment 2 in 30 days"
+  four_installment:
+    formula: "amount_due / 4"
+    example: "$256.50 x 4"
+    timing: "every 2 weeks"
+  full_pay:
+    formula: "amount_due"
+    example: "$1,026.00 one payment"
+
+output_format: |
+  ══════════════════════════════════════════
+  SAGCO PAYMENT ANALYSIS — SNHU
+  ══════════════════════════════════════════
+  Amount Due:       ${{ amount_due }}
+  Current Balance:  ${{ current_balance }}
+  Buffer After Pay: ${{ current_balance - amount_due }}
+
+  PLAN OPTIONS:
+    A) ${{ amount_due / 2 }} + ${{ amount_due / 2 }} (2-installment)
+    B) ${{ amount_due / 4 }} × 4  (4-installment)
+    C) ${{ amount_due }} full pay
+
+  ERU RECOMMENDATION:
+    Plan {{ recommended_plan }} — buffer stays above ${{ safe_buffer }}
+
+  ⚠️  HUMAN CONFIRM REQUIRED before any action.
+  ══════════════════════════════════════════
+
+discord_embed:
+  color: 0xF59E0B  # amber — informational, not action
+  footer: "SAGCO PAYMENT_GUARD — never_auto_pay=true"

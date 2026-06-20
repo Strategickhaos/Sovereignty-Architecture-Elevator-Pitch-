@@ -1,0 +1,44 @@
+# SAGCO RBAC — Role-Based Access Control
+# Maps Discord roles to allowed SAGCO commands
+
+roles:
+  ReleaseMgr:
+    description: "Production operations — deploy and scale gated here"
+    allowed:
+      - /status
+      - /logs
+      - /deploy
+      - /scale
+      - /review
+      - /payplan   # can view but not execute
+      - /eru
+
+  Developer:
+    description: "Dev operations — read access + PR commands"
+    allowed:
+      - /status
+      - /logs
+      - /review
+      - /eru
+      - /payplan
+
+  Observer:
+    description: "Read-only — status and logs only"
+    allowed:
+      - /status
+      - /logs
+
+prod_protected:
+  commands: ["/deploy", "/scale"]
+  require_role: ReleaseMgr
+  require_approval: true
+  approval_channel: "#deployments"
+  audit_log: true
+
+payment_protected:
+  commands: ["/payplan"]
+  antibody: PAYMENT_GUARD
+  never_auto_execute: true
+  require_human_confirm: true
+  audit_log: true
+  receipt_path: "proofs/command_execution_receipts.jsonl"
