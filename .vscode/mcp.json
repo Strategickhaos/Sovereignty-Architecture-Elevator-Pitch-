@@ -1,5 +1,10 @@
 {
 	"servers": {
+		"sagco-mansion": {
+			"type": "stdio",
+			"command": "python3",
+			"args": ["BOARD-57-SAGCO-MCP-MANSION/server.py"]
+		},
 		"github/github-mcp-server": {
 			"type": "http",
 			"url": "https://api.githubcopilot.com/mcp/",

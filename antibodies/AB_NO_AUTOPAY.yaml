@@ -1,0 +1,25 @@
+# Antibody: AB_NO_AUTOPAY
+# Activated: 2026-06-20
+# Reason: Prevent any automated payment submission without human confirmation
+
+antibody_id: AB_NO_AUTOPAY
+severity: CRITICAL
+eru_class: PAYMENT_GUARD
+
+triggers:
+  - any call to attempt_pay()
+  - any HTTP POST to payment endpoint
+  - any kubectl apply involving payment secrets
+  - any Kubernetes Job with payment-related env vars
+
+response:
+  action: RAISE PaymentBlocked
+  log: true
+  alert_channel: "#agents"
+  require_human_override: true
+
+never:
+  - auto_submit_payment
+  - click_continue_on_payment_page
+  - store_card_credentials_in_cluster
+  - wire_payment_to_kubernetes_job
