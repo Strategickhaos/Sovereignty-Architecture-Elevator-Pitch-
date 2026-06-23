@@ -36,3 +36,7 @@ target/
 
 # Workspace data
 workspace/
+
+# Source Exorcist output
+source-exorcist/reports/*.txt
+source-exorcist/checksums/*.sha256
