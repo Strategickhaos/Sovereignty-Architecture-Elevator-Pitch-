@@ -36,3 +36,13 @@ target/
 
 # Workspace data
 workspace/
+
+# Ingest daemon directories
+ingest/
+logs/
+vault/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
