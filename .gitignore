@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# TypeScript build artifacts
+dist/
