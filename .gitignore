@@ -36,3 +36,6 @@ target/
 
 # Workspace data
 workspace/
+
+# Verification reports (timestamped auto-generated files)
+VERIFICATION_REPORT_*.md
