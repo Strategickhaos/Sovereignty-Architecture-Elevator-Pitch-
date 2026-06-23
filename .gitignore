@@ -36,3 +36,8 @@ target/
 
 # Workspace data
 workspace/
+
+# StrategicKhaos transpiled Python files
+examples/*.py
+__pycache__/
+*.pyc
